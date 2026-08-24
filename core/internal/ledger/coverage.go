@@ -61,7 +61,8 @@ var claims = map[string]Claim{
 		[]string{"expectations"}},
 	"CWE-434": {NotBuilt, "needs upload-handling channels and a notion of which validations confine a file's type", nil},
 	"CWE-476": {Undecidable, "in these languages this is a TypeError on undefined at runtime rather than a memory fault, and deciding it statically means proving nullability across a dynamic language; the value even when solved is reliability rather than security", nil},
-	"CWE-770": {NotBuilt, "needs a notion of a bounded resource and of what bounds it; rate limiting is observable as a control on the surface, and unbounded reads are not observable at all yet", nil},
+	"CWE-770": {Partial, "an entry point missing a throttle most of its comparable peers apply, which is the observable half of this weakness. Unbounded reads and allocations are not observable at all yet, so the claim is narrow on purpose",
+		[]string{"expectations"}},
 
 	// Real, and about something no analysis of source can see.
 	"CWE-285": {Undecidable, "the intended entitlements are not in the code; a declared policy is what supplies them (ADR-011)",

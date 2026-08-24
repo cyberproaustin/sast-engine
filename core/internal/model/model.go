@@ -1277,6 +1277,18 @@ func Builtin() Model {
 			{Name: "authorize", Kind: "authorization"},
 			{Name: "checkPermission", Kind: "authorization"},
 			{Name: "requireTenant", Kind: "authorization"},
+
+			// Throttling. Usually applied everywhere by design, in which case the
+			// population analysis correctly reports nothing: a control on every entry
+			// point distinguishes none of them. What it catches is the endpoint that was
+			// left out of a limiter its peers all carry, which is the shape of CWE-770.
+			{Name: "rateLimit", Kind: "rate-limit"},
+			{Name: "rateLimiter", Kind: "rate-limit"},
+			{Name: "limiter", Kind: "rate-limit"},
+			{Name: "throttle", Kind: "rate-limit"},
+			{Name: "throttler", Kind: "rate-limit"},
+			{Name: "ThrottlerGuard", Kind: "rate-limit"},
+			{Name: "slowDown", Kind: "rate-limit"},
 		},
 	}
 }
