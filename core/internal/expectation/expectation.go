@@ -35,6 +35,8 @@ func weaknessFor(controlKind string) string {
 		return "CWE-306"
 	case "authorization":
 		return "CWE-862"
+	case "rate-limit":
+		return "CWE-770"
 	default:
 		return "CWE-284"
 	}

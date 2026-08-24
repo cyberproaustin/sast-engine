@@ -174,8 +174,11 @@ func writeCatalogCoverage(b *strings.Builder) {
 	// direction as much as the unflattering one.
 	if top, total := ledger.CoveredOnList(ledger.TopTwentyFive); total > 0 {
 		fmt.Fprintf(b, "  of the CWE Top 25 that apply to these languages: %d of %d asserted\n", top, total)
+		// Labelled by their actual state. "Not built" and "no analysis of source could
+		// decide this" are different claims, and printing both as the former would put a
+		// permanent item on a to-do list and make the gap look like laziness.
 		for _, e := range ledger.MissingFromList(ledger.TopTwentyFive) {
-			fmt.Fprintf(b, "    not built: %-9s %s\n", e.ID, e.Name)
+			fmt.Fprintf(b, "    %-12s %-9s %s\n", e.Claim.State, e.ID, e.Name)
 		}
 	}
 }
