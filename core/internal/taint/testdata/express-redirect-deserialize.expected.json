@@ -1,0 +1,22 @@
+{
+  "corpus": "express-redirect-deserialize",
+  "description": "Two weaknesses that share nothing except being cheap once the vocabulary exists: neither needed a line of engine code. An open redirect matters because the application lends its own name to a destination someone else chose, which is what makes a phishing link look like it came from you. A deserializer matters because it calls constructors rather than parsing, so the payload chooses what runs. The second route redirects to a path inside this application, which cannot leave it, and the fourth uses JSON.parse, which builds data and never behaviour.",
+  "expected": [
+    {
+      "cwe": "CWE-601",
+      "sinkFile": "app.ts",
+      "sinkLine": 15,
+      "sourceLabel": "req.query.next",
+      "confidence": "medium",
+      "note": "the caller names where the browser is sent"
+    },
+    {
+      "cwe": "CWE-502",
+      "sinkFile": "app.ts",
+      "sinkLine": 25,
+      "sourceLabel": "req.body.state",
+      "confidence": "high",
+      "note": "unserialize reconstructs objects, including functions it then invokes"
+    }
+  ]
+}
