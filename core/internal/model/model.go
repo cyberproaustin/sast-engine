@@ -229,7 +229,7 @@ type CallbackRule struct {
 // middleware binding as a signal whether or not it appears here (ADR-010).
 type ControlRule struct {
 	Name string
-	Kind string // "authentication" | "authorization"
+	Kind string // "authentication" | "authorization" | "rate-limit"
 }
 
 // --- capabilities ---------------------------------------------------------
@@ -327,13 +327,40 @@ func (m Model) CallbackFor(method string) (CallbackRule, bool) {
 }
 
 // ClassifyControl returns the control kind for a name, or "" if unrecognized.
+// ClassifyControl says what kind of control a name denotes, or "" when it cannot tell.
+//
+// Matched on the final segment, case-insensitively, and by containment rather than
+// equality. Real code writes `authHandler.isAuthenticated`, `JwtAuthGuard` and
+// `ThrottlerBehindProxyGuard`; exact equality against a bare name matched none of them, so
+// every control on every production repository read as unclassified and the analysis that
+// names what is MISSING had nothing to name it with.
+//
+// The longest rule wins, so `requireAuthorization` is not classified as authentication by
+// `requireAuth` happening to be a prefix of it. That ordering is the whole defence against
+// containment being too loose, and it is why the rules are sorted rather than ranged over
+// in declaration order.
+//
+// This is still a list of likely names, which is the weakest kind of rule in this project.
+// It is supplemented rather than replaced by the population: a control on every entry
+// point distinguishes none of them whatever it is called (ADR-010).
 func (m Model) ClassifyControl(name string) string {
+	if name == "" {
+		return ""
+	}
+	segment := name
+	if i := strings.LastIndexByte(segment, '.'); i >= 0 {
+		segment = segment[i+1:]
+	}
+	segment = strings.ToLower(segment)
+
+	best, bestLen := "", 0
 	for _, c := range m.Controls {
-		if c.Name == name {
-			return c.Kind
+		rule := strings.ToLower(c.Name)
+		if len(rule) > bestLen && strings.Contains(segment, rule) {
+			best, bestLen = c.Kind, len(rule)
 		}
 	}
-	return ""
+	return best
 }
 
 // Builtin returns the shipped model.
@@ -1272,11 +1299,21 @@ func Builtin() Model {
 			{Name: "isAuthenticated", Kind: "authentication"},
 			{Name: "ensureAuthenticated", Kind: "authentication"},
 			{Name: "verifyToken", Kind: "authentication"},
+			// Names real frameworks actually use, alongside the generic ones.
+			{Name: "jwtAuth", Kind: "authentication"},
+			{Name: "authGuard", Kind: "authentication"},
+			{Name: "passport", Kind: "authentication"},
+			{Name: "requireLogin", Kind: "authentication"},
+			{Name: "loginRequired", Kind: "authentication"},
 			{Name: "requireAdmin", Kind: "authorization"},
 			{Name: "requireRole", Kind: "authorization"},
 			{Name: "authorize", Kind: "authorization"},
 			{Name: "checkPermission", Kind: "authorization"},
 			{Name: "requireTenant", Kind: "authorization"},
+			{Name: "adminGuard", Kind: "authorization"},
+			{Name: "permissionGuard", Kind: "authorization"},
+			{Name: "rolesGuard", Kind: "authorization"},
+			{Name: "requirePermission", Kind: "authorization"},
 
 			// Throttling. Usually applied everywhere by design, in which case the
 			// population analysis correctly reports nothing: a control on every entry
