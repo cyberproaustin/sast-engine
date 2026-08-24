@@ -12,7 +12,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-6",
@@ -23,7 +24,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-7",
@@ -34,7 +36,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-8",
@@ -45,7 +48,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-9",
@@ -56,7 +60,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-11",
@@ -67,7 +72,8 @@
    "languages": [
     "ASP.NET"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-12",
@@ -78,7 +84,8 @@
    "languages": [
     "ASP.NET"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-13",
@@ -89,7 +96,8 @@
    "languages": [
     "ASP.NET"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-14",
@@ -102,7 +110,8 @@
     "C++",
     "Compiled"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-15",
@@ -111,7 +120,8 @@
    "status": "Incomplete",
    "staticDetectable": true,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-20",
@@ -122,7 +132,10 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": [
+    "cwe-top-25-2025"
+   ]
   },
   {
    "id": "CWE-22",
@@ -133,7 +146,10 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": [
+    "cwe-top-25-2025"
+   ]
   },
   {
    "id": "CWE-23",
@@ -144,7 +160,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-24",
@@ -155,7 +172,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-25",
@@ -166,7 +184,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-26",
@@ -177,7 +196,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-27",
@@ -188,7 +208,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-28",
@@ -199,7 +220,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-29",
@@ -210,7 +232,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-30",
@@ -221,7 +244,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-31",
@@ -232,7 +256,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-32",
@@ -243,7 +268,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-33",
@@ -254,7 +280,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-34",
@@ -265,7 +292,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-35",
@@ -276,7 +304,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-36",
@@ -287,7 +316,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-37",
@@ -298,7 +328,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-38",
@@ -309,7 +340,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-39",
@@ -320,7 +352,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-40",
@@ -331,7 +364,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-41",
@@ -342,7 +376,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-42",
@@ -353,7 +388,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-43",
@@ -364,7 +400,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-44",
@@ -375,7 +412,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-45",
@@ -386,7 +424,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-46",
@@ -397,7 +436,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-47",
@@ -408,7 +448,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-48",
@@ -419,7 +460,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-49",
@@ -430,7 +472,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-50",
@@ -441,7 +484,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-51",
@@ -452,7 +496,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-52",
@@ -463,7 +508,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-53",
@@ -474,7 +520,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-54",
@@ -485,7 +532,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-55",
@@ -496,7 +544,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-56",
@@ -507,7 +556,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-57",
@@ -518,7 +568,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-58",
@@ -529,7 +580,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-59",
@@ -540,7 +592,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-61",
@@ -551,7 +604,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-62",
@@ -562,7 +616,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-64",
@@ -573,7 +628,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-65",
@@ -584,7 +640,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-66",
@@ -595,7 +652,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-67",
@@ -606,7 +664,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-69",
@@ -617,7 +676,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-71",
@@ -626,7 +686,8 @@
    "status": "Deprecated",
    "staticDetectable": false,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-72",
@@ -637,7 +698,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-73",
@@ -648,7 +710,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-74",
@@ -659,7 +722,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-75",
@@ -670,7 +734,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-76",
@@ -681,7 +746,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-77",
@@ -692,7 +758,10 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": [
+    "cwe-top-25-2025"
+   ]
   },
   {
    "id": "CWE-78",
@@ -703,7 +772,10 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": [
+    "cwe-top-25-2025"
+   ]
   },
   {
    "id": "CWE-79",
@@ -714,7 +786,10 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": [
+    "cwe-top-25-2025"
+   ]
   },
   {
    "id": "CWE-80",
@@ -725,7 +800,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-81",
@@ -736,7 +812,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-82",
@@ -747,7 +824,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-83",
@@ -758,7 +836,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-84",
@@ -769,7 +848,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-85",
@@ -780,7 +860,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-86",
@@ -791,7 +872,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-87",
@@ -802,7 +884,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-88",
@@ -814,7 +897,8 @@
     "Not Language-Specific",
     "PHP"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-89",
@@ -826,7 +910,10 @@
     "Not Language-Specific",
     "SQL"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": [
+    "cwe-top-25-2025"
+   ]
   },
   {
    "id": "CWE-90",
@@ -837,7 +924,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-91",
@@ -848,7 +936,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-92",
@@ -857,7 +946,8 @@
    "status": "Deprecated",
    "staticDetectable": false,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-93",
@@ -868,7 +958,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-94",
@@ -879,7 +970,10 @@
    "languages": [
     "Interpreted"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": [
+    "cwe-top-25-2025"
+   ]
   },
   {
    "id": "CWE-95",
@@ -896,7 +990,8 @@
     "Python",
     "Ruby"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-96",
@@ -909,7 +1004,8 @@
     "PHP",
     "Perl"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-97",
@@ -920,7 +1016,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-98",
@@ -931,7 +1028,8 @@
    "languages": [
     "PHP"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-99",
@@ -942,7 +1040,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-102",
@@ -953,7 +1052,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-103",
@@ -964,7 +1064,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-104",
@@ -975,7 +1076,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-105",
@@ -986,7 +1088,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-106",
@@ -997,7 +1100,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-107",
@@ -1008,7 +1112,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-108",
@@ -1019,7 +1124,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-109",
@@ -1030,7 +1136,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-110",
@@ -1041,7 +1148,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-111",
@@ -1052,7 +1160,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-112",
@@ -1063,7 +1172,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-113",
@@ -1074,7 +1184,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-114",
@@ -1085,7 +1196,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-115",
@@ -1096,7 +1208,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-116",
@@ -1107,7 +1220,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-117",
@@ -1118,7 +1232,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-118",
@@ -1129,7 +1244,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-119",
@@ -1143,7 +1259,8 @@
     "C++",
     "Memory-Unsafe"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-120",
@@ -1157,7 +1274,10 @@
     "C++",
     "Memory-Unsafe"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": [
+    "cwe-top-25-2025"
+   ]
   },
   {
    "id": "CWE-121",
@@ -1170,7 +1290,10 @@
     "C++",
     "Memory-Unsafe"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": [
+    "cwe-top-25-2025"
+   ]
   },
   {
    "id": "CWE-122",
@@ -1183,7 +1306,10 @@
     "C++",
     "Memory-Unsafe"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": [
+    "cwe-top-25-2025"
+   ]
   },
   {
    "id": "CWE-123",
@@ -1196,7 +1322,8 @@
     "C++",
     "Memory-Unsafe"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-124",
@@ -1209,7 +1336,8 @@
     "C++",
     "Memory-Unsafe"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-125",
@@ -1222,7 +1350,10 @@
     "C++",
     "Memory-Unsafe"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": [
+    "cwe-top-25-2025"
+   ]
   },
   {
    "id": "CWE-126",
@@ -1235,7 +1366,8 @@
     "C++",
     "Memory-Unsafe"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-127",
@@ -1248,7 +1380,8 @@
     "C++",
     "Memory-Unsafe"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-128",
@@ -1260,7 +1393,8 @@
     "C",
     "C++"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-129",
@@ -1273,7 +1407,8 @@
     "C++",
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-130",
@@ -1286,7 +1421,8 @@
     "C++",
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-131",
@@ -1299,7 +1435,8 @@
     "C++",
     "Memory-Unsafe"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-132",
@@ -1308,7 +1445,8 @@
    "status": "Deprecated",
    "staticDetectable": false,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-134",
@@ -1322,7 +1460,8 @@
     "Not Language-Specific",
     "Perl"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-135",
@@ -1334,7 +1473,8 @@
     "C",
     "C++"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-138",
@@ -1345,7 +1485,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-140",
@@ -1356,7 +1497,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-141",
@@ -1367,7 +1509,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-142",
@@ -1378,7 +1521,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-143",
@@ -1389,7 +1533,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-144",
@@ -1400,7 +1545,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-145",
@@ -1411,7 +1557,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-146",
@@ -1422,7 +1569,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-147",
@@ -1433,7 +1581,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-148",
@@ -1444,7 +1593,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-149",
@@ -1455,7 +1605,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-150",
@@ -1466,7 +1617,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-151",
@@ -1477,7 +1629,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-152",
@@ -1488,7 +1641,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-153",
@@ -1499,7 +1653,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-154",
@@ -1510,7 +1665,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-155",
@@ -1521,7 +1677,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-156",
@@ -1532,7 +1689,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-157",
@@ -1543,7 +1701,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-158",
@@ -1556,7 +1715,8 @@
     "C++",
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-159",
@@ -1567,7 +1727,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-160",
@@ -1578,7 +1739,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-161",
@@ -1589,7 +1751,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-162",
@@ -1600,7 +1763,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-163",
@@ -1611,7 +1775,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-164",
@@ -1622,7 +1787,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-165",
@@ -1633,7 +1799,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-166",
@@ -1644,7 +1811,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-167",
@@ -1655,7 +1823,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-168",
@@ -1666,7 +1835,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-170",
@@ -1678,7 +1848,8 @@
     "C",
     "C++"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-172",
@@ -1689,7 +1860,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-173",
@@ -1700,7 +1872,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-174",
@@ -1711,7 +1884,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-175",
@@ -1722,7 +1896,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-176",
@@ -1733,7 +1908,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-177",
@@ -1744,7 +1920,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-178",
@@ -1755,7 +1932,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-179",
@@ -1766,7 +1944,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-180",
@@ -1777,7 +1956,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-181",
@@ -1788,7 +1968,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-182",
@@ -1799,7 +1980,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-183",
@@ -1810,7 +1992,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-184",
@@ -1821,7 +2004,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-185",
@@ -1832,7 +2016,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-186",
@@ -1843,7 +2028,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-187",
@@ -1854,7 +2040,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-188",
@@ -1867,7 +2054,8 @@
     "C++",
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-190",
@@ -1879,7 +2067,8 @@
     "C",
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-191",
@@ -1893,7 +2082,8 @@
     "C++",
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-192",
@@ -1907,7 +2097,8 @@
     "C++",
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-193",
@@ -1919,7 +2110,8 @@
     "C",
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-194",
@@ -1931,7 +2123,8 @@
     "C",
     "C++"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-195",
@@ -1943,7 +2136,8 @@
     "C",
     "C++"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-196",
@@ -1955,7 +2149,8 @@
     "C",
     "C++"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-197",
@@ -1969,7 +2164,8 @@
     "C++",
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-198",
@@ -1980,7 +2176,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-200",
@@ -1991,7 +2188,10 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": [
+    "cwe-top-25-2025"
+   ]
   },
   {
    "id": "CWE-201",
@@ -2002,7 +2202,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-202",
@@ -2013,7 +2214,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-203",
@@ -2024,7 +2226,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-204",
@@ -2035,7 +2238,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-205",
@@ -2046,7 +2250,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-206",
@@ -2057,7 +2262,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-207",
@@ -2068,7 +2274,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-208",
@@ -2079,7 +2286,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-209",
@@ -2092,7 +2300,8 @@
     "Not Language-Specific",
     "PHP"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-210",
@@ -2103,7 +2312,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-211",
@@ -2115,7 +2325,8 @@
     "Not Language-Specific",
     "PHP"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-212",
@@ -2126,7 +2337,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-213",
@@ -2137,7 +2349,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-214",
@@ -2148,7 +2361,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-215",
@@ -2159,7 +2373,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-216",
@@ -2168,7 +2383,8 @@
    "status": "Deprecated",
    "staticDetectable": false,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-217",
@@ -2177,7 +2393,8 @@
    "status": "Deprecated",
    "staticDetectable": false,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-218",
@@ -2186,7 +2403,8 @@
    "status": "Deprecated",
    "staticDetectable": false,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-219",
@@ -2197,7 +2415,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-220",
@@ -2208,7 +2427,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-221",
@@ -2219,7 +2439,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-222",
@@ -2230,7 +2451,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-223",
@@ -2241,7 +2463,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-224",
@@ -2252,7 +2475,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-225",
@@ -2261,7 +2485,8 @@
    "status": "Deprecated",
    "staticDetectable": false,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-226",
@@ -2272,7 +2497,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-228",
@@ -2283,7 +2509,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-229",
@@ -2294,7 +2521,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-230",
@@ -2305,7 +2533,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-231",
@@ -2316,7 +2545,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-232",
@@ -2327,7 +2557,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-233",
@@ -2338,7 +2569,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-234",
@@ -2349,7 +2581,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-235",
@@ -2360,7 +2593,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-236",
@@ -2371,7 +2605,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-237",
@@ -2382,7 +2617,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-238",
@@ -2393,7 +2629,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-239",
@@ -2404,7 +2641,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-240",
@@ -2415,7 +2653,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-241",
@@ -2426,7 +2665,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-242",
@@ -2438,7 +2678,8 @@
     "C",
     "C++"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-243",
@@ -2450,7 +2691,8 @@
     "C",
     "C++"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-244",
@@ -2463,7 +2705,8 @@
     "C++",
     "Memory-Unsafe"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-245",
@@ -2474,7 +2717,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-246",
@@ -2485,7 +2729,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-247",
@@ -2494,7 +2739,8 @@
    "status": "Deprecated",
    "staticDetectable": false,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-248",
@@ -2507,7 +2753,8 @@
     "C++",
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-249",
@@ -2516,7 +2763,8 @@
    "status": "Deprecated",
    "staticDetectable": false,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-250",
@@ -2527,7 +2775,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-252",
@@ -2538,7 +2787,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-253",
@@ -2549,7 +2799,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-256",
@@ -2560,7 +2811,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-257",
@@ -2571,7 +2823,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-258",
@@ -2582,7 +2835,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-259",
@@ -2593,7 +2847,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-260",
@@ -2604,7 +2859,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-261",
@@ -2615,7 +2871,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-262",
@@ -2626,7 +2883,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-263",
@@ -2637,7 +2895,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-266",
@@ -2648,7 +2907,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-267",
@@ -2659,7 +2919,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-268",
@@ -2670,7 +2931,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-269",
@@ -2681,7 +2943,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-270",
@@ -2692,7 +2955,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-271",
@@ -2703,7 +2967,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-272",
@@ -2714,7 +2979,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-273",
@@ -2725,7 +2991,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-274",
@@ -2736,7 +3003,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-276",
@@ -2747,7 +3015,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-277",
@@ -2758,7 +3027,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-278",
@@ -2769,7 +3039,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-279",
@@ -2780,7 +3051,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-280",
@@ -2791,7 +3063,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-281",
@@ -2802,7 +3075,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-282",
@@ -2813,7 +3087,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-283",
@@ -2824,7 +3099,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-284",
@@ -2835,7 +3111,10 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": [
+    "cwe-top-25-2025"
+   ]
   },
   {
    "id": "CWE-285",
@@ -2846,7 +3125,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-286",
@@ -2857,7 +3137,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-287",
@@ -2868,7 +3149,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-288",
@@ -2879,7 +3161,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-289",
@@ -2890,7 +3173,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-290",
@@ -2901,7 +3185,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-291",
@@ -2912,7 +3197,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-292",
@@ -2921,7 +3207,8 @@
    "status": "Deprecated",
    "staticDetectable": false,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-293",
@@ -2932,7 +3219,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-294",
@@ -2943,7 +3231,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-295",
@@ -2954,7 +3243,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-296",
@@ -2965,7 +3255,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-297",
@@ -2976,7 +3267,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-298",
@@ -2987,7 +3279,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-299",
@@ -2998,7 +3291,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-300",
@@ -3009,7 +3303,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-301",
@@ -3020,7 +3315,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-302",
@@ -3031,7 +3327,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-303",
@@ -3042,7 +3339,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-304",
@@ -3053,7 +3351,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-305",
@@ -3064,7 +3363,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-306",
@@ -3075,7 +3375,10 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": [
+    "cwe-top-25-2025"
+   ]
   },
   {
    "id": "CWE-307",
@@ -3086,7 +3389,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-308",
@@ -3097,7 +3401,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-309",
@@ -3108,7 +3413,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-311",
@@ -3119,7 +3425,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-312",
@@ -3130,7 +3437,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-313",
@@ -3141,7 +3449,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-314",
@@ -3152,7 +3461,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-315",
@@ -3163,7 +3473,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-316",
@@ -3174,7 +3485,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-317",
@@ -3185,7 +3497,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-318",
@@ -3196,7 +3509,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-319",
@@ -3207,7 +3521,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-321",
@@ -3218,7 +3533,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-322",
@@ -3229,7 +3545,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-323",
@@ -3240,7 +3557,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-324",
@@ -3251,7 +3569,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-325",
@@ -3262,7 +3581,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-326",
@@ -3273,7 +3593,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-327",
@@ -3286,7 +3607,8 @@
     "VHDL",
     "Verilog"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-328",
@@ -3297,7 +3619,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-329",
@@ -3308,7 +3631,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-330",
@@ -3319,7 +3643,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-331",
@@ -3330,7 +3655,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-332",
@@ -3341,7 +3667,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-333",
@@ -3352,7 +3679,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-334",
@@ -3363,7 +3691,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-335",
@@ -3374,7 +3703,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-336",
@@ -3385,7 +3715,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-337",
@@ -3396,7 +3727,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-338",
@@ -3407,7 +3739,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-339",
@@ -3418,7 +3751,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-340",
@@ -3429,7 +3763,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-341",
@@ -3440,7 +3775,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-342",
@@ -3451,7 +3787,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-343",
@@ -3462,7 +3799,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-344",
@@ -3473,7 +3811,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-345",
@@ -3484,7 +3823,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-346",
@@ -3495,7 +3835,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-347",
@@ -3506,7 +3847,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-348",
@@ -3517,7 +3859,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-349",
@@ -3528,7 +3871,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-350",
@@ -3539,7 +3883,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-351",
@@ -3550,7 +3895,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-352",
@@ -3561,7 +3907,10 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": [
+    "cwe-top-25-2025"
+   ]
   },
   {
    "id": "CWE-353",
@@ -3572,7 +3921,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-354",
@@ -3583,7 +3933,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-356",
@@ -3594,7 +3945,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-357",
@@ -3605,7 +3957,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-358",
@@ -3616,7 +3969,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-359",
@@ -3627,7 +3981,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-360",
@@ -3638,7 +3993,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-362",
@@ -3651,7 +4007,8 @@
     "C++",
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-363",
@@ -3662,7 +4019,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-364",
@@ -3674,7 +4032,8 @@
     "C",
     "C++"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-365",
@@ -3683,7 +4042,8 @@
    "status": "Deprecated",
    "staticDetectable": false,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-366",
@@ -3697,7 +4057,8 @@
     "C++",
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-367",
@@ -3708,7 +4069,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-368",
@@ -3719,7 +4081,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-369",
@@ -3730,7 +4093,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-370",
@@ -3741,7 +4105,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-372",
@@ -3752,7 +4117,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-373",
@@ -3761,7 +4127,8 @@
    "status": "Deprecated",
    "staticDetectable": false,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-374",
@@ -3776,7 +4143,8 @@
     "Java",
     "Object-Oriented"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-375",
@@ -3791,7 +4159,8 @@
     "Java",
     "Object-Oriented"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-377",
@@ -3802,7 +4171,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-378",
@@ -3813,7 +4183,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-379",
@@ -3824,7 +4195,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-382",
@@ -3835,7 +4207,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-383",
@@ -3846,7 +4219,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-384",
@@ -3857,7 +4231,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-385",
@@ -3868,7 +4243,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-386",
@@ -3879,7 +4255,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-390",
@@ -3890,7 +4267,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-391",
@@ -3901,7 +4279,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-392",
@@ -3912,7 +4291,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-393",
@@ -3923,7 +4303,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-394",
@@ -3934,7 +4315,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-395",
@@ -3945,7 +4327,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-396",
@@ -3959,7 +4342,8 @@
     "Java",
     "Python"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-397",
@@ -3973,7 +4357,8 @@
     "Java",
     "Python"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-400",
@@ -3984,7 +4369,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-401",
@@ -3997,7 +4383,8 @@
     "C++",
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-402",
@@ -4008,7 +4395,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-403",
@@ -4020,7 +4408,8 @@
     "C",
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-404",
@@ -4031,7 +4420,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-405",
@@ -4042,7 +4432,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-406",
@@ -4053,7 +4444,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-407",
@@ -4064,7 +4456,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-408",
@@ -4075,7 +4468,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-409",
@@ -4086,7 +4480,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-410",
@@ -4097,7 +4492,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-412",
@@ -4108,7 +4504,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-413",
@@ -4119,7 +4516,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-414",
@@ -4130,7 +4528,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-415",
@@ -4143,7 +4542,8 @@
     "C++",
     "Memory-Unsafe"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-416",
@@ -4156,7 +4556,10 @@
     "C++",
     "Memory-Unsafe"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": [
+    "cwe-top-25-2025"
+   ]
   },
   {
    "id": "CWE-419",
@@ -4167,7 +4570,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-420",
@@ -4178,7 +4582,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-421",
@@ -4189,7 +4594,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-422",
@@ -4200,7 +4606,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-423",
@@ -4209,7 +4616,8 @@
    "status": "Deprecated",
    "staticDetectable": false,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-424",
@@ -4220,7 +4628,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-425",
@@ -4231,7 +4640,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-426",
@@ -4242,7 +4652,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-427",
@@ -4253,7 +4664,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-428",
@@ -4264,7 +4676,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-430",
@@ -4275,7 +4688,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-431",
@@ -4286,7 +4700,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-432",
@@ -4297,7 +4712,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-433",
@@ -4308,7 +4724,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-434",
@@ -4321,7 +4738,10 @@
     "Not Language-Specific",
     "PHP"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": [
+    "cwe-top-25-2025"
+   ]
   },
   {
    "id": "CWE-435",
@@ -4332,7 +4752,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-436",
@@ -4343,7 +4764,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-437",
@@ -4354,7 +4776,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-439",
@@ -4365,7 +4788,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-440",
@@ -4376,7 +4800,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-441",
@@ -4387,7 +4812,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-443",
@@ -4396,7 +4822,8 @@
    "status": "Deprecated",
    "staticDetectable": false,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-444",
@@ -4407,7 +4834,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-446",
@@ -4418,7 +4846,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-447",
@@ -4429,7 +4858,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-448",
@@ -4440,7 +4870,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-449",
@@ -4451,7 +4882,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-450",
@@ -4462,7 +4894,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-451",
@@ -4473,7 +4906,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-453",
@@ -4485,7 +4919,8 @@
     "Not Language-Specific",
     "PHP"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-454",
@@ -4497,7 +4932,8 @@
     "Not Language-Specific",
     "PHP"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-455",
@@ -4508,7 +4944,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-456",
@@ -4519,7 +4956,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-457",
@@ -4534,7 +4972,8 @@
     "PHP",
     "Perl"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-458",
@@ -4543,7 +4982,8 @@
    "status": "Deprecated",
    "staticDetectable": false,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-459",
@@ -4554,7 +4994,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-460",
@@ -4568,7 +5009,8 @@
     "C++",
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-462",
@@ -4582,7 +5024,8 @@
     "C++",
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-463",
@@ -4594,7 +5037,8 @@
     "C",
     "C++"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-464",
@@ -4606,7 +5050,8 @@
     "C",
     "C++"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-466",
@@ -4619,7 +5064,8 @@
     "C++",
     "Memory-Unsafe"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-467",
@@ -4631,7 +5077,8 @@
     "C",
     "C++"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-468",
@@ -4643,7 +5090,8 @@
     "C",
     "C++"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-469",
@@ -4655,7 +5103,8 @@
     "C",
     "C++"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-470",
@@ -4668,7 +5117,8 @@
     "Java",
     "PHP"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-471",
@@ -4679,7 +5129,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-472",
@@ -4690,7 +5141,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-473",
@@ -4701,7 +5153,8 @@
    "languages": [
     "PHP"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-474",
@@ -4714,7 +5167,8 @@
     "Not Language-Specific",
     "PHP"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-475",
@@ -4725,7 +5179,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-476",
@@ -4740,7 +5195,10 @@
     "Go",
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": [
+    "cwe-top-25-2025"
+   ]
   },
   {
    "id": "CWE-477",
@@ -4751,7 +5209,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-478",
@@ -4767,7 +5226,8 @@
     "JavaScript",
     "Python"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-479",
@@ -4779,7 +5239,8 @@
     "C",
     "C++"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-480",
@@ -4793,7 +5254,8 @@
     "Not Language-Specific",
     "Perl"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-481",
@@ -4807,7 +5269,8 @@
     "C++",
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-482",
@@ -4819,7 +5282,8 @@
     "C",
     "C++"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-483",
@@ -4831,7 +5295,8 @@
     "C",
     "C++"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-484",
@@ -4847,7 +5312,8 @@
     "Not Language-Specific",
     "PHP"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-486",
@@ -4858,7 +5324,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-487",
@@ -4869,7 +5336,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-488",
@@ -4880,7 +5348,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-489",
@@ -4891,7 +5360,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-491",
@@ -4902,7 +5372,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-492",
@@ -4913,7 +5384,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-493",
@@ -4926,7 +5398,8 @@
     "Java",
     "Object-Oriented"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-494",
@@ -4937,7 +5410,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-495",
@@ -4952,7 +5426,8 @@
     "Java",
     "Object-Oriented"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-496",
@@ -4967,7 +5442,8 @@
     "Java",
     "Object-Oriented"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-497",
@@ -4978,7 +5454,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-498",
@@ -4992,7 +5469,8 @@
     "Java",
     "Object-Oriented"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-499",
@@ -5003,7 +5481,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-500",
@@ -5015,7 +5494,8 @@
     "C++",
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-501",
@@ -5026,7 +5506,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-502",
@@ -5041,7 +5522,10 @@
     "Python",
     "Ruby"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": [
+    "cwe-top-25-2025"
+   ]
   },
   {
    "id": "CWE-506",
@@ -5052,7 +5536,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-507",
@@ -5063,7 +5548,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-508",
@@ -5074,7 +5560,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-509",
@@ -5085,7 +5572,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-510",
@@ -5096,7 +5584,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-511",
@@ -5107,7 +5596,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-512",
@@ -5118,7 +5608,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-514",
@@ -5129,7 +5620,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-515",
@@ -5140,7 +5632,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-516",
@@ -5149,7 +5642,8 @@
    "status": "Deprecated",
    "staticDetectable": false,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-520",
@@ -5162,7 +5656,8 @@
     "Not Language-Specific",
     "VB.NET"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-521",
@@ -5173,7 +5668,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-522",
@@ -5184,7 +5680,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-523",
@@ -5195,7 +5692,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-524",
@@ -5206,7 +5704,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-525",
@@ -5217,7 +5716,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-526",
@@ -5228,7 +5728,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-527",
@@ -5239,7 +5740,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-528",
@@ -5250,7 +5752,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-529",
@@ -5261,7 +5764,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-530",
@@ -5272,7 +5776,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-531",
@@ -5283,7 +5788,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-532",
@@ -5294,7 +5800,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-533",
@@ -5303,7 +5810,8 @@
    "status": "Deprecated",
    "staticDetectable": false,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-534",
@@ -5312,7 +5820,8 @@
    "status": "Deprecated",
    "staticDetectable": false,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-535",
@@ -5323,7 +5832,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-536",
@@ -5334,7 +5844,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-537",
@@ -5345,7 +5856,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-538",
@@ -5356,7 +5868,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-539",
@@ -5367,7 +5880,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-540",
@@ -5378,7 +5892,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-541",
@@ -5389,7 +5904,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-542",
@@ -5398,7 +5914,8 @@
    "status": "Deprecated",
    "staticDetectable": false,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-543",
@@ -5410,7 +5927,8 @@
     "C++",
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-544",
@@ -5421,7 +5939,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-545",
@@ -5430,7 +5949,8 @@
    "status": "Deprecated",
    "staticDetectable": false,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-546",
@@ -5441,7 +5961,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-547",
@@ -5452,7 +5973,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-548",
@@ -5463,7 +5985,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-549",
@@ -5474,7 +5997,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-550",
@@ -5485,7 +6009,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-551",
@@ -5496,7 +6021,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-552",
@@ -5507,7 +6033,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-553",
@@ -5518,7 +6045,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-554",
@@ -5529,7 +6057,8 @@
    "languages": [
     "ASP.NET"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-555",
@@ -5540,7 +6069,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-556",
@@ -5551,7 +6081,8 @@
    "languages": [
     "ASP.NET"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-558",
@@ -5563,7 +6094,8 @@
     "C",
     "C++"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-560",
@@ -5574,7 +6106,8 @@
    "languages": [
     "C"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-561",
@@ -5585,7 +6118,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-562",
@@ -5597,7 +6131,8 @@
     "C",
     "C++"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-563",
@@ -5608,7 +6143,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-564",
@@ -5619,7 +6155,8 @@
    "languages": [
     "SQL"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-565",
@@ -5630,7 +6167,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-566",
@@ -5641,7 +6179,8 @@
    "languages": [
     "SQL"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-567",
@@ -5652,7 +6191,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-568",
@@ -5663,7 +6203,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-570",
@@ -5674,7 +6215,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-571",
@@ -5685,7 +6227,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-572",
@@ -5696,7 +6239,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-573",
@@ -5707,7 +6251,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-574",
@@ -5718,7 +6263,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-575",
@@ -5729,7 +6275,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-576",
@@ -5740,7 +6287,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-577",
@@ -5751,7 +6299,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-578",
@@ -5762,7 +6311,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-579",
@@ -5773,7 +6323,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-580",
@@ -5784,7 +6335,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-581",
@@ -5795,7 +6347,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-582",
@@ -5806,7 +6359,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-583",
@@ -5817,7 +6371,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-584",
@@ -5828,7 +6383,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-585",
@@ -5839,7 +6395,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-586",
@@ -5850,7 +6407,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-587",
@@ -5865,7 +6423,8 @@
     "C++",
     "Memory-Unsafe"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-588",
@@ -5877,7 +6436,8 @@
     "C",
     "C++"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-589",
@@ -5888,7 +6448,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-590",
@@ -5900,7 +6461,8 @@
     "C",
     "Memory-Unsafe"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-591",
@@ -5911,7 +6473,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-592",
@@ -5920,7 +6483,8 @@
    "status": "Deprecated",
    "staticDetectable": false,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-593",
@@ -5931,7 +6495,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-594",
@@ -5942,7 +6507,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-595",
@@ -5956,7 +6522,8 @@
     "Not Language-Specific",
     "PHP"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-596",
@@ -5965,7 +6532,8 @@
    "status": "Deprecated",
    "staticDetectable": false,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-597",
@@ -5979,7 +6547,8 @@
     "Not Language-Specific",
     "PHP"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-598",
@@ -5990,7 +6559,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-599",
@@ -6001,7 +6571,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-600",
@@ -6012,7 +6583,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-601",
@@ -6023,7 +6595,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-602",
@@ -6034,7 +6607,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-603",
@@ -6045,7 +6619,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-605",
@@ -6056,7 +6631,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-606",
@@ -6067,7 +6643,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-607",
@@ -6078,7 +6655,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-608",
@@ -6089,7 +6667,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-609",
@@ -6100,7 +6679,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-610",
@@ -6111,7 +6691,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-611",
@@ -6123,7 +6704,8 @@
     "Not Language-Specific",
     "XML"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-612",
@@ -6134,7 +6716,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-613",
@@ -6145,7 +6728,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-614",
@@ -6154,7 +6738,8 @@
    "status": "Draft",
    "staticDetectable": true,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-615",
@@ -6165,7 +6750,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-616",
@@ -6176,7 +6762,8 @@
    "languages": [
     "PHP"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-617",
@@ -6190,7 +6777,8 @@
     "Not Language-Specific",
     "Rust"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-618",
@@ -6201,7 +6789,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-619",
@@ -6212,7 +6801,8 @@
    "languages": [
     "SQL"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-620",
@@ -6223,7 +6813,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-621",
@@ -6234,7 +6825,8 @@
    "languages": [
     "PHP"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-622",
@@ -6245,7 +6837,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-623",
@@ -6256,7 +6849,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-624",
@@ -6268,7 +6862,8 @@
     "PHP",
     "Perl"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-625",
@@ -6280,7 +6875,8 @@
     "PHP",
     "Perl"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-626",
@@ -6293,7 +6889,8 @@
     "PHP",
     "Perl"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-627",
@@ -6305,7 +6902,8 @@
     "PHP",
     "Perl"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-628",
@@ -6316,7 +6914,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-636",
@@ -6327,7 +6926,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-637",
@@ -6338,7 +6938,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-638",
@@ -6349,7 +6950,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-639",
@@ -6360,7 +6962,10 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": [
+    "cwe-top-25-2025"
+   ]
   },
   {
    "id": "CWE-640",
@@ -6371,7 +6976,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-641",
@@ -6382,7 +6988,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-642",
@@ -6393,7 +7000,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-643",
@@ -6404,7 +7012,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-644",
@@ -6415,7 +7024,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-645",
@@ -6426,7 +7036,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-646",
@@ -6437,7 +7048,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-647",
@@ -6448,7 +7060,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-648",
@@ -6459,7 +7072,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-649",
@@ -6470,7 +7084,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-650",
@@ -6481,7 +7096,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-651",
@@ -6492,7 +7108,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-652",
@@ -6503,7 +7120,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-653",
@@ -6514,7 +7132,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-654",
@@ -6525,7 +7144,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-655",
@@ -6536,7 +7156,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-656",
@@ -6547,7 +7168,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-657",
@@ -6558,7 +7180,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-662",
@@ -6569,7 +7192,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-663",
@@ -6581,7 +7205,8 @@
     "C",
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-664",
@@ -6592,7 +7217,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-665",
@@ -6603,7 +7229,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-666",
@@ -6614,7 +7241,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-667",
@@ -6625,7 +7253,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-668",
@@ -6636,7 +7265,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-669",
@@ -6647,7 +7277,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-670",
@@ -6658,7 +7289,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-671",
@@ -6669,7 +7301,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-672",
@@ -6680,7 +7313,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-673",
@@ -6691,7 +7325,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-674",
@@ -6702,7 +7337,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-675",
@@ -6713,7 +7349,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-676",
@@ -6725,7 +7362,8 @@
     "C",
     "C++"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-680",
@@ -6738,7 +7376,8 @@
     "C++",
     "Memory-Unsafe"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-681",
@@ -6750,7 +7389,8 @@
     "C",
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-682",
@@ -6761,7 +7401,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-683",
@@ -6772,7 +7413,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-684",
@@ -6783,7 +7425,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-685",
@@ -6795,7 +7438,8 @@
     "C",
     "Perl"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-686",
@@ -6806,7 +7450,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-687",
@@ -6817,7 +7462,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-688",
@@ -6829,7 +7475,8 @@
     "C",
     "Perl"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-689",
@@ -6841,7 +7488,8 @@
     "C",
     "Perl"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-690",
@@ -6854,7 +7502,8 @@
     "C++",
     "Memory-Unsafe"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-691",
@@ -6865,7 +7514,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-692",
@@ -6876,7 +7526,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-693",
@@ -6887,7 +7538,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-694",
@@ -6898,7 +7550,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-695",
@@ -6909,7 +7562,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-696",
@@ -6920,7 +7574,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-697",
@@ -6931,7 +7586,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-698",
@@ -6942,7 +7598,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-703",
@@ -6953,7 +7610,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-704",
@@ -6967,7 +7625,8 @@
     "Memory-Unsafe",
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-705",
@@ -6978,7 +7637,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-706",
@@ -6989,7 +7649,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-707",
@@ -7000,7 +7661,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-708",
@@ -7011,7 +7673,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-710",
@@ -7022,7 +7685,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-732",
@@ -7033,7 +7697,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-733",
@@ -7046,7 +7711,8 @@
     "C++",
     "Compiled"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-749",
@@ -7057,7 +7723,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-754",
@@ -7068,7 +7735,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-755",
@@ -7079,7 +7747,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-756",
@@ -7090,7 +7759,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-757",
@@ -7101,7 +7771,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-758",
@@ -7112,7 +7783,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-759",
@@ -7123,7 +7795,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-760",
@@ -7134,7 +7807,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-761",
@@ -7146,7 +7820,8 @@
     "C",
     "Memory-Unsafe"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-762",
@@ -7159,7 +7834,8 @@
     "C++",
     "Memory-Unsafe"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-763",
@@ -7172,7 +7848,8 @@
     "C++",
     "Memory-Unsafe"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-764",
@@ -7183,7 +7860,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-765",
@@ -7194,7 +7872,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-766",
@@ -7207,7 +7886,8 @@
     "C++",
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-767",
@@ -7220,7 +7900,8 @@
     "C++",
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-768",
@@ -7232,7 +7913,8 @@
     "C",
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-769",
@@ -7241,7 +7923,8 @@
    "status": "Deprecated",
    "staticDetectable": false,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-770",
@@ -7252,7 +7935,10 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": [
+    "cwe-top-25-2025"
+   ]
   },
   {
    "id": "CWE-771",
@@ -7263,7 +7949,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-772",
@@ -7272,7 +7959,8 @@
    "status": "Draft",
    "staticDetectable": true,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-773",
@@ -7283,7 +7971,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-774",
@@ -7294,7 +7983,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-775",
@@ -7305,7 +7995,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-776",
@@ -7317,7 +8008,8 @@
     "Not Language-Specific",
     "XML"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-777",
@@ -7328,7 +8020,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-778",
@@ -7339,7 +8032,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-779",
@@ -7350,7 +8044,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-780",
@@ -7361,7 +8056,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-781",
@@ -7373,7 +8069,8 @@
     "C",
     "C++"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-782",
@@ -7385,7 +8082,8 @@
     "C",
     "C++"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-783",
@@ -7398,7 +8096,8 @@
     "C++",
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-784",
@@ -7409,7 +8108,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-785",
@@ -7421,7 +8121,8 @@
     "C",
     "C++"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-786",
@@ -7434,7 +8135,8 @@
     "C++",
     "Memory-Unsafe"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-787",
@@ -7448,7 +8150,10 @@
     "C++",
     "Memory-Unsafe"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": [
+    "cwe-top-25-2025"
+   ]
   },
   {
    "id": "CWE-788",
@@ -7461,7 +8166,8 @@
     "C++",
     "Memory-Unsafe"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-789",
@@ -7474,7 +8180,8 @@
     "C++",
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-790",
@@ -7485,7 +8192,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-791",
@@ -7496,7 +8204,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-792",
@@ -7507,7 +8216,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-793",
@@ -7518,7 +8228,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-794",
@@ -7529,7 +8240,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-795",
@@ -7540,7 +8252,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-796",
@@ -7551,7 +8264,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-797",
@@ -7562,7 +8276,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-798",
@@ -7573,7 +8288,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-799",
@@ -7584,7 +8300,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-804",
@@ -7595,7 +8312,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-805",
@@ -7609,7 +8327,8 @@
     "C++",
     "Memory-Unsafe"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-806",
@@ -7622,7 +8341,8 @@
     "C++",
     "Memory-Unsafe"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-807",
@@ -7633,7 +8353,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-820",
@@ -7644,7 +8365,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-821",
@@ -7655,7 +8377,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-822",
@@ -7668,7 +8391,8 @@
     "C++",
     "Memory-Unsafe"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-823",
@@ -7681,7 +8405,8 @@
     "C++",
     "Memory-Unsafe"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-824",
@@ -7694,7 +8419,8 @@
     "C++",
     "Memory-Unsafe"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-825",
@@ -7707,7 +8433,8 @@
     "C++",
     "Memory-Unsafe"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-826",
@@ -7718,7 +8445,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-827",
@@ -7729,7 +8457,8 @@
    "languages": [
     "XML"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-828",
@@ -7741,7 +8470,8 @@
     "C",
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-829",
@@ -7752,7 +8482,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-830",
@@ -7763,7 +8494,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-831",
@@ -7774,7 +8506,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-832",
@@ -7785,7 +8518,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-833",
@@ -7796,7 +8530,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-834",
@@ -7807,7 +8542,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-835",
@@ -7818,7 +8554,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-836",
@@ -7829,7 +8566,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-837",
@@ -7840,7 +8578,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-838",
@@ -7851,7 +8590,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-839",
@@ -7863,7 +8603,8 @@
     "C",
     "C++"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-841",
@@ -7874,7 +8615,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-842",
@@ -7885,7 +8627,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-843",
@@ -7897,7 +8640,8 @@
     "C",
     "C++"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-862",
@@ -7908,7 +8652,10 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": [
+    "cwe-top-25-2025"
+   ]
   },
   {
    "id": "CWE-863",
@@ -7919,7 +8666,10 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": [
+    "cwe-top-25-2025"
+   ]
   },
   {
    "id": "CWE-908",
@@ -7930,7 +8680,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-909",
@@ -7941,7 +8692,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-910",
@@ -7954,7 +8706,8 @@
     "C++",
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-911",
@@ -7967,7 +8720,8 @@
     "C++",
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-912",
@@ -7978,7 +8732,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-913",
@@ -7990,7 +8745,8 @@
     "Interpreted",
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-914",
@@ -8002,7 +8758,8 @@
     "Interpreted",
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-915",
@@ -8017,7 +8774,8 @@
     "Python",
     "Ruby"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-916",
@@ -8028,7 +8786,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-917",
@@ -8039,7 +8798,8 @@
    "languages": [
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-918",
@@ -8050,7 +8810,10 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": [
+    "cwe-top-25-2025"
+   ]
   },
   {
    "id": "CWE-920",
@@ -8061,7 +8824,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-921",
@@ -8072,7 +8836,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-922",
@@ -8083,7 +8848,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-923",
@@ -8094,7 +8860,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-924",
@@ -8105,7 +8872,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-925",
@@ -8116,7 +8884,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-926",
@@ -8127,7 +8896,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-927",
@@ -8138,7 +8908,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-939",
@@ -8147,7 +8918,8 @@
    "status": "Incomplete",
    "staticDetectable": true,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-940",
@@ -8158,7 +8930,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-941",
@@ -8169,7 +8942,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-942",
@@ -8180,7 +8954,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-943",
@@ -8191,7 +8966,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1004",
@@ -8202,7 +8978,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1007",
@@ -8213,7 +8990,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1021",
@@ -8224,7 +9002,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1022",
@@ -8236,7 +9015,8 @@
     "JavaScript",
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1023",
@@ -8247,7 +9027,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1024",
@@ -8260,7 +9041,8 @@
     "Not Language-Specific",
     "PHP"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1025",
@@ -8271,7 +9053,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1037",
@@ -8282,7 +9065,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1038",
@@ -8293,7 +9077,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1039",
@@ -8304,7 +9089,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1041",
@@ -8315,7 +9101,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1042",
@@ -8326,7 +9113,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1043",
@@ -8337,7 +9125,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1044",
@@ -8348,7 +9137,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1045",
@@ -8359,7 +9149,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1046",
@@ -8370,7 +9161,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1047",
@@ -8381,7 +9173,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1048",
@@ -8392,7 +9185,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1049",
@@ -8403,7 +9197,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1050",
@@ -8414,7 +9209,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1051",
@@ -8425,7 +9221,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1052",
@@ -8436,7 +9233,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1053",
@@ -8447,7 +9245,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1054",
@@ -8458,7 +9257,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1055",
@@ -8469,7 +9269,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1056",
@@ -8480,7 +9281,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1057",
@@ -8491,7 +9293,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1058",
@@ -8502,7 +9305,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1059",
@@ -8513,7 +9317,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1060",
@@ -8524,7 +9329,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1061",
@@ -8535,7 +9341,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1062",
@@ -8546,7 +9353,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1063",
@@ -8557,7 +9365,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1064",
@@ -8568,7 +9377,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1065",
@@ -8579,7 +9389,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1066",
@@ -8590,7 +9401,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1067",
@@ -8601,7 +9413,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1068",
@@ -8610,7 +9423,8 @@
    "status": "Incomplete",
    "staticDetectable": false,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1069",
@@ -8621,7 +9435,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1070",
@@ -8632,7 +9447,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1071",
@@ -8643,7 +9459,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1072",
@@ -8654,7 +9471,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1073",
@@ -8665,7 +9483,8 @@
    "languages": [
     "SQL"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-1074",
@@ -8676,7 +9495,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1075",
@@ -8687,7 +9507,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1076",
@@ -8698,7 +9519,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1077",
@@ -8709,7 +9531,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1078",
@@ -8720,7 +9543,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1079",
@@ -8731,7 +9555,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1080",
@@ -8742,7 +9567,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1082",
@@ -8753,7 +9579,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1083",
@@ -8764,7 +9591,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1084",
@@ -8775,7 +9603,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1085",
@@ -8786,7 +9615,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1086",
@@ -8797,7 +9627,8 @@
    "languages": [
     "Object-Oriented"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-1087",
@@ -8808,7 +9639,8 @@
    "languages": [
     "Object-Oriented"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-1088",
@@ -8819,7 +9651,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1089",
@@ -8830,7 +9663,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1090",
@@ -8841,7 +9675,8 @@
    "languages": [
     "Object-Oriented"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-1091",
@@ -8852,7 +9687,8 @@
    "languages": [
     "Object-Oriented"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-1092",
@@ -8863,7 +9699,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1093",
@@ -8874,7 +9711,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1094",
@@ -8885,7 +9723,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1095",
@@ -8896,7 +9735,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1096",
@@ -8907,7 +9747,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1097",
@@ -8918,7 +9759,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1098",
@@ -8929,7 +9771,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1099",
@@ -8940,7 +9783,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1100",
@@ -8951,7 +9795,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1101",
@@ -8962,7 +9807,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1102",
@@ -8973,7 +9819,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1103",
@@ -8984,7 +9831,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1104",
@@ -8995,7 +9843,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1105",
@@ -9006,7 +9855,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1106",
@@ -9017,7 +9867,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1107",
@@ -9028,7 +9879,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1108",
@@ -9039,7 +9891,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1109",
@@ -9050,7 +9903,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1110",
@@ -9059,7 +9913,8 @@
    "status": "Incomplete",
    "staticDetectable": false,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1111",
@@ -9070,7 +9925,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1112",
@@ -9081,7 +9937,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1113",
@@ -9092,7 +9949,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1114",
@@ -9103,7 +9961,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1115",
@@ -9114,7 +9973,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1116",
@@ -9125,7 +9985,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1117",
@@ -9136,7 +9997,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1118",
@@ -9147,7 +10009,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1119",
@@ -9158,7 +10021,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1120",
@@ -9169,7 +10033,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1121",
@@ -9180,7 +10045,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1122",
@@ -9191,7 +10057,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1123",
@@ -9202,7 +10069,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1124",
@@ -9213,7 +10081,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1125",
@@ -9224,7 +10093,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1126",
@@ -9235,7 +10105,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1127",
@@ -9247,7 +10118,8 @@
     "Compiled",
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1164",
@@ -9258,7 +10130,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1173",
@@ -9269,7 +10142,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1174",
@@ -9280,7 +10154,8 @@
    "languages": [
     "ASP.NET"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-1176",
@@ -9291,7 +10166,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1177",
@@ -9302,7 +10178,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1187",
@@ -9311,7 +10188,8 @@
    "status": "Deprecated",
    "staticDetectable": false,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1188",
@@ -9322,7 +10200,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1189",
@@ -9333,7 +10212,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1190",
@@ -9344,7 +10224,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1191",
@@ -9355,7 +10236,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1192",
@@ -9366,7 +10248,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1193",
@@ -9377,7 +10260,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1204",
@@ -9388,7 +10272,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1209",
@@ -9399,7 +10284,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1220",
@@ -9410,7 +10296,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1221",
@@ -9422,7 +10309,8 @@
     "VHDL",
     "Verilog"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-1222",
@@ -9433,7 +10321,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1223",
@@ -9445,7 +10334,8 @@
     "VHDL",
     "Verilog"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-1224",
@@ -9457,7 +10347,8 @@
     "VHDL",
     "Verilog"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-1229",
@@ -9468,7 +10359,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1230",
@@ -9479,7 +10371,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1231",
@@ -9490,7 +10383,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1232",
@@ -9501,7 +10395,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1233",
@@ -9512,7 +10407,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1234",
@@ -9523,7 +10419,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1235",
@@ -9535,7 +10432,8 @@
     "C#",
     "Java"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-1236",
@@ -9546,7 +10444,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1239",
@@ -9557,7 +10456,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1240",
@@ -9568,7 +10468,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1241",
@@ -9577,7 +10478,8 @@
    "status": "Draft",
    "staticDetectable": false,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1242",
@@ -9588,7 +10490,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1243",
@@ -9599,7 +10502,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1244",
@@ -9610,7 +10514,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1245",
@@ -9621,7 +10526,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1246",
@@ -9632,7 +10538,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1247",
@@ -9643,7 +10550,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1248",
@@ -9654,7 +10562,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1249",
@@ -9665,7 +10574,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1250",
@@ -9676,7 +10586,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1251",
@@ -9688,7 +10599,8 @@
     "VHDL",
     "Verilog"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-1252",
@@ -9699,7 +10611,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1253",
@@ -9710,7 +10623,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1254",
@@ -9721,7 +10635,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1255",
@@ -9732,7 +10647,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1256",
@@ -9743,7 +10659,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1257",
@@ -9754,7 +10671,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1258",
@@ -9765,7 +10683,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1259",
@@ -9776,7 +10695,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1260",
@@ -9787,7 +10707,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1261",
@@ -9798,7 +10719,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1262",
@@ -9809,7 +10731,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1263",
@@ -9820,7 +10743,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1264",
@@ -9831,7 +10755,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1265",
@@ -9842,7 +10767,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1266",
@@ -9853,7 +10779,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1267",
@@ -9864,7 +10791,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1268",
@@ -9875,7 +10803,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1269",
@@ -9888,7 +10817,8 @@
     "VHDL",
     "Verilog"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-1270",
@@ -9899,7 +10829,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1271",
@@ -9910,7 +10841,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1272",
@@ -9923,7 +10855,8 @@
     "VHDL",
     "Verilog"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-1273",
@@ -9936,7 +10869,8 @@
     "VHDL",
     "Verilog"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-1274",
@@ -9947,7 +10881,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1275",
@@ -9958,7 +10893,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1276",
@@ -9969,7 +10905,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1277",
@@ -9980,7 +10917,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1278",
@@ -9991,7 +10929,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1279",
@@ -10004,7 +10943,8 @@
     "VHDL",
     "Verilog"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1280",
@@ -10017,7 +10957,8 @@
     "VHDL",
     "Verilog"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1281",
@@ -10028,7 +10969,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1282",
@@ -10039,7 +10981,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1283",
@@ -10050,7 +10993,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1284",
@@ -10061,7 +11005,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1285",
@@ -10072,7 +11017,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1286",
@@ -10083,7 +11029,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1287",
@@ -10094,7 +11041,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1288",
@@ -10105,7 +11053,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1289",
@@ -10116,7 +11065,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1290",
@@ -10127,7 +11077,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1291",
@@ -10138,7 +11089,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1292",
@@ -10149,7 +11101,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1293",
@@ -10160,7 +11113,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1294",
@@ -10171,7 +11125,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1295",
@@ -10182,7 +11137,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1296",
@@ -10195,7 +11151,8 @@
     "VHDL",
     "Verilog"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1297",
@@ -10208,7 +11165,8 @@
     "VHDL",
     "Verilog"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1298",
@@ -10220,7 +11178,8 @@
     "VHDL",
     "Verilog"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-1299",
@@ -10231,7 +11190,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1300",
@@ -10242,7 +11202,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1301",
@@ -10253,7 +11214,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1302",
@@ -10264,7 +11226,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1303",
@@ -10275,7 +11238,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1304",
@@ -10286,7 +11250,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1310",
@@ -10297,7 +11262,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1311",
@@ -10309,7 +11275,8 @@
     "VHDL",
     "Verilog"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-1312",
@@ -10320,7 +11287,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1313",
@@ -10331,7 +11299,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1314",
@@ -10342,7 +11311,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1315",
@@ -10353,7 +11323,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1316",
@@ -10364,7 +11335,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1317",
@@ -10375,7 +11347,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1318",
@@ -10386,7 +11359,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1319",
@@ -10397,7 +11371,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1320",
@@ -10408,7 +11383,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1321",
@@ -10419,7 +11395,8 @@
    "languages": [
     "JavaScript"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-1322",
@@ -10430,7 +11407,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1323",
@@ -10441,7 +11419,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1324",
@@ -10450,7 +11429,8 @@
    "status": "Deprecated",
    "staticDetectable": false,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1325",
@@ -10463,7 +11443,8 @@
     "C++",
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1326",
@@ -10474,7 +11455,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1327",
@@ -10485,7 +11467,8 @@
    "languages": [
     "Other"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-1328",
@@ -10496,7 +11479,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1329",
@@ -10507,7 +11491,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1330",
@@ -10518,7 +11503,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1331",
@@ -10529,7 +11515,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1332",
@@ -10540,7 +11527,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1333",
@@ -10551,7 +11539,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1334",
@@ -10562,7 +11551,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1335",
@@ -10577,7 +11567,8 @@
     "Java",
     "JavaScript"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-1336",
@@ -10592,7 +11583,8 @@
     "PHP",
     "Python"
    ],
-   "languageAgnostic": false
+   "languageAgnostic": false,
+   "lists": []
   },
   {
    "id": "CWE-1338",
@@ -10603,7 +11595,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1339",
@@ -10614,7 +11607,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1341",
@@ -10629,7 +11623,8 @@
     "Not Language-Specific",
     "Rust"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1342",
@@ -10640,7 +11635,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1351",
@@ -10651,7 +11647,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1357",
@@ -10660,7 +11657,8 @@
    "status": "Incomplete",
    "staticDetectable": true,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1384",
@@ -10669,7 +11667,8 @@
    "status": "Incomplete",
    "staticDetectable": false,
    "languages": [],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1385",
@@ -10680,7 +11679,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1386",
@@ -10691,7 +11691,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1389",
@@ -10702,7 +11703,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1390",
@@ -10713,7 +11715,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1391",
@@ -10724,7 +11727,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1392",
@@ -10735,7 +11739,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1393",
@@ -10746,7 +11751,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1394",
@@ -10757,7 +11763,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1395",
@@ -10768,7 +11775,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1419",
@@ -10779,7 +11787,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1420",
@@ -10790,7 +11799,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1421",
@@ -10801,7 +11811,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1422",
@@ -10812,7 +11823,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1423",
@@ -10823,7 +11835,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1426",
@@ -10834,7 +11847,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1427",
@@ -10845,7 +11859,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1428",
@@ -10856,7 +11871,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1429",
@@ -10871,7 +11887,8 @@
     "Not Language-Specific",
     "Verilog"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1431",
@@ -10882,7 +11899,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   },
   {
    "id": "CWE-1434",
@@ -10893,7 +11911,8 @@
    "languages": [
     "Not Language-Specific"
    ],
-   "languageAgnostic": true
+   "languageAgnostic": true,
+   "lists": []
   }
  ]
 }

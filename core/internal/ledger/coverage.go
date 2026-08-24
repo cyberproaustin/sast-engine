@@ -52,6 +52,14 @@ var claims = map[string]Claim{
 		[]string{"hardcoded-secret"}},
 	"CWE-614": {NotBuilt, "a call-shape assertion over cookie options; the analysis kind is not built", nil},
 
+	// The four members of the catalog's own Top 25 that apply to these languages and are
+	// not covered. Named rather than left blank, because the list is the closest thing
+	// this project has to a prioritised backlog that nobody wrote by hand.
+	"CWE-306": {NotBuilt, "an entry point reachable with no authentication control, which the convention analysis is the right shape for: it already reports a control most peers apply and this one lacks. What it cannot yet do is distinguish an endpoint that is unauthenticated by design from one that forgot", nil},
+	"CWE-434": {NotBuilt, "needs upload-handling channels and a notion of which validations confine a file's type", nil},
+	"CWE-476": {Undecidable, "in these languages this is a TypeError on undefined at runtime rather than a memory fault, and deciding it statically means proving nullability across a dynamic language; the value even when solved is reliability rather than security", nil},
+	"CWE-770": {NotBuilt, "needs a notion of a bounded resource and of what bounds it; rate limiting is observable as a control on the surface, and unbounded reads are not observable at all yet", nil},
+
 	// Real, and about something no analysis of source can see.
 	"CWE-285": {Undecidable, "the intended entitlements are not in the code; a declared policy is what supplies them (ADR-011)",
 		nil},

@@ -32,6 +32,19 @@ type Weakness struct {
 	StaticDetectable bool     `json:"staticDetectable"`
 	Languages        []string `json:"languages"`
 	LanguageAgnostic bool     `json:"languageAgnostic"`
+	// Lists names the catalog's own priority views this weakness belongs to. Which
+	// weaknesses matter most is read from MITRE rather than decided here.
+	Lists []string `json:"lists"`
+}
+
+// OnList reports membership of one of the catalog's priority views.
+func (w Weakness) OnList(label string) bool {
+	for _, l := range w.Lists {
+		if l == label {
+			return true
+		}
+	}
+	return false
 }
 
 // HasCodeShape reports whether a rule can be written against this entry at all. Pillars
@@ -138,6 +151,39 @@ func Covered() (asserted, total int) {
 		}
 	}
 	return asserted, len(in)
+}
+
+// TopTwentyFive is the catalog's own list of the weaknesses that matter most.
+const TopTwentyFive = "cwe-top-25-2025"
+
+// CoveredOnList is how much of a priority view the engine asserts, counted against the
+// members a rule could be written for rather than against all of them: several are C
+// memory-safety weaknesses that no frontend here will ever parse, and counting those as
+// gaps would make the number meaningless in the flattering direction as well as the
+// unflattering one.
+func CoveredOnList(label string) (asserted, total int) {
+	for _, e := range InScope() {
+		if !e.OnList(label) {
+			continue
+		}
+		total++
+		if e.Claim.State == Asserted || e.Claim.State == Partial {
+			asserted++
+		}
+	}
+	return asserted, total
+}
+
+// MissingFromList names the members of a priority view the engine does not yet assert,
+// which is the only prioritised to-do list in this project that nobody wrote by hand.
+func MissingFromList(label string) []Entry {
+	var out []Entry
+	for _, e := range InScope() {
+		if e.OnList(label) && e.Claim.State != Asserted && e.Claim.State != Partial {
+			out = append(out, e)
+		}
+	}
+	return out
 }
 
 // Assertions lists what the engine claims, in id order, for the report.
