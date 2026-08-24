@@ -22,7 +22,7 @@ import (
 type Control struct {
 	Ref    string // stable identity used to compare peers
 	Name   string
-	Kind   string // "authentication" | "authorization" | "unclassified"
+	Kind   string // "authentication" | "authorization" | "rate-limit" | "" when unrecognized
 	Scope  string // "route" | "app" | "handler-body"
 	Origin string // "middleware" | "call"
 	Loc    ir.Loc
