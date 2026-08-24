@@ -1,0 +1,22 @@
+{
+  "corpus": "express-code-interpreter",
+  "description": "A language's own evaluator reached by caller-supplied data. The policy that finds this was written for operating-system shells and was not touched to cover it \u2014 the channel description carries the weakness identity, so the same judgement produces CWE-95 here and CWE-78 for a shell. The third route interpolates untrusted data into a string and is not a finding: a template is data, and only a destination that INTERPRETS its input is a channel.",
+  "expected": [
+    {
+      "cwe": "CWE-95",
+      "sinkFile": "app.ts",
+      "sinkLine": 14,
+      "sourceLabel": "req.body.expression",
+      "confidence": "high",
+      "note": "eval() compiles and runs its argument"
+    },
+    {
+      "cwe": "CWE-95",
+      "sinkFile": "app.ts",
+      "sinkLine": 19,
+      "sourceLabel": "req.body.source",
+      "confidence": "high",
+      "note": "the Function constructor is an evaluator by another name"
+    }
+  ]
+}

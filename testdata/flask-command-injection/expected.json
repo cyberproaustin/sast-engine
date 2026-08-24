@@ -1,0 +1,22 @@
+{
+  "corpus": "flask-command-injection",
+  "description": "Second language, same judgements. Both findings come from policies written against TypeScript corpora, with no policy change: only a classification rule for Flask's request global and two channel descriptions.",
+  "expected": [
+    {
+      "cwe": "CWE-209",
+      "sinkFile": "app.py",
+      "sinkLine": 21,
+      "sourceLabel": "err",
+      "confidence": "medium",
+      "note": "same internal-detail-outward policy that covers Express responses and outbound webhooks"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "helpers.py",
+      "sinkLine": 6,
+      "sourceLabel": "flask.request.args",
+      "confidence": "low",
+      "note": "LOW because .get() cannot be resolved without type inference; the capability gap shows up as confidence, not as silence (ADR-003/005)"
+    }
+  ]
+}

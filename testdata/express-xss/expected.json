@@ -1,0 +1,22 @@
+{
+  "corpus": "express-xss",
+  "description": "Cross-site scripting found by a policy written for operating-system shells, with no policy change at all: a browser parsing a response body is an interpreter, so describing the channel was the whole of it. Four routes pin the four distinctions that matter. Unescaped interpolation is a finding. The same value through escape-html is not, because the escaper addresses the context that applies. The same value through res.json is not, because a JSON body is not parsed as markup. The same value through encodeURIComponent IS, because a URL encoder is not an HTML encoder and must be recorded as considered-and-insufficient rather than silently clearing.",
+  "expected": [
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "app.ts",
+      "sinkLine": 15,
+      "sourceLabel": "req.query.name",
+      "confidence": "medium",
+      "note": "interpolated into a text/html response body"
+    },
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "app.ts",
+      "sinkLine": 30,
+      "sourceLabel": "req.query.name",
+      "confidence": "medium",
+      "note": "a URL encoder does not neutralize markup"
+    }
+  ]
+}

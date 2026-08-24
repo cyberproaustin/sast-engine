@@ -1,0 +1,22 @@
+{
+  "corpus": "nestjs-ownership",
+  "description": "Ownership on a framework that INJECTS identity rather than exposing it on a request object. Three shapes: a selection scoped by the caller's identity (safe, and safe without any comparison appearing); identity injected and then ignored (a defect); and a decorator that reads a header rather than the caller (must not scope anything, whatever it is named). The engine derives which decorator carries identity from what its factory reads, so the third case is what separates this from a list of likely names.",
+  "expected": [
+    {
+      "cwe": "CWE-639",
+      "sinkFile": "orders.controller.ts",
+      "sinkLine": 24,
+      "sourceLabel": "id",
+      "confidence": "medium",
+      "note": "identity is injected into the handler and never constrains the selection"
+    },
+    {
+      "cwe": "CWE-639",
+      "sinkFile": "orders.controller.ts",
+      "sinkLine": 40,
+      "sourceLabel": "id",
+      "confidence": "medium",
+      "note": "UserAgent reads a header; a name-keyed model would have called this scoped"
+    }
+  ]
+}

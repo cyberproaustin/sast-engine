@@ -1,0 +1,46 @@
+{
+  "corpus": "express-real-shapes",
+  "description": "Shapes taken from real Express codebases. Every one of these silently dropped taint or hid a control until the engine was run against code nobody wrote for it. Fixture-only testing never surfaced any of them. Also contains reflected XSS: the same caller-supplied value comes back out in a text/html response body. One source, two sinks, two weaknesses, one policy.",
+  "expected": [
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "app.ts",
+      "sinkLine": 14,
+      "sourceLabel": "req.query",
+      "confidence": "high",
+      "note": "destructured request data; the seed is req.query, and the binding is tainted from it"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "app.ts",
+      "sinkLine": 23,
+      "sourceLabel": "req.query.host",
+      "confidence": "high",
+      "note": "shorthand property; needs the checker's shorthand value accessor"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "app.ts",
+      "sinkLine": 31,
+      "sourceLabel": "req.query.host",
+      "confidence": "high",
+      "note": "object spread"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "service.ts",
+      "sinkLine": 5,
+      "sourceLabel": "req.body.target",
+      "confidence": "high",
+      "note": "nested destructuring off req itself; the binding must carry its property path or no source matches"
+    },
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "app.ts",
+      "sinkLine": 40,
+      "sourceLabel": "req.body.target",
+      "confidence": "medium",
+      "note": "the lookup result is echoed into a text/html body"
+    }
+  ]
+}

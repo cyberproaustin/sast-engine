@@ -1,0 +1,14 @@
+{
+  "corpus": "express-error-leak",
+  "description": "Caught error detail reaching an HTTP response. Exercises the exposure flow: sensitive source, externally visible sink, same engine.",
+  "expected": [
+    {
+      "cwe": "CWE-209",
+      "sinkFile": "app.ts",
+      "sinkLine": 12,
+      "sourceLabel": "err",
+      "confidence": "medium",
+      "note": "res.status(500).json({error: err.message}) — receiver traces back to the response param. MEDIUM, not high: the .json hop resolves heuristically without Express types, and confidence reflects resolution quality (ADR-005)."
+    }
+  ]
+}

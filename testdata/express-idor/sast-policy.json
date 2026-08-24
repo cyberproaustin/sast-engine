@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "entryPoints": [
+    {
+      "match": { "pathPrefix": "/api/auth/register" },
+      "establishesIdentity": true,
+      "reason": "registration must look up a username before any actor exists; there is no owner to compare against"
+    }
+  ]
+}

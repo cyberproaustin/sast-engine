@@ -1,0 +1,49 @@
+// Shapes taken from real Express codebases, each of which silently dropped taint or
+// hid a control before being found by running against code nobody wrote for us.
+
+import express from "express";
+import { exec, execSync } from "child_process";
+import auth from "./auth";
+import { lookup } from "./service";
+
+const app = express();
+
+// EXPECTED FINDING — destructured request data.
+app.get("/destructured", auth.required, (req, res) => {
+  const { host } = req.query;
+  exec(`dig ${host}`);
+  res.send("ok");
+});
+
+// EXPECTED FINDING — shorthand property. The identifier resolves to the property
+// symbol, not the local it reads, so this needs the checker's value accessor.
+app.get("/shorthand", auth.required, (req, res) => {
+  const host = req.query.host;
+  const opts = { host };
+  exec(`ping ${opts.host}`);
+  res.send("ok");
+});
+
+// EXPECTED FINDING — object spread.
+app.get("/spread", auth.required, (req, res) => {
+  const base = { host: req.query.host };
+  const opts = { ...base };
+  execSync(`ping ${opts.host}`);
+  res.send("ok");
+});
+
+// EXPECTED FINDING — nested destructuring through a call into another module.
+app.get("/nested", auth.required, (req, res) => {
+  const {
+    body: { target },
+  } = req;
+  res.send(lookup(target));
+});
+
+// EXPECTED CLEAN — this route is genuinely public, and it is the only one without
+// auth.required. Convention analysis should notice; that is advisory, not a defect.
+app.get("/health", (req, res) => {
+  res.json({ ok: true });
+});
+
+app.listen(3000);

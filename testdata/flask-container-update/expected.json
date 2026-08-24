@@ -1,0 +1,14 @@
+{
+  "corpus": "flask-container-update",
+  "description": "A frontend with no type checker still knows what the author wrote down. Three handlers reach `.update` on something visibly a dict \u2014 a literal, an annotation, and `**kwargs` \u2014 and none is a record selector. The fourth reaches `.update` on a value nothing local describes; that flow is still reported, because an unanswerable receiver is not the same as a safe one, but it cannot reach the confidence that gates.",
+  "expected": [
+    {
+      "cwe": "CWE-639",
+      "sinkFile": "app.py",
+      "sinkLine": 53,
+      "sourceLabel": "flask.request.form",
+      "confidence": "medium",
+      "note": "receiver type unknown: reported, capped below gating"
+    }
+  ]
+}

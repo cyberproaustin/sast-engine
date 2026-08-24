@@ -1,0 +1,279 @@
+// Package expectation decides what controls an entry point ought to have, and reports
+// the ones that fall short.
+//
+// An expectation has an ORIGIN, and the origin decides what it is worth (ADR-011):
+//
+//	inferred — the population says so (ADR-010). Informs; never gates.
+//	declared — the team wrote it down (ADR-013). Gates.
+//
+// The asymmetry is deliberate. Inference is a good guess about intent and should not
+// stop a build on a guess. A team that stated its expectation has earned an enforceable
+// claim, and a violation of it is unambiguous.
+package expectation
+
+import (
+	"fmt"
+	"sort"
+
+	"github.com/cyberproaustin/sast-engine/core/internal/ir"
+	"github.com/cyberproaustin/sast-engine/core/internal/model"
+	"github.com/cyberproaustin/sast-engine/core/internal/policy"
+	"github.com/cyberproaustin/sast-engine/core/internal/surface"
+)
+
+// Origins.
+const (
+	OriginInferred = "inferred"
+	OriginDeclared = "declared"
+)
+
+// Thresholds control how strong a population has to be before its behavior is taken as
+// an expectation. Conservative on purpose: a wrong inference reports code that is fine.
+type Thresholds struct {
+	MinPeers int
+	MinRatio float64
+}
+
+func DefaultThresholds() Thresholds {
+	return Thresholds{MinPeers: 3, MinRatio: 0.6}
+}
+
+// Finding is an entry point that falls short of an expectation.
+type Finding struct {
+	Class   string
+	CWE     string
+	Message string
+	Origin  string
+	Gates   bool
+
+	EntryPoint  string
+	EntryLoc    ir.Loc
+	Group       string
+	MissingRef  string
+	MissingName string
+	ControlKind string
+
+	// Inferred findings carry the population as evidence (ADR-006).
+	Peers          int
+	Conforming     int
+	ConformingList []string
+
+	// Declared findings carry the declaration that was violated.
+	DeclaredBy     string
+	DeclaredReason string
+}
+
+// Suppression records an inferred expectation that a declaration overrode. Reported so
+// that a declaration's effect is visible rather than silent.
+type Suppression struct {
+	EntryPoint string
+	Missing    string
+	DeclaredBy string
+	Reason     string
+}
+
+// UnmatchedRule is a declaration that selected no entry point — a stated expectation
+// nothing was checked against. Reported because an unchecked requirement is not a
+// satisfied one (ADR-003, ADR-011).
+type UnmatchedRule struct {
+	Match  string
+	Reason string
+}
+
+// Result is the outcome of the analysis.
+type Result struct {
+	Applicable          bool
+	MissingCapabilities []string
+	Thresholds          Thresholds
+	PolicyPresent       bool
+	PolicyPath          string
+
+	Findings       []Finding
+	Suppressed     []Suppression
+	UnmatchedRules []UnmatchedRule
+}
+
+// Gating reports whether any violated expectation may fail the build.
+func (r Result) Gating() bool {
+	for _, f := range r.Findings {
+		if f.Gates {
+			return true
+		}
+	}
+	return false
+}
+
+// Analyze evaluates declared expectations first, then inferred ones.
+func Analyze(d *ir.IR, s surface.Surface, m model.Model, p *policy.Policy, t Thresholds) Result {
+	if missing := m.SurfaceReq.Missing(d.Frontend.Capabilities); len(missing) > 0 {
+		return Result{Applicable: false, MissingCapabilities: missing, Thresholds: t}
+	}
+	if p == nil {
+		p = &policy.Policy{}
+	}
+
+	res := Result{
+		Applicable:    true,
+		Thresholds:    t,
+		PolicyPresent: p.Present,
+		PolicyPath:    p.Path,
+	}
+
+	exempt := make(map[string]policy.EntryPointRule)
+	matched := make(map[string]bool)
+
+	for _, e := range s.Entries {
+		for _, rule := range p.RulesFor(e.Method, e.Path, e.Group) {
+			matched[rule.Match.String()] = true
+
+			if rule.PublicByDesign {
+				exempt[e.Label()] = rule
+			}
+			for _, kind := range rule.RequiresControls {
+				if hasControlKind(e, kind) {
+					continue
+				}
+				res.Findings = append(res.Findings, Finding{
+					Class:  "Declared control missing",
+					CWE:    "CWE-284",
+					Origin: OriginDeclared,
+					// A team that stated this expectation gets it enforced.
+					Gates: true,
+					Message: fmt.Sprintf(
+						"policy requires a control of kind %q here; none is applied", kind),
+					EntryPoint:     e.Label(),
+					EntryLoc:       entryLoc(e),
+					Group:          e.Group,
+					ControlKind:    kind,
+					MissingName:    kind,
+					DeclaredBy:     rule.Match.String(),
+					DeclaredReason: rule.Reason,
+				})
+			}
+		}
+	}
+
+	for _, rule := range p.EntryPoints {
+		if !matched[rule.Match.String()] {
+			res.UnmatchedRules = append(res.UnmatchedRules, UnmatchedRule{
+				Match:  rule.Match.String(),
+				Reason: rule.Reason,
+			})
+		}
+	}
+
+	res.appendInferred(s, t, exempt)
+
+	sort.Slice(res.Findings, func(i, j int) bool {
+		if res.Findings[i].Origin != res.Findings[j].Origin {
+			return res.Findings[i].Origin < res.Findings[j].Origin
+		}
+		if res.Findings[i].Group != res.Findings[j].Group {
+			return res.Findings[i].Group < res.Findings[j].Group
+		}
+		return res.Findings[i].EntryPoint < res.Findings[j].EntryPoint
+	})
+	return res
+}
+
+// appendInferred adds convention deviations, minus any entry point a declaration says
+// is intentionally unprotected.
+func (r *Result) appendInferred(s surface.Surface, t Thresholds, exempt map[string]policy.EntryPointRule) {
+	groups := s.Groups()
+
+	for _, name := range s.GroupNames() {
+		peers := groups[name]
+		if len(peers) < t.MinPeers {
+			continue
+		}
+
+		for _, sig := range expectedSignals(peers, t) {
+			for _, e := range peers {
+				if _, has := e.ControlRefs()[sig.ref]; has {
+					continue
+				}
+				// A declaration that this surface is public by design overrides what
+				// its peers imply — and the override is recorded, not silent.
+				if rule, ok := exempt[e.Label()]; ok {
+					r.Suppressed = append(r.Suppressed, Suppression{
+						EntryPoint: e.Label(),
+						Missing:    sig.name,
+						DeclaredBy: rule.Match.String(),
+						Reason:     rule.Reason,
+					})
+					continue
+				}
+				r.Findings = append(r.Findings, Finding{
+					Class:          "Inconsistent access control",
+					CWE:            "CWE-284",
+					Origin:         OriginInferred,
+					Gates:          false,
+					Message:        fmt.Sprintf("%s is not applied here, but is applied by most comparable entry points", sig.name),
+					EntryPoint:     e.Label(),
+					EntryLoc:       entryLoc(e),
+					Group:          name,
+					MissingRef:     sig.ref,
+					MissingName:    sig.name,
+					ControlKind:    sig.kind,
+					Peers:          len(peers),
+					Conforming:     sig.count,
+					ConformingList: sig.conforming,
+				})
+			}
+		}
+	}
+}
+
+type signal struct {
+	ref        string
+	name       string
+	kind       string
+	count      int
+	conforming []string
+}
+
+func expectedSignals(peers []surface.EntryFacts, t Thresholds) []signal {
+	counts := make(map[string]*signal)
+
+	for _, e := range peers {
+		for ref, c := range e.ControlRefs() {
+			// App-wide bindings apply to every route equally, so they can never
+			// produce a deviation.
+			if c.Scope == "app" {
+				continue
+			}
+			s, ok := counts[ref]
+			if !ok {
+				s = &signal{ref: ref, name: c.Name, kind: c.Kind}
+				counts[ref] = s
+			}
+			s.count++
+			s.conforming = append(s.conforming, e.Label())
+		}
+	}
+
+	var out []signal
+	for _, s := range counts {
+		if s.count == len(peers) {
+			continue
+		}
+		if float64(s.count)/float64(len(peers)) < t.MinRatio {
+			continue
+		}
+		sort.Strings(s.conforming)
+		out = append(out, *s)
+	}
+	sort.Slice(out, func(i, j int) bool { return out[i].ref < out[j].ref })
+	return out
+}
+
+func hasControlKind(e surface.EntryFacts, kind string) bool {
+	for _, c := range e.Controls {
+		if c.Kind == kind {
+			return true
+		}
+	}
+	return false
+}
+
+func entryLoc(e surface.EntryFacts) ir.Loc { return e.Loc() }

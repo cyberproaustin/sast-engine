@@ -1,0 +1,14 @@
+{
+  "corpus": "unanchored-decorator",
+  "description": "A parameter decorator this engine models on a method whose routing decorator it does not. The flow is real and is reported; it is NOT an assertion over the enumerated surface, because nothing was enumerated. This corpus exists so that partial framework recognition can never again silently inflate the finding list (ADR-009).",
+  "expected": [
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "tags.controller.ts",
+      "sinkLine": 19,
+      "sourceLabel": "id",
+      "confidence": "high",
+      "note": "reported as unanchored: no enumerated entry point reaches it, so it never gates"
+    }
+  ]
+}

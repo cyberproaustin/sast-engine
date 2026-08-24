@@ -1,0 +1,17 @@
+{
+  "name": "@sast-engine/frontend-typescript",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Lowers TypeScript/JavaScript into the sast-engine Program IR. Produces IR and nothing else.",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "lower": "node src/index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2"
+  }
+}

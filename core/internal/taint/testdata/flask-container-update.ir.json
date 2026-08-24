@@ -1,0 +1,886 @@
+{
+  "irVersion": "0.6.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "app.py",
+      "path": "app.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "app.py#log_request:18",
+      "name": "log_request",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 18,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#log_request:18$v0",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 15
+          },
+          "name": "{dict}"
+        },
+        {
+          "id": "app.py#log_request:18$v1",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 5
+          },
+          "name": "payload"
+        },
+        {
+          "id": "app.py#log_request:18$v2",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 20
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#log_request:18$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 20
+          },
+          "base": "app.py#log_request:18$v2",
+          "path": "form",
+          "name": "form"
+        },
+        {
+          "id": "app.py#log_request:18$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 5
+          },
+          "name": "payload.update"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#log_request:18$v0",
+          "to": "app.py#log_request:18$v1",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 5
+          }
+        },
+        {
+          "from": "app.py#log_request:18$v2",
+          "to": "app.py#log_request:18$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 20
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#log_request:18$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "payload.update",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#log_request:18$v3"
+            }
+          ],
+          "resultValueId": "app.py#log_request:18$v4",
+          "block": "app.py#log_request:18$b0",
+          "method": "update",
+          "receiverType": "dict",
+          "receiverTypeOrigin": "builtin",
+          "receiverValueId": "app.py#log_request:18$v1"
+        }
+      ],
+      "returns": [
+        "app.py#log_request:18$v1"
+      ],
+      "comparisons": [],
+      "entryBlock": "app.py#log_request:18$b0",
+      "blocks": [
+        {
+          "id": "app.py#log_request:18$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 18,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#log_request:18$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#search:26",
+      "name": "search",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 26,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#search:26$v0",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 31
+          },
+          "name": "local"
+        },
+        {
+          "id": "app.py#search:26$v1",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 5
+          },
+          "name": "filters"
+        },
+        {
+          "id": "app.py#search:26$v2",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 20
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#search:26$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 20
+          },
+          "base": "app.py#search:26$v2",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "app.py#search:26$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 5
+          },
+          "name": "filters.update"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#search:26$v0",
+          "to": "app.py#search:26$v1",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 5
+          }
+        },
+        {
+          "from": "app.py#search:26$v2",
+          "to": "app.py#search:26$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 20
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#search:26$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 31
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "app.py#build_defaults:57",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#search:26$v0",
+          "block": "app.py#search:26$b0"
+        },
+        {
+          "id": "app.py#search:26$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "filters.update",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#search:26$v3"
+            }
+          ],
+          "resultValueId": "app.py#search:26$v4",
+          "block": "app.py#search:26$b0",
+          "method": "update",
+          "receiverType": "dict",
+          "receiverTypeOrigin": "builtin",
+          "receiverValueId": "app.py#search:26$v1"
+        }
+      ],
+      "returns": [
+        "app.py#search:26$v1"
+      ],
+      "comparisons": [],
+      "entryBlock": "app.py#search:26$b0",
+      "blocks": [
+        {
+          "id": "app.py#search:26$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#search:26$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#cache_key:34",
+      "name": "cache_key",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 34,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#cache_key:34$v0",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 11
+          },
+          "name": "kwargs.copy"
+        },
+        {
+          "id": "app.py#cache_key:34$v1",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 5
+          },
+          "name": "key"
+        },
+        {
+          "id": "app.py#cache_key:34$v2",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 16
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#cache_key:34$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 16
+          },
+          "base": "app.py#cache_key:34$v2",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "app.py#cache_key:34$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 5
+          },
+          "name": "key.update"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#cache_key:34$v0",
+          "to": "app.py#cache_key:34$v1",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 5
+          }
+        },
+        {
+          "from": "app.py#cache_key:34$v2",
+          "to": "app.py#cache_key:34$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 16
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#cache_key:34$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 11
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "kwargs.copy",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "app.py#cache_key:34$v0",
+          "block": "app.py#cache_key:34$b0",
+          "method": "copy",
+          "receiverType": "dict",
+          "receiverTypeOrigin": "builtin"
+        },
+        {
+          "id": "app.py#cache_key:34$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "key.update",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#cache_key:34$v3"
+            }
+          ],
+          "resultValueId": "app.py#cache_key:34$v4",
+          "block": "app.py#cache_key:34$b0",
+          "method": "update",
+          "receiverType": "dict",
+          "receiverTypeOrigin": "builtin",
+          "receiverValueId": "app.py#cache_key:34$v1"
+        }
+      ],
+      "returns": [
+        "app.py#cache_key:34$v1"
+      ],
+      "comparisons": [],
+      "entryBlock": "app.py#cache_key:34$b0",
+      "blocks": [
+        {
+          "id": "app.py#cache_key:34$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#cache_key:34$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 38,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#whoami:42",
+      "name": "whoami",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 42,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#whoami:42$v0",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 46,
+            "column": 12
+          },
+          "name": "{dict}"
+        },
+        {
+          "id": "app.py#whoami:42$v1",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 46,
+            "column": 19
+          },
+          "name": "flask.g"
+        },
+        {
+          "id": "app.py#whoami:42$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 46,
+            "column": 19
+          },
+          "base": "app.py#whoami:42$v1",
+          "path": "user.id",
+          "name": "user.id"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#whoami:42$v1",
+          "to": "app.py#whoami:42$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 46,
+            "column": 19
+          }
+        },
+        {
+          "from": "app.py#whoami:42$v2",
+          "to": "app.py#whoami:42$v0",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 46,
+            "column": 12
+          }
+        }
+      ],
+      "calls": [],
+      "returns": [
+        "app.py#whoami:42$v0"
+      ],
+      "comparisons": [],
+      "entryBlock": "app.py#whoami:42$b0",
+      "blocks": [
+        {
+          "id": "app.py#whoami:42$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#whoami:42$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 46,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#touch_record:50",
+      "name": "touch_record",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 50,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#touch_record:50$v0",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 13
+          },
+          "name": "local"
+        },
+        {
+          "id": "app.py#touch_record:50$v1",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 5
+          },
+          "name": "store"
+        },
+        {
+          "id": "app.py#touch_record:50$v2",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 18
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#touch_record:50$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 18
+          },
+          "base": "app.py#touch_record:50$v2",
+          "path": "form",
+          "name": "form"
+        },
+        {
+          "id": "app.py#touch_record:50$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 5
+          },
+          "name": "store.update"
+        },
+        {
+          "id": "app.py#touch_record:50$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 54,
+            "column": 12
+          }
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#touch_record:50$v0",
+          "to": "app.py#touch_record:50$v1",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 5
+          }
+        },
+        {
+          "from": "app.py#touch_record:50$v2",
+          "to": "app.py#touch_record:50$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 18
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#touch_record:50$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 13
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "app.py#get_store:61",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#touch_record:50$v0",
+          "block": "app.py#touch_record:50$b0"
+        },
+        {
+          "id": "app.py#touch_record:50$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "store.update",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#touch_record:50$v3"
+            }
+          ],
+          "resultValueId": "app.py#touch_record:50$v4",
+          "block": "app.py#touch_record:50$b0",
+          "method": "update",
+          "receiverValueId": "app.py#touch_record:50$v1"
+        }
+      ],
+      "returns": [
+        "app.py#touch_record:50$v5"
+      ],
+      "comparisons": [],
+      "entryBlock": "app.py#touch_record:50$b0",
+      "blocks": [
+        {
+          "id": "app.py#touch_record:50$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 50,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#touch_record:50$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 54,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#build_defaults:57",
+      "name": "build_defaults",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 57,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#build_defaults:57$v0",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 58,
+            "column": 12
+          },
+          "name": "{dict}"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [
+        "app.py#build_defaults:57$v0"
+      ],
+      "comparisons": [],
+      "entryBlock": "app.py#build_defaults:57$b0",
+      "blocks": [
+        {
+          "id": "app.py#build_defaults:57$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 57,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#build_defaults:57$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 58,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#get_store:61",
+      "name": "get_store",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 61,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#get_store:61$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 62,
+            "column": 12
+          }
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [
+        "app.py#get_store:61$v0"
+      ],
+      "comparisons": [],
+      "entryBlock": "app.py#get_store:61$b0",
+      "blocks": [
+        {
+          "id": "app.py#get_store:61$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 61,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#get_store:61$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 62,
+            "column": 5
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "app.py#log_request:18",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "POST",
+        "path": "/log"
+      }
+    },
+    {
+      "functionId": "app.py#search:26",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/search"
+      }
+    },
+    {
+      "functionId": "app.py#cache_key:34",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/cache"
+      }
+    },
+    {
+      "functionId": "app.py#whoami:42",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/me"
+      }
+    },
+    {
+      "functionId": "app.py#touch_record:50",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "POST",
+        "path": "/records"
+      }
+    }
+  ]
+}

@@ -1,0 +1,770 @@
+{
+  "irVersion": "0.6.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "app.py",
+      "path": "app.py"
+    },
+    {
+      "id": "helpers.py",
+      "path": "helpers.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "app.py#ping:9",
+      "name": "ping",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 9,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#ping:9$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 29
+          }
+        },
+        {
+          "id": "app.py#ping:9$v1",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 12
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#ping:9$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 12
+          },
+          "base": "app.py#ping:9$v1",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "app.py#ping:9$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 12
+          },
+          "name": "unresolved"
+        },
+        {
+          "id": "app.py#ping:9$v4",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 5
+          },
+          "name": "host"
+        },
+        {
+          "id": "app.py#ping:9$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 13,
+            "column": 12
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#ping:9$v1",
+          "to": "app.py#ping:9$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 12
+          }
+        },
+        {
+          "from": "app.py#ping:9$v3",
+          "to": "app.py#ping:9$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 5
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#ping:9$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 12
+          },
+          "callee": {
+            "kind": "unresolved",
+            "resolution": "dynamic-unresolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#ping:9$v0"
+            }
+          ],
+          "resultValueId": "app.py#ping:9$v3",
+          "block": "app.py#ping:9$b0",
+          "method": "get",
+          "receiverValueId": "app.py#ping:9$v2"
+        },
+        {
+          "id": "app.py#ping:9$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 13,
+            "column": 12
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "helpers.py#run_ping:4",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#ping:9$v4"
+            }
+          ],
+          "resultValueId": "app.py#ping:9$v5",
+          "block": "app.py#ping:9$b0"
+        }
+      ],
+      "returns": [
+        "app.py#ping:9$v5"
+      ],
+      "comparisons": [],
+      "entryBlock": "app.py#ping:9$b0",
+      "blocks": [
+        {
+          "id": "app.py#ping:9$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 9,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#ping:9$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 13,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#get_order:17",
+      "name": "get_order",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 17,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "order_id",
+          "valueId": "app.py#get_order:17$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#get_order:17$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 15
+          },
+          "name": "order_id"
+        },
+        {
+          "id": "app.py#get_order:17$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 24
+          },
+          "name": "local"
+        },
+        {
+          "id": "app.py#get_order:17$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 16
+          },
+          "name": "flask.jsonify"
+        },
+        {
+          "id": "app.py#get_order:17$v3",
+          "kind": "catch-param",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 5
+          },
+          "name": "err"
+        },
+        {
+          "id": "app.py#get_order:17$v4",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 24
+          },
+          "name": "{dict}"
+        },
+        {
+          "id": "app.py#get_order:17$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 34
+          },
+          "name": "str"
+        },
+        {
+          "id": "app.py#get_order:17$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 16
+          },
+          "name": "flask.jsonify"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#get_order:17$v5",
+          "to": "app.py#get_order:17$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 24
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#get_order:17$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 24
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "app.py#load_order:29",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#get_order:17$v0"
+            }
+          ],
+          "resultValueId": "app.py#get_order:17$v1",
+          "block": "app.py#get_order:17$b0"
+        },
+        {
+          "id": "app.py#get_order:17$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.jsonify",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#get_order:17$v1"
+            }
+          ],
+          "resultValueId": "app.py#get_order:17$v2",
+          "block": "app.py#get_order:17$b0"
+        },
+        {
+          "id": "app.py#get_order:17$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 34
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "str",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#get_order:17$v3"
+            }
+          ],
+          "resultValueId": "app.py#get_order:17$v5",
+          "block": "app.py#get_order:17$b1"
+        },
+        {
+          "id": "app.py#get_order:17$c3",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.jsonify",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#get_order:17$v4"
+            }
+          ],
+          "resultValueId": "app.py#get_order:17$v6",
+          "block": "app.py#get_order:17$b1"
+        }
+      ],
+      "returns": [
+        "app.py#get_order:17$v2",
+        "app.py#get_order:17$v6"
+      ],
+      "comparisons": [],
+      "entryBlock": "app.py#get_order:17$b0",
+      "blocks": [
+        {
+          "id": "app.py#get_order:17$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#get_order:17$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 9
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#get_order:17$b2",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#status:25",
+      "name": "status",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 25,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#status:25$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 21
+          }
+        },
+        {
+          "id": "app.py#status:25$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 12
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "app.py#status:25$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 12
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "helpers.py#run_ping:4",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#status:25$v0"
+            }
+          ],
+          "resultValueId": "app.py#status:25$v1",
+          "block": "app.py#status:25$b0"
+        }
+      ],
+      "returns": [
+        "app.py#status:25$v1"
+      ],
+      "comparisons": [],
+      "entryBlock": "app.py#status:25$b0",
+      "blocks": [
+        {
+          "id": "app.py#status:25$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#status:25$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#load_order:29",
+      "name": "load_order",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 29,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "order_id",
+          "valueId": "app.py#load_order:29$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#load_order:29$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 16
+          },
+          "name": "order_id"
+        },
+        {
+          "id": "app.py#load_order:29$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 24
+          }
+        },
+        {
+          "id": "app.py#load_order:29$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 11
+          },
+          "name": "RuntimeError"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "app.py#load_order:29$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 11
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "RuntimeError",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#load_order:29$v1"
+            }
+          ],
+          "resultValueId": "app.py#load_order:29$v2",
+          "block": "app.py#load_order:29$b0"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "entryBlock": "app.py#load_order:29$b0",
+      "blocks": [
+        {
+          "id": "app.py#load_order:29$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 1
+          },
+          "terminator": "throw"
+        },
+        {
+          "id": "app.py#load_order:29$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "helpers.py#run_ping:4",
+      "name": "run_ping",
+      "module": "helpers.py",
+      "loc": {
+        "file": "helpers.py",
+        "line": 4,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "host",
+          "valueId": "helpers.py#run_ping:4$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "helpers.py#run_ping:4$v0",
+          "kind": "param",
+          "loc": {
+            "file": "helpers.py",
+            "line": 4,
+            "column": 14
+          },
+          "name": "host"
+        },
+        {
+          "id": "helpers.py#run_ping:4$v1",
+          "kind": "local",
+          "loc": {
+            "file": "helpers.py",
+            "line": 5,
+            "column": 11
+          },
+          "name": "f-string"
+        },
+        {
+          "id": "helpers.py#run_ping:4$v2",
+          "kind": "local",
+          "loc": {
+            "file": "helpers.py",
+            "line": 5,
+            "column": 5
+          },
+          "name": "cmd"
+        },
+        {
+          "id": "helpers.py#run_ping:4$v3",
+          "kind": "global",
+          "loc": {
+            "file": "helpers.py",
+            "line": 6,
+            "column": 5
+          },
+          "name": "os"
+        },
+        {
+          "id": "helpers.py#run_ping:4$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "helpers.py",
+            "line": 6,
+            "column": 5
+          },
+          "name": "os.system"
+        }
+      ],
+      "flows": [
+        {
+          "from": "helpers.py#run_ping:4$v0",
+          "to": "helpers.py#run_ping:4$v1",
+          "kind": "template",
+          "loc": {
+            "file": "helpers.py",
+            "line": 5,
+            "column": 11
+          }
+        },
+        {
+          "from": "helpers.py#run_ping:4$v1",
+          "to": "helpers.py#run_ping:4$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "helpers.py",
+            "line": 5,
+            "column": 5
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "helpers.py#run_ping:4$c0",
+          "loc": {
+            "file": "helpers.py",
+            "line": 6,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "os.system",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "helpers.py#run_ping:4$v2"
+            }
+          ],
+          "resultValueId": "helpers.py#run_ping:4$v4",
+          "block": "helpers.py#run_ping:4$b0",
+          "method": "system",
+          "receiverValueId": "helpers.py#run_ping:4$v3"
+        }
+      ],
+      "returns": [
+        "helpers.py#run_ping:4$v2"
+      ],
+      "comparisons": [],
+      "entryBlock": "helpers.py#run_ping:4$b0",
+      "blocks": [
+        {
+          "id": "helpers.py#run_ping:4$b0",
+          "successors": [],
+          "loc": {
+            "file": "helpers.py",
+            "line": 4,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "helpers.py#run_ping:4$b1",
+          "successors": [],
+          "loc": {
+            "file": "helpers.py",
+            "line": 7,
+            "column": 5
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "app.py#ping:9",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/ping"
+      }
+    },
+    {
+      "functionId": "app.py#get_order:17",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/orders/<order_id>"
+      }
+    },
+    {
+      "functionId": "app.py#status:25",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/status"
+      }
+    }
+  ]
+}
