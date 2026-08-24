@@ -1,0 +1,54 @@
+{
+  "corpus": "express-command-injection",
+  "description": "Interprocedural, cross-module command injection through Express request data. Also contains reflected XSS: the same caller-supplied value comes back out in a text/html response body. One source, two sinks, two weaknesses, one policy.",
+  "expected": [
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "exec-helper.ts",
+      "sinkLine": 7,
+      "sourceLabel": "req.query.host",
+      "confidence": "high",
+      "note": "crosses a function and a module boundary"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "exec-helper.ts",
+      "sinkLine": 12,
+      "sourceLabel": "req.query.domain",
+      "confidence": "high",
+      "note": "encodeURIComponent is a URL encoder and must not clear a shell sink"
+    },
+    {
+      "cwe": "CWE-73",
+      "sinkFile": "app.ts",
+      "sinkLine": 40,
+      "sourceLabel": "req.query.bin",
+      "confidence": "high",
+      "note": "tainted executable path; the channel determines the weakness identity, not the policy"
+    },
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "app.ts",
+      "sinkLine": 12,
+      "sourceLabel": "req.query.host",
+      "confidence": "medium",
+      "note": "the command output is echoed into a text/html body"
+    },
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "app.ts",
+      "sinkLine": 20,
+      "sourceLabel": "req.query.domain",
+      "confidence": "medium",
+      "note": "encodeURIComponent does not neutralize markup either"
+    },
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "app.ts",
+      "sinkLine": 32,
+      "sourceLabel": "req.query.host",
+      "confidence": "medium",
+      "note": "reached through a second route sharing the helper"
+    }
+  ]
+}

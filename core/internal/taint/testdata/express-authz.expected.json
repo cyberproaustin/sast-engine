@@ -1,0 +1,5 @@
+{
+  "corpus": "express-authz",
+  "description": "Route group with a shared access-control convention and one deviation. No taint findings: there are no dangerous sinks here, so the taint corpus expectation is empty by design.",
+  "expected": []
+}

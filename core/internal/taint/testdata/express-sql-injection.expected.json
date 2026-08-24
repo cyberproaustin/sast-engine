@@ -1,0 +1,22 @@
+{
+  "corpus": "express-sql-injection",
+  "description": "Untrusted data reaching the SQL argument of a query API, by concatenation and by template literal. The third route passes the same untrusted value to the same API as a PARAMETER and is not a finding: the channel names only the argument that is interpreted, so a parameterized call cannot match. That is a property of describing the destination accurately, not an exception written into the policy. The fourth route runs a constant query and is silent because nothing untrusted reaches it.",
+  "expected": [
+    {
+      "cwe": "CWE-89",
+      "sinkFile": "app.ts",
+      "sinkLine": 21,
+      "sourceLabel": "req.query.login",
+      "confidence": "medium",
+      "note": "concatenated into the statement"
+    },
+    {
+      "cwe": "CWE-89",
+      "sinkFile": "app.ts",
+      "sinkLine": 31,
+      "sourceLabel": "req.query.owner",
+      "confidence": "medium",
+      "note": "a template literal is still concatenation"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "corpus": "express-async",
+  "description": "Taint crossing async, promise-continuation, and higher-order boundaries.",
+  "expected": [
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "app.ts",
+      "sinkLine": 14,
+      "sourceLabel": "req.query.host",
+      "confidence": "high",
+      "note": "named route handler; taint survives await and a method call on itself"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "app.ts",
+      "sinkLine": 26,
+      "sourceLabel": "req.query.target",
+      "confidence": "high",
+      "note": "sink lives inside a .then() continuation"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "app.ts",
+      "sinkLine": 40,
+      "sourceLabel": "req.query.hosts",
+      "confidence": "high",
+      "note": "taint flows from the array into the forEach callback parameter"
+    }
+  ]
+}

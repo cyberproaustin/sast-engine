@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "entryPoints": [
+    {
+      "match": { "pathPrefix": "/api/health" },
+      "publicByDesign": true,
+      "reason": "liveness probe; returns no data and is reached by the load balancer before auth"
+    },
+    {
+      "match": { "pathPrefix": "/api/admin" },
+      "requiresControls": ["authorization"],
+      "reason": "administrative surface; authentication alone does not establish privilege"
+    },
+    {
+      "match": { "pathPrefix": "/api/billing" },
+      "requiresControls": ["authorization"],
+      "reason": "not built yet; stated now so it is enforced the day it lands"
+    }
+  ]
+}

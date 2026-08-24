@@ -1,0 +1,575 @@
+{
+  "irVersion": "0.6.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "app.py",
+      "path": "app.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "app.py#report:29",
+      "name": "report",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 29,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#report:29$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 12
+          }
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [
+        "app.py#report:29$v0"
+      ],
+      "comparisons": [],
+      "entryBlock": "app.py#report:29$b0",
+      "blocks": [
+        {
+          "id": "app.py#report:29$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#report:29$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#register:33",
+      "name": "register",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 33,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "bp",
+          "valueId": "app.py#register:33$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#register:33$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 14
+          },
+          "name": "bp"
+        },
+        {
+          "id": "app.py#register:33$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 21
+          }
+        },
+        {
+          "id": "app.py#register:33$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 57
+          }
+        },
+        {
+          "id": "app.py#register:33$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 42
+          },
+          "name": "Search.as_view"
+        },
+        {
+          "id": "app.py#register:33$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 5
+          },
+          "name": "bp.add_url_rule"
+        },
+        {
+          "id": "app.py#register:33$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 21
+          }
+        },
+        {
+          "id": "app.py#register:33$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 32
+          }
+        },
+        {
+          "id": "app.py#register:33$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 5
+          },
+          "name": "bp.add_url_rule"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "app.py#register:33$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 42
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "Search.as_view",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#register:33$v2"
+            }
+          ],
+          "resultValueId": "app.py#register:33$v3",
+          "block": "app.py#register:33$b0",
+          "method": "as_view"
+        },
+        {
+          "id": "app.py#register:33$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "bp.add_url_rule",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#register:33$v1"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#register:33$v3"
+            }
+          ],
+          "resultValueId": "app.py#register:33$v4",
+          "block": "app.py#register:33$b0",
+          "method": "add_url_rule",
+          "receiverValueId": "app.py#register:33$v0"
+        },
+        {
+          "id": "app.py#register:33$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "bp.add_url_rule",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#register:33$v5"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#register:33$v6"
+            }
+          ],
+          "resultValueId": "app.py#register:33$v7",
+          "block": "app.py#register:33$b0",
+          "method": "add_url_rule",
+          "receiverValueId": "app.py#register:33$v0"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "entryBlock": "app.py#register:33$b0",
+      "blocks": [
+        {
+          "id": "app.py#register:33$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#get:20",
+      "name": "get",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 20,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "app.py#get:20$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#get:20$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 13
+          },
+          "name": "self"
+        },
+        {
+          "id": "app.py#get:20$v1",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 33
+          },
+          "name": "concat"
+        },
+        {
+          "id": "app.py#get:20$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 33
+          }
+        },
+        {
+          "id": "app.py#get:20$v3",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 45
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#get:20$v4",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 45
+          },
+          "base": "app.py#get:20$v3",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "app.py#get:20$v5",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 45
+          },
+          "name": "[index]",
+          "base": "app.py#get:20$v4"
+        },
+        {
+          "id": "app.py#get:20$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 70
+          }
+        },
+        {
+          "id": "app.py#get:20$v7",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 9
+          },
+          "name": "subprocess"
+        },
+        {
+          "id": "app.py#get:20$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 9
+          },
+          "name": "subprocess.check_output"
+        },
+        {
+          "id": "app.py#get:20$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 16
+          }
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#get:20$v2",
+          "to": "app.py#get:20$v1",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 33
+          }
+        },
+        {
+          "from": "app.py#get:20$v3",
+          "to": "app.py#get:20$v4",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 45
+          }
+        },
+        {
+          "from": "app.py#get:20$v4",
+          "to": "app.py#get:20$v5",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 45
+          }
+        },
+        {
+          "from": "app.py#get:20$v5",
+          "to": "app.py#get:20$v1",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 33
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#get:20$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "subprocess.check_output",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#get:20$v1"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#get:20$v6"
+            }
+          ],
+          "resultValueId": "app.py#get:20$v8",
+          "block": "app.py#get:20$b0",
+          "method": "check_output",
+          "receiverValueId": "app.py#get:20$v7"
+        }
+      ],
+      "returns": [
+        "app.py#get:20$v9"
+      ],
+      "comparisons": [],
+      "entryBlock": "app.py#get:20$b0",
+      "blocks": [
+        {
+          "id": "app.py#get:20$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#get:20$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#post:25",
+      "name": "post",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 25,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "app.py#post:25$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#post:25$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 14
+          },
+          "name": "self"
+        },
+        {
+          "id": "app.py#post:25$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 16
+          }
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [
+        "app.py#post:25$v1"
+      ],
+      "comparisons": [],
+      "entryBlock": "app.py#post:25$b0",
+      "blocks": [
+        {
+          "id": "app.py#post:25$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#post:25$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 9
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "app.py#get:20",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/search"
+      }
+    },
+    {
+      "functionId": "app.py#post:25",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "POST",
+        "path": "/search"
+      }
+    },
+    {
+      "functionId": "app.py#report:29",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/report"
+      }
+    }
+  ]
+}

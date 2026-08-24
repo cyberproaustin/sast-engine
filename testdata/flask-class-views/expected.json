@@ -1,0 +1,14 @@
+{
+  "corpus": "flask-class-views",
+  "description": "Flask registers routes in more ways than one decorator. A MethodView subclass is dispatched by verb, so `get` handles GET whatever the registration looks like, and `add_url_rule` registers a plain function with no decorator anywhere. Knowing only `@app.route` enumerated zero entry points of a 1,012-function Flask forum while the frontend declared Flask support, which is the worst shape a capability gap can take: the declaration says the engine can see it, the surface says there is nothing there, and the report says clean. The finding here is reachable only because the route was enumerated.",
+  "expected": [
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "app.py",
+      "sinkLine": 22,
+      "sourceLabel": "flask.request.args",
+      "confidence": "high",
+      "note": "reached through a MethodView verb method that no decorator registers"
+    }
+  ]
+}

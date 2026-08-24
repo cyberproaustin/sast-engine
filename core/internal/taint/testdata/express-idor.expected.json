@@ -1,0 +1,30 @@
+{
+  "corpus": "express-idor",
+  "description": "Missing ownership checks. The judgement is relational: a caller-supplied identifier selects a record and the handler never relates it to the caller's identity. Read and delete are both covered by one policy that mentions neither. Confidence is high because this corpus stubs Prisma as a local module, so every hop resolves; against the real external package the same findings would be medium.",
+  "expected": [
+    {
+      "cwe": "CWE-639",
+      "sinkFile": "app.ts",
+      "sinkLine": 10,
+      "sourceLabel": "req.params.id",
+      "confidence": "high",
+      "note": "read without ownership check"
+    },
+    {
+      "cwe": "CWE-639",
+      "sinkFile": "app.ts",
+      "sinkLine": 17,
+      "sourceLabel": "req.params.id",
+      "confidence": "high",
+      "note": "delete without ownership check; same policy, no rule about deletion"
+    },
+    {
+      "cwe": "CWE-639",
+      "sinkFile": "app.ts",
+      "sinkLine": 40,
+      "sourceLabel": "req.params.id",
+      "confidence": "high",
+      "note": "check present but ineffective: the response happens on both branches, so the read is not control dependent on it"
+    }
+  ]
+}

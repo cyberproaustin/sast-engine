@@ -1,0 +1,10 @@
+{
+  "corpus": "nestjs-controller",
+  "description": "Decorator-declared routes with parameter-injected request data. A second registration shape for the same language, found by running against real repositories.",
+  "expected": [
+    { "cwe": "CWE-78", "sinkFile": "orders.controller.ts", "sinkLine": 14, "sourceLabel": "id",
+      "confidence": "high", "note": "@Param injected directly; the parameter is the source" },
+    { "cwe": "CWE-78", "sinkFile": "orders.controller.ts", "sinkLine": 21, "sourceLabel": "q",
+      "confidence": "high", "note": "@Query" }
+  ]
+}

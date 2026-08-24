@@ -1,0 +1,14 @@
+{
+  "corpus": "nestjs-destructured-params",
+  "description": "Destructured parameters keep the classification their decorator gives them. The first route scopes its query by an identity that arrives as `@AuthWorkspace() { id: workspaceId }` and is not a finding; the second reaches a selector with untrusted data that arrives as `@Param() { id }` and is. Both were invisible before: the lowering walked parameters and returned early for anything that was not a plain identifier, which lost the identity classification in one direction and the untrusted one in the other. One production codebase writes the identity form 142 times out of 462.",
+  "expected": [
+    {
+      "cwe": "CWE-639",
+      "sinkFile": "orders.controller.ts",
+      "sinkLine": 31,
+      "sourceLabel": "id",
+      "confidence": "medium",
+      "note": "untrusted data through a destructured binding, reaching a selector unscoped"
+    }
+  ]
+}

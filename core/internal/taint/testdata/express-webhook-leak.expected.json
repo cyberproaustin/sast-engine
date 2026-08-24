@@ -1,0 +1,14 @@
+{
+  "corpus": "express-webhook-leak",
+  "description": "Generalization test for ADR-012: a defect class nobody enumerated, caught by describing a new channel and reusing the existing policy. No new policy, no engine change.",
+  "expected": [
+    {
+      "cwe": "CWE-209",
+      "sinkFile": "app.ts",
+      "sinkLine": 16,
+      "sourceLabel": "err",
+      "confidence": "medium",
+      "note": "internal-error reaching a thirdparty-visible channel; the same policy that covers HTTP responses"
+    }
+  ]
+}

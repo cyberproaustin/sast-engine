@@ -1,0 +1,19 @@
+# Scan-time artifacts. The IR is regenerated from source every run and is often
+# hundreds of megabytes.
+.ir.json
+*.sarif
+.sast-baseline.json
+
+# Dependencies and caches
+node_modules/
+__pycache__/
+*.pyc
+
+# Go build and test output
+*.test
+*.out
+
+# The raw CWE release: ~18MB, downloadable from cwe.mitre.org, and reproducible.
+# What the build actually embeds is the generated cwe.json, which IS committed:
+# without it the ledger cannot compile.
+catalog/cwec_v*.xml

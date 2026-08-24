@@ -1,0 +1,13 @@
+{
+  "irVersion": "0.6.0",
+  "frontend": {"name":"typescript","version":"0.1.0","capabilities":{"typeChecker":true,"interprocedural":true,"crossModule":true,"controlFlow":true,"frameworkModels":["express","nestjs"]}},
+  "modules": [
+    {"id":"orders.controller.ts","path":"orders.controller.ts"}
+  ],
+  "functions": [
+    {"id":"orders.controller.ts#remove:18","name":"remove","module":"orders.controller.ts","loc":{"file":"orders.controller.ts","line":18,"column":3},"params":[{"index":0,"name":"id","valueId":"orders.controller.ts#remove:18$v0"},{"index":1,"name":"user","valueId":"orders.controller.ts#remove:18$v1"}],"values":[{"id":"orders.controller.ts#remove:18$v0","kind":"untrusted-param","loc":{"file":"orders.controller.ts","line":19,"column":16},"name":"id"},{"id":"orders.controller.ts#remove:18$v1","kind":"param","loc":{"file":"orders.controller.ts","line":19,"column":41},"name":"user"},{"id":"orders.controller.ts#remove:18$v2","kind":"local","loc":{"file":"orders.controller.ts","line":20,"column":31},"name":"{object}"},{"id":"orders.controller.ts#remove:18$v3","kind":"local","loc":{"file":"orders.controller.ts","line":20,"column":40},"name":"{object}"},{"id":"orders.controller.ts#remove:18$v4","kind":"call-result","loc":{"file":"orders.controller.ts","line":20,"column":11},"name":"prisma.order.delete"}],"flows":[{"from":"orders.controller.ts#remove:18$v0","to":"orders.controller.ts#remove:18$v3","kind":"assign","loc":{"file":"orders.controller.ts","line":20,"column":40}},{"from":"orders.controller.ts#remove:18$v3","to":"orders.controller.ts#remove:18$v2","kind":"assign","loc":{"file":"orders.controller.ts","line":20,"column":31}}],"calls":[{"id":"orders.controller.ts#remove:18$c0","loc":{"file":"orders.controller.ts","line":20,"column":11},"callee":{"kind":"external","symbol":"prisma.order.delete","resolution":"probable"},"args":[{"index":0,"valueId":"orders.controller.ts#remove:18$v2"}],"method":"delete","receiverType":"__type","resultValueId":"orders.controller.ts#remove:18$v4","block":"orders.controller.ts#remove:18$b0"}],"returns":[],"comparisons":[],"entryBlock":"orders.controller.ts#remove:18$b0","blocks":[{"id":"orders.controller.ts#remove:18$b0","successors":[],"loc":{"file":"orders.controller.ts","line":18,"column":3}}]}
+  ],
+  "entryPoints": [
+    {"functionId":"orders.controller.ts#remove:18","kind":"http-route","framework":"nestjs","detail":{"method":"DELETE","path":"/orders/:id","module":"orders.controller.ts"},"loc":{"file":"orders.controller.ts","line":18,"column":3},"middleware":[],"unresolvedParams":["UserSession"]}
+  ]
+}

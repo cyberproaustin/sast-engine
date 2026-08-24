@@ -1,0 +1,5 @@
+{
+  "corpus": "nestjs-unresolved-input",
+  "description": "An entry point given an injected input whose defining decorator is outside the scanned tree. No finding is claimed: whether the caller's identity was consulted turns on an input the engine could not read, and asserting it was not would be a statement about the scan rather than about the code. The engine reports what it could not resolve instead. Scanning one package of a monorepo without its siblings produced 66 findings of exactly this kind before the engine could say so.",
+  "expected": []
+}

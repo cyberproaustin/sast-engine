@@ -1,0 +1,115 @@
+package taint_test
+
+import (
+	"os"
+	"testing"
+
+	"github.com/cyberproaustin/sast-engine/core/internal/bench"
+	"github.com/cyberproaustin/sast-engine/core/internal/ir"
+	"github.com/cyberproaustin/sast-engine/core/internal/model"
+	"github.com/cyberproaustin/sast-engine/core/internal/scan"
+)
+
+// Corpora are regenerated with `make testdata`. Adding a corpus here is how a new
+// capability gets a permanent regression check.
+var corpora = []string{
+	"express-command-injection",
+	"express-async",
+	"clean-express",
+	"express-authz",
+	"express-error-leak",
+	"express-webhook-leak",
+	"express-idor",
+	"express-real-shapes",
+	"nestjs-controller",
+	"unanchored-decorator",
+	"nestjs-ownership",
+	"nestjs-unresolved-input",
+	"express-code-interpreter",
+	"express-sql-injection",
+	"express-xss",
+	"nestjs-destructured-params",
+	"flask-command-injection",
+	"flask-container-update",
+	"flask-sql-injection",
+	"flask-class-views",
+}
+
+func scoreCorpus(t *testing.T, name string) bench.Report {
+	t.Helper()
+
+	c, err := bench.LoadCorpus("testdata/" + name + ".expected.json")
+	if err != nil {
+		t.Fatalf("load corpus: %v", err)
+	}
+
+	f, err := os.Open("testdata/" + name + ".ir.json")
+	if err != nil {
+		t.Fatalf("open corpus IR: %v", err)
+	}
+	defer f.Close()
+
+	doc, err := ir.Load(f)
+	if err != nil {
+		t.Fatalf("load corpus IR: %v", err)
+	}
+
+	// Score what the tool actually reports for this corpus, declarations included:
+	// a corpus's policy is part of the corpus.
+	return bench.Score(c, scan.Run(doc, model.Builtin(), loadPolicy(t, name)).Taint)
+}
+
+// The whole suite, scored. Precision and recall are asserted per corpus so a
+// regression in either direction fails the build.
+func TestCorpusScores(t *testing.T) {
+	for _, name := range corpora {
+		t.Run(name, func(t *testing.T) {
+			rep := scoreCorpus(t, name)
+			t.Log(rep.Summary())
+
+			for _, fp := range rep.FalsePositives {
+				t.Errorf("FALSE POSITIVE: %s at %s from %s\n  path: %d hops",
+					fp.CWE, fp.SinkLoc, fp.SourceLabel, len(fp.Path))
+			}
+			for _, fn := range rep.FalseNegatives {
+				t.Errorf("FALSE NEGATIVE: %s (%s)", fn, fn.Note)
+			}
+			for _, m := range rep.WrongConfidence {
+				t.Errorf("CONFIDENCE DRIFT: %s expected %s, got %s",
+					m.Expectation, m.Expectation.Confidence, m.Got)
+			}
+		})
+	}
+}
+
+// The false-positive corpus is the denominator for every precision claim. It is
+// asserted separately because "produces nothing on safe code" is a distinct
+// property from "finds things in vulnerable code", and it is the one that decides
+// whether anyone leaves the tool switched on.
+func TestCleanCorpusProducesNothing(t *testing.T) {
+	rep := scoreCorpus(t, "clean-express")
+
+	if rep.NotApplicable {
+		t.Fatal("clean corpus did not run; an unrun analysis is not a clean result")
+	}
+	if len(rep.FalsePositives) != 0 {
+		for _, fp := range rep.FalsePositives {
+			t.Errorf("false positive on safe code: %s at %s from %s",
+				fp.CWE, fp.SinkLoc, fp.SourceLabel)
+		}
+		t.Fatalf("precision %.2f on the clean corpus", rep.Precision())
+	}
+}
+
+// Higher-order and async flow: these are the boundaries a first-order engine loses,
+// and they are most of what Node code is made of.
+func TestAsyncAndHigherOrderFlowsAreFound(t *testing.T) {
+	rep := scoreCorpus(t, "express-async")
+
+	if rep.Recall() != 1 {
+		t.Errorf("recall %.2f on async corpus; missed: %v", rep.Recall(), rep.FalseNegatives)
+	}
+	if rep.TruePositives != 3 {
+		t.Errorf("want 3 true positives (await, .then continuation, forEach callback), got %d", rep.TruePositives)
+	}
+}
