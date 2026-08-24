@@ -166,6 +166,18 @@ func writeCatalogCoverage(b *strings.Builder) {
 		counts[ledger.Abstract], counts[ledger.Undecidable])
 	fmt.Fprintf(b, "  %d out of scope for these languages, %d decidable and not built\n",
 		counts[ledger.OutOfScope], counts[ledger.NotBuilt])
+
+	// The catalog carries its own priority list, so what matters most is read from MITRE
+	// rather than argued about here. Counted against the members a rule could be written
+	// for: several are C memory-safety weaknesses no frontend here will ever parse, and
+	// counting those as gaps would make the number meaningless in the flattering
+	// direction as much as the unflattering one.
+	if top, total := ledger.CoveredOnList(ledger.TopTwentyFive); total > 0 {
+		fmt.Fprintf(b, "  of the CWE Top 25 that apply to these languages: %d of %d asserted\n", top, total)
+		for _, e := range ledger.MissingFromList(ledger.TopTwentyFive) {
+			fmt.Fprintf(b, "    not built: %-9s %s\n", e.ID, e.Name)
+		}
+	}
 }
 
 func describeControls(e surface.EntryFacts) string {

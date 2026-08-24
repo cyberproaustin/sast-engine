@@ -30,6 +30,21 @@ def main() -> int:
     catalog = src[-1]
     root = ET.parse(catalog).getroot()
 
+    # The catalog carries its own priority lists as views, so which weaknesses matter most
+    # is read from MITRE rather than decided here. Membership is recorded per entry, and
+    # the report uses it to say how much of each list the engine covers.
+    PRIORITY_VIEWS = {
+        "1435": "cwe-top-25-2025",
+        "1450": "owasp-top-ten-2025",
+    }
+    memberships: dict[str, list[str]] = {}
+    for view in root.findall(".//c:View", NS):
+        label = PRIORITY_VIEWS.get(view.get("ID"))
+        if not label:
+            continue
+        for member in view.findall(".//c:Has_Member", NS):
+            memberships.setdefault("CWE-" + member.get("CWE_ID"), []).append(label)
+
     entries = []
     for w in root.findall(".//c:Weakness", NS):
         langs = set()
@@ -51,6 +66,7 @@ def main() -> int:
             "staticDetectable": any("Static Analysis" in m for m in methods),
             "languages": sorted(x for x in langs if x),
             "languageAgnostic": (not langs) or ("Not Language-Specific" in langs),
+            "lists": sorted(memberships.get("CWE-" + w.get("ID"), [])),
         })
 
     entries.sort(key=lambda e: int(e["id"].split("-")[1]))
@@ -73,6 +89,10 @@ def main() -> int:
     print(f"  {len(entries)} weaknesses")
     print(f"  {len(scoped)} in scope (static-detectable, not deprecated, our languages)")
     print(f"  {len(shapes)} of those are Base or Variant, i.e. have a code shape")
+    for label in sorted(set(l for e in entries for l in e["lists"])):
+        n = sum(1 for e in entries if label in e["lists"])
+        ours = sum(1 for e in scoped if label in e["lists"])
+        print(f"  {label}: {n} members, {ours} in scope for this engine")
     return 0
 
 
