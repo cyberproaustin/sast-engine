@@ -14,6 +14,7 @@ package callshape
 
 import (
 	"fmt"
+	"sort"
 	"strconv"
 
 	"github.com/cyberproaustin/sast-engine/core/internal/ir"
@@ -38,8 +39,8 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 				if !targets(shape, c) {
 					continue
 				}
-				lit, ok := literalAt(c, shape.ArgIndex)
-				if !ok || !shape.Matches(lit) {
+				lit, ok := match(c, shape)
+				if !ok {
 					continue
 				}
 				out = append(out, finding(ix, fn, c, shape, lit))
@@ -56,17 +57,33 @@ func targets(shape model.CallShape, c *ir.Call) bool {
 	return shape.Method != "" && c.Method == shape.Method
 }
 
-// literalAt reads a positional argument, or scans the keyword arguments when the index is
-// negative. Keyword arguments are recorded as "name=value" and their positions are not
-// meaningful, so the whole set is searched for the one that was named.
-func literalAt(c *ir.Call, index int) (string, bool) {
-	if index >= 0 {
-		v, ok := c.ArgLiterals[index]
-		return v, ok
+// match finds the literal this shape forbids, if the call carries one.
+//
+// A positional argument is read by index. A negative index means a keyword argument, and
+// every one of them is checked rather than the first: Go map iteration is randomized, so
+// reading whichever came out first made `requests.get(url, timeout=5, verify=False)`
+// report or not report depending on the run. A scanner that answers differently on
+// identical input is worse than one that answers wrongly, because the wrong answer can at
+// least be investigated.
+func match(c *ir.Call, shape model.CallShape) (string, bool) {
+	if shape.ArgIndex >= 0 {
+		lit, ok := c.ArgLiterals[shape.ArgIndex]
+		if ok && shape.Matches(lit) {
+			return lit, true
+		}
+		return "", false
 	}
-	for i, v := range c.ArgLiterals {
+	// Deterministic: the keys are visited in a fixed order.
+	keys := make([]int, 0, len(c.ArgLiterals))
+	for i := range c.ArgLiterals {
 		if i < 0 {
-			return v, true
+			keys = append(keys, i)
+		}
+	}
+	sort.Ints(keys)
+	for _, k := range keys {
+		if lit := c.ArgLiterals[k]; shape.Matches(lit) {
+			return lit, true
 		}
 	}
 	return "", false

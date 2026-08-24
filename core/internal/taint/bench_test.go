@@ -37,6 +37,7 @@ var corpora = []string{
 	"flask-container-update",
 	"flask-sql-injection",
 	"flask-class-views",
+	"python-tls-verification",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {
