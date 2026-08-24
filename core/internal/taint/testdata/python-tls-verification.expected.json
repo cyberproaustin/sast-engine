@@ -1,0 +1,30 @@
+{
+  "corpus": "python-tls-verification",
+  "description": "Certificate verification turned off by a written keyword, decidable with no dataflow at all. The second call places the disallowed keyword after two others, which is the case that caught a real bug: only the first keyword argument was being read, and Go randomizes map iteration, so the same source reported or did not depending on the run. The third call is ordinary and silent.",
+  "expected": [
+    {
+      "cwe": "CWE-295",
+      "sinkFile": "app.py",
+      "sinkLine": 17,
+      "sourceLabel": "\"verify=false\"",
+      "confidence": "high",
+      "note": "the keyword is written into the call"
+    },
+    {
+      "cwe": "CWE-295",
+      "sinkFile": "app.py",
+      "sinkLine": 22,
+      "sourceLabel": "\"verify=false\"",
+      "confidence": "high",
+      "note": "not the first keyword; this is the case that exposed the non-determinism"
+    },
+    {
+      "cwe": "CWE-295",
+      "sinkFile": "app.py",
+      "sinkLine": 30,
+      "sourceLabel": "\"verify=false\"",
+      "confidence": "high",
+      "note": "the same shape on a different method"
+    }
+  ]
+}

@@ -1,0 +1,562 @@
+{
+  "irVersion": "0.7.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "app.py",
+      "path": "app.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "app.py#fetch_insecure:16",
+      "name": "fetch_insecure",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 16,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "url",
+          "valueId": "app.py#fetch_insecure:16$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#fetch_insecure:16$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 16,
+            "column": 20
+          },
+          "name": "url"
+        },
+        {
+          "id": "app.py#fetch_insecure:16$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 37
+          }
+        },
+        {
+          "id": "app.py#fetch_insecure:16$v2",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 12
+          },
+          "name": "requests"
+        },
+        {
+          "id": "app.py#fetch_insecure:16$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 12
+          },
+          "name": "requests.get"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "app.py#fetch_insecure:16$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "requests.get",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#fetch_insecure:16$v0"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#fetch_insecure:16$v1"
+            }
+          ],
+          "resultValueId": "app.py#fetch_insecure:16$v3",
+          "block": "app.py#fetch_insecure:16$b0",
+          "method": "get",
+          "argLiterals": {
+            "-1": "verify=false"
+          },
+          "receiverValueId": "app.py#fetch_insecure:16$v2"
+        }
+      ],
+      "returns": [
+        "app.py#fetch_insecure:16$v3"
+      ],
+      "comparisons": [],
+      "entryBlock": "app.py#fetch_insecure:16$b0",
+      "blocks": [
+        {
+          "id": "app.py#fetch_insecure:16$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 16,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#fetch_insecure:16$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#fetch_insecure_with_neighbours:20",
+      "name": "fetch_insecure_with_neighbours",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 20,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "url",
+          "valueId": "app.py#fetch_insecure_with_neighbours:20$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#fetch_insecure_with_neighbours:20$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 36
+          },
+          "name": "url"
+        },
+        {
+          "id": "app.py#fetch_insecure_with_neighbours:20$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 38
+          }
+        },
+        {
+          "id": "app.py#fetch_insecure_with_neighbours:20$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 49
+          },
+          "name": "{dict}"
+        },
+        {
+          "id": "app.py#fetch_insecure_with_neighbours:20$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 60
+          }
+        },
+        {
+          "id": "app.py#fetch_insecure_with_neighbours:20$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 76
+          }
+        },
+        {
+          "id": "app.py#fetch_insecure_with_neighbours:20$v5",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 12
+          },
+          "name": "requests"
+        },
+        {
+          "id": "app.py#fetch_insecure_with_neighbours:20$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 12
+          },
+          "name": "requests.get"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#fetch_insecure_with_neighbours:20$v3",
+          "to": "app.py#fetch_insecure_with_neighbours:20$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 49
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#fetch_insecure_with_neighbours:20$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "requests.get",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#fetch_insecure_with_neighbours:20$v0"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#fetch_insecure_with_neighbours:20$v1"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#fetch_insecure_with_neighbours:20$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#fetch_insecure_with_neighbours:20$v4"
+            }
+          ],
+          "resultValueId": "app.py#fetch_insecure_with_neighbours:20$v6",
+          "block": "app.py#fetch_insecure_with_neighbours:20$b0",
+          "method": "get",
+          "argLiterals": {
+            "-1": "timeout=5",
+            "-3": "verify=false"
+          },
+          "receiverValueId": "app.py#fetch_insecure_with_neighbours:20$v5"
+        }
+      ],
+      "returns": [
+        "app.py#fetch_insecure_with_neighbours:20$v6"
+      ],
+      "comparisons": [],
+      "entryBlock": "app.py#fetch_insecure_with_neighbours:20$b0",
+      "blocks": [
+        {
+          "id": "app.py#fetch_insecure_with_neighbours:20$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#fetch_insecure_with_neighbours:20$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#fetch:25",
+      "name": "fetch",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 25,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "url",
+          "valueId": "app.py#fetch:25$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#fetch:25$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 11
+          },
+          "name": "url"
+        },
+        {
+          "id": "app.py#fetch:25$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 38
+          }
+        },
+        {
+          "id": "app.py#fetch:25$v2",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 12
+          },
+          "name": "requests"
+        },
+        {
+          "id": "app.py#fetch:25$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 12
+          },
+          "name": "requests.get"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "app.py#fetch:25$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "requests.get",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#fetch:25$v0"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#fetch:25$v1"
+            }
+          ],
+          "resultValueId": "app.py#fetch:25$v3",
+          "block": "app.py#fetch:25$b0",
+          "method": "get",
+          "argLiterals": {
+            "-1": "timeout=5"
+          },
+          "receiverValueId": "app.py#fetch:25$v2"
+        }
+      ],
+      "returns": [
+        "app.py#fetch:25$v3"
+      ],
+      "comparisons": [],
+      "entryBlock": "app.py#fetch:25$b0",
+      "blocks": [
+        {
+          "id": "app.py#fetch:25$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#fetch:25$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#post_insecure:29",
+      "name": "post_insecure",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 29,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "url",
+          "valueId": "app.py#post_insecure:29$v0"
+        },
+        {
+          "index": 1,
+          "name": "body",
+          "valueId": "app.py#post_insecure:29$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#post_insecure:29$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 19
+          },
+          "name": "url"
+        },
+        {
+          "id": "app.py#post_insecure:29$v1",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 24
+          },
+          "name": "body"
+        },
+        {
+          "id": "app.py#post_insecure:29$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 49
+          }
+        },
+        {
+          "id": "app.py#post_insecure:29$v3",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 12
+          },
+          "name": "requests"
+        },
+        {
+          "id": "app.py#post_insecure:29$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 12
+          },
+          "name": "requests.post"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "app.py#post_insecure:29$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "requests.post",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#post_insecure:29$v0"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#post_insecure:29$v1"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#post_insecure:29$v2"
+            }
+          ],
+          "resultValueId": "app.py#post_insecure:29$v4",
+          "block": "app.py#post_insecure:29$b0",
+          "method": "post",
+          "argLiterals": {
+            "-2": "verify=false"
+          },
+          "receiverValueId": "app.py#post_insecure:29$v3"
+        }
+      ],
+      "returns": [
+        "app.py#post_insecure:29$v4"
+      ],
+      "comparisons": [],
+      "entryBlock": "app.py#post_insecure:29$b0",
+      "blocks": [
+        {
+          "id": "app.py#post_insecure:29$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#post_insecure:29$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 5
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": []
+}
