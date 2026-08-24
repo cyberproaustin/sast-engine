@@ -31,7 +31,8 @@ var claims = map[string]Claim{
 
 	// Decidable in principle, and honestly not built. Listed because naming the next ones
 	// is more useful than an empty space.
-	"CWE-22":  {NotBuilt, "no filesystem channels are described yet", nil},
+	"CWE-22": {Partial, "untrusted data choosing the path argument of a described filesystem API; path.basename and Flask's send_from_directory are recognized as confining it",
+		[]string{"untrusted-to-filesystem-path"}},
 	"CWE-918": {NotBuilt, "needs outbound-request channels and a notion of caller-chosen destination", nil},
 	"CWE-502": {NotBuilt, "needs deserialization channels", nil},
 	"CWE-328": {Partial, "a broken hash algorithm named as a literal in the call; an algorithm chosen at runtime is not matched and not guessed at",

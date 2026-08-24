@@ -402,6 +402,202 @@ func Builtin() Model {
 
 		// WHAT CHANNELS ARE. Visibility and interpreted context, not danger.
 		Channels: []Channel{
+			// The filesystem, addressed by a path the caller chose. A read is not an
+			// interpreter and this is not injection: nothing is executed, a different
+			// file is simply opened than the one intended. Its own context and its own
+			// policy, because it is its own judgement.
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Symbol: "fs.readFile", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file this opens",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Symbol: "fs/promises.readFile", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file this opens",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Symbol: "fs.readFileSync", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file this opens",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Symbol: "fs/promises.readFileSync", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file this opens",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Symbol: "fs.writeFile", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file this opens",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Symbol: "fs/promises.writeFile", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file this opens",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Symbol: "fs.writeFileSync", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file this opens",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Symbol: "fs/promises.writeFileSync", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file this opens",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Symbol: "fs.appendFile", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file this opens",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Symbol: "fs/promises.appendFile", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file this opens",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Symbol: "fs.appendFileSync", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file this opens",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Symbol: "fs/promises.appendFileSync", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file this opens",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Symbol: "fs.createReadStream", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file this opens",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Symbol: "fs/promises.createReadStream", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file this opens",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Symbol: "fs.createWriteStream", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file this opens",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Symbol: "fs/promises.createWriteStream", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file this opens",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Symbol: "fs.unlink", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file this opens",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Symbol: "fs/promises.unlink", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file this opens",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Symbol: "fs.unlinkSync", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file this opens",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Symbol: "fs/promises.unlinkSync", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file this opens",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Symbol: "fs.rm", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file this opens",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Symbol: "fs/promises.rm", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file this opens",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Symbol: "fs.rmSync", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file this opens",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Symbol: "fs/promises.rmSync", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file this opens",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Symbol: "fs.readdir", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file this opens",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Symbol: "fs/promises.readdir", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file this opens",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Symbol: "fs.readdirSync", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file this opens",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Symbol: "fs/promises.readdirSync", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file this opens",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Method: "sendFile", ReceiverIsEntryParam: 1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file sent to the caller",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Symbol: "builtins.open", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file this opens",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Symbol: "os.remove", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file this deletes",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Symbol: "flask.send_file", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-22",
+				Rationale: "the first argument names the file sent to the caller",
+			},
 			{
 				ID: "shell-command", Visibility: "internal", Context: "shell",
 				Symbol: "child_process.exec", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
@@ -717,6 +913,14 @@ func Builtin() Model {
 				CWE:      "CWE-639",
 			},
 			{
+				ID:            "untrusted-to-filesystem-path",
+				Class:         "untrusted-input",
+				DeniedContext: []string{"path"},
+				Reason:        "a caller must not be able to choose which file the application opens",
+				Finding:       "Untrusted input chooses a file path",
+				CWE:           "CWE-22",
+			},
+			{
 				ID:               "internal-detail-outward",
 				Class:            "internal-error",
 				DeniedVisibility: []string{"public", "thirdparty"},
@@ -727,6 +931,23 @@ func Builtin() Model {
 		},
 
 		Sanitizers: []SanitizerRule{
+			{
+				Symbol:   "path.basename",
+				Contexts: []string{"path"},
+				Note:     "reduces a path to its final segment, so no traversal survives it",
+			},
+			{
+				Symbol:   "os.path.basename",
+				Contexts: []string{"path"},
+				Note:     "reduces a path to its final segment, so no traversal survives it",
+			},
+			{
+				// Flask's own confined variant: it resolves against a directory and
+				// refuses anything that escapes it.
+				Symbol:   "flask.send_from_directory",
+				Contexts: []string{"path"},
+				Note:     "resolves within a fixed directory and rejects paths escaping it",
+			},
 			{
 				Symbol:   "escape-html",
 				Contexts: []string{"html"},
