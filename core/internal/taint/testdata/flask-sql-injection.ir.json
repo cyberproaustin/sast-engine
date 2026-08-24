@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.6.0",
+  "irVersion": "0.7.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -557,6 +557,9 @@
           "resultValueId": "app.py#find_user_by_id:22$v9",
           "block": "app.py#find_user_by_id:22$b0",
           "method": "execute",
+          "argLiterals": {
+            "0": "SELECT id, name FROM users WHERE id = %s"
+          },
           "receiverValueId": "app.py#find_user_by_id:22$v3"
         },
         {
@@ -749,6 +752,9 @@
           "resultValueId": "app.py#all_users:30$v5",
           "block": "app.py#all_users:30$b0",
           "method": "execute",
+          "argLiterals": {
+            "0": "SELECT id, name FROM users"
+          },
           "receiverValueId": "app.py#all_users:30$v3"
         },
         {

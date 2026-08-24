@@ -8,6 +8,7 @@ package scan
 
 import (
 	"github.com/cyberproaustin/sast-engine/core/internal/baseline"
+	"github.com/cyberproaustin/sast-engine/core/internal/callshape"
 	"github.com/cyberproaustin/sast-engine/core/internal/expectation"
 	"github.com/cyberproaustin/sast-engine/core/internal/ir"
 	"github.com/cyberproaustin/sast-engine/core/internal/model"
@@ -43,6 +44,24 @@ func (r Result) InScope(f taint.Finding) bool {
 	return r.Changed == nil || f.Touches(r.Changed)
 }
 
+// Gates reports whether this one finding should fail the run.
+//
+// The single definition. It was written out three times -- here, in the text report and in
+// the SARIF writer -- and the copies drifted the moment a new reason not to gate was
+// added, so a finding was excluded in the report and still failed the build.
+//
+// A finding gates only when all of it holds: the engine tied it to an entry point it
+// enumerated (ADR-009), the call graph resolved well enough to be confident (ADR-005), the
+// judgement did not turn on something the analysis cannot see, no baseline records it, and
+// it touches the change under review.
+func (r Result) Gates(f taint.Finding) bool {
+	return f.EntryAnchored &&
+		!f.DependsOnUse &&
+		f.Confidence.Gating() &&
+		r.IsNew(f) &&
+		r.InScope(f)
+}
+
 // IsNew reports whether a finding was absent from the baseline. With no baseline every
 // finding is new, which is the correct reading of "nothing has been recorded yet".
 func (r Result) IsNew(f taint.Finding) bool {
@@ -66,6 +85,11 @@ func Run(d *ir.IR, m model.Model, p *policy.Policy) Result {
 	s := surface.Build(d, m, p)
 	t := taint.Analyze(d, m)
 	exempted := applyDeclarations(&t, m, p)
+
+	// Weaknesses visible in a call's own arguments, with no dataflow involved. Appended
+	// to the same finding list because they are the same kind of claim to a reader, even
+	// though the analysis that produced them is a different one.
+	t.Findings = append(t.Findings, callshape.Analyze(d, m)...)
 
 	return Result{
 		IR:          d,
@@ -145,6 +169,9 @@ func (r Result) Gating() bool {
 		// A baselined finding does not gate either. It is still reported and still
 		// counted — the baseline records that a finding was already there, and makes
 		// no claim that it is acceptable.
+		if f.DependsOnUse {
+			continue
+		}
 		if f.EntryAnchored && f.Confidence.Gating() && r.IsNew(f) && r.InScope(f) {
 			return true
 		}

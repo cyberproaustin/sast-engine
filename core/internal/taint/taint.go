@@ -87,6 +87,9 @@ type Finding struct {
 	// actually enumerated. An unanchored finding is not an assertion over the
 	// surface (ADR-009): it is reported, but it never gates.
 	EntryAnchored bool
+	// DependsOnUse marks a finding whose judgement turns on what the result is used for,
+	// which the analysis that produced it cannot see. Reported, never gating.
+	DependsOnUse bool
 	// EntryHasNoInjectedIdentity marks a finding on an entry point that was handed no
 	// caller identity, in a program where identity IS injected elsewhere. Reported so
 	// that login flows, OAuth callbacks and invite redemptions can be recognized as a

@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.6.0",
+  "irVersion": "0.7.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -142,6 +142,9 @@
           "resultValueId": "app.py#ping:9$v3",
           "block": "app.py#ping:9$b0",
           "method": "get",
+          "argLiterals": {
+            "0": "host"
+          },
           "receiverValueId": "app.py#ping:9$v2"
         },
         {
@@ -469,7 +472,10 @@
             }
           ],
           "resultValueId": "app.py#status:25$v1",
-          "block": "app.py#status:25$b0"
+          "block": "app.py#status:25$b0",
+          "argLiterals": {
+            "0": "localhost"
+          }
         }
       ],
       "returns": [
@@ -567,7 +573,10 @@
             }
           ],
           "resultValueId": "app.py#load_order:29$v2",
-          "block": "app.py#load_order:29$b0"
+          "block": "app.py#load_order:29$b0",
+          "argLiterals": {
+            "0": "driver: relation \"orders\" does not exist"
+          }
         }
       ],
       "returns": [],

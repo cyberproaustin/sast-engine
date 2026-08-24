@@ -14,7 +14,11 @@
 // rewrite. Nothing here parses or understands a language.
 package model
 
-import "github.com/cyberproaustin/sast-engine/core/internal/ir"
+import (
+	"strings"
+
+	"github.com/cyberproaustin/sast-engine/core/internal/ir"
+)
 
 // --- how values acquire a class ------------------------------------------
 
@@ -244,6 +248,7 @@ func (r Requirements) Missing(c ir.Capabilities) []string {
 type Model struct {
 	Classifications []Classification
 	Channels        []Channel
+	CallShapes      []CallShape
 	Policies        []Policy
 	Sanitizers      []SanitizerRule
 	Callbacks       []CallbackRule
@@ -687,6 +692,8 @@ func Builtin() Model {
 
 		// WHAT IS FORBIDDEN. Judgements about class-and-channel pairings. Each covers
 		// every instance of the pairing, including channels added later.
+		CallShapes: builtinCallShapes(),
+
 		Policies: []Policy{
 			{
 				ID:            "untrusted-to-interpreter",
@@ -784,6 +791,111 @@ func Builtin() Model {
 			{Name: "authorize", Kind: "authorization"},
 			{Name: "checkPermission", Kind: "authorization"},
 			{Name: "requireTenant", Kind: "authorization"},
+		},
+	}
+}
+
+// CallShape is a weakness visible in a call's own arguments, with no dataflow involved.
+//
+// A third analysis kind, and the one a large part of the CWE catalog actually needs.
+// `createHash("md5")` is weak wherever it is written; nothing has to reach it and no
+// caller has to control anything. Bending taint into that shape would mean inventing a
+// source for a defect that has none.
+//
+// Because these are not flows, ADR-009 does not govern them: a weak hash in a utility file
+// nothing routes to is still a weak hash. Anchoring to the enumerated surface is a rule
+// about ASSERTIONS OVER A SURFACE, and this is an assertion about a line of code.
+type CallShape struct {
+	ID string
+
+	// Matching, by imported symbol or by method name.
+	Symbol string
+	Method string
+
+	// ArgIndex is the argument that decides it. A negative index addresses a keyword
+	// argument, which the frontends record as "name=value" because `verify=False` means
+	// the same thing wherever it is written.
+	ArgIndex int
+	// Disallowed values, compared without regard to case. A literal is required: this
+	// says nothing about a value computed at runtime, and says nothing loudly rather
+	// than guessing.
+	Disallowed []string
+
+	// DependsOnUse marks a shape whose judgement turns on what the result is USED for,
+	// which the call does not carry.
+	//
+	// A broken hash is the clearest case. `createHash("md5")` is the same call whether it
+	// digests a password or builds a cache key, and the Gravatar protocol REQUIRES the MD5
+	// of an email address. Measured across sixteen production repositories the rule
+	// produced 26 findings, every one a filename, an ETag, a content key or Gravatar, and
+	// every one gating.
+	//
+	// So it is reported and never gates, and says why. Deciding it properly means asking
+	// where the digest goes -- whether it reaches somewhere collision resistance is what
+	// makes the thing work -- and that is a flow question this kind cannot answer alone.
+	//
+	// Confidence is NOT used to express this. Confidence means how well the call graph
+	// resolved (ADR-005) and it resolved perfectly: the algorithm is a literal. Lowering
+	// it would be lying about a different thing to get the gating behaviour wanted here.
+	DependsOnUse bool
+
+	CWE       string
+	Finding   string
+	Reason    string
+	Rationale string
+}
+
+// Matches reports whether a literal argument value is one this shape forbids.
+func (c CallShape) Matches(literal string) bool {
+	for _, bad := range c.Disallowed {
+		if strings.EqualFold(literal, bad) {
+			return true
+		}
+	}
+	return false
+}
+
+func builtinCallShapes() []CallShape {
+	weakHash := []string{"md5", "sha1", "md4", "md2", "ripemd", "sha"}
+	return []CallShape{
+		{
+			ID: "weak-hash", Symbol: "crypto.createHash", ArgIndex: 0, DependsOnUse: true, Disallowed: weakHash,
+			CWE:       "CWE-328",
+			Finding:   "Weak hash algorithm",
+			Reason:    "the algorithm is broken against collision, so a digest does not establish what it is used to establish",
+			Rationale: "createHash() is given the algorithm by name",
+		},
+		{
+			ID: "weak-hash", Symbol: "crypto.createHmac", ArgIndex: 0, DependsOnUse: true, Disallowed: []string{"md5", "md4", "md2"},
+			CWE:     "CWE-328",
+			Finding: "Weak hash algorithm",
+			Reason:  "the algorithm is broken against collision, so a digest does not establish what it is used to establish",
+			// HMAC-SHA1 is not currently considered broken, so it is deliberately absent
+			// from this list while being present for a bare hash.
+			Rationale: "createHmac() is given the algorithm by name",
+		},
+		{
+			ID: "weak-hash", Symbol: "hashlib.new", ArgIndex: 0, DependsOnUse: true, Disallowed: weakHash,
+			CWE:       "CWE-328",
+			Finding:   "Weak hash algorithm",
+			Reason:    "the algorithm is broken against collision, so a digest does not establish what it is used to establish",
+			Rationale: "hashlib.new() is given the algorithm by name",
+		},
+		{
+			ID: "disabled-certificate-check", Symbol: "requests.get", ArgIndex: -1,
+			Disallowed: []string{"verify=false"},
+			CWE:        "CWE-295",
+			Finding:    "Certificate verification disabled",
+			Reason:     "a connection that does not verify its peer authenticates nobody, so transport encryption protects against nothing",
+			Rationale:  "verify=False turns off certificate validation for this request",
+		},
+		{
+			ID: "disabled-certificate-check", Symbol: "requests.post", ArgIndex: -1,
+			Disallowed: []string{"verify=false"},
+			CWE:        "CWE-295",
+			Finding:    "Certificate verification disabled",
+			Reason:     "a connection that does not verify its peer authenticates nobody, so transport encryption protects against nothing",
+			Rationale:  "verify=False turns off certificate validation for this request",
 		},
 	}
 }
