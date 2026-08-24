@@ -33,6 +33,7 @@ var corpora = []string{
 	"express-path-traversal",
 	"express-ssrf",
 	"express-redirect-deserialize",
+	"express-cipher-regex",
 	"flask-command-injection",
 	"flask-container-update",
 	"flask-sql-injection",
