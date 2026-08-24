@@ -13,7 +13,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": "A02:2025 - Security Misconfiguration"
   },
   {
    "id": "CWE-6",
@@ -25,7 +26,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-7",
@@ -37,7 +39,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-8",
@@ -49,7 +52,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-9",
@@ -61,7 +65,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-11",
@@ -73,7 +78,8 @@
     "ASP.NET"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": "A02:2025 - Security Misconfiguration"
   },
   {
    "id": "CWE-12",
@@ -85,7 +91,8 @@
     "ASP.NET"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-13",
@@ -97,7 +104,8 @@
     "ASP.NET"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": "A02:2025 - Security Misconfiguration"
   },
   {
    "id": "CWE-14",
@@ -111,7 +119,8 @@
     "Compiled"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-15",
@@ -121,7 +130,8 @@
    "staticDetectable": true,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A02:2025 - Security Misconfiguration"
   },
   {
    "id": "CWE-20",
@@ -135,7 +145,8 @@
    "languageAgnostic": true,
    "lists": [
     "cwe-top-25-2025"
-   ]
+   ],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-22",
@@ -149,7 +160,8 @@
    "languageAgnostic": true,
    "lists": [
     "cwe-top-25-2025"
-   ]
+   ],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-23",
@@ -161,7 +173,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-24",
@@ -173,7 +186,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-25",
@@ -185,7 +199,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-26",
@@ -197,7 +212,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-27",
@@ -209,7 +225,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-28",
@@ -221,7 +238,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-29",
@@ -233,7 +251,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-30",
@@ -245,7 +264,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-31",
@@ -257,7 +277,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-32",
@@ -269,7 +290,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-33",
@@ -281,7 +303,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-34",
@@ -293,7 +316,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-35",
@@ -305,7 +329,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-36",
@@ -317,7 +342,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-37",
@@ -329,7 +355,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-38",
@@ -341,7 +368,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-39",
@@ -353,7 +381,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-40",
@@ -365,7 +394,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-41",
@@ -377,7 +407,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-42",
@@ -389,7 +420,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-43",
@@ -401,7 +433,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-44",
@@ -413,7 +446,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-45",
@@ -425,7 +459,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-46",
@@ -437,7 +472,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-47",
@@ -449,7 +485,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-48",
@@ -461,7 +498,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-49",
@@ -473,7 +511,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-50",
@@ -485,7 +524,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-51",
@@ -497,7 +537,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-52",
@@ -509,7 +550,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-53",
@@ -521,7 +563,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-54",
@@ -533,7 +576,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-55",
@@ -545,7 +589,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-56",
@@ -557,7 +602,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-57",
@@ -569,7 +615,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-58",
@@ -581,7 +628,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-59",
@@ -593,7 +641,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-61",
@@ -605,7 +654,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-62",
@@ -617,7 +667,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-64",
@@ -629,7 +680,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-65",
@@ -641,7 +693,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-66",
@@ -653,7 +706,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-67",
@@ -665,7 +719,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-69",
@@ -677,7 +732,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-71",
@@ -687,7 +743,8 @@
    "staticDetectable": false,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-72",
@@ -699,7 +756,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-73",
@@ -711,7 +769,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-74",
@@ -723,7 +782,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-75",
@@ -735,7 +795,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-76",
@@ -747,7 +808,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-77",
@@ -761,7 +823,8 @@
    "languageAgnostic": true,
    "lists": [
     "cwe-top-25-2025"
-   ]
+   ],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-78",
@@ -775,7 +838,8 @@
    "languageAgnostic": true,
    "lists": [
     "cwe-top-25-2025"
-   ]
+   ],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-79",
@@ -789,7 +853,8 @@
    "languageAgnostic": true,
    "lists": [
     "cwe-top-25-2025"
-   ]
+   ],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-80",
@@ -801,7 +866,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-81",
@@ -813,7 +879,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-82",
@@ -825,7 +892,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-83",
@@ -837,7 +905,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-84",
@@ -849,7 +918,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-85",
@@ -861,7 +931,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-86",
@@ -873,7 +944,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-87",
@@ -885,7 +957,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-88",
@@ -898,7 +971,8 @@
     "PHP"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-89",
@@ -913,7 +987,8 @@
    "languageAgnostic": true,
    "lists": [
     "cwe-top-25-2025"
-   ]
+   ],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-90",
@@ -925,7 +1000,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-91",
@@ -937,7 +1013,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-92",
@@ -947,7 +1024,8 @@
    "staticDetectable": false,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-93",
@@ -959,7 +1037,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-94",
@@ -973,7 +1052,8 @@
    "languageAgnostic": false,
    "lists": [
     "cwe-top-25-2025"
-   ]
+   ],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-95",
@@ -991,7 +1071,8 @@
     "Ruby"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-96",
@@ -1005,7 +1086,8 @@
     "Perl"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-97",
@@ -1017,7 +1099,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-98",
@@ -1029,7 +1112,8 @@
     "PHP"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-99",
@@ -1041,7 +1125,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-102",
@@ -1053,7 +1138,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-103",
@@ -1065,7 +1151,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-104",
@@ -1077,7 +1164,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-105",
@@ -1089,7 +1177,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-106",
@@ -1101,7 +1190,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-107",
@@ -1113,7 +1203,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-108",
@@ -1125,7 +1216,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-109",
@@ -1137,7 +1229,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-110",
@@ -1149,7 +1242,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-111",
@@ -1161,7 +1255,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-112",
@@ -1173,7 +1268,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-113",
@@ -1185,7 +1281,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-114",
@@ -1197,7 +1294,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-115",
@@ -1209,7 +1307,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-116",
@@ -1221,7 +1320,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-117",
@@ -1233,7 +1333,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A09:2025 - Logging & Alerting Failures"
   },
   {
    "id": "CWE-118",
@@ -1245,7 +1346,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-119",
@@ -1260,7 +1362,8 @@
     "Memory-Unsafe"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-120",
@@ -1277,7 +1380,8 @@
    "languageAgnostic": false,
    "lists": [
     "cwe-top-25-2025"
-   ]
+   ],
+   "owasp": ""
   },
   {
    "id": "CWE-121",
@@ -1293,7 +1397,8 @@
    "languageAgnostic": false,
    "lists": [
     "cwe-top-25-2025"
-   ]
+   ],
+   "owasp": ""
   },
   {
    "id": "CWE-122",
@@ -1309,7 +1414,8 @@
    "languageAgnostic": false,
    "lists": [
     "cwe-top-25-2025"
-   ]
+   ],
+   "owasp": ""
   },
   {
    "id": "CWE-123",
@@ -1323,7 +1429,8 @@
     "Memory-Unsafe"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-124",
@@ -1337,7 +1444,8 @@
     "Memory-Unsafe"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-125",
@@ -1353,7 +1461,8 @@
    "languageAgnostic": false,
    "lists": [
     "cwe-top-25-2025"
-   ]
+   ],
+   "owasp": ""
   },
   {
    "id": "CWE-126",
@@ -1367,7 +1476,8 @@
     "Memory-Unsafe"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-127",
@@ -1381,7 +1491,8 @@
     "Memory-Unsafe"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-128",
@@ -1394,7 +1505,8 @@
     "C++"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-129",
@@ -1408,7 +1520,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-130",
@@ -1422,7 +1535,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-131",
@@ -1436,7 +1550,8 @@
     "Memory-Unsafe"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-132",
@@ -1446,7 +1561,8 @@
    "staticDetectable": false,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-134",
@@ -1461,7 +1577,8 @@
     "Perl"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-135",
@@ -1474,7 +1591,8 @@
     "C++"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-138",
@@ -1486,7 +1604,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-140",
@@ -1498,7 +1617,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-141",
@@ -1510,7 +1630,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-142",
@@ -1522,7 +1643,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-143",
@@ -1534,7 +1656,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-144",
@@ -1546,7 +1669,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-145",
@@ -1558,7 +1682,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-146",
@@ -1570,7 +1695,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-147",
@@ -1582,7 +1708,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-148",
@@ -1594,7 +1721,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-149",
@@ -1606,7 +1734,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-150",
@@ -1618,7 +1747,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-151",
@@ -1630,7 +1760,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-152",
@@ -1642,7 +1773,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-153",
@@ -1654,7 +1786,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-154",
@@ -1666,7 +1799,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-155",
@@ -1678,7 +1812,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-156",
@@ -1690,7 +1825,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-157",
@@ -1702,7 +1838,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-158",
@@ -1716,7 +1853,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-159",
@@ -1728,7 +1866,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-160",
@@ -1740,7 +1879,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-161",
@@ -1752,7 +1892,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-162",
@@ -1764,7 +1905,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-163",
@@ -1776,7 +1918,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-164",
@@ -1788,7 +1931,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-165",
@@ -1800,7 +1944,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-166",
@@ -1812,7 +1957,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-167",
@@ -1824,7 +1970,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-168",
@@ -1836,7 +1983,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-170",
@@ -1849,7 +1997,8 @@
     "C++"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-172",
@@ -1861,7 +2010,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-173",
@@ -1873,7 +2023,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-174",
@@ -1885,7 +2036,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-175",
@@ -1897,7 +2049,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-176",
@@ -1909,7 +2062,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-177",
@@ -1921,7 +2075,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-178",
@@ -1933,7 +2088,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-179",
@@ -1945,7 +2101,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-180",
@@ -1957,7 +2114,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-181",
@@ -1969,7 +2127,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-182",
@@ -1981,7 +2140,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-183",
@@ -1993,7 +2153,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-184",
@@ -2005,7 +2166,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-185",
@@ -2017,7 +2179,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-186",
@@ -2029,7 +2192,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-187",
@@ -2041,7 +2205,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-188",
@@ -2055,7 +2220,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-190",
@@ -2068,7 +2234,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-191",
@@ -2083,7 +2250,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-192",
@@ -2098,7 +2266,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-193",
@@ -2111,7 +2280,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-194",
@@ -2124,7 +2294,8 @@
     "C++"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-195",
@@ -2137,7 +2308,8 @@
     "C++"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-196",
@@ -2150,7 +2322,8 @@
     "C++"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-197",
@@ -2165,7 +2338,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-198",
@@ -2177,7 +2351,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-200",
@@ -2191,7 +2366,8 @@
    "languageAgnostic": true,
    "lists": [
     "cwe-top-25-2025"
-   ]
+   ],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-201",
@@ -2203,7 +2379,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-202",
@@ -2215,7 +2392,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-203",
@@ -2227,7 +2405,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-204",
@@ -2239,7 +2418,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-205",
@@ -2251,7 +2431,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-206",
@@ -2263,7 +2444,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-207",
@@ -2275,7 +2457,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-208",
@@ -2287,7 +2470,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-209",
@@ -2301,7 +2485,8 @@
     "PHP"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
    "id": "CWE-210",
@@ -2313,7 +2498,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-211",
@@ -2326,7 +2512,8 @@
     "PHP"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-212",
@@ -2338,7 +2525,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-213",
@@ -2350,7 +2538,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-214",
@@ -2362,7 +2551,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-215",
@@ -2374,7 +2564,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
    "id": "CWE-216",
@@ -2384,7 +2575,8 @@
    "staticDetectable": false,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-217",
@@ -2394,7 +2586,8 @@
    "staticDetectable": false,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-218",
@@ -2404,7 +2597,8 @@
    "staticDetectable": false,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-219",
@@ -2416,7 +2610,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-220",
@@ -2428,7 +2623,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-221",
@@ -2440,7 +2636,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A09:2025 - Logging & Alerting Failures"
   },
   {
    "id": "CWE-222",
@@ -2452,7 +2649,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-223",
@@ -2464,7 +2662,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A09:2025 - Logging & Alerting Failures"
   },
   {
    "id": "CWE-224",
@@ -2476,7 +2675,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-225",
@@ -2486,7 +2686,8 @@
    "staticDetectable": false,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-226",
@@ -2498,7 +2699,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-228",
@@ -2510,7 +2712,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-229",
@@ -2522,7 +2725,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-230",
@@ -2534,7 +2738,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-231",
@@ -2546,7 +2751,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-232",
@@ -2558,7 +2764,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-233",
@@ -2570,7 +2777,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-234",
@@ -2582,7 +2790,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
    "id": "CWE-235",
@@ -2594,7 +2803,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
    "id": "CWE-236",
@@ -2606,7 +2816,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-237",
@@ -2618,7 +2829,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-238",
@@ -2630,7 +2842,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-239",
@@ -2642,7 +2855,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-240",
@@ -2654,7 +2868,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-241",
@@ -2666,7 +2881,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-242",
@@ -2679,7 +2895,8 @@
     "C++"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-243",
@@ -2692,7 +2909,8 @@
     "C++"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-244",
@@ -2706,7 +2924,8 @@
     "Memory-Unsafe"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-245",
@@ -2718,7 +2937,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-246",
@@ -2730,7 +2950,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-247",
@@ -2740,7 +2961,8 @@
    "staticDetectable": false,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-248",
@@ -2754,7 +2976,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
    "id": "CWE-249",
@@ -2764,7 +2987,8 @@
    "staticDetectable": false,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-250",
@@ -2776,7 +3000,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-252",
@@ -2788,7 +3013,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
    "id": "CWE-253",
@@ -2800,7 +3026,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-256",
@@ -2812,7 +3039,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-257",
@@ -2824,7 +3052,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-258",
@@ -2836,7 +3065,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-259",
@@ -2848,7 +3078,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-260",
@@ -2860,7 +3091,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A02:2025 - Security Misconfiguration"
   },
   {
    "id": "CWE-261",
@@ -2872,7 +3104,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
    "id": "CWE-262",
@@ -2884,7 +3117,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-263",
@@ -2896,7 +3130,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-266",
@@ -2908,7 +3143,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-267",
@@ -2920,7 +3156,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-268",
@@ -2932,7 +3169,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-269",
@@ -2944,7 +3182,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-270",
@@ -2956,7 +3195,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-271",
@@ -2968,7 +3208,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-272",
@@ -2980,7 +3221,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-273",
@@ -2992,7 +3234,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-274",
@@ -3004,7 +3247,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
    "id": "CWE-276",
@@ -3016,7 +3260,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-277",
@@ -3028,7 +3273,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-278",
@@ -3040,7 +3286,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-279",
@@ -3052,7 +3299,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-280",
@@ -3064,7 +3312,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
    "id": "CWE-281",
@@ -3076,7 +3325,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-282",
@@ -3088,7 +3338,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-283",
@@ -3100,7 +3351,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-284",
@@ -3114,7 +3366,8 @@
    "languageAgnostic": true,
    "lists": [
     "cwe-top-25-2025"
-   ]
+   ],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-285",
@@ -3126,7 +3379,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-286",
@@ -3138,7 +3392,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-287",
@@ -3150,7 +3405,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-288",
@@ -3162,7 +3418,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-289",
@@ -3174,7 +3431,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-290",
@@ -3186,7 +3444,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-291",
@@ -3198,7 +3457,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-292",
@@ -3208,7 +3468,8 @@
    "staticDetectable": false,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-293",
@@ -3220,7 +3481,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-294",
@@ -3232,7 +3494,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-295",
@@ -3244,7 +3507,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-296",
@@ -3256,7 +3520,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
    "id": "CWE-297",
@@ -3268,7 +3533,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-298",
@@ -3280,7 +3546,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-299",
@@ -3292,7 +3559,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-300",
@@ -3304,7 +3572,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-301",
@@ -3316,7 +3585,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-302",
@@ -3328,7 +3598,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-303",
@@ -3340,7 +3611,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-304",
@@ -3352,7 +3624,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-305",
@@ -3364,7 +3637,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-306",
@@ -3378,7 +3652,8 @@
    "languageAgnostic": true,
    "lists": [
     "cwe-top-25-2025"
-   ]
+   ],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-307",
@@ -3390,7 +3665,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-308",
@@ -3402,7 +3678,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-309",
@@ -3414,7 +3691,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-311",
@@ -3426,7 +3704,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-312",
@@ -3438,7 +3717,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-313",
@@ -3450,7 +3730,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-314",
@@ -3462,7 +3743,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-315",
@@ -3474,7 +3756,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A02:2025 - Security Misconfiguration"
   },
   {
    "id": "CWE-316",
@@ -3486,7 +3769,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-317",
@@ -3498,7 +3782,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-318",
@@ -3510,7 +3795,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-319",
@@ -3522,7 +3808,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
    "id": "CWE-321",
@@ -3534,7 +3821,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
    "id": "CWE-322",
@@ -3546,7 +3834,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
    "id": "CWE-323",
@@ -3558,7 +3847,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
    "id": "CWE-324",
@@ -3570,7 +3860,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
    "id": "CWE-325",
@@ -3582,7 +3873,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
    "id": "CWE-326",
@@ -3594,7 +3886,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
    "id": "CWE-327",
@@ -3608,7 +3901,8 @@
     "Verilog"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
    "id": "CWE-328",
@@ -3620,7 +3914,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
    "id": "CWE-329",
@@ -3632,7 +3927,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
    "id": "CWE-330",
@@ -3644,7 +3940,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
    "id": "CWE-331",
@@ -3656,7 +3953,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
    "id": "CWE-332",
@@ -3668,7 +3966,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
    "id": "CWE-333",
@@ -3680,7 +3979,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-334",
@@ -3692,7 +3992,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
    "id": "CWE-335",
@@ -3704,7 +4005,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
    "id": "CWE-336",
@@ -3716,7 +4018,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
    "id": "CWE-337",
@@ -3728,7 +4031,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
    "id": "CWE-338",
@@ -3740,7 +4044,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
    "id": "CWE-339",
@@ -3752,7 +4057,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-340",
@@ -3764,7 +4070,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
    "id": "CWE-341",
@@ -3776,7 +4083,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-342",
@@ -3788,7 +4096,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
    "id": "CWE-343",
@@ -3800,7 +4109,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-344",
@@ -3812,7 +4122,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-345",
@@ -3824,7 +4135,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A08:2025 - Software or Data Integrity Failures"
   },
   {
    "id": "CWE-346",
@@ -3836,7 +4148,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-347",
@@ -3848,7 +4161,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
    "id": "CWE-348",
@@ -3860,7 +4174,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-349",
@@ -3872,7 +4187,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-350",
@@ -3884,7 +4200,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-351",
@@ -3896,7 +4213,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-352",
@@ -3910,7 +4228,8 @@
    "languageAgnostic": true,
    "lists": [
     "cwe-top-25-2025"
-   ]
+   ],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-353",
@@ -3922,7 +4241,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A08:2025 - Software or Data Integrity Failures"
   },
   {
    "id": "CWE-354",
@@ -3934,7 +4254,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-356",
@@ -3946,7 +4267,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-357",
@@ -3958,7 +4280,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-358",
@@ -3970,7 +4293,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-359",
@@ -3982,7 +4306,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-360",
@@ -3994,7 +4319,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-362",
@@ -4008,7 +4334,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-363",
@@ -4020,7 +4347,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-364",
@@ -4033,7 +4361,8 @@
     "C++"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-365",
@@ -4043,7 +4372,8 @@
    "staticDetectable": false,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-366",
@@ -4058,7 +4388,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-367",
@@ -4070,7 +4401,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-368",
@@ -4082,7 +4414,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-369",
@@ -4094,7 +4427,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
    "id": "CWE-370",
@@ -4106,7 +4440,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-372",
@@ -4118,7 +4453,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-373",
@@ -4128,7 +4464,8 @@
    "staticDetectable": false,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-374",
@@ -4144,7 +4481,8 @@
     "Object-Oriented"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-375",
@@ -4160,7 +4498,8 @@
     "Object-Oriented"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-377",
@@ -4172,7 +4511,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-378",
@@ -4184,7 +4524,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-379",
@@ -4196,7 +4537,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-382",
@@ -4208,7 +4550,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-383",
@@ -4220,7 +4563,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-384",
@@ -4232,7 +4576,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-385",
@@ -4244,7 +4589,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-386",
@@ -4256,7 +4602,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-390",
@@ -4268,7 +4615,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
    "id": "CWE-391",
@@ -4280,7 +4628,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
    "id": "CWE-392",
@@ -4292,7 +4641,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-393",
@@ -4304,7 +4654,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-394",
@@ -4316,7 +4667,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
    "id": "CWE-395",
@@ -4328,7 +4680,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-396",
@@ -4343,7 +4696,8 @@
     "Python"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
    "id": "CWE-397",
@@ -4358,7 +4712,8 @@
     "Python"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
    "id": "CWE-400",
@@ -4370,7 +4725,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-401",
@@ -4384,7 +4740,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-402",
@@ -4396,7 +4753,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-403",
@@ -4409,7 +4767,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-404",
@@ -4421,7 +4780,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-405",
@@ -4433,7 +4793,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-406",
@@ -4445,7 +4806,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-407",
@@ -4457,7 +4819,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-408",
@@ -4469,7 +4832,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-409",
@@ -4481,7 +4845,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-410",
@@ -4493,7 +4858,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-412",
@@ -4505,7 +4871,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-413",
@@ -4517,7 +4884,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-414",
@@ -4529,7 +4897,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-415",
@@ -4543,7 +4912,8 @@
     "Memory-Unsafe"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-416",
@@ -4559,7 +4929,8 @@
    "languageAgnostic": false,
    "lists": [
     "cwe-top-25-2025"
-   ]
+   ],
+   "owasp": ""
   },
   {
    "id": "CWE-419",
@@ -4571,7 +4942,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-420",
@@ -4583,7 +4955,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-421",
@@ -4595,7 +4968,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-422",
@@ -4607,7 +4981,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-423",
@@ -4617,7 +4992,8 @@
    "staticDetectable": false,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-424",
@@ -4629,7 +5005,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-425",
@@ -4641,7 +5018,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-426",
@@ -4653,7 +5031,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A08:2025 - Software or Data Integrity Failures"
   },
   {
    "id": "CWE-427",
@@ -4665,7 +5044,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A08:2025 - Software or Data Integrity Failures"
   },
   {
    "id": "CWE-428",
@@ -4677,7 +5057,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-430",
@@ -4689,7 +5070,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-431",
@@ -4701,7 +5083,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-432",
@@ -4713,7 +5096,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-433",
@@ -4725,7 +5109,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-434",
@@ -4741,7 +5126,8 @@
    "languageAgnostic": true,
    "lists": [
     "cwe-top-25-2025"
-   ]
+   ],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-435",
@@ -4753,7 +5139,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-436",
@@ -4765,7 +5152,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-437",
@@ -4777,7 +5165,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-439",
@@ -4789,7 +5178,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-440",
@@ -4801,7 +5191,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-441",
@@ -4813,7 +5204,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-443",
@@ -4823,7 +5215,8 @@
    "staticDetectable": false,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-444",
@@ -4835,7 +5228,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-446",
@@ -4847,7 +5241,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-447",
@@ -4859,7 +5254,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A03:2025 - Software Supply Chain Failures"
   },
   {
    "id": "CWE-448",
@@ -4871,7 +5267,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-449",
@@ -4883,7 +5280,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-450",
@@ -4895,7 +5293,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-451",
@@ -4907,7 +5306,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-453",
@@ -4920,7 +5320,8 @@
     "PHP"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-454",
@@ -4933,7 +5334,8 @@
     "PHP"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-455",
@@ -4945,7 +5347,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-456",
@@ -4957,7 +5360,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-457",
@@ -4973,7 +5377,8 @@
     "Perl"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-458",
@@ -4983,7 +5388,8 @@
    "staticDetectable": false,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-459",
@@ -4995,7 +5401,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-460",
@@ -5010,7 +5417,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
    "id": "CWE-462",
@@ -5025,7 +5433,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-463",
@@ -5038,7 +5447,8 @@
     "C++"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-464",
@@ -5051,7 +5461,8 @@
     "C++"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-466",
@@ -5065,7 +5476,8 @@
     "Memory-Unsafe"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-467",
@@ -5078,7 +5490,8 @@
     "C++"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-468",
@@ -5091,7 +5504,8 @@
     "C++"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-469",
@@ -5104,7 +5518,8 @@
     "C++"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-470",
@@ -5118,7 +5533,8 @@
     "PHP"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-471",
@@ -5130,7 +5546,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-472",
@@ -5142,7 +5559,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-473",
@@ -5154,7 +5572,8 @@
     "PHP"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-474",
@@ -5168,7 +5587,8 @@
     "PHP"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-475",
@@ -5180,7 +5600,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-476",
@@ -5198,7 +5619,8 @@
    "languageAgnostic": false,
    "lists": [
     "cwe-top-25-2025"
-   ]
+   ],
+   "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
    "id": "CWE-477",
@@ -5210,7 +5632,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A03:2025 - Software Supply Chain Failures"
   },
   {
    "id": "CWE-478",
@@ -5227,7 +5650,8 @@
     "Python"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
    "id": "CWE-479",
@@ -5240,7 +5664,8 @@
     "C++"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-480",
@@ -5255,7 +5680,8 @@
     "Perl"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-481",
@@ -5270,7 +5696,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-482",
@@ -5283,7 +5710,8 @@
     "C++"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-483",
@@ -5296,7 +5724,8 @@
     "C++"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-484",
@@ -5313,7 +5742,8 @@
     "PHP"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
    "id": "CWE-486",
@@ -5325,7 +5755,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-487",
@@ -5337,7 +5768,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-488",
@@ -5349,7 +5781,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-489",
@@ -5361,7 +5794,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A02:2025 - Security Misconfiguration"
   },
   {
    "id": "CWE-491",
@@ -5373,7 +5807,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-492",
@@ -5385,7 +5820,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-493",
@@ -5399,7 +5835,8 @@
     "Object-Oriented"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-494",
@@ -5411,7 +5848,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A08:2025 - Software or Data Integrity Failures"
   },
   {
    "id": "CWE-495",
@@ -5427,7 +5865,8 @@
     "Object-Oriented"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-496",
@@ -5443,7 +5882,8 @@
     "Object-Oriented"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-497",
@@ -5455,7 +5895,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-498",
@@ -5470,7 +5911,8 @@
     "Object-Oriented"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-499",
@@ -5482,7 +5924,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-500",
@@ -5495,7 +5938,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-501",
@@ -5507,7 +5951,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-502",
@@ -5525,7 +5970,8 @@
    "languageAgnostic": false,
    "lists": [
     "cwe-top-25-2025"
-   ]
+   ],
+   "owasp": "A08:2025 - Software or Data Integrity Failures"
   },
   {
    "id": "CWE-506",
@@ -5537,7 +5983,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A08:2025 - Software or Data Integrity Failures"
   },
   {
    "id": "CWE-507",
@@ -5549,7 +5996,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-508",
@@ -5561,7 +6009,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-509",
@@ -5573,7 +6022,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A08:2025 - Software or Data Integrity Failures"
   },
   {
    "id": "CWE-510",
@@ -5585,7 +6035,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-511",
@@ -5597,7 +6048,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-512",
@@ -5609,7 +6061,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-514",
@@ -5621,7 +6074,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-515",
@@ -5633,7 +6087,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-516",
@@ -5643,7 +6098,8 @@
    "staticDetectable": false,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-520",
@@ -5657,7 +6113,8 @@
     "VB.NET"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-521",
@@ -5669,7 +6126,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-522",
@@ -5681,7 +6139,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-523",
@@ -5693,7 +6152,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
    "id": "CWE-524",
@@ -5705,7 +6165,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-525",
@@ -5717,7 +6178,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-526",
@@ -5729,7 +6191,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A02:2025 - Security Misconfiguration"
   },
   {
    "id": "CWE-527",
@@ -5741,7 +6204,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-528",
@@ -5753,7 +6217,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-529",
@@ -5765,7 +6230,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-530",
@@ -5777,7 +6243,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-531",
@@ -5789,7 +6256,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-532",
@@ -5801,7 +6269,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A09:2025 - Logging & Alerting Failures"
   },
   {
    "id": "CWE-533",
@@ -5811,7 +6280,8 @@
    "staticDetectable": false,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-534",
@@ -5821,7 +6291,8 @@
    "staticDetectable": false,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-535",
@@ -5833,7 +6304,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-536",
@@ -5845,7 +6317,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-537",
@@ -5857,7 +6330,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-538",
@@ -5869,7 +6343,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-539",
@@ -5881,7 +6356,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-540",
@@ -5893,7 +6369,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-541",
@@ -5905,7 +6382,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-542",
@@ -5915,7 +6393,8 @@
    "staticDetectable": false,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-543",
@@ -5928,7 +6407,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-544",
@@ -5940,7 +6420,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-545",
@@ -5950,7 +6431,8 @@
    "staticDetectable": false,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-546",
@@ -5962,7 +6444,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-547",
@@ -5974,7 +6457,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A02:2025 - Security Misconfiguration"
   },
   {
    "id": "CWE-548",
@@ -5986,7 +6470,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-549",
@@ -5998,7 +6483,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-550",
@@ -6010,7 +6496,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
    "id": "CWE-551",
@@ -6022,7 +6509,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-552",
@@ -6034,7 +6522,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-553",
@@ -6046,7 +6535,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-554",
@@ -6058,7 +6548,8 @@
     "ASP.NET"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-555",
@@ -6070,7 +6561,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-556",
@@ -6082,7 +6574,8 @@
     "ASP.NET"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-558",
@@ -6095,7 +6588,8 @@
     "C++"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-560",
@@ -6107,7 +6601,8 @@
     "C"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-561",
@@ -6119,7 +6614,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-562",
@@ -6132,7 +6628,8 @@
     "C++"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-563",
@@ -6144,7 +6641,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-564",
@@ -6156,7 +6654,8 @@
     "SQL"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-565",
@@ -6168,7 +6667,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A08:2025 - Software or Data Integrity Failures"
   },
   {
    "id": "CWE-566",
@@ -6180,7 +6680,8 @@
     "SQL"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-567",
@@ -6192,7 +6693,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-568",
@@ -6204,7 +6706,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-570",
@@ -6216,7 +6719,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-571",
@@ -6228,7 +6732,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-572",
@@ -6240,7 +6745,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-573",
@@ -6252,7 +6758,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-574",
@@ -6264,7 +6771,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-575",
@@ -6276,7 +6784,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-576",
@@ -6288,7 +6797,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-577",
@@ -6300,7 +6810,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-578",
@@ -6312,7 +6823,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-579",
@@ -6324,7 +6836,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-580",
@@ -6336,7 +6849,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-581",
@@ -6348,7 +6862,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-582",
@@ -6360,7 +6875,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-583",
@@ -6372,7 +6888,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-584",
@@ -6384,7 +6901,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-585",
@@ -6396,7 +6914,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-586",
@@ -6408,7 +6927,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-587",
@@ -6424,7 +6944,8 @@
     "Memory-Unsafe"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-588",
@@ -6437,7 +6958,8 @@
     "C++"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-589",
@@ -6449,7 +6971,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-590",
@@ -6462,7 +6985,8 @@
     "Memory-Unsafe"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-591",
@@ -6474,7 +6998,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-592",
@@ -6484,7 +7009,8 @@
    "staticDetectable": false,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-593",
@@ -6496,7 +7022,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-594",
@@ -6508,7 +7035,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-595",
@@ -6523,7 +7051,8 @@
     "PHP"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-596",
@@ -6533,7 +7062,8 @@
    "staticDetectable": false,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-597",
@@ -6548,7 +7078,8 @@
     "PHP"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-598",
@@ -6560,7 +7091,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-599",
@@ -6572,7 +7104,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-600",
@@ -6584,7 +7117,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-601",
@@ -6596,7 +7130,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-602",
@@ -6608,7 +7143,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-603",
@@ -6620,7 +7156,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-605",
@@ -6632,7 +7169,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-606",
@@ -6644,7 +7182,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-607",
@@ -6656,7 +7195,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-608",
@@ -6668,7 +7208,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-609",
@@ -6680,7 +7221,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-610",
@@ -6692,7 +7234,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-611",
@@ -6705,7 +7248,8 @@
     "XML"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A02:2025 - Security Misconfiguration"
   },
   {
    "id": "CWE-612",
@@ -6717,7 +7261,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-613",
@@ -6729,7 +7274,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-614",
@@ -6739,7 +7285,8 @@
    "staticDetectable": true,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A02:2025 - Security Misconfiguration"
   },
   {
    "id": "CWE-615",
@@ -6751,7 +7298,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-616",
@@ -6763,7 +7311,8 @@
     "PHP"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-617",
@@ -6778,7 +7327,8 @@
     "Rust"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-618",
@@ -6790,7 +7340,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-619",
@@ -6802,7 +7353,8 @@
     "SQL"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-620",
@@ -6814,7 +7366,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-621",
@@ -6826,7 +7379,8 @@
     "PHP"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-622",
@@ -6838,7 +7392,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-623",
@@ -6850,7 +7405,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-624",
@@ -6863,7 +7419,8 @@
     "Perl"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-625",
@@ -6876,7 +7433,8 @@
     "Perl"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-626",
@@ -6890,7 +7448,8 @@
     "Perl"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-627",
@@ -6903,7 +7462,8 @@
     "Perl"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-628",
@@ -6915,7 +7475,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-636",
@@ -6927,7 +7488,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
    "id": "CWE-637",
@@ -6939,7 +7501,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-638",
@@ -6951,7 +7514,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-639",
@@ -6965,7 +7529,8 @@
    "languageAgnostic": true,
    "lists": [
     "cwe-top-25-2025"
-   ]
+   ],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-640",
@@ -6977,7 +7542,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-641",
@@ -6989,7 +7555,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-642",
@@ -7001,7 +7568,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-643",
@@ -7013,7 +7581,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-644",
@@ -7025,7 +7594,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-645",
@@ -7037,7 +7607,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-646",
@@ -7049,7 +7620,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-647",
@@ -7061,7 +7633,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-648",
@@ -7073,7 +7646,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-649",
@@ -7085,7 +7659,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-650",
@@ -7097,7 +7672,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-651",
@@ -7109,7 +7685,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-652",
@@ -7121,7 +7698,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-653",
@@ -7133,7 +7711,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-654",
@@ -7145,7 +7724,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-655",
@@ -7157,7 +7737,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-656",
@@ -7169,7 +7750,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-657",
@@ -7181,7 +7763,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-662",
@@ -7193,7 +7776,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-663",
@@ -7206,7 +7790,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-664",
@@ -7218,7 +7803,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-665",
@@ -7230,7 +7816,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-666",
@@ -7242,7 +7829,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-667",
@@ -7254,7 +7842,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-668",
@@ -7266,7 +7855,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-669",
@@ -7278,7 +7868,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-670",
@@ -7290,7 +7881,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-671",
@@ -7302,7 +7894,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-672",
@@ -7314,7 +7907,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-673",
@@ -7326,7 +7920,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-674",
@@ -7338,7 +7933,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-675",
@@ -7350,7 +7946,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-676",
@@ -7363,7 +7960,8 @@
     "C++"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-680",
@@ -7377,7 +7975,8 @@
     "Memory-Unsafe"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-681",
@@ -7390,7 +7989,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-682",
@@ -7402,7 +8002,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-683",
@@ -7414,7 +8015,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-684",
@@ -7426,7 +8028,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-685",
@@ -7439,7 +8042,8 @@
     "Perl"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-686",
@@ -7451,7 +8055,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-687",
@@ -7463,7 +8068,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-688",
@@ -7476,7 +8082,8 @@
     "Perl"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-689",
@@ -7489,7 +8096,8 @@
     "Perl"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-690",
@@ -7503,7 +8111,8 @@
     "Memory-Unsafe"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-691",
@@ -7515,7 +8124,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-692",
@@ -7527,7 +8137,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-693",
@@ -7539,7 +8150,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-694",
@@ -7551,7 +8163,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-695",
@@ -7563,7 +8176,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-696",
@@ -7575,7 +8189,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-697",
@@ -7587,7 +8202,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-698",
@@ -7599,7 +8215,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-703",
@@ -7611,7 +8228,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
    "id": "CWE-704",
@@ -7626,7 +8244,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-705",
@@ -7638,7 +8257,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-706",
@@ -7650,7 +8270,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-707",
@@ -7662,7 +8283,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-708",
@@ -7674,7 +8296,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-710",
@@ -7686,7 +8309,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-732",
@@ -7698,7 +8322,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-733",
@@ -7712,7 +8337,8 @@
     "Compiled"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-749",
@@ -7724,7 +8350,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-754",
@@ -7736,7 +8363,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
    "id": "CWE-755",
@@ -7748,7 +8376,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
    "id": "CWE-756",
@@ -7760,7 +8389,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
    "id": "CWE-757",
@@ -7772,7 +8402,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
    "id": "CWE-758",
@@ -7784,7 +8415,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-759",
@@ -7796,7 +8428,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
    "id": "CWE-760",
@@ -7808,7 +8441,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
    "id": "CWE-761",
@@ -7821,7 +8455,8 @@
     "Memory-Unsafe"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-762",
@@ -7835,7 +8470,8 @@
     "Memory-Unsafe"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-763",
@@ -7849,7 +8485,8 @@
     "Memory-Unsafe"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-764",
@@ -7861,7 +8498,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-765",
@@ -7873,7 +8511,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-766",
@@ -7887,7 +8526,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-767",
@@ -7901,7 +8541,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-768",
@@ -7914,7 +8555,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-769",
@@ -7924,7 +8566,8 @@
    "staticDetectable": false,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-770",
@@ -7938,7 +8581,8 @@
    "languageAgnostic": true,
    "lists": [
     "cwe-top-25-2025"
-   ]
+   ],
+   "owasp": ""
   },
   {
    "id": "CWE-771",
@@ -7950,7 +8594,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-772",
@@ -7960,7 +8605,8 @@
    "staticDetectable": true,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-773",
@@ -7972,7 +8618,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-774",
@@ -7984,7 +8631,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-775",
@@ -7996,7 +8644,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-776",
@@ -8009,7 +8658,8 @@
     "XML"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A02:2025 - Security Misconfiguration"
   },
   {
    "id": "CWE-777",
@@ -8021,7 +8671,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-778",
@@ -8033,7 +8684,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A09:2025 - Logging & Alerting Failures"
   },
   {
    "id": "CWE-779",
@@ -8045,7 +8697,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-780",
@@ -8057,7 +8710,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
    "id": "CWE-781",
@@ -8070,7 +8724,8 @@
     "C++"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-782",
@@ -8083,7 +8738,8 @@
     "C++"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-783",
@@ -8097,7 +8753,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-784",
@@ -8109,7 +8766,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A08:2025 - Software or Data Integrity Failures"
   },
   {
    "id": "CWE-785",
@@ -8122,7 +8780,8 @@
     "C++"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-786",
@@ -8136,7 +8795,8 @@
     "Memory-Unsafe"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-787",
@@ -8153,7 +8813,8 @@
    "languageAgnostic": false,
    "lists": [
     "cwe-top-25-2025"
-   ]
+   ],
+   "owasp": ""
   },
   {
    "id": "CWE-788",
@@ -8167,7 +8828,8 @@
     "Memory-Unsafe"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-789",
@@ -8181,7 +8843,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-790",
@@ -8193,7 +8856,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-791",
@@ -8205,7 +8869,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-792",
@@ -8217,7 +8882,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-793",
@@ -8229,7 +8895,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-794",
@@ -8241,7 +8908,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-795",
@@ -8253,7 +8921,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-796",
@@ -8265,7 +8934,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-797",
@@ -8277,7 +8947,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-798",
@@ -8289,7 +8960,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-799",
@@ -8301,7 +8973,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-804",
@@ -8313,7 +8986,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-805",
@@ -8328,7 +9002,8 @@
     "Memory-Unsafe"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-806",
@@ -8342,7 +9017,8 @@
     "Memory-Unsafe"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-807",
@@ -8354,7 +9030,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-820",
@@ -8366,7 +9043,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-821",
@@ -8378,7 +9056,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-822",
@@ -8392,7 +9071,8 @@
     "Memory-Unsafe"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-823",
@@ -8406,7 +9086,8 @@
     "Memory-Unsafe"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-824",
@@ -8420,7 +9101,8 @@
     "Memory-Unsafe"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-825",
@@ -8434,7 +9116,8 @@
     "Memory-Unsafe"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-826",
@@ -8446,7 +9129,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-827",
@@ -8458,7 +9142,8 @@
     "XML"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-828",
@@ -8471,7 +9156,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-829",
@@ -8483,7 +9169,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A08:2025 - Software or Data Integrity Failures"
   },
   {
    "id": "CWE-830",
@@ -8495,7 +9182,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A08:2025 - Software or Data Integrity Failures"
   },
   {
    "id": "CWE-831",
@@ -8507,7 +9195,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-832",
@@ -8519,7 +9208,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-833",
@@ -8531,7 +9221,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-834",
@@ -8543,7 +9234,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-835",
@@ -8555,7 +9247,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-836",
@@ -8567,7 +9260,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-837",
@@ -8579,7 +9273,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-838",
@@ -8591,7 +9286,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-839",
@@ -8604,7 +9300,8 @@
     "C++"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-841",
@@ -8616,7 +9313,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-842",
@@ -8628,7 +9326,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-843",
@@ -8641,7 +9340,8 @@
     "C++"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-862",
@@ -8655,7 +9355,8 @@
    "languageAgnostic": true,
    "lists": [
     "cwe-top-25-2025"
-   ]
+   ],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-863",
@@ -8669,7 +9370,8 @@
    "languageAgnostic": true,
    "lists": [
     "cwe-top-25-2025"
-   ]
+   ],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-908",
@@ -8681,7 +9383,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-909",
@@ -8693,7 +9396,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-910",
@@ -8707,7 +9411,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-911",
@@ -8721,7 +9426,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-912",
@@ -8733,7 +9439,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-913",
@@ -8746,7 +9453,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-914",
@@ -8759,7 +9467,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-915",
@@ -8775,7 +9484,8 @@
     "Ruby"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A08:2025 - Software or Data Integrity Failures"
   },
   {
    "id": "CWE-916",
@@ -8787,7 +9497,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
    "id": "CWE-917",
@@ -8799,7 +9510,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": "A05:2025 - Injection"
   },
   {
    "id": "CWE-918",
@@ -8813,7 +9525,8 @@
    "languageAgnostic": true,
    "lists": [
     "cwe-top-25-2025"
-   ]
+   ],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-920",
@@ -8825,7 +9538,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-921",
@@ -8837,7 +9551,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-922",
@@ -8849,7 +9564,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-923",
@@ -8861,7 +9577,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-924",
@@ -8873,7 +9590,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-925",
@@ -8885,7 +9603,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-926",
@@ -8897,7 +9616,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A08:2025 - Software or Data Integrity Failures"
   },
   {
    "id": "CWE-927",
@@ -8909,7 +9629,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-939",
@@ -8919,7 +9640,8 @@
    "staticDetectable": true,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-940",
@@ -8931,7 +9653,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-941",
@@ -8943,7 +9666,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-942",
@@ -8955,7 +9679,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A02:2025 - Security Misconfiguration"
   },
   {
    "id": "CWE-943",
@@ -8967,7 +9692,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1004",
@@ -8979,7 +9705,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A02:2025 - Security Misconfiguration"
   },
   {
    "id": "CWE-1007",
@@ -8991,7 +9718,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1021",
@@ -9003,7 +9731,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-1022",
@@ -9016,7 +9745,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-1023",
@@ -9028,7 +9758,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1024",
@@ -9042,7 +9773,8 @@
     "PHP"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1025",
@@ -9054,7 +9786,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1037",
@@ -9066,7 +9799,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1038",
@@ -9078,7 +9812,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1039",
@@ -9090,7 +9825,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1041",
@@ -9102,7 +9838,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1042",
@@ -9114,7 +9851,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1043",
@@ -9126,7 +9864,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1044",
@@ -9138,7 +9877,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1045",
@@ -9150,7 +9890,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1046",
@@ -9162,7 +9903,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1047",
@@ -9174,7 +9916,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1048",
@@ -9186,7 +9929,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1049",
@@ -9198,7 +9942,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1050",
@@ -9210,7 +9955,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1051",
@@ -9222,7 +9968,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1052",
@@ -9234,7 +9981,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1053",
@@ -9246,7 +9994,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1054",
@@ -9258,7 +10007,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1055",
@@ -9270,7 +10020,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1056",
@@ -9282,7 +10033,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1057",
@@ -9294,7 +10046,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1058",
@@ -9306,7 +10059,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1059",
@@ -9318,7 +10072,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1060",
@@ -9330,7 +10085,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1061",
@@ -9342,7 +10098,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1062",
@@ -9354,7 +10111,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1063",
@@ -9366,7 +10124,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1064",
@@ -9378,7 +10137,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1065",
@@ -9390,7 +10150,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1066",
@@ -9402,7 +10163,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1067",
@@ -9414,7 +10176,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1068",
@@ -9424,7 +10187,8 @@
    "staticDetectable": false,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1069",
@@ -9436,7 +10200,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1070",
@@ -9448,7 +10213,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1071",
@@ -9460,7 +10226,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1072",
@@ -9472,7 +10239,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1073",
@@ -9484,7 +10252,8 @@
     "SQL"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1074",
@@ -9496,7 +10265,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1075",
@@ -9508,7 +10278,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1076",
@@ -9520,7 +10291,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1077",
@@ -9532,7 +10304,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1078",
@@ -9544,7 +10317,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1079",
@@ -9556,7 +10330,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1080",
@@ -9568,7 +10343,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1082",
@@ -9580,7 +10356,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1083",
@@ -9592,7 +10369,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1084",
@@ -9604,7 +10382,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1085",
@@ -9616,7 +10395,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1086",
@@ -9628,7 +10408,8 @@
     "Object-Oriented"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1087",
@@ -9640,7 +10421,8 @@
     "Object-Oriented"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1088",
@@ -9652,7 +10434,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1089",
@@ -9664,7 +10447,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1090",
@@ -9676,7 +10460,8 @@
     "Object-Oriented"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1091",
@@ -9688,7 +10473,8 @@
     "Object-Oriented"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1092",
@@ -9700,7 +10486,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1093",
@@ -9712,7 +10499,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1094",
@@ -9724,7 +10512,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1095",
@@ -9736,7 +10525,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1096",
@@ -9748,7 +10538,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1097",
@@ -9760,7 +10551,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1098",
@@ -9772,7 +10564,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1099",
@@ -9784,7 +10577,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1100",
@@ -9796,7 +10590,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1101",
@@ -9808,7 +10603,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1102",
@@ -9820,7 +10616,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1103",
@@ -9832,7 +10629,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1104",
@@ -9844,7 +10642,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A03:2025 - Software Supply Chain Failures"
   },
   {
    "id": "CWE-1105",
@@ -9856,7 +10655,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1106",
@@ -9868,7 +10668,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1107",
@@ -9880,7 +10681,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1108",
@@ -9892,7 +10694,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1109",
@@ -9904,7 +10707,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1110",
@@ -9914,7 +10718,8 @@
    "staticDetectable": false,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1111",
@@ -9926,7 +10731,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1112",
@@ -9938,7 +10744,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1113",
@@ -9950,7 +10757,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1114",
@@ -9962,7 +10770,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1115",
@@ -9974,7 +10783,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1116",
@@ -9986,7 +10796,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1117",
@@ -9998,7 +10809,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1118",
@@ -10010,7 +10822,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1119",
@@ -10022,7 +10835,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1120",
@@ -10034,7 +10848,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1121",
@@ -10046,7 +10861,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1122",
@@ -10058,7 +10874,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1123",
@@ -10070,7 +10887,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1124",
@@ -10082,7 +10900,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1125",
@@ -10094,7 +10913,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A06:2025 - Insecure Design"
   },
   {
    "id": "CWE-1126",
@@ -10106,7 +10926,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1127",
@@ -10119,7 +10940,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1164",
@@ -10131,7 +10953,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1173",
@@ -10143,7 +10966,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1174",
@@ -10155,7 +10979,8 @@
     "ASP.NET"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": "A02:2025 - Security Misconfiguration"
   },
   {
    "id": "CWE-1176",
@@ -10167,7 +10992,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1177",
@@ -10179,7 +11005,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1187",
@@ -10189,7 +11016,8 @@
    "staticDetectable": false,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1188",
@@ -10201,7 +11029,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1189",
@@ -10213,7 +11042,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1190",
@@ -10225,7 +11055,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1191",
@@ -10237,7 +11068,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1192",
@@ -10249,7 +11081,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1193",
@@ -10261,7 +11094,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1204",
@@ -10273,7 +11107,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1209",
@@ -10285,7 +11120,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1220",
@@ -10297,7 +11133,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1221",
@@ -10310,7 +11147,8 @@
     "Verilog"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1222",
@@ -10322,7 +11160,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1223",
@@ -10335,7 +11174,8 @@
     "Verilog"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1224",
@@ -10348,7 +11188,8 @@
     "Verilog"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1229",
@@ -10360,7 +11201,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1230",
@@ -10372,7 +11214,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1231",
@@ -10384,7 +11227,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1232",
@@ -10396,7 +11240,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1233",
@@ -10408,7 +11253,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1234",
@@ -10420,7 +11266,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1235",
@@ -10433,7 +11280,8 @@
     "Java"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1236",
@@ -10445,7 +11293,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1239",
@@ -10457,7 +11306,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1240",
@@ -10469,7 +11319,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
    "id": "CWE-1241",
@@ -10479,7 +11330,8 @@
    "staticDetectable": false,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
    "id": "CWE-1242",
@@ -10491,7 +11343,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1243",
@@ -10503,7 +11356,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1244",
@@ -10515,7 +11369,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1245",
@@ -10527,7 +11382,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1246",
@@ -10539,7 +11395,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1247",
@@ -10551,7 +11408,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1248",
@@ -10563,7 +11421,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1249",
@@ -10575,7 +11434,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1250",
@@ -10587,7 +11447,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1251",
@@ -10600,7 +11461,8 @@
     "Verilog"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1252",
@@ -10612,7 +11474,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1253",
@@ -10624,7 +11487,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1254",
@@ -10636,7 +11500,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1255",
@@ -10648,7 +11513,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1256",
@@ -10660,7 +11526,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1257",
@@ -10672,7 +11539,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1258",
@@ -10684,7 +11552,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1259",
@@ -10696,7 +11565,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1260",
@@ -10708,7 +11578,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1261",
@@ -10720,7 +11591,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1262",
@@ -10732,7 +11604,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1263",
@@ -10744,7 +11617,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1264",
@@ -10756,7 +11630,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1265",
@@ -10768,7 +11643,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1266",
@@ -10780,7 +11656,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1267",
@@ -10792,7 +11669,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1268",
@@ -10804,7 +11682,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1269",
@@ -10818,7 +11697,8 @@
     "Verilog"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1270",
@@ -10830,7 +11710,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1271",
@@ -10842,7 +11723,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1272",
@@ -10856,7 +11738,8 @@
     "Verilog"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1273",
@@ -10870,7 +11753,8 @@
     "Verilog"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1274",
@@ -10882,7 +11766,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1275",
@@ -10894,7 +11779,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A01:2025 - Broken Access Control"
   },
   {
    "id": "CWE-1276",
@@ -10906,7 +11792,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1277",
@@ -10918,7 +11805,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1278",
@@ -10930,7 +11818,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1279",
@@ -10944,7 +11833,8 @@
     "Verilog"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1280",
@@ -10958,7 +11848,8 @@
     "Verilog"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1281",
@@ -10970,7 +11861,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1282",
@@ -10982,7 +11874,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1283",
@@ -10994,7 +11887,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1284",
@@ -11006,7 +11900,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1285",
@@ -11018,7 +11913,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1286",
@@ -11030,7 +11926,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1287",
@@ -11042,7 +11939,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1288",
@@ -11054,7 +11952,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1289",
@@ -11066,7 +11965,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1290",
@@ -11078,7 +11978,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1291",
@@ -11090,7 +11991,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1292",
@@ -11102,7 +12004,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1293",
@@ -11114,7 +12017,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1294",
@@ -11126,7 +12030,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1295",
@@ -11138,7 +12043,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1296",
@@ -11152,7 +12058,8 @@
     "Verilog"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1297",
@@ -11166,7 +12073,8 @@
     "Verilog"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1298",
@@ -11179,7 +12087,8 @@
     "Verilog"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1299",
@@ -11191,7 +12100,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1300",
@@ -11203,7 +12113,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1301",
@@ -11215,7 +12126,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1302",
@@ -11227,7 +12139,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1303",
@@ -11239,7 +12152,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1304",
@@ -11251,7 +12165,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1310",
@@ -11263,7 +12178,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1311",
@@ -11276,7 +12192,8 @@
     "Verilog"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1312",
@@ -11288,7 +12205,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1313",
@@ -11300,7 +12218,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1314",
@@ -11312,7 +12231,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1315",
@@ -11324,7 +12244,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1316",
@@ -11336,7 +12257,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1317",
@@ -11348,7 +12270,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1318",
@@ -11360,7 +12283,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1319",
@@ -11372,7 +12296,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1320",
@@ -11384,7 +12309,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1321",
@@ -11396,7 +12322,8 @@
     "JavaScript"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1322",
@@ -11408,7 +12335,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1323",
@@ -11420,7 +12348,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1324",
@@ -11430,7 +12359,8 @@
    "staticDetectable": false,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1325",
@@ -11444,7 +12374,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1326",
@@ -11456,7 +12387,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1327",
@@ -11468,7 +12400,8 @@
     "Other"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1328",
@@ -11480,7 +12413,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1329",
@@ -11492,7 +12426,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A03:2025 - Software Supply Chain Failures"
   },
   {
    "id": "CWE-1330",
@@ -11504,7 +12439,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1331",
@@ -11516,7 +12452,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1332",
@@ -11528,7 +12465,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1333",
@@ -11540,7 +12478,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1334",
@@ -11552,7 +12491,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1335",
@@ -11568,7 +12508,8 @@
     "JavaScript"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1336",
@@ -11584,7 +12525,8 @@
     "Python"
    ],
    "languageAgnostic": false,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1338",
@@ -11596,7 +12538,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1339",
@@ -11608,7 +12551,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1341",
@@ -11624,7 +12568,8 @@
     "Rust"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1342",
@@ -11636,7 +12581,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1351",
@@ -11648,7 +12594,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1357",
@@ -11658,7 +12605,8 @@
    "staticDetectable": true,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1384",
@@ -11668,7 +12616,8 @@
    "staticDetectable": false,
    "languages": [],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1385",
@@ -11680,7 +12629,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1386",
@@ -11692,7 +12642,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1389",
@@ -11704,7 +12655,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1390",
@@ -11716,7 +12668,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-1391",
@@ -11728,7 +12681,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-1392",
@@ -11740,7 +12694,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-1393",
@@ -11752,7 +12707,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A07:2025 - Authentication Failures"
   },
   {
    "id": "CWE-1394",
@@ -11764,7 +12720,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1395",
@@ -11776,7 +12733,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": "A03:2025 - Software Supply Chain Failures"
   },
   {
    "id": "CWE-1419",
@@ -11788,7 +12746,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1420",
@@ -11800,7 +12759,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1421",
@@ -11812,7 +12772,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1422",
@@ -11824,7 +12785,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1423",
@@ -11836,7 +12798,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1426",
@@ -11848,7 +12811,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1427",
@@ -11860,7 +12824,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1428",
@@ -11872,7 +12837,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1429",
@@ -11888,7 +12854,8 @@
     "Verilog"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1431",
@@ -11900,7 +12867,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   },
   {
    "id": "CWE-1434",
@@ -11912,7 +12880,8 @@
     "Not Language-Specific"
    ],
    "languageAgnostic": true,
-   "lists": []
+   "lists": [],
+   "owasp": ""
   }
  ]
 }

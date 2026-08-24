@@ -18,6 +18,8 @@ package assertion
 
 import (
 	"sort"
+
+	"github.com/cyberproaustin/sast-engine/core/internal/ledger"
 	"strings"
 
 	"github.com/cyberproaustin/sast-engine/core/internal/scan"
@@ -68,27 +70,16 @@ type Requirement struct {
 // 4.0 chapter structure entirely. A rollup that does not say which edition it used is
 // not verifiable.
 const (
-	Top10Edition = "OWASP Top 10:2025"
+	Top10Edition = "OWASP Top Ten 2025 (as published in the CWE catalog)"
 	ASVSEdition  = "OWASP ASVS 5.0.0"
 )
 
-// Verified against the published per-category CWE lists at owasp.org/Top10/2025/.
-// A CWE with no entry is reported as unmapped rather than guessed into a category —
-// silently defaulting would produce exactly the false uniformity this design avoids.
-var top10ByCWE = map[string]string{
-	"CWE-78":  "A05:2025 Injection",
-	"CWE-79":  "A05:2025 Injection",
-	"CWE-89":  "A05:2025 Injection",
-	"CWE-95":  "A05:2025 Injection",
-	"CWE-73":  "A06:2025 Insecure Design",
-	"CWE-284": "A01:2025 Broken Access Control",
-	"CWE-285": "A01:2025 Broken Access Control",
-	"CWE-639": "A01:2025 Broken Access Control",
-	"CWE-209": "A10:2025 Mishandling of Exceptional Conditions",
-}
-
 // Top10For returns the rollup category for a CWE, or "" when unmapped.
-func Top10For(cwe string) string { return top10ByCWE[cwe] }
+//
+// Read from the catalog rather than held here. The table this replaced was written from
+// memory, and although a hand-verification later corrected it, a mapping only one person
+// has ever checked is one that drifts at the next edition without anyone noticing.
+func Top10For(cwe string) string { return ledger.OWASPCategory(cwe) }
 
 // CatalogScope states the catalog's relationship to the standard it cites.
 //

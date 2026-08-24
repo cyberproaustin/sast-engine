@@ -37,6 +37,23 @@ def main() -> int:
         "1435": "cwe-top-25-2025",
         "1450": "owasp-top-ten-2025",
     }
+    # The OWASP Top Ten is published in the catalog as ten CATEGORIES, each listing the
+    # weaknesses that roll into it. Reading it here retires the last taxonomy mapping in
+    # this project that a human wrote from memory -- the previous one was wrong in eight
+    # places out of eight.
+    owasp: dict[str, str] = {}
+    categories = {c.get("ID"): c for c in root.findall(".//c:Category", NS)}
+    owasp_view = next((v for v in root.findall(".//c:View", NS) if v.get("ID") == "1450"), None)
+    if owasp_view is not None:
+        for member in owasp_view.findall(".//c:Has_Member", NS):
+            cat = categories.get(member.get("CWE_ID"))
+            if cat is None:
+                continue
+            # "OWASP Top Ten 2025 Category A01:2025 - Broken Access Control"
+            label = (cat.get("Name") or "").split("Category", 1)[-1].strip()
+            for w in cat.findall(".//c:Has_Member", NS):
+                owasp.setdefault("CWE-" + w.get("CWE_ID"), label)
+
     memberships: dict[str, list[str]] = {}
     for view in root.findall(".//c:View", NS):
         label = PRIORITY_VIEWS.get(view.get("ID"))
@@ -67,6 +84,7 @@ def main() -> int:
             "languages": sorted(x for x in langs if x),
             "languageAgnostic": (not langs) or ("Not Language-Specific" in langs),
             "lists": sorted(memberships.get("CWE-" + w.get("ID"), [])),
+            "owasp": owasp.get("CWE-" + w.get("ID"), ""),
         })
 
     entries.sort(key=lambda e: int(e["id"].split("-")[1]))
@@ -89,6 +107,7 @@ def main() -> int:
     print(f"  {len(entries)} weaknesses")
     print(f"  {len(scoped)} in scope (static-detectable, not deprecated, our languages)")
     print(f"  {len(shapes)} of those are Base or Variant, i.e. have a code shape")
+    print(f"  {sum(1 for e in entries if e['owasp'])} weaknesses carry an OWASP Top Ten 2025 category")
     for label in sorted(set(l for e in entries for l in e["lists"])):
         n = sum(1 for e in entries if label in e["lists"])
         ours = sum(1 for e in scoped if label in e["lists"])
