@@ -21,6 +21,25 @@ import (
 	"github.com/cyberproaustin/sast-engine/core/internal/surface"
 )
 
+// weaknessFor names what is missing, rather than labelling every gap with the same
+// identity.
+//
+// The same principle the channels follow (ADR-012): the judgement is one judgement -- this
+// entry point lacks something its peers have -- and what makes it a particular weakness is
+// WHAT was lacking. An absent authentication control is CWE-306; an absent authorization
+// control is CWE-862; and a control the engine could not classify is honestly reported as
+// the class above both of them, because that is genuinely all that is known.
+func weaknessFor(controlKind string) string {
+	switch controlKind {
+	case "authentication":
+		return "CWE-306"
+	case "authorization":
+		return "CWE-862"
+	default:
+		return "CWE-284"
+	}
+}
+
 // Origins.
 const (
 	OriginInferred = "inferred"
@@ -135,7 +154,7 @@ func Analyze(d *ir.IR, s surface.Surface, m model.Model, p *policy.Policy, t Thr
 				}
 				res.Findings = append(res.Findings, Finding{
 					Class:  "Declared control missing",
-					CWE:    "CWE-284",
+					CWE:    weaknessFor(kind),
 					Origin: OriginDeclared,
 					// A team that stated this expectation gets it enforced.
 					Gates: true,
@@ -205,7 +224,7 @@ func (r *Result) appendInferred(s surface.Surface, t Thresholds, exempt map[stri
 				}
 				r.Findings = append(r.Findings, Finding{
 					Class:          "Inconsistent access control",
-					CWE:            "CWE-284",
+					CWE:            weaknessFor(sig.kind),
 					Origin:         OriginInferred,
 					Gates:          false,
 					Message:        fmt.Sprintf("%s is not applied here, but is applied by most comparable entry points", sig.name),

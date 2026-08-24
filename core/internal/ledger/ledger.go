@@ -35,6 +35,12 @@ type Weakness struct {
 	// Lists names the catalog's own priority views this weakness belongs to. Which
 	// weaknesses matter most is read from MITRE rather than decided here.
 	Lists []string `json:"lists"`
+	// OWASP is the Top Ten category this weakness rolls into, as the catalog publishes
+	// it. Derived rather than remembered: the map this replaced was written from memory
+	// once and was wrong in every entry, and although a later hand-verification fixed
+	// the categories, a mapping only one person has ever checked is a mapping waiting to
+	// drift at the next edition.
+	OWASP string `json:"owasp"`
 }
 
 // OnList reports membership of one of the catalog's priority views.
@@ -151,6 +157,19 @@ func Covered() (asserted, total int) {
 		}
 	}
 	return asserted, len(in)
+}
+
+// OWASPCategory returns the Top Ten category a weakness rolls into, or empty when the
+// catalog places it in none. Empty is reported as unmapped rather than defaulted into a
+// category, because a rollup that silently absorbs what it does not recognize is how a
+// tool implies uniform coverage it does not have.
+func OWASPCategory(cwe string) string {
+	for _, w := range loaded.Weaknesses {
+		if w.ID == cwe {
+			return w.OWASP
+		}
+	}
+	return ""
 }
 
 // TopTwentyFive is the catalog's own list of the weaknesses that matter most.

@@ -26,7 +26,7 @@ var claims = map[string]Claim{
 		[]string{"internal-detail-outward"}},
 	"CWE-639": {Partial, "a record selector chosen by the caller with no relation to the caller's identity; requires control flow. Judgements on entry points the framework handed no identity are set aside rather than reported: 42 of those were adjudicated by hand against sixteen production repositories at 0.00 precision, and setting them aside cost nothing on the vulnerable corpus",
 		[]string{"unowned-record-access"}},
-	"CWE-284": {Partial, "an entry point missing a control most of its comparable peers apply; inferred expectations inform and never gate",
+	"CWE-284": {Partial, "an entry point missing a control the engine could not classify, which most of its comparable peers apply. Reported at this level deliberately: naming it authentication or authorization would be claiming to know which, and the honest identity is the class above both",
 		[]string{"expectations"}},
 
 	// Decidable in principle, and honestly not built. Listed because naming the next ones
@@ -55,7 +55,10 @@ var claims = map[string]Claim{
 	// The four members of the catalog's own Top 25 that apply to these languages and are
 	// not covered. Named rather than left blank, because the list is the closest thing
 	// this project has to a prioritised backlog that nobody wrote by hand.
-	"CWE-306": {NotBuilt, "an entry point reachable with no authentication control, which the convention analysis is the right shape for: it already reports a control most peers apply and this one lacks. What it cannot yet do is distinguish an endpoint that is unauthenticated by design from one that forgot", nil},
+	"CWE-306": {Partial, "an entry point missing an authentication control most of its comparable peers apply. Inferred from the population and therefore informing rather than gating (ADR-010); it cannot distinguish an endpoint unauthenticated by design from one that forgot, which is what a declaration supplies",
+		[]string{"expectations"}},
+	"CWE-862": {Partial, "an entry point missing an authorization control most of its comparable peers apply; same origin and same limits as CWE-306",
+		[]string{"expectations"}},
 	"CWE-434": {NotBuilt, "needs upload-handling channels and a notion of which validations confine a file's type", nil},
 	"CWE-476": {Undecidable, "in these languages this is a TypeError on undefined at runtime rather than a memory fault, and deciding it statically means proving nullability across a dynamic language; the value even when solved is reliability rather than security", nil},
 	"CWE-770": {NotBuilt, "needs a notion of a bounded resource and of what bounds it; rate limiting is observable as a control on the surface, and unbounded reads are not observable at all yet", nil},

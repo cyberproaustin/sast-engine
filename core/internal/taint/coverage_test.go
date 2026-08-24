@@ -82,17 +82,31 @@ func TestUnevaluatedRequirementIsNotSatisfied(t *testing.T) {
 func TestTop10IsDerivedFromCWE(t *testing.T) {
 	rep := assertion.Evaluate(runScan(t, "express-idor"))
 
-	if len(rep.Rollup) != 1 {
-		t.Fatalf("want one rolled-up category, got %+v", rep.Rollup)
+	byCat := map[string]int{}
+	for _, r := range rep.Rollup {
+		byCat[r.Category] = r.Findings
 	}
-	entry := rep.Rollup[0]
-	if entry.Category != assertion.Top10For("CWE-639") {
-		t.Errorf("category should come from the CWE mapping, got %q", entry.Category)
+
+	// The ownership findings roll into whatever the catalog says CWE-639 rolls into --
+	// asserted through the lookup rather than against a category name written here, so
+	// that adopting a new catalog edition cannot leave this test asserting last year's
+	// taxonomy while claiming to check this year's.
+	if got := byCat[assertion.Top10For("CWE-639")]; got != 3 {
+		t.Errorf("want 3 ownership findings under %q, got %d (%+v)",
+			assertion.Top10For("CWE-639"), got, rep.Rollup)
 	}
-	// Three ownership findings plus one unmet access-control expectation; both CWEs
-	// belong to the same category, which is the rollup doing its job.
-	if entry.Findings != 4 {
-		t.Errorf("want 4 findings rolled up, got %d", entry.Findings)
+
+	// The unmet expectation lands somewhere else, and that is the improvement rather
+	// than a regression: the missing control is an AUTHENTICATION control, so the
+	// finding is CWE-306 and belongs with authentication failures rather than with
+	// broken access control. What was missing decides the weakness, exactly as what was
+	// reached decides it for a flow (ADR-012).
+	if got := byCat[assertion.Top10For("CWE-306")]; got != 1 {
+		t.Errorf("want the missing-authentication finding under %q, got %d (%+v)",
+			assertion.Top10For("CWE-306"), got, rep.Rollup)
+	}
+	if assertion.Top10For("CWE-306") == assertion.Top10For("CWE-639") {
+		t.Error("missing authentication and unowned access should not share a category")
 	}
 
 	// One policy, two channels, two weaknesses — and they roll up to different
