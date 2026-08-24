@@ -33,7 +33,8 @@ var claims = map[string]Claim{
 	// is more useful than an empty space.
 	"CWE-22": {Partial, "untrusted data choosing the path argument of a described filesystem API; path.basename and Flask's send_from_directory are recognized as confining it",
 		[]string{"untrusted-to-filesystem-path"}},
-	"CWE-918": {NotBuilt, "needs outbound-request channels and a notion of caller-chosen destination", nil},
+	"CWE-918": {Partial, "untrusted data forming the WHOLE destination of a described outbound request; a URL whose host is fixed by a literal leaves the caller only a path and is not reported, at the cost of missing a host composed onto a bare scheme",
+		[]string{"untrusted-to-outbound-destination"}},
 	"CWE-502": {NotBuilt, "needs deserialization channels", nil},
 	"CWE-328": {Partial, "a broken hash algorithm named as a literal in the call; an algorithm chosen at runtime is not matched and not guessed at",
 		[]string{"weak-hash"}},

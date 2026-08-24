@@ -114,6 +114,20 @@ type Channel struct {
 	// being written.
 	RequiresComposition bool
 
+	// RequiresWholeValue is the mirror image, and the pair is not a coincidence: what a
+	// destination interprets decides which one it needs.
+	//
+	// A SQL statement is BUILT, so untrusted data composed into it is the defect. A
+	// request destination is CHOSEN, so untrusted data composed into it usually is not:
+	// `axios.get(BASE + "/users/" + id)` fixes the host in the literal and leaves the
+	// caller only a path segment, which cannot move the request to another machine.
+	//
+	// The cost is a stated false negative. `"https://" + host` IS caller-chosen and is
+	// composed, so it is missed. That shape is rarer than a fixed base with a variable
+	// path, and a miss is the cheaper error here: the alternative floods every service
+	// that builds a URL from an id, which is most of them.
+	RequiresWholeValue bool
+
 	// CWE identifies the weakness when reaching THIS channel determines it. One
 	// policy can govern several channels whose weaknesses differ: untrusted input
 	// choosing what a shell runs is CWE-78, and choosing which executable runs is
@@ -402,6 +416,159 @@ func Builtin() Model {
 
 		// WHAT CHANNELS ARE. Visibility and interpreted context, not danger.
 		Channels: []Channel{
+			// Where an outbound request GOES, as opposed to what it carries. The same
+			// axios.post is two different destinations depending on which argument is
+			// being asked about: argument 1 is data leaving the trust boundary, and
+			// argument 0 is the caller choosing which machine the application talks to
+			// from inside the network. Different arguments, different judgements, one
+			// call.
+			{
+				ID: "outbound-destination", Visibility: "internal", Context: "url",
+				Symbol: "axios.get", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:                "CWE-918",
+				RequiresWholeValue: true,
+				Rationale:          "the first argument is the address this request is sent to",
+			},
+			{
+				ID: "outbound-destination", Visibility: "internal", Context: "url",
+				Symbol: "axios.post", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:                "CWE-918",
+				RequiresWholeValue: true,
+				Rationale:          "the first argument is the address this request is sent to",
+			},
+			{
+				ID: "outbound-destination", Visibility: "internal", Context: "url",
+				Symbol: "axios.put", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:                "CWE-918",
+				RequiresWholeValue: true,
+				Rationale:          "the first argument is the address this request is sent to",
+			},
+			{
+				ID: "outbound-destination", Visibility: "internal", Context: "url",
+				Symbol: "axios.delete", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:                "CWE-918",
+				RequiresWholeValue: true,
+				Rationale:          "the first argument is the address this request is sent to",
+			},
+			{
+				ID: "outbound-destination", Visibility: "internal", Context: "url",
+				Symbol: "axios.request", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:                "CWE-918",
+				RequiresWholeValue: true,
+				Rationale:          "the first argument is the address this request is sent to",
+			},
+			{
+				ID: "outbound-destination", Visibility: "internal", Context: "url",
+				Symbol: "node-fetch.default", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:                "CWE-918",
+				RequiresWholeValue: true,
+				Rationale:          "the first argument is the address this request is sent to",
+			},
+			{
+				ID: "outbound-destination", Visibility: "internal", Context: "url",
+				Symbol: "http.get", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:                "CWE-918",
+				RequiresWholeValue: true,
+				Rationale:          "the first argument is the address this request is sent to",
+			},
+			{
+				ID: "outbound-destination", Visibility: "internal", Context: "url",
+				Symbol: "http.request", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:                "CWE-918",
+				RequiresWholeValue: true,
+				Rationale:          "the first argument is the address this request is sent to",
+			},
+			{
+				ID: "outbound-destination", Visibility: "internal", Context: "url",
+				Symbol: "https.get", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:                "CWE-918",
+				RequiresWholeValue: true,
+				Rationale:          "the first argument is the address this request is sent to",
+			},
+			{
+				ID: "outbound-destination", Visibility: "internal", Context: "url",
+				Symbol: "https.request", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:                "CWE-918",
+				RequiresWholeValue: true,
+				Rationale:          "the first argument is the address this request is sent to",
+			},
+			{
+				ID: "outbound-destination", Visibility: "internal", Context: "url",
+				Symbol: "got.default", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:                "CWE-918",
+				RequiresWholeValue: true,
+				Rationale:          "the first argument is the address this request is sent to",
+			},
+			{
+				ID: "outbound-destination", Visibility: "internal", Context: "url",
+				Symbol: "superagent.get", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:                "CWE-918",
+				RequiresWholeValue: true,
+				Rationale:          "the first argument is the address this request is sent to",
+			},
+			{
+				ID: "outbound-destination", Visibility: "internal", Context: "url",
+				Symbol: "requests.get", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:                "CWE-918",
+				RequiresWholeValue: true,
+				Rationale:          "the first argument is the address this request is sent to",
+			},
+			{
+				ID: "outbound-destination", Visibility: "internal", Context: "url",
+				Symbol: "requests.post", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:                "CWE-918",
+				RequiresWholeValue: true,
+				Rationale:          "the first argument is the address this request is sent to",
+			},
+			{
+				ID: "outbound-destination", Visibility: "internal", Context: "url",
+				Symbol: "requests.put", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:                "CWE-918",
+				RequiresWholeValue: true,
+				Rationale:          "the first argument is the address this request is sent to",
+			},
+			{
+				ID: "outbound-destination", Visibility: "internal", Context: "url",
+				Symbol: "requests.delete", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:                "CWE-918",
+				RequiresWholeValue: true,
+				Rationale:          "the first argument is the address this request is sent to",
+			},
+			{
+				ID: "outbound-destination", Visibility: "internal", Context: "url",
+				Symbol: "requests.head", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:                "CWE-918",
+				RequiresWholeValue: true,
+				Rationale:          "the first argument is the address this request is sent to",
+			},
+			{
+				ID: "outbound-destination", Visibility: "internal", Context: "url",
+				Symbol: "urllib.request.urlopen", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:                "CWE-918",
+				RequiresWholeValue: true,
+				Rationale:          "the first argument is the address this request is sent to",
+			},
+			{
+				ID: "outbound-destination", Visibility: "internal", Context: "url",
+				Symbol: "httpx.get", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:                "CWE-918",
+				RequiresWholeValue: true,
+				Rationale:          "the first argument is the address this request is sent to",
+			},
+			{
+				ID: "outbound-destination", Visibility: "internal", Context: "url",
+				Symbol: "httpx.post", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:                "CWE-918",
+				RequiresWholeValue: true,
+				Rationale:          "the first argument is the address this request is sent to",
+			},
+			{
+				ID: "outbound-destination", Visibility: "internal", Context: "url",
+				Symbol: "fetch", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:                "CWE-918",
+				RequiresWholeValue: true,
+				Rationale:          "the first argument is the address this request is sent to",
+			},
 			// The filesystem, addressed by a path the caller chose. A read is not an
 			// interpreter and this is not injection: nothing is executed, a different
 			// file is simply opened than the one intended. Its own context and its own
@@ -911,6 +1078,14 @@ func Builtin() Model {
 				Reason:   "the caller chooses which record is operated on, and the handler never consults who the caller is",
 				Finding:  "Missing ownership check",
 				CWE:      "CWE-639",
+			},
+			{
+				ID:            "untrusted-to-outbound-destination",
+				Class:         "untrusted-input",
+				DeniedContext: []string{"url"},
+				Reason:        "a caller must not be able to choose which machine the application makes a request to from inside the network",
+				Finding:       "Untrusted input chooses a request destination",
+				CWE:           "CWE-918",
 			},
 			{
 				ID:            "untrusted-to-filesystem-path",

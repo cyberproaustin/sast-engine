@@ -983,6 +983,11 @@ func (e *engine) buildFinding(c *ir.Call, ch model.Channel, p model.Policy, arg 
 	if ch.RequiresComposition && !composedIntoText(path) {
 		return Finding{}, false
 	}
+	// A destination is chosen, not built. Untrusted data composed into it usually leaves
+	// the caller a path segment rather than a machine to point at.
+	if ch.RequiresWholeValue && composedIntoText(path) {
+		return Finding{}, false
+	}
 
 	// A channel that needs to know what its receiver is, matched by a frontend that
 	// could not say, is a weaker claim than the path resolution alone suggests. It is
