@@ -104,6 +104,8 @@ func finding(ix *ir.Index, fn *ir.Function, c *ir.Call, shape model.CallShape, l
 		Message:      shape.Reason,
 		SinkLoc:      c.Loc,
 		SinkSymbol:   name,
+		SinkArgIndex: shape.ArgIndex,
+		InTestModule: ix.InTestModule(c.Loc),
 		SinkFunction: fn.Name,
 		SinkRational: shape.Rationale,
 		SourceLabel:  strconv.Quote(lit),

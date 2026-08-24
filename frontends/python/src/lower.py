@@ -12,10 +12,11 @@ capabilities rather than letting the difference show up as fewer findings
 from __future__ import annotations
 
 import ast
+import re
 import os
 from typing import Any
 
-IR_VERSION = "0.7.0"
+IR_VERSION = "0.8.0"
 FRONTEND_VERSION = "0.1.0"
 
 FUNCTION_NODES = (ast.FunctionDef, ast.AsyncFunctionDef)
@@ -31,6 +32,15 @@ HTTP_METHODS = frozenset({"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTI
 VIEW_BASES = frozenset({"MethodView", "View"})
 
 BUILTIN_CONTAINERS = frozenset({"dict", "list", "set", "frozenset", "bytearray", "tuple", "Counter", "defaultdict", "OrderedDict"})
+
+
+# Python test-file conventions.
+TEST_PATH = re.compile(r"(^|/)(tests?|testing)/|(^|/)test_[^/]*\.py$|_test\.py$|(^|/)conftest\.py$")
+
+
+def is_test_module(module: str) -> bool:
+    """Ships with the code but does not run in production."""
+    return bool(TEST_PATH.search(module))
 
 
 def module_id(root: str, path: str) -> str:
@@ -767,7 +777,8 @@ def lower_program(root: str, files: list[str]) -> dict:
     for path, tree in trees:
         lowerer = ModuleLowerer(root, path, tree, defs)
         lowerer.lower()
-        modules.append({"id": lowerer.module, "path": lowerer.module})
+        modules.append({"id": lowerer.module, "path": lowerer.module,
+                        **({"isTest": True} if is_test_module(lowerer.module) else {})})
         functions.extend(lowerer.functions)
         entry_points.extend(lowerer.entry_points)
 

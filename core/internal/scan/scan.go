@@ -57,6 +57,7 @@ func (r Result) InScope(f taint.Finding) bool {
 func (r Result) Gates(f taint.Finding) bool {
 	return f.EntryAnchored &&
 		!f.DependsOnUse &&
+		!f.InTestModule &&
 		f.Confidence.Gating() &&
 		r.IsNew(f) &&
 		r.InScope(f)

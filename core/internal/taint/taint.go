@@ -87,6 +87,10 @@ type Finding struct {
 	// actually enumerated. An unanchored finding is not an assertion over the
 	// surface (ADR-009): it is reported, but it never gates.
 	EntryAnchored bool
+	// InTestModule marks a finding in code that ships with the repository but does not
+	// run in production. Reported, never gating: a key written into a test is in the
+	// history exactly as the reason says and is still not a production credential.
+	InTestModule bool
 	// DependsOnUse marks a finding whose judgement turns on what the result is used for,
 	// which the analysis that produced it cannot see. Reported, never gating.
 	DependsOnUse bool

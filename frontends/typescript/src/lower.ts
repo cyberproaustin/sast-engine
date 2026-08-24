@@ -166,7 +166,7 @@ export function lowerProgram(opts: LowerOptions): IRDoc {
 
   for (const sf of sources) {
     const moduleId = moduleIdOf(opts.rootDir, sf.fileName);
-    modules.push({ id: moduleId, path: moduleId });
+    modules.push({ id: moduleId, path: moduleId, isTest: isTestModule(moduleId) || undefined });
     importsByFile.set(sf, buildImportMap(sf));
     collectFunctions(sf, moduleId, funcByNode);
   }
@@ -297,6 +297,13 @@ function literalOf(node: ts.Expression): string | undefined {
   if (node.kind === ts.SyntaxKind.FalseKeyword) return "false";
   if (node.kind === ts.SyntaxKind.NullKeyword) return "null";
   return undefined;
+}
+
+/** JavaScript and TypeScript test-file conventions. */
+const TEST_PATH = /(^|\/)(__tests__|__mocks__|tests?|spec)\/|\.(test|spec)\.[cm]?[jt]sx?$|(^|\/)(jest|vitest)\.(config|setup)\./;
+
+function isTestModule(moduleId: string): boolean {
+  return TEST_PATH.test(moduleId);
 }
 
 function normalizeModule(name: string): string {

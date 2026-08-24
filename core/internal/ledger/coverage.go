@@ -48,7 +48,8 @@ var claims = map[string]Claim{
 	"CWE-1333": {Partial, "untrusted data compiled as a regular expression, where a backtracking engine can be made to take exponential time on a short input",
 		[]string{"untrusted-to-regex"}},
 	"CWE-330": {NotBuilt, "needs a notion of which randomness is used for a security decision, which a call shape alone does not carry", nil},
-	"CWE-798": {NotBuilt, "needs literal-value classification rather than taint", nil},
+	"CWE-798": {Partial, "a key argument written as a literal, matched on having been written down rather than on what it says; a key read from the environment or a vault is not a literal and never matches",
+		[]string{"hardcoded-secret"}},
 	"CWE-614": {NotBuilt, "a call-shape assertion over cookie options; the analysis kind is not built", nil},
 
 	// Real, and about something no analysis of source can see.

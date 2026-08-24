@@ -47,6 +47,17 @@ type Capabilities struct {
 type Module struct {
 	ID   string `json:"id"`
 	Path string `json:"path"`
+	// IsTest marks a module that ships with the code but does not run in production.
+	//
+	// What counts as a test file is an ecosystem convention -- `.test.ts`, `_test.go`,
+	// `test_*.py`, a `__tests__` directory -- so the frontend decides it, the same way it
+	// decides what a builtin type is. The core only decides what it MEANS.
+	//
+	// It means a finding here does not gate. A key written into a test is in the
+	// repository and in its history exactly as the reason says, and it is still not a
+	// production credential: 23 of 23 hardcoded-secret findings across sixteen
+	// repositories were test fixtures, every one of them gating.
+	IsTest bool `json:"isTest,omitempty"`
 }
 
 // Loc is a source position. Line and Column are 1-based.
@@ -336,7 +347,14 @@ type Index struct {
 	// CallSitesOf is the reverse call graph: callee function ID -> call sites
 	// targeting it. Used to propagate a callee's tainted return to its callers.
 	CallSitesOf map[string][]*Call
+
+	// TestModule marks modules the frontend identified as tests.
+	TestModule map[string]bool
 }
+
+// InTestModule reports whether a location sits in a module that does not run in
+// production.
+func (ix *Index) InTestModule(loc Loc) bool { return ix.TestModule[loc.File] }
 
 // NewIndex builds lookup tables over an IR. It does not mutate the IR.
 func NewIndex(d *IR) *Index {
@@ -350,6 +368,13 @@ func NewIndex(d *IR) *Index {
 		FlowsFrom:    make(map[string][]Flow),
 		EntryByFunc:  make(map[string]*EntryPoint, len(d.EntryPoints)),
 		CallSitesOf:  make(map[string][]*Call),
+		TestModule:   make(map[string]bool),
+	}
+	for _, m := range d.Modules {
+		if m.IsTest {
+			ix.TestModule[m.Path] = true
+			ix.TestModule[m.ID] = true
+		}
 	}
 	for _, fn := range d.Functions {
 		ix.FuncByID[fn.ID] = fn
