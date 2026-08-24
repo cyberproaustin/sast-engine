@@ -1,0 +1,123 @@
+// Package callshape finds weaknesses visible in a call's own arguments.
+//
+// The engine's third analysis kind, and the one a large part of the CWE catalog actually
+// needs. A flow analysis asks whether untrusted data reaches somewhere dangerous; a
+// convention analysis asks whether an entry point has what its peers have. Neither can
+// express `createHash("md5")`, which is weak wherever it is written, with nothing reaching
+// it and no caller controlling anything.
+//
+// Deliberately narrow. It matches a LITERAL argument only. A value computed at runtime is
+// not matched and not guessed at, which keeps this kind at the precision that makes it
+// worth having: a string "md5" handed to a hash constructor is md5, and there is nothing
+// to be wrong about.
+package callshape
+
+import (
+	"fmt"
+	"strconv"
+
+	"github.com/cyberproaustin/sast-engine/core/internal/ir"
+	"github.com/cyberproaustin/sast-engine/core/internal/model"
+	"github.com/cyberproaustin/sast-engine/core/internal/taint"
+)
+
+// Analyze reports every call whose written arguments make it a defect.
+func Analyze(d *ir.IR, m model.Model) []taint.Finding {
+	if len(m.CallShapes) == 0 {
+		return nil
+	}
+	ix := ir.NewIndex(d)
+
+	var out []taint.Finding
+	for _, fn := range d.Functions {
+		for _, c := range fn.Calls {
+			if len(c.ArgLiterals) == 0 {
+				continue
+			}
+			for _, shape := range m.CallShapes {
+				if !targets(shape, c) {
+					continue
+				}
+				lit, ok := literalAt(c, shape.ArgIndex)
+				if !ok || !shape.Matches(lit) {
+					continue
+				}
+				out = append(out, finding(ix, fn, c, shape, lit))
+			}
+		}
+	}
+	return out
+}
+
+func targets(shape model.CallShape, c *ir.Call) bool {
+	if shape.Symbol != "" {
+		return c.Callee.Symbol == shape.Symbol
+	}
+	return shape.Method != "" && c.Method == shape.Method
+}
+
+// literalAt reads a positional argument, or scans the keyword arguments when the index is
+// negative. Keyword arguments are recorded as "name=value" and their positions are not
+// meaningful, so the whole set is searched for the one that was named.
+func literalAt(c *ir.Call, index int) (string, bool) {
+	if index >= 0 {
+		v, ok := c.ArgLiterals[index]
+		return v, ok
+	}
+	for i, v := range c.ArgLiterals {
+		if i < 0 {
+			return v, true
+		}
+	}
+	return "", false
+}
+
+func finding(ix *ir.Index, fn *ir.Function, c *ir.Call, shape model.CallShape, lit string) taint.Finding {
+	name := c.Callee.Symbol
+	if name == "" {
+		name = c.Method
+	}
+
+	return taint.Finding{
+		Analysis:     shape.ID,
+		DataClass:    "written-argument",
+		ChannelID:    shape.ID,
+		Class:        shape.Finding,
+		CWE:          shape.CWE,
+		Message:      shape.Reason,
+		SinkLoc:      c.Loc,
+		SinkSymbol:   name,
+		SinkFunction: fn.Name,
+		SinkRational: shape.Rationale,
+		SourceLabel:  strconv.Quote(lit),
+		SourceLoc:    c.Loc,
+		// The evidence is the call itself: this symbol was written with this argument.
+		// Short, and complete for the claim being made (ADR-006) -- unlike a flow, there
+		// is no path to walk because nothing travelled.
+		Path: []taint.Hop{{
+			Loc:         c.Loc,
+			Description: fmt.Sprintf("%s() is called with %s", name, strconv.Quote(lit)),
+			Resolution:  c.Callee.Resolution,
+		}},
+		// Written into the source, so the call graph has nothing to be uncertain about.
+		// Confidence says how well resolution went, not how much the finding matters.
+		Confidence: taint.High,
+		// Whether this is a defect turns on what the result is used for, which the call
+		// does not carry. Reported, never gating, and the report says why.
+		DependsOnUse: shape.DependsOnUse,
+		// Not an assertion over the enumerated surface (ADR-009 governs flows): a weak
+		// hash in a file nothing routes to is still a weak hash. Marked anchored so that
+		// it is counted and can gate, with the entry point named where one reaches it.
+		EntryAnchored: true,
+		EntryPoint:    enclosing(ix, fn),
+	}
+}
+
+func enclosing(ix *ir.Index, fn *ir.Function) string {
+	if ep, ok := ix.EntryByFunc[fn.ID]; ok {
+		if m, p := ep.Detail["method"], ep.Detail["path"]; m != "" && p != "" {
+			return m + " " + p
+		}
+	}
+	return fn.Name + "()"
+}

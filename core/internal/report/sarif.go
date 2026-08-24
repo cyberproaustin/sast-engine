@@ -157,7 +157,7 @@ func SARIF(w io.Writer, scanRes scan.Result, toolVersion string) error {
 			PartialFingerprints: map[string]string{"sastEngine/v1": f.Fingerprint()},
 			Properties: map[string]any{
 				"confidence":  string(f.Confidence),
-				"gating":      f.EntryAnchored && f.Confidence.Gating() && scanRes.IsNew(f),
+				"gating":      scanRes.Gates(f),
 				"baselined":   !scanRes.IsNew(f),
 				"entryPoint":  f.EntryPoint,
 				"anchored":    f.EntryAnchored,

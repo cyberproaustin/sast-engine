@@ -289,6 +289,16 @@ function functionNameOf(node: ts.Node): string {
  */
 const RUNTIME_TYPES = /node_modules\/@types\/node\//;
 
+/** The value of an argument written as a literal, for defects visible in the call. */
+function literalOf(node: ts.Expression): string | undefined {
+  if (ts.isStringLiteralLike(node)) return node.text;
+  if (ts.isNumericLiteral(node)) return node.text;
+  if (node.kind === ts.SyntaxKind.TrueKeyword) return "true";
+  if (node.kind === ts.SyntaxKind.FalseKeyword) return "false";
+  if (node.kind === ts.SyntaxKind.NullKeyword) return "null";
+  return undefined;
+}
+
 function normalizeModule(name: string): string {
   return name.startsWith("node:") ? name.slice("node:".length) : name;
 }
@@ -652,10 +662,13 @@ function lowerFunction(
       const loc = locOf(sf, expr);
 
       const args: Arg[] = [];
+      const argLiterals: Record<number, string> = {};
       expr.arguments.forEach((a, index) => {
         const valueId = lowerExpr(a);
         const fn = resolveFunction(a);
         if (valueId || fn) args.push({ index, valueId, functionId: fn?.id });
+        const lit = literalOf(a);
+        if (lit !== undefined) argLiterals[index] = lit;
       });
 
       // For a method call, record the receiver separately: taint on the object is
@@ -681,6 +694,7 @@ function lowerFunction(
         args,
         method,
         receiverValueId,
+        argLiterals: Object.keys(argLiterals).length ? argLiterals : undefined,
         receiverType: receiverType.type,
         receiverTypeOrigin: receiverType.origin,
         resultValueId: resultId,

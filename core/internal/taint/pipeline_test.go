@@ -363,3 +363,30 @@ func TestThinSurfaceIsReportedAsIncompleteNotClean(t *testing.T) {
 		t.Errorf("a fully enumerated surface was reported incomplete: %+v", whole.Completeness)
 	}
 }
+
+// One definition of what gates, because there were three and they drifted.
+//
+// The condition was written out in scan.Gating, in the text report and in the SARIF
+// writer. The moment a new reason not to gate was added, the copies disagreed: a finding
+// was correctly excluded in the printed report and still failed the build through SARIF.
+// That is the worst possible shape for the bug, because the output a human reads and the
+// output a pipeline acts on told different stories.
+func TestGatingHasOneDefinition(t *testing.T) {
+	doc := loadIR(t, "weak-crypto")
+	res := scan.Run(doc, model.Builtin(), nil)
+
+	if len(res.Taint.Findings) == 0 {
+		t.Fatal("fixture produced no findings")
+	}
+	for _, f := range res.Taint.Findings {
+		if !f.DependsOnUse {
+			t.Errorf("%s should be marked as turning on how the result is used", f.SinkLoc)
+		}
+		if res.Gates(f) {
+			t.Errorf("%s gates despite the judgement turning on something unseen", f.SinkLoc)
+		}
+	}
+	if res.Gating() {
+		t.Error("the run gated on findings none of which individually gate")
+	}
+}

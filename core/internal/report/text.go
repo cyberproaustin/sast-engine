@@ -248,7 +248,7 @@ func writeTaint(b *strings.Builder, res taint.Result, newness, scoped map[string
 	}
 	sort.Strings(order)
 
-	fmt.Fprintf(b, "\nanalysis flow: ran\n")
+	fmt.Fprintf(b, "\nanalyses: ran\n")
 	// A judgement the engine declined to make is stated. Silence here would be
 	// indistinguishable from a clean result (ADR-003).
 	for _, u := range res.Unjudged {
@@ -281,8 +281,12 @@ func writeTaint(b *strings.Builder, res taint.Result, newness, scoped map[string
 				fmt.Fprintf(b, "  outside this change\n")
 				out++
 			}
+			if f.DependsOnUse {
+				fmt.Fprintf(b, "  whether this is a defect depends on what the result is used for,\n")
+				fmt.Fprintf(b, "  which this analysis cannot see: reported, never gating\n")
+			}
 			anchored++
-			if isNew && inScope && f.Confidence.Gating() {
+			if isNew && inScope && !f.DependsOnUse && f.Confidence.Gating() {
 				gating++
 			}
 		}

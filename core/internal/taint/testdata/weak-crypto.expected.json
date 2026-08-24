@@ -1,0 +1,22 @@
+{
+  "corpus": "weak-crypto",
+  "description": "A weakness visible in a call's own arguments, with no dataflow anywhere near it. Two broken hash algorithms named in the source are findings; SHA-256 is not; HMAC-SHA1 is not, because it is not broken the way a bare SHA-1 digest is and is deliberately absent from the list rather than swept in by association; and an algorithm chosen at runtime is not matched, because this kind matches literals and does not guess.",
+  "expected": [
+    {
+      "cwe": "CWE-328",
+      "sinkFile": "app.ts",
+      "sinkLine": 13,
+      "sourceLabel": "\"md5\"",
+      "confidence": "high",
+      "note": "the algorithm is written into the call"
+    },
+    {
+      "cwe": "CWE-328",
+      "sinkFile": "app.ts",
+      "sinkLine": 17,
+      "sourceLabel": "\"sha1\"",
+      "confidence": "high",
+      "note": "a bare SHA-1 digest, unlike HMAC-SHA1 below"
+    }
+  ]
+}

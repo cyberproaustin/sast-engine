@@ -176,6 +176,10 @@ type Call struct {
 	ReceiverID string `json:"receiverValueId,omitempty"`
 	ResultID   string `json:"resultValueId,omitempty"`
 	Block      string `json:"block,omitempty"`
+	// ArgLiterals holds the literal VALUE of any argument written as one, keyed by
+	// argument index. `createHash("md5")` is a defect visible in the call itself with no
+	// dataflow anywhere near it, and there is no way to say so without the string.
+	ArgLiterals map[int]string `json:"argLiterals,omitempty"`
 	// ReceiverType is the receiver's type as the frontend's checker sees it, and
 	// ReceiverTypeOrigin is where that type is DECLARED — "builtin" for the
 	// language's own standard library.

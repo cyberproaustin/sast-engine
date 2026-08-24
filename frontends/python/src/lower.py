@@ -15,7 +15,7 @@ import ast
 import os
 from typing import Any
 
-IR_VERSION = "0.6.0"
+IR_VERSION = "0.7.0"
 FRONTEND_VERSION = "0.1.0"
 
 FUNCTION_NODES = (ast.FunctionDef, ast.AsyncFunctionDef)
@@ -619,16 +619,41 @@ class FunctionLowerer:
             if source in BUILTIN_CONTAINERS:
                 self.local_types[name] = source
 
+    @staticmethod
+    def _literal_of(node: ast.AST) -> str | None:
+        """An argument written as a literal, for defects visible in the call itself.
+
+        `hashlib.md5()` and `requests.get(url, verify=False)` are defects with no dataflow
+        anywhere near them, and there is no way to say so without the value.
+        """
+        if isinstance(node, ast.Constant):
+            if isinstance(node.value, bool):
+                return "true" if node.value else "false"
+            if node.value is None:
+                return "null"
+            if isinstance(node.value, (str, int, float)):
+                return str(node.value)
+        return None
+
     def call(self, node: ast.Call) -> str:
         args = []
+        literals: dict[int, str] = {}
         for index, arg in enumerate(node.args):
             vid = self.expr(arg)
             if vid:
                 args.append({"index": index, "valueId": vid})
-        for kw in node.keywords:
+            lit = self._literal_of(arg)
+            if lit is not None:
+                literals[index] = lit
+        for offset, kw in enumerate(node.keywords):
             vid = self.expr(kw.value)
             if vid:
                 args.append({"index": len(node.args), "valueId": vid})
+            # A keyword argument's literal is recorded under its NAME rather than a
+            # position, because `verify=False` means the same thing wherever it is written.
+            lit = self._literal_of(kw.value)
+            if lit is not None and kw.arg:
+                literals[-(offset + 1)] = f"{kw.arg}={lit}"
 
         method = None
         receiver = None
@@ -654,6 +679,8 @@ class FunctionLowerer:
         self._c += 1
         if method:
             call["method"] = method
+        if literals:
+            call["argLiterals"] = {str(k): v for k, v in literals.items()}
         if receiver_type:
             call["receiverType"] = receiver_type
             if receiver_type in BUILTIN_CONTAINERS:
