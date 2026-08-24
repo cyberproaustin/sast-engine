@@ -1,0 +1,22 @@
+{
+  "corpus": "express-path-traversal",
+  "description": "Path traversal is its own judgement rather than a spelling of injection: nothing is executed, the caller simply chooses a different file than the application meant to open. Its own policy and its own context. The second route passes the same value through path.basename, which reduces a path to its final segment so no traversal survives it, and is not a finding. The third uses a fixed path. The contents are deliberately not echoed back, so this corpus tests one judgement rather than two.",
+  "expected": [
+    {
+      "cwe": "CWE-22",
+      "sinkFile": "app.ts",
+      "sinkLine": 17,
+      "sourceLabel": "req.query.name",
+      "confidence": "medium",
+      "note": "the caller names the file that is read"
+    },
+    {
+      "cwe": "CWE-22",
+      "sinkFile": "app.ts",
+      "sinkLine": 35,
+      "sourceLabel": "req.query.name",
+      "confidence": "medium",
+      "note": "the caller names the file that is deleted"
+    }
+  ]
+}

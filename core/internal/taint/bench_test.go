@@ -30,6 +30,7 @@ var corpora = []string{
 	"express-xss",
 	"nestjs-destructured-params",
 	"weak-crypto",
+	"express-path-traversal",
 	"flask-command-injection",
 	"flask-container-update",
 	"flask-sql-injection",
