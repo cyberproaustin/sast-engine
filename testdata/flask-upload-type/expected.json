@@ -1,0 +1,22 @@
+{
+  "corpus": "flask-upload-type",
+  "description": "CWE-434 is about the TYPE the caller gets to store, which is exactly why secure_filename does not resolve it: it strips separators so no traversal survives, and preserves the extension untouched. The engine says so rather than staying silent, reporting the sanitizer as INSUFFICIENT for the upload-type context. The negatives are the two shapes that would otherwise flood: a generated destination, and .save() called on a record rather than on an upload.",
+  "expected": [
+    {
+      "cwe": "CWE-434",
+      "sinkFile": "app.py",
+      "sinkLine": 17,
+      "sourceLabel": "flask.request.files",
+      "confidence": "low",
+      "note": "secure_filename addresses the path context and not the type; low because os.path.join does not resolve in this frontend, which costs confidence on every Python path finding"
+    },
+    {
+      "cwe": "CWE-434",
+      "sinkFile": "app.py",
+      "sinkLine": 25,
+      "sourceLabel": "flask.request.files",
+      "confidence": "low",
+      "note": "the caller's filename reaches the destination with no transform at all"
+    }
+  ]
+}
