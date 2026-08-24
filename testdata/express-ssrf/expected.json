@@ -1,0 +1,14 @@
+{
+  "corpus": "express-ssrf",
+  "description": "Server-side request forgery: the caller choosing which machine the application talks to from inside the network. The second route passes untrusted data into a URL whose host is already fixed by a literal, leaving only a path segment, and is not a finding. The third sends caller data to a fixed destination, which is a different judgement about a different argument of the same call. The stated cost of that discriminator is a false negative on `\"https://\" + host`, which is composed and genuinely caller-chosen; that shape is rarer than a fixed base with a variable path, and a miss is the cheaper error than flooding every service that builds a URL from an id.",
+  "expected": [
+    {
+      "cwe": "CWE-918",
+      "sinkFile": "app.ts",
+      "sinkLine": 19,
+      "sourceLabel": "req.query.url",
+      "confidence": "medium",
+      "note": "the whole destination comes from the caller"
+    }
+  ]
+}
