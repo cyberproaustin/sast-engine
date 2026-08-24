@@ -281,6 +281,9 @@ func writeTaint(b *strings.Builder, res taint.Result, newness, scoped map[string
 				fmt.Fprintf(b, "  outside this change\n")
 				out++
 			}
+			if f.InTestModule {
+				fmt.Fprintf(b, "  in a test module: ships with the repository, does not run in production\n")
+			}
 			if f.DependsOnUse {
 				fmt.Fprintf(b, "  whether this is a defect depends on what the result is used for,\n")
 				fmt.Fprintf(b, "  which this analysis cannot see: reported, never gating\n")

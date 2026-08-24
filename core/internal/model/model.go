@@ -1306,6 +1306,12 @@ type CallShape struct {
 	// says nothing about a value computed at runtime, and says nothing loudly rather
 	// than guessing.
 	Disallowed []string
+	// AnyLiteral matches when the argument was written as a literal at all, whatever it
+	// says. For an argument that is supposed to hold a secret, being written down IS the
+	// defect and its contents are beside the point -- and the same test is what makes it
+	// precise, because a secret read from the environment or a vault is not a literal
+	// and never matches.
+	AnyLiteral bool
 
 	// DependsOnUse marks a shape whose judgement turns on what the result is USED for,
 	// which the call does not carry.
@@ -1333,6 +1339,9 @@ type CallShape struct {
 
 // Matches reports whether a literal argument value is one this shape forbids.
 func (c CallShape) Matches(literal string) bool {
+	if c.AnyLiteral {
+		return true
+	}
 	for _, bad := range c.Disallowed {
 		if strings.EqualFold(literal, bad) {
 			return true
@@ -1366,6 +1375,36 @@ func builtinCallShapes() []CallShape {
 			Finding:   "Weak hash algorithm",
 			Reason:    "the algorithm is broken against collision, so a digest does not establish what it is used to establish",
 			Rationale: "hashlib.new() is given the algorithm by name",
+		},
+		{
+			// A signing key written into the source. Whatever it says, it is in the
+			// repository, in every clone of it, and in the history after somebody changes
+			// it -- which is what makes rotation insufficient on its own, and what makes
+			// this worth reporting even when the value looks like a placeholder.
+			//
+			// Matching on "was it written down" rather than on what it says is also what
+			// makes it precise: a key read from the environment or a vault is not a
+			// literal and never matches. Nothing here inspects the string, guesses at
+			// entropy, or keeps a list of what a secret looks like.
+			ID: "hardcoded-secret", Symbol: "jsonwebtoken.sign", ArgIndex: 1, AnyLiteral: true,
+			CWE:       "CWE-798",
+			Finding:   "Secret written into the source",
+			Reason:    "a key in the source is in every clone of the repository and stays in its history after it is changed",
+			Rationale: "the second argument to sign() is the signing key",
+		},
+		{
+			ID: "hardcoded-secret", Symbol: "jsonwebtoken.verify", ArgIndex: 1, AnyLiteral: true,
+			CWE:       "CWE-798",
+			Finding:   "Secret written into the source",
+			Reason:    "a key in the source is in every clone of the repository and stays in its history after it is changed",
+			Rationale: "the second argument to verify() is the signing key",
+		},
+		{
+			ID: "hardcoded-secret", Symbol: "crypto.createHmac", ArgIndex: 1, AnyLiteral: true,
+			CWE:       "CWE-798",
+			Finding:   "Secret written into the source",
+			Reason:    "a key in the source is in every clone of the repository and stays in its history after it is changed",
+			Rationale: "the second argument to createHmac() is the key",
 		},
 		{
 			// Unlike a broken hash, this does not depend on use. A hash has honest

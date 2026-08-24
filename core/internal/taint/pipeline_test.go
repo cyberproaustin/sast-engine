@@ -390,3 +390,38 @@ func TestGatingHasOneDefinition(t *testing.T) {
 		t.Error("the run gated on findings none of which individually gate")
 	}
 }
+
+// A defect in a file that does not run in production is reported and does not gate.
+//
+// Across sixteen repositories every single hardcoded-secret finding was a test fixture --
+// 23 of 23 -- and every one gated the build. The key is genuinely in the repository and in
+// its history, exactly as the finding says, and it is still not a production credential.
+//
+// What counts as a test file is an ecosystem convention, so the frontend decides it and
+// the core decides only what it means. That split is why one rule fixed every analysis at
+// once rather than the one that exposed it.
+func TestFindingInATestModuleIsReportedButDoesNotGate(t *testing.T) {
+	doc := loadIR(t, "hardcoded-secret")
+	res := scan.Run(doc, model.Builtin(), nil)
+
+	var inTest, inProduction int
+	for _, f := range res.Taint.Findings {
+		if f.InTestModule {
+			inTest++
+			if res.Gates(f) {
+				t.Errorf("%s gates despite being in a module that does not run", f.SinkLoc)
+			}
+		} else {
+			inProduction++
+			if !res.Gates(f) {
+				t.Errorf("%s is a written key in shipping code and should gate", f.SinkLoc)
+			}
+		}
+	}
+	if inTest == 0 {
+		t.Error("fixture no longer contains a test-module case")
+	}
+	if inProduction == 0 {
+		t.Error("fixture no longer contains a production case to contrast it with")
+	}
+}
