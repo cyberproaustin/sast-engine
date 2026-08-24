@@ -416,6 +416,22 @@ func Builtin() Model {
 
 		// WHAT CHANNELS ARE. Visibility and interpreted context, not danger.
 		Channels: []Channel{
+			// A regular expression the caller writes. Backtracking engines can be made
+			// to take exponential time on a short input, so a pattern from outside is a
+			// way to stop the process without touching it.
+			{
+				ID: "regex-compiler", Visibility: "internal", Context: "regex",
+				Symbol: "RegExp", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-1333",
+				Rationale: "the first argument is compiled as a pattern",
+			},
+			{
+				ID: "regex-compiler", Visibility: "internal", Context: "regex",
+				Symbol: "re.compile", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-1333",
+				Rationale: "the first argument is compiled as a pattern",
+			},
+
 			// A redirect the caller writes. The browser follows it, so the application
 			// lends its own name to a destination someone else chose -- which is what
 			// makes a phishing link look like it came from you.
@@ -1130,6 +1146,14 @@ func Builtin() Model {
 				CWE:      "CWE-639",
 			},
 			{
+				ID:            "untrusted-to-regex",
+				Class:         "untrusted-input",
+				DeniedContext: []string{"regex"},
+				Reason:        "a caller who writes the pattern can choose one that takes exponential time, which stops the process without touching it",
+				Finding:       "Untrusted input is compiled as a regular expression",
+				CWE:           "CWE-1333",
+			},
+			{
 				ID:            "untrusted-to-redirect",
 				Class:         "untrusted-input",
 				DeniedContext: []string{"redirect"},
@@ -1342,6 +1366,30 @@ func builtinCallShapes() []CallShape {
 			Finding:   "Weak hash algorithm",
 			Reason:    "the algorithm is broken against collision, so a digest does not establish what it is used to establish",
 			Rationale: "hashlib.new() is given the algorithm by name",
+		},
+		{
+			// Unlike a broken hash, this does not depend on use. A hash has honest
+			// non-security jobs -- cache keys, content addressing, Gravatar -- and MD5 is
+			// only wrong when collision resistance is what makes the thing work.
+			// Encryption has no such second life: DES is not an acceptable way to encrypt
+			// something for a purpose that does not need encryption, because nothing
+			// needs encryption for a purpose that does not need it. So this one gates.
+			ID: "weak-cipher", Symbol: "crypto.createCipheriv", ArgIndex: 0,
+			Disallowed: []string{"des", "des-ecb", "des-cbc", "rc4", "rc2", "bf", "blowfish",
+				"aes-128-ecb", "aes-192-ecb", "aes-256-ecb"},
+			CWE:       "CWE-327",
+			Finding:   "Broken or risky cipher",
+			Reason:    "the cipher is broken, or the mode leaks structure of the plaintext",
+			Rationale: "createCipheriv() is given the algorithm and mode by name",
+		},
+		{
+			ID: "weak-cipher", Symbol: "crypto.createDecipheriv", ArgIndex: 0,
+			Disallowed: []string{"des", "des-ecb", "des-cbc", "rc4", "rc2", "bf", "blowfish",
+				"aes-128-ecb", "aes-192-ecb", "aes-256-ecb"},
+			CWE:       "CWE-327",
+			Finding:   "Broken or risky cipher",
+			Reason:    "the cipher is broken, or the mode leaks structure of the plaintext",
+			Rationale: "createDecipheriv() is given the algorithm and mode by name",
 		},
 		{
 			ID: "disabled-certificate-check", Symbol: "requests.get", ArgIndex: -1,

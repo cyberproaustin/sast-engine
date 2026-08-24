@@ -1,0 +1,22 @@
+{
+  "corpus": "express-cipher-regex",
+  "description": "Two weaknesses, and the difference between them is why one gates and one does not. A broken hash does not gate: hashes have honest non-security jobs, and MD5 is only wrong where collision resistance is what makes the thing work, which the call does not say. A broken cipher has no such second life, because nothing needs encryption for a purpose that does not need encryption, so it gates. The AES-GCM call is silent. The second route takes the caller's value as the SUBJECT of a fixed pattern rather than as the pattern, which is ordinary matching.",
+  "expected": [
+    {
+      "cwe": "CWE-327",
+      "sinkFile": "app.ts",
+      "sinkLine": 16,
+      "sourceLabel": "\"des-cbc\"",
+      "confidence": "high",
+      "note": "written into the call, and unlike a weak hash this gates"
+    },
+    {
+      "cwe": "CWE-1333",
+      "sinkFile": "app.ts",
+      "sinkLine": 28,
+      "sourceLabel": "req.query.q",
+      "confidence": "high",
+      "note": "the caller writes the pattern, not the subject"
+    }
+  ]
+}
