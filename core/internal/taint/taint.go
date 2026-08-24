@@ -561,6 +561,12 @@ func (e *engine) collect(all map[string]*engine, caps ir.Capabilities) []Finding
 				if ch.RequiresExternalReceiver && c.ReceiverTypeOrigin == "builtin" {
 					continue
 				}
+				// A channel identified by what it is called on. `user.save()` and
+				// `uploaded.save(dest)` are the same method name and nothing else in
+				// common; only one of them is called on data the caller sent.
+				if ch.RequiresUntrustedReceiver && !e.tainted[c.ReceiverID] {
+					continue
+				}
 				// Reaching a channel is not itself a defect. Policy decides whether
 				// THIS class reaching THIS channel is forbidden (ADR-012).
 				policies := e.m.PoliciesFor(e.class.Class, ch)

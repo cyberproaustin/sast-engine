@@ -52,14 +52,15 @@ var claims = map[string]Claim{
 		[]string{"hardcoded-secret"}},
 	"CWE-614": {NotBuilt, "a call-shape assertion over cookie options; the analysis kind is not built", nil},
 
-	// The four members of the catalog's own Top 25 that apply to these languages and are
-	// not covered. Named rather than left blank, because the list is the closest thing
-	// this project has to a prioritised backlog that nobody wrote by hand.
+	// Members of the catalog's own Top 25 that apply to these languages. Named rather than
+	// left blank, because this list is the closest thing the project has to a prioritised
+	// backlog that nobody wrote by hand.
 	"CWE-306": {Partial, "an entry point missing an authentication control most of its comparable peers apply. Inferred from the population and therefore informing rather than gating (ADR-010); it cannot distinguish an endpoint unauthenticated by design from one that forgot, which is what a declaration supplies",
 		[]string{"expectations"}},
 	"CWE-862": {Partial, "an entry point missing an authorization control most of its comparable peers apply; same origin and same limits as CWE-306",
 		[]string{"expectations"}},
-	"CWE-434": {NotBuilt, "needs upload-handling channels and a notion of which validations confine a file's type", nil},
+	"CWE-434": {Partial, "an uploaded file stored at a destination the caller named, which is how the caller ends up choosing the stored type. Matched on the receiver rather than the method name -- `save` and `mv` belong to every ORM record in a program, and only an upload's is called on data that arrived in the request. Partial for two reasons: the confining validation is an extension allowlist, and no shape of one is modelled yet, so a handler that checks properly still reports; and the multer-plus-fs.writeFile shape reports as CWE-22 instead, because there the untrusted value is a filename and the sink is an ordinary file write",
+		[]string{"untrusted-to-stored-file-type"}},
 	"CWE-476": {Undecidable, "in these languages this is a TypeError on undefined at runtime rather than a memory fault, and deciding it statically means proving nullability across a dynamic language; the value even when solved is reliability rather than security", nil},
 	"CWE-770": {Partial, "an entry point missing a throttle most of its comparable peers apply, which is the observable half of this weakness. Unbounded reads and allocations are not observable at all yet, so the claim is narrow on purpose",
 		[]string{"expectations"}},

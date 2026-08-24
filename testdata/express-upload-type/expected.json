@@ -1,0 +1,14 @@
+{
+  "corpus": "express-upload-type",
+  "description": "The receiver is what distinguishes storing an upload from every other .save() and .mv() in a program. Three of these four routes call one of those two methods and only one is called on data that arrived in the request: a record's .save() and a playlist's .mv() are the shapes that would flood if the method name were the whole rule. The fourth route generates the stored name, so nothing the caller sent decides the extension and the destination is never tainted.",
+  "expected": [
+    {
+      "cwe": "CWE-434",
+      "sinkFile": "app.js",
+      "sinkLine": 14,
+      "sourceLabel": "req.files.avatar",
+      "confidence": "medium",
+      "note": "the caller's filename becomes the stored file's name and therefore its type; the move itself resolves but the destination is built through path.join, which is why this is probable rather than certain"
+    }
+  ]
+}

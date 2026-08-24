@@ -108,6 +108,20 @@ type Channel struct {
 	// instead (ADR-005), because a match this weak has not earned a gate.
 	RequiresExternalReceiver bool
 
+	// RequiresUntrustedReceiver marks a channel whose identity comes from WHAT IT IS
+	// CALLED ON rather than from its name.
+	//
+	// `save` is the most overloaded method name in either language. Every ORM record,
+	// every document, every settings object has one, and matching the name alone would
+	// repeat the `.execute` flood exactly. What distinguishes storing an upload is that
+	// the receiver is itself caller-supplied: `request.files["f"].save(dest)` is called on
+	// data that arrived in the request, and `user.save()` never is.
+	//
+	// This asks the dataflow a question it has already answered. The receiver is a
+	// tracked value, so "did untrusted data flow into the thing this was called on" costs
+	// a map lookup and is far stronger evidence than any name.
+	RequiresUntrustedReceiver bool
+
 	// RequiresComposition marks a channel that interprets a STATEMENT its caller built.
 	// The untrusted value must have been concatenated or interpolated into text on its
 	// way here; a value passed along whole is data being handed over, not a program
@@ -326,7 +340,6 @@ func (m Model) CallbackFor(method string) (CallbackRule, bool) {
 	return CallbackRule{}, false
 }
 
-// ClassifyControl returns the control kind for a name, or "" if unrecognized.
 // ClassifyControl says what kind of control a name denotes, or "" when it cannot tell.
 //
 // Matched on the final segment, case-insensitively, and by containment rather than
@@ -385,7 +398,7 @@ func Builtin() Model {
 						Framework:  "express",
 						EntryKind:  "http-route",
 						ParamIndex: 0,
-						Paths:      []string{"query", "body", "params", "headers", "cookies"},
+						Paths:      []string{"query", "body", "params", "headers", "cookies", "files"},
 					},
 					{
 						// Frameworks that inject request data straight into a
@@ -396,7 +409,7 @@ func Builtin() Model {
 					{
 						Match:  MatchGlobalProperty,
 						Symbol: "flask.request",
-						Paths:  []string{"args", "form", "json", "values", "headers", "cookies", "data"},
+						Paths:  []string{"args", "form", "json", "values", "headers", "cookies", "data", "files"},
 					},
 				},
 			},
@@ -666,6 +679,28 @@ func Builtin() Model {
 			// interpreter and this is not injection: nothing is executed, a different
 			// file is simply opened than the one intended. Its own context and its own
 			// policy, because it is its own judgement.
+			// Where an uploaded file's BYTES come to rest. Separate from filesystem-path
+			// because the danger is different and so is the fix: traversal is about
+			// escaping a directory, and this is about what the file turns out to BE once
+			// it is inside one. A stored `.php` under a served directory is a defect even
+			// though nothing escaped anywhere.
+			//
+			// Keeping them apart is what lets `secure_filename` resolve one and not the
+			// other. It strips separators, so no traversal survives it -- and it preserves
+			// the extension exactly, which is the entire attack.
+			{
+				ID: "stored-upload-destination", Visibility: "internal", Context: "upload-type",
+				Method: "save", ReceiverIsEntryParam: -1, RequiresUntrustedReceiver: true, ArgIndex: []int{0},
+				CWE:       "CWE-434",
+				Rationale: "writes an uploaded file to a destination the caller named",
+			},
+			{
+				// express-fileupload moves the temporary file into place.
+				ID: "stored-upload-destination", Visibility: "internal", Context: "upload-type",
+				Method: "mv", ReceiverIsEntryParam: -1, RequiresUntrustedReceiver: true, ArgIndex: []int{0},
+				CWE:       "CWE-434",
+				Rationale: "moves an uploaded file to a destination the caller named",
+			},
 			{
 				ID: "filesystem-path", Visibility: "internal", Context: "path",
 				Symbol: "fs.readFile", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
@@ -1205,6 +1240,19 @@ func Builtin() Model {
 				CWE:           "CWE-918",
 			},
 			{
+				// The weakness is not that the file lands in the wrong PLACE -- that is
+				// CWE-22 next door -- but that the caller decided what KIND of file the
+				// server now holds. An allowlist of extensions resolves it; making the
+				// path safe does not.
+				ID:            "untrusted-to-stored-file-type",
+				Class:         "untrusted-input",
+				DeniedContext: []string{"upload-type"},
+				Requires:      Requirements{Interprocedural: true},
+				Reason:        "a caller must not be able to choose the type of file the application stores",
+				Finding:       "Untrusted input chooses a stored file's type",
+				CWE:           "CWE-434",
+			},
+			{
 				ID:            "untrusted-to-filesystem-path",
 				Class:         "untrusted-input",
 				DeniedContext: []string{"path"},
@@ -1232,6 +1280,20 @@ func Builtin() Model {
 				Symbol:   "os.path.basename",
 				Contexts: []string{"path"},
 				Note:     "reduces a path to its final segment, so no traversal survives it",
+			},
+			{
+				// Deliberately "path" and nothing else. It strips directory separators and
+				// non-ASCII, which ends traversal -- and it leaves `.php` exactly as it
+				// found it. A transform only neutralizes the context it addresses, and
+				// this one does not address type at all.
+				Symbol:   "werkzeug.utils.secure_filename",
+				Contexts: []string{"path"},
+				Note:     "reduces a filename to a safe single segment; preserves the extension",
+			},
+			{
+				Symbol:   "secure_filename",
+				Contexts: []string{"path"},
+				Note:     "reduces a filename to a safe single segment; preserves the extension",
 			},
 			{
 				// Flask's own confined variant: it resolves against a directory and
