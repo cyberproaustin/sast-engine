@@ -1,4 +1,4 @@
-TS_CORPORA := express-command-injection express-async clean-express express-authz express-error-leak express-webhook-leak express-idor express-real-shapes nestjs-controller unanchored-decorator nestjs-ownership nestjs-unresolved-input express-code-interpreter express-sql-injection express-xss nestjs-destructured-params weak-crypto express-path-traversal express-ssrf
+TS_CORPORA := express-command-injection express-async clean-express express-authz express-error-leak express-webhook-leak express-idor express-real-shapes nestjs-controller unanchored-decorator nestjs-ownership nestjs-unresolved-input express-code-interpreter express-sql-injection express-xss nestjs-destructured-params weak-crypto express-path-traversal express-ssrf express-redirect-deserialize
 PY_CORPORA := flask-command-injection flask-container-update flask-sql-injection flask-class-views
 FIXTURE := testdata/express-command-injection
 GOLDEN  := core/internal/taint/testdata

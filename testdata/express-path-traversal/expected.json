@@ -7,16 +7,16 @@
       "sinkFile": "app.ts",
       "sinkLine": 17,
       "sourceLabel": "req.query.name",
-      "confidence": "medium",
-      "note": "the caller names the file that is read"
+      "confidence": "high",
+      "note": "the caller names the file that is read; resolves fully now that a default import is qualified by its module"
     },
     {
       "cwe": "CWE-22",
       "sinkFile": "app.ts",
       "sinkLine": 35,
       "sourceLabel": "req.query.name",
-      "confidence": "medium",
-      "note": "the caller names the file that is deleted"
+      "confidence": "high",
+      "note": "the caller names the file that is deleted; resolves fully now that a default import is qualified by its module"
     }
   ]
 }

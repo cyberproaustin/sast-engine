@@ -542,7 +542,16 @@ function lowerFunction(
       const root = expr.expression;
       if (ts.isIdentifier(root)) {
         const imported = imports.get(root.text);
-        if (imported && imported.export === "*") {
+        // A namespace import and a default import both name a module, and a property
+        // taken off either belongs to that module. Qualifying only the namespace form
+        // left `import serialize from "node-serialize"` resolving to
+        // `serialize.unserialize` -- the local binding rather than the library -- so a
+        // channel described against the module matched nothing.
+        //
+        // It went unnoticed because the conventional binding name usually equals the
+        // module name: `import axios from "axios"` produces `axios.get` either way, and
+        // only agrees by coincidence. `import ax from "axios"` did not.
+        if (imported && (imported.export === "*" || imported.export === "default")) {
           return {
             kind: "external",
             symbol: `${imported.module}.${expr.name.text}`,

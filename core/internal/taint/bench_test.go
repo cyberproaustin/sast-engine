@@ -32,6 +32,7 @@ var corpora = []string{
 	"weak-crypto",
 	"express-path-traversal",
 	"express-ssrf",
+	"express-redirect-deserialize",
 	"flask-command-injection",
 	"flask-container-update",
 	"flask-sql-injection",

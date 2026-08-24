@@ -416,6 +416,56 @@ func Builtin() Model {
 
 		// WHAT CHANNELS ARE. Visibility and interpreted context, not danger.
 		Channels: []Channel{
+			// A redirect the caller writes. The browser follows it, so the application
+			// lends its own name to a destination someone else chose -- which is what
+			// makes a phishing link look like it came from you.
+			//
+			// Whole value, for the same reason SSRF is: `redirect("/users/" + id)` is a
+			// path within this application and cannot leave it.
+			{
+				ID: "redirect-destination", Visibility: "public", Context: "redirect",
+				Method: "redirect", ReceiverIsEntryParam: 1, ArgIndex: []int{0},
+				CWE:                "CWE-601",
+				RequiresWholeValue: true,
+				Rationale:          "the browser is told to go wherever this names",
+			},
+			{
+				ID: "redirect-destination", Visibility: "public", Context: "redirect",
+				Symbol: "flask.redirect", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:                "CWE-601",
+				RequiresWholeValue: true,
+				Rationale:          "the browser is told to go wherever this names",
+			},
+
+			// Deserializers that reconstruct arbitrary objects. Not a parser: these call
+			// constructors, and a payload can therefore choose what runs.
+			{
+				ID: "object-deserializer", Visibility: "internal", Context: "deserialize",
+				Symbol: "node-serialize.unserialize", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-502",
+				Rationale: "unserialize() reconstructs objects, including functions it then invokes",
+			},
+			{
+				ID: "object-deserializer", Visibility: "internal", Context: "deserialize",
+				Symbol: "pickle.loads", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-502",
+				Rationale: "pickle reconstructs arbitrary objects by calling their constructors",
+			},
+			{
+				ID: "object-deserializer", Visibility: "internal", Context: "deserialize",
+				Symbol: "pickle.load", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-502",
+				Rationale: "pickle reconstructs arbitrary objects by calling their constructors",
+			},
+			{
+				// yaml.load without an explicit safe loader constructs Python objects.
+				// yaml.safe_load is a different symbol and is deliberately absent.
+				ID: "object-deserializer", Visibility: "internal", Context: "deserialize",
+				Symbol: "yaml.load", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-502",
+				Rationale: "yaml.load constructs Python objects unless given a safe loader",
+			},
+
 			// Where an outbound request GOES, as opposed to what it carries. The same
 			// axios.post is two different destinations depending on which argument is
 			// being asked about: argument 1 is data leaving the trust boundary, and
@@ -1078,6 +1128,22 @@ func Builtin() Model {
 				Reason:   "the caller chooses which record is operated on, and the handler never consults who the caller is",
 				Finding:  "Missing ownership check",
 				CWE:      "CWE-639",
+			},
+			{
+				ID:            "untrusted-to-redirect",
+				Class:         "untrusted-input",
+				DeniedContext: []string{"redirect"},
+				Reason:        "a caller must not be able to choose where this application sends a browser, because the application's own name is what makes the destination look trustworthy",
+				Finding:       "Untrusted input chooses a redirect destination",
+				CWE:           "CWE-601",
+			},
+			{
+				ID:            "untrusted-to-deserializer",
+				Class:         "untrusted-input",
+				DeniedContext: []string{"deserialize"},
+				Reason:        "a deserializer that reconstructs arbitrary objects lets a caller choose what is constructed, and therefore what runs",
+				Finding:       "Untrusted input reaches an object deserializer",
+				CWE:           "CWE-502",
 			},
 			{
 				ID:            "untrusted-to-outbound-destination",

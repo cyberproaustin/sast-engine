@@ -7,8 +7,8 @@
       "sinkFile": "app.ts",
       "sinkLine": 16,
       "sourceLabel": "err",
-      "confidence": "medium",
-      "note": "internal-error reaching a thirdparty-visible channel; the same policy that covers HTTP responses"
+      "confidence": "high",
+      "note": "internal-error reaching a thirdparty-visible channel; the same policy that covers HTTP responses; resolves fully now that a default import is qualified by its module"
     }
   ]
 }

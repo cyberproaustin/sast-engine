@@ -7,8 +7,8 @@
       "sinkFile": "app.ts",
       "sinkLine": 19,
       "sourceLabel": "req.query.url",
-      "confidence": "medium",
-      "note": "the whole destination comes from the caller"
+      "confidence": "high",
+      "note": "the whole destination comes from the caller; resolves fully now that a default import is qualified by its module"
     }
   ]
 }
