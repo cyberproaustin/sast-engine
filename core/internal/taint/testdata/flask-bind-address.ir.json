@@ -1,0 +1,504 @@
+{
+  "irVersion": "0.11.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "app.py",
+      "path": "app.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "app.py#<module>:0",
+      "name": "<module>",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#<module>:0$v0",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 5,
+            "column": 7
+          },
+          "name": "flask.Flask"
+        },
+        {
+          "id": "app.py#<module>:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 5,
+            "column": 1
+          },
+          "name": "app"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#<module>:0$v0",
+          "to": "app.py#<module>:0$v1",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 5,
+            "column": 1
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#<module>:0$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 5,
+            "column": 7
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.Flask",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#<module>:0$v0",
+          "block": "app.py#<module>:0$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#<module>:0$b0",
+      "blocks": [
+        {
+          "id": "app.py#<module>:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#index:9",
+      "name": "index",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 9,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#index:9$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 10,
+            "column": 12
+          },
+          "literal": "ok"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [
+        "app.py#index:9$v0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#index:9$b0",
+      "blocks": [
+        {
+          "id": "app.py#index:9$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 9,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#index:9$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 10,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#serve_everywhere:13",
+      "name": "serve_everywhere",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 13,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#serve_everywhere:13$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 18,
+            "column": 18
+          },
+          "literal": "0.0.0.0"
+        },
+        {
+          "id": "app.py#serve_everywhere:13$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 18,
+            "column": 34
+          },
+          "literal": "8000"
+        },
+        {
+          "id": "app.py#serve_everywhere:13$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 18,
+            "column": 5
+          },
+          "name": "app.run"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "app.py#serve_everywhere:13$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 18,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "app.run",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#serve_everywhere:13$v0"
+            },
+            {
+              "index": 0,
+              "valueId": "app.py#serve_everywhere:13$v1"
+            }
+          ],
+          "resultValueId": "app.py#serve_everywhere:13$v2",
+          "block": "app.py#serve_everywhere:13$b0",
+          "method": "run",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "host=0.0.0.0",
+            "-2": "port=8000"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#<module>:0$v1"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#serve_everywhere:13$b0",
+      "blocks": [
+        {
+          "id": "app.py#serve_everywhere:13$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 13,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#serve_locally:21",
+      "name": "serve_locally",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 21,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#serve_locally:21$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 18
+          },
+          "literal": "127.0.0.1"
+        },
+        {
+          "id": "app.py#serve_locally:21$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 36
+          },
+          "literal": "8000"
+        },
+        {
+          "id": "app.py#serve_locally:21$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 5
+          },
+          "name": "app.run"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "app.py#serve_locally:21$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "app.run",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#serve_locally:21$v0"
+            },
+            {
+              "index": 0,
+              "valueId": "app.py#serve_locally:21$v1"
+            }
+          ],
+          "resultValueId": "app.py#serve_locally:21$v2",
+          "block": "app.py#serve_locally:21$b0",
+          "method": "run",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "host=127.0.0.1",
+            "-2": "port=8000"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#<module>:0$v1"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#serve_locally:21$b0",
+      "blocks": [
+        {
+          "id": "app.py#serve_locally:21$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#serve_configured:26",
+      "name": "serve_configured",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 26,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#serve_configured:26$v0",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 18
+          },
+          "name": "os"
+        },
+        {
+          "id": "app.py#serve_configured:26$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 18
+          },
+          "base": "app.py#serve_configured:26$v0",
+          "path": "environ",
+          "name": "environ"
+        },
+        {
+          "id": "app.py#serve_configured:26$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 18
+          },
+          "name": "BIND_HOST",
+          "base": "app.py#serve_configured:26$v1",
+          "path": "environ.BIND_HOST"
+        },
+        {
+          "id": "app.py#serve_configured:26$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 48
+          },
+          "literal": "8000"
+        },
+        {
+          "id": "app.py#serve_configured:26$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 5
+          },
+          "name": "app.run"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#serve_configured:26$v0",
+          "to": "app.py#serve_configured:26$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 18
+          }
+        },
+        {
+          "from": "app.py#serve_configured:26$v1",
+          "to": "app.py#serve_configured:26$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 18
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#serve_configured:26$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "app.run",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#serve_configured:26$v2"
+            },
+            {
+              "index": 0,
+              "valueId": "app.py#serve_configured:26$v3"
+            }
+          ],
+          "resultValueId": "app.py#serve_configured:26$v4",
+          "block": "app.py#serve_configured:26$b0",
+          "method": "run",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "host=?",
+            "-2": "port=8000"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#<module>:0$v1"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#serve_configured:26$b0",
+      "blocks": [
+        {
+          "id": "app.py#serve_configured:26$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 1
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "app.py#index:9",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/"
+      }
+    }
+  ]
+}

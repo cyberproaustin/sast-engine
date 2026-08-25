@@ -1,0 +1,14 @@
+{
+  "corpus": "express-bind-address",
+  "description": "The same judgement where the address is a POSITION rather than an option.",
+  "expected": [
+    {
+      "cwe": "CWE-1327",
+      "sinkFile": "app.js",
+      "sinkLine": 10,
+      "sourceLabel": "\"0.0.0.0\"",
+      "confidence": "high",
+      "note": "the second argument to listen() is the address to bind"
+    }
+  ]
+}

@@ -369,7 +369,7 @@ function literalOf(node: ts.Expression): string | undefined {
 }
 
 /** JavaScript and TypeScript test-file conventions. */
-const TEST_PATH = /(^|\/)(__tests__|__mocks__|tests?|spec)\/|\.(test|spec)\.[cm]?[jt]sx?$|(^|\/)(jest|vitest)\.(config|setup)\./;
+const TEST_PATH = /(^|\/)(__tests__|__mocks__|tests?|spec|e2e|__e2e__)\/|\.(test|spec|e2e)\.[cm]?[jt]sx?$|(^|\/)(jest|vitest|playwright|cypress)\.(config|setup)\./;
 
 function isTestModule(moduleId: string): boolean {
   return TEST_PATH.test(moduleId);

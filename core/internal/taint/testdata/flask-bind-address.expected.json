@@ -1,0 +1,14 @@
+{
+  "corpus": "flask-bind-address",
+  "description": "A server told to listen on every address the host has. The negatives are the two right answers: one address, and an address read from the environment -- which is how a deployment decision should be written, and which a rule about a WRITTEN address correctly says nothing about.",
+  "expected": [
+    {
+      "cwe": "CWE-1327",
+      "sinkFile": "app.py",
+      "sinkLine": 18,
+      "sourceLabel": "\"host=0.0.0.0\"",
+      "confidence": "high",
+      "note": "the catalog records no static detection method for this weakness; an address written into a bind call is as decidable as anything else here"
+    }
+  ]
+}

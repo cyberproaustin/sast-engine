@@ -4396,6 +4396,45 @@ func builtinCallShapes() []CallShape {
 		},
 
 		{
+			// A server told to accept connections on every interface it has. On a laptop
+			// that is a demo; on a host with a second network card, a container with a
+			// host-network mode, or a cloud instance with a public address, it is the
+			// difference between a service the application can reach and a service
+			// anybody can.
+			ID: "bound-to-every-interface", Method: "run", Keyword: "host",
+			Disallowed: []string{"0.0.0.0", "::", "[::]"},
+			CWE:        "CWE-1327",
+			Finding:    "Server bound to every interface",
+			Reason:     "the listener accepts connections on every address the host has, which on anything but a laptop includes ones the application was never meant to be reachable from",
+			Rationale:  "the host option names the address to listen on, and this one means all of them",
+		},
+		{
+			ID: "bound-to-every-interface", Symbol: "uvicorn.run", Keyword: "host",
+			Disallowed: []string{"0.0.0.0", "::", "[::]"},
+			CWE:        "CWE-1327",
+			Finding:    "Server bound to every interface",
+			Reason:     "the listener accepts connections on every address the host has, which on anything but a laptop includes ones the application was never meant to be reachable from",
+			Rationale:  "the host option names the address to listen on, and this one means all of them",
+		},
+		{
+			ID: "bound-to-every-interface", Symbol: "waitress.serve", Keyword: "host",
+			Disallowed: []string{"0.0.0.0", "::", "[::]"},
+			CWE:        "CWE-1327",
+			Finding:    "Server bound to every interface",
+			Reason:     "the listener accepts connections on every address the host has, which on anything but a laptop includes ones the application was never meant to be reachable from",
+			Rationale:  "the host option names the address to listen on, and this one means all of them",
+		},
+		{
+			// Node puts the address in the second POSITION rather than in an option.
+			ID: "bound-to-every-interface", Method: "listen", ArgIndex: 1,
+			Disallowed: []string{"0.0.0.0", "::", "[::]"},
+			CWE:        "CWE-1327",
+			Finding:    "Server bound to every interface",
+			Reason:     "the listener accepts connections on every address the host has, which on anything but a laptop includes ones the application was never meant to be reachable from",
+			Rationale:  "the second argument to listen() is the address to bind, and this one means all of them",
+		},
+
+		{
 			// Turning off the header that stops the page being framed. Clickjacking is
 			// the caller's page wrapping yours and collecting the clicks.
 			ID: "frames-allowed", AnyCall: true, Keyword: "xFrameOptions",
