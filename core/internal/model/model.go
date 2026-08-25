@@ -1029,6 +1029,58 @@ func Builtin() Model {
 				Rationale: "written to a log",
 			},
 
+			// An LDAP filter is a small query language, and `*` in the wrong place turns
+			// "this user with this password" into "any user".
+			{
+				ID: "ldap-filter", Visibility: "internal", Context: "ldap",
+				Method: "search", ReceiverIsEntryParam: -1, ArgIndex: []int{1},
+				RequiresExternalReceiver: true, RequiresComposition: true,
+				CWE:       "CWE-90",
+				Rationale: "the second argument to search() is the filter",
+			},
+			{
+				ID: "ldap-filter", Visibility: "internal", Context: "ldap",
+				// By METHOD, because the connection is always a bound object rather than
+				// the module: `conn.search_s(...)`, never `ldap.search_s(...)`. The name
+				// is distinctive enough to carry it.
+				Method: "search_s", ReceiverIsEntryParam: -1, ArgIndex: []int{2},
+				RequiresComposition: true,
+				CWE:                 "CWE-90",
+				Rationale:           "the third argument to search_s() is the filter",
+			},
+			{
+				ID: "ldap-filter", Visibility: "internal", Context: "ldap",
+				Method: "search_ext_s", ReceiverIsEntryParam: -1, ArgIndex: []int{2},
+				RequiresComposition: true,
+				CWE:                 "CWE-90",
+				Rationale:           "the third argument to search_ext_s() is the filter",
+			},
+
+			// An XPath expression selects nodes, and one the caller writes selects
+			// whichever nodes they like -- including the ones holding everybody else's
+			// data.
+			{
+				ID: "xpath-expression", Visibility: "internal", Context: "xpath",
+				Method: "xpath", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiresComposition: true,
+				CWE:                 "CWE-643",
+				Rationale:           "the argument to xpath() is the expression",
+			},
+			{
+				ID: "xpath-expression", Visibility: "internal", Context: "xpath",
+				Symbol: "lxml.etree.XPath", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiresComposition: true,
+				CWE:                 "CWE-643",
+				Rationale:           "XPath() compiles its argument as an expression",
+			},
+			{
+				ID: "xpath-expression", Visibility: "internal", Context: "xpath",
+				Method: "evaluate", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiresExternalReceiver: true, RequiresComposition: true,
+				CWE:       "CWE-643",
+				Rationale: "the first argument to evaluate() is the expression",
+			},
+
 			// A FORMAT STRING the caller supplied. `"Hello {}".format(name)` is safe: the
 			// caller's data is an argument. `name.format(x)` is not, because Python's
 			// format language walks attributes and indexes, and
@@ -1668,7 +1720,7 @@ func Builtin() Model {
 			{
 				ID:            "untrusted-to-interpreter",
 				Class:         "untrusted-input",
-				DeniedContext: []string{"shell", "exec-path", "sql", "html", "code", "template"},
+				DeniedContext: []string{"shell", "exec-path", "sql", "html", "code", "template", "ldap", "xpath"},
 				Reason:        "a caller must not be able to choose what an interpreter executes",
 				Finding:       "Untrusted input reaches an interpreter",
 				CWE:           "CWE-78",
@@ -1943,6 +1995,30 @@ func Builtin() Model {
 				Symbol:   "werkzeug.security.generate_password_hash",
 				Contexts: []string{AnyContext},
 				Note:     "a password hash is a verifier and not the password",
+			},
+			{
+				// The LDAP filter escaper, under the several names the libraries give it.
+				// redash calls it and then interpolates the result into a filter
+				// template, which is the correct shape and read as a finding without
+				// this.
+				Symbol:   "escape_filter_chars",
+				Contexts: []string{"ldap"},
+				Note:     "escapes the characters an LDAP filter treats as syntax",
+			},
+			{
+				Symbol:   "ldap.filter.escape_filter_chars",
+				Contexts: []string{"ldap"},
+				Note:     "escapes the characters an LDAP filter treats as syntax",
+			},
+			{
+				Symbol:   "ldap3.utils.conv.escape_filter_chars",
+				Contexts: []string{"ldap"},
+				Note:     "escapes the characters an LDAP filter treats as syntax",
+			},
+			{
+				Symbol:   "ldap.filter.filter_format",
+				Contexts: []string{"ldap"},
+				Note:     "builds a filter with its arguments escaped",
 			},
 			{
 				Symbol:   "escape-html",
@@ -2293,6 +2369,26 @@ func builtinCallShapes() []CallShape {
 	}
 
 	return []CallShape{
+		{
+			// A protocol version nobody should still be negotiating. Naming one in the
+			// call is asking for it specifically, which is different from accepting
+			// whatever a peer offers.
+			ID: "obsolete-tls", AnyCall: true, Keyword: "secureProtocol",
+			Disallowed: []string{"SSLv2_method", "SSLv3_method", "TLSv1_method", "TLSv1_1_method"},
+			CWE:        "CWE-757",
+			Finding:    "Obsolete TLS version requested",
+			Reason:     "these versions have known breaks and are refused by everything current, so naming one is asking for the weaker of what is on offer",
+			Rationale:  "the connection names an obsolete protocol version",
+		},
+		{
+			ID: "obsolete-tls", AnyCall: true, Keyword: "minVersion",
+			Disallowed: []string{"SSLv3", "TLSv1", "TLSv1.1"},
+			CWE:        "CWE-757",
+			Finding:    "Obsolete TLS version accepted",
+			Reason:     "these versions have known breaks and are refused by everything current, so accepting one is accepting the weaker of what is on offer",
+			Rationale:  "the connection accepts an obsolete protocol version",
+		},
+
 		// --- randomness, signatures and written-down secrets ------------------------
 		{
 			// A generator seeded with a constant produces the SAME sequence on every run
