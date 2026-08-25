@@ -603,3 +603,68 @@ Check that a baselined finding still appears in the report with its evidence and
 and that `-write-baseline` records **every** finding rather than only the gating ones. A
 baseline holding only today's gating findings quietly promotes the rest into "new" on the
 first run that raises their confidence.
+
+---
+
+## ADR-015: A rule is measured on correct code before it is written down
+
+**Status:** Accepted (2026-08-25). Recorded after the fourth rule in a row was killed or
+reshaped by its own measurement.
+
+### Decision
+Before a rule is added, count how many times its shape occurs in the **clean corpus** —
+production applications that are broadly correct. Every match there is presumed a false
+positive until adjudicated otherwise. The count decides one of four outcomes:
+
+- **Build it.** The shape is rare in correct code and the matches that exist are real.
+- **Reshape it.** The count exposes the wrong discriminator, and a different one is
+  available. This is the most common outcome and the most valuable.
+- **Move the judgement.** The call cannot answer the question but a SINK can. A property
+  recorded at the source and judged where the value lands is a different rule with the
+  same subject.
+- **Decline it, with the number.** Record the count in the coverage map. "We decided not
+  to" is only an honest answer when it says what the decision was based on.
+
+The measurement happens **before** the rule exists, using a query over the lowered IR or
+the corpus source. Writing the rule first and measuring afterwards produces a strong
+attachment to a rule that should be deleted.
+
+### Why (do not revert this)
+Every rule looks reasonable in the abstract. The following all looked reasonable and all
+were wrong, and only counting said so:
+
+| Rule as first conceived | Clean-corpus matches | What they were |
+|---|---|---|
+| Log injection: caller data into a log | 11,164 | almost entirely token counts and IDs |
+| Hardcoded password: any call with a `password` option | 265 | test helpers and assertions |
+| Insufficient entropy: fewer than 16 random bytes | 77 | unique suffixes, colours, table names, slugs |
+| Argument injection: an argument array to `execFile` | — | the *recommended fix* for command injection |
+| Missing log middleware as a convention | 3 of 6390 entry points | no population to infer from |
+
+The last two matter most. A rule that reports the recommended fix teaches users that the
+tool is wrong about the thing they just did correctly, and they are right to stop reading
+it. A convention rule with no population is not a strict rule — it is a rule that will
+never fire, which is worse, because it occupies a line in the coverage map that claims
+otherwise.
+
+Counting first also converts a dead end into a result. The entropy rule failed as a call
+shape and succeeded as a classification judged at a cookie: the same subject, a different
+place to ask, and zero clean-corpus findings instead of 77. Nothing about the second
+version would have been discovered by iterating on the first.
+
+There is a second-order effect worth naming. A project that measures before building
+accumulates a coverage map whose declines carry numbers, and those numbers are the most
+useful thing in it: they tell the next person which weaknesses are genuinely out of reach
+and which are merely waiting for a discriminator nobody has thought of. A map of
+undifferentiated "not built" entries tells them nothing.
+
+### If you are a future reviewer
+For any rule added, ask where the measurement is. It should be in the commit message as a
+count, and in the coverage map's reason where the count changed the design. A rule whose
+clean-corpus behaviour is unknown has not been finished, however good its fixture looks —
+a fixture proves the rule fires on the case it was written for, which is the one thing
+never in doubt.
+
+Ask also whether a decline names its number. A decline that says "too noisy" without
+saying how noisy is an opinion, and the next person will have to re-measure it to find
+out whether it is still true.
