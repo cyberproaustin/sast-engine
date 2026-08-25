@@ -73,8 +73,10 @@ func match(c *ir.Call, shape model.CallShape) (string, bool) {
 	// A qualified shape says nothing at all unless its qualifier holds. Cookie
 	// attributes are judged against what the cookie carries, and the name in argument
 	// zero is the only evidence of that available at the call.
-	if shape.Qualifier != nil && !shape.Qualifier.Holds(c.ArgLiterals) {
-		return "", false
+	for _, q := range shape.Qualifiers {
+		if !q.Holds(c.ArgLiterals) {
+			return "", false
+		}
 	}
 	if shape.RequiredKeyword != "" {
 		return matchAbsent(c, shape)

@@ -38,6 +38,7 @@ type Hop struct {
 	Loc         ir.Loc
 	Description string
 	Symbol      string // external symbol traversed at this hop, if any
+	Literals    map[int]string
 	Kind        string // the IR flow kind this hop came from, when it came from a flow
 	Resolution  ir.Resolution
 }
@@ -164,6 +165,10 @@ type edge struct {
 	loc        ir.Loc
 	symbol     string
 	resolution ir.Resolution
+	// literals are the traversed call's literal arguments, carried so a sanitizer whose
+	// rule depends on one can be decided where the flow is reconstructed rather than
+	// where it was recorded.
+	literals map[int]string
 }
 
 type engine struct {
@@ -505,6 +510,7 @@ func (e *engine) throughCall(argValueID string, c *ir.Call) {
 				desc:       fmt.Sprintf("through %s()", displaySymbol(c.Callee)),
 				loc:        c.Loc,
 				symbol:     c.Callee.Symbol,
+				literals:   c.ArgLiterals,
 				resolution: c.Callee.Resolution,
 			})
 		}
@@ -567,7 +573,10 @@ func (e *engine) collect(all map[string]*engine, caps ir.Capabilities) []Finding
 				// The language's own containers are not stores of shared records.
 				// Only a positive answer disqualifies: a frontend that cannot type
 				// its receivers leaves this empty, and empty is not "not builtin".
-				if ch.RequiresExternalReceiver && c.ReceiverTypeOrigin == "builtin" {
+				// Neither the language's own containers nor an imported module is a
+				// store of records shared between callers.
+				if ch.RequiresExternalReceiver &&
+					(c.ReceiverTypeOrigin == "builtin" || c.ReceiverTypeOrigin == "module") {
 					continue
 				}
 				// A channel identified by what it is called on. `user.save()` and
@@ -959,6 +968,13 @@ func (e *engine) buildFinding(c *ir.Call, ch model.Channel, p model.Policy, arg 
 		if !ok {
 			continue
 		}
+		// A rule that depends on how the call was written is decided here, where the
+		// call's own literals are in hand.
+		if s.RequiresLiteralArg != nil {
+			if _, written := h.Literals[*s.RequiresLiteralArg]; !written {
+				continue
+			}
+		}
 		clears := s.Clears(ch.Context)
 		sanitizers = append(sanitizers, Sanitizer{
 			Symbol:   s.Symbol,
@@ -1013,20 +1029,29 @@ func (e *engine) buildFinding(c *ir.Call, ch model.Channel, p model.Policy, arg 
 	// still reported — the operation may well be a record selector — but it has not
 	// earned the confidence that stops a build (ADR-005).
 	confidence := confidenceOf(path)
-	if ch.RequiresExternalReceiver && c.ReceiverTypeOrigin == "" && confidence == High {
+	// No type at all is the unanswerable case. An origin that is merely empty means
+	// "not a builtin", which is what every ORM in existence looks like.
+	if ch.RequiresExternalReceiver && c.ReceiverType == "" && confidence == High {
 		confidence = Medium
 	}
 
 	sd := e.seeds[origin]
 	return Finding{
-		Analysis:      p.ID,
-		DataClass:     e.class.Class,
-		ChannelID:     ch.ID,
-		Visibility:    ch.Visibility,
-		Class:         p.Finding,
-		CWE:           cwe,
-		Message:       p.Reason,
-		Confidence:    confidenceOf(path),
+		Analysis:   p.ID,
+		DataClass:  e.class.Class,
+		ChannelID:  ch.ID,
+		Visibility: ch.Visibility,
+		Class:      p.Finding,
+		CWE:        cwe,
+		Message:    p.Reason,
+		// The ADJUSTED confidence, not a second call to confidenceOf. This read
+		// `confidenceOf(path)` and silently discarded the demotion computed four lines
+		// above, so a channel that needs to know what its receiver is and did not get an
+		// answer still reached the tier that stops a build. It surfaced on budibase,
+		// whose `sdk.navigation.update()` is an application module rather than a store of
+		// shared records, and which gated at high confidence on exactly the evidence the
+		// demotion exists to discount.
+		Confidence:    confidence,
 		SourceLoc:     e.locOf(origin),
 		SourceLabel:   sd.label,
 		EntryPoint:    sd.entryPoint,
@@ -1075,6 +1100,7 @@ func (e *engine) tracePath(valueID string) ([]Hop, string) {
 			Loc:         ed.loc,
 			Description: ed.desc,
 			Symbol:      ed.symbol,
+			Literals:    ed.literals,
 			Kind:        ed.kind,
 			Resolution:  ed.resolution,
 		})

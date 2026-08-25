@@ -105,7 +105,9 @@ type Channel struct {
 	//
 	// A frontend that cannot type its receivers leaves this unanswerable, and an
 	// unanswered question does not satisfy the requirement — it costs confidence
-	// instead (ADR-005), because a match this weak has not earned a gate.
+	// instead (ADR-005), because a match this weak has not earned a gate. NO TYPE AT
+	// ALL is what "unanswerable" means here: a type that is simply not a builtin is an
+	// answer, and a perfectly ordinary one for an ORM.
 	RequiresExternalReceiver bool
 
 	// RequiresUntrustedReceiver marks a channel whose identity comes from WHAT IT IS
@@ -216,7 +218,21 @@ type SanitizerRule struct {
 	Symbol   string
 	Contexts []string
 	Note     string
+
+	// RequiresLiteralArg names an argument that must have been written as a literal for
+	// this rule to apply, or nil when it always applies.
+	//
+	// `url_for("auth.login", next=request.full_path)` builds a URL whose host and path
+	// come from a named endpoint, and puts the caller's data in the query string. The
+	// destination is fixed by the literal and the caller cannot move it -- but only
+	// while the endpoint IS a literal. `url_for(whatever_the_caller_said)` is the
+	// weakness this rule would otherwise hide, so the condition is part of the rule
+	// rather than a footnote to it.
+	RequiresLiteralArg *int
 }
+
+// arg is a pointer to an argument index, for the optional condition above.
+func arg(i int) *int { return &i }
 
 // Clears reports whether this transform neutralizes a value for a channel context.
 func (s SanitizerRule) Clears(context string) bool {
@@ -1379,6 +1395,20 @@ func Builtin() Model {
 				Note:     "resolves within a fixed directory and rejects paths escaping it",
 			},
 			{
+				// Flask resolves an endpoint NAME to a URL. Everything the caller supplies
+				// becomes a query parameter of a destination the application chose.
+				Symbol:             "flask.url_for",
+				Contexts:           []string{"redirect", "url", "path"},
+				Note:               "resolves a named endpoint to a URL; caller data becomes query parameters of a destination the application chose",
+				RequiresLiteralArg: arg(0),
+			},
+			{
+				Symbol:             "url_for",
+				Contexts:           []string{"redirect", "url", "path"},
+				Note:               "resolves a named endpoint to a URL; caller data becomes query parameters of a destination the application chose",
+				RequiresLiteralArg: arg(0),
+			},
+			{
 				Symbol:   "escape-html",
 				Contexts: []string{"html"},
 				Note:     "escapes the five characters that make markup",
@@ -1490,6 +1520,17 @@ type ArgCondition struct {
 	// Substring matches when the literal CONTAINS one of AnyOf rather than equalling
 	// it, which is what makes `connect.sid` and `refresh_token` both read as credentials.
 	Substring bool
+	// NotLiteral holds when the argument was NOT written as a literal, which is how a
+	// call can prove a value is not a secret.
+	//
+	// lnbits sets `is_lnbits_user_authorized` to the string "true" beside a real session
+	// cookie that is correctly HttpOnly. The name reads as a credential and the value
+	// proves it is not one: a secret cannot be a constant in the source, because
+	// everybody who can read the repository would have it. Without this the rule reported
+	// three flag cookies in one application and stayed correctly silent on the actual
+	// token two lines above.
+	NotLiteral bool
+
 	// NoneOf disqualifies, and is checked first.
 	//
 	// A double-submit CSRF token is the case that requires it. `csrf_token` contains
@@ -1506,6 +1547,10 @@ type ArgCondition struct {
 func (a ArgCondition) Holds(literals map[int]string) bool {
 	var lit string
 	var ok bool
+	if a.NotLiteral {
+		_, written := literals[a.ArgIndex]
+		return !written
+	}
 	if a.Keyword != "" {
 		want := strings.ToLower(a.Keyword)
 		for i, l := range literals {
@@ -1581,7 +1626,7 @@ type CallShape struct {
 	RequiredKeyword string
 	OptionsArg      int
 
-	// Qualifier is a second literal in the SAME call that must also hold.
+	// Qualifiers are further conditions on the SAME call, all of which must hold.
 	//
 	// Cookie attributes are the case that needed it. Whether a cookie ought to be
 	// HttpOnly is a question about what the cookie CARRIES: a session token must never
@@ -1594,7 +1639,7 @@ type CallShape struct {
 	// the safe direction: to NARROW an existing match, never to make one. The worst it
 	// can do is stay quiet about a session cookie somebody named `q7`, which is a
 	// stated false negative rather than a false alarm.
-	Qualifier *ArgCondition
+	Qualifiers []ArgCondition
 
 	// DependsOnUse marks a shape whose judgement turns on what the result is USED for,
 	// which the call does not carry.
@@ -1647,11 +1692,16 @@ func builtinCallShapes() []CallShape {
 	// literals.
 	//
 	// `login` is deliberately absent. It matched `loginRedirect`, which holds a path.
-	credentialCookie := &ArgCondition{
-		ArgIndex:  0,
-		Substring: true,
-		AnyOf:     []string{"session", "sess", "sid", "jwt", "token", "auth", "remember"},
-		NoneOf:    []string{"csrf", "xsrf"},
+	credentialCookie := []ArgCondition{
+		{
+			ArgIndex:  0,
+			Substring: true,
+			AnyOf:     []string{"session", "sess", "sid", "jwt", "token", "auth", "remember"},
+			NoneOf:    []string{"csrf", "xsrf"},
+		},
+		// And the value must not be written in the source. A cookie set to a constant
+		// carries a flag, not a credential.
+		{ArgIndex: 1, NotLiteral: true},
 	}
 
 	return []CallShape{
@@ -1661,7 +1711,7 @@ func builtinCallShapes() []CallShape {
 		// arguments. Both end up in the same keyword slots, which is the seam doing its
 		// job (ADR-001).
 		{
-			ID: "cookie-not-http-only", Method: "cookie", ArgIndex: -1, Qualifier: credentialCookie,
+			ID: "cookie-not-http-only", Method: "cookie", ArgIndex: -1, Qualifiers: credentialCookie,
 			RequiredKeyword: "httpOnly", OptionsArg: 2,
 			CWE:       "CWE-1004",
 			Finding:   "Session cookie readable by script",
@@ -1669,7 +1719,7 @@ func builtinCallShapes() []CallShape {
 			Rationale: "res.cookie() sets no httpOnly attribute",
 		},
 		{
-			ID: "cookie-not-http-only", Method: "set_cookie", ArgIndex: -1, Qualifier: credentialCookie,
+			ID: "cookie-not-http-only", Method: "set_cookie", ArgIndex: -1, Qualifiers: credentialCookie,
 			RequiredKeyword: "httponly", OptionsArg: -1,
 			CWE:       "CWE-1004",
 			Finding:   "Session cookie readable by script",
@@ -1678,7 +1728,7 @@ func builtinCallShapes() []CallShape {
 		},
 		{
 			// Written down explicitly, which is a decision rather than an omission.
-			ID: "cookie-http-only-disabled", Method: "cookie", ArgIndex: -1, Qualifier: credentialCookie,
+			ID: "cookie-http-only-disabled", Method: "cookie", ArgIndex: -1, Qualifiers: credentialCookie,
 			Disallowed: []string{"httponly=false"},
 			CWE:        "CWE-1004",
 			Finding:    "Session cookie readable by script",
@@ -1686,7 +1736,7 @@ func builtinCallShapes() []CallShape {
 			Rationale:  "httpOnly is set to false",
 		},
 		{
-			ID: "cookie-http-only-disabled", Method: "set_cookie", ArgIndex: -1, Qualifier: credentialCookie,
+			ID: "cookie-http-only-disabled", Method: "set_cookie", ArgIndex: -1, Qualifiers: credentialCookie,
 			Disallowed: []string{"httponly=false"},
 			CWE:        "CWE-1004",
 			Finding:    "Session cookie readable by script",
@@ -1699,7 +1749,7 @@ func builtinCallShapes() []CallShape {
 			// a literal, and a rule that demanded the attribute be written down would
 			// report every application that does the right thing conditionally. An
 			// explicit false is a different matter: it is a decision, and it is here.
-			ID: "cookie-not-secure", Method: "cookie", ArgIndex: -1, Qualifier: credentialCookie,
+			ID: "cookie-not-secure", Method: "cookie", ArgIndex: -1, Qualifiers: credentialCookie,
 			Disallowed: []string{"secure=false"},
 			CWE:        "CWE-614",
 			Finding:    "Credential cookie sent over plaintext",
@@ -1707,7 +1757,7 @@ func builtinCallShapes() []CallShape {
 			Rationale:  "secure is set to false",
 		},
 		{
-			ID: "cookie-not-secure", Method: "set_cookie", ArgIndex: -1, Qualifier: credentialCookie,
+			ID: "cookie-not-secure", Method: "set_cookie", ArgIndex: -1, Qualifiers: credentialCookie,
 			Disallowed: []string{"secure=false"},
 			CWE:        "CWE-614",
 			Finding:    "Credential cookie sent over plaintext",
@@ -1718,7 +1768,7 @@ func builtinCallShapes() []CallShape {
 			// SameSite=None is legitimate -- an embedded widget or an OAuth flow needs
 			// it -- so this reports and never gates, the same treatment a weak hash gets
 			// and for the same reason: the call does not carry the fact that decides it.
-			ID: "cookie-same-site-none", Method: "cookie", ArgIndex: -1, Qualifier: credentialCookie,
+			ID: "cookie-same-site-none", Method: "cookie", ArgIndex: -1, Qualifiers: credentialCookie,
 			Disallowed:   []string{"samesite=none"},
 			DependsOnUse: "an embedded widget and an OAuth flow both legitimately need a cross-site cookie, and the call does not carry which case this is",
 			CWE:          "CWE-1275",
@@ -1727,7 +1777,7 @@ func builtinCallShapes() []CallShape {
 			Rationale:    "sameSite is set to none",
 		},
 		{
-			ID: "cookie-same-site-none", Method: "set_cookie", ArgIndex: -1, Qualifier: credentialCookie,
+			ID: "cookie-same-site-none", Method: "set_cookie", ArgIndex: -1, Qualifiers: credentialCookie,
 			Disallowed:   []string{"samesite=none"},
 			DependsOnUse: "an embedded widget and an OAuth flow both legitimately need a cross-site cookie, and the call does not carry which case this is",
 			CWE:          "CWE-1275",
@@ -1844,7 +1894,7 @@ func builtinCallShapes() []CallShape {
 			// or wildcards, which lets any site on the internet make them as the victim.
 			ID: "permissive-cors", AnyCall: true, ArgIndex: -1,
 			Disallowed: []string{"credentials=true"},
-			Qualifier:  &ArgCondition{Keyword: "origin", AnyOf: []string{"*", "true"}},
+			Qualifiers: []ArgCondition{{Keyword: "origin", AnyOf: []string{"*", "true"}}},
 			// Measured, and it cost the clean corpus its only gating finding. hoppscotch
 			// writes exactly this call inside the else branch of `if (isProduction)`,
 			// with a whitelist on the other side. The call says what this rule claims;
