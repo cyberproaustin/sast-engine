@@ -187,6 +187,25 @@ var claims = map[string]Claim{
 	"CWE-426": {State: Partial, Reason: "untrusted data added to sys.path, which decides where the next import comes from. Matched by SYMBOL rather than by method name: `insert` and `append` belong to every list, ORM repository and zip archive, and matching by name produced eight findings across the clean corpus of which none was a search path. Setting PATH by assignment is not a call and is a stated miss",
 		By: []string{"untrusted-search-path"}},
 
+	// Subsumes CWE-113, which is this weakness with the line-oriented protocol named as
+	// HTTP. The rule proves a caller reaches a header value and never inspects what the
+	// value contains, so the two are the same finding at the same line.
+	"CWE-93": {
+		State: Partial,
+		Reason: "untrusted data reaching a response header value, where a line break ends " +
+			"the header and begins whatever the caller writes next. Worth stating plainly: " +
+			"current Node and WSGI both reject control characters in header values, so on " +
+			"those runtimes this is defence in depth rather than a live break -- it is " +
+			"reported because the code is wrong wherever it is deployed, not because every " +
+			"runtime still falls for it",
+		By:       []string{"untrusted-to-header"},
+		Subsumes: true,
+	},
+	"CWE-477": {State: Partial, Reason: "a function superseded for a reason that matters: createCipher derives its key with a single unsalted MD5 of the passphrase, so two applications sharing a passphrase share a key. The named functions only -- obsolete is a judgement about a specific API and not something a rule can infer",
+		By: []string{"obsolete-function"}},
+	"CWE-780": {State: Partial, Reason: "RSA encryption with PKCS#1 v1.5 padding, which has been known broken since 1998 and whose fix is a different padding rather than a different key. The named constructors only; a padding chosen through a variable is not matched",
+		By: []string{"rsa-without-oaep"}},
+
 	// Cookie attributes. Two of the three are claimed for an explicit downgrade AND for
 	// an omission; Secure is claimed only for the downgrade, because the correct idiom
 	// makes it conditional on the environment and a rule demanding a literal would report

@@ -1,0 +1,22 @@
+{
+  "corpus": "express-header-injection",
+  "description": "Worth stating plainly rather than implying: current Node and WSGI both reject control characters in header values, so on those runtimes this is defence in depth rather than a live break. It is reported because the code is wrong wherever it is deployed, and the ledger says which of those two things is being claimed. The obsolete-function rule is about a specific API and a specific reason -- createCipher derives its key with one unsalted MD5 -- rather than about deprecation in general, which no rule can infer.",
+  "expected": [
+    {
+      "cwe": "CWE-93",
+      "sinkFile": "app.js",
+      "sinkLine": 9,
+      "sourceLabel": "req.query.name",
+      "confidence": "medium",
+      "note": "the caller's text becomes part of a header value"
+    },
+    {
+      "cwe": "CWE-477",
+      "sinkFile": "app.js",
+      "sinkLine": 22,
+      "sourceLabel": "\"crypto.createCipher()\"",
+      "confidence": "high",
+      "note": "superseded because its key derivation is a single unsalted MD5"
+    }
+  ]
+}
