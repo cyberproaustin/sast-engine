@@ -925,6 +925,12 @@ func (e *engine) collect(all map[string]*engine, caps ir.Capabilities) []Finding
 				if ch.RequiresArgs > 0 && c.ArgCount < ch.RequiresArgs {
 					continue
 				}
+				// A destination that is only dangerous in its default configuration. A
+				// call that was handed more than this was configured, and how it was
+				// configured is not visible here.
+				if ch.MaxArgs > 0 && c.ArgCount > ch.MaxArgs {
+					continue
+				}
 				// A destination that is only dangerous when configured to be. An XML
 				// parser resolves entities when asked and not otherwise.
 				skip := false

@@ -1,0 +1,14 @@
+{
+  "corpus": "express-supply-chain",
+  "description": "Code fetched over the network and piped straight into an interpreter. What runs is whatever that host answered with, and there is no signature to check because nothing was signed. The negatives are the shape of the fix: fetch to a file, check it against a digest, then run it -- at which point the download and the execution are no longer the same command.",
+  "expected": [
+    {
+      "cwe": "CWE-494",
+      "sinkFile": "app.js",
+      "sinkLine": 10,
+      "sourceLabel": "\"child_process.exec()\"",
+      "confidence": "high",
+      "note": "fetched and piped into a shell in one command; the verified route below separates the two and is silent"
+    }
+  ]
+}
