@@ -1,0 +1,14 @@
+{
+  "corpus": "flask-session-lifetime",
+  "description": "How long a credential stays valid, and -- on the JavaScript side -- a window opened without cutting the reference back to the page that opened it. Both negatives are the discriminators: a preference cookie that lasts a year is a feature, and a lifetime is only long relative to the unit the call counts in.",
+  "expected": [
+    {
+      "cwe": "CWE-613",
+      "sinkFile": "app.py",
+      "sinkLine": 14,
+      "sourceLabel": "\"max_age=31536000\"",
+      "confidence": "high",
+      "note": "a year in SECONDS, which is the same year the Express fixture writes in milliseconds -- the threshold belongs to the call, not to the keyword"
+    }
+  ]
+}

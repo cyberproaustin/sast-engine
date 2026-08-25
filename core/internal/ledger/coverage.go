@@ -265,6 +265,10 @@ var claims = map[string]Claim{
 		By: []string{"observable-secret"}},
 	"CWE-552": {State: Partial, Reason: "a static file handler pointed at a directory that was never meant to be public -- the project root, the filesystem root, a home directory. Only a directory written as a literal in the call is matched: a path built at runtime is not decidable here and is not guessed at",
 		By: []string{"world-readable-root"}},
+	"CWE-613": {State: Partial, Reason: "a credential cookie whose lifetime is written into the call and is longer than a month. Only cookies whose NAME says they carry a credential are asked about, because a year-long theme preference is a feature. Thresholds are per-rule rather than per-keyword, because express counts milliseconds and Flask counts seconds under names that look the same. A lifetime computed at runtime, and a server-side session store expiry, are not decidable here",
+		By: []string{"long-lived-session"}},
+	"CWE-1022": {State: Partial, Reason: "a window opened onto a named target with no third argument, which is where noopener would be -- the opened page keeps a live reference back through window.opener and can navigate the page behind it. Only the scripted form: markup written as a template string is text to this engine and its attributes are not read",
+		By: []string{"opener-reachable"}},
 	"CWE-1021": {State: Partial, Reason: "framing protection switched off by name in the call. Only an explicit disable: an application that never sets the header at all is not reported, because absence would have to be judged program-wide and the engine cannot see middleware it has no model for",
 		By: []string{"frames-allowed"}},
 
