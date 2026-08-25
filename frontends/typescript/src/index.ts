@@ -12,7 +12,10 @@ import { lowerProgram, relativizeLocations } from "./lower.ts";
 import type { IRDoc } from "./ir.ts";
 
 const SOURCE_EXTENSIONS = new Set([".ts", ".tsx", ".mts", ".cts", ".js", ".jsx", ".mjs", ".cjs"]);
-const SKIP_DIRECTORIES = new Set(["node_modules", ".git", "dist", "build", "out", "coverage"]);
+// ".yarn" holds Yarn Berry's vendored release bundles and its zip cache -- a checked-in
+// copy of somebody else's minified program, in the tree but not of it. Scanning one
+// reports the package manager's own code against the project that vendored it.
+const SKIP_DIRECTORIES = new Set(["node_modules", ".git", ".yarn", "dist", "build", "out", "coverage"]);
 
 function collectSources(rootDir: string): string[] {
   const found: string[] = [];

@@ -57,6 +57,20 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 				if pathMatches(w.Path, rule.NotPath) {
 					continue
 				}
+				if len(rule.PathContains) > 0 &&
+					(containsWord(w.Path, rule.PathExcept) || !containsWord(w.Path, rule.PathContains)) {
+					continue
+				}
+				// A rule about what was WRITTEN DOWN needs no classification: being a
+				// literal is the defect, and a value read from the environment is not one.
+				if rule.FromLiteral {
+					v := ix.ValueByID[w.From]
+					if v == nil || v.Kind != ir.ValueLiteral || !meaningfulSecret(v.Literal) {
+						continue
+					}
+					out = append(out, finding(ix, fn, w, rule, taint.Origin{Label: quoted(v.Literal)}))
+					continue
+				}
 				carrying := byClass[rule.Class]
 				if !carrying.Values[w.From] {
 					continue
@@ -151,6 +165,53 @@ func pathMatches(path string, want []string) bool {
 	}
 	return false
 }
+
+// containsWord reports whether an access path contains one of these words, ignoring case
+// and separators, so `SECRET_KEY_HMAC` and `secretKey` both contain `secret`.
+func containsWord(path string, words []string) bool {
+	lower := strings.ToLower(path)
+	for _, w := range words {
+		if strings.Contains(lower, strings.ToLower(w)) {
+			return true
+		}
+	}
+	return false
+}
+
+// meaningfulSecret rejects the values that are a placeholder rather than a key. A config
+// key set to None, to the empty string or to a flag is a key that is not set.
+func meaningfulSecret(literal string) bool {
+	v := strings.TrimSpace(strings.ToLower(literal))
+	switch v {
+	case "", "none", "null", "true", "false", "0", "1", "undefined", "changeme":
+		return false
+	}
+	if len(v) < 4 {
+		return false
+	}
+	// A secret is one opaque run of characters. These three shapes are what a key-named
+	// setting holds when it is NOT holding a key, and each was measured on the clean
+	// corpus: an endpoint the credential is sent TO, a sentence explaining that a
+	// credential is required, and the mask a value is replaced with before it is logged.
+	// An endpoint the credential is sent TO, not the credential.
+	if strings.Contains(v, "://") {
+		return false
+	}
+	// A sentence, not a key. Three or more words is the line: a real key is one run of
+	// characters and occasionally two, and a passphrase written into the source is still
+	// short -- while "either password or private_key is required" is a validation message
+	// being assigned, which is what this shape looks like in a settings schema. Measured on
+	// the clean corpus, and deliberately not "contains a space": Flask's own documented
+	// example secret key has one in it.
+	if len(strings.Fields(v)) > 2 {
+		return false
+	}
+	// The mask a value is replaced with before it is logged, which is the one literal a
+	// secret-named setting holds precisely BECAUSE the real secret must not be there.
+	return strings.TrimLeft(v, v[:1]) != ""
+}
+
+func quoted(s string) string { return "\"" + s + "\"" }
 
 func lastDot(s string) int {
 	for i := len(s) - 1; i >= 0; i-- {
