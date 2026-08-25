@@ -37,7 +37,13 @@ var claims = map[string]Claim{
 			"stated rather than assumed: a view name not written in the render call, a " +
 			"name two templates could answer to, a context built in another function, " +
 			"and an interpolation that is not a plain access path -- each a case where " +
-			"naming a file would mean guessing which one",
+			"naming a file would mean guessing which one. One further miss is a " +
+			"measurement rather than a structural limit: an engine configured with " +
+			"autoescaping off globally makes every interpolation in its templates " +
+			"unescaped, and the configuration is not connected to the files it governs. " +
+			"Reporting the configuration instead was counted and declined -- 15 mentions " +
+			"of autoescape across the clean corpus, the two that disable it being a " +
+			"LaTeX renderer and a code generator, where HTML escaping would be the bug",
 		By:       []string{"untrusted-to-interpreter"},
 		Subsumes: true,
 	},
