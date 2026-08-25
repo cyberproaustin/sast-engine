@@ -74,6 +74,7 @@ var corpora = []string{
 	"express-template-engines",
 	"flask-template-xss",
 	"flask-config-secrets",
+	"express-session-fixation",
 	"express-session-store",
 	"express-nosql-where",
 	"express-origin-check",

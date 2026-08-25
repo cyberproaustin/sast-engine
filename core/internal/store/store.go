@@ -26,6 +26,8 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 		return nil
 	}
 	ix := ir.NewIndex(d)
+	rot := newRotation(d, ix)
+	elements := elementParams(d, ix)
 
 	var out []taint.Finding
 	for _, fn := range d.Functions {
@@ -59,6 +61,22 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 				}
 				if len(rule.PathContains) > 0 &&
 					(containsWord(w.Path, rule.PathExcept) || !containsWord(w.Path, rule.PathContains)) {
+					continue
+				}
+				if rule.NotElement && elements[w.Base] {
+					continue
+				}
+				if v := ix.ValueByID[w.From]; v != nil && v.Kind == ir.ValueLiteral &&
+					pathMatches(strings.TrimSpace(v.Literal), rule.NotFrom) {
+					continue
+				}
+				// A rule about what did NOT happen beside the write needs no
+				// classification either: the write is the event.
+				if len(rule.AbsentCall) > 0 {
+					if rot.reaches(fn.ID, rule.AbsentCall) {
+						continue
+					}
+					out = append(out, finding(ix, fn, w, rule, taint.Origin{Label: writtenLabel(ix, w)}))
 					continue
 				}
 				// A rule about what was WRITTEN DOWN needs no classification: being a
@@ -178,6 +196,161 @@ func containsWord(path string, words []string) bool {
 	return false
 }
 
+// rotation answers whether a function is anywhere near a particular call.
+//
+// "Anywhere near" is four directions, and each of them was a false positive on the clean
+// corpus before it was added: the calls the function makes; the functions it hands to
+// something else, because `new Promise((resolve) => req.session.regenerate(...))` is how
+// this is written in practice; the local helpers it calls, because a rotation is routinely
+// named `regenerateSessionPreservingData` and lives elsewhere; and its own callers,
+// because the rotation is often in the route and the assignment in the helper the route
+// calls.
+//
+// Deliberately generous in every direction. A missing call is an argument from silence,
+// and an argument from silence has to be quiet whenever there is any reason to be.
+type rotation struct {
+	methods map[string]map[string]bool // function -> lowercased methods it calls
+	out     map[string][]string        // function -> functions it passes on or calls
+	callers map[string][]string
+	isEntry map[string]bool
+}
+
+func newRotation(d *ir.IR, ix *ir.Index) *rotation {
+	r := &rotation{
+		methods: map[string]map[string]bool{},
+		out:     map[string][]string{},
+		callers: map[string][]string{},
+		isEntry: map[string]bool{},
+	}
+	for id := range ix.EntryByFunc {
+		r.isEntry[id] = true
+	}
+	for _, fn := range d.Functions {
+		called := map[string]bool{}
+		for _, c := range fn.Calls {
+			if c.Method != "" {
+				called[strings.ToLower(c.Method)] = true
+			}
+			if sym := c.Callee.Symbol; sym != "" {
+				if j := lastDot(sym); j >= 0 {
+					sym = sym[j+1:]
+				}
+				called[strings.ToLower(sym)] = true
+			}
+			for _, a := range c.Args {
+				if a.FunctionID != "" {
+					r.out[fn.ID] = append(r.out[fn.ID], a.FunctionID)
+					// And the reverse. `req.session.regenerate(() => { ... })` puts the
+					// rotation in the OUTER function and the assignment in the callback,
+					// so a callback has to be able to see out of itself.
+					r.callers[a.FunctionID] = append(r.callers[a.FunctionID], fn.ID)
+				}
+			}
+			if id := c.Callee.FunctionID; id != "" {
+				r.out[fn.ID] = append(r.out[fn.ID], id)
+				r.callers[id] = append(r.callers[id], fn.ID)
+			}
+		}
+		r.methods[fn.ID] = called
+	}
+	return r
+}
+
+// reaches reports whether any of these calls is made by this function, by anything it
+// reaches, or by a caller of it.
+//
+// Down and up are not symmetric, and one measurement is why. Descending from a function
+// finds the promise executor and the named helper that do the rotation. Ascending finds
+// the route that rotates before calling the helper that assigns. But ascending and then
+// descending again finds a SIBLING -- another route registered on the same module, which
+// has nothing to do with this one -- so an ascent stops at an entry point. A request
+// begins at its handler, and whatever the module around it does is not part of it.
+func (r *rotation) reaches(id string, want []string) bool {
+	if r.down(id, want, map[string]bool{}, 3) {
+		return true
+	}
+	seen := map[string]bool{id: true}
+	frontier := []string{id}
+	for depth := 0; depth < 2 && len(frontier) > 0; depth++ {
+		var next []string
+		for _, f := range frontier {
+			if r.isEntry[f] {
+				continue
+			}
+			for _, c := range r.callers[f] {
+				if seen[c] {
+					continue
+				}
+				seen[c] = true
+				if r.down(c, want, map[string]bool{}, 3) {
+					return true
+				}
+				next = append(next, c)
+			}
+		}
+		frontier = next
+	}
+	return false
+}
+
+func (r *rotation) down(id string, want []string, seen map[string]bool, depth int) bool {
+	if depth < 0 || seen[id] {
+		return false
+	}
+	seen[id] = true
+	for _, w := range want {
+		if r.methods[id][strings.ToLower(w)] {
+			return true
+		}
+	}
+	for _, n := range r.out[id] {
+		if r.down(n, want, seen, depth-1) {
+			return true
+		}
+	}
+	return false
+}
+
+// elementParams collects the parameters bound to an ELEMENT of a collection, from the
+// callback methods whose first parameter is the element. What a loop writes to is not the
+// caller's own anything.
+func elementParams(d *ir.IR, ix *ir.Index) map[string]bool {
+	over := map[string]bool{"foreach": true, "map": true, "filter": true, "find": true,
+		"flatmap": true, "some": true, "every": true}
+	out := map[string]bool{}
+	for _, fn := range d.Functions {
+		for _, c := range fn.Calls {
+			if !over[strings.ToLower(c.Method)] {
+				continue
+			}
+			for _, a := range c.Args {
+				cb := ix.FuncByID[a.FunctionID]
+				if cb != nil && len(cb.Params) > 0 {
+					out[cb.Params[0].ValueID] = true
+				}
+			}
+		}
+	}
+	return out
+}
+
+// writtenLabel names what was written, for a rule whose finding is about the write having
+// happened at all.
+func writtenLabel(ix *ir.Index, w ir.Write) string {
+	v := ix.ValueByID[w.From]
+	switch {
+	case v == nil:
+		return w.Path
+	case v.Kind == ir.ValueLiteral:
+		return quoted(v.Literal)
+	case v.Path != "":
+		return v.Path
+	case v.Name != "":
+		return v.Name
+	}
+	return w.Path
+}
+
 // meaningfulSecret rejects the values that are a placeholder rather than a key. A config
 // key set to None, to the empty string or to a flag is a key that is not set.
 func meaningfulSecret(literal string) bool {
@@ -193,7 +366,6 @@ func meaningfulSecret(literal string) bool {
 	// setting holds when it is NOT holding a key, and each was measured on the clean
 	// corpus: an endpoint the credential is sent TO, a sentence explaining that a
 	// credential is required, and the mask a value is replaced with before it is logged.
-	// An endpoint the credential is sent TO, not the credential.
 	if strings.Contains(v, "://") {
 		return false
 	}
