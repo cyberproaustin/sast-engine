@@ -1,3 +1,29 @@
+/**
+ * Line and column of an offset, 1-based, for locations a reader can click.
+ *
+ * The line starts are computed once per file and binary-searched. Counting newlines from
+ * the beginning for every interpolation is quadratic in a large view, which is a cost
+ * nobody would ever see in a fixture and everybody would see on a real template.
+ */
+function lineStartsOf(source: string): number[] {
+  const starts = [0];
+  for (let i = 0; i < source.length; i++) {
+    if (source.charCodeAt(i) === 10) starts.push(i + 1);
+  }
+  return starts;
+}
+
+function positionAt(starts: number[], offset: number): { line: number; column: number } {
+  let lo = 0;
+  let hi = starts.length - 1;
+  while (lo < hi) {
+    const mid = (lo + hi + 1) >> 1;
+    if (starts[mid] <= offset) lo = mid;
+    else hi = mid - 1;
+  }
+  return { line: lo + 1, column: offset - starts[lo] + 1 };
+}
+
 // Template files: the half of a web application that actually writes the HTML.
 //
 // A view is not source in the language this frontend parses, and for most of this
@@ -94,14 +120,34 @@ const PATH_ONLY = /^[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*|\[["'][^"'\]]+["']\]|\
 const NOT_A_READ = new Set(["null", "undefined", "true", "false", "none", "this"]);
 
 /**
- * Bounded so a pathological file cannot make the scan quadratic.
+ * A linear scan for delimited spans, replacing the regex that made this quadratic.
  *
- * `"{{".repeat(100000)` with no closing brace makes an unbounded lazy span rescan to the
- * end of the file from every opener. No real interpolation is anywhere near this long, so
- * the cap costs nothing and removes the shape of a denial of service in a tool people are
- * meant to run on code they did not write.
+ * A lazy span between two delimiters rescans from every opener, so `"{{".repeat(60000)`
+ * with no closing brace costs sixty thousand scans of the rest of the file. Bounding the
+ * span helps and does not fix it. Walking the string once does: find the opener, look for
+ * the closer AFTER it, and continue from there — and an opener with no closer ends the
+ * scan, because the rest of the file is not interpolations either.
+ *
+ * That property matters more here than anywhere else in this project: a template is the
+ * one input a scanner reads that an attacker may have written.
  */
-const SPAN = "[\\s\\S]{0,400}?";
+function scanDelimited(
+  source: string,
+  open: string,
+  close: string,
+  visit: (body: string, start: number, afterOpen: number) => void,
+): void {
+  let i = 0;
+  for (;;) {
+    const start = source.indexOf(open, i);
+    if (start === -1) return;
+    const bodyStart = start + open.length;
+    const end = source.indexOf(close, bodyStart);
+    if (end === -1) return;
+    visit(source.slice(bodyStart, end), start, bodyStart);
+    i = end + close.length;
+  }
+}
 
 /** Whitespace-control and trim markers, which belong to the delimiter and not to the expression. */
 function stripMarkers(expr: string): string {
@@ -151,13 +197,52 @@ function positionOf(source: string, offset: number): { line: number; column: num
  * A raw block and a comment LOOK exactly like the syntax around them, which is the point
  * of them: `{{{{raw}}}}{{{ x }}}{{{{/raw}}}}` prints three braces and reads nothing.
  * Reporting that would be reporting a page's documentation of its own template language.
+ *
+ * Linear, for the same reason the interpolation scan is: a regex spanning two delimiters
+ * rescans from every opener, and an unclosed one repeated across a file is the difference
+ * between milliseconds and ten seconds.
  */
-function blankRegions(source: string, patterns: RegExp[]): string {
+function blankRegions(source: string, pairs: Array<[string, string]>): string {
   let out = source;
-  for (const re of patterns) {
-    out = out.replace(re, (m) => m.replace(/[^\n]/g, " "));
+  for (const [open, close] of pairs) {
+    let i = 0;
+    let built = "";
+    for (;;) {
+      const start = out.indexOf(open, i);
+      if (start === -1) break;
+      const end = out.indexOf(close, start + open.length);
+      if (end === -1) break;
+      const stop = end + close.length;
+      built += out.slice(i, start) + out.slice(start, stop).replace(/[^\n]/g, " ");
+      i = stop;
+    }
+    out = built + out.slice(i);
   }
   return out;
+}
+
+/**
+ * A Handlebars raw block: `{{{{helper}}}} ... {{{{/helper}}}}`.
+ *
+ * Everything between the two tags is printed literally, braces included, which is what the
+ * form is FOR. It needs its own pass because the closing tag is a tag rather than a
+ * delimiter -- the opener's own `}}}}` is not the end of anything.
+ */
+function blankRawBlocks(source: string): string {
+  let out = "";
+  let i = 0;
+  for (;;) {
+    const open = source.indexOf("{{{{", i);
+    if (open === -1 || source.startsWith("{{{{/", open)) break;
+    const close = source.indexOf("{{{{/", open);
+    if (close === -1) break;
+    const end = source.indexOf("}}}}", close);
+    if (end === -1) break;
+    const stop = end + 4;
+    out += source.slice(i, open) + source.slice(open, stop).replace(/[^\n]/g, " ");
+    i = stop;
+  }
+  return out + source.slice(i);
 }
 
 type Extractor = (source: string) => Interpolation[];
@@ -168,12 +253,14 @@ type Extractor = (source: string) => Interpolation[];
  */
 const extractEjs: Extractor = (source) => {
   const out: Interpolation[] = [];
-  const re = new RegExp(`<%(-|=)(${SPAN})%>`, "g");
-  for (let m = re.exec(source); m; m = re.exec(source)) {
-    const p = normalizePath(m[2]);
-    if (!p) continue;
-    out.push({ path: p, escaped: m[1] === "=", ...positionOf(source, m.index) });
-  }
+  const starts = lineStartsOf(source);
+  scanDelimited(source, "<%", "%>", (body, start) => {
+    const mode = body[0];
+    if (mode !== "-" && mode !== "=") return;
+    const p = normalizePath(body.slice(1));
+    if (!p) return;
+    out.push({ path: p, escaped: mode === "=", ...positionAt(starts, start) });
+  });
   return out;
 };
 
@@ -187,14 +274,18 @@ const extractEjs: Extractor = (source) => {
  */
 const extractHandlebars: Extractor = (source) => {
   const out: Interpolation[] = [];
-  const text = blankRegions(source, [/\{\{\{\{[\s\S]*?\{\{\{\{\/[\s\S]*?\}\}\}\}/g, /\{\{!(?:--)?[\s\S]*?\}\}/g]);
-  const re = new RegExp(`\\{\\{(\\{)?\\s*(&)?\\s*(${SPAN})\\s*(\\})?\\}\\}`, "g");
-  for (let m = re.exec(text); m; m = re.exec(text)) {
-    const p = normalizePath(m[3]);
-    if (!p) continue;
-    const raw = m[1] === "{" || m[2] === "&";
-    out.push({ path: p, escaped: !raw, ...positionOf(source, m.index) });
-  }
+  const starts = lineStartsOf(source);
+  // The block comment form first: `{{!-- ... --}}` may contain `}}` and would otherwise be
+  // cut short by it. Then the raw block, whose closer is a tag of its own.
+  const text = blankRawBlocks(blankRegions(source, [["{{!--", "--}}"], ["{{!", "}}"]]));
+  scanDelimited(text, "{{", "}}", (body, start) => {
+    // A triple brace and an ampersand both mean "do not escape". The third brace is part
+    // of the body here, because the scan matched only two.
+    const raw = body.startsWith("{") || body.trimStart().startsWith("&");
+    const p = normalizePath(body.replace(/^\{/, "").replace(/^\s*&/, ""));
+    if (!p) return;
+    out.push({ path: p, escaped: !raw, ...positionAt(starts, start) });
+  });
   return out;
 };
 
@@ -209,6 +300,7 @@ const PUG_CONTROL = /^[ \t]*(-|\/\/|while\b|if\b|else\b|unless\b|each\b|for\b|ca
 
 const extractPug: Extractor = (source) => {
   const out: Interpolation[] = [];
+  const starts = lineStartsOf(source);
   const lines = source.split("\n");
   let offset = 0;
   for (const line of lines) {
@@ -216,16 +308,16 @@ const extractPug: Extractor = (source) => {
     offset += line.length + 1;
     if (PUG_CONTROL.test(line)) continue;
 
-    const inline = new RegExp(`(!|#)\\{(${SPAN})\\}`, "g");
+    const inline = /(!|#)\{([^}]{0,400})\}/g;
     for (let m = inline.exec(line); m; m = inline.exec(line)) {
       const p = normalizePath(m[2]);
       if (!p) continue;
-      out.push({ path: p, escaped: m[1] === "#", ...positionOf(source, lineStart + m.index) });
+      out.push({ path: p, escaped: m[1] === "#", ...positionAt(starts, lineStart + m.index) });
     }
     const buffered = /^[ \t]*[\w.#\-[\]="' \t]*?(!?)=[ \t]*(.+)$/.exec(line);
     if (buffered) {
       const p = normalizePath(buffered[2]);
-      if (p) out.push({ path: p, escaped: buffered[1] !== "!", ...positionOf(source, lineStart) });
+      if (p) out.push({ path: p, escaped: buffered[1] !== "!", ...positionAt(starts, lineStart) });
     }
   }
   return out;
@@ -242,23 +334,23 @@ const extractPug: Extractor = (source) => {
  */
 const extractJinjaLike: Extractor = (source) => {
   const out: Interpolation[] = [];
+  const starts = lineStartsOf(source);
   const text = blankRegions(source, [
-    /\{%-?\s*raw\s*-?%\}[\s\S]*?\{%-?\s*endraw\s*-?%\}/g,
-    /\{#[\s\S]*?#\}/g,
+    ["{% raw %}", "{% endraw %}"],
+    ["{%- raw -%}", "{%- endraw -%}"],
+    ["{#", "#}"],
   ]);
   const unescapedRegions = autoescapeOffRegions(text);
-  const re = new RegExp(`\\{\\{(${SPAN})\\}\\}`, "g");
-  for (let m = re.exec(text); m; m = re.exec(text)) {
-    const body = m[1];
+  scanDelimited(text, "{{", "}}", (body, start) => {
     const p = normalizePath(body, true);
-    if (!p) continue;
-    const inOffBlock = unescapedRegions.some(([a, b]) => m.index >= a && m.index < b);
+    if (!p) return;
+    const inOffBlock = unescapedRegions.some(([a, b]) => start >= a && start < b);
     out.push({
       path: p,
       escaped: !inOffBlock && !isMarkedSafe(body),
-      ...positionOf(source, m.index),
+      ...positionAt(starts, start),
     });
-  }
+  });
   return out;
 };
 
