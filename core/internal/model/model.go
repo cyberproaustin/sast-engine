@@ -51,6 +51,21 @@ type SourceRule struct {
 	ParamIndex int
 	Paths      []string
 
+	// LeafContains matches on the LAST segment of the access path, which is where a
+	// request says what a field IS. `body.password` and `body.user.credentials.apiKey`
+	// both name a secret and share no prefix; the leaf is the only part that carries the
+	// meaning.
+	//
+	// A name list, and used in the narrowest way this project allows: it decides a
+	// CLASSIFICATION over request paths, not over local variable names. That distinction
+	// is why it works here and why a matching attempt over variable names did not --
+	// every credential-shaped local in the clean corpus turned out to be a counter of
+	// language-model tokens.
+	LeafContains []string
+	// LeafExcept vetoes, checked first. A CSRF token is a credential nobody hides: the
+	// page has to read it back and echo it.
+	LeafExcept []string
+
 	// ExactPath seeds only the path itself and not anything read out of it.
 	//
 	// `request.args` and `request.args.name` are both caller-supplied, so the usual
@@ -305,12 +320,21 @@ func atLeast(i int) *int { return &i }
 // Clears reports whether this transform neutralizes a value for a channel context.
 func (s SanitizerRule) Clears(context string) bool {
 	for _, c := range s.Contexts {
-		if c == context {
+		// A ONE-WAY transform is not context-specific. Escaping answers a question about
+		// where a value is going, and every sanitizer here but these does exactly that.
+		// A password hash is not a password anywhere: not in a log, not in a response,
+		// not in a query. Saying so once beats listing every context it is safe in and
+		// then being wrong about the one that gets added next.
+		if c == AnyContext || c == context {
 			return true
 		}
 	}
 	return false
 }
+
+// AnyContext marks a transform whose output is not the thing that went in, whatever it
+// is about to be used for.
+const AnyContext = "*"
 
 // CallbackRule propagates a class from a method's receiver into a function passed as
 // an argument to it. This is what carries data across the callback and promise
@@ -544,6 +568,31 @@ func Builtin() Model {
 					Match:     MatchValueKind,
 					ValueKind: "catch-param",
 				}},
+			},
+			{
+				// A field the caller sent that IS a secret. What makes this different from
+				// ordinary caller input is not that it is untrusted -- it is that writing
+				// it down anywhere durable is a disclosure, whoever sent it.
+				Class: "caller-credential",
+				Label: "a credential the caller sent",
+				Rules: []SourceRule{
+					{
+						Match:        MatchEntryParamProperty,
+						Framework:    "express",
+						EntryKind:    "http-route",
+						ParamIndex:   0,
+						Paths:        []string{"body", "query", "headers", "params"},
+						LeafContains: []string{"password", "passwd", "pwd", "secret", "token", "apikey", "api_key", "credential", "authorization"},
+						LeafExcept:   []string{"csrf", "xsrf"},
+					},
+					{
+						Match:        MatchGlobalProperty,
+						Symbol:       "flask.request",
+						Paths:        []string{"form", "json", "args", "headers", "values"},
+						LeafContains: []string{"password", "passwd", "pwd", "secret", "token", "apikey", "api_key", "credential", "authorization"},
+						LeafExcept:   []string{"csrf", "xsrf"},
+					},
+				},
 			},
 			{
 				// The environment a process was started with is where its secrets are:
@@ -891,6 +940,60 @@ func Builtin() Model {
 				Symbol: "papaparse.unparse", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
 				CWE:       "CWE-1236",
 				Rationale: "unparse() builds a CSV a spreadsheet will later interpret",
+			},
+
+			// Where an operator can read it later. A log is not a secret store: it is
+			// copied to aggregators, shipped to vendors, and kept long after the thing it
+			// describes is gone.
+			{
+				ID: "log", Visibility: "operator", Symbol: "console.log", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, 2},
+				CWE:       "CWE-532",
+				Rationale: "written to a log",
+			},
+			{
+				ID: "log", Visibility: "operator", Symbol: "console.info", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, 2},
+				CWE:       "CWE-532",
+				Rationale: "written to a log",
+			},
+			{
+				ID: "log", Visibility: "operator", Symbol: "console.warn", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, 2},
+				CWE:       "CWE-532",
+				Rationale: "written to a log",
+			},
+			{
+				ID: "log", Visibility: "operator", Symbol: "console.error", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, 2},
+				CWE:       "CWE-532",
+				Rationale: "written to a log",
+			},
+			{
+				ID: "log", Visibility: "operator", Symbol: "console.debug", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, 2},
+				CWE:       "CWE-532",
+				Rationale: "written to a log",
+			},
+			{
+				ID: "log", Visibility: "operator", Symbol: "logging.info", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, 2},
+				CWE:       "CWE-532",
+				Rationale: "written to a log",
+			},
+			{
+				ID: "log", Visibility: "operator", Symbol: "logging.warning", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, 2},
+				CWE:       "CWE-532",
+				Rationale: "written to a log",
+			},
+			{
+				ID: "log", Visibility: "operator", Symbol: "logging.error", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, 2},
+				CWE:       "CWE-532",
+				Rationale: "written to a log",
+			},
+			{
+				ID: "log", Visibility: "operator", Symbol: "logging.debug", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, 2},
+				CWE:       "CWE-532",
+				Rationale: "written to a log",
+			},
+			{
+				ID: "log", Visibility: "operator", Symbol: "logging.exception", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, 2},
+				CWE:       "CWE-532",
+				Rationale: "written to a log",
 			},
 
 			// A FORMAT STRING the caller supplied. `"Hello {}".format(name)` is safe: the
@@ -1652,6 +1755,24 @@ func Builtin() Model {
 				CWE:           "CWE-22",
 			},
 			{
+				// A password in a log is a password in every aggregator, vendor and backup
+				// the log reaches, long after the request it belonged to is gone. Its own
+				// judgement because its own remedy: do not write it down.
+				ID:               "credential-recorded",
+				Class:            "caller-credential",
+				DeniedVisibility: []string{"operator", "public", "thirdparty"},
+				Requires:         Requirements{Interprocedural: true},
+				// A credential is the VALUE, not a field of something you fetched with
+				// it. etherpad takes a token out of the URL, looks a record up with it,
+				// and returns one non-secret field of that record -- and the comment
+				// above the line says so. The token never leaves; something it addressed
+				// does.
+				RequiresUnprojected: true,
+				Reason:              "a credential written anywhere durable outlives the request it belonged to and reaches everyone who can read what it was written to",
+				Finding:             "Caller's credential recorded",
+				CWE:                 "CWE-532",
+			},
+			{
 				// Not the same judgement as an error message reaching a caller, though
 				// they land in the same place: an error describes one failure, and the
 				// environment is the whole set of secrets the process holds. Handing over
@@ -1720,6 +1841,44 @@ func Builtin() Model {
 				Contexts:           []string{"redirect", "url", "path"},
 				Note:               "resolves a named endpoint to a URL; caller data becomes query parameters of a destination the application chose",
 				RequiresLiteralArg: arg(0),
+			},
+			{
+				// One-way by construction: the output is a verifier, and nothing that
+				// reads it can recover what was hashed. This ends the credential rather
+				// than making it safe for somewhere in particular.
+				Symbol:   "bcrypt.hash",
+				Contexts: []string{AnyContext},
+				Note:     "a password hash is a verifier and not the password",
+			},
+			{
+				Symbol:   "bcrypt.hashSync",
+				Contexts: []string{AnyContext},
+				Note:     "a password hash is a verifier and not the password",
+			},
+			{
+				Symbol:   "argon2.hash",
+				Contexts: []string{AnyContext},
+				Note:     "a password hash is a verifier and not the password",
+			},
+			{
+				Symbol:   "crypto.pbkdf2",
+				Contexts: []string{AnyContext},
+				Note:     "a derived key is not the password it was derived from",
+			},
+			{
+				Symbol:   "crypto.pbkdf2Sync",
+				Contexts: []string{AnyContext},
+				Note:     "a derived key is not the password it was derived from",
+			},
+			{
+				Symbol:   "hashlib.pbkdf2_hmac",
+				Contexts: []string{AnyContext},
+				Note:     "a derived key is not the password it was derived from",
+			},
+			{
+				Symbol:   "werkzeug.security.generate_password_hash",
+				Contexts: []string{AnyContext},
+				Note:     "a password hash is a verifier and not the password",
 			},
 			{
 				Symbol:   "escape-html",
