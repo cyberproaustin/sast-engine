@@ -44,7 +44,6 @@ var claims = map[string]Claim{
 		By:       []string{"unowned-record-access"}},
 	"CWE-321": {State: Partial, Reason: "a cryptographic key written as a literal into a call that must hold one -- the same rule as CWE-798 above, asserted in its own right because the argument positions it describes ARE key arguments. Only those three APIs; a key handed to anything else is a stated miss",
 		By: []string{"hardcoded-secret"}},
-	"CWE-259": {State: NotBuilt, Reason: "a password written into the source. Not covered by the hard-coded credential rule and deliberately not subsumed by it: that rule describes KEY arguments, and a database password in a connection string passes through none of them"},
 	"CWE-284": {State: Partial, Reason: "an entry point missing a control the engine could not classify, which most of its comparable peers apply. Reported at this level deliberately: naming it authentication or authorization would be claiming to know which, and the honest identity is the class above both",
 		By: []string{"expectations"}},
 
@@ -84,8 +83,9 @@ var claims = map[string]Claim{
 	"CWE-330": {State: NotBuilt, Reason: "needs a notion of which randomness is used for a security decision, which a call shape alone does not carry"},
 	// A key written into a call that must hold one. The CATEGORY of secret is something
 	// this rule does encode -- it names key arguments -- so the crypto-key variant is
-	// asserted directly rather than subsumed, and a hard-coded PASSWORD is not covered at
-	// all because no password argument is described.
+	// asserted directly rather than subsumed. The password variant has its own rule now,
+	// matched by option NAME rather than by argument position, which is how a connection
+	// string asks for one.
 	"CWE-798": {State: Partial, Reason: "a key argument written as a literal, matched on having been written down rather than on what it says; a key read from the environment or a vault is not a literal and never matches",
 		By: []string{"hardcoded-secret"}},
 	// Members of the catalog's own Top 25 that apply to these languages. Named rather than
@@ -158,6 +158,15 @@ var claims = map[string]Claim{
 	// that is a flow question with no sink described for it. A DependsOnUse rule would
 	// mean a hundred permanent advisories nobody reads.
 	"CWE-338": {State: NotBuilt, Reason: "a weak random source used where unpredictability is what makes the thing work. The call is identical whether the number becomes a password reset token or a retry delay, and the corpus is overwhelmingly the second: deciding it means following the value to a sink that needs unguessability, and no such sink is described yet"},
+
+	"CWE-336": {State: Partial, Reason: "a pseudo-random generator seeded with a constant written into the call, which makes every run produce the same sequence. The named seeding APIs only; a generator seeded from a value computed at runtime is not matched, and whether the sequence is used for anything that needs to be unguessable is the separate question CWE-338 is declined over",
+		By: []string{"fixed-seed"}},
+	"CWE-347": {State: Partial, Reason: "signature verification switched OFF by name in the call. Matching `decode()` itself was tried and withdrawn: reading a token to look at it is ordinary -- taking the issuer to choose a key, taking the expiry -- and 58 sites across the clean corpus do exactly that, so the defect is trusting the claims afterwards and the call does not carry it. A nested options dict is not flattened by either frontend, so PyJWT's `options={\"verify_signature\": False}` spelling is a stated miss while the flat keywords are matched",
+		By: []string{"unverified-signature"}},
+	"CWE-259": {State: Partial, Reason: "a password written into the source as the option of a call that OPENS A CONNECTION, matched by option name rather than by argument position because that is how every such library asks for one. Scoped to those calls deliberately: matching any call with a password option was tried and produced 265 findings across the clean corpus, almost all test helpers and assertions. A password read from the environment is not a literal; an option whose key is known while its value was not written down is treated as absent",
+		By: []string{"hardcoded-password"}},
+	"CWE-297": {State: Partial, Reason: "a TLS connection told not to check the certificate's hostname, which accepts any valid certificate rather than the one belonging to the host being talked to. The literal keyword only",
+		By: []string{"no-hostname-check"}},
 
 	// Cookie attributes. Two of the three are claimed for an explicit downgrade AND for
 	// an omission; Secure is claimed only for the downgrade, because the correct idiom

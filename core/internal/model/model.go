@@ -2084,8 +2084,9 @@ func (a ArgCondition) Holds(literals map[int]string) bool {
 	var lit string
 	var ok bool
 	if a.NotLiteral {
-		_, written := literals[a.ArgIndex]
-		return !written
+		lit, written := literals[a.ArgIndex]
+		// A value the frontend could not read is not a value that was written down.
+		return !written || lit == "?"
 	}
 	if a.Keyword != "" {
 		want := strings.ToLower(a.Keyword)
@@ -2149,6 +2150,13 @@ type CallShape struct {
 	// says nothing about a value computed at runtime, and says nothing loudly rather
 	// than guessing.
 	Disallowed []string
+	// Keyword reads a NAMED option's value instead of a position.
+	//
+	// `createConnection({host, user, password: "hunter2"})` puts the secret where the
+	// library asks for it, which is a name rather than an index -- and the same name in
+	// every library that asks for one.
+	Keyword string
+
 	// Always matches on the SYMBOL alone, for a call that is a defect by existing.
 	//
 	// `tempfile.mktemp()` returns a name and does not create the file, so anything can
@@ -2285,6 +2293,345 @@ func builtinCallShapes() []CallShape {
 	}
 
 	return []CallShape{
+		// --- randomness, signatures and written-down secrets ------------------------
+		{
+			// A generator seeded with a constant produces the SAME sequence on every run
+			// and on every machine. Whatever it is used for, it is not a surprise to
+			// anyone who can read this line.
+			ID: "fixed-seed", Symbol: "random.seed", ArgIndex: 0, AnyLiteral: true,
+			CWE:       "CWE-336",
+			Finding:   "Random generator seeded with a constant",
+			Reason:    "seeding with a constant makes every run produce the same sequence, so the numbers are the same for everybody who reads this line",
+			Rationale: "seed() is given a value written in the call",
+		},
+		{
+			ID: "fixed-seed", Symbol: "numpy.random.seed", ArgIndex: 0, AnyLiteral: true,
+			CWE:       "CWE-336",
+			Finding:   "Random generator seeded with a constant",
+			Reason:    "seeding with a constant makes every run produce the same sequence, so the numbers are the same for everybody who reads this line",
+			Rationale: "seed() is given a value written in the call",
+		},
+		{
+			// Signature verification switched OFF by name. Decoding a token to LOOK at it
+			// is ordinary -- reading the issuer to pick a key, reading the expiry -- and
+			// 58 sites across the clean corpus say so. What is not ordinary is telling
+			// the verifier not to verify.
+			ID: "unverified-signature", AnyCall: true, Keyword: "verify_signature",
+			Disallowed: []string{"false"},
+			CWE:        "CWE-347",
+			Finding:    "Token accepted without checking its signature",
+			Reason:     "a token whose signature is not checked is a token anyone can write, so everything it claims is the sender's to choose",
+			Rationale:  "signature verification is switched off in the call",
+		},
+		{
+			ID: "unverified-signature", AnyCall: true, Keyword: "verify",
+			Disallowed: []string{"false"},
+			Qualifiers: []ArgCondition{{Keyword: "algorithms"}},
+			CWE:        "CWE-347",
+			Finding:    "Token accepted without checking its signature",
+			Reason:     "a token whose signature is not checked is a token anyone can write, so everything it claims is the sender's to choose",
+			Rationale:  "signature verification is switched off in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "mysql.createConnection", Keyword: "password", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "password", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the password option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "mysql.createConnection", Keyword: "passwd", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "passwd", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the passwd option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "mysql2.createConnection", Keyword: "password", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "password", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the password option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "mysql2.createConnection", Keyword: "passwd", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "passwd", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the passwd option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "mysql.createPool", Keyword: "password", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "password", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the password option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "mysql.createPool", Keyword: "passwd", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "passwd", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the passwd option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "mysql2.createPool", Keyword: "password", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "password", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the password option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "mysql2.createPool", Keyword: "passwd", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "passwd", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the passwd option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "pg.Client", Keyword: "password", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "password", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the password option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "pg.Client", Keyword: "passwd", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "passwd", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the passwd option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "pg.Pool", Keyword: "password", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "password", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the password option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "pg.Pool", Keyword: "passwd", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "passwd", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the passwd option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "mongoose.connect", Keyword: "password", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "password", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the password option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "mongoose.connect", Keyword: "passwd", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "passwd", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the passwd option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "mongoose.createConnection", Keyword: "password", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "password", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the password option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "mongoose.createConnection", Keyword: "passwd", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "passwd", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the passwd option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "redis.createClient", Keyword: "password", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "password", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the password option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "redis.createClient", Keyword: "passwd", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "passwd", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the passwd option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "nodemailer.createTransport", Keyword: "password", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "password", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the password option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "nodemailer.createTransport", Keyword: "passwd", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "passwd", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the passwd option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "ldapjs.createClient", Keyword: "password", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "password", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the password option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "ldapjs.createClient", Keyword: "passwd", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "passwd", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the passwd option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "psycopg2.connect", Keyword: "password", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "password", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the password option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "psycopg2.connect", Keyword: "passwd", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "passwd", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the passwd option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "pymysql.connect", Keyword: "password", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "password", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the password option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "pymysql.connect", Keyword: "passwd", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "passwd", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the passwd option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "MySQLdb.connect", Keyword: "password", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "password", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the password option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "MySQLdb.connect", Keyword: "passwd", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "passwd", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the passwd option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "pymongo.MongoClient", Keyword: "password", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "password", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the password option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "pymongo.MongoClient", Keyword: "passwd", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "passwd", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the passwd option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "sqlalchemy.create_engine", Keyword: "password", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "password", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the password option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "sqlalchemy.create_engine", Keyword: "passwd", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "passwd", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the passwd option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "redis.Redis", Keyword: "password", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "password", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the password option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "redis.Redis", Keyword: "passwd", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "passwd", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the passwd option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "smtplib.SMTP", Keyword: "password", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "password", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the password option of a connection is given a value written in the call",
+		},
+		{
+			ID: "hardcoded-password", Symbol: "smtplib.SMTP", Keyword: "passwd", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "passwd", NoneOf: []string{"null", "none", "undefined"}}},
+			CWE:        "CWE-259",
+			Finding:    "Password written into the source",
+			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
+			Rationale:  "the passwd option of a connection is given a value written in the call",
+		},
+		{
+			// TLS without a hostname check authenticates SOME valid certificate, not the
+			// one belonging to the host being talked to. Any certificate any CA ever
+			// issued will do.
+			ID: "no-hostname-check", AnyCall: true, Keyword: "check_hostname",
+			Disallowed: []string{"false"},
+			CWE:        "CWE-297",
+			Finding:    "Certificate hostname not checked",
+			Reason:     "without a hostname check the connection accepts any valid certificate, not the one belonging to the host it is talking to",
+			Rationale:  "check_hostname is set to False",
+		},
+
 		// --- files and permissions --------------------------------------------------
 		{
 			// mktemp returns a NAME and does not create the file, so between the name
