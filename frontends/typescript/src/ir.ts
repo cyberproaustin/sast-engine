@@ -1,7 +1,7 @@
 // Program IR — the wire contract with the core (docs/IR.md, ADR-001).
 // Types only. This file must stay a mirror of the spec, not of the TypeScript AST.
 
-export const IR_VERSION = "0.11.0";
+export const IR_VERSION = "0.12.0";
 
 export interface Loc {
   file: string;
@@ -14,6 +14,8 @@ export interface Capabilities {
   interprocedural: boolean;
   crossModule: boolean;
   controlFlow: boolean;
+  /** Whether view templates were read as well as source. */
+  templates?: boolean;
   frameworkModels: string[];
 }
 

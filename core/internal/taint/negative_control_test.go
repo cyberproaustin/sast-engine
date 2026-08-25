@@ -126,3 +126,23 @@ func TestLoopbackBindIsSilentBecauseOfTheAddressList(t *testing.T) {
 			"the loopback route is silent for some reason other than the address list", after, before)
 	}
 }
+
+// The template rule stays quiet on an ESCAPED interpolation because the frontend read the
+// view and recorded which ones the engine escapes. Make the escaped channel
+// indistinguishable from the unescaped one and those lines report -- which is what shows
+// the silence came from reading the template rather than from never opening it.
+func TestEscapedInterpolationIsSilentBecauseTheTemplateWasRead(t *testing.T) {
+	before := countCWE(runWith(t, "express-template-xss", func(m *model.Model) {}), "CWE-79")
+	after := countCWE(runWith(t, "express-template-xss", func(m *model.Model) {
+		for i := range m.Channels {
+			if m.Channels[i].ID == "template-output" {
+				m.Channels[i].Context = "html"
+				m.Channels[i].CWE = "CWE-79"
+			}
+		}
+	}), "CWE-79")
+	if after <= before {
+		t.Errorf("treating escaped output as markup produced %d findings, not more than the %d with the distinction; "+
+			"the escaped interpolation is silent for some reason other than being escaped", after, before)
+	}
+}

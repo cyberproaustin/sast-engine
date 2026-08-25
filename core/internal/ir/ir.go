@@ -36,10 +36,18 @@ type Frontend struct {
 // Capabilities is the honesty mechanism (ADR-003). An analysis whose requirements are
 // not met is reported NOT APPLICABLE, never as a clean result.
 type Capabilities struct {
-	TypeChecker     bool     `json:"typeChecker"`
-	Interprocedural bool     `json:"interprocedural"`
-	CrossModule     bool     `json:"crossModule"`
-	ControlFlow     bool     `json:"controlFlow"`
+	TypeChecker     bool `json:"typeChecker"`
+	Interprocedural bool `json:"interprocedural"`
+	CrossModule     bool `json:"crossModule"`
+	ControlFlow     bool `json:"controlFlow"`
+	// Templates says the frontend read the application's VIEWS as well as its source.
+	//
+	// A server-rendered application makes every escaping decision in a file the
+	// language's own compiler has never heard of. A frontend that reads only the source
+	// is not wrong about the handler; it is silent about the half where the decision was
+	// made, and an analysis that cannot tell those apart reports a clean view layer it
+	// never opened (ADR-003).
+	Templates       bool     `json:"templates,omitempty"`
 	FrameworkModels []string `json:"frameworkModels"`
 }
 

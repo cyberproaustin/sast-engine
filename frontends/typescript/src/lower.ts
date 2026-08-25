@@ -10,6 +10,8 @@ import fs from "node:fs";
 import path from "node:path";
 
 import { IR_VERSION } from "./ir.ts";
+import { indexTemplates, resolveTemplate } from "./templates.ts";
+import type { TemplateIndex } from "./templates.ts";
 import type {
   Arg,
   Block,
@@ -212,6 +214,7 @@ export function lowerProgram(opts: LowerOptions): IRDoc {
     typeRoots: typeRootsFor(opts.rootDir),
   });
   const checker = program.getTypeChecker();
+  const templates = indexTemplates(opts.rootDir);
 
   const sources = program
     .getSourceFiles()
@@ -261,10 +264,10 @@ export function lowerProgram(opts: LowerOptions): IRDoc {
   for (const sf of sources) {
     const imports = importsByFile.get(sf) ?? new Map<string, ImportRef>();
     const moduleId = moduleIdOf(opts.rootDir, sf.fileName);
-    // One map per FILE. The module is lowered first and fills it; every function below
-    // reads from it, which is how a name declared at the top of a file resolves inside a
-    // handler halfway down.
-    const moduleScope = new Map<ts.Symbol, string>();
+    // One map per FILE, filled as each function is lowered and read by every function
+    // lowered after it. That is how a name declared at the top of a file resolves inside
+    // a handler halfway down, and how a callback sees what it closed over.
+    const fileScope = new Map<ts.Symbol, string>();
     functions.push(
       lowerFunction(
         sf,
@@ -274,12 +277,13 @@ export function lowerProgram(opts: LowerOptions): IRDoc {
         imports,
         resolveFunction,
         identity,
-        moduleScope,
+        templates,
+        fileScope,
       ),
     );
     for (const [node, meta] of funcsBySource.get(sf) ?? []) {
       functions.push(
-        lowerFunction(node as ts.SignatureDeclaration, meta, sf, checker, imports, resolveFunction, identity, moduleScope),
+        lowerFunction(node as ts.SignatureDeclaration, meta, sf, checker, imports, resolveFunction, identity, templates, fileScope),
       );
     }
     entryPoints.push(...detectExpressRoutes(sf, imports, resolveFunction, (n) => locOf(sf, n)));
@@ -296,6 +300,7 @@ export function lowerProgram(opts: LowerOptions): IRDoc {
         interprocedural: true,
         crossModule: true,
         controlFlow: true,
+        templates: templates.all.length > 0,
         frameworkModels: ["express", "nestjs"],
       },
     },
@@ -461,14 +466,21 @@ function lowerFunction(
   imports: Map<string, ImportRef>,
   resolveFunction: FunctionResolver,
   identity: Set<string>,
-  // Names bound at the module's top level, shared across every function in the file.
+  // Every template under the root, read once for the whole program.
+  templates: TemplateIndex,
+  // Every name bound anywhere in this file, shared across all of its functions.
   //
-  // `const IV = randomBytes(16)` above a handler and `IV` inside it are the same value,
-  // and without this link the second is an identifier that resolves to nothing -- so a
-  // client, a key, a cache or a configuration object declared at the top of a file was
-  // invisible to dataflow everywhere it was actually used. The module is lowered first,
-  // which is what makes the map populated by the time the handlers below it are.
-  moduleScope: Map<ts.Symbol, string>,
+  // Two gaps in one table. `const IV = randomBytes(16)` above a handler and `IV` inside
+  // it are the same value; so are `const query = ...` in a route and the `query` a
+  // `.then()` callback closes over three lines later. Without the link the second is an
+  // identifier that resolves to nothing, which lost a client, a key, a cache, and every
+  // value a callback captured rather than received.
+  //
+  // Keyed by SYMBOL, so two different `query` bindings in one file are two entries and
+  // never confused: a symbol is a declaration, not a name. Functions are lowered
+  // outermost first, which is what makes an outer binding present by the time the
+  // callback that captures it is lowered.
+  fileScope: Map<ts.Symbol, string>,
 ): FunctionIR {
   const values: Value[] = [];
   const flows: Flow[] = [];
@@ -479,6 +491,10 @@ function lowerFunction(
   const returns: string[] = [];
   const params: Param[] = [];
   const bySymbol = new Map<ts.Symbol, string>();
+  // Object-literal value id -> the value behind each of its keys. Only object literals
+  // have one; anything built elsewhere is a value with no readable fields, which is what
+  // makes a render call whose locals came from another function a stated miss.
+  const objectFields = new Map<string, Map<string, string>>();
   const propCache = new Map<string, string>();
 
   let valueCount = 0;
@@ -561,12 +577,14 @@ function lowerFunction(
     if (from && to) flows.push({ from, to, kind, loc });
   };
 
-  const isModule = ts.isSourceFile(node);
   const bind = (name: ts.Identifier, valueId: string): void => {
     const sym = checker.getSymbolAtLocation(name);
     if (!sym) return;
     bySymbol.set(sym, valueId);
-    if (isModule) moduleScope.set(sym, valueId);
+    // Also into the file's shared table, which is what makes a CLOSURE see what it
+    // captured. Functions are lowered outermost first, so by the time a callback is
+    // lowered the names it closes over are already there.
+    fileScope.set(sym, valueId);
   };
 
   // Whether a name was declared outside the function being lowered. `let current` at a
@@ -776,6 +794,60 @@ function lowerFunction(
     return id;
   };
 
+  /**
+   * Where a render call ends and a view begins.
+   *
+   * `res.render("products", { query })` hands a set of named values to a file this
+   * frontend has already read, and that file decides which of them are escaped. The two
+   * halves are joined HERE rather than by making the template a function the call
+   * targets: a view's parameters are its variable names rather than positions, and the
+   * mapping from a render call's object literal to those names is the whole of the link.
+   *
+   * The interpolation becomes a call at the TEMPLATE's location, so a finding points at
+   * the line that writes the page rather than at the handler that asked for it. Both
+   * escaped and unescaped reads are recorded: escaping settles cross-site scripting and
+   * settles nothing about a password rendered into a page.
+   *
+   * Silent, by design, when the view name is not written in the call, when two templates
+   * could answer to it, or when the locals were built somewhere else -- each is a case
+   * where naming a file would mean guessing which one (ADR-003).
+   */
+  const lowerRenderedTemplate = (expr: ts.CallExpression, args: Arg[]): void => {
+    const name = expr.arguments[0];
+    if (!name || !ts.isStringLiteralLike(name)) return;
+    const view = resolveTemplate(templates, name.text);
+    if (!view || view.reads.length === 0) return;
+
+    const localsId = args.find((a) => a.index === 1)?.valueId;
+    const fields = localsId ? objectFields.get(localsId) : undefined;
+    if (!fields) return;
+
+    for (const read of view.reads) {
+      const root = read.path.split(".")[0];
+      const from = fields.get(root);
+      if (!from) continue;
+      const at: Loc = { file: view.moduleId, line: read.line, column: read.column };
+      // The path BELOW the root is a read out of the value the handler passed, and the
+      // rules that ask what a field is called read it exactly this way.
+      let valueId = from;
+      const rest = read.path.slice(root.length + 1);
+      if (rest) {
+        valueId = newValue("property", at, { base: from, path: rest, name: rest });
+        addFlow(from, valueId, "property", at);
+      }
+      const symbol = read.escaped ? "<template>.escaped" : "<template>.unescaped";
+      calls.push({
+        id: `${meta.id}$c${callCount++}`,
+        loc: at,
+        callee: { kind: "external", symbol, resolution: "resolved" },
+        args: [{ index: 0, valueId }],
+        argCount: 1,
+        resultValueId: newValue("call-result", at, { name: symbol }),
+        block: current,
+      });
+    }
+  };
+
   const lowerExpr = (expr: ts.Expression): string | undefined => {
     if (ts.isParenthesizedExpression(expr)) return lowerExpr(expr.expression);
     if (ts.isAwaitExpression(expr)) return lowerExpr(expr.expression);
@@ -785,7 +857,7 @@ function lowerFunction(
     if (ts.isIdentifier(expr)) {
       const sym = checker.getSymbolAtLocation(expr);
       if (!sym) return undefined;
-      return bySymbol.get(sym) ?? moduleScope.get(sym);
+      return bySymbol.get(sym) ?? fileScope.get(sym);
     }
 
     if (ts.isPropertyAccessExpression(expr)) return lowerProperty(expr);
@@ -878,6 +950,7 @@ function lowerFunction(
         resultValueId: resultId,
         block: current,
       });
+      if (method === "render") lowerRenderedTemplate(expr, args);
       return resultId;
     }
 
@@ -966,19 +1039,29 @@ function lowerFunction(
       // the caller sent; `update({ name: req.body.name })` hands over one field the
       // application chose, and only the first lets a caller set a column nobody meant
       // to expose.
+      // What each KEY carries, kept beside the object itself. A template reads its
+      // values by name, so linking a render call to the view it renders needs the map
+      // from name to value -- and building it here means each initializer is lowered
+      // exactly once, which re-reading the object literal later would not.
+      const fields = new Map<string, string>();
       for (const prop of expr.properties) {
         if (ts.isPropertyAssignment(prop)) {
-          addFlow(lowerExpr(prop.initializer), id, "enclose", loc);
+          const from = lowerExpr(prop.initializer);
+          addFlow(from, id, "enclose", loc);
+          if (from && ts.isIdentifier(prop.name)) fields.set(prop.name.text, from);
+          else if (from && ts.isStringLiteralLike(prop.name)) fields.set(prop.name.text, from);
         } else if (ts.isShorthandPropertyAssignment(prop)) {
           // For `{ slug }` the identifier resolves to the PROPERTY symbol, not the
           // local it reads. The checker has a dedicated accessor for the value.
           const valueSym = checker.getShorthandAssignmentValueSymbol(prop);
           const from = valueSym ? bySymbol.get(valueSym) : undefined;
           addFlow(from, id, "enclose", loc);
+          if (from) fields.set(prop.name.text, from);
         } else if (ts.isSpreadAssignment(prop)) {
           addFlow(lowerExpr(prop.expression), id, "enclose", loc);
         }
       }
+      objectFields.set(id, fields);
       return id;
     }
 

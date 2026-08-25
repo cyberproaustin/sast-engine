@@ -123,7 +123,7 @@ func Catalog() []Requirement {
 			Status:     Partial,
 			CWEs:       []string{"CWE-79"},
 			AssertedBy: []string{"untrusted-to-interpreter"},
-			Note:       "detects untrusted data reaching a response body parsed as markup, and records an encoder that addresses the wrong context as insufficient; template files are not lowered, so escaping decided inside a view is out of reach",
+			Note:       "detects untrusted data reaching a response body parsed as markup, and records an encoder that addresses the wrong context as insufficient; views are lowered too, so an unescaped interpolation is reported at the template line -- but only where the render call names the view and builds its context in the same place",
 		},
 		{
 			ID: "8.2.2", Chapter: "V8 Authorization",

@@ -1,0 +1,22 @@
+{
+  "corpus": "flask-template-xss",
+  "description": "The same weakness on the second language, where Jinja2 takes the opposite default: autoescaping is ON, so `{{ x }}` is safe and only an explicit `| safe` opts out. The filter is therefore the whole judgement and there is no one-character difference to miss. The negatives cover the three ways this stays quiet: a value the caller never sent, a context spread from a dictionary built elsewhere -- a stated miss, because naming a file on a guess is worse than saying nothing -- and a value escaped before it reached the view, which is what `escape()` returning Markup is FOR.",
+  "expected": [
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "templates/results.html",
+      "sinkLine": 2,
+      "sourceLabel": "flask.request.args.q",
+      "confidence": "high",
+      "note": "the autoescaped interpolation one line below is the same value and is silent"
+    },
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "templates/profile.html",
+      "sinkLine": 2,
+      "sourceLabel": "flask.request.args.name",
+      "confidence": "high",
+      "note": "read as `user.name`, so the path below the root is a property read off what the handler passed"
+    }
+  ]
+}

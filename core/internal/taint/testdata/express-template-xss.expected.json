@@ -1,0 +1,22 @@
+{
+  "corpus": "express-template-xss",
+  "description": "Cross-site scripting decided in the VIEW rather than in the handler. `<%= %>` escapes and `<%- %>` does not, a difference of one character, and reading only the source reads the half where nothing is decided. The finding points at the template line that writes the page. The negatives cover the three ways this stays quiet: a value the caller never sent, locals built in another function -- a stated miss, because naming a file on a guess is worse than saying nothing -- and a value escaped before it ever reached the view.",
+  "expected": [
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "views/products.ejs",
+      "sinkLine": 2,
+      "sourceLabel": "req.query.q",
+      "confidence": "high",
+      "note": "the escaped interpolation one line below is the same value and is silent"
+    },
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "views/profile.ejs",
+      "sinkLine": 2,
+      "sourceLabel": "req.query.name",
+      "confidence": "high",
+      "note": "read as `user.name`, so the path below the root is a property read off what the handler passed"
+    }
+  ]
+}
