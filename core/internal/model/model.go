@@ -243,6 +243,17 @@ type Policy struct {
 	DeniedVisibility []string
 	DeniedContext    []string
 
+	// RequiresComposition is an ADDITIONAL requirement this judgement makes, on top of
+	// whatever the channel asks.
+	//
+	// A channel states what its destination interprets, which is right while one policy
+	// uses it and insufficient the moment two do. Both rules that write to a log want the
+	// same destination and disagree about this: a credential is a disclosure whether it
+	// was logged whole or built into a sentence, and forging a log LINE requires the
+	// caller's text to have been built into one. Putting it on the channel silenced the
+	// first rule in order to enable the second.
+	RequiresComposition bool
+
 	// RequiresUnprojected forbids the pairing only for the WHOLE structure, not for
 	// something read out of it.
 	//
@@ -1261,53 +1272,56 @@ func Builtin() Model {
 			// copied to aggregators, shipped to vendors, and kept long after the thing it
 			// describes is gone.
 			{
+				// No CWE on the log channels: two policies use them and they are about
+				// different weaknesses -- a credential written down, and a caller forging
+				// log lines -- so the identity belongs to the judgement.
 				ID: "log", Visibility: "operator", Symbol: "console.log", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, 2},
-				CWE:       "CWE-532",
+				Context:   "log-line",
 				Rationale: "written to a log",
 			},
 			{
 				ID: "log", Visibility: "operator", Symbol: "console.info", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, 2},
-				CWE:       "CWE-532",
+				Context:   "log-line",
 				Rationale: "written to a log",
 			},
 			{
 				ID: "log", Visibility: "operator", Symbol: "console.warn", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, 2},
-				CWE:       "CWE-532",
+				Context:   "log-line",
 				Rationale: "written to a log",
 			},
 			{
 				ID: "log", Visibility: "operator", Symbol: "console.error", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, 2},
-				CWE:       "CWE-532",
+				Context:   "log-line",
 				Rationale: "written to a log",
 			},
 			{
 				ID: "log", Visibility: "operator", Symbol: "console.debug", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, 2},
-				CWE:       "CWE-532",
+				Context:   "log-line",
 				Rationale: "written to a log",
 			},
 			{
 				ID: "log", Visibility: "operator", Symbol: "logging.info", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, 2},
-				CWE:       "CWE-532",
+				Context:   "log-line",
 				Rationale: "written to a log",
 			},
 			{
 				ID: "log", Visibility: "operator", Symbol: "logging.warning", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, 2},
-				CWE:       "CWE-532",
+				Context:   "log-line",
 				Rationale: "written to a log",
 			},
 			{
 				ID: "log", Visibility: "operator", Symbol: "logging.error", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, 2},
-				CWE:       "CWE-532",
+				Context:   "log-line",
 				Rationale: "written to a log",
 			},
 			{
 				ID: "log", Visibility: "operator", Symbol: "logging.debug", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, 2},
-				CWE:       "CWE-532",
+				Context:   "log-line",
 				Rationale: "written to a log",
 			},
 			{
 				ID: "log", Visibility: "operator", Symbol: "logging.exception", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, 2},
-				CWE:       "CWE-532",
+				Context:   "log-line",
 				Rationale: "written to a log",
 			},
 
@@ -2188,6 +2202,20 @@ func Builtin() Model {
 				CWE:                 "CWE-201",
 			},
 			{
+				// A log is a record somebody reads later to work out what happened, and a
+				// caller who can put a line break in it writes entries of their own --
+				// with any timestamp, level and actor they like. Composition is required:
+				// a value logged whole is a field, and a value built INTO a line is a line.
+				ID:                  "untrusted-to-log-line",
+				Class:               "untrusted-input",
+				DeniedContext:       []string{"log-line"},
+				RequiresComposition: true,
+				Requires:            Requirements{Interprocedural: true},
+				Reason:              "a caller who can put a line break into a log entry writes entries of their own, with whatever timestamp, level and actor they choose",
+				Finding:             "Untrusted input composed into a log line",
+				CWE:                 "CWE-117",
+			},
+			{
 				// A password in a log is a password in every aggregator, vendor and backup
 				// the log reaches, long after the request it belonged to is gone. Its own
 				// judgement because its own remedy: do not write it down.
@@ -2277,6 +2305,39 @@ func Builtin() Model {
 				Contexts:           []string{"redirect", "url", "path"},
 				Note:               "resolves a named endpoint to a URL; caller data becomes query parameters of a destination the application chose",
 				RequiresLiteralArg: arg(0),
+			},
+			{
+				// A NUMBER cannot carry syntax. Not a line break, not a quote, not a path
+				// separator, not a tag -- so numeric coercion clears every text context
+				// there is, which is why it is marked for all of them rather than listed
+				// against each.
+				//
+				// ghost logs `Blocking for ${seconds} seconds` where seconds came from
+				// parseInt, and that read as log forging: the caller cannot put a newline
+				// in a number.
+				Symbol:   "parseInt",
+				Contexts: []string{AnyContext},
+				Note:     "produces a number, which cannot carry syntax",
+			},
+			{
+				Symbol:   "parseFloat",
+				Contexts: []string{AnyContext},
+				Note:     "produces a number, which cannot carry syntax",
+			},
+			{
+				Symbol:   "Number",
+				Contexts: []string{AnyContext},
+				Note:     "produces a number, which cannot carry syntax",
+			},
+			{
+				Symbol:   "builtins.int",
+				Contexts: []string{AnyContext},
+				Note:     "produces a number, which cannot carry syntax",
+			},
+			{
+				Symbol:   "builtins.float",
+				Contexts: []string{AnyContext},
+				Note:     "produces a number, which cannot carry syntax",
 			},
 			{
 				// One-way by construction: the output is a verifier, and nothing that
