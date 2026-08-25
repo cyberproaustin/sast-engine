@@ -16,7 +16,9 @@ import re
 import os
 from typing import Any
 
-IR_VERSION = "0.11.0"
+from templates import index_templates, resolve_template
+
+IR_VERSION = "0.12.0"
 FRONTEND_VERSION = "0.1.0"
 
 FUNCTION_NODES = (ast.FunctionDef, ast.AsyncFunctionDef)
@@ -73,8 +75,11 @@ def loc_of(module: str, node: ast.AST) -> dict:
 class ModuleLowerer:
     """Lowers one module. Imports and module-level defs are resolved by name."""
 
-    def __init__(self, root: str, path: str, tree: ast.Module, defs: dict[str, str]):
+    def __init__(self, root: str, path: str, tree: ast.Module, defs: dict[str, str],
+                 templates: dict | None = None):
         self.module = module_id(root, path)
+        # Every view under the root, read once for the whole program.
+        self.templates = templates or {}
         self.tree = tree
         self.global_defs = defs
         self.imports: dict[str, str] = {}
@@ -821,10 +826,15 @@ class FunctionLowerer:
         # Nested option keys are numbered below every top-level one, so the two never
         # collide however many of each a call has.
         nested = -1000
+        # What each keyword carries. A template reads its values by NAME, so linking a
+        # render call to the view it renders needs this map and nothing else.
+        by_keyword: dict[str, str] = {}
         for offset, kw in enumerate(node.keywords):
             vid = self.expr(kw.value)
             if vid:
                 args.append({"index": len(node.args), "valueId": vid})
+                if kw.arg:
+                    by_keyword[kw.arg] = vid
             if not kw.arg:
                 keys_known = False
                 continue
@@ -887,7 +897,69 @@ class FunctionLowerer:
         if receiver:
             call["receiverValueId"] = receiver
         self.calls.append(call)
+
+        if (callee.get("symbol") or "").endswith("render_template"):
+            self.lower_rendered_template(node, by_keyword)
         return result
+
+    def lower_rendered_template(self, node: ast.Call, by_keyword: dict[str, str]) -> None:
+        """Where a render call ends and a view begins.
+
+        `render_template("page.html", name=x)` hands a set of named values to a file this
+        frontend has already read, and that file decides which of them are escaped. The
+        two halves are joined here rather than by making the template a function the call
+        targets: a view's parameters are its variable names rather than positions, and the
+        mapping from keywords to those names is the whole of the link.
+
+        The interpolation becomes a call at the TEMPLATE's location, so a finding points
+        at the line that writes the page rather than at the handler that asked for it.
+        Both escaped and unescaped reads are recorded, because escaping settles cross-site
+        scripting and settles nothing about a password rendered into a page.
+
+        Silent when the view name is not written in the call, when two templates could
+        answer to it, or when the context was built elsewhere and spread in -- each is a
+        case where naming a file would mean guessing which one (ADR-003).
+        """
+        if not node.args or not isinstance(node.args[0], ast.Constant):
+            return
+        name = node.args[0].value
+        if not isinstance(name, str):
+            return
+        view = resolve_template(self.mod.templates, name)
+        if view is None or not view.reads:
+            return
+
+        for read in view.reads:
+            root, _, rest = read["path"].partition(".")
+            src = by_keyword.get(root)
+            if not src:
+                continue
+            at = {"file": view.module, "line": read["line"], "column": read["column"]}
+            value_id = src
+            if rest:
+                # The path BELOW the root is a read out of the value the handler passed,
+                # and every rule that asks what a field is called reads it this way.
+                value_id = f"{self.id}$v{self._v}"
+                self._v += 1
+                self.values.append(
+                    {"id": value_id, "kind": "property", "loc": at, "base": src,
+                     "path": rest, "name": rest}
+                )
+                self.flows.append({"from": src, "to": value_id, "kind": "property", "loc": at})
+            symbol = "<template>.escaped" if read["escaped"] else "<template>.unescaped"
+            result_id = f"{self.id}$v{self._v}"
+            self._v += 1
+            self.values.append({"id": result_id, "kind": "call-result", "loc": at, "name": symbol})
+            self.calls.append({
+                "id": f"{self.id}$c{self._c}",
+                "loc": at,
+                "callee": {"kind": "external", "symbol": symbol, "resolution": "resolved"},
+                "args": [{"index": 0, "valueId": value_id}],
+                "argCount": 1,
+                "resultValueId": result_id,
+                "block": self.current,
+            })
+            self._c += 1
 
     def resolve_callee(self, node: ast.Call) -> dict:
         func = node.func
@@ -1004,9 +1076,11 @@ def lower_program(root: str, files: list[str]) -> dict:
                             f"{mid}#{member.name}:{member.lineno}"
                         )
 
+    templates = index_templates(root)
+
     modules, functions, entry_points = [], [], []
     for path, tree in trees:
-        lowerer = ModuleLowerer(root, path, tree, defs)
+        lowerer = ModuleLowerer(root, path, tree, defs, templates)
         lowerer.lower()
         modules.append({"id": lowerer.module, "path": lowerer.module,
                         **({"isTest": True} if is_test_module(lowerer.module) else {})})
@@ -1026,6 +1100,7 @@ def lower_program(root: str, files: list[str]) -> dict:
                 "interprocedural": True,
                 "crossModule": True,
                 "controlFlow": True,
+                "templates": bool(templates),
                 # Named for what the matcher actually recognizes. The decorator shape
                 # also matches FastAPI and Flask-AppBuilder; claiming only "flask"
                 # overstated one and understated the others.

@@ -683,6 +683,11 @@ func describeCapabilities(c ir.Capabilities) string {
 		fmt.Sprintf("typeChecker=%t", c.TypeChecker),
 		fmt.Sprintf("interprocedural=%t", c.Interprocedural),
 		fmt.Sprintf("crossModule=%t", c.CrossModule),
+		// Whether the VIEWS were read. A server-rendered application decides its escaping
+		// in files the language's compiler has never seen, so "no findings in the view
+		// layer" and "the view layer was not opened" are different results and a reader
+		// has to be able to tell them apart (ADR-003).
+		fmt.Sprintf("templates=%t", c.Templates),
 	}
 	if len(c.FrameworkModels) > 0 {
 		parts = append(parts, "models="+strings.Join(c.FrameworkModels, "+"))

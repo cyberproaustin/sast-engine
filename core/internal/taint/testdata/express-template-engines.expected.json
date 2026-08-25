@@ -1,0 +1,38 @@
+{
+  "corpus": "express-template-engines",
+  "description": "The same judgement in two more template languages, each marking the unsafe form with one character: Pug writes `!=` and `!{}` where `=` and `#{}` escape, and Handlebars writes a third brace or an ampersand. The escaped interpolations in both files -- including the one inside a Handlebars block helper -- are silent, and neither extractor reads a Pug attribute list as an interpolation.",
+  "expected": [
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "views/card.hbs",
+      "sinkLine": 3,
+      "sourceLabel": "req.query.body",
+      "confidence": "high",
+      "note": "a third brace turns escaping off"
+    },
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "views/card.hbs",
+      "sinkLine": 4,
+      "sourceLabel": "req.query.note",
+      "confidence": "high",
+      "note": "an ampersand does the same thing"
+    },
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "views/page.pug",
+      "sinkLine": 7,
+      "sourceLabel": "req.query.bio",
+      "confidence": "high",
+      "note": "`!=` is the buffered unescaped form"
+    },
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "views/page.pug",
+      "sinkLine": 8,
+      "sourceLabel": "req.query.tagline",
+      "confidence": "high",
+      "note": "`!{}` is the inline one"
+    }
+  ]
+}

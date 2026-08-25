@@ -28,8 +28,16 @@ var claims = map[string]Claim{
 	"CWE-79": {
 		State: Partial,
 		Reason: "untrusted data reaching a response body parsed as markup, with " +
-			"context-wrong encoders recorded as insufficient; escaping decided inside a " +
-			"template file is out of reach because templates are not lowered",
+			"context-wrong encoders recorded as insufficient -- AND escaping decided " +
+			"inside a view, which is where a server-rendered application decides it. " +
+			"Both frontends read their ecosystem's templates and record, per " +
+			"interpolation, whether the engine escapes it: EJS, Handlebars, Mustache, " +
+			"Pug, Nunjucks and Swig on one side, Jinja2 on the other. The finding points " +
+			"at the template line rather than at the handler. What stays out of reach is " +
+			"stated rather than assumed: a view name not written in the render call, a " +
+			"name two templates could answer to, a context built in another function, " +
+			"and an interpolation that is not a plain access path -- each a case where " +
+			"naming a file would mean guessing which one",
 		By:       []string{"untrusted-to-interpreter"},
 		Subsumes: true,
 	},

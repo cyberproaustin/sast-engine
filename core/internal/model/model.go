@@ -2688,6 +2688,26 @@ func Builtin() Model {
 				Symbol: "flask.jsonify", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
 				Rationale: "returned to whoever called the endpoint",
 			},
+
+			// A value written into a VIEW. The frontend has already read the template and
+			// decided which of these the engine escapes, which is the only question the
+			// template language answers and the one the handler cannot.
+			//
+			// Two channels rather than one, because escaping settles a different question
+			// from visibility. `<%= password %>` is escaped and still a password on a
+			// page; `<%- comment %>` is unescaped and is script execution. The first is
+			// public and not markup; the second is both.
+			{
+				ID: "html-response", Visibility: "public", Context: "html",
+				Symbol: "<template>.unescaped", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-79",
+				Rationale: "the template writes this value into the page without escaping it",
+			},
+			{
+				ID: "template-output", Visibility: "public", Context: "html-escaped",
+				Symbol: "<template>.escaped", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				Rationale: "the template writes this value into the page, escaped",
+			},
 			// Added as a DESCRIPTION of a channel, not as a rule for a defect.
 			// Every policy that denies a class reaching "thirdparty" now covers
 			// outbound HTTP without being touched.
@@ -3478,6 +3498,35 @@ func Builtin() Model {
 			},
 			{
 				Symbol:   "dompurify.sanitize",
+				Contexts: []string{"html"},
+				Note:     "removes scripting constructs from markup",
+			},
+			{
+				// Python's side of the same judgement. `escape()` returns Markup, which
+				// is precisely a value the template engine has been told is already safe
+				// -- so `{{ escape(x) | safe }}` is correct code and the rule has to know
+				// it, or it reports the remedy.
+				Symbol:   "markupsafe.escape",
+				Contexts: []string{"html"},
+				Note:     "escapes the five characters that make markup and returns Markup",
+			},
+			{
+				Symbol:   "flask.escape",
+				Contexts: []string{"html"},
+				Note:     "escapes the five characters that make markup and returns Markup",
+			},
+			{
+				Symbol:   "html.escape",
+				Contexts: []string{"html"},
+				Note:     "HTML-escapes its input",
+			},
+			{
+				Symbol:   "cgi.escape",
+				Contexts: []string{"html"},
+				Note:     "HTML-escapes its input",
+			},
+			{
+				Symbol:   "bleach.clean",
 				Contexts: []string{"html"},
 				Note:     "removes scripting constructs from markup",
 			},
