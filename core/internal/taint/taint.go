@@ -413,6 +413,8 @@ func (e *engine) seedSources() {
 			e.seedByValueKind(rule)
 		case model.MatchGlobalProperty:
 			e.seedByGlobalProperty(rule)
+		case model.MatchCallResult:
+			e.seedByCallResult(rule)
 		default:
 			e.seedByEntryParamProperty(rule)
 		}
@@ -447,6 +449,37 @@ func (e *engine) seedByValueKind(rule model.SourceRule) {
 				desc:       fmt.Sprintf("source: %s (%s)", label, e.class.Label),
 				loc:        v.Loc,
 				resolution: ir.Resolved,
+			})
+		}
+	}
+}
+
+// seedByCallResult marks what a named call RETURNS.
+//
+// The match kind was declared and never implemented, so a rule using it fell through to
+// the entry-parameter seeder and matched nothing at all -- quietly, which is the worst way
+// for a rule to be wrong. It exists for provenance: what makes a weak random number a
+// weakness is not the call but where the number ends up, and that question starts here.
+func (e *engine) seedByCallResult(rule model.SourceRule) {
+	for _, fn := range e.ix.IR.Functions {
+		for _, c := range fn.Calls {
+			if c.Callee.Symbol != rule.Symbol || c.ResultID == "" {
+				continue
+			}
+			entry, anchored := enclosingEntry(e.ix, fn)
+			sd := seed{label: rule.Symbol + "()", entryPoint: entry, anchored: anchored}
+			if ep, ok := entryOf(e.ix, fn); ok {
+				sd.unresolvedInputs, sd.loc = ep.UnresolvedParams, ep.Loc
+				sd.identityInjected = injectsIdentity(e.ix, ep)
+			}
+			if ep, ok := e.ix.EntryByFunc[fn.ID]; ok {
+				sd.method, sd.path = ep.Detail["method"], ep.Detail["path"]
+			}
+			e.seeds[c.ResultID] = sd
+			e.markTainted(c.ResultID, edge{
+				desc:       fmt.Sprintf("source: %s() (%s)", rule.Symbol, e.class.Label),
+				loc:        c.Loc,
+				resolution: c.Callee.Resolution,
 			})
 		}
 	}

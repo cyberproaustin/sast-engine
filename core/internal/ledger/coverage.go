@@ -157,7 +157,13 @@ var claims = map[string]Claim{
 	// something that must be unguessable -- a token, a reset link, a session id -- and
 	// that is a flow question with no sink described for it. A DependsOnUse rule would
 	// mean a hundred permanent advisories nobody reads.
-	"CWE-338": {State: NotBuilt, Reason: "a weak random source used where unpredictability is what makes the thing work. The call is identical whether the number becomes a password reset token or a retry delay, and the corpus is overwhelmingly the second: deciding it means following the value to a sink that needs unguessability, and no such sink is described yet"},
+	// Declined three times and then built, once a sink existed that needs unguessability.
+	// The reasoning that declined it was right and was about the SOURCE: Math.random
+	// appears 90 times across the clean corpus and almost all of it is jitter, sampling
+	// and placeholders, so the call alone says nothing. Cookie values gave the rule the
+	// other half.
+	"CWE-338": {State: Partial, Reason: "a number from a generator built for speed reaching a place that requires unguessability -- currently a cookie value, where guessing one is being that user. Classified at the source and judged at the SINK, which is the only place the question can be answered; the same call somewhere else in the same file is a retry delay and is not reported",
+		By: []string{"predictable-secret"}},
 
 	"CWE-336": {State: Partial, Reason: "a pseudo-random generator seeded with a constant written into the call, which makes every run produce the same sequence. The named seeding APIs only; a generator seeded from a value computed at runtime is not matched, and whether the sequence is used for anything that needs to be unguessable is the separate question CWE-338 is declined over",
 		By: []string{"fixed-seed"}},
