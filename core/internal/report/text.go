@@ -627,6 +627,15 @@ func writeCoverage(b *strings.Builder, rep assertion.Report) {
 	for _, cwe := range rep.Unmapped {
 		fmt.Fprintf(b, "    %-34s unmapped — not guessed into a category\n", cwe)
 	}
+
+	// A finding count answers "what did this run find". It does not answer "would this
+	// build have found it", and a category with no line above is silent for one of two
+	// reasons a reader cannot tell apart. This says which: how many of the weaknesses
+	// the catalog puts in each category have a rule at all.
+	fmt.Fprintf(b, "\n  what this build could find, per category (from the CWE ledger):\n")
+	for _, c := range ledger.CoverageByCategory() {
+		fmt.Fprintf(b, "    %-46s %2d of %2d weakness(es) have a rule\n", c.Category, c.Asserted, c.Total)
+	}
 }
 
 // What a frontend CAN do and how much of it actually worked on this tree are different

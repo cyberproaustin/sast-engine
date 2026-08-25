@@ -230,6 +230,44 @@ func OWASPCategory(cwe string) string {
 const TopTwentyFive = "cwe-top-25-2025"
 
 // CoveredOnList is how much of a priority view the engine asserts, counted against the
+// CategoryCoverage is how much of one rollup category this build has rules for.
+type CategoryCoverage struct {
+	Category string
+	Asserted int
+	Total    int
+}
+
+// CoverageByCategory answers the question a finding count cannot: is a category quiet
+// because the code is clean, or because nothing checks it?
+//
+// A rollup listing only the categories with findings reads as coverage of the ones it
+// names and silence about the rest, and a reader has no way to tell "nothing found here"
+// from "nothing looked here". Both are worth knowing and they are not the same thing.
+func CoverageByCategory() []CategoryCoverage {
+	byCat := map[string]*CategoryCoverage{}
+	for _, e := range InScope() {
+		cat := OWASPCategory(e.Weakness.ID)
+		if cat == "" {
+			continue
+		}
+		c := byCat[cat]
+		if c == nil {
+			c = &CategoryCoverage{Category: cat}
+			byCat[cat] = c
+		}
+		c.Total++
+		if e.Claim.State == Asserted || e.Claim.State == Partial {
+			c.Asserted++
+		}
+	}
+	out := make([]CategoryCoverage, 0, len(byCat))
+	for _, c := range byCat {
+		out = append(out, *c)
+	}
+	sort.Slice(out, func(i, j int) bool { return out[i].Category < out[j].Category })
+	return out
+}
+
 // members a rule could be written for rather than against all of them: several are C
 // memory-safety weaknesses that no frontend here will ever parse, and counting those as
 // gaps would make the number meaningless in the flattering direction as well as the
