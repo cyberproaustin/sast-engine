@@ -641,6 +641,13 @@ class FunctionLowerer:
             for part in node.values:
                 if isinstance(part, ast.FormattedValue):
                     self.add_flow(self.expr(part.value), vid, "template", node)
+                # The STATIC text of an f-string is a value too. Dropping it lost the half
+                # of the string the PROGRAM wrote, so a rule that asks what a composed
+                # value says -- does this statement contain a SQL verb -- could answer for
+                # `"SELECT ..." % x` and not for the same statement written as an f-string.
+                elif isinstance(part, ast.Constant) and isinstance(part.value, str) and part.value:
+                    lit = self.new_value("literal", node, literal=part.value)
+                    self.add_flow(lit, vid, "template", node)
             return vid
 
         # `+` and `%` are both string composition in Python, and `%` is the older and

@@ -156,6 +156,34 @@ type Channel struct {
 	// answer, and a perfectly ordinary one for an ORM.
 	RequiresExternalReceiver bool
 
+	// ComposedContains requires a WORD to appear in one of the literal pieces the sink
+	// value was built from.
+	//
+	// A method name is not a library. `query`, `execute`, `one` and `many` are ordinary
+	// English, and a program that composes `${user}@${domain}` and hands it to something
+	// called `query` is doing a WebFinger lookup, not SQL -- nodebb does exactly that, and
+	// it read as an injection the moment call resolution improved enough to see it.
+	//
+	// What tells a statement from a string is that a statement says what it does. Every
+	// real SQL injection has SELECT, INSERT, UPDATE or DELETE written in one of its
+	// literal pieces, because the attacker only supplies the operand; the program still
+	// has to say the verb. Asking for the verb costs nothing a real finding has and
+	// removes a whole family of coincidences.
+	ComposedContains []string
+
+	// Language restricts a channel to one frontend, for the rare rule that is about a
+	// method only one language has.
+	//
+	// `"...".format(x)` is Python's, and a caller who writes the format string chooses the
+	// conversions -- which is CWE-134. JavaScript has no such method and plenty of objects
+	// with a `format` of their own: `dayjs(when).format("HH:mm")` matched this channel
+	// exactly, receiver and all, and reported a date formatter as a format-string attack.
+	//
+	// Used sparingly and never as a substitute for a discriminator. A rule that is really
+	// about a shape should say what the shape is; this is for the case where the method
+	// genuinely does not exist in the other language.
+	Language string
+
 	// ReceiverFrom narrows a method-name channel by WHAT MADE THE RECEIVER.
 	//
 	// `update` is a method name with no identity of its own -- a hash, a stream, an ORM
@@ -641,6 +669,12 @@ func (m Model) ClassifyControl(name string) string {
 // Facts about a person that cannot be reissued. Deliberately specific: `passport` alone
 // is the authentication library in two of the three places these names appear across the
 // clean corpus, and a list that matched it would report a login flow as an identity leak.
+// The words a SQL statement has to contain to be one. The caller supplies the operand;
+// the program still has to write the verb, so a composed value with none of these in its
+// literal pieces is not a statement whatever the method it was handed to is called.
+var sqlVerbs = []string{"select ", "insert ", "update ", "delete ", "from ", "where ",
+	"union ", "drop ", "alter ", "create ", "truncate ", "values", "join "}
+
 var personalNames = []string{
 	"ssn", "socialsecurity", "socialsecuritynumber", "nationalid", "nationalidnumber",
 	"passportnumber", "taxid", "taxidnumber", "driverslicense", "driverslicensenumber",
@@ -2032,6 +2066,7 @@ func builtin() Model {
 			{
 				ID: "format-string", Visibility: "internal", Context: "format",
 				Method: "format", ReceiverIsEntryParam: -1, RequiresUntrustedReceiver: true,
+				Language:     "python",
 				RequiresArgs: 1,
 				CWE:          "CWE-134",
 				Rationale:    "format() is called ON caller-supplied text, so the caller wrote the format",
@@ -2039,6 +2074,7 @@ func builtin() Model {
 			{
 				ID: "format-string", Visibility: "internal", Context: "format",
 				Method: "format_map", ReceiverIsEntryParam: -1, RequiresUntrustedReceiver: true,
+				Language:     "python",
 				RequiresArgs: 1,
 				CWE:          "CWE-134",
 				Rationale:    "format_map() is called ON caller-supplied text, so the caller wrote the format",
@@ -2560,6 +2596,7 @@ func builtin() Model {
 				Method: "query", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
 				CWE:                 "CWE-89",
 				RequiresComposition: true,
+				ComposedContains:    sqlVerbs,
 				Rationale:           "the first argument is executed as SQL",
 			},
 			{
@@ -2567,6 +2604,7 @@ func builtin() Model {
 				Method: "execute", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
 				CWE:                 "CWE-89",
 				RequiresComposition: true,
+				ComposedContains:    sqlVerbs,
 				Rationale:           "the first argument is executed as SQL",
 			},
 			{
@@ -2574,6 +2612,7 @@ func builtin() Model {
 				Method: "executemany", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
 				CWE:                 "CWE-89",
 				RequiresComposition: true,
+				ComposedContains:    sqlVerbs,
 				Rationale:           "the first argument is executed as SQL",
 			},
 			{
@@ -2581,7 +2620,89 @@ func builtin() Model {
 				Method: "raw", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
 				CWE:                 "CWE-89",
 				RequiresComposition: true,
+				ComposedContains:    sqlVerbs,
 				Rationale:           "raw() hands its argument to the database as SQL",
+			},
+			// pg-promise, whose whole API is the row count it expects rather than the word
+			// "query": `db.one(sql)`, `db.many(sql)`, `db.none(sql)`. Four of the five SQL
+			// injections in one vulnerable application were invisible because of this, and
+			// the method list is what a scanner has instead of knowing the library.
+			//
+			// These names are generic enough that a name alone would be reckless -- `one`,
+			// `any` and `result` are ordinary words. What makes them safe here is the
+			// requirement every SQL channel already carries: the value must have been BUILT
+			// into a statement. Passing a value along whole is passing data.
+			{
+				ID: "sql-query", Visibility: "internal", Context: "sql",
+				Method: "none", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:                 "CWE-89",
+				RequiresComposition: true,
+				ComposedContains:    sqlVerbs,
+				Rationale:           "none() hands its first argument to the database as SQL",
+			},
+			{
+				ID: "sql-query", Visibility: "internal", Context: "sql",
+				Method: "one", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:                 "CWE-89",
+				RequiresComposition: true,
+				ComposedContains:    sqlVerbs,
+				Rationale:           "one() hands its first argument to the database as SQL",
+			},
+			{
+				ID: "sql-query", Visibility: "internal", Context: "sql",
+				Method: "many", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:                 "CWE-89",
+				RequiresComposition: true,
+				ComposedContains:    sqlVerbs,
+				Rationale:           "many() hands its first argument to the database as SQL",
+			},
+			{
+				ID: "sql-query", Visibility: "internal", Context: "sql",
+				Method: "any", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:                 "CWE-89",
+				RequiresComposition: true,
+				ComposedContains:    sqlVerbs,
+				Rationale:           "any() hands its first argument to the database as SQL",
+			},
+			{
+				ID: "sql-query", Visibility: "internal", Context: "sql",
+				Method: "oneOrNone", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:                 "CWE-89",
+				RequiresComposition: true,
+				ComposedContains:    sqlVerbs,
+				Rationale:           "oneOrNone() hands its first argument to the database as SQL",
+			},
+			{
+				ID: "sql-query", Visibility: "internal", Context: "sql",
+				Method: "manyOrNone", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:                 "CWE-89",
+				RequiresComposition: true,
+				ComposedContains:    sqlVerbs,
+				Rationale:           "manyOrNone() hands its first argument to the database as SQL",
+			},
+			{
+				ID: "sql-query", Visibility: "internal", Context: "sql",
+				Method: "result", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:                 "CWE-89",
+				RequiresComposition: true,
+				ComposedContains:    sqlVerbs,
+				Rationale:           "result() hands its first argument to the database as SQL",
+			},
+			{
+				ID: "sql-query", Visibility: "internal", Context: "sql",
+				Method: "multiResult", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:                 "CWE-89",
+				RequiresComposition: true,
+				ComposedContains:    sqlVerbs,
+				Rationale:           "multiResult() hands its first argument to the database as SQL",
+			},
+			{
+				ID: "sql-query", Visibility: "internal", Context: "sql",
+				Method: "multi", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:                 "CWE-89",
+				RequiresComposition: true,
+				ComposedContains:    sqlVerbs,
+				Rationale:           "multi() hands its first argument to the database as SQL",
 			},
 			{
 				// Named Unsafe by its own authors, for this reason.
@@ -2589,6 +2710,7 @@ func builtin() Model {
 				Method: "$queryRawUnsafe", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
 				CWE:                 "CWE-89",
 				RequiresComposition: true,
+				ComposedContains:    sqlVerbs,
 				Rationale:           "$queryRawUnsafe() interpolates its argument into SQL",
 			},
 			{
@@ -2596,6 +2718,7 @@ func builtin() Model {
 				Method: "$executeRawUnsafe", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
 				CWE:                 "CWE-89",
 				RequiresComposition: true,
+				ComposedContains:    sqlVerbs,
 				Rationale:           "$executeRawUnsafe() interpolates its argument into SQL",
 			},
 			{
@@ -3770,7 +3893,7 @@ func builtin() Model {
 			{Name: "xsrf", Kind: "csrf"},
 		},
 
-		// Values whose own shape is the defect. Every one of these was run across sixteen
+		// Values whose own shape is the defect. Every one of these was run across twenty-eight
 		// production repositories before it was written down, and the count that survived
 		// outside test files is in the comment beside it. Nothing here scores entropy or
 		// looks at the name of the variable holding the value: a shape a credential
@@ -3876,7 +3999,7 @@ func builtin() Model {
 //
 // Every rule here is a shape a value either HAS or does not. There is deliberately no
 // entropy score and no proximity to a variable named `secret`: both are ways of guessing,
-// and every one of the eight shapes shipped here was measured across sixteen production
+// and every one of the eight shapes shipped here was measured across twenty-eight production
 // repositories before it was written, with the ones that fired on anything other than a
 // real key left out.
 type LiteralRule struct {
@@ -5954,7 +6077,7 @@ func builtinStores() []StoreRule {
 			// rules exclude it: a double-submit token contains the word and is not a
 			// secret.
 			ID: "hardcoded-secret", Class: "", FromLiteral: true,
-			// No "token". Measured across sixteen repositories: every configuration key
+			// No "token". Measured across twenty-eight repositories: every configuration key
 			// holding that word held an OAuth endpoint URL, a header name or a form field,
 			// and not one held a secret. The word names the THING a key is for far more
 			// often than the key itself.

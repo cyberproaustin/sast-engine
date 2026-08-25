@@ -231,11 +231,51 @@
             "column": 12
           },
           "name": "f-string"
+        },
+        {
+          "id": "app.py#mint_session:8$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 13,
+            "column": 12
+          },
+          "literal": "s-"
+        },
+        {
+          "id": "app.py#mint_session:8$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 13,
+            "column": 12
+          },
+          "literal": "-fixed"
         }
       ],
       "flows": [
         {
+          "from": "app.py#mint_session:8$v2",
+          "to": "app.py#mint_session:8$v1",
+          "kind": "template",
+          "loc": {
+            "file": "app.py",
+            "line": 13,
+            "column": 12
+          }
+        },
+        {
           "from": "app.py#mint_session:8$v0",
+          "to": "app.py#mint_session:8$v1",
+          "kind": "template",
+          "loc": {
+            "file": "app.py",
+            "line": 13,
+            "column": 12
+          }
+        },
+        {
+          "from": "app.py#mint_session:8$v3",
           "to": "app.py#mint_session:8$v1",
           "kind": "template",
           "loc": {

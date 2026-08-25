@@ -1,14 +1,22 @@
 {
   "corpus": "flask-sql-injection",
-  "description": "The same SQL channels on a second language, found with no engine change and no policy change. cursor.execute is the canonical parameterized call and the canonical injection, differing only in which argument the caller's data reaches. The second route passes the same value as a parameter and is silent.",
+  "description": "The same SQL channels on a second language, found with no engine change and no policy change. cursor.execute is the canonical parameterized call and the canonical injection, differing only in which argument the caller's data reaches. The second route passes the same value as a parameter and is silent. Two negatives beyond the parameterized call: an f-string whose composed text says nothing about SQL, handed to a method called `execute` that belongs to a mailer. A method name is not a library, and what tells a statement from a string is that a statement says what it does.",
   "expected": [
     {
       "cwe": "CWE-89",
       "sinkFile": "app.py",
-      "sinkLine": 17,
+      "sinkLine": 19,
       "sourceLabel": "flask.request.args.login",
       "confidence": "medium",
       "note": "interpolated into the statement; the parameterized route below is not a finding"
+    },
+    {
+      "cwe": "CWE-89",
+      "sinkFile": "app.py",
+      "sinkLine": 45,
+      "sourceLabel": "flask.request.args.login",
+      "confidence": "medium",
+      "note": "the same injection as an f-string, which is how most Python composes a statement now. The static text of an f-string is a value too, and lowering only its interpolations lost the half the program wrote"
     }
   ]
 }

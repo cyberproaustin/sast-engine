@@ -319,8 +319,11 @@ type engine struct {
 	m     model.Model
 	class model.Classification
 
-	tainted      map[string]bool
-	pred         map[string]edge
+	tainted map[string]bool
+	pred    map[string]edge
+	// viaTransform records whether the KEPT path to a value went through a transform the
+	// model recognises, so a cleaner path arriving later can displace it.
+	viaTransform map[string]bool
 	seeds        map[string]seed
 	skipped      map[string][]string
 	unjudged     []Unjudged
@@ -335,8 +338,12 @@ type engine struct {
 	receiverUses map[string][]*ir.Call // value ID -> call sites invoking a method on it
 	callByResult map[string]*ir.Call   // result value ID -> producing call
 	assignedFrom map[string]string     // value ID -> the value it was plainly assigned from
-	returns      map[string][]string   // function ID -> returned value IDs
-	queue        []string
+	// flowsInto is the reverse of the flow graph: value ID -> the values that flow into
+	// it. The forward direction follows one witness; this one finds the SIBLINGS, which
+	// is where the literal halves of a concatenation are.
+	flowsInto map[string][]string
+	returns   map[string][]string // function ID -> returned value IDs
+	queue     []string
 }
 
 type seed struct {
@@ -385,6 +392,7 @@ func Analyze(d *ir.IR, m model.Model) Result {
 			class:        class,
 			tainted:      make(map[string]bool),
 			pred:         make(map[string]edge),
+			viaTransform: make(map[string]bool),
 			seeds:        make(map[string]seed),
 			skipped:      make(map[string][]string),
 			saidUnjudged: make(map[string]bool),
@@ -392,6 +400,7 @@ func Analyze(d *ir.IR, m model.Model) Result {
 			receiverUses: make(map[string][]*ir.Call),
 			callByResult: make(map[string]*ir.Call),
 			assignedFrom: make(map[string]string),
+			flowsInto:    make(map[string][]string),
 			returns:      make(map[string][]string),
 		}
 		e.programInjects = programInjectsIdentity(ix)
@@ -494,9 +503,13 @@ func (e *engine) build() {
 		// A plain assignment is the same value under a second name. Recorded so that a
 		// question about what produced a receiver survives being stored in a variable.
 		for _, f := range fn.Flows {
-			if f.Kind == "assign" && f.From != "" && f.To != "" {
+			if f.From == "" || f.To == "" {
+				continue
+			}
+			if f.Kind == "assign" {
 				e.assignedFrom[f.To] = f.From
 			}
+			e.flowsInto[f.To] = append(e.flowsInto[f.To], f.From)
 		}
 	}
 }
@@ -981,6 +994,10 @@ func (e *engine) collect(all map[string]*engine, caps ir.Capabilities) []Finding
 				if ch.Symbol != "" && c.Callee.Kind != "external" {
 					continue
 				}
+				// A rule about a method only one language has.
+				if ch.Language != "" && !strings.EqualFold(ch.Language, e.ix.IR.Frontend.Name) {
+					continue
+				}
 				// A method name with no identity of its own, narrowed by what made the
 				// object it was called on.
 				if len(ch.ReceiverFrom) > 0 && !e.receiverMadeBy(c, ch.ReceiverFrom) {
@@ -1417,6 +1434,48 @@ func enclosingEntry(ix *ir.Index, fn *ir.Function) (string, bool) {
 	return fn.Name + "()", false
 }
 
+// composedFrom reports whether any LITERAL piece the sink value was built from contains
+// one of these words.
+//
+// Walks the flows backwards from the sink argument, which is the only direction that
+// answers the question: the evidence path follows one witness from the source, and the
+// literal halves of a concatenation are not on it. `"SELECT * FROM t WHERE id = " + id`
+// puts the verb on a sibling edge, not on the path the taint took.
+//
+// Bounded, because a value in a large program is reachable from a great many others and
+// this runs once per candidate finding.
+func (e *engine) composedFrom(valueID string, words []string) bool {
+	seen := map[string]bool{}
+	frontier := []string{valueID}
+	for depth := 0; depth < 12 && len(frontier) > 0; depth++ {
+		var next []string
+		for _, id := range frontier {
+			if seen[id] {
+				continue
+			}
+			seen[id] = true
+			if v := e.ix.ValueByID[id]; v != nil && v.Kind == ir.ValueLiteral {
+				lower := strings.ToLower(v.Literal)
+				for _, w := range words {
+					if strings.Contains(lower, w) {
+						return true
+					}
+				}
+			}
+			next = append(next, e.flowsInto[id]...)
+			// Across the call boundary, because a program that builds its statements in a
+			// helper is a program that builds them well. `em.query(addColumnQuery(...))`
+			// composes the SQL one function away, and a walk that stopped at the call
+			// would answer "no verb here" for every statement written that way.
+			if c := e.callByResult[id]; c != nil && c.Callee.FunctionID != "" {
+				next = append(next, e.returns[c.Callee.FunctionID]...)
+			}
+		}
+		frontier = next
+	}
+	return false
+}
+
 // buildFinding reconstructs the evidence path and decides whether the flow survives
 // the sanitizers it actually passed through. Reported=false means taint was cleared.
 func (e *engine) buildFinding(c *ir.Call, ch model.Channel, p model.Policy, arg ir.Arg) (Finding, bool) {
@@ -1483,6 +1542,9 @@ func (e *engine) buildFinding(c *ir.Call, ch model.Channel, p model.Policy, arg 
 	// supplied string as the whole query is not composition and is not reported here.
 	// The judgement may ask for composition the channel does not.
 	if p.RequiresComposition && !composedIntoSinkArgument(path) {
+		return Finding{}, false
+	}
+	if len(ch.ComposedContains) > 0 && !e.composedFrom(arg.ValueID, ch.ComposedContains) {
 		return Finding{}, false
 	}
 	if ch.RequiresComposition && !composedIntoSinkArgument(path) {
@@ -1601,13 +1663,51 @@ func (e *engine) tracePath(valueID string) ([]Hop, string) {
 	return path, origin
 }
 
+// markTainted records that a value carries the class, and WHICH path is kept as the
+// witness for it.
+//
+// A value is often reached more than once -- `cond ? Number(id) : trunc(id)` merges two
+// paths into one -- and only the first edge was ever kept. That is wrong whenever the two
+// differ in what they passed through: the sink drops a finding when its path traverses a
+// transform that clears the context, so a SANITIZED branch arriving first silenced an
+// unsanitized one arriving second. Juice Shop's `$where` injection is written exactly that
+// way, and it read as clean.
+//
+// So a path that passed through no transform at all displaces one that did. It is the
+// stronger witness for the same fact, and nothing about the value's taint changes -- only
+// the evidence offered for it, which is what the sink then judges (ADR-006). The
+// replacement can happen at most once per value, because it only ever goes from "went
+// through something" to "did not".
 func (e *engine) markTainted(id string, ed edge) {
-	if id == "" || e.tainted[id] {
+	if id == "" {
+		return
+	}
+	via := e.viaTransform[ed.from] || e.isTransform(ed.symbol)
+	if e.tainted[id] {
+		if !e.viaTransform[id] || via {
+			return
+		}
+		e.pred[id] = ed
+		e.viaTransform[id] = false
+		e.queue = append(e.queue, id)
 		return
 	}
 	e.tainted[id] = true
 	e.pred[id] = ed
+	e.viaTransform[id] = via
 	e.queue = append(e.queue, id)
+}
+
+// isTransform reports whether a symbol is one the model has anything to say about as a
+// sanitizer. Deliberately not "does it clear this context" -- the context belongs to the
+// sink and is not known here, and a path through no transform is the better witness
+// whatever the sink turns out to be.
+func (e *engine) isTransform(symbol string) bool {
+	if symbol == "" {
+		return false
+	}
+	_, ok := e.m.SanitizerFor(symbol)
+	return ok
 }
 
 func (e *engine) describeFlow(f ir.Flow) string {
