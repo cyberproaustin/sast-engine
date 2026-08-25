@@ -208,6 +208,15 @@ type Call struct {
 	ReceiverType       string `json:"receiverType,omitempty"`
 	ReceiverTypeOrigin string `json:"receiverTypeOrigin,omitempty"`
 
+	// ArgCount is how many arguments were WRITTEN at the call site.
+	//
+	// Not the same as len(Args): an argument only appears there when it produced a
+	// dataflow value, and a bare global the frontend could not resolve produces none. A
+	// rule that needs to know a call was handed something -- a format string with
+	// nothing to format is harmless -- cannot ask the value list, because the value list
+	// is about what could be tracked rather than about what was written.
+	ArgCount int `json:"argCount,omitempty"`
+
 	// EnumeratedOptions lists the argument positions whose option KEYS this frontend
 	// read in full. -1 stands for the call's keyword arguments taken as a group.
 	//

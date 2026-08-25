@@ -30,10 +30,22 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 	}
 	ix := ir.NewIndex(d)
 
+	// Skipping calls with no written arguments is worth a great deal on a large program,
+	// and it is only sound while every shape needs an argument to look at. A shape that
+	// matches the call ITSELF has none -- `tempfile.mktemp()` takes nothing -- so the
+	// shortcut has to know whether any such shape exists before it can take it.
+	callIsEnough := false
+	for _, shape := range m.CallShapes {
+		if shape.Always {
+			callIsEnough = true
+			break
+		}
+	}
+
 	var out []taint.Finding
 	for _, fn := range d.Functions {
 		for _, c := range fn.Calls {
-			if len(c.ArgLiterals) == 0 {
+			if len(c.ArgLiterals) == 0 && !callIsEnough {
 				continue
 			}
 			for _, shape := range m.CallShapes {
@@ -80,6 +92,10 @@ func match(c *ir.Call, shape model.CallShape) (string, bool) {
 	}
 	if shape.RequiredKeyword != "" {
 		return matchAbsent(c, shape)
+	}
+	// A call that is a defect by existing has no argument to look at.
+	if shape.Always {
+		return callName(c), true
 	}
 	if shape.ArgIndex >= 0 {
 		lit, ok := c.ArgLiterals[shape.ArgIndex]
@@ -131,6 +147,15 @@ func matchAbsent(c *ir.Call, shape model.CallShape) (string, bool) {
 		}
 	}
 	return "no " + shape.RequiredKeyword, true
+}
+
+// callName is how a call is named when the finding is about the call itself rather than
+// about anything passed to it.
+func callName(c *ir.Call) string {
+	if c.Callee.Symbol != "" {
+		return c.Callee.Symbol + "()"
+	}
+	return c.Method + "()"
 }
 
 func finding(ix *ir.Index, fn *ir.Function, c *ir.Call, shape model.CallShape, lit string) taint.Finding {

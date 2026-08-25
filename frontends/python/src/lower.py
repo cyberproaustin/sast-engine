@@ -16,7 +16,7 @@ import re
 import os
 from typing import Any
 
-IR_VERSION = "0.9.0"
+IR_VERSION = "0.9.1"
 FRONTEND_VERSION = "0.1.0"
 
 FUNCTION_NODES = (ast.FunctionDef, ast.AsyncFunctionDef)
@@ -746,6 +746,9 @@ class FunctionLowerer:
         self._c += 1
         if method:
             call["method"] = method
+        written = len(node.args) + len(node.keywords)
+        if written:
+            call["argCount"] = written
         if literals:
             call["argLiterals"] = {str(k): v for k, v in literals.items()}
         if keys_known:

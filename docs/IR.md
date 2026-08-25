@@ -12,7 +12,7 @@ could not be expressed without it. Nothing is added in anticipation.
 
 ```jsonc
 {
-  "irVersion": "0.9.0",
+  "irVersion": "0.9.1",
   "frontend": { "name": "typescript", "version": "0.1.0", "capabilities": { ... } },
   "modules":     [ ... ],
   "functions":   [ ... ],
@@ -109,6 +109,7 @@ A call site. Together, the `calls` of every function form the call graph.
   "resultValueId": "...$v4",
   "receiverType": "Map",            // the receiver's type, when the frontend knows
   "receiverTypeOrigin": "builtin",  // where that type is declared
+  "argCount": 2,                    // how many arguments were WRITTEN
   "argLiterals": {                  // arguments written as literals
     "0": "session",                 //   positional, by index
     "-1": "httpOnly=false"          //   an option, by name, numbered from -1 downward
@@ -155,6 +156,12 @@ as `name=value`. A JavaScript options object and a Python keyword argument are t
 decision spelled two ways, so both arrive in the same slots and the core needs one
 vocabulary rather than two. A key whose value is not a literal is recorded as `name=?`:
 the key is known to be set even though the value is decided at runtime.
+
+`argCount` is how many arguments the call site actually has, which is NOT `args.length`:
+an argument appears in `args` only when it produced a dataflow value, and a bare global
+the frontend could not resolve produces none. A rule that needs to know a call was handed
+something cannot ask the value list, because that list is about what could be tracked
+rather than about what was written.
 
 `enumeratedOptions` lists the argument positions whose KEY SET was read in full, with
 `-1` standing for keyword arguments taken as a group. A spread (`...defaults`, `**opts`)

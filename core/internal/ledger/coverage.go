@@ -120,6 +120,11 @@ var claims = map[string]Claim{
 	"CWE-1321": {State: Partial, Reason: "the caller's object merged into another by a function that walks NESTED keys, so a `__proto__` key in it reaches the prototype every object inherits from. The named deep-merge helpers only; a merge written by hand is a loop over keys and is not matched",
 		By: []string{"untrusted-to-record-fields"}},
 
+	"CWE-378": {State: Partial, Reason: "tempfile.mktemp(), which hands back a name without creating anything and has no safe calling convention. Only that one API; a temporary file created insecurely by hand is a stated miss",
+		By: []string{"insecure-temp-file"}},
+	"CWE-276": {State: Partial, Reason: "a file or directory mode written into the call with the world-writable BIT set, which is the actual rule rather than a list of bad numbers -- 0o777, 0o666 and 0o1777 are wrong for the same reason. A mode computed at runtime is not matched",
+		By: []string{"world-writable"}},
+
 	// Cookie attributes. Two of the three are claimed for an explicit downgrade AND for
 	// an omission; Secure is claimed only for the downgrade, because the correct idiom
 	// makes it conditional on the environment and a rule demanding a literal would report

@@ -1,0 +1,30 @@
+{
+  "corpus": "flask-unsafe-files",
+  "description": "Three rules that each needed a shape the engine could not previously express. mktemp is a defect by existing -- there are no arguments to inspect and no safe way to call it -- so the rule matches the symbol alone. A file mode is wrong because of a BIT rather than a number, and 0o777, 0o666 and 0o1777 are all wrong for the same reason, so the rule tests the bit; 0o600 grants others nothing and is silent. And a format string is the same method with the operands swapped: the caller's data as an ARGUMENT is safe and as the RECEIVER is not, which is the same question the upload channel asks.",
+  "expected": [
+    {
+      "cwe": "CWE-378",
+      "sinkFile": "app.py",
+      "sinkLine": 15,
+      "sourceLabel": "\"tempfile.mktemp()\"",
+      "confidence": "high",
+      "note": "hands back a name without creating anything, so the race is open"
+    },
+    {
+      "cwe": "CWE-276",
+      "sinkFile": "app.py",
+      "sinkLine": 19,
+      "sourceLabel": "\"511\"",
+      "confidence": "high",
+      "note": "0o777 has the world-writable bit set"
+    },
+    {
+      "cwe": "CWE-134",
+      "sinkFile": "app.py",
+      "sinkLine": 44,
+      "sourceLabel": "flask.request.args",
+      "confidence": "medium",
+      "note": "the caller supplies the format itself, and a format walks attributes"
+    }
+  ]
+}

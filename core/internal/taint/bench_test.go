@@ -55,6 +55,7 @@ var corpora = []string{
 	"express-weak-kdf",
 	"express-dynamic-load",
 	"flask-xxe",
+	"flask-unsafe-files",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {

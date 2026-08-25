@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.9.0",
+  "irVersion": "0.9.1",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -169,6 +169,7 @@
           "args": [],
           "resultValueId": "app.py#<module>:0$v0",
           "block": "app.py#<module>:0$b0",
+          "argCount": 1,
           "enumeratedOptions": [
             -1
           ]
@@ -335,6 +336,7 @@
           ],
           "resultValueId": "app.py#login:9$v1",
           "block": "app.py#login:9$b0",
+          "argCount": 1,
           "argLiterals": {
             "0": "ok"
           },
@@ -367,6 +369,7 @@
           "resultValueId": "app.py#login:9$v7",
           "block": "app.py#login:9$b0",
           "method": "set_cookie",
+          "argCount": 2,
           "argLiterals": {
             "0": "session"
           },
@@ -558,6 +561,7 @@
           ],
           "resultValueId": "app.py#login_explicit:17$v1",
           "block": "app.py#login_explicit:17$b0",
+          "argCount": 1,
           "argLiterals": {
             "0": "ok"
           },
@@ -594,6 +598,7 @@
           "resultValueId": "app.py#login_explicit:17$v8",
           "block": "app.py#login_explicit:17$b0",
           "method": "set_cookie",
+          "argCount": 3,
           "argLiterals": {
             "0": "jwt",
             "-1": "httponly=false"
@@ -795,6 +800,7 @@
           ],
           "resultValueId": "app.py#login_crosssite:25$v1",
           "block": "app.py#login_crosssite:25$b0",
+          "argCount": 1,
           "argLiterals": {
             "0": "ok"
           },
@@ -835,6 +841,7 @@
           "resultValueId": "app.py#login_crosssite:25$v9",
           "block": "app.py#login_crosssite:25$b0",
           "method": "set_cookie",
+          "argCount": 4,
           "argLiterals": {
             "0": "refresh_token",
             "-1": "httponly=true",
@@ -1019,6 +1026,7 @@
           ],
           "resultValueId": "app.py#login_spread:33$v1",
           "block": "app.py#login_spread:33$b0",
+          "argCount": 1,
           "argLiterals": {
             "0": "ok"
           },
@@ -1051,6 +1059,7 @@
           "resultValueId": "app.py#login_spread:33$v7",
           "block": "app.py#login_spread:33$b0",
           "method": "set_cookie",
+          "argCount": 3,
           "argLiterals": {
             "0": "session"
           },
@@ -1257,6 +1266,7 @@
           ],
           "resultValueId": "app.py#login_correct:42$v1",
           "block": "app.py#login_correct:42$b0",
+          "argCount": 1,
           "argLiterals": {
             "0": "ok"
           },
@@ -1301,6 +1311,7 @@
           "resultValueId": "app.py#login_correct:42$v10",
           "block": "app.py#login_correct:42$b0",
           "method": "set_cookie",
+          "argCount": 5,
           "argLiterals": {
             "0": "session",
             "-1": "httponly=true",
@@ -1486,6 +1497,7 @@
           ],
           "resultValueId": "app.py#csrf:50$v1",
           "block": "app.py#csrf:50$b0",
+          "argCount": 1,
           "argLiterals": {
             "0": "ok"
           },
@@ -1518,6 +1530,7 @@
           "resultValueId": "app.py#csrf:50$v7",
           "block": "app.py#csrf:50$b0",
           "method": "set_cookie",
+          "argCount": 2,
           "argLiterals": {
             "0": "csrf_token"
           },

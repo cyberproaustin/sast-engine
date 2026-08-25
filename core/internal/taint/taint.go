@@ -45,6 +45,10 @@ type Hop struct {
 
 // composedIntoText reports whether the value was built into a larger piece of text on
 // its way to the sink, rather than passed along whole.
+// receiverArgIndex stands for "the value this call was made on" where an argument index
+// is expected. Negative, so it can never collide with a real position.
+const receiverArgIndex = -1
+
 // composedIntoText reports whether this data was EVER built into text on its way here.
 //
 // Used by the channels that require a whole value. `axios.get(BASE + "/users/" + id)`
@@ -633,6 +637,10 @@ func (e *engine) collect(all map[string]*engine, caps ir.Capabilities) []Finding
 				if ch.TargetArg != nil && c.OptionsEnumerated(*ch.TargetArg) {
 					continue
 				}
+				// A call that must actually be handed something.
+				if ch.RequiresArgs > 0 && c.ArgCount < ch.RequiresArgs {
+					continue
+				}
 				// A destination that is only dangerous when configured to be. An XML
 				// parser resolves entities when asked and not otherwise.
 				skip := false
@@ -657,8 +665,18 @@ func (e *engine) collect(all map[string]*engine, caps ir.Capabilities) []Finding
 				if len(policies) == 0 {
 					continue
 				}
-				for _, idx := range ch.ArgIndex {
+				// A channel with no argument index is about the RECEIVER: what the call
+				// was made ON is the value that reached it. A caller-supplied format
+				// string is called, not passed.
+				reaching := ch.ArgIndex
+				if len(reaching) == 0 && ch.RequiresUntrustedReceiver {
+					reaching = []int{receiverArgIndex}
+				}
+				for _, idx := range reaching {
 					arg, ok := argAt(c, idx)
+					if idx == receiverArgIndex {
+						arg, ok = ir.Arg{Index: receiverArgIndex, ValueID: c.ReceiverID}, c.ReceiverID != ""
+					}
 					if !ok || !e.tainted[arg.ValueID] {
 						continue
 					}

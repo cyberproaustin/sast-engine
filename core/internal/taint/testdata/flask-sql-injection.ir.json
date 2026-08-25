@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.9.0",
+  "irVersion": "0.9.1",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -91,6 +91,7 @@
           "args": [],
           "resultValueId": "app.py#<module>:0$v1",
           "block": "app.py#<module>:0$b0",
+          "argCount": 1,
           "enumeratedOptions": [
             -1
           ]
@@ -381,6 +382,7 @@
           "resultValueId": "app.py#find_user:14$v11",
           "block": "app.py#find_user:14$b0",
           "method": "execute",
+          "argCount": 1,
           "enumeratedOptions": [
             -1
           ],
@@ -660,6 +662,7 @@
           "resultValueId": "app.py#find_user_by_id:22$v9",
           "block": "app.py#find_user_by_id:22$b0",
           "method": "execute",
+          "argCount": 2,
           "argLiterals": {
             "0": "SELECT id, name FROM users WHERE id = %s"
           },
@@ -865,6 +868,7 @@
           "resultValueId": "app.py#all_users:30$v5",
           "block": "app.py#all_users:30$b0",
           "method": "execute",
+          "argCount": 1,
           "argLiterals": {
             "0": "SELECT id, name FROM users"
           },
