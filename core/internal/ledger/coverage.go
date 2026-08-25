@@ -212,6 +212,11 @@ var claims = map[string]Claim{
 	"CWE-780": {State: Partial, Reason: "RSA encryption with PKCS#1 v1.5 padding, which has been known broken since 1998 and whose fix is a different padding rather than a different key. The named constructors only; a padding chosen through a variable is not matched",
 		By: []string{"rsa-without-oaep"}},
 
+	"CWE-807": {State: Partial, Reason: "a branch decided on a field the caller sent whose NAME says it is a privilege -- role, admin, permission, scope. The name is the whole evidence and it is used to narrow rather than to detect: the value must also be caller-supplied and must actually decide a comparison. A privilege read from an established session is not caller-supplied and is not reported",
+		By: []string{"caller-decides-own-authority"}},
+	"CWE-565": {State: Partial, Reason: "the same decision made on a COOKIE, which is its own weakness: a cookie is a value the browser was handed and hands back, and getting it back is no evidence it came from here or came back unchanged. Nothing is claimed about whether the cookie is signed, because a signed cookie and an unsigned one are read identically",
+		By: []string{"cookie-decides-authority"}},
+
 	// Cookie attributes. Two of the three are claimed for an explicit downgrade AND for
 	// an omission; Secure is claimed only for the downgrade, because the correct idiom
 	// makes it conditional on the environment and a rule demanding a literal would report
