@@ -188,3 +188,32 @@ func TestNoPopulationProducesNoDeviations(t *testing.T) {
 		})
 	}
 }
+
+// Whether an anti-CSRF token is required at all is a fact about how a program
+// authenticates, not about a line of code: on an API reached with a bearer header a token
+// buys nothing. So this weakness is only ever decidable from the population -- the
+// program declares that its routes are reached with a cookie by carrying the check on its
+// other routes, and the one that does not carry it is the deviation.
+//
+// It is the clearest case for ADR-010 in the whole model, which is why it is the one that
+// gets a test of its own rather than a line in a table.
+func TestConventionNamesMissingCsrfAsCsrf(t *testing.T) {
+	res := runScan(t, "express-csrf")
+
+	if !res.Expectation.Applicable {
+		t.Fatalf("expectation analysis not applicable: %v", res.Expectation.MissingCapabilities)
+	}
+	inferred := inferredOnly(res.Expectation.Findings)
+	if len(inferred) != 1 {
+		t.Fatalf("want 1 inferred deviation, got %d: %+v", len(inferred), inferred)
+	}
+	f := inferred[0]
+	if f.EntryPoint != "POST /profile/password" {
+		t.Errorf("wrong entry point flagged: %s", f.EntryPoint)
+	}
+	// The deviation is one judgement -- this route lacks what its peers have -- and what
+	// makes it a particular weakness is WHAT was lacking (ADR-012).
+	if f.CWE != "CWE-352" {
+		t.Errorf("a missing anti-CSRF control is CWE-352, got %s", f.CWE)
+	}
+}

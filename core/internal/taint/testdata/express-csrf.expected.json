@@ -1,0 +1,5 @@
+{
+  "corpus": "express-csrf",
+  "description": "A route group where three of four state-changing routes carry an anti-CSRF check. The fourth is the deviation, and it is reported by the population analysis rather than by a rule -- because whether CSRF protection is required at all is a fact about how the program authenticates, and the only evidence of that fact is what its own peers do. No taint findings by design: there is no dangerous sink here and the defect is an absence.",
+  "expected": []
+}

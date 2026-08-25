@@ -105,6 +105,10 @@ var claims = map[string]Claim{
 	// asserted directly rather than subsumed. The password variant has its own rule now,
 	// matched by option NAME rather than by argument position, which is how a connection
 	// string asks for one.
+	// Anti-CSRF, and the clearest case in the model for deciding from the population
+	// rather than from a rule (ADR-010).
+	"CWE-352": {State: Partial, Reason: "a state-changing entry point missing the anti-CSRF control most of its comparable peers apply. There is deliberately no rule for a route that simply has no token check: whether one is needed at all is a fact about how the program authenticates, and on an API reached with a bearer header a token buys nothing. The population is the only evidence of that fact -- a program carrying the check on its other routes has declared that its routes are reached with a cookie. Safe methods are exempt whatever their peers do, because a GET is not supposed to change state and every CSRF middleware lets one through without a token. Inferred and therefore informing rather than gating; measured at zero across both corpora, since CSRF middleware in the wild is applied application-wide and a control on every entry point distinguishes none of them",
+		By: []string{"expectations"}},
 	// Session fixation. Absence-based, and the only rule in the model whose subject is a
 	// call that is NOT there: the assignment it watches is what every login performs, and
 	// what makes it a weakness is the rotation missing beside it.

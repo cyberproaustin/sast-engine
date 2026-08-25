@@ -3707,6 +3707,19 @@ func Builtin() Model {
 			{Name: "throttler", Kind: "rate-limit"},
 			{Name: "ThrottlerGuard", Kind: "rate-limit"},
 			{Name: "slowDown", Kind: "rate-limit"},
+
+			// Anti-CSRF. Matched on the word alone, because every spelling a project uses
+			// contains it: csurf, csrfProtection, doubleCsrfProtection, verifyCsrf.
+			//
+			// This is the control the population analysis is best suited to, and the
+			// reason is that CSRF protection is not universally required. A token buys
+			// nothing on an API authenticated by a bearer header, and half the programs
+			// in the world are that. So "this route has no CSRF middleware" is not a
+			// finding and never will be; "this route has no CSRF middleware and its peers
+			// do" is one, because the program has already declared that its routes are
+			// reached with a cookie.
+			{Name: "csrf", Kind: "csrf"},
+			{Name: "xsrf", Kind: "csrf"},
 		},
 	}
 }
