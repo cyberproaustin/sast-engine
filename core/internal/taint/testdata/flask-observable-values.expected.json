@@ -1,0 +1,38 @@
+{
+  "corpus": "flask-observable-values",
+  "description": "The same three judgements on the second language, plus the shape that hides best: a version 1 UUID is the clock and a MAC address, and is indistinguishable at a glance from a version 4 one.",
+  "expected": [
+    {
+      "cwe": "CWE-341",
+      "sinkFile": "app.py",
+      "sinkLine": 17,
+      "sourceLabel": "uuid.uuid1()",
+      "confidence": "medium",
+      "note": "a version 1 UUID is the clock and a MAC address, and looks exactly like a version 4 one"
+    },
+    {
+      "cwe": "CWE-337",
+      "sinkFile": "app.py",
+      "sinkLine": 25,
+      "sourceLabel": "time.time()",
+      "confidence": "high",
+      "note": "seeded from the clock, so the sequence is recomputable"
+    },
+    {
+      "cwe": "CWE-331",
+      "sinkFile": "app.py",
+      "sinkLine": 34,
+      "sourceLabel": "secrets.token_hex()",
+      "confidence": "medium",
+      "note": "token_hex counts bytes rather than characters, so this is sixty-four bits"
+    },
+    {
+      "cwe": "CWE-552",
+      "sinkFile": "app.py",
+      "sinkLine": 59,
+      "sourceLabel": "\"/\"",
+      "confidence": "high",
+      "note": "the filesystem root served whole"
+    }
+  ]
+}

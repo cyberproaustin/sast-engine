@@ -11,6 +11,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"sort"
+	"strconv"
 	"strings"
 
 	"github.com/cyberproaustin/sast-engine/core/internal/cfg"
@@ -629,6 +630,12 @@ func (e *engine) seedByCallResult(rule model.SourceRule) {
 			if c.Callee.Symbol != rule.Symbol || c.ResultID == "" {
 				continue
 			}
+			// A number the call was WRITTEN with. A length computed at runtime is not
+			// written in the call and is not matched, which is the same line every other
+			// literal-reading rule here draws.
+			if rule.ArgBelow != nil && !belowLiteral(c.ArgLiterals[rule.ArgBelowIndex], *rule.ArgBelow) {
+				continue
+			}
 			entry, anchored := enclosingEntry(e.ix, fn)
 			sd := seed{label: rule.Symbol + "()", entryPoint: entry, anchored: anchored}
 			if ep, ok := entryOf(e.ix, fn); ok {
@@ -646,6 +653,13 @@ func (e *engine) seedByCallResult(rule model.SourceRule) {
 			})
 		}
 	}
+}
+
+// belowLiteral reports whether a literal was a number smaller than a threshold. An
+// argument that was not written as a number is not below anything.
+func belowLiteral(literal string, threshold int) bool {
+	n, err := strconv.Atoi(strings.TrimSpace(literal))
+	return err == nil && n < threshold
 }
 
 // seedByGlobalProperty marks property accesses on a framework-bound global, which is
@@ -1319,7 +1333,7 @@ func (e *engine) buildFinding(c *ir.Call, ch model.Channel, p model.Policy, arg 
 			continue
 		}
 		s, ok := e.m.SanitizerFor(h.Symbol)
-		if !ok {
+		if !ok || !s.AppliesTo(e.class.Class) {
 			continue
 		}
 		// A rule that depends on how the call was written is decided here, where the

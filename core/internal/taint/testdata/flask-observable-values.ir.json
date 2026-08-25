@@ -1,0 +1,1383 @@
+{
+  "irVersion": "0.10.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "app.py",
+      "path": "app.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "app.py#<module>:0",
+      "name": "<module>",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#<module>:0$v0",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 9,
+            "column": 7
+          },
+          "name": "flask.Flask"
+        },
+        {
+          "id": "app.py#<module>:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 9,
+            "column": 1
+          },
+          "name": "app"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#<module>:0$v0",
+          "to": "app.py#<module>:0$v1",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 9,
+            "column": 1
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#<module>:0$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 9,
+            "column": 7
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.Flask",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#<module>:0$v0",
+          "block": "app.py#<module>:0$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#<module>:0$b0",
+      "blocks": [
+        {
+          "id": "app.py#<module>:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#session:13",
+      "name": "session",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 13,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#session:13$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 16,
+            "column": 30
+          }
+        },
+        {
+          "id": "app.py#session:13$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 16,
+            "column": 16
+          },
+          "name": "flask.make_response"
+        },
+        {
+          "id": "app.py#session:13$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 16,
+            "column": 5
+          },
+          "name": "response"
+        },
+        {
+          "id": "app.py#session:13$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 25
+          }
+        },
+        {
+          "id": "app.py#session:13$v4",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 40
+          },
+          "name": "uuid"
+        },
+        {
+          "id": "app.py#session:13$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 40
+          },
+          "name": "uuid.uuid1"
+        },
+        {
+          "id": "app.py#session:13$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 36
+          },
+          "name": "str"
+        },
+        {
+          "id": "app.py#session:13$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 64
+          }
+        },
+        {
+          "id": "app.py#session:13$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 77
+          }
+        },
+        {
+          "id": "app.py#session:13$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 92
+          }
+        },
+        {
+          "id": "app.py#session:13$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 5
+          },
+          "name": "response.set_cookie"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#session:13$v1",
+          "to": "app.py#session:13$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 16,
+            "column": 5
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#session:13$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 16,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.make_response",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#session:13$v0"
+            }
+          ],
+          "resultValueId": "app.py#session:13$v1",
+          "block": "app.py#session:13$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "ok"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#session:13$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 40
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "uuid.uuid1",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#session:13$v5",
+          "block": "app.py#session:13$b0",
+          "method": "uuid1",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#session:13$v4"
+        },
+        {
+          "id": "app.py#session:13$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 36
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "str",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#session:13$v5"
+            }
+          ],
+          "resultValueId": "app.py#session:13$v6",
+          "block": "app.py#session:13$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#session:13$c3",
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "response.set_cookie",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#session:13$v3"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#session:13$v6"
+            },
+            {
+              "index": 2,
+              "valueId": "app.py#session:13$v7"
+            },
+            {
+              "index": 2,
+              "valueId": "app.py#session:13$v8"
+            },
+            {
+              "index": 2,
+              "valueId": "app.py#session:13$v9"
+            }
+          ],
+          "resultValueId": "app.py#session:13$v10",
+          "block": "app.py#session:13$b0",
+          "method": "set_cookie",
+          "argCount": 5,
+          "argLiterals": {
+            "0": "session",
+            "-1": "httponly=true",
+            "-2": "secure=true",
+            "-3": "samesite=Lax"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#session:13$v2"
+        }
+      ],
+      "returns": [
+        "app.py#session:13$v2"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#session:13$b0",
+      "blocks": [
+        {
+          "id": "app.py#session:13$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 13,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#session:13$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 18,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#deal:22",
+      "name": "deal",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 22,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#deal:22$v0",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 17
+          },
+          "name": "time"
+        },
+        {
+          "id": "app.py#deal:22$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 17
+          },
+          "name": "time.time"
+        },
+        {
+          "id": "app.py#deal:22$v2",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 5
+          },
+          "name": "random"
+        },
+        {
+          "id": "app.py#deal:22$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 5
+          },
+          "name": "random.seed"
+        },
+        {
+          "id": "app.py#deal:22$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 16
+          },
+          "name": "random.random"
+        },
+        {
+          "id": "app.py#deal:22$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 12
+          },
+          "name": "str"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "app.py#deal:22$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 17
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "time.time",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#deal:22$v1",
+          "block": "app.py#deal:22$b0",
+          "method": "time",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#deal:22$v0"
+        },
+        {
+          "id": "app.py#deal:22$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "random.seed",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#deal:22$v1"
+            }
+          ],
+          "resultValueId": "app.py#deal:22$v3",
+          "block": "app.py#deal:22$b0",
+          "method": "seed",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#deal:22$v2"
+        },
+        {
+          "id": "app.py#deal:22$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "random.random",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#deal:22$v4",
+          "block": "app.py#deal:22$b0",
+          "method": "random",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#deal:22$v2"
+        },
+        {
+          "id": "app.py#deal:22$c3",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "str",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#deal:22$v4"
+            }
+          ],
+          "resultValueId": "app.py#deal:22$v5",
+          "block": "app.py#deal:22$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "app.py#deal:22$v5"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#deal:22$b0",
+      "blocks": [
+        {
+          "id": "app.py#deal:22$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#deal:22$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#nonce:30",
+      "name": "nonce",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 30,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#nonce:30$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 30
+          }
+        },
+        {
+          "id": "app.py#nonce:30$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 16
+          },
+          "name": "flask.make_response"
+        },
+        {
+          "id": "app.py#nonce:30$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 5
+          },
+          "name": "response"
+        },
+        {
+          "id": "app.py#nonce:30$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 25
+          }
+        },
+        {
+          "id": "app.py#nonce:30$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 50
+          }
+        },
+        {
+          "id": "app.py#nonce:30$v5",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 32
+          },
+          "name": "secrets"
+        },
+        {
+          "id": "app.py#nonce:30$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 32
+          },
+          "name": "secrets.token_hex"
+        },
+        {
+          "id": "app.py#nonce:30$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 63
+          }
+        },
+        {
+          "id": "app.py#nonce:30$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 76
+          }
+        },
+        {
+          "id": "app.py#nonce:30$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 91
+          }
+        },
+        {
+          "id": "app.py#nonce:30$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 5
+          },
+          "name": "response.set_cookie"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#nonce:30$v1",
+          "to": "app.py#nonce:30$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 5
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#nonce:30$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.make_response",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#nonce:30$v0"
+            }
+          ],
+          "resultValueId": "app.py#nonce:30$v1",
+          "block": "app.py#nonce:30$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "ok"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#nonce:30$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 32
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "secrets.token_hex",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#nonce:30$v4"
+            }
+          ],
+          "resultValueId": "app.py#nonce:30$v6",
+          "block": "app.py#nonce:30$b0",
+          "method": "token_hex",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "8"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#nonce:30$v5"
+        },
+        {
+          "id": "app.py#nonce:30$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "response.set_cookie",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#nonce:30$v3"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#nonce:30$v6"
+            },
+            {
+              "index": 2,
+              "valueId": "app.py#nonce:30$v7"
+            },
+            {
+              "index": 2,
+              "valueId": "app.py#nonce:30$v8"
+            },
+            {
+              "index": 2,
+              "valueId": "app.py#nonce:30$v9"
+            }
+          ],
+          "resultValueId": "app.py#nonce:30$v10",
+          "block": "app.py#nonce:30$b0",
+          "method": "set_cookie",
+          "argCount": 5,
+          "argLiterals": {
+            "0": "sid",
+            "-1": "httponly=true",
+            "-2": "secure=true",
+            "-3": "samesite=Lax"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#nonce:30$v2"
+        }
+      ],
+      "returns": [
+        "app.py#nonce:30$v2"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#nonce:30$b0",
+      "blocks": [
+        {
+          "id": "app.py#nonce:30$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#nonce:30$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#tempname:39",
+      "name": "tempname",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 39,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#tempname:39$v0",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 12
+          },
+          "name": "concat"
+        },
+        {
+          "id": "app.py#tempname:39$v1",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 12
+          },
+          "name": "concat"
+        },
+        {
+          "id": "app.py#tempname:39$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 12
+          }
+        },
+        {
+          "id": "app.py#tempname:39$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 42
+          }
+        },
+        {
+          "id": "app.py#tempname:39$v4",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 24
+          },
+          "name": "secrets"
+        },
+        {
+          "id": "app.py#tempname:39$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 24
+          },
+          "name": "secrets.token_hex"
+        },
+        {
+          "id": "app.py#tempname:39$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 47
+          }
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#tempname:39$v2",
+          "to": "app.py#tempname:39$v1",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 12
+          }
+        },
+        {
+          "from": "app.py#tempname:39$v5",
+          "to": "app.py#tempname:39$v1",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 12
+          }
+        },
+        {
+          "from": "app.py#tempname:39$v1",
+          "to": "app.py#tempname:39$v0",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 12
+          }
+        },
+        {
+          "from": "app.py#tempname:39$v6",
+          "to": "app.py#tempname:39$v0",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 12
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#tempname:39$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 24
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "secrets.token_hex",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#tempname:39$v3"
+            }
+          ],
+          "resultValueId": "app.py#tempname:39$v5",
+          "block": "app.py#tempname:39$b0",
+          "method": "token_hex",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "8"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#tempname:39$v4"
+        }
+      ],
+      "returns": [
+        "app.py#tempname:39$v0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#tempname:39$b0",
+      "blocks": [
+        {
+          "id": "app.py#tempname:39$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 39,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#tempname:39$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#token:45",
+      "name": "token",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 45,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#token:45$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 47,
+            "column": 34
+          }
+        },
+        {
+          "id": "app.py#token:45$v1",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 47,
+            "column": 12
+          },
+          "name": "secrets"
+        },
+        {
+          "id": "app.py#token:45$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 47,
+            "column": 12
+          },
+          "name": "secrets.token_urlsafe"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "app.py#token:45$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 47,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "secrets.token_urlsafe",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#token:45$v0"
+            }
+          ],
+          "resultValueId": "app.py#token:45$v2",
+          "block": "app.py#token:45$b0",
+          "method": "token_urlsafe",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "32"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#token:45$v1"
+        }
+      ],
+      "returns": [
+        "app.py#token:45$v2"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#token:45$b0",
+      "blocks": [
+        {
+          "id": "app.py#token:45$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#token:45$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 47,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#uptime:51",
+      "name": "uptime",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 51,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#uptime:51$v0",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 12
+          },
+          "name": "str"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "app.py#uptime:51$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "str",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "app.py#uptime:51$v0",
+          "block": "app.py#uptime:51$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "app.py#uptime:51$v0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#uptime:51$b0",
+      "blocks": [
+        {
+          "id": "app.py#uptime:51$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#uptime:51$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#files:57",
+      "name": "files",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 57,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "name",
+          "valueId": "app.py#files:57$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#files:57$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 57,
+            "column": 11
+          },
+          "name": "name"
+        },
+        {
+          "id": "app.py#files:57$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 59,
+            "column": 32
+          }
+        },
+        {
+          "id": "app.py#files:57$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 59,
+            "column": 12
+          },
+          "name": "flask.send_from_directory"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "app.py#files:57$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 59,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.send_from_directory",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#files:57$v1"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#files:57$v0"
+            }
+          ],
+          "resultValueId": "app.py#files:57$v2",
+          "block": "app.py#files:57$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "app.py#files:57$v2"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#files:57$b0",
+      "blocks": [
+        {
+          "id": "app.py#files:57$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 57,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#files:57$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 59,
+            "column": 5
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "app.py#session:13",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/session"
+      }
+    },
+    {
+      "functionId": "app.py#deal:22",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/deal"
+      }
+    },
+    {
+      "functionId": "app.py#nonce:30",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/nonce"
+      }
+    },
+    {
+      "functionId": "app.py#tempname:39",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/tempname"
+      }
+    },
+    {
+      "functionId": "app.py#token:45",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/token"
+      }
+    },
+    {
+      "functionId": "app.py#uptime:51",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/uptime"
+      }
+    },
+    {
+      "functionId": "app.py#files:57",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/files/<name>"
+      }
+    }
+  ]
+}

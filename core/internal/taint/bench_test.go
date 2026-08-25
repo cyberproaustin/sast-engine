@@ -67,6 +67,8 @@ var corpora = []string{
 	"express-trusted-claim",
 	"express-trusted-origin",
 	"express-trust-boundary",
+	"express-observable-values",
+	"flask-observable-values",
 	"express-unsalted-hash",
 	"flask-unsalted-hash",
 	"express-resource-and-path",

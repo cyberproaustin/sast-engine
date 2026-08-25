@@ -1,3 +1,4 @@
+const { randomUUID } = require("crypto");
 const express = require("express");
 const serveIndex = require("serve-index");
 
@@ -28,7 +29,7 @@ app.post("/session", (req, res) => {
 });
 
 function mintSession(email) {
-  return `s-${email}-${Date.now()}`;
+  return `s-${email}-${randomUUID()}`;
 }
 
 module.exports = app;

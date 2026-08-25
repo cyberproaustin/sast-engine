@@ -1,0 +1,38 @@
+{
+  "corpus": "express-observable-values",
+  "description": "The clock is not a secret. It is also not a defect: Date.now() is a timestamp nearly everywhere it appears, so the value is classified at the source and judged at the sink, and only the sinks where unguessability is the whole point report. Alongside it, two things the call itself decides: a static handler pointed at the project root, and a good generator asked for too few bytes -- that last one judged at the sink, because measured across the clean corpus every short random value was a suffix, a colour or a slug and not one was a secret.",
+  "expected": [
+    {
+      "cwe": "CWE-341",
+      "sinkFile": "app.js",
+      "sinkLine": 10,
+      "sourceLabel": "Date.now()",
+      "confidence": "medium",
+      "note": "medium because the cookie call resolves as probable rather than to an imported symbol; the clock is a timestamp four lines below and is not reported there"
+    },
+    {
+      "cwe": "CWE-337",
+      "sinkFile": "app.js",
+      "sinkLine": 23,
+      "sourceLabel": "Date.now()",
+      "confidence": "high",
+      "note": "the seed decides every number that follows it"
+    },
+    {
+      "cwe": "CWE-331",
+      "sinkFile": "app.js",
+      "sinkLine": 31,
+      "sourceLabel": "crypto.randomBytes()",
+      "confidence": "medium",
+      "note": "four bytes into a cookie; the identical call below builds a filename and is silent, which is the whole reason the length is judged here and not at the call"
+    },
+    {
+      "cwe": "CWE-552",
+      "sinkFile": "app.js",
+      "sinkLine": 50,
+      "sourceLabel": "\".\"",
+      "confidence": "high",
+      "note": "the project root served whole; the line below serves a directory that exists to be served and is silent"
+    }
+  ]
+}

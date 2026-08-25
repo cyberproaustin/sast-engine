@@ -5,7 +5,7 @@
     {
       "cwe": "CWE-1004",
       "sinkFile": "app.js",
-      "sinkLine": 9,
+      "sinkLine": 10,
       "sourceLabel": "\"no httpOnly\"",
       "confidence": "high",
       "note": "no options argument at all, so the absence is certain rather than assumed"
@@ -13,7 +13,7 @@
     {
       "cwe": "CWE-1004",
       "sinkFile": "app.js",
-      "sinkLine": 15,
+      "sinkLine": 16,
       "sourceLabel": "\"httpOnly=false\"",
       "confidence": "high",
       "note": "httpOnly written as false"
@@ -21,7 +21,7 @@
     {
       "cwe": "CWE-614",
       "sinkFile": "app.js",
-      "sinkLine": 21,
+      "sinkLine": 22,
       "sourceLabel": "\"secure=false\"",
       "confidence": "high",
       "note": "secure written as false; absence of Secure is deliberately NOT claimed, because the correct idiom makes it conditional on the environment and therefore not a literal"
@@ -29,7 +29,7 @@
     {
       "cwe": "CWE-1275",
       "sinkFile": "app.js",
-      "sinkLine": 28,
+      "sinkLine": 29,
       "sourceLabel": "\"sameSite=none\"",
       "confidence": "high",
       "note": "SameSite=None, reported and never gating because a cross-site cookie is sometimes exactly what is wanted"
