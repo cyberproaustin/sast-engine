@@ -828,6 +828,29 @@ func Builtin() Model {
 				Rationale:          "deepmerge() walks nested keys, so a __proto__ key in the source reaches the prototype",
 			},
 
+			// A spreadsheet does not treat a cell beginning `=`, `+`, `-` or `@` as text.
+			// Whoever opens the export runs it, on their machine, with their access --
+			// which is why the damage lands somewhere the exporting application never
+			// sees.
+			{
+				ID: "spreadsheet-cell", Visibility: "thirdparty", Context: "csv",
+				Method: "writerow", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-1236",
+				Rationale: "writerow() writes a row a spreadsheet will later interpret",
+			},
+			{
+				ID: "spreadsheet-cell", Visibility: "thirdparty", Context: "csv",
+				Method: "writerows", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-1236",
+				Rationale: "writerows() writes rows a spreadsheet will later interpret",
+			},
+			{
+				ID: "spreadsheet-cell", Visibility: "thirdparty", Context: "csv",
+				Symbol: "papaparse.unparse", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-1236",
+				Rationale: "unparse() builds a CSV a spreadsheet will later interpret",
+			},
+
 			// A FORMAT STRING the caller supplied. `"Hello {}".format(name)` is safe: the
 			// caller's data is an argument. `name.format(x)` is not, because Python's
 			// format language walks attributes and indexes, and
@@ -1513,6 +1536,17 @@ func Builtin() Model {
 				Reason:        "an application must choose which fields a caller may write, because handing over the whole object hands over the ones nobody meant to expose",
 				Finding:       "Caller's object written to a record whole",
 				CWE:           "CWE-915",
+			},
+			{
+				// The interpreter is a spreadsheet on somebody else's machine, which is
+				// why this channel is thirdparty rather than internal.
+				ID:            "untrusted-to-spreadsheet",
+				Class:         "untrusted-input",
+				DeniedContext: []string{"csv"},
+				Requires:      Requirements{Interprocedural: true},
+				Reason:        "a spreadsheet runs a cell that begins with a formula character, so whoever opens the export runs whatever the caller put in it",
+				Finding:       "Untrusted input written to a spreadsheet cell",
+				CWE:           "CWE-1236",
 			},
 			{
 				// Nothing is executed and nothing is stored: the caller writes the FORMAT,
