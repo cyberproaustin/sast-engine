@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.10.0",
+  "irVersion": "0.11.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -40,7 +40,8 @@
             "file": "app.py",
             "line": 1,
             "column": 1
-          }
+          },
+          "literal": "The same two SQL channels, on a second language, with no engine or policy change.\n\n`cursor.execute(sql, params)` is the canonical parameterized call and the canonical\ninjection, depending only on which argument the caller's data ends up in. The channel\nthat finds the JavaScript case finds this one, because what it describes is the\noperation rather than the library.\n"
         },
         {
           "id": "app.py#<module>:0$v1",
@@ -193,7 +194,8 @@
             "file": "app.py",
             "line": 17,
             "column": 17
-          }
+          },
+          "literal": "SELECT id, name FROM users WHERE login = '"
         },
         {
           "id": "app.py#find_user:14$v7",
@@ -236,7 +238,8 @@
             "file": "app.py",
             "line": 17,
             "column": 88
-          }
+          },
+          "literal": "'"
         },
         {
           "id": "app.py#find_user:14$v11",
@@ -500,7 +503,8 @@
             "file": "app.py",
             "line": 25,
             "column": 17
-          }
+          },
+          "literal": "SELECT id, name FROM users WHERE id = %s"
         },
         {
           "id": "app.py#find_user_by_id:22$v5",
@@ -785,7 +789,8 @@
             "file": "app.py",
             "line": 32,
             "column": 17
-          }
+          },
+          "literal": "SELECT id, name FROM users"
         },
         {
           "id": "app.py#all_users:30$v5",

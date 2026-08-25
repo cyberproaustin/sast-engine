@@ -1,0 +1,871 @@
+{
+  "irVersion": "0.11.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "app.py",
+      "path": "app.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "app.py#<module>:0",
+      "name": "<module>",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#<module>:0$v0",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 6,
+            "column": 7
+          },
+          "name": "flask.Flask"
+        },
+        {
+          "id": "app.py#<module>:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 6,
+            "column": 1
+          },
+          "name": "app"
+        },
+        {
+          "id": "app.py#<module>:0$v2",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 7,
+            "column": 7
+          },
+          "name": "logging"
+        },
+        {
+          "id": "app.py#<module>:0$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 7,
+            "column": 7
+          },
+          "name": "logging.getLogger"
+        },
+        {
+          "id": "app.py#<module>:0$v4",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 7,
+            "column": 1
+          },
+          "name": "log"
+        },
+        {
+          "id": "app.py#<module>:0$v5",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 8,
+            "column": 9
+          },
+          "name": "{dict}"
+        },
+        {
+          "id": "app.py#<module>:0$v6",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 8,
+            "column": 1
+          },
+          "name": "USERS"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#<module>:0$v0",
+          "to": "app.py#<module>:0$v1",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 6,
+            "column": 1
+          }
+        },
+        {
+          "from": "app.py#<module>:0$v3",
+          "to": "app.py#<module>:0$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 7,
+            "column": 1
+          }
+        },
+        {
+          "from": "app.py#<module>:0$v5",
+          "to": "app.py#<module>:0$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 8,
+            "column": 1
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#<module>:0$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 6,
+            "column": 7
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.Flask",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#<module>:0$v0",
+          "block": "app.py#<module>:0$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#<module>:0$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 7,
+            "column": 7
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "logging.getLogger",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#<module>:0$v3",
+          "block": "app.py#<module>:0$b0",
+          "method": "getLogger",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#<module>:0$v2"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#<module>:0$b0",
+      "blocks": [
+        {
+          "id": "app.py#<module>:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#enroll:12",
+      "name": "enroll",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 12,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#enroll:12$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 14
+          },
+          "literal": "enrolling %s"
+        },
+        {
+          "id": "app.py#enroll:12$v1",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 30
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#enroll:12$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 30
+          },
+          "base": "app.py#enroll:12$v1",
+          "path": "form",
+          "name": "form"
+        },
+        {
+          "id": "app.py#enroll:12$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 30
+          },
+          "name": "ssn",
+          "base": "app.py#enroll:12$v2",
+          "path": "form.ssn"
+        },
+        {
+          "id": "app.py#enroll:12$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 5
+          },
+          "name": "log.info"
+        },
+        {
+          "id": "app.py#enroll:12$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 19
+          },
+          "literal": "https://analytics.example.com/events"
+        },
+        {
+          "id": "app.py#enroll:12$v6",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 64
+          },
+          "name": "date_of_birth",
+          "base": "app.py#enroll:12$v2",
+          "path": "form.date_of_birth"
+        },
+        {
+          "id": "app.py#enroll:12$v7",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 5
+          },
+          "name": "requests"
+        },
+        {
+          "id": "app.py#enroll:12$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 5
+          },
+          "name": "requests.post"
+        },
+        {
+          "id": "app.py#enroll:12$v9",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 18,
+            "column": 29
+          },
+          "name": "email",
+          "base": "app.py#enroll:12$v2",
+          "path": "form.email"
+        },
+        {
+          "id": "app.py#enroll:12$v10",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 18,
+            "column": 52
+          },
+          "name": "{dict}"
+        },
+        {
+          "id": "app.py#enroll:12$v11",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 18,
+            "column": 12
+          },
+          "name": "USERS.setdefault"
+        },
+        {
+          "id": "app.py#enroll:12$v12",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 18,
+            "column": 5
+          },
+          "name": "user"
+        },
+        {
+          "id": "app.py#enroll:12$v13",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 24
+          },
+          "name": "is_admin",
+          "base": "app.py#enroll:12$v2",
+          "path": "form.is_admin"
+        },
+        {
+          "id": "app.py#enroll:12$v14",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 12
+          },
+          "literal": "ok"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#enroll:12$v1",
+          "to": "app.py#enroll:12$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 30
+          }
+        },
+        {
+          "from": "app.py#enroll:12$v2",
+          "to": "app.py#enroll:12$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 30
+          }
+        },
+        {
+          "from": "app.py#enroll:12$v2",
+          "to": "app.py#enroll:12$v6",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 64
+          }
+        },
+        {
+          "from": "app.py#enroll:12$v2",
+          "to": "app.py#enroll:12$v9",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 18,
+            "column": 29
+          }
+        },
+        {
+          "from": "app.py#enroll:12$v11",
+          "to": "app.py#enroll:12$v12",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 18,
+            "column": 5
+          }
+        },
+        {
+          "from": "app.py#enroll:12$v2",
+          "to": "app.py#enroll:12$v13",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 24
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#enroll:12$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "log.info",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#enroll:12$v0"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#enroll:12$v3"
+            }
+          ],
+          "resultValueId": "app.py#enroll:12$v4",
+          "block": "app.py#enroll:12$b0",
+          "method": "info",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "enrolling %s"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#<module>:0$v4"
+        },
+        {
+          "id": "app.py#enroll:12$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "requests.post",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#enroll:12$v5"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#enroll:12$v6"
+            }
+          ],
+          "resultValueId": "app.py#enroll:12$v8",
+          "block": "app.py#enroll:12$b0",
+          "method": "post",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "https://analytics.example.com/events",
+            "-1": "data=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#enroll:12$v7"
+        },
+        {
+          "id": "app.py#enroll:12$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 18,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "USERS.setdefault",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#enroll:12$v9"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#enroll:12$v10"
+            }
+          ],
+          "resultValueId": "app.py#enroll:12$v11",
+          "block": "app.py#enroll:12$b0",
+          "method": "setdefault",
+          "argCount": 2,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#<module>:0$v6"
+        }
+      ],
+      "returns": [
+        "app.py#enroll:12$v14"
+      ],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 5
+          },
+          "base": "app.py#enroll:12$v12",
+          "path": "is_admin",
+          "from": "app.py#enroll:12$v13"
+        }
+      ],
+      "entryBlock": "app.py#enroll:12$b0",
+      "blocks": [
+        {
+          "id": "app.py#enroll:12$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#enroll:12$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#enroll_safe:24",
+      "name": "enroll_safe",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 24,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#enroll_safe:24$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 14
+          },
+          "literal": "enrolling %s"
+        },
+        {
+          "id": "app.py#enroll_safe:24$v1",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 30
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#enroll_safe:24$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 30
+          },
+          "base": "app.py#enroll_safe:24$v1",
+          "path": "form",
+          "name": "form"
+        },
+        {
+          "id": "app.py#enroll_safe:24$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 30
+          },
+          "name": "email",
+          "base": "app.py#enroll_safe:24$v2",
+          "path": "form.email"
+        },
+        {
+          "id": "app.py#enroll_safe:24$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 5
+          },
+          "name": "log.info"
+        },
+        {
+          "id": "app.py#enroll_safe:24$v5",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 29
+          },
+          "name": "email",
+          "base": "app.py#enroll_safe:24$v2",
+          "path": "form.email"
+        },
+        {
+          "id": "app.py#enroll_safe:24$v6",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 52
+          },
+          "name": "{dict}"
+        },
+        {
+          "id": "app.py#enroll_safe:24$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 12
+          },
+          "name": "USERS.setdefault"
+        },
+        {
+          "id": "app.py#enroll_safe:24$v8",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 5
+          },
+          "name": "user"
+        },
+        {
+          "id": "app.py#enroll_safe:24$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 24
+          },
+          "literal": "false"
+        },
+        {
+          "id": "app.py#enroll_safe:24$v10",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 12
+          },
+          "literal": "ok"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#enroll_safe:24$v1",
+          "to": "app.py#enroll_safe:24$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 30
+          }
+        },
+        {
+          "from": "app.py#enroll_safe:24$v2",
+          "to": "app.py#enroll_safe:24$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 30
+          }
+        },
+        {
+          "from": "app.py#enroll_safe:24$v2",
+          "to": "app.py#enroll_safe:24$v5",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 29
+          }
+        },
+        {
+          "from": "app.py#enroll_safe:24$v7",
+          "to": "app.py#enroll_safe:24$v8",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 5
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#enroll_safe:24$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "log.info",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#enroll_safe:24$v0"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#enroll_safe:24$v3"
+            }
+          ],
+          "resultValueId": "app.py#enroll_safe:24$v4",
+          "block": "app.py#enroll_safe:24$b0",
+          "method": "info",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "enrolling %s"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#<module>:0$v4"
+        },
+        {
+          "id": "app.py#enroll_safe:24$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "USERS.setdefault",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#enroll_safe:24$v5"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#enroll_safe:24$v6"
+            }
+          ],
+          "resultValueId": "app.py#enroll_safe:24$v7",
+          "block": "app.py#enroll_safe:24$b0",
+          "method": "setdefault",
+          "argCount": 2,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#<module>:0$v6"
+        }
+      ],
+      "returns": [
+        "app.py#enroll_safe:24$v10"
+      ],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 5
+          },
+          "base": "app.py#enroll_safe:24$v8",
+          "path": "is_admin",
+          "from": "app.py#enroll_safe:24$v9"
+        }
+      ],
+      "entryBlock": "app.py#enroll_safe:24$b0",
+      "blocks": [
+        {
+          "id": "app.py#enroll_safe:24$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 24,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#enroll_safe:24$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 5
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "app.py#enroll:12",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "POST",
+        "path": "/enroll"
+      }
+    },
+    {
+      "functionId": "app.py#enroll_safe:24",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "POST",
+        "path": "/enroll-safe"
+      }
+    }
+  ]
+}

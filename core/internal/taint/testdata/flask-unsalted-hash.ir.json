@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.10.0",
+  "irVersion": "0.11.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -60,7 +60,8 @@
             "file": "app.py",
             "line": 6,
             "column": 10
-          }
+          },
+          "literal": "site-wide"
         },
         {
           "id": "app.py#<module>:0$v3",
@@ -466,6 +467,16 @@
       ],
       "flows": [
         {
+          "from": "app.py#<module>:0$v3",
+          "to": "app.py#register_salted:18$v0",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 14
+          }
+        },
+        {
           "from": "app.py#register_salted:18$v1",
           "to": "app.py#register_salted:18$v2",
           "kind": "property",
@@ -622,7 +633,8 @@
             "file": "app.py",
             "line": 31,
             "column": 9
-          }
+          },
+          "literal": "sha256"
         },
         {
           "id": "app.py#register_kdf:27$v1",
@@ -697,7 +709,8 @@
             "file": "app.py",
             "line": 31,
             "column": 86
-          }
+          },
+          "literal": "600000"
         },
         {
           "id": "app.py#register_kdf:27$v8",

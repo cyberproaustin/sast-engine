@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.10.0",
+  "irVersion": "0.11.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -60,7 +60,8 @@
             "file": "app.py",
             "line": 8,
             "column": 12
-          }
+          },
+          "literal": "Hello, {}!"
         },
         {
           "id": "app.py#<module>:0$v3",
@@ -181,7 +182,8 @@
             "file": "app.py",
             "line": 17,
             "column": 18
-          }
+          },
+          "literal": "report"
         },
         {
           "id": "app.py#report:12$v4",
@@ -200,7 +202,8 @@
             "file": "app.py",
             "line": 19,
             "column": 20
-          }
+          },
+          "literal": "511"
         },
         {
           "id": "app.py#report:12$v6",
@@ -367,7 +370,8 @@
             "file": "app.py",
             "line": 26,
             "column": 15
-          }
+          },
+          "literal": "0"
         },
         {
           "id": "app.py#become_root:23$v1",
@@ -457,7 +461,8 @@
             "file": "app.py",
             "line": 31,
             "column": 15
-          }
+          },
+          "literal": "1000"
         },
         {
           "id": "app.py#drop_privileges:29$v1",
@@ -587,7 +592,8 @@
             "file": "app.py",
             "line": 40,
             "column": 20
-          }
+          },
+          "literal": "384"
         },
         {
           "id": "app.py#report_safe:35$v5",
@@ -720,7 +726,8 @@
             "file": "app.py",
             "line": 47,
             "column": 45
-          }
+          },
+          "literal": "name"
         },
         {
           "id": "app.py#greet:45$v1",
@@ -729,7 +736,8 @@
             "file": "app.py",
             "line": 47,
             "column": 53
-          }
+          },
+          "literal": "world"
         },
         {
           "id": "app.py#greet:45$v2",
@@ -846,7 +854,8 @@
           "argCount": 1,
           "enumeratedOptions": [
             -1
-          ]
+          ],
+          "receiverValueId": "app.py#<module>:0$v3"
         }
       ],
       "returns": [
@@ -988,7 +997,12 @@
             "symbol": "template.format",
             "resolution": "probable"
           },
-          "args": [],
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#<module>:0$v1"
+            }
+          ],
           "resultValueId": "app.py#greet_caller:51$v4",
           "block": "app.py#greet_caller:51$b0",
           "method": "format",

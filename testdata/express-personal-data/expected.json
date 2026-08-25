@@ -1,0 +1,30 @@
+{
+  "corpus": "express-personal-data",
+  "description": "Facts about a person that cannot be reissued, and a privilege field the caller filled in. The vocabulary for the first is short on purpose: measured across 28 production repositories these names appear three times, two of which are Passport the authentication library, so the bare word is not on the list.",
+  "expected": [
+    {
+      "cwe": "CWE-359",
+      "sinkFile": "app.js",
+      "sinkLine": 10,
+      "sourceLabel": "req.body.nationalId",
+      "confidence": "high",
+      "note": "a log is copied to more places than anyone tracks, and this cannot be reissued"
+    },
+    {
+      "cwe": "CWE-359",
+      "sinkFile": "app.js",
+      "sinkLine": 14,
+      "sourceLabel": "req.body.dateOfBirth",
+      "confidence": "high",
+      "note": "where it goes after leaving this process is not this process's decision any more"
+    },
+    {
+      "cwe": "CWE-472",
+      "sinkFile": "app.js",
+      "sinkLine": 18,
+      "sourceLabel": "req.body.role",
+      "confidence": "high",
+      "note": "the caller decides what this account may do; the same assignment from a constant below is silent"
+    }
+  ]
+}

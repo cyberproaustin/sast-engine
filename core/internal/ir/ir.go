@@ -158,6 +158,13 @@ type Value struct {
 	Loc  Loc       `json:"loc"`
 	Base string    `json:"base,omitempty"` // property: the root value
 	Path string    `json:"path,omitempty"` // property: dotted access from Base
+
+	// Literal is the text of a value written into the source, for the kinds that have
+	// one. A call's arguments already carried their literals because a defect is often
+	// visible in the call; a COMPARISON needs the same thing for the same reason, and
+	// without it the decision analysis could see that a password was being measured but
+	// not what it was being measured against.
+	Literal string `json:"literal,omitempty"`
 }
 
 // Flow is a directed intraprocedural dataflow edge. Kind is descriptive only in v0:
