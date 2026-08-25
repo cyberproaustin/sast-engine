@@ -1801,6 +1801,21 @@ func Builtin() Model {
 				CWE:           "CWE-319",
 			},
 			{
+				// Echoed back to whoever sent it. Narrower than it sounds, and precisely
+				// because the class is a credential the CALLER SENT: a login endpoint
+				// returning a freshly issued token is returning something it generated,
+				// which is the entire point of a login endpoint and is not this. This is
+				// `res.json(req.body)` on a form that had a password in it.
+				ID:                  "credential-echoed",
+				Class:               "caller-credential",
+				DeniedVisibility:    []string{"public"},
+				RequiresUnprojected: true,
+				Requires:            Requirements{Interprocedural: true},
+				Reason:              "a credential the caller sent must not come back in the response, where it reaches proxies, caches and browser history that had no reason to hold it",
+				Finding:             "Caller's credential echoed back",
+				CWE:                 "CWE-201",
+			},
+			{
 				// A password in a log is a password in every aggregator, vendor and backup
 				// the log reaches, long after the request it belonged to is gone. Its own
 				// judgement because its own remedy: do not write it down.

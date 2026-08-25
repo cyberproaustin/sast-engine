@@ -147,6 +147,18 @@ var claims = map[string]Claim{
 	"CWE-319": {State: Partial, Reason: "a credential the caller sent reaching the body of an outbound request whose destination is written into the call as a plaintext URL. The qualifier is the whole rule -- `https://` does not contain `http://` -- so the same channel says nothing about the overwhelming majority of outbound calls. A destination assembled at runtime is not a literal and is not matched",
 		By: []string{"credential-in-cleartext"}},
 
+	"CWE-201": {State: Partial, Reason: "a credential the CALLER SENT coming back in the response, where it reaches proxies, caches and browser history. Narrow precisely because of whose credential it is: a login endpoint returning a freshly issued token is returning something it generated, which is the point of a login endpoint and is not this",
+		By: []string{"credential-echoed"}},
+
+	// Measured three times and not built, which is worth recording so a fourth pass does
+	// not spend the same effort. Math.random appears 90 times across the clean corpus and
+	// random.choice and random.randint another 18, and almost every one is a jitter, a
+	// sample or a placeholder. What decides the weakness is whether the value becomes
+	// something that must be unguessable -- a token, a reset link, a session id -- and
+	// that is a flow question with no sink described for it. A DependsOnUse rule would
+	// mean a hundred permanent advisories nobody reads.
+	"CWE-338": {State: NotBuilt, Reason: "a weak random source used where unpredictability is what makes the thing work. The call is identical whether the number becomes a password reset token or a retry delay, and the corpus is overwhelmingly the second: deciding it means following the value to a sink that needs unguessability, and no such sink is described yet"},
+
 	// Cookie attributes. Two of the three are claimed for an explicit downgrade AND for
 	// an omission; Secure is claimed only for the downgrade, because the correct idiom
 	// makes it conditional on the environment and a rule demanding a literal would report
