@@ -91,9 +91,18 @@ type Finding struct {
 	// run in production. Reported, never gating: a key written into a test is in the
 	// history exactly as the reason says and is still not a production credential.
 	InTestModule bool
-	// DependsOnUse marks a finding whose judgement turns on what the result is used for,
-	// which the analysis that produced it cannot see. Reported, never gating.
-	DependsOnUse bool
+	// DependsOnUse is why this finding never gates, or empty when it may.
+	//
+	// A single field rather than a flag per excuse, because the list grows: a weak hash
+	// turns on what the digest is used for, and a relaxed CORS policy turns on whether
+	// the branch it sits in runs in production. Both are facts the call does not carry,
+	// both must be reported, and neither may stop a build -- but a reader deserves the
+	// actual reason rather than a shared euphemism, so the sentence travels with the
+	// finding instead of being reconstructed by whatever is printing it.
+	//
+	// Confidence is NOT used for this. Confidence means how well the call graph resolved
+	// (ADR-005), and in these cases it resolved perfectly.
+	DependsOnUse string
 	// EntryHasNoInjectedIdentity marks a finding on an entry point that was handed no
 	// caller identity, in a program where identity IS injected elsewhere. Reported so
 	// that login flows, OAuth callbacks and invite redemptions can be recognized as a

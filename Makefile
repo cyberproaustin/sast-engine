@@ -1,5 +1,5 @@
-TS_CORPORA := express-command-injection express-async clean-express express-authz express-error-leak express-webhook-leak express-idor express-real-shapes nestjs-controller unanchored-decorator nestjs-ownership nestjs-unresolved-input express-code-interpreter express-sql-injection express-xss nestjs-destructured-params weak-crypto express-path-traversal express-ssrf express-redirect-deserialize express-cipher-regex hardcoded-secret express-upload-type express-cookie-attributes
-PY_CORPORA := flask-command-injection flask-container-update flask-sql-injection flask-class-views python-tls-verification flask-upload-type flask-cookie-attributes
+TS_CORPORA := express-command-injection express-async clean-express express-authz express-error-leak express-webhook-leak express-idor express-real-shapes nestjs-controller unanchored-decorator nestjs-ownership nestjs-unresolved-input express-code-interpreter express-sql-injection express-xss nestjs-destructured-params weak-crypto express-path-traversal express-ssrf express-redirect-deserialize express-cipher-regex hardcoded-secret express-upload-type express-cookie-attributes express-misconfiguration
+PY_CORPORA := flask-command-injection flask-container-update flask-sql-injection flask-class-views python-tls-verification flask-upload-type flask-cookie-attributes flask-misconfiguration
 FIXTURE := testdata/express-command-injection
 GOLDEN  := core/internal/taint/testdata
 IR_TMP  := .ir.json

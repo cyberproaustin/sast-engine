@@ -379,8 +379,8 @@ func TestGatingHasOneDefinition(t *testing.T) {
 		t.Fatal("fixture produced no findings")
 	}
 	for _, f := range res.Taint.Findings {
-		if !f.DependsOnUse {
-			t.Errorf("%s should be marked as turning on how the result is used", f.SinkLoc)
+		if f.DependsOnUse == "" {
+			t.Errorf("%s should carry a reason it never gates", f.SinkLoc)
 		}
 		if res.Gates(f) {
 			t.Errorf("%s gates despite the judgement turning on something unseen", f.SinkLoc)

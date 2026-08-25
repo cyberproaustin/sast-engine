@@ -1404,6 +1404,10 @@ func Builtin() Model {
 // about ASSERTIONS OVER A SURFACE, and this is an assertion about a line of code.
 // ArgCondition is a test against one argument's literal value.
 type ArgCondition struct {
+	// Keyword names an option to test instead of a position. Conjunctions are how
+	// misconfiguration usually reads: one option is dangerous only because another is
+	// set, and `credentials: true` is fine until the origin is reflected back.
+	Keyword  string
 	ArgIndex int
 	// AnyOf are the values that satisfy it, compared without regard to case.
 	AnyOf []string
@@ -1424,7 +1428,23 @@ type ArgCondition struct {
 // written as a literal does not satisfy it: nothing is assumed about a value decided
 // at runtime.
 func (a ArgCondition) Holds(literals map[int]string) bool {
-	lit, ok := literals[a.ArgIndex]
+	var lit string
+	var ok bool
+	if a.Keyword != "" {
+		want := strings.ToLower(a.Keyword)
+		for i, l := range literals {
+			if i >= 0 {
+				continue
+			}
+			key, value, cut := strings.Cut(l, "=")
+			if cut && strings.ToLower(key) == want {
+				lit, ok = value, true
+				break
+			}
+		}
+	} else {
+		lit, ok = literals[a.ArgIndex]
+	}
 	if !ok {
 		return false
 	}
@@ -1449,6 +1469,15 @@ type CallShape struct {
 	// Matching, by imported symbol or by method name.
 	Symbol string
 	Method string
+	// AnyCall matches regardless of what is being called, for an option whose NAME is
+	// the evidence.
+	//
+	// `rejectUnauthorized: false` means exactly one thing in Node and means it wherever
+	// it appears -- on an https.Agent, on tls.connect, on an axios instance, inside a
+	// library's own config. Enumerating the callees would be a list that is wrong the
+	// moment somebody uses a client nobody thought of, and would be less precise than
+	// the option name already is.
+	AnyCall bool
 
 	// ArgIndex is the argument that decides it. A negative index addresses a keyword
 	// argument, which the frontends record as "name=value" because `verify=False` means
@@ -1507,7 +1536,10 @@ type CallShape struct {
 	// Confidence is NOT used to express this. Confidence means how well the call graph
 	// resolved (ADR-005) and it resolved perfectly: the algorithm is a literal. Lowering
 	// it would be lying about a different thing to get the gating behaviour wanted here.
-	DependsOnUse bool
+	//
+	// The value is the reason, printed as written, so each rule says its own truth rather
+	// than sharing one vague sentence.
+	DependsOnUse string
 
 	CWE       string
 	Finding   string
@@ -1611,43 +1643,48 @@ func builtinCallShapes() []CallShape {
 			// it -- so this reports and never gates, the same treatment a weak hash gets
 			// and for the same reason: the call does not carry the fact that decides it.
 			ID: "cookie-same-site-none", Method: "cookie", ArgIndex: -1, Qualifier: credentialCookie,
-			Disallowed: []string{"samesite=none"}, DependsOnUse: true,
-			CWE:       "CWE-1275",
-			Finding:   "Credential cookie sent on cross-site requests",
-			Reason:    "SameSite=None lets the cookie ride requests a third-party site makes, which is what cross-site request forgery needs",
-			Rationale: "sameSite is set to none",
+			Disallowed:   []string{"samesite=none"},
+			DependsOnUse: "an embedded widget and an OAuth flow both legitimately need a cross-site cookie, and the call does not carry which case this is",
+			CWE:          "CWE-1275",
+			Finding:      "Credential cookie sent on cross-site requests",
+			Reason:       "SameSite=None lets the cookie ride requests a third-party site makes, which is what cross-site request forgery needs",
+			Rationale:    "sameSite is set to none",
 		},
 		{
 			ID: "cookie-same-site-none", Method: "set_cookie", ArgIndex: -1, Qualifier: credentialCookie,
-			Disallowed: []string{"samesite=none"}, DependsOnUse: true,
-			CWE:       "CWE-1275",
-			Finding:   "Credential cookie sent on cross-site requests",
-			Reason:    "SameSite=None lets the cookie ride requests a third-party site makes, which is what cross-site request forgery needs",
-			Rationale: "samesite is set to None",
+			Disallowed:   []string{"samesite=none"},
+			DependsOnUse: "an embedded widget and an OAuth flow both legitimately need a cross-site cookie, and the call does not carry which case this is",
+			CWE:          "CWE-1275",
+			Finding:      "Credential cookie sent on cross-site requests",
+			Reason:       "SameSite=None lets the cookie ride requests a third-party site makes, which is what cross-site request forgery needs",
+			Rationale:    "samesite is set to None",
 		},
 
 		{
-			ID: "weak-hash", Symbol: "crypto.createHash", ArgIndex: 0, DependsOnUse: true, Disallowed: weakHash,
-			CWE:       "CWE-328",
-			Finding:   "Weak hash algorithm",
-			Reason:    "the algorithm is broken against collision, so a digest does not establish what it is used to establish",
-			Rationale: "createHash() is given the algorithm by name",
+			ID: "weak-hash", Symbol: "crypto.createHash", ArgIndex: 0, Disallowed: weakHash,
+			DependsOnUse: "whether a broken digest matters depends on what it is used for, which this call does not carry: the same call builds a cache key, a filename, and a Gravatar URL",
+			CWE:          "CWE-328",
+			Finding:      "Weak hash algorithm",
+			Reason:       "the algorithm is broken against collision, so a digest does not establish what it is used to establish",
+			Rationale:    "createHash() is given the algorithm by name",
 		},
 		{
-			ID: "weak-hash", Symbol: "crypto.createHmac", ArgIndex: 0, DependsOnUse: true, Disallowed: []string{"md5", "md4", "md2"},
-			CWE:     "CWE-328",
-			Finding: "Weak hash algorithm",
-			Reason:  "the algorithm is broken against collision, so a digest does not establish what it is used to establish",
+			ID: "weak-hash", Symbol: "crypto.createHmac", ArgIndex: 0, Disallowed: []string{"md5", "md4", "md2"},
+			DependsOnUse: "whether a broken digest matters depends on what it is used for, which this call does not carry",
+			CWE:          "CWE-328",
+			Finding:      "Weak hash algorithm",
+			Reason:       "the algorithm is broken against collision, so a digest does not establish what it is used to establish",
 			// HMAC-SHA1 is not currently considered broken, so it is deliberately absent
 			// from this list while being present for a bare hash.
 			Rationale: "createHmac() is given the algorithm by name",
 		},
 		{
-			ID: "weak-hash", Symbol: "hashlib.new", ArgIndex: 0, DependsOnUse: true, Disallowed: weakHash,
-			CWE:       "CWE-328",
-			Finding:   "Weak hash algorithm",
-			Reason:    "the algorithm is broken against collision, so a digest does not establish what it is used to establish",
-			Rationale: "hashlib.new() is given the algorithm by name",
+			ID: "weak-hash", Symbol: "hashlib.new", ArgIndex: 0, Disallowed: weakHash,
+			DependsOnUse: "whether a broken digest matters depends on what it is used for, which this call does not carry: the same call builds a cache key, a filename, and a Gravatar URL",
+			CWE:          "CWE-328",
+			Finding:      "Weak hash algorithm",
+			Reason:       "the algorithm is broken against collision, so a digest does not establish what it is used to establish",
+			Rationale:    "hashlib.new() is given the algorithm by name",
 		},
 		{
 			// A signing key written into the source. Whatever it says, it is in the
@@ -1702,6 +1739,48 @@ func builtinCallShapes() []CallShape {
 			Finding:   "Broken or risky cipher",
 			Reason:    "the cipher is broken, or the mode leaks structure of the plaintext",
 			Rationale: "createDecipheriv() is given the algorithm and mode by name",
+		},
+		{
+			// Node spells the same decision as an option rather than an argument, and it
+			// is matched wherever it appears: an https.Agent, tls.connect, an axios
+			// instance, a library's own config. The option name is the evidence.
+			ID: "disabled-certificate-check", AnyCall: true, ArgIndex: -1,
+			Disallowed: []string{"rejectunauthorized=false"},
+			CWE:        "CWE-295",
+			Finding:    "Certificate verification disabled",
+			Reason:     "a connection that does not verify its peer authenticates nobody, so transport encryption protects against nothing",
+			Rationale:  "rejectUnauthorized is set to false, which accepts any certificate",
+		},
+		{
+			// Flask's debug server exposes the Werkzeug console, which executes Python
+			// sent to it. Reaching production with this on is remote code execution, and
+			// it is one keyword.
+			ID: "debug-mode-enabled", Method: "run", ArgIndex: -1,
+			Disallowed: []string{"debug=true"},
+			CWE:        "CWE-489",
+			Finding:    "Debug mode enabled",
+			Reason:     "the debug server exposes an interactive console that executes code sent to it, so this is remote code execution wherever it is reachable",
+			Rationale:  "run() is passed debug=True",
+		},
+		{
+			// The dangerous part is the COMBINATION. Credentialed cross-origin requests
+			// are ordinary; what makes them exploitable is an origin the server reflects
+			// or wildcards, which lets any site on the internet make them as the victim.
+			ID: "permissive-cors", AnyCall: true, ArgIndex: -1,
+			Disallowed: []string{"credentials=true"},
+			Qualifier:  &ArgCondition{Keyword: "origin", AnyOf: []string{"*", "true"}},
+			// Measured, and it cost the clean corpus its only gating finding. hoppscotch
+			// writes exactly this call inside the else branch of `if (isProduction)`,
+			// with a whitelist on the other side. The call says what this rule claims;
+			// what makes it acceptable is a condition the call does not carry, and no
+			// reading of the call site could have known. Reported, because relaxed
+			// development settings do reach production -- but never a reason to stop a
+			// build, and a gate that fired on this idiom would be switched off.
+			DependsOnUse: "whether this runs in production depends on the branch it sits in, which the call does not carry -- the common idiom guards a relaxed policy behind an environment check",
+			CWE:          "CWE-942",
+			Finding:      "Credentialed requests accepted from any origin",
+			Reason:       "reflecting or wildcarding the origin while allowing credentials lets any site make authenticated requests as whoever is signed in",
+			Rationale:    "credentials are allowed and the origin is not restricted",
 		},
 		{
 			ID: "disabled-certificate-check", Symbol: "requests.get", ArgIndex: -1,

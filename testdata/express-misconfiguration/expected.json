@@ -1,0 +1,8 @@
+{
+  "corpus": "express-misconfiguration",
+  "description": "Misconfiguration read out of a call's own options. The CORS rule is a conjunction rather than a single bad value, because credentialed cross-origin requests are ordinary and what makes them exploitable is an origin that is reflected or wildcarded: the second route allows credentials to a named origin and is silent, and the third wildcards the origin with no credentials, which is how a public API is served. rejectUnauthorized is matched wherever it appears rather than on a list of clients, because the option name means exactly one thing in Node and a list of callees would be wrong the moment somebody used a client nobody thought of.",
+  "expected": [
+    {"cwe": "CWE-942", "sinkFile": "app.js", "sinkLine": 10, "sourceLabel": "\"credentials=true\"", "confidence": "high", "note": "origin reflected AND credentials allowed; either alone is not a finding"},
+    {"cwe": "CWE-295", "sinkFile": "app.js", "sinkLine": 19, "sourceLabel": "\"rejectUnauthorized=false\"", "confidence": "high", "note": "accepts any certificate"}
+  ]
+}

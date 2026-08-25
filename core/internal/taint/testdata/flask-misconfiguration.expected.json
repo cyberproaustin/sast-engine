@@ -1,0 +1,22 @@
+{
+  "corpus": "flask-misconfiguration",
+  "description": "Two decisions written as keywords. Debug mode is not a matter of noisy output: Flask's debug server exposes a console that executes Python sent to it, so reaching production with it on is remote code execution. The second request passes a timeout and no verify keyword and is silent, because a keyword that is absent says nothing about what the default is.",
+  "expected": [
+    {
+      "cwe": "CWE-295",
+      "sinkFile": "app.py",
+      "sinkLine": 10,
+      "sourceLabel": "\"verify=false\"",
+      "confidence": "high",
+      "note": "certificate verification disabled for this request"
+    },
+    {
+      "cwe": "CWE-489",
+      "sinkFile": "app.py",
+      "sinkLine": 23,
+      "sourceLabel": "\"debug=true\"",
+      "confidence": "high",
+      "note": "the Werkzeug console executes code sent to it"
+    }
+  ]
+}

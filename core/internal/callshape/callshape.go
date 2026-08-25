@@ -55,7 +55,10 @@ func targets(shape model.CallShape, c *ir.Call) bool {
 	if shape.Symbol != "" {
 		return c.Callee.Symbol == shape.Symbol
 	}
-	return shape.Method != "" && c.Method == shape.Method
+	if shape.Method != "" {
+		return c.Method == shape.Method
+	}
+	return shape.AnyCall
 }
 
 // match finds the literal this shape forbids, if the call carries one.

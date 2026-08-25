@@ -203,6 +203,18 @@ export function lowerProgram(opts: LowerOptions): IRDoc {
 
   for (const sf of sources) {
     const imports = importsByFile.get(sf) ?? new Map<string, ImportRef>();
+    const moduleId = moduleIdOf(opts.rootDir, sf.fileName);
+    functions.push(
+      lowerFunction(
+        sf,
+        { id: `${moduleId}#<module>:0`, name: "<module>", moduleId },
+        sf,
+        checker,
+        imports,
+        resolveFunction,
+        identity,
+      ),
+    );
     for (const [node, meta] of funcsBySource.get(sf) ?? []) {
       functions.push(
         lowerFunction(node as ts.SignatureDeclaration, meta, sf, checker, imports, resolveFunction, identity),
@@ -380,7 +392,7 @@ function buildImportMap(sf: ts.SourceFile): Map<string, ImportRef> {
 // --- per-function lowering ------------------------------------------------
 
 function lowerFunction(
-  node: ts.SignatureDeclaration,
+  node: ts.SignatureDeclaration | ts.SourceFile,
   meta: FuncMeta,
   sf: ts.SourceFile,
   checker: ts.TypeChecker,
@@ -473,8 +485,12 @@ function lowerFunction(
     if (sym) bySymbol.set(sym, valueId);
   };
 
-  const injected = untrustedParams(node);
-  const identityInjected = identityParams(node, identity);
+  // A module has no parameters and no decorators on them. Asking either question of a
+  // source file reaches into a property that is not there.
+  const injected = ts.isSourceFile(node) ? new Set<number>() : untrustedParams(node);
+  const identityInjected = ts.isSourceFile(node)
+    ? new Set<number>()
+    : identityParams(node, identity);
 
   // `@Param('id') id: string` carries caller-supplied data directly; there is no request
   // object to take a property of, so the parameter itself is the origin. Identity wins
@@ -487,7 +503,8 @@ function lowerFunction(
       : injected.has(index)
         ? "untrusted-param"
         : "param";
-  node.parameters.forEach((p, index) => {
+  const parameters = ts.isSourceFile(node) ? [] : node.parameters;
+  parameters.forEach((p, index) => {
     const loc = locOf(sf, p);
 
     // A destructured parameter is still a parameter. `@AuthWorkspace() { id: workspaceId }`
@@ -654,12 +671,7 @@ function lowerFunction(
     // an evaluator wearing a different keyword.
     if (ts.isNewExpression(expr)) {
       const loc = locOf(sf, expr);
-      const args: Arg[] = [];
-      (expr.arguments ?? []).forEach((a, index) => {
-        const valueId = lowerExpr(a);
-        const fn = resolveFunction(a);
-        if (valueId || fn) args.push({ index, valueId, functionId: fn?.id });
-      });
+      const { args, argLiterals, enumeratedOptions } = readArgs(expr.arguments ?? []);
 
       const callee = resolveCallee(expr);
       const resultId = newValue("call-result", loc, { name: callee.symbol ?? callee.kind });
@@ -668,6 +680,8 @@ function lowerFunction(
         loc,
         callee,
         args,
+        argLiterals: Object.keys(argLiterals).length ? argLiterals : undefined,
+        enumeratedOptions: enumeratedOptions.length ? enumeratedOptions : undefined,
         resultValueId: resultId,
         block: current,
       });
@@ -677,50 +691,7 @@ function lowerFunction(
     if (ts.isCallExpression(expr)) {
       const loc = locOf(sf, expr);
 
-      const args: Arg[] = [];
-      const argLiterals: Record<number, string> = {};
-      // Keyword slots are numbered from -1 downward, the same encoding the Python
-      // frontend uses for `verify=False`. An options object IS JavaScript's keyword
-      // argument list, and writing it into the same slot means the core needs no new
-      // vocabulary to read one: `{ httpOnly: false }` and `httponly=False` describe the
-      // same decision and now arrive in the same shape (ADR-001).
-      let keyword = 0;
-      const enumeratedOptions: number[] = [];
-      expr.arguments.forEach((a, index) => {
-        const valueId = lowerExpr(a);
-        const fn = resolveFunction(a);
-        if (valueId || fn) args.push({ index, valueId, functionId: fn?.id });
-        const lit = literalOf(a);
-        if (lit !== undefined) {
-          argLiterals[index] = lit;
-          return;
-        }
-        if (!ts.isObjectLiteralExpression(a)) return;
-
-        // Whether the KEY SET is fully known is a separate question from whether the
-        // values are. A spread hides keys, so nothing can be concluded from a key not
-        // appearing; a computed value hides only itself, and the key is still known to
-        // be set. Only the first kind makes this object unenumerable.
-        let keysKnown = true;
-        for (const prop of a.properties) {
-          const named =
-            (ts.isPropertyAssignment(prop) || ts.isShorthandPropertyAssignment(prop)) &&
-            prop.name !== undefined &&
-            (ts.isIdentifier(prop.name) || ts.isStringLiteralLike(prop.name));
-          if (!named) {
-            keysKnown = false;
-            continue;
-          }
-          const key = (prop.name as ts.Identifier | ts.StringLiteralLike).text;
-          // Shorthand `{ httpOnly }` sets the key from a variable: the key is known,
-          // the value is not. Recorded as present-with-unknown-value so an absence
-          // rule sees it and a value rule does not match it.
-          const value = ts.isPropertyAssignment(prop) ? literalOf(prop.initializer) : undefined;
-          keyword += 1;
-          argLiterals[-keyword] = `${key}=${value ?? "?"}`;
-        }
-        if (keysKnown) enumeratedOptions.push(index);
-      });
+      const { args, argLiterals, enumeratedOptions } = readArgs(expr.arguments);
 
       // For a method call, record the receiver separately: taint on the object is
       // how `s.trim()` and `p.then(cb)` carry data, and it is not an argument.
@@ -836,6 +807,66 @@ function lowerFunction(
     return undefined;
   };
 
+  /**
+   * Reads a call's arguments: the dataflow values, the literals, and the option keys.
+   *
+   * One definition, used by both `f(x)` and `new F(x)`. It lived only in the call path
+   * before, so `new https.Agent({ rejectUnauthorized: false })` carried no literals at
+   * all and the option was invisible -- a constructor is where half of Node's
+   * configuration is written.
+   */
+  const readArgs = (
+    argNodes: readonly ts.Expression[],
+  ): { args: Arg[]; argLiterals: Record<number, string>; enumeratedOptions: number[] } => {
+    const args: Arg[] = [];
+    const argLiterals: Record<number, string> = {};
+    // Keyword slots are numbered from -1 downward, the same encoding the Python frontend
+    // uses for `verify=False`. An options object IS JavaScript's keyword argument list,
+    // and writing it into the same slot means the core needs no new vocabulary to read
+    // one: `{ httpOnly: false }` and `httponly=False` describe the same decision and
+    // arrive in the same shape (ADR-001).
+    let keyword = 0;
+    const enumeratedOptions: number[] = [];
+
+    argNodes.forEach((a, index) => {
+      const valueId = lowerExpr(a);
+      const fn = resolveFunction(a);
+      if (valueId || fn) args.push({ index, valueId, functionId: fn?.id });
+      const lit = literalOf(a);
+      if (lit !== undefined) {
+        argLiterals[index] = lit;
+        return;
+      }
+      if (!ts.isObjectLiteralExpression(a)) return;
+
+      // Whether the KEY SET is fully known is a separate question from whether the
+      // values are. A spread hides keys, so nothing can be concluded from a key not
+      // appearing; a computed value hides only itself, and the key is still known to be
+      // set. Only the first kind makes this object unenumerable.
+      let keysKnown = true;
+      for (const prop of a.properties) {
+        const named =
+          (ts.isPropertyAssignment(prop) || ts.isShorthandPropertyAssignment(prop)) &&
+          prop.name !== undefined &&
+          (ts.isIdentifier(prop.name) || ts.isStringLiteralLike(prop.name));
+        if (!named) {
+          keysKnown = false;
+          continue;
+        }
+        const key = (prop.name as ts.Identifier | ts.StringLiteralLike).text;
+        // Shorthand `{ httpOnly }` sets the key from a variable: the key is known, the
+        // value is not. Recorded as present-with-unknown-value so an absence rule sees
+        // it and a value rule does not match it.
+        const value = ts.isPropertyAssignment(prop) ? literalOf(prop.initializer) : undefined;
+        keyword += 1;
+        argLiterals[-keyword] = `${key}=${value ?? "?"}`;
+      }
+      if (keysKnown) enumeratedOptions.push(index);
+    });
+
+    return { args, argLiterals, enumeratedOptions };
+  };
+
   const walk = (n: ts.Node): void => {
     // Nested functions are separate IR functions; their bodies are not inlined here.
     if (n !== node && isFunctionLike(n)) return;
@@ -932,6 +963,29 @@ function lowerFunction(
     }
     ts.forEachChild(n, walk);
   };
+
+  // A module's top level is code like any other, and it is where configuration lives:
+  // `app.use(cors({ origin: true, credentials: true }))` is never inside a function.
+  // Lowering it as a function of its own means every analysis kind can see it without
+  // learning a new shape. The statement walk already stops at function boundaries, so
+  // nothing nested is counted twice.
+  if (ts.isSourceFile(node)) {
+    walk(node);
+    return {
+      id: meta.id,
+      name: meta.name,
+      module: meta.moduleId,
+      loc: locOf(sf, node),
+      params,
+      values,
+      flows,
+      calls,
+      returns,
+      comparisons,
+      entryBlock,
+      blocks,
+    };
+  }
 
   const body = (node as ts.FunctionLikeDeclaration).body;
   if (body) {
