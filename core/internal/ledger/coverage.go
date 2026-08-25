@@ -115,7 +115,7 @@ var claims = map[string]Claim{
 	"CWE-329": {State: Partial, Reason: "an initialisation vector written into the source, matched on having been written down rather than on what it says, exactly as a hardcoded key is. An IV must be unpredictable and must never repeat, and one in the source is both predictable and reused on every message",
 		By: []string{"predictable-iv"}},
 
-	"CWE-470": {State: Partial, Reason: "untrusted data naming a module for the runtime to load, which runs it. Requires a WHOLE value: `require(\"./handlers/\" + name)` fixes the directory in the literal and leaves the caller a leaf name, and treating that as caller-chosen would report every plugin loader there is",
+	"CWE-470": {State: Partial, Reason: "untrusted data naming a module for the runtime to load, which runs it. Requires a WHOLE value, which is a trade rather than a safety argument: `require(\"./handlers/\" + name)` is what every plugin loader looks like and reporting them all would make the rule unusable, but a leaf containing `../` escapes the fixed directory and is missed",
 		By: []string{"untrusted-to-interpreter"}},
 	"CWE-1321": {State: Partial, Reason: "the caller's object merged into another by a function that walks NESTED keys, so a `__proto__` key in it reaches the prototype every object inherits from. The named deep-merge helpers only; a merge written by hand is a loop over keys and is not matched",
 		By: []string{"untrusted-to-record-fields"}},
@@ -174,7 +174,7 @@ var claims = map[string]Claim{
 	"CWE-297": {State: Partial, Reason: "a TLS connection told not to check the certificate's hostname, which accepts any valid certificate rather than the one belonging to the host being talked to. The literal keyword only",
 		By: []string{"no-hostname-check"}},
 
-	"CWE-90": {State: Partial, Reason: "untrusted data COMPOSED into an LDAP filter, where a `*` in the wrong place turns a check for one user into a match for any. Composition is required for the same reason SQL requires it: a value passed whole is a value being searched for, and a value built into the filter is a filter the caller wrote",
+	"CWE-90": {State: Partial, Reason: "untrusted data COMPOSED into an LDAP filter, where a `*` in the wrong place turns a check for one user into a match for any. Composition is required to keep the rule precise on the common shape, and unlike SQL it costs a real miss: an LDAP filter ARGUMENT passed whole is the whole filter, not a parameter, so the caller writing all of it is not reported",
 		By: []string{"untrusted-to-interpreter"}},
 	"CWE-643": {State: Partial, Reason: "untrusted data composed into an XPath expression, which selects whichever nodes the caller names rather than the ones the application meant. The named evaluation APIs only",
 		By: []string{"untrusted-to-interpreter"}},
@@ -237,6 +237,18 @@ var claims = map[string]Claim{
 
 	"CWE-134": {State: Partial, Reason: "a format string the caller supplied, told apart from a format the application wrote by the RECEIVER: `\"Hello {}\".format(name)` is safe and `name.format(x)` is not. The call must also have been handed something, because a format with nothing to format has nothing to reach through",
 		By: []string{"untrusted-as-format-string"}},
+
+	// Subsumes CWE-313, which is this weakness with the storage named as a file -- and a
+	// file is the only storage described, so the variant is exactly what the rule finds.
+	"CWE-312": {
+		State: Partial,
+		Reason: "a credential the caller sent written to a file, where it outlives the " +
+			"request that carried it and ends up in backups and images nobody thinks of " +
+			"as holding secrets. Whether the application encrypts before writing is not " +
+			"decidable from the call, so an encrypted write reports too",
+		By:       []string{"credential-stored-cleartext"},
+		Subsumes: true,
+	},
 
 	// Cookie attributes. Two of the three are claimed for an explicit downgrade AND for
 	// an omission; Secure is claimed only for the downgrade, because the correct idiom

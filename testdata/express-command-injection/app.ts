@@ -12,9 +12,11 @@ app.get("/ping", (req, res) => {
   res.send(output);
 });
 
-// EXPECTED FINDING 2 — encodeURIComponent is a URL-context encoder. It does not
-// neutralize shell metacharacters, so the flow must still be reported, with the
-// sanitizer recorded as considered-and-insufficient.
+// EXPECTED FINDING 2 — encodeURIComponent is a URL-context encoder. It percent-encodes
+// most shell syntax, which is why this is a weaker case than it looks, and it leaves
+// ' ( ) ! * ~ alone -- enough to break out of a quoted argument. It is reported with the
+// sanitizer recorded as considered-and-insufficient, which is the honest answer for a
+// transform that addresses a different context.
 app.get("/lookup", (req, res) => {
   const encoded = encodeURIComponent(req.query.domain);
   res.send(runLookup(encoded));

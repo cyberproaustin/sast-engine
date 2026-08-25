@@ -1,6 +1,6 @@
 {
   "corpus": "flask-query-languages",
-  "description": "Two more small query languages, judged the same way SQL is: composition is what separates a value being searched FOR from a filter the caller wrote. The bound route passes the caller's text whole as the filter argument and is silent, which is the same reasoning that keeps a parameterized SQL call silent -- and is a stated miss when the whole filter really is the caller's.",
+  "description": "Two more small query languages, judged the same way SQL is: composition is what separates a value being searched FOR from a filter the caller wrote. The bound route passes the caller's text whole as the filter argument and is silent. Unlike SQL, where a value passed whole is genuinely a parameter, an LDAP filter argument passed whole IS the filter: the requirement that keeps this rule precise on the common shape costs a real miss on that one, and the fixture records it rather than claiming the line is safe.",
   "expected": [
     {
       "cwe": "CWE-90",
@@ -13,7 +13,7 @@
     {
       "cwe": "CWE-643",
       "sinkFile": "app.py",
-      "sinkLine": 30,
+      "sinkLine": 32,
       "sourceLabel": "flask.request.args",
       "confidence": "medium",
       "note": "the caller's text is built into the expression"

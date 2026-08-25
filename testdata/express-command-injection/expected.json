@@ -21,7 +21,7 @@
     {
       "cwe": "CWE-73",
       "sinkFile": "app.ts",
-      "sinkLine": 40,
+      "sinkLine": 42,
       "sourceLabel": "req.query.bin",
       "confidence": "high",
       "note": "tainted executable path; the channel determines the weakness identity, not the policy"
@@ -37,7 +37,7 @@
     {
       "cwe": "CWE-79",
       "sinkFile": "app.ts",
-      "sinkLine": 20,
+      "sinkLine": 22,
       "sourceLabel": "req.query.domain",
       "confidence": "medium",
       "note": "encodeURIComponent does not neutralize markup either"
@@ -45,7 +45,7 @@
     {
       "cwe": "CWE-79",
       "sinkFile": "app.ts",
-      "sinkLine": 32,
+      "sinkLine": 34,
       "sourceLabel": "req.query.host",
       "confidence": "medium",
       "note": "reached through a second route sharing the helper"
