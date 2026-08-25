@@ -60,6 +60,7 @@ var corpora = []string{
 	"flask-secrets-and-randomness",
 	"flask-query-languages",
 	"express-tls-downgrade",
+	"express-cookie-storage",
 	"flask-xxe",
 	"flask-unsafe-files",
 	"flask-csv-injection",
