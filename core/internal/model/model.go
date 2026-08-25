@@ -5571,6 +5571,24 @@ type StoreRule struct {
 	// for any. The environment holds a hundred harmless variables and one that decides
 	// where the next program comes from.
 	Path []string
+	// PathContains matches a key by a WORD in it rather than by its whole name.
+	//
+	// Configuration keys are compound: `SECRET_KEY`, `SECRET_KEY_HMAC`, `JWT_SECRET`,
+	// `MAIL_PASSWORD`. What they have in common is a word, and an exact list of the
+	// spellings somebody thought of is wrong at the first application that adds a suffix.
+	PathContains []string
+	// PathExcept disqualifies, and is checked first. A double-submit CSRF token contains
+	// the word `token` and is deliberately not a secret.
+	PathExcept []string
+
+	// FromLiteral requires the value WRITTEN to have been written into the source.
+	//
+	// This is the one rule kind here that needs no classification: a key written into the
+	// source is in every clone of the repository whatever it came from, and the test is
+	// the same one the call-shape rules use -- being a literal IS the defect, and a value
+	// read from the environment is not one and never matches.
+	FromLiteral bool
+
 	// NotPath excludes keys another rule already claims, so two rules can describe the
 	// same destination at different granularities without reporting one line twice.
 	NotPath []string
@@ -5663,6 +5681,30 @@ func builtinStores() []StoreRule {
 			Finding:               "One request's data written into state the whole process shares",
 			Reason:                "every request this process handles reads the same variable, so what one caller put there is what the next caller gets",
 			Rationale:             "the assignment reaches a name bound outside the handler",
+		},
+		{
+			// A signing key, a password or an API key written into a configuration
+			// assignment. `app.config['SECRET_KEY'] = '...'` and `app.secret_key = '...'`
+			// are how a Flask application is misconfigured, and the key is then in every
+			// clone of the repository and in its history after somebody changes it.
+			//
+			// Matched by a WORD in the key rather than by its whole name, because
+			// configuration keys are compound and an exact list is wrong at the first
+			// application that adds a suffix. `csrf` is excluded for the reason the cookie
+			// rules exclude it: a double-submit token contains the word and is not a
+			// secret.
+			ID: "hardcoded-secret", Class: "", FromLiteral: true,
+			// No "token". Measured across sixteen repositories: every configuration key
+			// holding that word held an OAuth endpoint URL, a header name or a form field,
+			// and not one held a secret. The word names the THING a key is for far more
+			// often than the key itself.
+			PathContains: []string{"secret", "password", "passwd", "apikey", "api_key",
+				"private_key", "privatekey", "signing_key", "signingkey"},
+			PathExcept: []string{"csrf", "xsrf", "public", "expire", "header", "name", "field"},
+			CWE:        "CWE-798",
+			Finding:    "Secret written into the source",
+			Reason:     "a key in the source is in every clone of the repository and stays in its history after it is changed",
+			Rationale:  "a configuration key that holds a secret is assigned a value written in the call",
 		},
 		{
 			// PATH decides where the next program comes from. A caller who can prepend to

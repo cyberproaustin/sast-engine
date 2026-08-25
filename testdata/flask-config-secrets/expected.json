@@ -1,0 +1,30 @@
+{
+  "corpus": "flask-config-secrets",
+  "description": "A signing key written into a configuration assignment, which is how a Flask application is misconfigured. The only rule here that needs no classification: being a literal IS the defect, and a key read from the environment is not one. Matched by a WORD in the key because configuration keys are compound. The negatives are the seven ways this stays quiet, and six of them were measured on real code rather than imagined: read from the environment, a CSRF token that is deliberately not secret, a key holding no secret, a key that is not set, a sentence from a settings schema, the endpoint a credential is sent to, and the mask a value is replaced with before it is logged.",
+  "expected": [
+    {
+      "cwe": "CWE-798",
+      "sinkFile": "app.py",
+      "sinkLine": 10,
+      "sourceLabel": "\"s3cr3t-dev-key\"",
+      "confidence": "high",
+      "note": "the plain form"
+    },
+    {
+      "cwe": "CWE-798",
+      "sinkFile": "app.py",
+      "sinkLine": 15,
+      "sourceLabel": "\"am0r3C0mpl3xK3y\"",
+      "confidence": "high",
+      "note": "a compound key name, matched on the word rather than the whole name"
+    },
+    {
+      "cwe": "CWE-798",
+      "sinkFile": "app.py",
+      "sinkLine": 19,
+      "sourceLabel": "\"F12Zr47j yX@H!jmM\"",
+      "confidence": "high",
+      "note": "the attribute form, and a key with a space in it: Flask's own documented example has one"
+    }
+  ]
+}

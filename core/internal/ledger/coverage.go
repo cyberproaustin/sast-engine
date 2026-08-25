@@ -105,7 +105,7 @@ var claims = map[string]Claim{
 	// asserted directly rather than subsumed. The password variant has its own rule now,
 	// matched by option NAME rather than by argument position, which is how a connection
 	// string asks for one.
-	"CWE-798": {State: Partial, Reason: "a key argument written as a literal, matched on having been written down rather than on what it says; a key read from the environment or a vault is not a literal and never matches",
+	"CWE-798": {State: Partial, Reason: "two shapes, both matched on having been written down rather than on what the value says: a key argument passed as a literal to a signing or session call, and a literal assigned to a configuration key whose name holds the word secret, password or key. A key read from the environment or a vault is not a literal and never matches. The second shape is matched on a WORD in the key because configuration keys are compound, and it excludes three literal shapes measured on the clean corpus that a key-named setting holds when it is NOT holding a key: an endpoint the credential is sent to, a sentence from a settings schema, and the mask a value is replaced with before it is logged. The word token is deliberately not in the list -- across sixteen repositories every configuration key holding it held a URL, a header name or a form field",
 		By: []string{"hardcoded-secret"}},
 	// Members of the catalog's own Top 25 that apply to these languages. Named rather than
 	// left blank, because this list is the closest thing the project has to a prioritised

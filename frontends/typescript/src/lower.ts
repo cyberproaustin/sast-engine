@@ -328,6 +328,7 @@ export function lowerProgram(opts: LowerOptions): IRDoc {
     // lowered after it. That is how a name declared at the top of a file resolves inside
     // a handler halfway down, and how a callback sees what it closed over.
     const fileScope = new Map<ts.Symbol, string>();
+    const fileGlobals = new Map<string, string>();
     functions.push(
       lowerFunction(
         sf,
@@ -339,11 +340,12 @@ export function lowerProgram(opts: LowerOptions): IRDoc {
         identity,
         templates,
         fileScope,
+        fileGlobals,
       ),
     );
     for (const [node, meta] of funcsBySource.get(sf) ?? []) {
       functions.push(
-        lowerFunction(node as ts.SignatureDeclaration, meta, sf, checker, imports, resolveFunction, identity, templates, fileScope),
+        lowerFunction(node as ts.SignatureDeclaration, meta, sf, checker, imports, resolveFunction, identity, templates, fileScope, fileGlobals),
       );
     }
     entryPoints.push(...detectExpressRoutes(sf, imports, resolveFunction, (n) => locOf(sf, n)));
@@ -541,6 +543,9 @@ function lowerFunction(
   // outermost first, which is what makes an outer binding present by the time the
   // callback that captures it is lowered.
   fileScope: Map<ts.Symbol, string>,
+  // Names assigned without ever being declared, keyed by NAME because there is no symbol
+  // to key them by -- that is what makes them implicit globals in the first place.
+  fileGlobals: Map<string, string>,
 ): FunctionIR {
   const values: Value[] = [];
   const flows: Flow[] = [];
@@ -653,6 +658,14 @@ function lowerFunction(
   //
   // Imports and function declarations are excluded: rebinding one is a different mistake
   // and not this one.
+  /** A name with no declaration anywhere: an implicit global. */
+  const undeclaredName = (name: ts.Identifier): boolean => {
+    const sym = checker.getSymbolAtLocation(name);
+    if (!sym) return true;
+    if (bySymbol.has(sym) || fileScope.has(sym)) return false;
+    return (sym.declarations ?? []).length === 0;
+  };
+
   const declaredOutside = (name: ts.Identifier): boolean => {
     const sym = checker.getSymbolAtLocation(name);
     const decls = sym?.declarations ?? [];
@@ -924,8 +937,11 @@ function lowerFunction(
 
     if (ts.isIdentifier(expr)) {
       const sym = checker.getSymbolAtLocation(expr);
-      if (!sym) return undefined;
-      return bySymbol.get(sym) ?? fileScope.get(sym);
+      const bound = sym ? bySymbol.get(sym) ?? fileScope.get(sym) : undefined;
+      // An implicit global has no symbol to be keyed by, which is exactly why it needs
+      // the name-keyed table: `output = {...}` in one function and `output` in another
+      // are the same variable and the checker has nothing to say about it.
+      return bound ?? fileGlobals.get(expr.text);
     }
 
     if (ts.isPropertyAccessExpression(expr)) return lowerProperty(expr);
@@ -1351,6 +1367,24 @@ function lowerFunction(
           scope: "process",
         });
         lowerExpr(n.expression);
+        return;
+      }
+      // An assignment to a name that was never DECLARED. In JavaScript that creates a
+      // global -- process-wide state, and a value the rest of the program can read -- and
+      // without a binding for it the value went nowhere at all.
+      //
+      // dvna writes `output = { searchTerm: req.body.name }` inside a callback and renders
+      // it, so an entire flow from a request to an unescaped interpolation hung on a
+      // missing `const`.
+      if (ts.isIdentifier(target) && !ts.isSourceFile(node) && undeclaredName(target)) {
+        let id = fileGlobals.get(target.text);
+        if (!id) {
+          id = newValue("local", locOf(sf, target), { name: target.text });
+          fileGlobals.set(target.text, id);
+        }
+        bind(target, id);
+        addFlow(from, id, "assign", locOf(sf, n));
+        writes.push({ loc: locOf(sf, n), base: id, path: target.text, from, scope: "process" });
         return;
       }
     }
