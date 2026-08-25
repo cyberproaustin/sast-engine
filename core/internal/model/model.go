@@ -875,6 +875,7 @@ func Builtin() Model {
 					{Match: MatchCallResult, Symbol: "secrets.token_bytes", ArgBelow: atLeast(16)},
 					{Match: MatchCallResult, Symbol: "secrets.token_hex", ArgBelow: atLeast(16)},
 					{Match: MatchCallResult, Symbol: "secrets.token_urlsafe", ArgBelow: atLeast(16)},
+					{Match: MatchCallResult, Symbol: "os.getrandom", ArgBelow: atLeast(16)},
 				},
 			},
 			{
@@ -924,6 +925,8 @@ func Builtin() Model {
 					{Match: MatchCallResult, Symbol: "time.time"},
 					{Match: MatchCallResult, Symbol: "time.time_ns"},
 					{Match: MatchCallResult, Symbol: "time.monotonic"},
+					{Match: MatchCallResult, Symbol: "time.monotonic_ns"},
+					{Match: MatchCallResult, Symbol: "time.perf_counter_ns"},
 					{Match: MatchCallResult, Symbol: "time.perf_counter"},
 					{Match: MatchCallResult, Symbol: "datetime.datetime.now"},
 					{Match: MatchCallResult, Symbol: "datetime.datetime.utcnow"},
@@ -1486,6 +1489,18 @@ func Builtin() Model {
 				Symbol: "random.seed", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
 				CWE:       "CWE-337",
 				Rationale: "the argument is the seed",
+			},
+			{
+				ID: "prng-seed", Visibility: "internal", Context: "prng-seed",
+				Symbol: "numpy.random.default_rng", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-337",
+				Rationale: "the argument is the seed the generator starts from",
+			},
+			{
+				ID: "prng-seed", Visibility: "internal", Context: "prng-seed",
+				Symbol: "numpy.random.RandomState", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-337",
+				Rationale: "the argument is the seed the generator starts from",
 			},
 			{
 				ID: "prng-seed", Visibility: "internal", Context: "prng-seed",
@@ -2169,6 +2184,13 @@ func Builtin() Model {
 			// is caller-supplied costs a map lookup.
 			{
 				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Method: "extractAllToAsync", ReceiverIsEntryParam: -1,
+				RequiresUntrustedReceiver: true,
+				CWE:                       "CWE-22",
+				Rationale:                 "every entry in the archive names where it goes, and this archive came from the caller",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
 				Method: "extractAllTo", ReceiverIsEntryParam: -1,
 				RequiresUntrustedReceiver: true,
 				CWE:                       "CWE-22",
@@ -2637,6 +2659,34 @@ func Builtin() Model {
 			},
 			{
 				ID: "code-interpreter", Visibility: "internal", Context: "code",
+				Method: "deleteOne", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				Qualifiers: []ArgCondition{{Keyword: "$where"}},
+				CWE:        "CWE-95",
+				Rationale:  "$where is a JavaScript expression MongoDB evaluates on the server",
+			},
+			{
+				ID: "code-interpreter", Visibility: "internal", Context: "code",
+				Method: "findOneAndDelete", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				Qualifiers: []ArgCondition{{Keyword: "$where"}},
+				CWE:        "CWE-95",
+				Rationale:  "$where is a JavaScript expression MongoDB evaluates on the server",
+			},
+			{
+				ID: "code-interpreter", Visibility: "internal", Context: "code",
+				Method: "replaceOne", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				Qualifiers: []ArgCondition{{Keyword: "$where"}},
+				CWE:        "CWE-95",
+				Rationale:  "$where is a JavaScript expression MongoDB evaluates on the server",
+			},
+			{
+				ID: "code-interpreter", Visibility: "internal", Context: "code",
+				Method: "findOneAndReplace", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				Qualifiers: []ArgCondition{{Keyword: "$where"}},
+				CWE:        "CWE-95",
+				Rationale:  "$where is a JavaScript expression MongoDB evaluates on the server",
+			},
+			{
+				ID: "code-interpreter", Visibility: "internal", Context: "code",
 				Method: "aggregate", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
 				Qualifiers: []ArgCondition{{Keyword: "$where"}},
 				CWE:        "CWE-95",
@@ -2644,7 +2694,9 @@ func Builtin() Model {
 			},
 			{
 				ID: "code-interpreter", Visibility: "internal", Context: "code",
-				Method: "distinct", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				// distinct(field, query): the FIELD is argument 0 and the filter is
+				// argument 1, which is the one place in this family the index moves.
+				Method: "distinct", ReceiverIsEntryParam: -1, ArgIndex: []int{1},
 				Qualifiers: []ArgCondition{{Keyword: "$where"}},
 				CWE:        "CWE-95",
 				Rationale:  "$where is a JavaScript expression MongoDB evaluates on the server",
@@ -4651,6 +4703,19 @@ func builtinCallShapes() []CallShape {
 			// reference back to this one through `window.opener`, and the opened page can
 			// use it to navigate this one somewhere else. The third argument is where
 			// `noopener` would have gone, and it is not there.
+			// The features string is there and does not say noopener, which is the same
+			// omission written a different way.
+			ID: "opener-reachable", Symbol: "window.open", ArgIndex: 2, Always: true,
+			Qualifiers: []ArgCondition{
+				{ArgIndex: 1, Substring: true, AnyOf: []string{"_blank", "blank"}},
+				{ArgIndex: 2, Substring: true, NoneOf: []string{"noopener"}},
+			},
+			CWE:       "CWE-1022",
+			Finding:   "A new window left holding a reference back to this one",
+			Reason:    "the opened page can navigate the page that opened it, which is how a link to somewhere else replaces the page behind it with a copy that asks for a password",
+			Rationale: "the features argument is written and does not include noopener",
+		},
+		{
 			ID: "opener-reachable", Symbol: "window.open", MissingArg: atLeast(2),
 			Qualifiers: []ArgCondition{{ArgIndex: 1, Substring: true, AnyOf: []string{"_blank", "blank"}}},
 			CWE:        "CWE-1022",
@@ -4713,7 +4778,7 @@ func builtinCallShapes() []CallShape {
 			// chooses what this machine executes -- and a redirect, an expired domain or a
 			// compromised mirror is enough. There is no signature to verify because
 			// nothing was signed.
-			ID: "unverified-download", Symbol: "subprocess.getoutput", ArgIndex: 0, Always: true,
+			ID: "unverified-download", Symbol: "subprocess.getstatusoutput", ArgIndex: 0, Always: true,
 			Qualifiers: []ArgCondition{
 				{ArgIndex: 0, Substring: true, AnyOf: []string{"curl ", "wget ", "iwr ", "invoke-webrequest"}},
 				{ArgIndex: 0, Substring: true, AnyOf: []string{"| sh", "|sh", "| bash", "|bash", "| python", "|python", "| ruby", "|ruby"}},
@@ -4730,6 +4795,22 @@ func builtinCallShapes() []CallShape {
 			// a name for twenty years -- and the process dies holding whatever else it
 			// was doing.
 			ID: "entity-expansion", Symbol: "lxml.etree.XMLParser", Keyword: "huge_tree",
+			Disallowed: []string{"true"},
+			CWE:        "CWE-776",
+			Finding:    "XML parser told to lift its expansion limits",
+			Reason:     "the limits being lifted are the ones that stop a small document from expanding into a large one, which is the whole of the attack",
+			Rationale:  "huge_tree removes libxml2's own guard against runaway entity expansion",
+		},
+		{
+			ID: "entity-expansion", Symbol: "lxml.etree.iterparse", Keyword: "huge_tree",
+			Disallowed: []string{"true"},
+			CWE:        "CWE-776",
+			Finding:    "XML parser told to lift its expansion limits",
+			Reason:     "the limits being lifted are the ones that stop a small document from expanding into a large one, which is the whole of the attack",
+			Rationale:  "huge_tree removes libxml2's own guard against runaway entity expansion",
+		},
+		{
+			ID: "entity-expansion", Symbol: "lxml.etree.ETCompatXMLParser", Keyword: "huge_tree",
 			Disallowed: []string{"true"},
 			CWE:        "CWE-776",
 			Finding:    "XML parser told to lift its expansion limits",
@@ -4759,6 +4840,22 @@ func builtinCallShapes() []CallShape {
 			Rationale:  "context isolation is switched off in the window's options",
 		},
 		{
+			ID: "renderer-has-runtime", AnyCall: true, Keyword: "nodeIntegrationInWorker",
+			Disallowed: []string{"true"},
+			CWE:        "CWE-749",
+			Finding:    "Dangerous runtime exposed to page content",
+			Reason:     "a worker started by the page gets the filesystem and the process API, which is the same exposure at one remove",
+			Rationale:  "node integration is switched on for the window's workers",
+		},
+		{
+			ID: "renderer-has-runtime", AnyCall: true, Keyword: "nodeIntegrationInSubFrames",
+			Disallowed: []string{"true"},
+			CWE:        "CWE-749",
+			Finding:    "Dangerous runtime exposed to page content",
+			Reason:     "a frame the page embeds gets the filesystem and the process API, and the page chooses what it embeds",
+			Rationale:  "node integration is switched on for the window's subframes",
+		},
+		{
 			ID: "renderer-has-runtime", AnyCall: true, Keyword: "enableRemoteModule",
 			Disallowed: []string{"true"},
 			CWE:        "CWE-749",
@@ -4777,6 +4874,14 @@ func builtinCallShapes() []CallShape {
 			// The leading-zero octal reading is NOT part of this. ES5 removed it and
 			// `parseInt("010", 0)` is ten in any runtime written this century; saying
 			// otherwise would be a rule justified by a fact that stopped being true.
+			ID: "inferred-radix", Symbol: "Number.parseInt", ArgIndex: 1,
+			Disallowed: []string{"0"},
+			CWE:        "CWE-1389",
+			Finding:    "Number parsed with the base left to the text",
+			Reason:     "radix zero lets the input choose the base, so a caller who sends 0x10 gets sixteen from a field that was meant to hold ten",
+			Rationale:  "the second argument to parseInt() is the radix, and zero means infer it",
+		},
+		{
 			ID: "inferred-radix", Symbol: "parseInt", ArgIndex: 1,
 			Disallowed: []string{"0"},
 			CWE:        "CWE-1389",
@@ -4816,6 +4921,15 @@ func builtinCallShapes() []CallShape {
 		},
 		{
 			// Node puts the address in the second POSITION rather than in an option.
+			// Node also accepts the options object form.
+			ID: "bound-to-every-interface", Method: "listen", Keyword: "host",
+			Disallowed: []string{"0.0.0.0", "::", "[::]"},
+			CWE:        "CWE-1327",
+			Finding:    "Server bound to every interface",
+			Reason:     "the listener accepts connections on every address the host has, which on anything but a laptop includes ones the application was never meant to be reachable from",
+			Rationale:  "the host option names the address to listen on, and this one means all of them",
+		},
+		{
 			ID: "bound-to-every-interface", Method: "listen", ArgIndex: 1,
 			Disallowed: []string{"0.0.0.0", "::", "[::]"},
 			CWE:        "CWE-1327",
