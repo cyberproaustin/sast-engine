@@ -1236,6 +1236,31 @@ func Builtin() Model {
 				Rationale: "the first argument is how many bytes to reserve",
 			},
 
+			// A cache outlives the request that filled it and is usually shared: another
+			// process, another host, a managed service somebody else runs. A credential
+			// put there is a credential in all of those.
+			{
+				ID: "cache-entry", Visibility: "internal", Context: "cache",
+				Method: "set", ReceiverIsEntryParam: -1, ArgIndex: []int{1},
+				RequiresExternalReceiver: true,
+				CWE:                      "CWE-524",
+				Rationale:                "the second argument is what the cache will hold",
+			},
+			{
+				ID: "cache-entry", Visibility: "internal", Context: "cache",
+				Method: "setex", ReceiverIsEntryParam: -1, ArgIndex: []int{2},
+				RequiresExternalReceiver: true,
+				CWE:                      "CWE-524",
+				Rationale:                "the third argument is what the cache will hold",
+			},
+			{
+				ID: "cache-entry", Visibility: "internal", Context: "cache",
+				Method: "hset", ReceiverIsEntryParam: -1, ArgIndex: []int{2},
+				RequiresExternalReceiver: true,
+				CWE:                      "CWE-524",
+				Rationale:                "the third argument is what the cache will hold",
+			},
+
 			// Turning a password into something REVERSIBLE. Encoding is not hiding and
 			// encryption is not hashing: both leave a value that can be turned back into
 			// the password by whoever holds what is needed, which for a stored password
@@ -2277,6 +2302,18 @@ func Builtin() Model {
 				Reason:              "a credential written to a file outlives the request that carried it and ends up in backups and images nobody thinks of as holding secrets",
 				Finding:             "Credential written to a file in the clear",
 				CWE:                 "CWE-312",
+			},
+			{
+				// A cache outlives the request that filled it and is usually shared --
+				// another process, another host, a service somebody else runs.
+				ID:                  "credential-cached",
+				Class:               "caller-credential",
+				DeniedContext:       []string{"cache"},
+				RequiresUnprojected: true,
+				Requires:            Requirements{Interprocedural: true},
+				Reason:              "a cache outlives the request that filled it and is usually shared, so a credential put there is a credential in every process that can read it",
+				Finding:             "Credential written to a cache",
+				CWE:                 "CWE-524",
 			},
 			{
 				// Encoding is not hiding. base64 turns straight back into what went in,

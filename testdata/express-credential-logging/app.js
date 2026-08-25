@@ -1,4 +1,5 @@
 const fs = require("fs");
+const redis = require("redis");
 const express = require("express");
 const axios = require("axios");
 
@@ -76,6 +77,22 @@ app.post("/import-safe", async (req, res) => {
   // NEGATIVE. Nothing secret is written: the file records what happened, not what it
   // was given.
   fs.writeFileSync("/tmp/last-import.json", JSON.stringify({ at: Date.now() }));
+  res.json({ ok: true });
+});
+
+const cache = redis.createClient();
+
+app.post("/session/cache", async (req, res) => {
+  // POSITIVE. A cache outlives the request that filled it and is usually shared: another
+  // process, another host, a service somebody else runs. A credential put there is a
+  // credential in all of them.
+  await cache.set("pending", req.body.password);
+  res.json({ ok: true });
+});
+
+app.post("/session/cache-safe", async (req, res) => {
+  // NEGATIVE. What is cached is a fact about the request, not the credential in it.
+  await cache.set("pending", req.body.email);
   res.json({ ok: true });
 });
 
