@@ -43,10 +43,11 @@ export interface TemplateIndex {
 /**
  * Extensions this frontend reads, and the engine each belongs to.
  *
- * `.html` is deliberately absent on the JavaScript side. A `.html` file in a Node project
- * is as likely to be a static asset as a view, and reading one as a template would invent
- * interpolations out of anything containing braces. Flask's frontend takes the opposite
- * default for the opposite reason: there, `.html` under `templates/` IS the convention.
+ * `.html` is absent from this table and handled separately. A `.html` file in a Node
+ * project is as likely to be a static asset as a view, so it counts as a template only
+ * where it LIVES like one — under a `views/` or `templates/` directory — which is the
+ * convention every engine that renders `.html` in Node follows. Reading every `.html` in
+ * a tree would invent interpolations out of anything containing braces.
  */
 const ENGINES: Record<string, string> = {
   ".ejs": "ejs",
@@ -61,6 +62,24 @@ const ENGINES: Record<string, string> = {
 };
 
 const SKIP_DIRECTORIES = new Set(["node_modules", ".git", "dist", "build", "out", "coverage"]);
+
+/** Directories whose `.html` files are views rather than assets, by universal convention. */
+const VIEW_DIRECTORIES = /(^|\/)(views|templates|partials|layouts)\//;
+
+/**
+ * Which engine reads a file, or none.
+ *
+ * A `.html` view is read as Jinja-shaped — `{{ x }}` escaped unless a filter says
+ * otherwise — because that is what swig, nunjucks and every engine in that family do, and
+ * because a wrong guess in this direction under-reports rather than over-reports.
+ */
+function engineFor(fileName: string, moduleId: string): string | undefined {
+  const ext = path.extname(fileName).toLowerCase();
+  const known = ENGINES[ext];
+  if (known) return known;
+  if ((ext === ".html" || ext === ".htm") && VIEW_DIRECTORIES.test(moduleId)) return "swig";
+  return undefined;
+}
 
 /**
  * An access path this frontend is willing to say it understands.
@@ -216,7 +235,8 @@ export function indexTemplates(rootDir: string): TemplateIndex {
         walk(full);
         continue;
       }
-      const engine = ENGINES[path.extname(entry.name).toLowerCase()];
+      const moduleIdEarly = path.relative(rootDir, full).split(path.sep).join("/");
+      const engine = engineFor(entry.name, moduleIdEarly);
       if (!engine) continue;
       let source: string;
       try {
@@ -224,7 +244,7 @@ export function indexTemplates(rootDir: string): TemplateIndex {
       } catch {
         continue;
       }
-      const moduleId = path.relative(rootDir, full).split(path.sep).join("/");
+      const moduleId = moduleIdEarly;
       const t = parseTemplate(moduleId, engine, source);
       byPath.set(moduleId, t);
       all.push(t);
