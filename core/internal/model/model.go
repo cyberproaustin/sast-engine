@@ -3415,6 +3415,31 @@ func builtinCallShapes() []CallShape {
 			Rationale:    "the fourth argument to pbkdf2_hmac() is the iteration count",
 		},
 		{
+			// Becoming root, or staying root. A process that runs as uid 0 does everything
+			// as uid 0, so any defect anywhere in it is a defect with the whole machine
+			// behind it.
+			ID: "unnecessary-privilege", Symbol: "os.setuid", ArgIndex: 0, Disallowed: []string{"0"},
+			CWE:       "CWE-250",
+			Finding:   "Process takes root privileges",
+			Reason:    "a process running as root does everything as root, so any defect anywhere in it is a defect with the whole machine behind it",
+			Rationale: "setuid(0) is a request for the superuser",
+		},
+		{
+			ID: "unnecessary-privilege", Symbol: "os.seteuid", ArgIndex: 0, Disallowed: []string{"0"},
+			CWE:       "CWE-250",
+			Finding:   "Process takes root privileges",
+			Reason:    "a process running as root does everything as root, so any defect anywhere in it is a defect with the whole machine behind it",
+			Rationale: "seteuid(0) is a request for the superuser",
+		},
+		{
+			ID: "unnecessary-privilege", Symbol: "process.setuid", ArgIndex: 0, Disallowed: []string{"0", "root"},
+			CWE:       "CWE-250",
+			Finding:   "Process takes root privileges",
+			Reason:    "a process running as root does everything as root, so any defect anywhere in it is a defect with the whole machine behind it",
+			Rationale: "setuid(0) is a request for the superuser",
+		},
+
+		{
 			// The lenient parser exists for peers that send malformed requests, and
 			// leniency is exactly what request smuggling needs: two parsers in a chain
 			// disagreeing about where one request ends and the next begins.
