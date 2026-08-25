@@ -375,7 +375,7 @@
         {
           "from": "app.py#get_order:17$v5",
           "to": "app.py#get_order:17$v4",
-          "kind": "assign",
+          "kind": "enclose",
           "loc": {
             "file": "app.py",
             "line": 21,

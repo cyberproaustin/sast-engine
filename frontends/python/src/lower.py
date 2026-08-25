@@ -562,13 +562,13 @@ class FunctionLowerer:
         if isinstance(node, ast.Dict):
             vid = self.new_value("local", node, name="{dict}")
             for value in node.values:
-                self.add_flow(self.expr(value), vid, "assign", node)
+                self.add_flow(self.expr(value), vid, "enclose", node)
             return vid
 
         if isinstance(node, (ast.List, ast.Tuple, ast.Set)):
             vid = self.new_value("local", node, name="[sequence]")
             for element in node.elts:
-                self.add_flow(self.expr(element), vid, "assign", node)
+                self.add_flow(self.expr(element), vid, "enclose", node)
             return vid
 
         # `request.args.get("next") or "/"` is how Python writes a default, and the

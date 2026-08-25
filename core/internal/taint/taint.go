@@ -60,6 +60,20 @@ func composedIntoText(path []Hop) bool {
 	return false
 }
 
+// enclosed reports whether this value became a PART of a composite on its way here.
+//
+// The structural twin of composition. Where composedIntoText asks whether the caller's
+// data was built into text, this asks whether it was built into an object -- and a
+// channel that cares about the caller's whole object needs the answer to be no.
+func enclosed(path []Hop) bool {
+	for _, h := range path {
+		if h.Kind == "enclose" {
+			return true
+		}
+	}
+	return false
+}
+
 // composedIntoSinkArgument reports whether the value HANDED TO THIS SINK is text the
 // caller's data was built into.
 //
@@ -613,6 +627,12 @@ func (e *engine) collect(all map[string]*engine, caps ir.Capabilities) []Finding
 					(c.ReceiverTypeOrigin == "builtin" || c.ReceiverTypeOrigin == "module") {
 					continue
 				}
+				// Writing into a fresh object literal is making a copy, not writing a
+				// record. The frontend already says which arguments are object literals
+				// it read in full, which is exactly the question.
+				if ch.TargetArg != nil && c.OptionsEnumerated(*ch.TargetArg) {
+					continue
+				}
 				// A destination that is only dangerous when configured to be. An XML
 				// parser resolves entities when asked and not otherwise.
 				skip := false
@@ -1067,6 +1087,12 @@ func (e *engine) buildFinding(c *ir.Call, ch model.Channel, p model.Policy, arg 
 	// A destination is chosen, not built. Untrusted data composed into it usually leaves
 	// the caller a path segment rather than a machine to point at.
 	if ch.RequiresWholeValue && composedIntoText(path) {
+		return Finding{}, false
+	}
+
+	// A value that became a FIELD of something is not the caller's object being handed
+	// over whole. `update({ name: req.body.name })` names the field it writes.
+	if ch.RequiresUnenclosed && enclosed(path) {
 		return Finding{}, false
 	}
 

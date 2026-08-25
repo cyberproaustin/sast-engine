@@ -134,6 +134,30 @@ type Channel struct {
 	// the call.
 	Qualifiers []ArgCondition
 
+	// TargetArg names the argument holding the thing being WRITTEN TO, for a channel
+	// that has one. A fresh object literal there is a clone and not a record.
+	//
+	// `Object.assign({}, req.body)` copies the caller's data into a new object nobody
+	// has read yet, which is how four files in one production repository make a mutable
+	// copy of a request. `Object.assign(user, req.body)` writes it onto a record that
+	// already exists and already has fields the caller should not reach. Same symbol,
+	// same argument, opposite meanings, and the difference is one argument to the left.
+	TargetArg *int
+
+	// RequiresUnenclosed marks a channel where the danger is handing over the caller's
+	// object WHOLE.
+	//
+	// `user.update(req.body)` writes every field the caller sent, including the ones
+	// nobody meant to expose -- a role, an id, a balance. `user.update({ name:
+	// req.body.name })` writes one field the application named, and is the correct way
+	// to do it. The two are indistinguishable by symbol and by argument index, and are
+	// told apart by whether the value became a PART of something on its way here.
+	//
+	// The frontends record that as a distinct flow kind, so this asks about structure
+	// rather than about text: composition is the same question for strings, and this is
+	// it for objects.
+	RequiresUnenclosed bool
+
 	// RequiresComposition marks a channel that interprets a STATEMENT its caller built.
 	// The untrusted value must have been concatenated or interpolated into text on its
 	// way here; a value passed along whole is data being handed over, not a program
@@ -714,6 +738,24 @@ func Builtin() Model {
 			// interpreter and this is not injection: nothing is executed, a different
 			// file is simply opened than the one intended. Its own context and its own
 			// policy, because it is its own judgement.
+			// Handing a caller's whole object to something that writes records. The
+			// weakness is not that a field is untrusted -- they all are -- but that the
+			// application never said WHICH fields it meant to accept.
+			//
+			// Deliberately ONE shape. `update`, `create` and `save` were tried and
+			// withdrawn: `save` is what an uploaded file is written with, `update` is
+			// already how a record is SELECTED by its identifier, and a dict has all
+			// three. Telling a model apart from a dictionary needs the receiver's type,
+			// which neither frontend reliably has -- so this is matched where the symbol
+			// leaves no room for doubt, and the ledger says what that costs.
+			{
+				ID: "record-writer", Visibility: "internal", Context: "record-fields",
+				Symbol: "Object.assign", ReceiverIsEntryParam: -1, ArgIndex: []int{1, 2, 3},
+				TargetArg: arg(0), RequiresUnenclosed: true,
+				CWE:       "CWE-915",
+				Rationale: "assign() copies every key of the caller's object onto the target",
+			},
+
 			// An XML parser that has been told to resolve entities will fetch and inline
 			// whatever a document names, which is how a document becomes a file read on
 			// the server. The option is the whole difference: libxmljs without `noent`
@@ -1363,6 +1405,19 @@ func Builtin() Model {
 				Reason:        "a caller must not be able to choose where this application sends a browser, because the application's own name is what makes the destination look trustworthy",
 				Finding:       "Untrusted input chooses a redirect destination",
 				CWE:           "CWE-601",
+			},
+			{
+				// Not injection and not deserialization: nothing is interpreted and nothing
+				// is reconstructed. The application simply never said which fields it
+				// meant to accept, so the caller decides. The remedy is an allowlist of
+				// fields, which is why this is its own judgement.
+				ID:            "untrusted-to-record-fields",
+				Class:         "untrusted-input",
+				DeniedContext: []string{"record-fields"},
+				Requires:      Requirements{Interprocedural: true},
+				Reason:        "an application must choose which fields a caller may write, because handing over the whole object hands over the ones nobody meant to expose",
+				Finding:       "Caller's object written to a record whole",
+				CWE:           "CWE-915",
 			},
 			{
 				// An external entity reference is not deserialization and not injection: the

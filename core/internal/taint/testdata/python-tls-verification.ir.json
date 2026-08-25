@@ -269,7 +269,7 @@
         {
           "from": "app.py#fetch_insecure_with_neighbours:20$v3",
           "to": "app.py#fetch_insecure_with_neighbours:20$v2",
-          "kind": "assign",
+          "kind": "enclose",
           "loc": {
             "file": "app.py",
             "line": 22,

@@ -1,0 +1,14 @@
+{
+  "corpus": "express-mass-assignment",
+  "description": "The structural twin of composition. Where SQL injection turns on whether the caller's data was built INTO text, this turns on whether it was built into an object: `Object.assign(user, req.body)` hands over every key the caller sent, and `Object.assign(user, {displayName: req.body.displayName})` hands over one the application named. The values in the second route are exactly as untrusted as in the first, and that is not the weakness -- the weakness is the caller choosing which fields get written. The clone route is the negative that was found in production before it could become a false positive: the target is a fresh object literal, so there is no record being written and no field anybody could reach.",
+  "expected": [
+    {
+      "cwe": "CWE-915",
+      "sinkFile": "app.js",
+      "sinkLine": 10,
+      "sourceLabel": "req.body",
+      "confidence": "high",
+      "note": "the caller's whole object is copied onto a record, so any field of it is writable"
+    }
+  ]
+}
