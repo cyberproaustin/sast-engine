@@ -1,0 +1,7 @@
+{
+  "corpus": "flask-search-path",
+  "description": "An import runs whatever it finds, so where the interpreter looks is a security decision. Matched on inserting into a path list rather than on the name `sys.path`, because the receiver test already excludes the language's own containers; setting PATH by assignment is not a call and is a stated miss.",
+  "expected": [
+    {"cwe": "CWE-426", "sinkFile": "app.py", "sinkLine": 12, "sourceLabel": "flask.request.args", "confidence": "medium", "note": "the caller chooses a directory the next import may come from"}
+  ]
+}

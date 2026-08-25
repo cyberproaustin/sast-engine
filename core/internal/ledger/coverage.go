@@ -182,6 +182,11 @@ var claims = map[string]Claim{
 	"CWE-548": {State: Partial, Reason: "a directory listing served by the one middleware that generates them. Publishing file names publishes a map of everything in the directory, including whatever was left there. Nothing is claimed about a listing an application builds itself",
 		By: []string{"directory-listing"}},
 
+	"CWE-598": {State: Partial, Reason: "a credential the caller sent placed in a URL, which is the least private part of a request: it reaches the access log at both ends, the Referer header of whatever the page loads next, and browser history. Denied over TLS too, because none of those are on the network",
+		By: []string{"credential-in-url"}},
+	"CWE-426": {State: Partial, Reason: "untrusted data added to sys.path, which decides where the next import comes from. Matched by SYMBOL rather than by method name: `insert` and `append` belong to every list, ORM repository and zip archive, and matching by name produced eight findings across the clean corpus of which none was a search path. Setting PATH by assignment is not a call and is a stated miss",
+		By: []string{"untrusted-search-path"}},
+
 	// Cookie attributes. Two of the three are claimed for an explicit downgrade AND for
 	// an omission; Secure is claimed only for the downgrade, because the correct idiom
 	// makes it conditional on the environment and a rule demanding a literal would report
