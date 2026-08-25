@@ -12,7 +12,7 @@ could not be expressed without it. Nothing is added in anticipation.
 
 ```jsonc
 {
-  "irVersion": "0.10.0",
+  "irVersion": "0.11.0",
   "frontend": { "name": "typescript", "version": "0.1.0", "capabilities": { ... } },
   "modules":     [ ... ],
   "functions":   [ ... ],
@@ -73,7 +73,21 @@ origin is a data change. This is the open-taxonomy decision in ADR-001 paying fo
 
 ```jsonc
 { "id": "...$v2", "kind": "property", "base": "...$v0", "path": "query.host", "loc": {...} }
+{ "id": "...$v5", "kind": "literal", "literal": "8", "loc": {...} }
 ```
+
+#### `literal` (added in 0.11.0)
+
+The text of a value written into the source, for the kinds that have one. A call's
+arguments carried their literals from the beginning, because a defect is often visible in
+the call; a COMPARISON needs the same thing for the same reason. Without it the decision
+analysis could see that a password was being MEASURED and not what it was being measured
+against, and `len(password) < 6` and `len(password) > 72` are the same shape with opposite
+meanings.
+
+Numbers are rendered as written and booleans as `true`/`false`. Python renders booleans
+before numbers deliberately: `True` IS an `int` there, and writing it as `1` would make a
+comparison against a flag look like a comparison against a threshold.
 
 ### Flows
 
@@ -163,6 +177,14 @@ the frontend could not resolve produces none. A rule that needs to know a call w
 something cannot ask the value list, because that list is about what could be tracked
 rather than about what was written.
 
+Options written one level down inside a named group are recorded too, under the key
+`group.name` — `webPreferences.nodeIntegration=true`, `cookie.maxAge=31536000000`,
+`ssl.check_hostname=false`. Reading only the top level recorded the GROUP as
+present-with-unknown-value while the decision sat one line below it, which is where
+options that decide something usually live. Nested keys are numbered below every
+top-level one so the two can never collide. The core compares an option key on its last
+segment: an option is the same option wherever it sits.
+
 `enumeratedOptions` lists the argument positions whose KEY SET was read in full, with
 `-1` standing for keyword arguments taken as a group. A spread (`...defaults`, `**opts`)
 hides keys, so an object containing one is not listed and nothing may be concluded from a
@@ -193,6 +215,7 @@ without the core knowing that JavaScript exists.
 
 ```jsonc
 { "loc": {...}, "base": "...$v3", "path": "role", "from": "...$v2" }
+{ "loc": {...}, "base": "...$v1", "path": "currentUser", "from": "...$v2", "scope": "process" }
 ```
 
 An assignment INTO something: `session["user"] = x`, `config.debug = y`. Assignments to a
@@ -202,6 +225,16 @@ entire shape is the write was not merely undetected but unexpressible.
 
 `base` is the value being written into, `path` is the property name or the subscript key
 when it was written as a literal, and `from` is the value written.
+
+`scope` (added in 0.11.0) says how far the destination REACHES, for a write whose danger
+is not what it writes into but how long that lives. `process` marks state shared by every
+request the process handles, so what one caller put there is what the next caller gets.
+
+The frontend decides it, because what makes an assignment reach outside a function is a
+rule of the language rather than a property of the destination: Python needs the name
+declared `global` and JavaScript needs it bound in an enclosing scope, and the identical
+statement without either makes a local and touches nothing. That is why the core cannot
+work it out and why the seam is the right place for the answer (ADR-001).
 
 Deliberately NOT fed into taint propagation. Whether a value read back out of an object
 should carry what was written into it is a field-sensitivity question this project measured

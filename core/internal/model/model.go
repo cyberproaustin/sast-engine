@@ -1438,12 +1438,6 @@ func Builtin() Model {
 			},
 			{
 				ID: "prng-seed", Visibility: "internal", Context: "prng-seed",
-				Symbol: "np.random.seed", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE:       "CWE-337",
-				Rationale: "the argument is the seed",
-			},
-			{
-				ID: "prng-seed", Visibility: "internal", Context: "prng-seed",
 				Symbol: "random.Random", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
 				CWE:       "CWE-337",
 				Rationale: "the argument is the seed the generator starts from",
@@ -3124,12 +3118,6 @@ func Builtin() Model {
 				Note:     "the signature is what makes a token unguessable, whatever the payload was built from",
 			},
 			{
-				Symbol:   "jwt.sign",
-				Classes:  []string{"predictable-value", "observable-value", "short-random-value"},
-				Contexts: []string{AnyContext},
-				Note:     "the signature is what makes a token unguessable, whatever the payload was built from",
-			},
-			{
 				Symbol:   "itsdangerous.URLSafeTimedSerializer.dumps",
 				Classes:  []string{"predictable-value", "observable-value", "short-random-value"},
 				Contexts: []string{AnyContext},
@@ -3780,12 +3768,12 @@ func builtinCallShapes() []CallShape {
 			Rationale:  "the password option of a connection is given a value written in the call",
 		},
 		{
-			ID: "hardcoded-password", Symbol: "mongoose.connect", Keyword: "passwd", AnyLiteral: true,
-			Qualifiers: []ArgCondition{{Keyword: "passwd", NoneOf: []string{"null", "none", "undefined"}}},
+			ID: "hardcoded-password", Symbol: "mongoose.connect", Keyword: "pass", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "pass", NoneOf: []string{"null", "none", "undefined"}}},
 			CWE:        "CWE-259",
 			Finding:    "Password written into the source",
 			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
-			Rationale:  "the passwd option of a connection is given a value written in the call",
+			Rationale:  "mongoose takes its credential as pass rather than password",
 		},
 		{
 			ID: "hardcoded-password", Symbol: "mongoose.createConnection", Keyword: "password", AnyLiteral: true,
@@ -3796,12 +3784,12 @@ func builtinCallShapes() []CallShape {
 			Rationale:  "the password option of a connection is given a value written in the call",
 		},
 		{
-			ID: "hardcoded-password", Symbol: "mongoose.createConnection", Keyword: "passwd", AnyLiteral: true,
-			Qualifiers: []ArgCondition{{Keyword: "passwd", NoneOf: []string{"null", "none", "undefined"}}},
+			ID: "hardcoded-password", Symbol: "mongoose.createConnection", Keyword: "pass", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "pass", NoneOf: []string{"null", "none", "undefined"}}},
 			CWE:        "CWE-259",
 			Finding:    "Password written into the source",
 			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
-			Rationale:  "the passwd option of a connection is given a value written in the call",
+			Rationale:  "mongoose takes its credential as pass rather than password",
 		},
 		{
 			ID: "hardcoded-password", Symbol: "redis.createClient", Keyword: "password", AnyLiteral: true,
@@ -3828,28 +3816,23 @@ func builtinCallShapes() []CallShape {
 			Rationale:  "the password option of a connection is given a value written in the call",
 		},
 		{
-			ID: "hardcoded-password", Symbol: "nodemailer.createTransport", Keyword: "passwd", AnyLiteral: true,
-			Qualifiers: []ArgCondition{{Keyword: "passwd", NoneOf: []string{"null", "none", "undefined"}}},
+			ID: "hardcoded-password", Symbol: "nodemailer.createTransport", Keyword: "pass", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "pass", NoneOf: []string{"null", "none", "undefined"}}},
 			CWE:        "CWE-259",
 			Finding:    "Password written into the source",
 			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
-			Rationale:  "the passwd option of a connection is given a value written in the call",
+			Rationale:  "nodemailer takes its credential as auth.pass, which is read now that options one level down are",
 		},
 		{
-			ID: "hardcoded-password", Symbol: "ldapjs.createClient", Keyword: "password", AnyLiteral: true,
-			Qualifiers: []ArgCondition{{Keyword: "password", NoneOf: []string{"null", "none", "undefined"}}},
+			// ldapjs does not take a credential when the client is made: authentication
+			// is a separate `bind(dn, password)` call, so the second ARGUMENT is where
+			// the password is, not an option.
+			ID: "hardcoded-password", Method: "bind", ArgIndex: 1, AnyLiteral: true,
+			Qualifiers: []ArgCondition{{ArgIndex: 0, Substring: true, AnyOf: []string{"cn=", "uid=", "dn=", "ou="}}},
 			CWE:        "CWE-259",
 			Finding:    "Password written into the source",
 			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
-			Rationale:  "the password option of a connection is given a value written in the call",
-		},
-		{
-			ID: "hardcoded-password", Symbol: "ldapjs.createClient", Keyword: "passwd", AnyLiteral: true,
-			Qualifiers: []ArgCondition{{Keyword: "passwd", NoneOf: []string{"null", "none", "undefined"}}},
-			CWE:        "CWE-259",
-			Finding:    "Password written into the source",
-			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
-			Rationale:  "the passwd option of a connection is given a value written in the call",
+			Rationale:  "the second argument to bind() is the password, and the first is a distinguished name",
 		},
 		{
 			ID: "hardcoded-password", Symbol: "psycopg2.connect", Keyword: "password", AnyLiteral: true,
@@ -3948,20 +3931,14 @@ func builtinCallShapes() []CallShape {
 			Rationale:  "the passwd option of a connection is given a value written in the call",
 		},
 		{
-			ID: "hardcoded-password", Symbol: "smtplib.SMTP", Keyword: "password", AnyLiteral: true,
-			Qualifiers: []ArgCondition{{Keyword: "password", NoneOf: []string{"null", "none", "undefined"}}},
+			// smtplib's constructor takes no credential at all: `login(user, password)`
+			// is where it goes, so the second argument is the one to read.
+			ID: "hardcoded-password", Method: "login", ArgIndex: 1, AnyLiteral: true,
+			Qualifiers: []ArgCondition{{ArgIndex: 0, NoneOf: []string{"null", "none", "undefined"}}},
 			CWE:        "CWE-259",
 			Finding:    "Password written into the source",
 			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
-			Rationale:  "the password option of a connection is given a value written in the call",
-		},
-		{
-			ID: "hardcoded-password", Symbol: "smtplib.SMTP", Keyword: "passwd", AnyLiteral: true,
-			Qualifiers: []ArgCondition{{Keyword: "passwd", NoneOf: []string{"null", "none", "undefined"}}},
-			CWE:        "CWE-259",
-			Finding:    "Password written into the source",
-			Reason:     "a password in the source is in the repository, in every clone of it, and in the history after somebody changes it",
-			Rationale:  "the passwd option of a connection is given a value written in the call",
+			Rationale:  "the second argument to login() is the password, and the first is the account it belongs to",
 		},
 		{
 			// TLS without a hostname check authenticates SOME valid certificate, not the
