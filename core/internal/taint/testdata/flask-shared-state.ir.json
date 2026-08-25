@@ -318,7 +318,7 @@
           "kind": "literal",
           "loc": {
             "file": "app.py",
-            "line": 21,
+            "line": 24,
             "column": 39
           },
           "literal": "true"
@@ -328,7 +328,7 @@
           "kind": "literal",
           "loc": {
             "file": "app.py",
-            "line": 22,
+            "line": 25,
             "column": 12
           },
           "literal": "ok"
@@ -344,7 +344,7 @@
         {
           "loc": {
             "file": "app.py",
-            "line": 21,
+            "line": 24,
             "column": 5
           },
           "base": "app.py#<module>:0$v5",
@@ -368,83 +368,83 @@
           "successors": [],
           "loc": {
             "file": "app.py",
-            "line": 22,
+            "line": 25,
             "column": 5
           }
         }
       ]
     },
     {
-      "id": "app.py#login_local:26",
+      "id": "app.py#login_local:29",
       "name": "login_local",
       "module": "app.py",
       "loc": {
         "file": "app.py",
-        "line": 26,
+        "line": 29,
         "column": 1
       },
       "params": [],
       "values": [
         {
-          "id": "app.py#login_local:26$v0",
+          "id": "app.py#login_local:29$v0",
           "kind": "global",
           "loc": {
             "file": "app.py",
-            "line": 28,
+            "line": 31,
             "column": 20
           },
           "name": "flask.request"
         },
         {
-          "id": "app.py#login_local:26$v1",
+          "id": "app.py#login_local:29$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 28,
+            "line": 31,
             "column": 20
           },
-          "base": "app.py#login_local:26$v0",
+          "base": "app.py#login_local:29$v0",
           "path": "form",
           "name": "form"
         },
         {
-          "id": "app.py#login_local:26$v2",
+          "id": "app.py#login_local:29$v2",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 28,
+            "line": 31,
             "column": 20
           },
           "name": "email",
-          "base": "app.py#login_local:26$v1",
+          "base": "app.py#login_local:29$v1",
           "path": "form.email"
         },
         {
-          "id": "app.py#login_local:26$v3",
+          "id": "app.py#login_local:29$v3",
           "kind": "local",
           "loc": {
             "file": "app.py",
-            "line": 28,
+            "line": 31,
             "column": 5
           },
           "name": "current_user"
         },
         {
-          "id": "app.py#login_local:26$v4",
+          "id": "app.py#login_local:29$v4",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
-            "line": 29,
+            "line": 32,
             "column": 16
           },
           "name": "bool"
         },
         {
-          "id": "app.py#login_local:26$v5",
+          "id": "app.py#login_local:29$v5",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
-            "line": 29,
+            "line": 32,
             "column": 12
           },
           "name": "str"
@@ -452,42 +452,42 @@
       ],
       "flows": [
         {
-          "from": "app.py#login_local:26$v0",
-          "to": "app.py#login_local:26$v1",
+          "from": "app.py#login_local:29$v0",
+          "to": "app.py#login_local:29$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 28,
+            "line": 31,
             "column": 20
           }
         },
         {
-          "from": "app.py#login_local:26$v1",
-          "to": "app.py#login_local:26$v2",
+          "from": "app.py#login_local:29$v1",
+          "to": "app.py#login_local:29$v2",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 28,
+            "line": 31,
             "column": 20
           }
         },
         {
-          "from": "app.py#login_local:26$v2",
-          "to": "app.py#login_local:26$v3",
+          "from": "app.py#login_local:29$v2",
+          "to": "app.py#login_local:29$v3",
           "kind": "assign",
           "loc": {
             "file": "app.py",
-            "line": 28,
+            "line": 31,
             "column": 5
           }
         }
       ],
       "calls": [
         {
-          "id": "app.py#login_local:26$c0",
+          "id": "app.py#login_local:29$c0",
           "loc": {
             "file": "app.py",
-            "line": 29,
+            "line": 32,
             "column": 16
           },
           "callee": {
@@ -498,21 +498,21 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#login_local:26$v3"
+              "valueId": "app.py#login_local:29$v3"
             }
           ],
-          "resultValueId": "app.py#login_local:26$v4",
-          "block": "app.py#login_local:26$b0",
+          "resultValueId": "app.py#login_local:29$v4",
+          "block": "app.py#login_local:29$b0",
           "argCount": 1,
           "enumeratedOptions": [
             -1
           ]
         },
         {
-          "id": "app.py#login_local:26$c1",
+          "id": "app.py#login_local:29$c1",
           "loc": {
             "file": "app.py",
-            "line": 29,
+            "line": 32,
             "column": 12
           },
           "callee": {
@@ -523,11 +523,11 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#login_local:26$v4"
+              "valueId": "app.py#login_local:29$v4"
             }
           ],
-          "resultValueId": "app.py#login_local:26$v5",
-          "block": "app.py#login_local:26$b0",
+          "resultValueId": "app.py#login_local:29$v5",
+          "block": "app.py#login_local:29$b0",
           "argCount": 1,
           "enumeratedOptions": [
             -1
@@ -535,50 +535,50 @@
         }
       ],
       "returns": [
-        "app.py#login_local:26$v5"
+        "app.py#login_local:29$v5"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#login_local:26$b0",
+      "entryBlock": "app.py#login_local:29$b0",
       "blocks": [
         {
-          "id": "app.py#login_local:26$b0",
+          "id": "app.py#login_local:29$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
-            "line": 26,
+            "line": 29,
             "column": 1
           },
           "terminator": "return"
         },
         {
-          "id": "app.py#login_local:26$b1",
+          "id": "app.py#login_local:29$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
-            "line": 29,
+            "line": 32,
             "column": 5
           }
         }
       ]
     },
     {
-      "id": "app.py#whoami:33",
+      "id": "app.py#whoami:36",
       "name": "whoami",
       "module": "app.py",
       "loc": {
         "file": "app.py",
-        "line": 33,
+        "line": 36,
         "column": 1
       },
       "params": [],
       "values": [
         {
-          "id": "app.py#whoami:33$v0",
+          "id": "app.py#whoami:36$v0",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
-            "line": 34,
+            "line": 37,
             "column": 12
           },
           "name": "str"
@@ -587,10 +587,10 @@
       "flows": [],
       "calls": [
         {
-          "id": "app.py#whoami:33$c0",
+          "id": "app.py#whoami:36$c0",
           "loc": {
             "file": "app.py",
-            "line": 34,
+            "line": 37,
             "column": 12
           },
           "callee": {
@@ -604,8 +604,8 @@
               "valueId": "app.py#<module>:0$v3"
             }
           ],
-          "resultValueId": "app.py#whoami:33$v0",
-          "block": "app.py#whoami:33$b0",
+          "resultValueId": "app.py#whoami:36$v0",
+          "block": "app.py#whoami:36$b0",
           "argCount": 1,
           "enumeratedOptions": [
             -1
@@ -613,28 +613,28 @@
         }
       ],
       "returns": [
-        "app.py#whoami:33$v0"
+        "app.py#whoami:36$v0"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#whoami:33$b0",
+      "entryBlock": "app.py#whoami:36$b0",
       "blocks": [
         {
-          "id": "app.py#whoami:33$b0",
+          "id": "app.py#whoami:36$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
-            "line": 33,
+            "line": 36,
             "column": 1
           },
           "terminator": "return"
         },
         {
-          "id": "app.py#whoami:33$b1",
+          "id": "app.py#whoami:36$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
-            "line": 34,
+            "line": 37,
             "column": 5
           }
         }
@@ -661,7 +661,7 @@
       }
     },
     {
-      "functionId": "app.py#login_local:26",
+      "functionId": "app.py#login_local:29",
       "kind": "http-route",
       "framework": "flask",
       "detail": {
@@ -670,7 +670,7 @@
       }
     },
     {
-      "functionId": "app.py#whoami:33",
+      "functionId": "app.py#whoami:36",
       "kind": "http-route",
       "framework": "flask",
       "detail": {

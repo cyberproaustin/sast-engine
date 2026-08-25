@@ -5,7 +5,7 @@
     {
       "cwe": "CWE-208",
       "sinkFile": "app.js",
-      "sinkLine": 10,
+      "sinkLine": 11,
       "sourceLabel": "req.headers.authorization",
       "confidence": "high",
       "note": "the constant-time route below is a call and leaves no comparison to match, and the presence check below that compares against something written down"

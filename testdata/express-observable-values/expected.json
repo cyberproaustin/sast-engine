@@ -13,7 +13,7 @@
     {
       "cwe": "CWE-337",
       "sinkFile": "app.js",
-      "sinkLine": 23,
+      "sinkLine": 25,
       "sourceLabel": "Date.now()",
       "confidence": "high",
       "note": "the seed decides every number that follows it"
@@ -21,7 +21,7 @@
     {
       "cwe": "CWE-331",
       "sinkFile": "app.js",
-      "sinkLine": 31,
+      "sinkLine": 33,
       "sourceLabel": "crypto.randomBytes()",
       "confidence": "medium",
       "note": "four bytes into a cookie; the identical call below builds a filename and is silent, which is the whole reason the length is judged here and not at the call"
@@ -29,7 +29,7 @@
     {
       "cwe": "CWE-552",
       "sinkFile": "app.js",
-      "sinkLine": 50,
+      "sinkLine": 52,
       "sourceLabel": "\".\"",
       "confidence": "high",
       "note": "the project root served whole; the line below serves a directory that exists to be served and is silent"

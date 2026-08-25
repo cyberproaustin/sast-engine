@@ -19,8 +19,10 @@ def webhook():
 
 @app.route("/webhook-safe", methods=["POST"])
 def webhook_safe():
-    # NEGATIVE. compare_digest takes the same time whatever the inputs are, and it is a
-    # call rather than a comparison.
+    # NEGATIVE. compare_digest does not leak how much of the guess was right, and it is a
+    # call rather than a comparison, so there is nothing here for a rule about comparisons
+    # to match. It is not magic: it can still reveal a length, which is why it is used on
+    # digests, where the length is fixed and public.
     expected = hmac.new(b"secret", request.data, "sha256").hexdigest()
     if hmac.compare_digest(request.headers["Authorization"], expected):
         return "ok"

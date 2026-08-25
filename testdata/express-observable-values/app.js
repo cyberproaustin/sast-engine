@@ -18,10 +18,12 @@ app.get("/issued", (req, res) => {
   res.json({ issuedAt: Date.now() });
 });
 
-app.get("/shuffle", (req, res) => {
-  // POSITIVE. The seed decides every number that follows it.
+app.get("/claim-code", (req, res) => {
+  // POSITIVE. The seed decides every number that follows it, so seeding from the clock
+  // hands the sequence to anyone who knows roughly when the process reached this line --
+  // including the claim code handed back here.
   const rng = seedrandom(String(Date.now()));
-  res.json({ pick: rng() });
+  res.json({ code: Math.floor(rng() * 1e6) });
 });
 
 app.get("/nonce", (req, res) => {

@@ -1955,7 +1955,7 @@ func Builtin() Model {
 				MaxArgs:    1,
 				Qualifiers: []ArgCondition{{Keyword: "parser", Absent: true}},
 				CWE:        "CWE-611",
-				Rationale:  "lxml's default parser resolves entities, and this call did not supply one",
+				Rationale:  "lxml's default parser expands entities -- internally in every version, externally before lxml 5 -- and this call supplied no parser of its own",
 			},
 			{
 				ID: "xml-parser", Visibility: "internal", Context: "xml",
@@ -1963,7 +1963,7 @@ func Builtin() Model {
 				MaxArgs:    1,
 				Qualifiers: []ArgCondition{{Keyword: "parser", Absent: true}},
 				CWE:        "CWE-611",
-				Rationale:  "lxml's default parser resolves entities, and this call did not supply one",
+				Rationale:  "lxml's default parser expands entities -- internally in every version, externally before lxml 5 -- and this call supplied no parser of its own",
 			},
 			{
 				ID: "xml-parser", Visibility: "internal", Context: "xml",
@@ -1971,7 +1971,7 @@ func Builtin() Model {
 				MaxArgs:    1,
 				Qualifiers: []ArgCondition{{Keyword: "parser", Absent: true}},
 				CWE:        "CWE-611",
-				Rationale:  "lxml's default parser resolves entities, and this call did not supply one",
+				Rationale:  "lxml's default parser expands entities -- internally in every version, externally before lxml 5 -- and this call supplied no parser of its own",
 			},
 
 			// Where an uploaded file's BYTES come to rest. Separate from filesystem-path
@@ -4343,7 +4343,7 @@ func builtinCallShapes() []CallShape {
 			OptionsArg: 2, OptionsMustBeWritten: true, AlsoEnumerated: []int{0},
 			CWE:       "CWE-613",
 			Finding:   "Signed token issued with no expiry",
-			Reason:    "a signed token cannot be revoked, so the only thing that ends one is its expiry, and this one has none",
+			Reason:    "a signed token carries no revocation of its own, so unless the server keeps state to check it against, the only thing that ends one is its expiry",
 			Rationale: "the options argument to sign() enumerates its keys and expiresIn is not among them",
 		},
 		{
@@ -4479,15 +4479,20 @@ func builtinCallShapes() []CallShape {
 		},
 
 		{
-			// Radix zero asks the parser to GUESS the base from the text, so `010` is
-			// eight and `0x10` is sixteen. Every place this matters -- a port, an address
-			// octet, a quantity, an identifier -- the caller writes the text and the
-			// parser picks the base.
+			// Radix zero asks the parser to GUESS the base from the text: `0x10` parses
+			// as sixteen, so two strings the caller may send mean one number and one of
+			// them was not supposed to be accepted. Every place this matters -- a port, an
+			// address octet, a quantity, an identifier -- the caller writes the text and
+			// the parser picks the base.
+			//
+			// The leading-zero octal reading is NOT part of this. ES5 removed it and
+			// `parseInt("010", 0)` is ten in any runtime written this century; saying
+			// otherwise would be a rule justified by a fact that stopped being true.
 			ID: "inferred-radix", Symbol: "parseInt", ArgIndex: 1,
 			Disallowed: []string{"0"},
 			CWE:        "CWE-1389",
 			Finding:    "Number parsed with the base left to the text",
-			Reason:     "radix zero lets the input choose the base, so `010` is eight and `0x10` is sixteen, and the caller decides which",
+			Reason:     "radix zero lets the input choose the base, so a caller who sends 0x10 gets sixteen from a field that was meant to hold ten",
 			Rationale:  "the second argument to parseInt() is the radix, and zero means infer it",
 		},
 
@@ -4893,11 +4898,12 @@ func builtinDecisions() []DecisionRule {
 			Rationale: "an identity comparison against a string written in the source",
 		},
 		{
-			// A secret compared with the language's equality operator. Both runtimes stop
-			// at the first byte that differs, so the time the comparison takes says how
-			// much of the guess was right -- and a few thousand guesses turn that into the
-			// whole value. The fix is a constant-time compare, which is a CALL and leaves
-			// no comparison here to match.
+			// A secret compared with the language's equality operator. Neither language
+			// promises that comparison takes the same time whatever it is given, and
+			// neither implementation delivers it: both return as soon as two characters
+			// differ, so the time says how much of the guess was right and enough guesses
+			// turn that into the whole value. The fix is a constant-time compare, which is
+			// a CALL and leaves no comparison here to match.
 			//
 			// The other side must be a runtime value: comparing a token to a literal is a
 			// presence check, a flag test, or a hardcoded credential, and the last of

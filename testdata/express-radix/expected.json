@@ -1,14 +1,14 @@
 {
   "corpus": "express-radix",
-  "description": "Radix zero asks the parser to guess the base from the text. An OMITTED radix is base ten in every runtime since ES5, so it is a stated miss rather than a finding -- reporting it would report most of the JavaScript ever written.",
+  "description": "Radix zero asks the parser to guess the base from the text, so `0x10` and `16` are the same number and one of them was not supposed to be accepted. An OMITTED radix behaves the same way and is a stated miss rather than a finding -- `parseInt(x)` is most of the JavaScript ever written.",
   "expected": [
     {
       "cwe": "CWE-1389",
       "sinkFile": "app.js",
-      "sinkLine": 8,
+      "sinkLine": 11,
       "sourceLabel": "\"0\"",
       "confidence": "high",
-      "note": "`010` is eight and `0x10` is sixteen, and the caller writes the text"
+      "note": "`0x10` parses as sixteen; the leading-zero octal reading is not part of this and has not been since ES5"
     }
   ]
 }

@@ -16,9 +16,11 @@ def register():
 
 @app.route("/register-salted", methods=["POST"])
 def register_salted():
-    # NEGATIVE. The password is composed with something else before it is hashed, and
-    # something else is what a salt is. Whether THIS salt is a good one is a different
-    # question with its own number (CWE-760), and this rule does not answer it.
+    # NEGATIVE, and a STATED MISS rather than a safe line. The password is composed with
+    # something else, so this rule -- which asks whether anything was added at all --
+    # declines. What was added here is a fixed site-wide pepper, which is NOT a per-account
+    # salt: two accounts with the same password still get the same digest, and preventing
+    # that is the whole point of a salt. Judging it is CWE-760's question.
     salted = PEPPER + request.form["password"]
     return hashlib.sha256(salted.encode()).hexdigest()
 

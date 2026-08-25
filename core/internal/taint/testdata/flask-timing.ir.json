@@ -484,7 +484,7 @@
           "kind": "literal",
           "loc": {
             "file": "app.py",
-            "line": 24,
+            "line": 26,
             "column": 25
           }
         },
@@ -493,7 +493,7 @@
           "kind": "global",
           "loc": {
             "file": "app.py",
-            "line": 24,
+            "line": 26,
             "column": 36
           },
           "name": "flask.request"
@@ -503,7 +503,7 @@
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 24,
+            "line": 26,
             "column": 36
           },
           "base": "app.py#webhook_safe:21$v1",
@@ -515,7 +515,7 @@
           "kind": "literal",
           "loc": {
             "file": "app.py",
-            "line": 24,
+            "line": 26,
             "column": 50
           },
           "literal": "sha256"
@@ -525,7 +525,7 @@
           "kind": "global",
           "loc": {
             "file": "app.py",
-            "line": 24,
+            "line": 26,
             "column": 16
           },
           "name": "hmac"
@@ -535,7 +535,7 @@
           "kind": "call-result",
           "loc": {
             "file": "app.py",
-            "line": 24,
+            "line": 26,
             "column": 16
           },
           "name": "hmac.new"
@@ -545,7 +545,7 @@
           "kind": "call-result",
           "loc": {
             "file": "app.py",
-            "line": 24,
+            "line": 26,
             "column": 16
           },
           "name": "unresolved"
@@ -555,7 +555,7 @@
           "kind": "local",
           "loc": {
             "file": "app.py",
-            "line": 24,
+            "line": 26,
             "column": 5
           },
           "name": "expected"
@@ -565,7 +565,7 @@
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 25,
+            "line": 27,
             "column": 28
           },
           "base": "app.py#webhook_safe:21$v1",
@@ -577,7 +577,7 @@
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 25,
+            "line": 27,
             "column": 28
           },
           "name": "Authorization",
@@ -589,7 +589,7 @@
           "kind": "call-result",
           "loc": {
             "file": "app.py",
-            "line": 25,
+            "line": 27,
             "column": 8
           },
           "name": "hmac.compare_digest"
@@ -599,7 +599,7 @@
           "kind": "literal",
           "loc": {
             "file": "app.py",
-            "line": 26,
+            "line": 28,
             "column": 16
           },
           "literal": "ok"
@@ -609,7 +609,7 @@
           "kind": "local",
           "loc": {
             "file": "app.py",
-            "line": 27,
+            "line": 29,
             "column": 12
           },
           "name": "[sequence]"
@@ -619,7 +619,7 @@
           "kind": "literal",
           "loc": {
             "file": "app.py",
-            "line": 27,
+            "line": 29,
             "column": 12
           },
           "literal": "bad signature"
@@ -629,7 +629,7 @@
           "kind": "literal",
           "loc": {
             "file": "app.py",
-            "line": 27,
+            "line": 29,
             "column": 29
           },
           "literal": "401"
@@ -642,7 +642,7 @@
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 24,
+            "line": 26,
             "column": 36
           }
         },
@@ -652,7 +652,7 @@
           "kind": "assign",
           "loc": {
             "file": "app.py",
-            "line": 24,
+            "line": 26,
             "column": 5
           }
         },
@@ -662,7 +662,7 @@
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 25,
+            "line": 27,
             "column": 28
           }
         },
@@ -672,7 +672,7 @@
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 25,
+            "line": 27,
             "column": 28
           }
         },
@@ -682,7 +682,7 @@
           "kind": "enclose",
           "loc": {
             "file": "app.py",
-            "line": 27,
+            "line": 29,
             "column": 12
           }
         },
@@ -692,7 +692,7 @@
           "kind": "enclose",
           "loc": {
             "file": "app.py",
-            "line": 27,
+            "line": 29,
             "column": 12
           }
         }
@@ -702,7 +702,7 @@
           "id": "app.py#webhook_safe:21$c0",
           "loc": {
             "file": "app.py",
-            "line": 24,
+            "line": 26,
             "column": 16
           },
           "callee": {
@@ -740,7 +740,7 @@
           "id": "app.py#webhook_safe:21$c1",
           "loc": {
             "file": "app.py",
-            "line": 24,
+            "line": 26,
             "column": 16
           },
           "callee": {
@@ -760,7 +760,7 @@
           "id": "app.py#webhook_safe:21$c2",
           "loc": {
             "file": "app.py",
-            "line": 25,
+            "line": 27,
             "column": 8
           },
           "callee": {
@@ -814,7 +814,7 @@
           "successors": [],
           "loc": {
             "file": "app.py",
-            "line": 25,
+            "line": 27,
             "column": 5
           },
           "terminator": "return"
@@ -826,7 +826,7 @@
           ],
           "loc": {
             "file": "app.py",
-            "line": 26,
+            "line": 28,
             "column": 9
           }
         },
@@ -835,7 +835,7 @@
           "successors": [],
           "loc": {
             "file": "app.py",
-            "line": 25,
+            "line": 27,
             "column": 5
           },
           "terminator": "return"
@@ -845,7 +845,7 @@
           "successors": [],
           "loc": {
             "file": "app.py",
-            "line": 27,
+            "line": 29,
             "column": 5
           }
         }

@@ -1,6 +1,6 @@
 {
   "corpus": "flask-entity-expansion",
-  "description": "Two XML weaknesses that live on the same call and are not the same thing. huge_tree lifts the guard against a small document expanding into a large one; the default parser resolves external entities. Supplying a parser at all is how the second gets fixed, so the rule for it says nothing where one was supplied -- a rule that reports its own remedy is worse than one that stays quiet.",
+  "description": "Two XML weaknesses that live on the same call and are not the same thing. huge_tree lifts the guard against a small document expanding into a large one; the default parser expands entities. A supplied parser is where the fix goes and the engine cannot see how one was built, so it says nothing about those -- a stated miss rather than a claim that they are safe.",
   "expected": [
     {
       "cwe": "CWE-776",
@@ -13,10 +13,10 @@
     {
       "cwe": "CWE-611",
       "sinkFile": "app.py",
-      "sinkLine": 31,
+      "sinkLine": 33,
       "sourceLabel": "flask.request.data",
       "confidence": "high",
-      "note": "no parser supplied, so lxml's default is used and that one resolves entities"
+      "note": "no parser supplied, so lxml's default is used: it expands internal entities, and before lxml 5 it resolved external ones as well"
     }
   ]
 }

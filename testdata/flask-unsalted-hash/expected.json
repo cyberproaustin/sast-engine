@@ -1,6 +1,6 @@
 {
   "corpus": "flask-unsalted-hash",
-  "description": "The same weakness on the second language, where the algorithm and the data arrive in one call. A key derivation function takes the salt as an argument, so there is somewhere for it to go; a plain digest has nowhere.",
+  "description": "The same weakness on the second language, where the algorithm and the data arrive in one call. A key derivation function takes the salt as an argument, so there is somewhere for it to go; a plain digest has nowhere. The composed route is a stated miss rather than a safe line: what was added there is a site-wide pepper, which is not a per-account salt.",
   "expected": [
     {
       "cwe": "CWE-759",

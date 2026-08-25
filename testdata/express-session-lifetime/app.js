@@ -41,9 +41,10 @@ module.exports = { app, openHelp, openHelpSafely };
 const jwt = require("jsonwebtoken");
 
 function issue(userId) {
-  // POSITIVE, and a different way for a credential to outlive its welcome. A signed
-  // token cannot be revoked: the only thing that ends one is its expiry, and this one
-  // has none.
+  // POSITIVE, and a different way for a credential to outlive its welcome. A signed token
+  // carries no revocation of its own: unless the server keeps state to check it against --
+  // a deny-list, a token version, a key rotation -- the only thing that ends one is its
+  // expiry, and this one has none.
   return jwt.sign({ sub: userId }, process.env.JWT_SECRET, { algorithm: "HS256" });
 }
 

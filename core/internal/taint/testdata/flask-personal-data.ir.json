@@ -587,7 +587,7 @@
           "kind": "literal",
           "loc": {
             "file": "app.py",
-            "line": 27,
+            "line": 30,
             "column": 14
           },
           "literal": "enrolling %s"
@@ -597,7 +597,7 @@
           "kind": "global",
           "loc": {
             "file": "app.py",
-            "line": 27,
+            "line": 30,
             "column": 30
           },
           "name": "flask.request"
@@ -607,7 +607,7 @@
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 27,
+            "line": 30,
             "column": 30
           },
           "base": "app.py#enroll_safe:24$v1",
@@ -619,7 +619,7 @@
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 27,
+            "line": 30,
             "column": 30
           },
           "name": "email",
@@ -631,7 +631,7 @@
           "kind": "call-result",
           "loc": {
             "file": "app.py",
-            "line": 27,
+            "line": 30,
             "column": 5
           },
           "name": "log.info"
@@ -641,7 +641,7 @@
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 28,
+            "line": 31,
             "column": 29
           },
           "name": "email",
@@ -653,7 +653,7 @@
           "kind": "local",
           "loc": {
             "file": "app.py",
-            "line": 28,
+            "line": 31,
             "column": 52
           },
           "name": "{dict}"
@@ -663,7 +663,7 @@
           "kind": "call-result",
           "loc": {
             "file": "app.py",
-            "line": 28,
+            "line": 31,
             "column": 12
           },
           "name": "USERS.setdefault"
@@ -673,7 +673,7 @@
           "kind": "local",
           "loc": {
             "file": "app.py",
-            "line": 28,
+            "line": 31,
             "column": 5
           },
           "name": "user"
@@ -683,7 +683,7 @@
           "kind": "literal",
           "loc": {
             "file": "app.py",
-            "line": 29,
+            "line": 32,
             "column": 24
           },
           "literal": "false"
@@ -693,7 +693,7 @@
           "kind": "literal",
           "loc": {
             "file": "app.py",
-            "line": 30,
+            "line": 33,
             "column": 12
           },
           "literal": "ok"
@@ -706,7 +706,7 @@
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 27,
+            "line": 30,
             "column": 30
           }
         },
@@ -716,7 +716,7 @@
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 27,
+            "line": 30,
             "column": 30
           }
         },
@@ -726,7 +726,7 @@
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 28,
+            "line": 31,
             "column": 29
           }
         },
@@ -736,7 +736,7 @@
           "kind": "assign",
           "loc": {
             "file": "app.py",
-            "line": 28,
+            "line": 31,
             "column": 5
           }
         }
@@ -746,7 +746,7 @@
           "id": "app.py#enroll_safe:24$c0",
           "loc": {
             "file": "app.py",
-            "line": 27,
+            "line": 30,
             "column": 5
           },
           "callee": {
@@ -780,7 +780,7 @@
           "id": "app.py#enroll_safe:24$c1",
           "loc": {
             "file": "app.py",
-            "line": 28,
+            "line": 31,
             "column": 12
           },
           "callee": {
@@ -816,7 +816,7 @@
         {
           "loc": {
             "file": "app.py",
-            "line": 29,
+            "line": 32,
             "column": 5
           },
           "base": "app.py#enroll_safe:24$v8",
@@ -841,7 +841,7 @@
           "successors": [],
           "loc": {
             "file": "app.py",
-            "line": 30,
+            "line": 33,
             "column": 5
           }
         }
