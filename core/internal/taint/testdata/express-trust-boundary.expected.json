@@ -2,6 +2,29 @@
   "corpus": "express-trust-boundary",
   "description": "The fifth analysis kind, and it exists because this weakness has no call and no comparison in it: the caller's claim is simply moved to the far side of a trust boundary. Everything downstream reads the session back as state the server established, and by then the fact that a caller chose it is gone. The IR recorded assignments to plain names and nothing else until this needed them, so a write into a property was not merely undetected but unexpressible.",
   "expected": [
-    {"cwe": "CWE-501", "sinkFile": "app.js", "sinkLine": 10, "sourceLabel": "req.body.role", "confidence": "high", "note": "the caller's claim becomes server-side state"}
+    {
+      "cwe": "CWE-501",
+      "sinkFile": "app.js",
+      "sinkLine": 10,
+      "sourceLabel": "req.body.role",
+      "confidence": "high",
+      "note": "the caller's claim becomes server-side state"
+    },
+    {
+      "cwe": "CWE-384",
+      "sinkFile": "app.js",
+      "sinkLine": 10,
+      "sourceLabel": "body.role",
+      "confidence": "high",
+      "note": "the same line, read by a second rule and answering a different question: the claim is the caller's AND the identifier that names the session was not rotated. Two defects, two fixes, and neither one repairs the other"
+    },
+    {
+      "cwe": "CWE-384",
+      "sinkFile": "app.js",
+      "sinkLine": 19,
+      "sourceLabel": "local",
+      "confidence": "high",
+      "note": "a fixture's negatives are negatives for the rule it was written for. This line is the right answer to the trust-boundary question and still installs an identity without rotating the session identifier"
+    }
   ]
 }

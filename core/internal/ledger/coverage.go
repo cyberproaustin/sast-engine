@@ -105,6 +105,11 @@ var claims = map[string]Claim{
 	// asserted directly rather than subsumed. The password variant has its own rule now,
 	// matched by option NAME rather than by argument position, which is how a connection
 	// string asks for one.
+	// Session fixation. Absence-based, and the only rule in the model whose subject is a
+	// call that is NOT there: the assignment it watches is what every login performs, and
+	// what makes it a weakness is the rotation missing beside it.
+	"CWE-384": {State: Asserted, Reason: "an identity installed into a session with nothing near the assignment rotating the session identifier. Because the finding is an argument from silence it is deliberately generous about what counts as a rotation -- the calls the function makes, the callbacks it hands out, the helpers it calls and its own callers -- and it stops ascending at an entry point, since a sibling route registered on the same module has nothing to do with this one. Excludes the three shapes that share the syntax and not the meaning: clearing the key, which is a logout; writing to an element of a collection, which is an administrative page listing other people's sessions; and a session key that names no principal",
+		By: []string{"session-not-rotated"}},
 	"CWE-798": {State: Partial, Reason: "two shapes, both matched on having been written down rather than on what the value says: a key argument passed as a literal to a signing or session call, and a literal assigned to a configuration key whose name holds the word secret, password or key. A key read from the environment or a vault is not a literal and never matches. The second shape is matched on a WORD in the key because configuration keys are compound, and it excludes three literal shapes measured on the clean corpus that a key-named setting holds when it is NOT holding a key: an endpoint the credential is sent to, a sentence from a settings schema, and the mask a value is replaced with before it is logged. The word token is deliberately not in the list -- across sixteen repositories every configuration key holding it held a URL, a header name or a form field",
 		By: []string{"hardcoded-secret"}},
 	// Members of the catalog's own Top 25 that apply to these languages. Named rather than

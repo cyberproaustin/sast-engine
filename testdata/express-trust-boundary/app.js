@@ -12,7 +12,10 @@ app.post("/login", (req, res) => {
 });
 
 app.post("/login-checked", (req, res) => {
-  // NEGATIVE. What goes into the session is what the server decided, not what arrived.
+  // NEGATIVE for the trust boundary, and a POSITIVE for session fixation: what goes into
+  // the session is what the server decided rather than what arrived, and the identifier
+  // that names the session is still the one the browser turned up with. A fixture's
+  // negatives are negatives for the rule it was written for.
   req.session.role = lookupRole(req.body.email);
   res.json({ ok: true });
 });

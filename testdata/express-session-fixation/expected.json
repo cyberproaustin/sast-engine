@@ -1,0 +1,22 @@
+{
+  "corpus": "express-session-fixation",
+  "description": "Session fixation: the one rule in the model where the WRITE is unremarkable and the weakness is what did not happen beside it. Installing an identity into a session is what every login does; doing it without rotating the identifier means an identifier an attacker planted before the login still names the session afterwards. Five negatives, and four of them were measured on real code rather than imagined: the rotation written as a callback, the rotation two functions away behind a promise, a logout clearing the same key, an administrative page writing to other people's sessions in a loop, and a session key that is not a principal at all.",
+  "expected": [
+    {
+      "cwe": "CWE-384",
+      "sinkFile": "app.js",
+      "sinkLine": 11,
+      "sourceLabel": "id",
+      "confidence": "high",
+      "note": "the plain form: identity in, no rotation"
+    },
+    {
+      "cwe": "CWE-384",
+      "sinkFile": "app.js",
+      "sinkLine": 23,
+      "sourceLabel": "isAdmin",
+      "confidence": "high",
+      "note": "the assignment in a helper and no rotation in the route either, which is why the rule looks for the rotation rather than for the write"
+    }
+  ]
+}

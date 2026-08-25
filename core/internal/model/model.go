@@ -5613,6 +5613,35 @@ type StoreRule struct {
 	// called. Process-wide state written from a request handler is read back by the next
 	// request, and the name it happens to have says nothing about that.
 	IntoScope string
+	// AbsentCall names calls whose ABSENCE is the defect: the write is unremarkable and
+	// what makes it a weakness is the thing that did not happen beside it.
+	//
+	// Installing an identity into a session is what every login does. Doing it without
+	// rotating the session identifier is session fixation, because an identifier an
+	// attacker planted before the login still names the session after it. The write is
+	// the same write either way, so the rule cannot be about the write.
+	//
+	// Searched through the calls the function makes, the functions it passes as arguments
+	// (a promise executor is how this is usually written), the local functions it calls,
+	// and its own callers -- because the rotation and the assignment are routinely in
+	// different functions, and a rule that demanded them in one would report every
+	// application that factored its login out into a helper.
+	//
+	// A rule with an AbsentCall needs no classification: the write is the event, and
+	// nothing has to have flowed anywhere for the missing call to be missing.
+	AbsentCall []string
+	// NotElement excludes a destination that is an ELEMENT of a collection.
+	//
+	// `sessions.forEach((session) => { session.user = ... })` writes to somebody else's
+	// session, which is what an administrative dashboard listing logins does. It is named
+	// `session` and it is not the caller's, and without this the rule reports a page for
+	// displaying sessions as though it created one.
+	NotElement bool
+	// NotFrom names literal values that mean the field is being CLEARED rather than set.
+	// `session.user_id = null` is a logout: the opposite of the weakness, written with the
+	// same syntax.
+	NotFrom []string
+
 	// NotInto is the same exclusion on the DESTINATION rather than the key.
 	//
 	// `req.session.role = req.body.role` is a privilege set from the request AND a
@@ -5681,6 +5710,34 @@ func builtinStores() []StoreRule {
 			Finding:               "One request's data written into state the whole process shares",
 			Reason:                "every request this process handles reads the same variable, so what one caller put there is what the next caller gets",
 			Rationale:             "the assignment reaches a name bound outside the handler",
+		},
+		{
+			// Session fixation. Installing an identity into the session is what every
+			// login does, so the rule cannot be about the write: what makes it a weakness
+			// is the rotation that did not happen beside it. An identifier an attacker
+			// planted before the login still names the session afterwards, and the session
+			// it names now belongs to the victim.
+			ID:   "session-not-rotated",
+			Into: []string{"session"},
+			// The keys that say WHO the session belongs to, or what it may do. A session
+			// carries a shopping basket and a language preference too, and rewriting one
+			// of those is not a change of principal.
+			Path: []string{"userId", "user_id", "user", "uid", "accountId", "account_id",
+				"isAdmin", "is_admin", "role", "roles", "authenticated", "isAuthenticated",
+				"loggedIn", "logged_in", "auth", "principal", "identity", "username",
+				"passport", "currentUser", "current_user"},
+			// `clear` is here because for a client-side signed cookie there is no
+			// server-side identifier to rotate, and emptying the session before installing
+			// the identity discards whatever an attacker planted in it. It is the same
+			// remedy under a different storage model, and a rule about an absence has to
+			// know every shape the presence takes.
+			AbsentCall: []string{"regenerate", "regenerateId", "cycle", "reset", "clear"},
+			NotElement: true,
+			NotFrom:    []string{"null", "undefined", "none", "false", "0", ""},
+			CWE:        "CWE-384",
+			Finding:    "Session identifier survives the change of identity",
+			Reason:     "an identifier an attacker planted or captured before the login still names the session after it, and that session is now the victim's",
+			Rationale:  "an identity is installed into the session and nothing near the assignment rotates the session identifier",
 		},
 		{
 			// A signing key, a password or an API key written into a configuration
