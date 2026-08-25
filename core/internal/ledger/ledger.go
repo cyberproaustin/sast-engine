@@ -41,6 +41,9 @@ type Weakness struct {
 	// the categories, a mapping only one person has ever checked is a mapping waiting to
 	// drift at the next edition.
 	OWASP string `json:"owasp"`
+	// ChildOf names the weaknesses this one is a more specific form of, as the catalog
+	// states them. Read rather than decided, like everything else here.
+	ChildOf []string `json:"childOf"`
 }
 
 // OnList reports membership of one of the catalog's priority views.
@@ -77,6 +80,21 @@ const (
 	OutOfScope State = "out-of-scope"
 	// Abstract: a Pillar or Class, covered by covering its children rather than directly.
 	Abstract State = "abstract"
+	// Subsumed: a more specific spelling of a weakness this engine asserts, where the
+	// distinguishing detail is one the analysis never looks at.
+	//
+	// The catalog gives path traversal seventeen variants, one per payload spelling:
+	// `../filedir`, `..\filedir`, `/absolute/pathname`, a Windows UNC share. An analysis
+	// that proves the caller controls the path never inspects the path's CONTENTS, so
+	// every one of those spellings is the same finding at the same line. Reporting them
+	// as not-built would put seventeen permanent items on a to-do list that no amount of
+	// work could ever remove, which is the same mistake as calling an undecidable
+	// weakness pending.
+	//
+	// Counted separately from asserted, never folded into it. A subsumed weakness is a
+	// real claim and it is a weaker one: it says the parent's rule catches this, not that
+	// anybody wrote a rule for this.
+	Subsumed State = "subsumed"
 )
 
 // Claim is what the engine says about one weakness and why.
@@ -87,6 +105,13 @@ type Claim struct {
 	Reason string
 	// By names the policies or checks that assert it.
 	By []string
+	// Subsumes marks a claim whose rule catches every more specific form of the weakness
+	// beneath it, because the distinguishing detail is one the analysis never looks at.
+	//
+	// Set on the PARENT and computed downward from the catalog's own relationships, so
+	// the variants are never listed by hand. Seventeen hand-written entries would be
+	// seventeen chances to be wrong and would go stale at the next release.
+	Subsumes bool
 }
 
 // Entry joins a published weakness to this engine's claim about it.
@@ -108,6 +133,21 @@ func init() {
 	if err := json.Unmarshal(catalogJSON, &loaded); err != nil {
 		panic(fmt.Sprintf("ledger: embedded CWE catalog is unreadable: %v", err))
 	}
+}
+
+// byID finds a published weakness. Built once, because the ancestry walk asks for
+// parents far more often than there are weaknesses.
+var index map[string]Weakness
+
+func byID(id string) (Weakness, bool) {
+	if index == nil {
+		index = make(map[string]Weakness, len(loaded.Weaknesses))
+		for _, w := range loaded.Weaknesses {
+			index[w.ID] = w
+		}
+	}
+	w, ok := index[id]
+	return w, ok
 }
 
 // Edition identifies the catalog release this build reports against.
@@ -149,14 +189,21 @@ func Counts(entries []Entry) map[State]int {
 }
 
 // Covered is the fraction of in-scope weaknesses the engine asserts, whole or partial.
-func Covered() (asserted, total int) {
+func Covered() (asserted, subsumed, total int) {
 	in := InScope()
 	for _, e := range in {
-		if e.Claim.State == Asserted || e.Claim.State == Partial {
+		switch e.Claim.State {
+		case Asserted, Partial:
 			asserted++
+		case Subsumed:
+			// Counted apart from asserted and never folded into it. "A rule catches this"
+			// and "the rule for the weakness above catches this" are different claims,
+			// and adding them together would turn an honest denominator into a number
+			// that flatters itself.
+			subsumed++
 		}
 	}
-	return asserted, len(in)
+	return asserted, subsumed, len(in)
 }
 
 // OWASPCategory returns the Top Ten category a weakness rolls into, or empty when the

@@ -157,11 +157,19 @@ func writeCompleteness(b *strings.Builder, s surface.Surface) {
 // for -- static-analysis-detectable, not deprecated, has a code shape, in a language this
 // engine can parse -- and it is derived from MITRE's release rather than chosen by us.
 func writeCatalogCoverage(b *strings.Builder) {
-	asserted, total := ledger.Covered()
+	asserted, subsumed, total := ledger.Covered()
 	counts := ledger.Counts(ledger.All())
 	fmt.Fprintf(b, "\ncatalog: %s\n", ledger.Edition())
 	fmt.Fprintf(b, "  asserts %d of %d weaknesses a rule could be written for (%.1f%%)\n",
 		asserted, total, 100*float64(asserted)/float64(total))
+	// Stated on its own line and never added to the one above. A weakness whose PARENT's
+	// rule catches it is covered, and it is covered by somebody else's rule -- reporting
+	// the two as one number would be the kind of arithmetic this whole ledger exists to
+	// make impossible.
+	if subsumed > 0 {
+		fmt.Fprintf(b, "  and %d more are subsumed: a rule above them catches them, because\n", subsumed)
+		fmt.Fprintf(b, "  what distinguishes them is a detail the analysis never looks at\n")
+	}
 	fmt.Fprintf(b, "  of the full catalog: %d abstract, %d undecidable by static analysis,\n",
 		counts[ledger.Abstract], counts[ledger.Undecidable])
 	fmt.Fprintf(b, "  %d out of scope for these languages, %d decidable and not built\n",
