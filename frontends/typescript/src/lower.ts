@@ -598,11 +598,19 @@ function lowerFunction(
 
   const localTarget = (name: ts.Node): string | undefined => resolveFunction(name)?.id;
 
+  // A name the RUNTIME provides rather than the application: `eval` and `Function` come
+  // from the language's own lib files, and `require` comes from the Node type
+  // declarations. Both are globals nobody imported and neither is a local function.
+  //
+  // Only lib.*.d.ts counted before, so a bare `require(...)` lowered as unresolved with
+  // no symbol at all -- and a channel described against `require` matched nothing,
+  // however plainly the caller chose the module.
   const isLibDeclared = (name: ts.Node): boolean => {
     const sym = checker.getSymbolAtLocation(name);
     for (const decl of sym?.declarations ?? []) {
       const file = decl.getSourceFile().fileName;
       if (file.includes("/lib.") && file.endsWith(".d.ts")) return true;
+      if (RUNTIME_TYPES.test(file)) return true;
     }
     return false;
   };
@@ -624,6 +632,13 @@ function lowerFunction(
       }
       if (isLibDeclared(expr)) {
         return { kind: "external", symbol: expr.text, resolution: "resolved" };
+      }
+      // `require` is CommonJS's own, and a project without @types/node on the path gives
+      // the checker nothing to resolve it against -- which is most fixtures and plenty of
+      // real repositories. A local binding of that name was already returned above, so
+      // reaching here means the global.
+      if (expr.text === "require") {
+        return { kind: "external", symbol: "require", resolution: "resolved" };
       }
       return { kind: "unresolved", resolution: "dynamic-unresolved" };
     }

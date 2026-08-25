@@ -53,6 +53,7 @@ var corpora = []string{
 	"express-xxe",
 	"express-mass-assignment",
 	"express-weak-kdf",
+	"express-dynamic-load",
 	"flask-xxe",
 }
 

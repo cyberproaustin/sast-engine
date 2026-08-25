@@ -81,6 +81,11 @@ var claims = map[string]Claim{
 	"CWE-329": {Partial, "an initialisation vector written into the source, matched on having been written down rather than on what it says, exactly as a hardcoded key is. An IV must be unpredictable and must never repeat, and one in the source is both predictable and reused on every message",
 		[]string{"predictable-iv"}},
 
+	"CWE-470": {Partial, "untrusted data naming a module for the runtime to load, which runs it. Requires a WHOLE value: `require(\"./handlers/\" + name)` fixes the directory in the literal and leaves the caller a leaf name, and treating that as caller-chosen would report every plugin loader there is",
+		[]string{"untrusted-to-interpreter"}},
+	"CWE-1321": {Partial, "the caller's object merged into another by a function that walks NESTED keys, so a `__proto__` key in it reaches the prototype every object inherits from. The named deep-merge helpers only; a merge written by hand is a loop over keys and is not matched",
+		[]string{"untrusted-to-record-fields"}},
+
 	// Cookie attributes. Two of the three are claimed for an explicit downgrade AND for
 	// an omission; Secure is claimed only for the downgrade, because the correct idiom
 	// makes it conditional on the environment and a rule demanding a literal would report
