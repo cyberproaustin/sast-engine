@@ -35,7 +35,7 @@ BUILTIN_CONTAINERS = frozenset({"dict", "list", "set", "frozenset", "bytearray",
 
 
 # Python test-file conventions.
-TEST_PATH = re.compile(r"(^|/)(tests?|testing)/|(^|/)test_[^/]*\.py$|_test\.py$|(^|/)conftest\.py$")
+TEST_PATH = re.compile(r"(^|/)(tests?|testing|e2e)/|(^|/)test_[^/]*\.py$|_test\.py$|(^|/)conftest\.py$")
 
 
 def is_test_module(module: str) -> bool:
