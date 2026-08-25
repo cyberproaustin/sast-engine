@@ -1,0 +1,22 @@
+{
+  "corpus": "express-origin-check",
+  "description": "An allow-list checked with a PARTIAL match. The list is right and the comparison is too generous, which is the harder half to see: a prefix match accepts https://app.example.com.attacker.net and a suffix match accepts https://notexample.com, and the allowed values in both look correct. The negatives are the two right answers -- a set membership test, and a partial match on something that is not an origin, which is how routing is written.",
+  "expected": [
+    {
+      "cwe": "CWE-183",
+      "sinkFile": "app.js",
+      "sinkLine": 12,
+      "sourceLabel": "req.headers.origin",
+      "confidence": "medium",
+      "note": "a prefix match accepts anything that continues the allowed value"
+    },
+    {
+      "cwe": "CWE-183",
+      "sinkFile": "app.js",
+      "sinkLine": 18,
+      "sourceLabel": "req.headers.origin",
+      "confidence": "medium",
+      "note": "a suffix match accepts anything that precedes it"
+    }
+  ]
+}
