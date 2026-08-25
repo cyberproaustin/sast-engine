@@ -1,0 +1,14 @@
+{
+  "corpus": "flask-unsalted-hash",
+  "description": "The same weakness on the second language, where the algorithm and the data arrive in one call. A key derivation function takes the salt as an argument, so there is somewhere for it to go; a plain digest has nowhere.",
+  "expected": [
+    {
+      "cwe": "CWE-759",
+      "sinkFile": "app.py",
+      "sinkLine": 13,
+      "sourceLabel": "flask.request.form.password",
+      "confidence": "low",
+      "note": "low because the password passes through .encode(), a method call the frontend resolves only as probable"
+    }
+  ]
+}

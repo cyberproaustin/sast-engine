@@ -1,0 +1,22 @@
+{
+  "corpus": "express-unsalted-hash",
+  "description": "A password put through a hash that takes no salt, in both of Node's spellings: chained onto createHash, and stored in a variable first. Following the assignment back is what keeps those one rule rather than two shapes. The negatives are the discriminator itself -- a password COMPOSED with something else before hashing has a salt, whatever that salt is worth, and a digest of ordinary request data is how caches are keyed.",
+  "expected": [
+    {
+      "cwe": "CWE-759",
+      "sinkFile": "app.js",
+      "sinkLine": 10,
+      "sourceLabel": "req.body.password",
+      "confidence": "medium",
+      "note": "chained straight onto createHash; medium because the method chain resolves as probable rather than to an imported symbol"
+    },
+    {
+      "cwe": "CWE-759",
+      "sinkFile": "app.js",
+      "sinkLine": 18,
+      "sourceLabel": "req.body.password",
+      "confidence": "medium",
+      "note": "the same weakness written across two statements, found by following the assignment back to the createHash that made the receiver"
+    }
+  ]
+}

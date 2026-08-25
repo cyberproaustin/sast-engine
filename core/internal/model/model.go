@@ -144,6 +144,21 @@ type Channel struct {
 	// answer, and a perfectly ordinary one for an ORM.
 	RequiresExternalReceiver bool
 
+	// ReceiverFrom narrows a method-name channel by WHAT MADE THE RECEIVER.
+	//
+	// `update` is a method name with no identity of its own -- a hash, a stream, an ORM
+	// record and a Map all have one. What makes a particular `update` a digest is that
+	// the object it is called on came out of `crypto.createHash`, and that is a question
+	// about the program's structure rather than about a name: the frontend already
+	// records which call produced which value, so the answer is a lookup.
+	//
+	// Written as final segments (`createHash`), matched against the producing call's
+	// symbol, and followed back through plain assignments so that the chained form and
+	// the two-statement form are the same channel. A receiver whose producer cannot be
+	// found is not a match, which keeps the silence honest (ADR-003): the channel says
+	// what it needs, and an unanswered question is not a yes.
+	ReceiverFrom []string
+
 	// RequiresUntrustedReceiver marks a channel whose identity comes from WHAT IT IS
 	// CALLED ON rather than from its name.
 	//
@@ -329,6 +344,18 @@ type SanitizerRule struct {
 	// weakness this rule would otherwise hide, so the condition is part of the rule
 	// rather than a footnote to it.
 	RequiresLiteralArg *int
+
+	// Method matches the FINAL SEGMENT of a traversed symbol, for a transform whose name
+	// is a method rather than something imported. AfterSymbol requires that the same
+	// expression was built on one of these calls.
+	//
+	// Node splits a digest across three calls -- `createHash(alg).update(data).digest()`
+	// -- so the thing that ends the password is a method on an object, and the only
+	// evidence of WHICH object is the chain the frontend already rendered. `digest`
+	// alone would be a name with no identity; `digest` on something that came out of
+	// `createHash` is a digest.
+	Method      string
+	AfterSymbol []string
 }
 
 // arg is a pointer to an argument index, for the optional condition above.
@@ -453,11 +480,27 @@ func (m Model) UntrustedClass() string { return "untrusted-input" }
 
 func (m Model) SanitizerFor(symbol string) (SanitizerRule, bool) {
 	for _, s := range m.Sanitizers {
-		if s.Symbol == symbol {
+		if s.Symbol != "" && s.Symbol == symbol {
+			return s, true
+		}
+		if s.Method != "" && s.matchesMethod(symbol) {
 			return s, true
 		}
 	}
 	return SanitizerRule{}, false
+}
+
+// matchesMethod tests a transform named by a method against a rendered call expression.
+func (s SanitizerRule) matchesMethod(symbol string) bool {
+	if i := strings.LastIndex(symbol, "."); i < 0 || symbol[i+1:] != s.Method {
+		return false
+	}
+	for _, want := range s.AfterSymbol {
+		if strings.Contains(symbol, want+"(") {
+			return true
+		}
+	}
+	return len(s.AfterSymbol) == 0
 }
 
 // CallbackFor returns the higher-order propagation rule for a method name, if any.
@@ -1259,6 +1302,104 @@ func Builtin() Model {
 				RequiresExternalReceiver: true,
 				CWE:                      "CWE-524",
 				Rationale:                "the third argument is what the cache will hold",
+			},
+
+			// A password put through a hash that takes no salt. The digest is then a
+			// pure function of the password, which is what makes one precomputed table
+			// work against every account in the database at once.
+			//
+			// The whole-value requirement IS the rule rather than a precision measure:
+			// `sha256(password + salt)` composes the password with something else, and
+			// something else is what a salt is. Only a password handed over WHOLE is a
+			// password hashed with nothing added.
+			{
+				ID: "unsalted-hash", Visibility: "internal", Context: "unsalted-digest",
+				Symbol: "hashlib.md5", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiresWholeValue: true,
+				CWE:                "CWE-759",
+				Rationale:          "md5() takes the data and nothing else, so there is nowhere for a salt to go",
+			},
+			{
+				ID: "unsalted-hash", Visibility: "internal", Context: "unsalted-digest",
+				Symbol: "hashlib.sha1", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiresWholeValue: true,
+				CWE:                "CWE-759",
+				Rationale:          "sha1() takes the data and nothing else, so there is nowhere for a salt to go",
+			},
+			{
+				ID: "unsalted-hash", Visibility: "internal", Context: "unsalted-digest",
+				Symbol: "hashlib.sha224", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiresWholeValue: true,
+				CWE:                "CWE-759",
+				Rationale:          "sha224() takes the data and nothing else, so there is nowhere for a salt to go",
+			},
+			{
+				ID: "unsalted-hash", Visibility: "internal", Context: "unsalted-digest",
+				Symbol: "hashlib.sha256", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiresWholeValue: true,
+				CWE:                "CWE-759",
+				Rationale:          "sha256() takes the data and nothing else, so there is nowhere for a salt to go",
+			},
+			{
+				ID: "unsalted-hash", Visibility: "internal", Context: "unsalted-digest",
+				Symbol: "hashlib.sha384", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiresWholeValue: true,
+				CWE:                "CWE-759",
+				Rationale:          "sha384() takes the data and nothing else, so there is nowhere for a salt to go",
+			},
+			{
+				ID: "unsalted-hash", Visibility: "internal", Context: "unsalted-digest",
+				Symbol: "hashlib.sha512", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiresWholeValue: true,
+				CWE:                "CWE-759",
+				Rationale:          "sha512() takes the data and nothing else, so there is nowhere for a salt to go",
+			},
+			{
+				ID: "unsalted-hash", Visibility: "internal", Context: "unsalted-digest",
+				Symbol: "hashlib.sha3_224", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiresWholeValue: true,
+				CWE:                "CWE-759",
+				Rationale:          "sha3_224() takes the data and nothing else, so there is nowhere for a salt to go",
+			},
+			{
+				ID: "unsalted-hash", Visibility: "internal", Context: "unsalted-digest",
+				Symbol: "hashlib.sha3_256", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiresWholeValue: true,
+				CWE:                "CWE-759",
+				Rationale:          "sha3_256() takes the data and nothing else, so there is nowhere for a salt to go",
+			},
+			{
+				ID: "unsalted-hash", Visibility: "internal", Context: "unsalted-digest",
+				Symbol: "hashlib.sha3_384", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiresWholeValue: true,
+				CWE:                "CWE-759",
+				Rationale:          "sha3_384() takes the data and nothing else, so there is nowhere for a salt to go",
+			},
+			{
+				ID: "unsalted-hash", Visibility: "internal", Context: "unsalted-digest",
+				Symbol: "hashlib.sha3_512", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiresWholeValue: true,
+				CWE:                "CWE-759",
+				Rationale:          "sha3_512() takes the data and nothing else, so there is nowhere for a salt to go",
+			},
+			{
+				// `new` takes the algorithm first and the data second.
+				ID: "unsalted-hash", Visibility: "internal", Context: "unsalted-digest",
+				Symbol: "hashlib.new", ReceiverIsEntryParam: -1, ArgIndex: []int{1},
+				RequiresWholeValue: true,
+				CWE:                "CWE-759",
+				Rationale:          "new() takes the algorithm and the data, and no salt",
+			},
+			{
+				// Node puts the data in a separate call from the algorithm, so the
+				// method name alone says nothing and what made the receiver says
+				// everything.
+				ID: "unsalted-hash", Visibility: "internal", Context: "unsalted-digest",
+				Method: "update", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				ReceiverFrom:       []string{"createHash"},
+				RequiresWholeValue: true,
+				CWE:                "CWE-759",
+				Rationale:          "the object being updated came out of createHash, which takes an algorithm and no salt",
 			},
 
 			// Turning a password into something REVERSIBLE. Encoding is not hiding and
@@ -2316,6 +2457,18 @@ func Builtin() Model {
 				CWE:                 "CWE-524",
 			},
 			{
+				// A hash with no salt is a pure function of the password, so one
+				// precomputed table works against every account at once.
+				ID:                  "credential-unsalted-hash",
+				Class:               "caller-credential",
+				DeniedContext:       []string{"unsalted-digest"},
+				RequiresUnprojected: true,
+				Requires:            Requirements{Interprocedural: true},
+				Reason:              "a hash that takes no salt turns the password into a value that depends on nothing else, so one precomputed table works against every account that chose the same password",
+				Finding:             "Password hashed without a salt",
+				CWE:                 "CWE-759",
+			},
+			{
 				// Encoding is not hiding. base64 turns straight back into what went in,
 				// and anybody who has the encoded form has the password.
 				ID:                  "credential-encoded",
@@ -2555,6 +2708,65 @@ func Builtin() Model {
 				Symbol:   "hashlib.pbkdf2_hmac",
 				Contexts: []string{AnyContext},
 				Note:     "a derived key is not the password it was derived from",
+			},
+			{
+				Symbol:   "hashlib.md5",
+				Contexts: []string{AnyContext},
+				Note:     "a digest is not what was digested, and a hex digest cannot carry syntax",
+			},
+			{
+				Symbol:   "hashlib.sha1",
+				Contexts: []string{AnyContext},
+				Note:     "a digest is not what was digested, and a hex digest cannot carry syntax",
+			},
+			{
+				Symbol:   "hashlib.sha224",
+				Contexts: []string{AnyContext},
+				Note:     "a digest is not what was digested, and a hex digest cannot carry syntax",
+			},
+			{
+				Symbol:   "hashlib.sha256",
+				Contexts: []string{AnyContext},
+				Note:     "a digest is not what was digested, and a hex digest cannot carry syntax",
+			},
+			{
+				Symbol:   "hashlib.sha384",
+				Contexts: []string{AnyContext},
+				Note:     "a digest is not what was digested, and a hex digest cannot carry syntax",
+			},
+			{
+				Symbol:   "hashlib.sha512",
+				Contexts: []string{AnyContext},
+				Note:     "a digest is not what was digested, and a hex digest cannot carry syntax",
+			},
+			{
+				Symbol:   "hashlib.sha3_256",
+				Contexts: []string{AnyContext},
+				Note:     "a digest is not what was digested, and a hex digest cannot carry syntax",
+			},
+			{
+				Symbol:   "hashlib.sha3_512",
+				Contexts: []string{AnyContext},
+				Note:     "a digest is not what was digested, and a hex digest cannot carry syntax",
+			},
+			{
+				Symbol:   "hashlib.new",
+				Contexts: []string{AnyContext},
+				Note:     "a digest is not what was digested, and a hex digest cannot carry syntax",
+			},
+			{
+				// Node's digest is a method on an object, so the identity comes from
+				// what built the object rather than from the name.
+				Method:      "digest",
+				AfterSymbol: []string{"createHash", "createHmac"},
+				Contexts:    []string{AnyContext},
+				Note:        "a digest is not what was digested, and a hex digest cannot carry syntax",
+			},
+			{
+				Method:      "hexdigest",
+				AfterSymbol: []string{"md5", "sha1", "sha224", "sha256", "sha384", "sha512", "new"},
+				Contexts:    []string{AnyContext},
+				Note:        "a digest is not what was digested, and a hex digest cannot carry syntax",
 			},
 			{
 				Symbol:   "werkzeug.security.generate_password_hash",

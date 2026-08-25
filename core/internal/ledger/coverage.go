@@ -255,6 +255,8 @@ var claims = map[string]Claim{
 
 	"CWE-760": {State: Partial, Reason: "a salt written into the source, which is the same salt for every password in the database -- the one thing a salt exists to prevent, because a single precomputed table then works against all of them. A salt read from a column or generated per password is not a literal and is not matched",
 		By: []string{"predictable-salt"}},
+	"CWE-759": {State: Partial, Reason: "a caller's password reaching a hash function that takes no salt -- hashlib's digests in Python, and in Node an update() on an object that came out of createHash. The whole-value requirement is the rule itself rather than a precision measure: sha256(password + salt) composes the password with something else, and something else is what a salt is. A salt mixed in inside a helper this engine cannot see through is a stated miss",
+		By: []string{"credential-unsalted-hash"}},
 	"CWE-1021": {State: Partial, Reason: "framing protection switched off by name in the call. Only an explicit disable: an application that never sets the header at all is not reported, because absence would have to be judged program-wide and the engine cannot see middleware it has no model for",
 		By: []string{"frames-allowed"}},
 
