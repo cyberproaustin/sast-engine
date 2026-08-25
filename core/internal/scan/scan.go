@@ -95,6 +95,7 @@ func Run(d *ir.IR, m model.Model, p *policy.Policy) Result {
 	t.Findings = append(t.Findings, callshape.Analyze(d, m)...)
 	t.Findings = append(t.Findings, decision.Analyze(d, m, t.ByClass)...)
 	t.Findings = append(t.Findings, store.Analyze(d, m, t.ByClass)...)
+	t.Findings = collapseIdenticalFindings(t.Findings)
 
 	return Result{
 		IR:          d,
@@ -103,6 +104,50 @@ func Run(d *ir.IR, m model.Model, p *policy.Policy) Result {
 		Expectation: expectation.Analyze(d, s, m, p, expectation.DefaultThresholds()),
 		Exempted:    exempted,
 	}
+}
+
+// collapseIdenticalFindings keeps one of any set that say the same thing about the same
+// line.
+//
+// A template rendered from two handlers reaches the same interpolation twice, and a reader
+// looking at `views/search.ejs:3` reported twice learns nothing from the second one: same
+// weakness, same line, same value, same judgement. Two findings at one line that differ in
+// ANY of those are two findings and both survive -- `res.send(err.message)` is a
+// disclosure and a scripting bug at once, and reporting one of them would be reporting
+// half the problem.
+//
+// The one kept is the most confident, because confidence here is how well the call graph
+// resolved (ADR-005) and the better-resolved path is the better evidence.
+func collapseIdenticalFindings(all []taint.Finding) []taint.Finding {
+	type key struct{ cwe, loc, source, analysis string }
+	rank := map[taint.Confidence]int{taint.Low: 0, taint.Medium: 1, taint.High: 2}
+
+	best := make(map[key]int, len(all))
+	order := make([]int, 0, len(all))
+	for i, f := range all {
+		k := key{f.CWE, f.SinkLoc.String(), f.SourceLabel, f.Analysis}
+		prev, seen := best[k]
+		if !seen {
+			best[k] = i
+			order = append(order, i)
+			continue
+		}
+		if rank[f.Confidence] > rank[all[prev].Confidence] {
+			best[k] = i
+			for j, at := range order {
+				if at == prev {
+					order[j] = i
+					break
+				}
+			}
+		}
+	}
+
+	out := make([]taint.Finding, 0, len(order))
+	for _, i := range order {
+		out = append(out, all[i])
+	}
+	return out
 }
 
 // applyDeclarations removes findings whose judgement a declared property makes
