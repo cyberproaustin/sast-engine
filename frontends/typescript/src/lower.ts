@@ -170,6 +170,10 @@ function makeFunctionResolver(
     return count === 1 ? found : undefined;
   };
 
+  // Nodes already followed through an export table, so one entry naming another cannot
+  // walk in a circle.
+  const seen = new Set<ts.Node>();
+
   const resolve: FunctionResolver = (node) => {
     const direct = funcByNode.get(node);
     if (direct) return direct;
@@ -230,8 +234,24 @@ function makeFunctionResolver(
       ) {
         return funcByNode.get(decl.parent.right);
       }
-      if (ts.isPropertyAssignment(decl) && funcByNode.get(decl.initializer)) {
-        return funcByNode.get(decl.initializer);
+      if (ts.isPropertyAssignment(decl)) {
+        const inline = funcByNode.get(decl.initializer);
+        if (inline) return inline;
+        // `module.exports = { getProduct: getProduct, search: search }` -- the export
+        // table is an object literal whose values NAME functions declared elsewhere in
+        // the file, rather than holding them inline. It is the ordinary CommonJS export
+        // shape and it stopped resolution dead: the call lowered as external with the
+        // module path in its symbol, so a tainted argument tainted the RESULT instead of
+        // entering the parameter, and every defect inside the callee went unseen. One
+        // vulnerable application hid four SQL injections behind exactly this table.
+        //
+        // Followed one hop and no further. `{a: b}` where `b` is itself a table entry is
+        // a chain nobody writes, and the guard keeps a cycle from being possible at all.
+        if (ts.isIdentifier(decl.initializer) && !seen.has(decl.initializer)) {
+          seen.add(decl.initializer);
+          const named = resolve(decl.initializer);
+          if (named) return named;
+        }
       }
     }
     return undefined;
@@ -775,6 +795,19 @@ function lowerFunction(
 
     if (ts.isPropertyAccessExpression(expr)) {
       const root = expr.expression;
+      // Asked BEFORE the import map, and the order is load-bearing. A CommonJS
+      // `require("../model/products")` puts the module in the import map, so
+      // `db_products.getProduct(id)` answered with the module path and stopped there --
+      // even though the function is in this very tree and was lowered minutes ago. The
+      // argument then tainted the call's RESULT instead of the callee's parameter, and
+      // four SQL injections behind that export table were invisible.
+      //
+      // Safe to ask first because this only ever answers with a function the frontend
+      // itself lowered from the scanned sources. A library function is not in that map,
+      // so `import serialize from "node-serialize"` still falls through to the import
+      // branch below and still resolves to `node-serialize.unserialize`.
+      const inTree = localTarget(expr.name);
+      if (inTree) return { kind: "local", functionId: inTree, resolution: "resolved" };
       if (ts.isIdentifier(root)) {
         const imported = imports.get(root.text);
         // A namespace import and a default import both name a module, and a property
@@ -794,9 +827,6 @@ function lowerFunction(
           };
         }
       }
-      const local = localTarget(expr.name);
-      if (local) return { kind: "local", functionId: local, resolution: "resolved" };
-
       const symbol = `${root.getText(sf)}.${expr.name.text}`;
       return {
         kind: "external",
@@ -1041,8 +1071,19 @@ function lowerFunction(
     if (ts.isTemplateExpression(expr)) {
       const loc = locOf(sf, expr);
       const id = newValue("local", loc, { name: "`template`" });
+      // The STATIC text of a template is a value too, and dropping it lost the half of
+      // the string the program wrote. A rule that asks what a composed value SAYS -- does
+      // this statement contain a SQL verb -- could answer for `"SELECT ... " + x` and not
+      // for the same statement written as a template, which is how most of it is written.
+      const head = expr.head.text;
+      if (head) addFlow(newValue("literal", loc, { literal: head }), id, "template", loc);
       for (const span of expr.templateSpans) {
         addFlow(lowerExpr(span.expression), id, "template", loc);
+        const tail = span.literal.text;
+        if (tail) {
+          const at = locOf(sf, span.literal);
+          addFlow(newValue("literal", at, { literal: tail }), id, "template", loc);
+        }
       }
       return id;
     }

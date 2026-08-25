@@ -47,3 +47,18 @@ app.get("/health", (req, res) => {
 });
 
 app.listen(3000);
+
+// NEGATIVE CONTROL. `format` is Python's format-string weakness: a caller who writes the
+// format chooses the conversions, and Python's format language walks attributes far enough
+// to reach module globals. JavaScript has no such method and plenty of objects with a
+// `format` of their own -- a date formatter matched the channel exactly, receiver and all,
+// and three findings across the clean corpus were `dayjs(when).format("HH:mm")`.
+//
+// The rule is scoped to the frontend that has the method. Nothing is reported here.
+app.get("/when", (req: any, res: any) => {
+  res.json({ at: formatter(req.query.when).format("HH:mm") });
+});
+
+function formatter(when: string) {
+  return { format: (_shape: string) => when };
+}

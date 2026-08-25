@@ -795,6 +795,16 @@
         },
         {
           "id": "helpers.py#run_ping:4$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "helpers.py",
+            "line": 5,
+            "column": 11
+          },
+          "literal": "ping -c 1 "
+        },
+        {
+          "id": "helpers.py#run_ping:4$v3",
           "kind": "local",
           "loc": {
             "file": "helpers.py",
@@ -804,7 +814,7 @@
           "name": "cmd"
         },
         {
-          "id": "helpers.py#run_ping:4$v3",
+          "id": "helpers.py#run_ping:4$v4",
           "kind": "global",
           "loc": {
             "file": "helpers.py",
@@ -814,7 +824,7 @@
           "name": "os"
         },
         {
-          "id": "helpers.py#run_ping:4$v4",
+          "id": "helpers.py#run_ping:4$v5",
           "kind": "call-result",
           "loc": {
             "file": "helpers.py",
@@ -825,6 +835,16 @@
         }
       ],
       "flows": [
+        {
+          "from": "helpers.py#run_ping:4$v2",
+          "to": "helpers.py#run_ping:4$v1",
+          "kind": "template",
+          "loc": {
+            "file": "helpers.py",
+            "line": 5,
+            "column": 11
+          }
+        },
         {
           "from": "helpers.py#run_ping:4$v0",
           "to": "helpers.py#run_ping:4$v1",
@@ -837,7 +857,7 @@
         },
         {
           "from": "helpers.py#run_ping:4$v1",
-          "to": "helpers.py#run_ping:4$v2",
+          "to": "helpers.py#run_ping:4$v3",
           "kind": "assign",
           "loc": {
             "file": "helpers.py",
@@ -862,21 +882,21 @@
           "args": [
             {
               "index": 0,
-              "valueId": "helpers.py#run_ping:4$v2"
+              "valueId": "helpers.py#run_ping:4$v3"
             }
           ],
-          "resultValueId": "helpers.py#run_ping:4$v4",
+          "resultValueId": "helpers.py#run_ping:4$v5",
           "block": "helpers.py#run_ping:4$b0",
           "method": "system",
           "argCount": 1,
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "helpers.py#run_ping:4$v3"
+          "receiverValueId": "helpers.py#run_ping:4$v4"
         }
       ],
       "returns": [
-        "helpers.py#run_ping:4$v2"
+        "helpers.py#run_ping:4$v3"
       ],
       "comparisons": [],
       "writes": [],

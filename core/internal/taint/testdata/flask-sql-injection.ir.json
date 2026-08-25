@@ -20,6 +20,10 @@
     {
       "id": "app.py",
       "path": "app.py"
+    },
+    {
+      "id": "mailer.py",
+      "path": "mailer.py"
     }
   ],
   "functions": [
@@ -49,7 +53,7 @@
           "kind": "call-result",
           "loc": {
             "file": "app.py",
-            "line": 10,
+            "line": 12,
             "column": 7
           },
           "name": "flask.Flask"
@@ -59,7 +63,7 @@
           "kind": "local",
           "loc": {
             "file": "app.py",
-            "line": 10,
+            "line": 12,
             "column": 1
           },
           "name": "app"
@@ -72,7 +76,7 @@
           "kind": "assign",
           "loc": {
             "file": "app.py",
-            "line": 10,
+            "line": 12,
             "column": 1
           }
         }
@@ -82,7 +86,7 @@
           "id": "app.py#<module>:0$c0",
           "loc": {
             "file": "app.py",
-            "line": 10,
+            "line": 12,
             "column": 7
           },
           "callee": {
@@ -116,148 +120,148 @@
       ]
     },
     {
-      "id": "app.py#find_user:14",
+      "id": "app.py#find_user:16",
       "name": "find_user",
       "module": "app.py",
       "loc": {
         "file": "app.py",
-        "line": 14,
+        "line": 16,
         "column": 1
       },
       "params": [],
       "values": [
         {
-          "id": "app.py#find_user:14$v0",
+          "id": "app.py#find_user:16$v0",
           "kind": "global",
           "loc": {
             "file": "app.py",
-            "line": 16,
+            "line": 18,
             "column": 11
           },
           "name": "flask.g"
         },
         {
-          "id": "app.py#find_user:14$v1",
+          "id": "app.py#find_user:16$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 16,
+            "line": 18,
             "column": 11
           },
-          "base": "app.py#find_user:14$v0",
+          "base": "app.py#find_user:16$v0",
           "path": "db",
           "name": "db"
         },
         {
-          "id": "app.py#find_user:14$v2",
+          "id": "app.py#find_user:16$v2",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
-            "line": 16,
+            "line": 18,
             "column": 11
           },
           "name": "flask.g.db.cursor"
         },
         {
-          "id": "app.py#find_user:14$v3",
+          "id": "app.py#find_user:16$v3",
           "kind": "local",
           "loc": {
             "file": "app.py",
-            "line": 16,
+            "line": 18,
             "column": 5
           },
           "name": "cur"
         },
         {
-          "id": "app.py#find_user:14$v4",
+          "id": "app.py#find_user:16$v4",
           "kind": "local",
           "loc": {
             "file": "app.py",
-            "line": 17,
+            "line": 19,
             "column": 17
           },
           "name": "concat"
         },
         {
-          "id": "app.py#find_user:14$v5",
+          "id": "app.py#find_user:16$v5",
           "kind": "local",
           "loc": {
             "file": "app.py",
-            "line": 17,
+            "line": 19,
             "column": 17
           },
           "name": "concat"
         },
         {
-          "id": "app.py#find_user:14$v6",
+          "id": "app.py#find_user:16$v6",
           "kind": "literal",
           "loc": {
             "file": "app.py",
-            "line": 17,
+            "line": 19,
             "column": 17
           },
           "literal": "SELECT id, name FROM users WHERE login = '"
         },
         {
-          "id": "app.py#find_user:14$v7",
+          "id": "app.py#find_user:16$v7",
           "kind": "global",
           "loc": {
             "file": "app.py",
-            "line": 17,
+            "line": 19,
             "column": 64
           },
           "name": "flask.request"
         },
         {
-          "id": "app.py#find_user:14$v8",
+          "id": "app.py#find_user:16$v8",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 17,
+            "line": 19,
             "column": 64
           },
-          "base": "app.py#find_user:14$v7",
+          "base": "app.py#find_user:16$v7",
           "path": "args",
           "name": "args"
         },
         {
-          "id": "app.py#find_user:14$v9",
+          "id": "app.py#find_user:16$v9",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 17,
+            "line": 19,
             "column": 64
           },
           "name": "login",
-          "base": "app.py#find_user:14$v8",
+          "base": "app.py#find_user:16$v8",
           "path": "args.login"
         },
         {
-          "id": "app.py#find_user:14$v10",
+          "id": "app.py#find_user:16$v10",
           "kind": "literal",
           "loc": {
             "file": "app.py",
-            "line": 17,
+            "line": 19,
             "column": 88
           },
           "literal": "'"
         },
         {
-          "id": "app.py#find_user:14$v11",
+          "id": "app.py#find_user:16$v11",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
-            "line": 17,
+            "line": 19,
             "column": 5
           },
           "name": "cur.execute"
         },
         {
-          "id": "app.py#find_user:14$v12",
+          "id": "app.py#find_user:16$v12",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
-            "line": 18,
+            "line": 20,
             "column": 12
           },
           "name": "cur.fetchall"
@@ -265,92 +269,92 @@
       ],
       "flows": [
         {
-          "from": "app.py#find_user:14$v0",
-          "to": "app.py#find_user:14$v1",
+          "from": "app.py#find_user:16$v0",
+          "to": "app.py#find_user:16$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 16,
+            "line": 18,
             "column": 11
           }
         },
         {
-          "from": "app.py#find_user:14$v2",
-          "to": "app.py#find_user:14$v3",
+          "from": "app.py#find_user:16$v2",
+          "to": "app.py#find_user:16$v3",
           "kind": "assign",
           "loc": {
             "file": "app.py",
-            "line": 16,
+            "line": 18,
             "column": 5
           }
         },
         {
-          "from": "app.py#find_user:14$v6",
-          "to": "app.py#find_user:14$v5",
+          "from": "app.py#find_user:16$v6",
+          "to": "app.py#find_user:16$v5",
           "kind": "binary",
           "loc": {
             "file": "app.py",
-            "line": 17,
+            "line": 19,
             "column": 17
           }
         },
         {
-          "from": "app.py#find_user:14$v7",
-          "to": "app.py#find_user:14$v8",
+          "from": "app.py#find_user:16$v7",
+          "to": "app.py#find_user:16$v8",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 17,
+            "line": 19,
             "column": 64
           }
         },
         {
-          "from": "app.py#find_user:14$v8",
-          "to": "app.py#find_user:14$v9",
+          "from": "app.py#find_user:16$v8",
+          "to": "app.py#find_user:16$v9",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 17,
+            "line": 19,
             "column": 64
           }
         },
         {
-          "from": "app.py#find_user:14$v9",
-          "to": "app.py#find_user:14$v5",
+          "from": "app.py#find_user:16$v9",
+          "to": "app.py#find_user:16$v5",
           "kind": "binary",
           "loc": {
             "file": "app.py",
-            "line": 17,
+            "line": 19,
             "column": 17
           }
         },
         {
-          "from": "app.py#find_user:14$v5",
-          "to": "app.py#find_user:14$v4",
+          "from": "app.py#find_user:16$v5",
+          "to": "app.py#find_user:16$v4",
           "kind": "binary",
           "loc": {
             "file": "app.py",
-            "line": 17,
+            "line": 19,
             "column": 17
           }
         },
         {
-          "from": "app.py#find_user:14$v10",
-          "to": "app.py#find_user:14$v4",
+          "from": "app.py#find_user:16$v10",
+          "to": "app.py#find_user:16$v4",
           "kind": "binary",
           "loc": {
             "file": "app.py",
-            "line": 17,
+            "line": 19,
             "column": 17
           }
         }
       ],
       "calls": [
         {
-          "id": "app.py#find_user:14$c0",
+          "id": "app.py#find_user:16$c0",
           "loc": {
             "file": "app.py",
-            "line": 16,
+            "line": 18,
             "column": 11
           },
           "callee": {
@@ -359,19 +363,19 @@
             "resolution": "probable"
           },
           "args": [],
-          "resultValueId": "app.py#find_user:14$v2",
-          "block": "app.py#find_user:14$b0",
+          "resultValueId": "app.py#find_user:16$v2",
+          "block": "app.py#find_user:16$b0",
           "method": "cursor",
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#find_user:14$v1"
+          "receiverValueId": "app.py#find_user:16$v1"
         },
         {
-          "id": "app.py#find_user:14$c1",
+          "id": "app.py#find_user:16$c1",
           "loc": {
             "file": "app.py",
-            "line": 17,
+            "line": 19,
             "column": 5
           },
           "callee": {
@@ -382,23 +386,23 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#find_user:14$v4"
+              "valueId": "app.py#find_user:16$v4"
             }
           ],
-          "resultValueId": "app.py#find_user:14$v11",
-          "block": "app.py#find_user:14$b0",
+          "resultValueId": "app.py#find_user:16$v11",
+          "block": "app.py#find_user:16$b0",
           "method": "execute",
           "argCount": 1,
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#find_user:14$v3"
+          "receiverValueId": "app.py#find_user:16$v3"
         },
         {
-          "id": "app.py#find_user:14$c2",
+          "id": "app.py#find_user:16$c2",
           "loc": {
             "file": "app.py",
-            "line": 18,
+            "line": 20,
             "column": 12
           },
           "callee": {
@@ -407,166 +411,166 @@
             "resolution": "probable"
           },
           "args": [],
-          "resultValueId": "app.py#find_user:14$v12",
-          "block": "app.py#find_user:14$b0",
+          "resultValueId": "app.py#find_user:16$v12",
+          "block": "app.py#find_user:16$b0",
           "method": "fetchall",
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#find_user:14$v3"
+          "receiverValueId": "app.py#find_user:16$v3"
         }
       ],
       "returns": [
-        "app.py#find_user:14$v12"
+        "app.py#find_user:16$v12"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#find_user:14$b0",
+      "entryBlock": "app.py#find_user:16$b0",
       "blocks": [
         {
-          "id": "app.py#find_user:14$b0",
+          "id": "app.py#find_user:16$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
-            "line": 14,
+            "line": 16,
             "column": 1
           },
           "terminator": "return"
         },
         {
-          "id": "app.py#find_user:14$b1",
+          "id": "app.py#find_user:16$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
-            "line": 18,
+            "line": 20,
             "column": 5
           }
         }
       ]
     },
     {
-      "id": "app.py#find_user_by_id:22",
+      "id": "app.py#find_user_by_id:24",
       "name": "find_user_by_id",
       "module": "app.py",
       "loc": {
         "file": "app.py",
-        "line": 22,
+        "line": 24,
         "column": 1
       },
       "params": [],
       "values": [
         {
-          "id": "app.py#find_user_by_id:22$v0",
+          "id": "app.py#find_user_by_id:24$v0",
           "kind": "global",
           "loc": {
             "file": "app.py",
-            "line": 24,
+            "line": 26,
             "column": 11
           },
           "name": "flask.g"
         },
         {
-          "id": "app.py#find_user_by_id:22$v1",
+          "id": "app.py#find_user_by_id:24$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 24,
+            "line": 26,
             "column": 11
           },
-          "base": "app.py#find_user_by_id:22$v0",
+          "base": "app.py#find_user_by_id:24$v0",
           "path": "db",
           "name": "db"
         },
         {
-          "id": "app.py#find_user_by_id:22$v2",
+          "id": "app.py#find_user_by_id:24$v2",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
-            "line": 24,
+            "line": 26,
             "column": 11
           },
           "name": "flask.g.db.cursor"
         },
         {
-          "id": "app.py#find_user_by_id:22$v3",
+          "id": "app.py#find_user_by_id:24$v3",
           "kind": "local",
           "loc": {
             "file": "app.py",
-            "line": 24,
+            "line": 26,
             "column": 5
           },
           "name": "cur"
         },
         {
-          "id": "app.py#find_user_by_id:22$v4",
+          "id": "app.py#find_user_by_id:24$v4",
           "kind": "literal",
           "loc": {
             "file": "app.py",
-            "line": 25,
+            "line": 27,
             "column": 17
           },
           "literal": "SELECT id, name FROM users WHERE id = %s"
         },
         {
-          "id": "app.py#find_user_by_id:22$v5",
+          "id": "app.py#find_user_by_id:24$v5",
           "kind": "local",
           "loc": {
             "file": "app.py",
-            "line": 25,
+            "line": 27,
             "column": 61
           },
           "name": "[sequence]"
         },
         {
-          "id": "app.py#find_user_by_id:22$v6",
+          "id": "app.py#find_user_by_id:24$v6",
           "kind": "global",
           "loc": {
             "file": "app.py",
-            "line": 25,
+            "line": 27,
             "column": 62
           },
           "name": "flask.request"
         },
         {
-          "id": "app.py#find_user_by_id:22$v7",
+          "id": "app.py#find_user_by_id:24$v7",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 25,
+            "line": 27,
             "column": 62
           },
-          "base": "app.py#find_user_by_id:22$v6",
+          "base": "app.py#find_user_by_id:24$v6",
           "path": "args",
           "name": "args"
         },
         {
-          "id": "app.py#find_user_by_id:22$v8",
+          "id": "app.py#find_user_by_id:24$v8",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 25,
+            "line": 27,
             "column": 62
           },
           "name": "id",
-          "base": "app.py#find_user_by_id:22$v7",
+          "base": "app.py#find_user_by_id:24$v7",
           "path": "args.id"
         },
         {
-          "id": "app.py#find_user_by_id:22$v9",
+          "id": "app.py#find_user_by_id:24$v9",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
-            "line": 25,
+            "line": 27,
             "column": 5
           },
           "name": "cur.execute"
         },
         {
-          "id": "app.py#find_user_by_id:22$v10",
+          "id": "app.py#find_user_by_id:24$v10",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
-            "line": 26,
+            "line": 28,
             "column": 12
           },
           "name": "cur.fetchall"
@@ -574,62 +578,62 @@
       ],
       "flows": [
         {
-          "from": "app.py#find_user_by_id:22$v0",
-          "to": "app.py#find_user_by_id:22$v1",
+          "from": "app.py#find_user_by_id:24$v0",
+          "to": "app.py#find_user_by_id:24$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 24,
+            "line": 26,
             "column": 11
           }
         },
         {
-          "from": "app.py#find_user_by_id:22$v2",
-          "to": "app.py#find_user_by_id:22$v3",
+          "from": "app.py#find_user_by_id:24$v2",
+          "to": "app.py#find_user_by_id:24$v3",
           "kind": "assign",
           "loc": {
             "file": "app.py",
-            "line": 24,
+            "line": 26,
             "column": 5
           }
         },
         {
-          "from": "app.py#find_user_by_id:22$v6",
-          "to": "app.py#find_user_by_id:22$v7",
+          "from": "app.py#find_user_by_id:24$v6",
+          "to": "app.py#find_user_by_id:24$v7",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 25,
+            "line": 27,
             "column": 62
           }
         },
         {
-          "from": "app.py#find_user_by_id:22$v7",
-          "to": "app.py#find_user_by_id:22$v8",
+          "from": "app.py#find_user_by_id:24$v7",
+          "to": "app.py#find_user_by_id:24$v8",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 25,
+            "line": 27,
             "column": 62
           }
         },
         {
-          "from": "app.py#find_user_by_id:22$v8",
-          "to": "app.py#find_user_by_id:22$v5",
+          "from": "app.py#find_user_by_id:24$v8",
+          "to": "app.py#find_user_by_id:24$v5",
           "kind": "enclose",
           "loc": {
             "file": "app.py",
-            "line": 25,
+            "line": 27,
             "column": 61
           }
         }
       ],
       "calls": [
         {
-          "id": "app.py#find_user_by_id:22$c0",
+          "id": "app.py#find_user_by_id:24$c0",
           "loc": {
             "file": "app.py",
-            "line": 24,
+            "line": 26,
             "column": 11
           },
           "callee": {
@@ -638,19 +642,19 @@
             "resolution": "probable"
           },
           "args": [],
-          "resultValueId": "app.py#find_user_by_id:22$v2",
-          "block": "app.py#find_user_by_id:22$b0",
+          "resultValueId": "app.py#find_user_by_id:24$v2",
+          "block": "app.py#find_user_by_id:24$b0",
           "method": "cursor",
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#find_user_by_id:22$v1"
+          "receiverValueId": "app.py#find_user_by_id:24$v1"
         },
         {
-          "id": "app.py#find_user_by_id:22$c1",
+          "id": "app.py#find_user_by_id:24$c1",
           "loc": {
             "file": "app.py",
-            "line": 25,
+            "line": 27,
             "column": 5
           },
           "callee": {
@@ -661,15 +665,15 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#find_user_by_id:22$v4"
+              "valueId": "app.py#find_user_by_id:24$v4"
             },
             {
               "index": 1,
-              "valueId": "app.py#find_user_by_id:22$v5"
+              "valueId": "app.py#find_user_by_id:24$v5"
             }
           ],
-          "resultValueId": "app.py#find_user_by_id:22$v9",
-          "block": "app.py#find_user_by_id:22$b0",
+          "resultValueId": "app.py#find_user_by_id:24$v9",
+          "block": "app.py#find_user_by_id:24$b0",
           "method": "execute",
           "argCount": 2,
           "argLiterals": {
@@ -678,13 +682,13 @@
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#find_user_by_id:22$v3"
+          "receiverValueId": "app.py#find_user_by_id:24$v3"
         },
         {
-          "id": "app.py#find_user_by_id:22$c2",
+          "id": "app.py#find_user_by_id:24$c2",
           "loc": {
             "file": "app.py",
-            "line": 26,
+            "line": 28,
             "column": 12
           },
           "callee": {
@@ -693,122 +697,122 @@
             "resolution": "probable"
           },
           "args": [],
-          "resultValueId": "app.py#find_user_by_id:22$v10",
-          "block": "app.py#find_user_by_id:22$b0",
+          "resultValueId": "app.py#find_user_by_id:24$v10",
+          "block": "app.py#find_user_by_id:24$b0",
           "method": "fetchall",
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#find_user_by_id:22$v3"
+          "receiverValueId": "app.py#find_user_by_id:24$v3"
         }
       ],
       "returns": [
-        "app.py#find_user_by_id:22$v10"
+        "app.py#find_user_by_id:24$v10"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#find_user_by_id:22$b0",
+      "entryBlock": "app.py#find_user_by_id:24$b0",
       "blocks": [
         {
-          "id": "app.py#find_user_by_id:22$b0",
+          "id": "app.py#find_user_by_id:24$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
-            "line": 22,
+            "line": 24,
             "column": 1
           },
           "terminator": "return"
         },
         {
-          "id": "app.py#find_user_by_id:22$b1",
+          "id": "app.py#find_user_by_id:24$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
-            "line": 26,
+            "line": 28,
             "column": 5
           }
         }
       ]
     },
     {
-      "id": "app.py#all_users:30",
+      "id": "app.py#all_users:32",
       "name": "all_users",
       "module": "app.py",
       "loc": {
         "file": "app.py",
-        "line": 30,
+        "line": 32,
         "column": 1
       },
       "params": [],
       "values": [
         {
-          "id": "app.py#all_users:30$v0",
+          "id": "app.py#all_users:32$v0",
           "kind": "global",
           "loc": {
             "file": "app.py",
-            "line": 31,
+            "line": 33,
             "column": 11
           },
           "name": "flask.g"
         },
         {
-          "id": "app.py#all_users:30$v1",
+          "id": "app.py#all_users:32$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 31,
+            "line": 33,
             "column": 11
           },
-          "base": "app.py#all_users:30$v0",
+          "base": "app.py#all_users:32$v0",
           "path": "db",
           "name": "db"
         },
         {
-          "id": "app.py#all_users:30$v2",
+          "id": "app.py#all_users:32$v2",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
-            "line": 31,
+            "line": 33,
             "column": 11
           },
           "name": "flask.g.db.cursor"
         },
         {
-          "id": "app.py#all_users:30$v3",
+          "id": "app.py#all_users:32$v3",
           "kind": "local",
           "loc": {
             "file": "app.py",
-            "line": 31,
+            "line": 33,
             "column": 5
           },
           "name": "cur"
         },
         {
-          "id": "app.py#all_users:30$v4",
+          "id": "app.py#all_users:32$v4",
           "kind": "literal",
           "loc": {
             "file": "app.py",
-            "line": 32,
+            "line": 34,
             "column": 17
           },
           "literal": "SELECT id, name FROM users"
         },
         {
-          "id": "app.py#all_users:30$v5",
+          "id": "app.py#all_users:32$v5",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
-            "line": 32,
+            "line": 34,
             "column": 5
           },
           "name": "cur.execute"
         },
         {
-          "id": "app.py#all_users:30$v6",
+          "id": "app.py#all_users:32$v6",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
-            "line": 33,
+            "line": 35,
             "column": 12
           },
           "name": "cur.fetchall"
@@ -816,32 +820,32 @@
       ],
       "flows": [
         {
-          "from": "app.py#all_users:30$v0",
-          "to": "app.py#all_users:30$v1",
+          "from": "app.py#all_users:32$v0",
+          "to": "app.py#all_users:32$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 31,
+            "line": 33,
             "column": 11
           }
         },
         {
-          "from": "app.py#all_users:30$v2",
-          "to": "app.py#all_users:30$v3",
+          "from": "app.py#all_users:32$v2",
+          "to": "app.py#all_users:32$v3",
           "kind": "assign",
           "loc": {
             "file": "app.py",
-            "line": 31,
+            "line": 33,
             "column": 5
           }
         }
       ],
       "calls": [
         {
-          "id": "app.py#all_users:30$c0",
+          "id": "app.py#all_users:32$c0",
           "loc": {
             "file": "app.py",
-            "line": 31,
+            "line": 33,
             "column": 11
           },
           "callee": {
@@ -850,19 +854,19 @@
             "resolution": "probable"
           },
           "args": [],
-          "resultValueId": "app.py#all_users:30$v2",
-          "block": "app.py#all_users:30$b0",
+          "resultValueId": "app.py#all_users:32$v2",
+          "block": "app.py#all_users:32$b0",
           "method": "cursor",
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#all_users:30$v1"
+          "receiverValueId": "app.py#all_users:32$v1"
         },
         {
-          "id": "app.py#all_users:30$c1",
+          "id": "app.py#all_users:32$c1",
           "loc": {
             "file": "app.py",
-            "line": 32,
+            "line": 34,
             "column": 5
           },
           "callee": {
@@ -873,11 +877,11 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#all_users:30$v4"
+              "valueId": "app.py#all_users:32$v4"
             }
           ],
-          "resultValueId": "app.py#all_users:30$v5",
-          "block": "app.py#all_users:30$b0",
+          "resultValueId": "app.py#all_users:32$v5",
+          "block": "app.py#all_users:32$b0",
           "method": "execute",
           "argCount": 1,
           "argLiterals": {
@@ -886,13 +890,13 @@
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#all_users:30$v3"
+          "receiverValueId": "app.py#all_users:32$v3"
         },
         {
-          "id": "app.py#all_users:30$c2",
+          "id": "app.py#all_users:32$c2",
           "loc": {
             "file": "app.py",
-            "line": 33,
+            "line": 35,
             "column": 12
           },
           "callee": {
@@ -901,38 +905,630 @@
             "resolution": "probable"
           },
           "args": [],
-          "resultValueId": "app.py#all_users:30$v6",
-          "block": "app.py#all_users:30$b0",
+          "resultValueId": "app.py#all_users:32$v6",
+          "block": "app.py#all_users:32$b0",
           "method": "fetchall",
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#all_users:30$v3"
+          "receiverValueId": "app.py#all_users:32$v3"
         }
       ],
       "returns": [
-        "app.py#all_users:30$v6"
+        "app.py#all_users:32$v6"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#all_users:30$b0",
+      "entryBlock": "app.py#all_users:32$b0",
       "blocks": [
         {
-          "id": "app.py#all_users:30$b0",
+          "id": "app.py#all_users:32$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
-            "line": 30,
+            "line": 32,
             "column": 1
           },
           "terminator": "return"
         },
         {
-          "id": "app.py#all_users:30$b1",
+          "id": "app.py#all_users:32$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
-            "line": 33,
+            "line": 35,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#find_user_fstring:39",
+      "name": "find_user_fstring",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 39,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#find_user_fstring:39$v0",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 44,
+            "column": 11
+          },
+          "name": "flask.g"
+        },
+        {
+          "id": "app.py#find_user_fstring:39$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 44,
+            "column": 11
+          },
+          "base": "app.py#find_user_fstring:39$v0",
+          "path": "db",
+          "name": "db"
+        },
+        {
+          "id": "app.py#find_user_fstring:39$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 44,
+            "column": 11
+          },
+          "name": "flask.g.db.cursor"
+        },
+        {
+          "id": "app.py#find_user_fstring:39$v3",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 44,
+            "column": 5
+          },
+          "name": "cur"
+        },
+        {
+          "id": "app.py#find_user_fstring:39$v4",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 17
+          },
+          "name": "f-string"
+        },
+        {
+          "id": "app.py#find_user_fstring:39$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 17
+          },
+          "literal": "SELECT id, name FROM users WHERE login = '"
+        },
+        {
+          "id": "app.py#find_user_fstring:39$v6",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 62
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#find_user_fstring:39$v7",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 62
+          },
+          "base": "app.py#find_user_fstring:39$v6",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "app.py#find_user_fstring:39$v8",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 62
+          },
+          "name": "login",
+          "base": "app.py#find_user_fstring:39$v7",
+          "path": "args.login"
+        },
+        {
+          "id": "app.py#find_user_fstring:39$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 17
+          },
+          "literal": "'"
+        },
+        {
+          "id": "app.py#find_user_fstring:39$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 5
+          },
+          "name": "cur.execute"
+        },
+        {
+          "id": "app.py#find_user_fstring:39$v11",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 46,
+            "column": 12
+          },
+          "name": "cur.fetchall"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#find_user_fstring:39$v0",
+          "to": "app.py#find_user_fstring:39$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 44,
+            "column": 11
+          }
+        },
+        {
+          "from": "app.py#find_user_fstring:39$v2",
+          "to": "app.py#find_user_fstring:39$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 44,
+            "column": 5
+          }
+        },
+        {
+          "from": "app.py#find_user_fstring:39$v5",
+          "to": "app.py#find_user_fstring:39$v4",
+          "kind": "template",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 17
+          }
+        },
+        {
+          "from": "app.py#find_user_fstring:39$v6",
+          "to": "app.py#find_user_fstring:39$v7",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 62
+          }
+        },
+        {
+          "from": "app.py#find_user_fstring:39$v7",
+          "to": "app.py#find_user_fstring:39$v8",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 62
+          }
+        },
+        {
+          "from": "app.py#find_user_fstring:39$v8",
+          "to": "app.py#find_user_fstring:39$v4",
+          "kind": "template",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 17
+          }
+        },
+        {
+          "from": "app.py#find_user_fstring:39$v9",
+          "to": "app.py#find_user_fstring:39$v4",
+          "kind": "template",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 17
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#find_user_fstring:39$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 44,
+            "column": 11
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.g.db.cursor",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "app.py#find_user_fstring:39$v2",
+          "block": "app.py#find_user_fstring:39$b0",
+          "method": "cursor",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#find_user_fstring:39$v1"
+        },
+        {
+          "id": "app.py#find_user_fstring:39$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cur.execute",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#find_user_fstring:39$v4"
+            }
+          ],
+          "resultValueId": "app.py#find_user_fstring:39$v10",
+          "block": "app.py#find_user_fstring:39$b0",
+          "method": "execute",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#find_user_fstring:39$v3"
+        },
+        {
+          "id": "app.py#find_user_fstring:39$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 46,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cur.fetchall",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "app.py#find_user_fstring:39$v11",
+          "block": "app.py#find_user_fstring:39$b0",
+          "method": "fetchall",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#find_user_fstring:39$v3"
+        }
+      ],
+      "returns": [
+        "app.py#find_user_fstring:39$v11"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#find_user_fstring:39$b0",
+      "blocks": [
+        {
+          "id": "app.py#find_user_fstring:39$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 39,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#find_user_fstring:39$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 46,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#greeting:50",
+      "name": "greeting",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 50,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#greeting:50$v0",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 55,
+            "column": 27
+          },
+          "name": "f-string"
+        },
+        {
+          "id": "app.py#greeting:50$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 55,
+            "column": 27
+          },
+          "literal": "welcome back, "
+        },
+        {
+          "id": "app.py#greeting:50$v2",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 55,
+            "column": 44
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#greeting:50$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 55,
+            "column": 44
+          },
+          "base": "app.py#greeting:50$v2",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "app.py#greeting:50$v4",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 55,
+            "column": 44
+          },
+          "name": "name",
+          "base": "app.py#greeting:50$v3",
+          "path": "args.name"
+        },
+        {
+          "id": "app.py#greeting:50$v5",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 55,
+            "column": 12
+          },
+          "name": "mailer"
+        },
+        {
+          "id": "app.py#greeting:50$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 55,
+            "column": 12
+          },
+          "name": "mailer.execute"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#greeting:50$v1",
+          "to": "app.py#greeting:50$v0",
+          "kind": "template",
+          "loc": {
+            "file": "app.py",
+            "line": 55,
+            "column": 27
+          }
+        },
+        {
+          "from": "app.py#greeting:50$v2",
+          "to": "app.py#greeting:50$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 55,
+            "column": 44
+          }
+        },
+        {
+          "from": "app.py#greeting:50$v3",
+          "to": "app.py#greeting:50$v4",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 55,
+            "column": 44
+          }
+        },
+        {
+          "from": "app.py#greeting:50$v4",
+          "to": "app.py#greeting:50$v0",
+          "kind": "template",
+          "loc": {
+            "file": "app.py",
+            "line": 55,
+            "column": 27
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#greeting:50$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 55,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "mailer.execute",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#greeting:50$v0"
+            }
+          ],
+          "resultValueId": "app.py#greeting:50$v6",
+          "block": "app.py#greeting:50$b0",
+          "method": "execute",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#greeting:50$v5"
+        }
+      ],
+      "returns": [
+        "app.py#greeting:50$v6"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#greeting:50$b0",
+      "blocks": [
+        {
+          "id": "app.py#greeting:50$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 50,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#greeting:50$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 55,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "mailer.py#<module>:0",
+      "name": "<module>",
+      "module": "mailer.py",
+      "loc": {
+        "file": "mailer.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "mailer.py#<module>:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "mailer.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "Not a database. The point of the negative below: `execute` is ordinary English."
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "mailer.py#<module>:0$b0",
+      "blocks": [
+        {
+          "id": "mailer.py#<module>:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "mailer.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "mailer.py#execute:4",
+      "name": "execute",
+      "module": "mailer.py",
+      "loc": {
+        "file": "mailer.py",
+        "line": 4,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "message",
+          "valueId": "mailer.py#execute:4$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "mailer.py#execute:4$v0",
+          "kind": "param",
+          "loc": {
+            "file": "mailer.py",
+            "line": 4,
+            "column": 13
+          },
+          "name": "message"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [
+        "mailer.py#execute:4$v0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "mailer.py#execute:4$b0",
+      "blocks": [
+        {
+          "id": "mailer.py#execute:4$b0",
+          "successors": [],
+          "loc": {
+            "file": "mailer.py",
+            "line": 4,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "mailer.py#execute:4$b1",
+          "successors": [],
+          "loc": {
+            "file": "mailer.py",
+            "line": 5,
             "column": 5
           }
         }
@@ -941,7 +1537,7 @@
   ],
   "entryPoints": [
     {
-      "functionId": "app.py#find_user:14",
+      "functionId": "app.py#find_user:16",
       "kind": "http-route",
       "framework": "flask",
       "detail": {
@@ -950,7 +1546,7 @@
       }
     },
     {
-      "functionId": "app.py#find_user_by_id:22",
+      "functionId": "app.py#find_user_by_id:24",
       "kind": "http-route",
       "framework": "flask",
       "detail": {
@@ -959,12 +1555,30 @@
       }
     },
     {
-      "functionId": "app.py#all_users:30",
+      "functionId": "app.py#all_users:32",
       "kind": "http-route",
       "framework": "flask",
       "detail": {
         "method": "GET",
         "path": "/all-users"
+      }
+    },
+    {
+      "functionId": "app.py#find_user_fstring:39",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/user-fstring"
+      }
+    },
+    {
+      "functionId": "app.py#greeting:50",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/greeting"
       }
     }
   ]

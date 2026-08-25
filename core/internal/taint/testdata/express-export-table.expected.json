@@ -1,0 +1,22 @@
+{
+  "corpus": "express-export-table",
+  "description": "Two things that were losing findings quietly. A CommonJS export table -- an object literal whose values NAME functions declared elsewhere -- stopped call resolution, so a tainted argument tainted the call RESULT instead of entering the callee, and everything the callee did with it went unseen; one vulnerable application hid four SQL injections behind exactly this. And a merge point kept only the first path that reached it, so a branch through a converting transform silenced a branch through none -- the value is the same value, and the finding has to rest on the branch that proves it. The negative is a merge where every branch converts.",
+  "expected": [
+    {
+      "cwe": "CWE-89",
+      "sinkFile": "products.js",
+      "sinkLine": 4,
+      "sourceLabel": "req.query.id",
+      "confidence": "high",
+      "note": "through the export table: the handler is in one file and the injection in another, and resolving the call is the whole of it"
+    },
+    {
+      "cwe": "CWE-89",
+      "sinkFile": "products.js",
+      "sinkLine": 8,
+      "sourceLabel": "req.query.term",
+      "confidence": "high",
+      "note": "the source names the UNCONVERTED branch of the ternary. Both branches carry the caller's value and only one proves the finding"
+    }
+  ]
+}

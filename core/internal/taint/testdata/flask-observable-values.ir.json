@@ -1224,6 +1224,16 @@
         },
         {
           "id": "app.py#started:55$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 59,
+            "column": 12
+          },
+          "literal": " pid="
+        },
+        {
+          "id": "app.py#started:55$v4",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -1233,7 +1243,7 @@
           "name": "os"
         },
         {
-          "id": "app.py#started:55$v4",
+          "id": "app.py#started:55$v5",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -1255,7 +1265,17 @@
           }
         },
         {
-          "from": "app.py#started:55$v4",
+          "from": "app.py#started:55$v3",
+          "to": "app.py#started:55$v0",
+          "kind": "template",
+          "loc": {
+            "file": "app.py",
+            "line": 59,
+            "column": 12
+          }
+        },
+        {
+          "from": "app.py#started:55$v5",
           "to": "app.py#started:55$v0",
           "kind": "template",
           "loc": {
@@ -1300,13 +1320,13 @@
             "resolution": "resolved"
           },
           "args": [],
-          "resultValueId": "app.py#started:55$v4",
+          "resultValueId": "app.py#started:55$v5",
           "block": "app.py#started:55$b0",
           "method": "getpid",
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#started:55$v3"
+          "receiverValueId": "app.py#started:55$v4"
         }
       ],
       "returns": [
