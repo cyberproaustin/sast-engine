@@ -10,6 +10,7 @@
 // into one usually is not.
 import express from "express";
 import axios from "axios";
+import needle from "needle";
 
 const app = express();
 const BASE = "https://api.internal.example.com";
@@ -30,6 +31,23 @@ app.post("/notify", async (req, res) => {
   // A fixed destination carrying caller data. Not this judgement.
   await axios.post("https://hooks.internal.example.com/notify", { note: req.body.note });
   res.json({ ok: true });
+});
+
+app.get("/lookup", async (req, res) => {
+  // POSITIVE, and the case the whole-value rule used to silence. This is a composition
+  // like the one above, and the difference is POSITION: the caller's value comes first,
+  // so nothing precedes it and the program named no destination at all. Whoever sends
+  // `?base=https://attacker.example/&symbol=x` chooses the machine.
+  const r = await needle.get(String(req.query.base) + String(req.query.symbol));
+  res.json({ status: r.statusCode });
+});
+
+app.get("/quote", async (req, res) => {
+  // NEGATIVE, and the reason position rather than "does a literal here name a scheme".
+  // A program that keeps its base URL in a constant writes no scheme at the call either,
+  // and asking about the literals readmitted two production call sites that are fine.
+  const r = await needle.get(BASE + "/quotes/" + String(req.query.symbol));
+  res.json({ status: r.statusCode });
 });
 
 export default app;

@@ -1434,6 +1434,31 @@ func enclosingEntry(ix *ir.Index, fn *ir.Function) (string, bool) {
 	return fn.Name + "()", false
 }
 
+// taintLeads reports whether the caller's value is the FIRST thing composed into this one.
+//
+// The flows into a composition are recorded in source order -- left before right, head
+// before spans -- so the first one is what the finished string starts with. If that is the
+// caller's, the program wrote nothing in front of it, and for a destination that means the
+// program named no destination at all.
+//
+// Plain assignments are followed through first, because the composed value is usually
+// given a name before it is used.
+func (e *engine) taintLeads(valueID string) bool {
+	id := valueID
+	for hops := 0; hops < 8 && id != ""; hops++ {
+		into := e.flowsInto[id]
+		if len(into) > 1 {
+			return e.tainted[into[0]]
+		}
+		if len(into) == 1 && e.assignedFrom[id] == into[0] {
+			id = into[0]
+			continue
+		}
+		return false
+	}
+	return false
+}
+
 // composedFrom reports whether any LITERAL piece the sink value was built from contains
 // one of these words.
 //
@@ -1552,7 +1577,8 @@ func (e *engine) buildFinding(c *ir.Call, ch model.Channel, p model.Policy, arg 
 	}
 	// A destination is chosen, not built. Untrusted data composed into it usually leaves
 	// the caller a path segment rather than a machine to point at.
-	if ch.RequiresWholeValue && composedIntoText(path) {
+	if ch.RequiresWholeValue && composedIntoText(path) &&
+		!(ch.AllowsComposedPrefix && e.taintLeads(arg.ValueID)) {
 		return Finding{}, false
 	}
 
