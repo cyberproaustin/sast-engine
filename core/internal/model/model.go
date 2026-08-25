@@ -942,6 +942,110 @@ func Builtin() Model {
 				Rationale: "unparse() builds a CSV a spreadsheet will later interpret",
 			},
 
+			// The same destinations as the SSRF channels above, described a second time
+			// WITHOUT the whole-value requirement.
+			//
+			// Visibility is INTERNAL on purpose even though a request leaves the process.
+			// Visibility is how the disclosure policies find their sinks, and marking
+			// these third-party pulled the environment rule onto them -- which reported
+			// "process environment exposed" carrying this channel's CWE number, a finding
+			// whose text and identity disagreed. What this channel is about is the
+			// CONTEXT, and the policy that uses it names that instead.
+			//
+			// That requirement is right for server-side request forgery and wrong here,
+			// and the difference is what the two judgements ask. SSRF asks whether the
+			// caller can move the request to another machine, which a value composed into
+			// a fixed base cannot do. This asks what is IN the URL, and a credential
+			// concatenated onto the end of one is precisely the case -- so the constraint
+			// that makes the first rule precise would make this one blind.
+			{
+				ID: "outbound-url", Visibility: "internal", Context: "url-query",
+				Method: "redirect", ReceiverIsEntryParam: 1, ArgIndex: []int{0},
+				CWE:       "CWE-598",
+				Rationale: "the browser is sent to this URL, and it will appear in its history",
+			},
+			{
+				ID: "outbound-url", Visibility: "internal", Context: "url-query",
+				Symbol: "axios.get", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-598",
+				Rationale: "the first argument is the URL this request is sent to",
+			},
+			{
+				ID: "outbound-url", Visibility: "internal", Context: "url-query",
+				Symbol: "axios.post", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-598",
+				Rationale: "the first argument is the URL this request is sent to",
+			},
+			{
+				ID: "outbound-url", Visibility: "internal", Context: "url-query",
+				Symbol: "axios.put", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-598",
+				Rationale: "the first argument is the URL this request is sent to",
+			},
+			{
+				ID: "outbound-url", Visibility: "internal", Context: "url-query",
+				Symbol: "axios.delete", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-598",
+				Rationale: "the first argument is the URL this request is sent to",
+			},
+			{
+				ID: "outbound-url", Visibility: "internal", Context: "url-query",
+				Symbol: "node-fetch.default", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-598",
+				Rationale: "the first argument is the URL this request is sent to",
+			},
+			{
+				ID: "outbound-url", Visibility: "internal", Context: "url-query",
+				Symbol: "fetch", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-598",
+				Rationale: "the first argument is the URL this request is sent to",
+			},
+			{
+				ID: "outbound-url", Visibility: "internal", Context: "url-query",
+				Symbol: "requests.get", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-598",
+				Rationale: "the first argument is the URL this request is sent to",
+			},
+			{
+				ID: "outbound-url", Visibility: "internal", Context: "url-query",
+				Symbol: "requests.post", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-598",
+				Rationale: "the first argument is the URL this request is sent to",
+			},
+			{
+				ID: "outbound-url", Visibility: "internal", Context: "url-query",
+				Symbol: "http.get", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-598",
+				Rationale: "the first argument is the URL this request is sent to",
+			},
+			{
+				ID: "outbound-url", Visibility: "internal", Context: "url-query",
+				Symbol: "https.get", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-598",
+				Rationale: "the first argument is the URL this request is sent to",
+			},
+
+			// Where the interpreter loads modules FROM. Putting a caller-controlled
+			// directory at the front of it means the next import takes whatever is in
+			// that directory, under whatever name it expects.
+			// By SYMBOL, not by method name. `insert` and `append` belong to every list,
+			// every ORM repository and every zip archive: matched by name they produced
+			// eight findings across the clean corpus and not one was a search path --
+			// `em.insert`, `archive.append`, `errors.append`. The attribute chain resolves
+			// now, so the receiver can be named outright.
+			{
+				ID: "module-search-path", Visibility: "internal", Context: "search-path",
+				Symbol: "sys.path.insert", ReceiverIsEntryParam: -1, ArgIndex: []int{1},
+				CWE:       "CWE-426",
+				Rationale: "inserting into sys.path decides where the next import comes from",
+			},
+			{
+				ID: "module-search-path", Visibility: "internal", Context: "search-path",
+				Symbol: "sys.path.append", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-426",
+				Rationale: "appending to sys.path decides where an import may come from",
+			},
+
 			// The BODY of an outbound request whose destination is written into the call
 			// as a plaintext URL. The qualifier is the whole rule: `https://` is not a
 			// finding and does not contain `http://`, so the same channel says nothing
@@ -1873,6 +1977,30 @@ func Builtin() Model {
 				Reason:        "a caller must not be able to choose which file the application opens",
 				Finding:       "Untrusted input chooses a file path",
 				CWE:           "CWE-22",
+			},
+			{
+				// A query string is the least private part of a request: it is in the
+				// access log at both ends, in the Referer header of whatever the page
+				// loads next, and in browser history. A credential does not belong there
+				// even over TLS.
+				ID:            "credential-in-url",
+				Class:         "caller-credential",
+				DeniedContext: []string{"url-query"},
+				Requires:      Requirements{Interprocedural: true},
+				Reason:        "a credential in a URL is written to access logs at both ends, sent onward in the Referer header, and kept in browser history",
+				Finding:       "Credential placed in a URL",
+				CWE:           "CWE-598",
+			},
+			{
+				// Where the interpreter looks for modules is a security decision, and a
+				// caller who can steer it decides what the next import runs.
+				ID:            "untrusted-search-path",
+				Class:         "untrusted-input",
+				DeniedContext: []string{"search-path"},
+				Requires:      Requirements{Interprocedural: true},
+				Reason:        "a caller who can add to the module search path decides where the next import comes from, and an import runs whatever it finds",
+				Finding:       "Untrusted input added to the module search path",
+				CWE:           "CWE-426",
 			},
 			{
 				// Anyone on the path reads it: the network, a proxy, whatever terminates

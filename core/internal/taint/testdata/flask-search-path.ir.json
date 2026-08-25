@@ -1,0 +1,464 @@
+{
+  "irVersion": "0.9.1",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "app.py",
+      "path": "app.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "app.py#<module>:0",
+      "name": "<module>",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#<module>:0$v0",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 5,
+            "column": 7
+          },
+          "name": "flask.Flask"
+        },
+        {
+          "id": "app.py#<module>:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 5,
+            "column": 1
+          },
+          "name": "app"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#<module>:0$v0",
+          "to": "app.py#<module>:0$v1",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 5,
+            "column": 1
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#<module>:0$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 5,
+            "column": 7
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.Flask",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#<module>:0$v0",
+          "block": "app.py#<module>:0$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "entryBlock": "app.py#<module>:0$b0",
+      "blocks": [
+        {
+          "id": "app.py#<module>:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#add_plugin:9",
+      "name": "add_plugin",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 9,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#add_plugin:9$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 21
+          }
+        },
+        {
+          "id": "app.py#add_plugin:9$v1",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 24
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#add_plugin:9$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 24
+          },
+          "base": "app.py#add_plugin:9$v1",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "app.py#add_plugin:9$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 24
+          },
+          "name": "[index]",
+          "base": "app.py#add_plugin:9$v2"
+        },
+        {
+          "id": "app.py#add_plugin:9$v4",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 5
+          },
+          "name": "sys"
+        },
+        {
+          "id": "app.py#add_plugin:9$v5",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 5
+          },
+          "base": "app.py#add_plugin:9$v4",
+          "path": "path",
+          "name": "path"
+        },
+        {
+          "id": "app.py#add_plugin:9$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 5
+          },
+          "name": "sys.path.insert"
+        },
+        {
+          "id": "app.py#add_plugin:9$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 12
+          }
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#add_plugin:9$v1",
+          "to": "app.py#add_plugin:9$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 24
+          }
+        },
+        {
+          "from": "app.py#add_plugin:9$v2",
+          "to": "app.py#add_plugin:9$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 24
+          }
+        },
+        {
+          "from": "app.py#add_plugin:9$v4",
+          "to": "app.py#add_plugin:9$v5",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 5
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#add_plugin:9$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "sys.path.insert",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#add_plugin:9$v0"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#add_plugin:9$v3"
+            }
+          ],
+          "resultValueId": "app.py#add_plugin:9$v6",
+          "block": "app.py#add_plugin:9$b0",
+          "method": "insert",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "0"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#add_plugin:9$v5"
+        }
+      ],
+      "returns": [
+        "app.py#add_plugin:9$v7"
+      ],
+      "comparisons": [],
+      "entryBlock": "app.py#add_plugin:9$b0",
+      "blocks": [
+        {
+          "id": "app.py#add_plugin:9$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 9,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#add_plugin:9$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#reset:19",
+      "name": "reset",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 19,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#reset:19$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 21
+          }
+        },
+        {
+          "id": "app.py#reset:19$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 24
+          }
+        },
+        {
+          "id": "app.py#reset:19$v2",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 5
+          },
+          "name": "sys"
+        },
+        {
+          "id": "app.py#reset:19$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 5
+          },
+          "base": "app.py#reset:19$v2",
+          "path": "path",
+          "name": "path"
+        },
+        {
+          "id": "app.py#reset:19$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 5
+          },
+          "name": "sys.path.insert"
+        },
+        {
+          "id": "app.py#reset:19$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 12
+          }
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#reset:19$v2",
+          "to": "app.py#reset:19$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 5
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#reset:19$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "sys.path.insert",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#reset:19$v0"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#reset:19$v1"
+            }
+          ],
+          "resultValueId": "app.py#reset:19$v4",
+          "block": "app.py#reset:19$b0",
+          "method": "insert",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "0",
+            "1": "/opt/app/plugins"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#reset:19$v3"
+        }
+      ],
+      "returns": [
+        "app.py#reset:19$v5"
+      ],
+      "comparisons": [],
+      "entryBlock": "app.py#reset:19$b0",
+      "blocks": [
+        {
+          "id": "app.py#reset:19$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#reset:19$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 5
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "app.py#add_plugin:9",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/plugins/add"
+      }
+    },
+    {
+      "functionId": "app.py#reset:19",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/plugins/reset"
+      }
+    }
+  ]
+}
