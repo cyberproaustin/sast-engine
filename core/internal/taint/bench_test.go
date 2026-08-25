@@ -48,6 +48,7 @@ var corpora = []string{
 	"flask-misconfiguration",
 	"express-template-injection",
 	"flask-template-injection",
+	"express-factory-handler",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {

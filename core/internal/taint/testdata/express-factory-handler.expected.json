@@ -1,0 +1,14 @@
+{
+  "corpus": "express-factory-handler",
+  "description": "Two recall failures that hid each other. A handler produced by calling a factory resolved to the factory rather than to what it returns, so the route was enumerated with a body that reads nothing and no request parameter was ever seeded. And `req.body.email || ''` lowered to nothing at all, so even a resolved handler lost the value at the last hop before the sink. Together they made OWASP Juice Shop's headline SQL injection invisible while the surface reported complete. The second route is a factory that returns one of two handlers depending on its argument, which is a question this cannot answer, so it resolves to neither.",
+  "expected": [
+    {
+      "cwe": "CWE-89",
+      "sinkFile": "login.js",
+      "sinkLine": 9,
+      "sourceLabel": "req.body.email",
+      "confidence": "high",
+      "note": "the caller's email is interpolated into the statement through a `|| ''` default"
+    }
+  ]
+}
