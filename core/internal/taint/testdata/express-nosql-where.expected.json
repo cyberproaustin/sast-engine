@@ -1,0 +1,14 @@
+{
+  "corpus": "express-nosql-where",
+  "description": "`$where` takes a JavaScript EXPRESSION and MongoDB evaluates it on the server, so the caller's text is the caller's code -- the same judgement as eval, at a different interpreter. What names it is the OPTION rather than the method, and the negative is the identical method call with a field equality, which MongoDB compares and never evaluates.",
+  "expected": [
+    {
+      "cwe": "CWE-95",
+      "sinkFile": "app.js",
+      "sinkLine": 11,
+      "sourceLabel": "req.params.id",
+      "confidence": "high",
+      "note": "the option is the evidence; the same find() below carries a field equality and is silent"
+    }
+  ]
+}

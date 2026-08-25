@@ -2129,6 +2129,20 @@ func Builtin() Model {
 			// is caller-supplied costs a map lookup.
 			{
 				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Method: "extractAllTo", ReceiverIsEntryParam: -1,
+				RequiresUntrustedReceiver: true,
+				CWE:                       "CWE-22",
+				Rationale:                 "every entry in the archive names where it goes, and this archive came from the caller",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Method: "extractEntryTo", ReceiverIsEntryParam: -1,
+				RequiresUntrustedReceiver: true,
+				CWE:                       "CWE-22",
+				Rationale:                 "the entry being extracted names where it goes, and this archive came from the caller",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
 				Method: "extractall", ReceiverIsEntryParam: -1,
 				RequiresUntrustedReceiver: true,
 				CWE:                       "CWE-22",
@@ -2510,6 +2524,90 @@ func Builtin() Model {
 				Symbol: "Function", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
 				CWE:       "CWE-95",
 				Rationale: "the Function constructor compiles its argument as program source",
+			},
+			{
+				// MongoDB's `$where` takes a JavaScript EXPRESSION and evaluates it on the
+				// server, so caller data in one is caller data being executed -- the same
+				// judgement as eval, at a different interpreter.
+				//
+				// Named by the option rather than by the callee: `find`, `findOne`,
+				// `updateMany` and every wrapper over them accept it, and what makes it
+				// dangerous is the key, not which method carried it.
+				ID: "code-interpreter", Visibility: "internal", Context: "code",
+				Method: "find", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				Qualifiers: []ArgCondition{{Keyword: "$where"}},
+				CWE:        "CWE-95",
+				Rationale:  "$where is a JavaScript expression MongoDB evaluates on the server",
+			},
+			{
+				ID: "code-interpreter", Visibility: "internal", Context: "code",
+				Method: "findOne", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				Qualifiers: []ArgCondition{{Keyword: "$where"}},
+				CWE:        "CWE-95",
+				Rationale:  "$where is a JavaScript expression MongoDB evaluates on the server",
+			},
+			{
+				ID: "code-interpreter", Visibility: "internal", Context: "code",
+				Method: "findOneAndUpdate", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				Qualifiers: []ArgCondition{{Keyword: "$where"}},
+				CWE:        "CWE-95",
+				Rationale:  "$where is a JavaScript expression MongoDB evaluates on the server",
+			},
+			{
+				ID: "code-interpreter", Visibility: "internal", Context: "code",
+				Method: "updateMany", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				Qualifiers: []ArgCondition{{Keyword: "$where"}},
+				CWE:        "CWE-95",
+				Rationale:  "$where is a JavaScript expression MongoDB evaluates on the server",
+			},
+			{
+				ID: "code-interpreter", Visibility: "internal", Context: "code",
+				Method: "updateOne", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				Qualifiers: []ArgCondition{{Keyword: "$where"}},
+				CWE:        "CWE-95",
+				Rationale:  "$where is a JavaScript expression MongoDB evaluates on the server",
+			},
+			{
+				ID: "code-interpreter", Visibility: "internal", Context: "code",
+				Method: "update", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				Qualifiers: []ArgCondition{{Keyword: "$where"}},
+				CWE:        "CWE-95",
+				Rationale:  "$where is a JavaScript expression MongoDB evaluates on the server",
+			},
+			{
+				ID: "code-interpreter", Visibility: "internal", Context: "code",
+				Method: "deleteMany", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				Qualifiers: []ArgCondition{{Keyword: "$where"}},
+				CWE:        "CWE-95",
+				Rationale:  "$where is a JavaScript expression MongoDB evaluates on the server",
+			},
+			{
+				ID: "code-interpreter", Visibility: "internal", Context: "code",
+				Method: "count", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				Qualifiers: []ArgCondition{{Keyword: "$where"}},
+				CWE:        "CWE-95",
+				Rationale:  "$where is a JavaScript expression MongoDB evaluates on the server",
+			},
+			{
+				ID: "code-interpreter", Visibility: "internal", Context: "code",
+				Method: "countDocuments", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				Qualifiers: []ArgCondition{{Keyword: "$where"}},
+				CWE:        "CWE-95",
+				Rationale:  "$where is a JavaScript expression MongoDB evaluates on the server",
+			},
+			{
+				ID: "code-interpreter", Visibility: "internal", Context: "code",
+				Method: "aggregate", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				Qualifiers: []ArgCondition{{Keyword: "$where"}},
+				CWE:        "CWE-95",
+				Rationale:  "$where is a JavaScript expression MongoDB evaluates on the server",
+			},
+			{
+				ID: "code-interpreter", Visibility: "internal", Context: "code",
+				Method: "distinct", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				Qualifiers: []ArgCondition{{Keyword: "$where"}},
+				CWE:        "CWE-95",
+				Rationale:  "$where is a JavaScript expression MongoDB evaluates on the server",
 			},
 			{
 				// A sandbox that is not one. `vm` isolates the global object and nothing
@@ -4780,16 +4878,162 @@ func builtinCallShapes() []CallShape {
 			Reason:       "the algorithm is broken against collision, so a digest does not establish what it is used to establish",
 			Rationale:    "hashlib.new() is given the algorithm by name",
 		},
+		// A SESSION store's own cookie, configured where the store is made rather than
+		// where a cookie is set. The attributes are the same three and mean the same
+		// things; what changes is that they are written one level down inside a `cookie`
+		// group, which only became readable when the frontends started reading nested
+		// options.
+		//
+		// Named by CALLEE, and that is a correction rather than a preference. The first
+		// version identified a session store by the presence of a `secret` option, on the
+		// reasoning that a call which signs cookies with a secret is a session store
+		// whatever it is called. Measured on the clean corpus that produced 126 findings:
+		// a `secret` key appears in webhook configuration, OAuth clients, provider
+		// factories and test fixtures, and none of them sets a cookie. A short list of
+		// packages misses the next wrapper somebody writes, and that is the cheaper
+		// mistake.
 		{
-			// A signing key written into the source. Whatever it says, it is in the
-			// repository, in every clone of it, and in the history after somebody changes
-			// it -- which is what makes rotation insufficient on its own, and what makes
-			// this worth reporting even when the value looks like a placeholder.
-			//
-			// Matching on "was it written down" rather than on what it says is also what
-			// makes it precise: a key read from the environment or a vault is not a
-			// literal and never matches. Nothing here inspects the string, guesses at
-			// entropy, or keeps a list of what a secret looks like.
+			ID: "cookie-http-only-disabled", Symbol: "express-session.default", Keyword: "httpOnly",
+			Disallowed: []string{"false"},
+			CWE:        "CWE-1004",
+			Finding:    "Session cookie readable by script",
+			Reason:     "a session cookie without HttpOnly can be read by any script that runs on the page, which is what turns a scripting bug into a stolen session",
+			Rationale:  "the session store's cookie is configured with httpOnly false",
+		},
+		{
+			ID: "cookie-not-secure", Symbol: "express-session.default", Keyword: "secure",
+			Disallowed: []string{"false"},
+			CWE:        "CWE-614",
+			Finding:    "Session cookie sent over plain HTTP",
+			Reason:     "without Secure the browser sends this cookie over an unencrypted connection, where anyone on the path reads it",
+			Rationale:  "the session store's cookie is configured with secure false",
+		},
+		{
+			ID: "long-lived-session", Symbol: "express-session.default", Keyword: "maxAge", AboveValue: atMost(2592000000),
+			CWE:       "CWE-613",
+			Finding:   "Session cookie valid for longer than a month",
+			Reason:    "a credential that stays valid for a year is a credential an attacker who steals it keeps for a year, and nothing the user does afterwards takes it back",
+			Rationale: "the session store's cookie lifetime is written in the call, in milliseconds",
+		},
+		{
+			// The key the cookie is SIGNED with. Written into the source it is in every
+			// clone of the repository, so anybody holding the repository can mint a
+			// session for anybody -- and the example values are in every tutorial too.
+			ID: "hardcoded-secret", Symbol: "express-session.default", Keyword: "secret", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "secret", NoneOf: []string{"null", "none", "undefined", "false", "true"}}},
+			CWE:        "CWE-798",
+			Finding:    "Secret written into the source",
+			Reason:     "a key in the source is in every clone of the repository and stays in its history after it is changed, and a session signing key in the source means anybody holding the repository can mint a session",
+			Rationale:  "the session store's secret is given a value written in the call",
+		},
+		{
+			ID: "cookie-http-only-disabled", Symbol: "cookie-session.default", Keyword: "httpOnly",
+			Disallowed: []string{"false"},
+			CWE:        "CWE-1004",
+			Finding:    "Session cookie readable by script",
+			Reason:     "a session cookie without HttpOnly can be read by any script that runs on the page, which is what turns a scripting bug into a stolen session",
+			Rationale:  "the session store's cookie is configured with httpOnly false",
+		},
+		{
+			ID: "cookie-not-secure", Symbol: "cookie-session.default", Keyword: "secure",
+			Disallowed: []string{"false"},
+			CWE:        "CWE-614",
+			Finding:    "Session cookie sent over plain HTTP",
+			Reason:     "without Secure the browser sends this cookie over an unencrypted connection, where anyone on the path reads it",
+			Rationale:  "the session store's cookie is configured with secure false",
+		},
+		{
+			ID: "long-lived-session", Symbol: "cookie-session.default", Keyword: "maxAge", AboveValue: atMost(2592000000),
+			CWE:       "CWE-613",
+			Finding:   "Session cookie valid for longer than a month",
+			Reason:    "a credential that stays valid for a year is a credential an attacker who steals it keeps for a year, and nothing the user does afterwards takes it back",
+			Rationale: "the session store's cookie lifetime is written in the call, in milliseconds",
+		},
+		{
+			// The key the cookie is SIGNED with. Written into the source it is in every
+			// clone of the repository, so anybody holding the repository can mint a
+			// session for anybody -- and the example values are in every tutorial too.
+			ID: "hardcoded-secret", Symbol: "cookie-session.default", Keyword: "secret", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "secret", NoneOf: []string{"null", "none", "undefined", "false", "true"}}},
+			CWE:        "CWE-798",
+			Finding:    "Secret written into the source",
+			Reason:     "a key in the source is in every clone of the repository and stays in its history after it is changed, and a session signing key in the source means anybody holding the repository can mint a session",
+			Rationale:  "the session store's secret is given a value written in the call",
+		},
+		{
+			ID: "cookie-http-only-disabled", Symbol: "koa-session.default", Keyword: "httpOnly",
+			Disallowed: []string{"false"},
+			CWE:        "CWE-1004",
+			Finding:    "Session cookie readable by script",
+			Reason:     "a session cookie without HttpOnly can be read by any script that runs on the page, which is what turns a scripting bug into a stolen session",
+			Rationale:  "the session store's cookie is configured with httpOnly false",
+		},
+		{
+			ID: "cookie-not-secure", Symbol: "koa-session.default", Keyword: "secure",
+			Disallowed: []string{"false"},
+			CWE:        "CWE-614",
+			Finding:    "Session cookie sent over plain HTTP",
+			Reason:     "without Secure the browser sends this cookie over an unencrypted connection, where anyone on the path reads it",
+			Rationale:  "the session store's cookie is configured with secure false",
+		},
+		{
+			ID: "long-lived-session", Symbol: "koa-session.default", Keyword: "maxAge", AboveValue: atMost(2592000000),
+			CWE:       "CWE-613",
+			Finding:   "Session cookie valid for longer than a month",
+			Reason:    "a credential that stays valid for a year is a credential an attacker who steals it keeps for a year, and nothing the user does afterwards takes it back",
+			Rationale: "the session store's cookie lifetime is written in the call, in milliseconds",
+		},
+		{
+			// The key the cookie is SIGNED with. Written into the source it is in every
+			// clone of the repository, so anybody holding the repository can mint a
+			// session for anybody -- and the example values are in every tutorial too.
+			ID: "hardcoded-secret", Symbol: "koa-session.default", Keyword: "secret", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "secret", NoneOf: []string{"null", "none", "undefined", "false", "true"}}},
+			CWE:        "CWE-798",
+			Finding:    "Secret written into the source",
+			Reason:     "a key in the source is in every clone of the repository and stays in its history after it is changed, and a session signing key in the source means anybody holding the repository can mint a session",
+			Rationale:  "the session store's secret is given a value written in the call",
+		},
+		{
+			ID: "cookie-http-only-disabled", Symbol: "client-sessions.default", Keyword: "httpOnly",
+			Disallowed: []string{"false"},
+			CWE:        "CWE-1004",
+			Finding:    "Session cookie readable by script",
+			Reason:     "a session cookie without HttpOnly can be read by any script that runs on the page, which is what turns a scripting bug into a stolen session",
+			Rationale:  "the session store's cookie is configured with httpOnly false",
+		},
+		{
+			ID: "cookie-not-secure", Symbol: "client-sessions.default", Keyword: "secure",
+			Disallowed: []string{"false"},
+			CWE:        "CWE-614",
+			Finding:    "Session cookie sent over plain HTTP",
+			Reason:     "without Secure the browser sends this cookie over an unencrypted connection, where anyone on the path reads it",
+			Rationale:  "the session store's cookie is configured with secure false",
+		},
+		{
+			ID: "long-lived-session", Symbol: "client-sessions.default", Keyword: "maxAge", AboveValue: atMost(2592000000),
+			CWE:       "CWE-613",
+			Finding:   "Session cookie valid for longer than a month",
+			Reason:    "a credential that stays valid for a year is a credential an attacker who steals it keeps for a year, and nothing the user does afterwards takes it back",
+			Rationale: "the session store's cookie lifetime is written in the call, in milliseconds",
+		},
+		{
+			// The key the cookie is SIGNED with. Written into the source it is in every
+			// clone of the repository, so anybody holding the repository can mint a
+			// session for anybody -- and the example values are in every tutorial too.
+			ID: "hardcoded-secret", Symbol: "client-sessions.default", Keyword: "secret", AnyLiteral: true,
+			Qualifiers: []ArgCondition{{Keyword: "secret", NoneOf: []string{"null", "none", "undefined", "false", "true"}}},
+			CWE:        "CWE-798",
+			Finding:    "Secret written into the source",
+			Reason:     "a key in the source is in every clone of the repository and stays in its history after it is changed, and a session signing key in the source means anybody holding the repository can mint a session",
+			Rationale:  "the session store's secret is given a value written in the call",
+		},
+		{
+			// A signing key written into the source. The rule tests only whether it was
+			// WRITTEN, which is also what makes it precise: a key read from the
+			// environment or a vault is not a literal and never matches. Nothing here
+			// inspects the string, guesses at entropy, or keeps a list of what a secret
+			// looks like.
 			ID: "hardcoded-secret", Symbol: "jsonwebtoken.sign", ArgIndex: 1, AnyLiteral: true,
 			CWE:       "CWE-798",
 			Finding:   "Secret written into the source",
