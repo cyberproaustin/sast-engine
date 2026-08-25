@@ -1,0 +1,6 @@
+<!-- POSITIVE. A variable index is an index. `rows[i].name` inside a loop is the shape
+     every table in every application has, and refusing to read it meant refusing the
+     most common place an unescaped interpolation appears. -->
+<% for (var i = 0; i < rows.length; i++) { %>
+  <td><%- rows[i].name %></td>
+<% } %>

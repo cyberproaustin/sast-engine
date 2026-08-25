@@ -33,11 +33,15 @@ MARKUP_EXTENSIONS = (".html", ".htm", ".xhtml", ".xml", ".svg")
 SKIP_DIRECTORIES = {".git", "node_modules", "__pycache__", ".venv", "venv", "dist", "build"}
 
 # An access path this frontend is willing to say it understands. `user.name`,
-# `user["name"]` and `items[0].name` are reads of a field; `helper(user)` and
-# `a if b else c` are not paths, and pretending they were would attach a finding to a
+# `user["name"]`, `items[0].name` and `items[i].name` are reads of a field; `helper(user)`
+# and `a if b else c` are not paths, and pretending they were would attach a finding to a
 # value nobody can point at.
+#
+# A VARIABLE index counts for the same reason a numeric one does: `{{ rows[i].name }}`
+# inside a loop is the shape every table in every application has, and refusing it meant
+# refusing the most common place an interpolation appears.
 _PATH_ONLY = re.compile(
-    r"^[A-Za-z_][\w]*(?:\.[A-Za-z_][\w]*|\[[\"'][^\"'\]]+[\"']\]|\[\d+\])*$"
+    r"^[A-Za-z_][\w]*(?:\.[A-Za-z_][\w]*|\[[\"'][^\"'\]]+[\"']\]|\[\d+\]|\[[A-Za-z_][\w]*\])*$"
 )
 
 # Values that are not reads of anything a render call supplied.
@@ -55,7 +59,7 @@ _SAFE_FILTER = re.compile(r"\|\s*safe\b")
 _ESCAPE_FILTER = re.compile(r"\|\s*(?:e|escape|forceescape|urlencode)\b")
 _MARKUP = re.compile(r"\bMarkup\s*\(")
 _SUBSCRIPT = re.compile(r"\[[\"']([^\"'\]]+)[\"']\]")
-_INDEX = re.compile(r"\[\d+\]")
+_INDEX = re.compile(r"\[(?:\d+|[A-Za-z_]\w*)\]")
 
 
 class Template:

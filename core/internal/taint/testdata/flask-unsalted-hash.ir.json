@@ -24,7 +24,7 @@
   ],
   "functions": [
     {
-      "id": "app.py#<module>:0",
+      "id": "app.py#<module>:0:0",
       "name": "<module>",
       "module": "app.py",
       "loc": {
@@ -35,7 +35,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#<module>:0$v0",
+          "id": "app.py#<module>:0:0$v0",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -45,7 +45,7 @@
           "name": "flask.Flask"
         },
         {
-          "id": "app.py#<module>:0$v1",
+          "id": "app.py#<module>:0:0$v1",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -55,7 +55,7 @@
           "name": "app"
         },
         {
-          "id": "app.py#<module>:0$v2",
+          "id": "app.py#<module>:0:0$v2",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -65,7 +65,7 @@
           "literal": "site-wide"
         },
         {
-          "id": "app.py#<module>:0$v3",
+          "id": "app.py#<module>:0:0$v3",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -77,8 +77,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#<module>:0$v0",
-          "to": "app.py#<module>:0$v1",
+          "from": "app.py#<module>:0:0$v0",
+          "to": "app.py#<module>:0:0$v1",
           "kind": "assign",
           "loc": {
             "file": "app.py",
@@ -87,8 +87,8 @@
           }
         },
         {
-          "from": "app.py#<module>:0$v2",
-          "to": "app.py#<module>:0$v3",
+          "from": "app.py#<module>:0:0$v2",
+          "to": "app.py#<module>:0:0$v3",
           "kind": "assign",
           "loc": {
             "file": "app.py",
@@ -99,7 +99,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#<module>:0$c0",
+          "id": "app.py#<module>:0:0$c0",
           "loc": {
             "file": "app.py",
             "line": 5,
@@ -111,8 +111,8 @@
             "resolution": "resolved"
           },
           "args": [],
-          "resultValueId": "app.py#<module>:0$v0",
-          "block": "app.py#<module>:0$b0",
+          "resultValueId": "app.py#<module>:0:0$v0",
+          "block": "app.py#<module>:0:0$b0",
           "argCount": 1,
           "enumeratedOptions": [
             -1
@@ -122,10 +122,10 @@
       "returns": [],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#<module>:0$b0",
+      "entryBlock": "app.py#<module>:0:0$b0",
       "blocks": [
         {
-          "id": "app.py#<module>:0$b0",
+          "id": "app.py#<module>:0:0$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -136,7 +136,7 @@
       ]
     },
     {
-      "id": "app.py#register:10",
+      "id": "app.py#register:10:1",
       "name": "register",
       "module": "app.py",
       "loc": {
@@ -147,7 +147,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#register:10$v0",
+          "id": "app.py#register:10:1$v0",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -157,19 +157,19 @@
           "name": "flask.request"
         },
         {
-          "id": "app.py#register:10$v1",
+          "id": "app.py#register:10:1$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
             "line": 13,
             "column": 29
           },
-          "base": "app.py#register:10$v0",
+          "base": "app.py#register:10:1$v0",
           "path": "form",
           "name": "form"
         },
         {
-          "id": "app.py#register:10$v2",
+          "id": "app.py#register:10:1$v2",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -177,11 +177,11 @@
             "column": 29
           },
           "name": "password",
-          "base": "app.py#register:10$v1",
+          "base": "app.py#register:10:1$v1",
           "path": "form.password"
         },
         {
-          "id": "app.py#register:10$v3",
+          "id": "app.py#register:10:1$v3",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -191,7 +191,7 @@
           "name": "unresolved"
         },
         {
-          "id": "app.py#register:10$v4",
+          "id": "app.py#register:10:1$v4",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -201,7 +201,7 @@
           "name": "hashlib"
         },
         {
-          "id": "app.py#register:10$v5",
+          "id": "app.py#register:10:1$v5",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -211,7 +211,7 @@
           "name": "hashlib.sha256"
         },
         {
-          "id": "app.py#register:10$v6",
+          "id": "app.py#register:10:1$v6",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -221,7 +221,7 @@
           "name": "unresolved"
         },
         {
-          "id": "app.py#register:10$v7",
+          "id": "app.py#register:10:1$v7",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -233,8 +233,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#register:10$v0",
-          "to": "app.py#register:10$v1",
+          "from": "app.py#register:10:1$v0",
+          "to": "app.py#register:10:1$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -243,8 +243,8 @@
           }
         },
         {
-          "from": "app.py#register:10$v1",
-          "to": "app.py#register:10$v2",
+          "from": "app.py#register:10:1$v1",
+          "to": "app.py#register:10:1$v2",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -253,8 +253,8 @@
           }
         },
         {
-          "from": "app.py#register:10$v6",
-          "to": "app.py#register:10$v7",
+          "from": "app.py#register:10:1$v6",
+          "to": "app.py#register:10:1$v7",
           "kind": "assign",
           "loc": {
             "file": "app.py",
@@ -265,7 +265,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#register:10$c0",
+          "id": "app.py#register:10:1$c0",
           "loc": {
             "file": "app.py",
             "line": 13,
@@ -276,16 +276,16 @@
             "resolution": "dynamic-unresolved"
           },
           "args": [],
-          "resultValueId": "app.py#register:10$v3",
-          "block": "app.py#register:10$b0",
+          "resultValueId": "app.py#register:10:1$v3",
+          "block": "app.py#register:10:1$b0",
           "method": "encode",
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#register:10$v2"
+          "receiverValueId": "app.py#register:10:1$v2"
         },
         {
-          "id": "app.py#register:10$c1",
+          "id": "app.py#register:10:1$c1",
           "loc": {
             "file": "app.py",
             "line": 13,
@@ -299,20 +299,20 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#register:10$v3"
+              "valueId": "app.py#register:10:1$v3"
             }
           ],
-          "resultValueId": "app.py#register:10$v5",
-          "block": "app.py#register:10$b0",
+          "resultValueId": "app.py#register:10:1$v5",
+          "block": "app.py#register:10:1$b0",
           "method": "sha256",
           "argCount": 1,
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#register:10$v4"
+          "receiverValueId": "app.py#register:10:1$v4"
         },
         {
-          "id": "app.py#register:10$c2",
+          "id": "app.py#register:10:1$c2",
           "loc": {
             "file": "app.py",
             "line": 13,
@@ -323,24 +323,24 @@
             "resolution": "dynamic-unresolved"
           },
           "args": [],
-          "resultValueId": "app.py#register:10$v6",
-          "block": "app.py#register:10$b0",
+          "resultValueId": "app.py#register:10:1$v6",
+          "block": "app.py#register:10:1$b0",
           "method": "hexdigest",
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#register:10$v5"
+          "receiverValueId": "app.py#register:10:1$v5"
         }
       ],
       "returns": [
-        "app.py#register:10$v7"
+        "app.py#register:10:1$v7"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#register:10$b0",
+      "entryBlock": "app.py#register:10:1$b0",
       "blocks": [
         {
-          "id": "app.py#register:10$b0",
+          "id": "app.py#register:10:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -350,7 +350,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#register:10$b1",
+          "id": "app.py#register:10:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -361,7 +361,7 @@
       ]
     },
     {
-      "id": "app.py#register_salted:18",
+      "id": "app.py#register_salted:18:1",
       "name": "register_salted",
       "module": "app.py",
       "loc": {
@@ -372,7 +372,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#register_salted:18$v0",
+          "id": "app.py#register_salted:18:1$v0",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -382,7 +382,7 @@
           "name": "concat"
         },
         {
-          "id": "app.py#register_salted:18$v1",
+          "id": "app.py#register_salted:18:1$v1",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -392,19 +392,19 @@
           "name": "flask.request"
         },
         {
-          "id": "app.py#register_salted:18$v2",
+          "id": "app.py#register_salted:18:1$v2",
           "kind": "property",
           "loc": {
             "file": "app.py",
             "line": 24,
             "column": 23
           },
-          "base": "app.py#register_salted:18$v1",
+          "base": "app.py#register_salted:18:1$v1",
           "path": "form",
           "name": "form"
         },
         {
-          "id": "app.py#register_salted:18$v3",
+          "id": "app.py#register_salted:18:1$v3",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -412,11 +412,11 @@
             "column": 23
           },
           "name": "password",
-          "base": "app.py#register_salted:18$v2",
+          "base": "app.py#register_salted:18:1$v2",
           "path": "form.password"
         },
         {
-          "id": "app.py#register_salted:18$v4",
+          "id": "app.py#register_salted:18:1$v4",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -426,7 +426,7 @@
           "name": "salted"
         },
         {
-          "id": "app.py#register_salted:18$v5",
+          "id": "app.py#register_salted:18:1$v5",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -436,7 +436,7 @@
           "name": "salted.encode"
         },
         {
-          "id": "app.py#register_salted:18$v6",
+          "id": "app.py#register_salted:18:1$v6",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -446,7 +446,7 @@
           "name": "hashlib"
         },
         {
-          "id": "app.py#register_salted:18$v7",
+          "id": "app.py#register_salted:18:1$v7",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -456,7 +456,7 @@
           "name": "hashlib.sha256"
         },
         {
-          "id": "app.py#register_salted:18$v8",
+          "id": "app.py#register_salted:18:1$v8",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -468,8 +468,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#<module>:0$v3",
-          "to": "app.py#register_salted:18$v0",
+          "from": "app.py#<module>:0:0$v3",
+          "to": "app.py#register_salted:18:1$v0",
           "kind": "binary",
           "loc": {
             "file": "app.py",
@@ -478,8 +478,8 @@
           }
         },
         {
-          "from": "app.py#register_salted:18$v1",
-          "to": "app.py#register_salted:18$v2",
+          "from": "app.py#register_salted:18:1$v1",
+          "to": "app.py#register_salted:18:1$v2",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -488,8 +488,8 @@
           }
         },
         {
-          "from": "app.py#register_salted:18$v2",
-          "to": "app.py#register_salted:18$v3",
+          "from": "app.py#register_salted:18:1$v2",
+          "to": "app.py#register_salted:18:1$v3",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -498,8 +498,8 @@
           }
         },
         {
-          "from": "app.py#register_salted:18$v3",
-          "to": "app.py#register_salted:18$v0",
+          "from": "app.py#register_salted:18:1$v3",
+          "to": "app.py#register_salted:18:1$v0",
           "kind": "binary",
           "loc": {
             "file": "app.py",
@@ -508,8 +508,8 @@
           }
         },
         {
-          "from": "app.py#register_salted:18$v0",
-          "to": "app.py#register_salted:18$v4",
+          "from": "app.py#register_salted:18:1$v0",
+          "to": "app.py#register_salted:18:1$v4",
           "kind": "assign",
           "loc": {
             "file": "app.py",
@@ -520,7 +520,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#register_salted:18$c0",
+          "id": "app.py#register_salted:18:1$c0",
           "loc": {
             "file": "app.py",
             "line": 25,
@@ -532,16 +532,16 @@
             "resolution": "probable"
           },
           "args": [],
-          "resultValueId": "app.py#register_salted:18$v5",
-          "block": "app.py#register_salted:18$b0",
+          "resultValueId": "app.py#register_salted:18:1$v5",
+          "block": "app.py#register_salted:18:1$b0",
           "method": "encode",
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#register_salted:18$v4"
+          "receiverValueId": "app.py#register_salted:18:1$v4"
         },
         {
-          "id": "app.py#register_salted:18$c1",
+          "id": "app.py#register_salted:18:1$c1",
           "loc": {
             "file": "app.py",
             "line": 25,
@@ -555,20 +555,20 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#register_salted:18$v5"
+              "valueId": "app.py#register_salted:18:1$v5"
             }
           ],
-          "resultValueId": "app.py#register_salted:18$v7",
-          "block": "app.py#register_salted:18$b0",
+          "resultValueId": "app.py#register_salted:18:1$v7",
+          "block": "app.py#register_salted:18:1$b0",
           "method": "sha256",
           "argCount": 1,
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#register_salted:18$v6"
+          "receiverValueId": "app.py#register_salted:18:1$v6"
         },
         {
-          "id": "app.py#register_salted:18$c2",
+          "id": "app.py#register_salted:18:1$c2",
           "loc": {
             "file": "app.py",
             "line": 25,
@@ -579,24 +579,24 @@
             "resolution": "dynamic-unresolved"
           },
           "args": [],
-          "resultValueId": "app.py#register_salted:18$v8",
-          "block": "app.py#register_salted:18$b0",
+          "resultValueId": "app.py#register_salted:18:1$v8",
+          "block": "app.py#register_salted:18:1$b0",
           "method": "hexdigest",
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#register_salted:18$v7"
+          "receiverValueId": "app.py#register_salted:18:1$v7"
         }
       ],
       "returns": [
-        "app.py#register_salted:18$v8"
+        "app.py#register_salted:18:1$v8"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#register_salted:18$b0",
+      "entryBlock": "app.py#register_salted:18:1$b0",
       "blocks": [
         {
-          "id": "app.py#register_salted:18$b0",
+          "id": "app.py#register_salted:18:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -606,7 +606,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#register_salted:18$b1",
+          "id": "app.py#register_salted:18:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -617,7 +617,7 @@
       ]
     },
     {
-      "id": "app.py#register_kdf:29",
+      "id": "app.py#register_kdf:29:1",
       "name": "register_kdf",
       "module": "app.py",
       "loc": {
@@ -628,7 +628,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#register_kdf:29$v0",
+          "id": "app.py#register_kdf:29:1$v0",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -638,7 +638,7 @@
           "literal": "sha256"
         },
         {
-          "id": "app.py#register_kdf:29$v1",
+          "id": "app.py#register_kdf:29:1$v1",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -648,19 +648,19 @@
           "name": "flask.request"
         },
         {
-          "id": "app.py#register_kdf:29$v2",
+          "id": "app.py#register_kdf:29:1$v2",
           "kind": "property",
           "loc": {
             "file": "app.py",
             "line": 33,
             "column": 19
           },
-          "base": "app.py#register_kdf:29$v1",
+          "base": "app.py#register_kdf:29:1$v1",
           "path": "form",
           "name": "form"
         },
         {
-          "id": "app.py#register_kdf:29$v3",
+          "id": "app.py#register_kdf:29:1$v3",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -668,11 +668,11 @@
             "column": 19
           },
           "name": "password",
-          "base": "app.py#register_kdf:29$v2",
+          "base": "app.py#register_kdf:29:1$v2",
           "path": "form.password"
         },
         {
-          "id": "app.py#register_kdf:29$v4",
+          "id": "app.py#register_kdf:29:1$v4",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -682,7 +682,7 @@
           "name": "unresolved"
         },
         {
-          "id": "app.py#register_kdf:29$v5",
+          "id": "app.py#register_kdf:29:1$v5",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -690,11 +690,11 @@
             "column": 54
           },
           "name": "nonce",
-          "base": "app.py#register_kdf:29$v2",
+          "base": "app.py#register_kdf:29:1$v2",
           "path": "form.nonce"
         },
         {
-          "id": "app.py#register_kdf:29$v6",
+          "id": "app.py#register_kdf:29:1$v6",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -704,7 +704,7 @@
           "name": "unresolved"
         },
         {
-          "id": "app.py#register_kdf:29$v7",
+          "id": "app.py#register_kdf:29:1$v7",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -714,7 +714,7 @@
           "literal": "600000"
         },
         {
-          "id": "app.py#register_kdf:29$v8",
+          "id": "app.py#register_kdf:29:1$v8",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -724,7 +724,7 @@
           "name": "hashlib"
         },
         {
-          "id": "app.py#register_kdf:29$v9",
+          "id": "app.py#register_kdf:29:1$v9",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -734,7 +734,7 @@
           "name": "hashlib.pbkdf2_hmac"
         },
         {
-          "id": "app.py#register_kdf:29$v10",
+          "id": "app.py#register_kdf:29:1$v10",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -746,8 +746,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#register_kdf:29$v1",
-          "to": "app.py#register_kdf:29$v2",
+          "from": "app.py#register_kdf:29:1$v1",
+          "to": "app.py#register_kdf:29:1$v2",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -756,8 +756,8 @@
           }
         },
         {
-          "from": "app.py#register_kdf:29$v2",
-          "to": "app.py#register_kdf:29$v3",
+          "from": "app.py#register_kdf:29:1$v2",
+          "to": "app.py#register_kdf:29:1$v3",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -766,8 +766,8 @@
           }
         },
         {
-          "from": "app.py#register_kdf:29$v2",
-          "to": "app.py#register_kdf:29$v5",
+          "from": "app.py#register_kdf:29:1$v2",
+          "to": "app.py#register_kdf:29:1$v5",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -778,7 +778,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#register_kdf:29$c0",
+          "id": "app.py#register_kdf:29:1$c0",
           "loc": {
             "file": "app.py",
             "line": 33,
@@ -789,16 +789,16 @@
             "resolution": "dynamic-unresolved"
           },
           "args": [],
-          "resultValueId": "app.py#register_kdf:29$v4",
-          "block": "app.py#register_kdf:29$b0",
+          "resultValueId": "app.py#register_kdf:29:1$v4",
+          "block": "app.py#register_kdf:29:1$b0",
           "method": "encode",
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#register_kdf:29$v3"
+          "receiverValueId": "app.py#register_kdf:29:1$v3"
         },
         {
-          "id": "app.py#register_kdf:29$c1",
+          "id": "app.py#register_kdf:29:1$c1",
           "loc": {
             "file": "app.py",
             "line": 33,
@@ -809,16 +809,16 @@
             "resolution": "dynamic-unresolved"
           },
           "args": [],
-          "resultValueId": "app.py#register_kdf:29$v6",
-          "block": "app.py#register_kdf:29$b0",
+          "resultValueId": "app.py#register_kdf:29:1$v6",
+          "block": "app.py#register_kdf:29:1$b0",
           "method": "encode",
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#register_kdf:29$v5"
+          "receiverValueId": "app.py#register_kdf:29:1$v5"
         },
         {
-          "id": "app.py#register_kdf:29$c2",
+          "id": "app.py#register_kdf:29:1$c2",
           "loc": {
             "file": "app.py",
             "line": 32,
@@ -832,23 +832,23 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#register_kdf:29$v0"
+              "valueId": "app.py#register_kdf:29:1$v0"
             },
             {
               "index": 1,
-              "valueId": "app.py#register_kdf:29$v4"
+              "valueId": "app.py#register_kdf:29:1$v4"
             },
             {
               "index": 2,
-              "valueId": "app.py#register_kdf:29$v6"
+              "valueId": "app.py#register_kdf:29:1$v6"
             },
             {
               "index": 3,
-              "valueId": "app.py#register_kdf:29$v7"
+              "valueId": "app.py#register_kdf:29:1$v7"
             }
           ],
-          "resultValueId": "app.py#register_kdf:29$v9",
-          "block": "app.py#register_kdf:29$b0",
+          "resultValueId": "app.py#register_kdf:29:1$v9",
+          "block": "app.py#register_kdf:29:1$b0",
           "method": "pbkdf2_hmac",
           "argCount": 4,
           "argLiterals": {
@@ -858,10 +858,10 @@
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#register_kdf:29$v8"
+          "receiverValueId": "app.py#register_kdf:29:1$v8"
         },
         {
-          "id": "app.py#register_kdf:29$c3",
+          "id": "app.py#register_kdf:29:1$c3",
           "loc": {
             "file": "app.py",
             "line": 32,
@@ -872,24 +872,24 @@
             "resolution": "dynamic-unresolved"
           },
           "args": [],
-          "resultValueId": "app.py#register_kdf:29$v10",
-          "block": "app.py#register_kdf:29$b0",
+          "resultValueId": "app.py#register_kdf:29:1$v10",
+          "block": "app.py#register_kdf:29:1$b0",
           "method": "hex",
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#register_kdf:29$v9"
+          "receiverValueId": "app.py#register_kdf:29:1$v9"
         }
       ],
       "returns": [
-        "app.py#register_kdf:29$v10"
+        "app.py#register_kdf:29:1$v10"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#register_kdf:29$b0",
+      "entryBlock": "app.py#register_kdf:29:1$b0",
       "blocks": [
         {
-          "id": "app.py#register_kdf:29$b0",
+          "id": "app.py#register_kdf:29:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -899,7 +899,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#register_kdf:29$b1",
+          "id": "app.py#register_kdf:29:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -910,7 +910,7 @@
       ]
     },
     {
-      "id": "app.py#etag:38",
+      "id": "app.py#etag:38:1",
       "name": "etag",
       "module": "app.py",
       "loc": {
@@ -921,7 +921,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#etag:38$v0",
+          "id": "app.py#etag:38:1$v0",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -931,19 +931,19 @@
           "name": "flask.request"
         },
         {
-          "id": "app.py#etag:38$v1",
+          "id": "app.py#etag:38:1$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
             "line": 41,
             "column": 27
           },
-          "base": "app.py#etag:38$v0",
+          "base": "app.py#etag:38:1$v0",
           "path": "args",
           "name": "args"
         },
         {
-          "id": "app.py#etag:38$v2",
+          "id": "app.py#etag:38:1$v2",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -951,11 +951,11 @@
             "column": 27
           },
           "name": "path",
-          "base": "app.py#etag:38$v1",
+          "base": "app.py#etag:38:1$v1",
           "path": "args.path"
         },
         {
-          "id": "app.py#etag:38$v3",
+          "id": "app.py#etag:38:1$v3",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -965,7 +965,7 @@
           "name": "unresolved"
         },
         {
-          "id": "app.py#etag:38$v4",
+          "id": "app.py#etag:38:1$v4",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -975,7 +975,7 @@
           "name": "hashlib"
         },
         {
-          "id": "app.py#etag:38$v5",
+          "id": "app.py#etag:38:1$v5",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -985,7 +985,7 @@
           "name": "hashlib.sha256"
         },
         {
-          "id": "app.py#etag:38$v6",
+          "id": "app.py#etag:38:1$v6",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -997,8 +997,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#etag:38$v0",
-          "to": "app.py#etag:38$v1",
+          "from": "app.py#etag:38:1$v0",
+          "to": "app.py#etag:38:1$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -1007,8 +1007,8 @@
           }
         },
         {
-          "from": "app.py#etag:38$v1",
-          "to": "app.py#etag:38$v2",
+          "from": "app.py#etag:38:1$v1",
+          "to": "app.py#etag:38:1$v2",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -1019,7 +1019,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#etag:38$c0",
+          "id": "app.py#etag:38:1$c0",
           "loc": {
             "file": "app.py",
             "line": 41,
@@ -1030,16 +1030,16 @@
             "resolution": "dynamic-unresolved"
           },
           "args": [],
-          "resultValueId": "app.py#etag:38$v3",
-          "block": "app.py#etag:38$b0",
+          "resultValueId": "app.py#etag:38:1$v3",
+          "block": "app.py#etag:38:1$b0",
           "method": "encode",
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#etag:38$v2"
+          "receiverValueId": "app.py#etag:38:1$v2"
         },
         {
-          "id": "app.py#etag:38$c1",
+          "id": "app.py#etag:38:1$c1",
           "loc": {
             "file": "app.py",
             "line": 41,
@@ -1053,20 +1053,20 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#etag:38$v3"
+              "valueId": "app.py#etag:38:1$v3"
             }
           ],
-          "resultValueId": "app.py#etag:38$v5",
-          "block": "app.py#etag:38$b0",
+          "resultValueId": "app.py#etag:38:1$v5",
+          "block": "app.py#etag:38:1$b0",
           "method": "sha256",
           "argCount": 1,
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#etag:38$v4"
+          "receiverValueId": "app.py#etag:38:1$v4"
         },
         {
-          "id": "app.py#etag:38$c2",
+          "id": "app.py#etag:38:1$c2",
           "loc": {
             "file": "app.py",
             "line": 41,
@@ -1077,24 +1077,24 @@
             "resolution": "dynamic-unresolved"
           },
           "args": [],
-          "resultValueId": "app.py#etag:38$v6",
-          "block": "app.py#etag:38$b0",
+          "resultValueId": "app.py#etag:38:1$v6",
+          "block": "app.py#etag:38:1$b0",
           "method": "hexdigest",
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#etag:38$v5"
+          "receiverValueId": "app.py#etag:38:1$v5"
         }
       ],
       "returns": [
-        "app.py#etag:38$v6"
+        "app.py#etag:38:1$v6"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#etag:38$b0",
+      "entryBlock": "app.py#etag:38:1$b0",
       "blocks": [
         {
-          "id": "app.py#etag:38$b0",
+          "id": "app.py#etag:38:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -1104,7 +1104,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#etag:38$b1",
+          "id": "app.py#etag:38:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -1117,7 +1117,7 @@
   ],
   "entryPoints": [
     {
-      "functionId": "app.py#register:10",
+      "functionId": "app.py#register:10:1",
       "kind": "http-route",
       "framework": "flask",
       "detail": {
@@ -1126,7 +1126,7 @@
       }
     },
     {
-      "functionId": "app.py#register_salted:18",
+      "functionId": "app.py#register_salted:18:1",
       "kind": "http-route",
       "framework": "flask",
       "detail": {
@@ -1135,7 +1135,7 @@
       }
     },
     {
-      "functionId": "app.py#register_kdf:29",
+      "functionId": "app.py#register_kdf:29:1",
       "kind": "http-route",
       "framework": "flask",
       "detail": {
@@ -1144,7 +1144,7 @@
       }
     },
     {
-      "functionId": "app.py#etag:38",
+      "functionId": "app.py#etag:38:1",
       "kind": "http-route",
       "framework": "flask",
       "detail": {

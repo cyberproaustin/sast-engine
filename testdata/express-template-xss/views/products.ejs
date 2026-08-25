@@ -2,3 +2,11 @@
 <p>You searched for <%- query %></p>
 <p>Escaped, and therefore silent: <%= query %></p>
 <p>Not from the caller at all: <%= count %></p>
+
+<!-- POSITIVE. A variable index is an index, for the same reason a numeric one is: the
+     engine is not field-sensitive about array elements, and `rows[0].name` and
+     `rows[i].name` are the same read. Refusing the second meant refusing the most common
+     place an unescaped interpolation appears -- inside the loop that renders a table. -->
+<% for (var i = 0; i < rows.length; i++) { %>
+  <td><%- rows[i].name %></td>
+<% } %>

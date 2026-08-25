@@ -24,7 +24,7 @@
   ],
   "functions": [
     {
-      "id": "app.py#<module>:0",
+      "id": "app.py#<module>:0:0",
       "name": "<module>",
       "module": "app.py",
       "loc": {
@@ -35,7 +35,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#<module>:0$v0",
+          "id": "app.py#<module>:0:0$v0",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -45,7 +45,7 @@
           "name": "flask.Flask"
         },
         {
-          "id": "app.py#<module>:0$v1",
+          "id": "app.py#<module>:0:0$v1",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -57,8 +57,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#<module>:0$v0",
-          "to": "app.py#<module>:0$v1",
+          "from": "app.py#<module>:0:0$v0",
+          "to": "app.py#<module>:0:0$v1",
           "kind": "assign",
           "loc": {
             "file": "app.py",
@@ -69,7 +69,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#<module>:0$c0",
+          "id": "app.py#<module>:0:0$c0",
           "loc": {
             "file": "app.py",
             "line": 5,
@@ -81,8 +81,8 @@
             "resolution": "resolved"
           },
           "args": [],
-          "resultValueId": "app.py#<module>:0$v0",
-          "block": "app.py#<module>:0$b0",
+          "resultValueId": "app.py#<module>:0:0$v0",
+          "block": "app.py#<module>:0:0$b0",
           "argCount": 1,
           "enumeratedOptions": [
             -1
@@ -92,10 +92,10 @@
       "returns": [],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#<module>:0$b0",
+      "entryBlock": "app.py#<module>:0:0$b0",
       "blocks": [
         {
-          "id": "app.py#<module>:0$b0",
+          "id": "app.py#<module>:0:0$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -106,7 +106,7 @@
       ]
     },
     {
-      "id": "app.py#import_extension:9",
+      "id": "app.py#import_extension:9:1",
       "name": "import_extension",
       "module": "app.py",
       "loc": {
@@ -117,7 +117,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#import_extension:9$v0",
+          "id": "app.py#import_extension:9:1$v0",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -127,19 +127,19 @@
           "name": "flask.request"
         },
         {
-          "id": "app.py#import_extension:9$v1",
+          "id": "app.py#import_extension:9:1$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
             "line": 15,
             "column": 26
           },
-          "base": "app.py#import_extension:9$v0",
+          "base": "app.py#import_extension:9:1$v0",
           "path": "files",
           "name": "files"
         },
         {
-          "id": "app.py#import_extension:9$v2",
+          "id": "app.py#import_extension:9:1$v2",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -147,11 +147,11 @@
             "column": 26
           },
           "name": "bundle",
-          "base": "app.py#import_extension:9$v1",
+          "base": "app.py#import_extension:9:1$v1",
           "path": "files.bundle"
         },
         {
-          "id": "app.py#import_extension:9$v3",
+          "id": "app.py#import_extension:9:1$v3",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -161,7 +161,7 @@
           "name": "zipfile"
         },
         {
-          "id": "app.py#import_extension:9$v4",
+          "id": "app.py#import_extension:9:1$v4",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -171,7 +171,7 @@
           "name": "zipfile.ZipFile"
         },
         {
-          "id": "app.py#import_extension:9$v5",
+          "id": "app.py#import_extension:9:1$v5",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -181,7 +181,7 @@
           "name": "archive"
         },
         {
-          "id": "app.py#import_extension:9$v6",
+          "id": "app.py#import_extension:9:1$v6",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -191,7 +191,7 @@
           "literal": "/tmp/extensions"
         },
         {
-          "id": "app.py#import_extension:9$v7",
+          "id": "app.py#import_extension:9:1$v7",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -201,7 +201,7 @@
           "name": "archive.extractall"
         },
         {
-          "id": "app.py#import_extension:9$v8",
+          "id": "app.py#import_extension:9:1$v8",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -213,8 +213,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#import_extension:9$v0",
-          "to": "app.py#import_extension:9$v1",
+          "from": "app.py#import_extension:9:1$v0",
+          "to": "app.py#import_extension:9:1$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -223,8 +223,8 @@
           }
         },
         {
-          "from": "app.py#import_extension:9$v1",
-          "to": "app.py#import_extension:9$v2",
+          "from": "app.py#import_extension:9:1$v1",
+          "to": "app.py#import_extension:9:1$v2",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -233,8 +233,8 @@
           }
         },
         {
-          "from": "app.py#import_extension:9$v4",
-          "to": "app.py#import_extension:9$v5",
+          "from": "app.py#import_extension:9:1$v4",
+          "to": "app.py#import_extension:9:1$v5",
           "kind": "assign",
           "loc": {
             "file": "app.py",
@@ -245,7 +245,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#import_extension:9$c0",
+          "id": "app.py#import_extension:9:1$c0",
           "loc": {
             "file": "app.py",
             "line": 15,
@@ -259,20 +259,20 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#import_extension:9$v2"
+              "valueId": "app.py#import_extension:9:1$v2"
             }
           ],
-          "resultValueId": "app.py#import_extension:9$v4",
-          "block": "app.py#import_extension:9$b0",
+          "resultValueId": "app.py#import_extension:9:1$v4",
+          "block": "app.py#import_extension:9:1$b0",
           "method": "ZipFile",
           "argCount": 1,
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#import_extension:9$v3"
+          "receiverValueId": "app.py#import_extension:9:1$v3"
         },
         {
-          "id": "app.py#import_extension:9$c1",
+          "id": "app.py#import_extension:9:1$c1",
           "loc": {
             "file": "app.py",
             "line": 16,
@@ -286,11 +286,11 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#import_extension:9$v6"
+              "valueId": "app.py#import_extension:9:1$v6"
             }
           ],
-          "resultValueId": "app.py#import_extension:9$v7",
-          "block": "app.py#import_extension:9$b0",
+          "resultValueId": "app.py#import_extension:9:1$v7",
+          "block": "app.py#import_extension:9:1$b0",
           "method": "extractall",
           "argCount": 1,
           "argLiterals": {
@@ -299,18 +299,18 @@
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#import_extension:9$v5"
+          "receiverValueId": "app.py#import_extension:9:1$v5"
         }
       ],
       "returns": [
-        "app.py#import_extension:9$v8"
+        "app.py#import_extension:9:1$v8"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#import_extension:9$b0",
+      "entryBlock": "app.py#import_extension:9:1$b0",
       "blocks": [
         {
-          "id": "app.py#import_extension:9$b0",
+          "id": "app.py#import_extension:9:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -320,7 +320,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#import_extension:9$b1",
+          "id": "app.py#import_extension:9:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -331,7 +331,7 @@
       ]
     },
     {
-      "id": "app.py#import_bundled:21",
+      "id": "app.py#import_bundled:21:1",
       "name": "import_bundled",
       "module": "app.py",
       "loc": {
@@ -342,7 +342,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#import_bundled:21$v0",
+          "id": "app.py#import_bundled:21:1$v0",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -352,7 +352,7 @@
           "literal": "/opt/app/bundle.zip"
         },
         {
-          "id": "app.py#import_bundled:21$v1",
+          "id": "app.py#import_bundled:21:1$v1",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -362,7 +362,7 @@
           "name": "zipfile"
         },
         {
-          "id": "app.py#import_bundled:21$v2",
+          "id": "app.py#import_bundled:21:1$v2",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -372,7 +372,7 @@
           "name": "zipfile.ZipFile"
         },
         {
-          "id": "app.py#import_bundled:21$v3",
+          "id": "app.py#import_bundled:21:1$v3",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -382,7 +382,7 @@
           "name": "archive"
         },
         {
-          "id": "app.py#import_bundled:21$v4",
+          "id": "app.py#import_bundled:21:1$v4",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -392,7 +392,7 @@
           "literal": "/tmp/extensions"
         },
         {
-          "id": "app.py#import_bundled:21$v5",
+          "id": "app.py#import_bundled:21:1$v5",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -402,7 +402,7 @@
           "name": "archive.extractall"
         },
         {
-          "id": "app.py#import_bundled:21$v6",
+          "id": "app.py#import_bundled:21:1$v6",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -414,8 +414,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#import_bundled:21$v2",
-          "to": "app.py#import_bundled:21$v3",
+          "from": "app.py#import_bundled:21:1$v2",
+          "to": "app.py#import_bundled:21:1$v3",
           "kind": "assign",
           "loc": {
             "file": "app.py",
@@ -426,7 +426,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#import_bundled:21$c0",
+          "id": "app.py#import_bundled:21:1$c0",
           "loc": {
             "file": "app.py",
             "line": 24,
@@ -440,11 +440,11 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#import_bundled:21$v0"
+              "valueId": "app.py#import_bundled:21:1$v0"
             }
           ],
-          "resultValueId": "app.py#import_bundled:21$v2",
-          "block": "app.py#import_bundled:21$b0",
+          "resultValueId": "app.py#import_bundled:21:1$v2",
+          "block": "app.py#import_bundled:21:1$b0",
           "method": "ZipFile",
           "argCount": 1,
           "argLiterals": {
@@ -453,10 +453,10 @@
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#import_bundled:21$v1"
+          "receiverValueId": "app.py#import_bundled:21:1$v1"
         },
         {
-          "id": "app.py#import_bundled:21$c1",
+          "id": "app.py#import_bundled:21:1$c1",
           "loc": {
             "file": "app.py",
             "line": 25,
@@ -470,11 +470,11 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#import_bundled:21$v4"
+              "valueId": "app.py#import_bundled:21:1$v4"
             }
           ],
-          "resultValueId": "app.py#import_bundled:21$v5",
-          "block": "app.py#import_bundled:21$b0",
+          "resultValueId": "app.py#import_bundled:21:1$v5",
+          "block": "app.py#import_bundled:21:1$b0",
           "method": "extractall",
           "argCount": 1,
           "argLiterals": {
@@ -483,18 +483,18 @@
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#import_bundled:21$v3"
+          "receiverValueId": "app.py#import_bundled:21:1$v3"
         }
       ],
       "returns": [
-        "app.py#import_bundled:21$v6"
+        "app.py#import_bundled:21:1$v6"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#import_bundled:21$b0",
+      "entryBlock": "app.py#import_bundled:21:1$b0",
       "blocks": [
         {
-          "id": "app.py#import_bundled:21$b0",
+          "id": "app.py#import_bundled:21:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -504,7 +504,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#import_bundled:21$b1",
+          "id": "app.py#import_bundled:21:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -515,7 +515,7 @@
       ]
     },
     {
-      "id": "app.py#import_by_hand:30",
+      "id": "app.py#import_by_hand:30:1",
       "name": "import_by_hand",
       "module": "app.py",
       "loc": {
@@ -526,7 +526,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#import_by_hand:30$v0",
+          "id": "app.py#import_by_hand:30:1$v0",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -536,19 +536,19 @@
           "name": "flask.request"
         },
         {
-          "id": "app.py#import_by_hand:30$v1",
+          "id": "app.py#import_by_hand:30:1$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
             "line": 36,
             "column": 26
           },
-          "base": "app.py#import_by_hand:30$v0",
+          "base": "app.py#import_by_hand:30:1$v0",
           "path": "files",
           "name": "files"
         },
         {
-          "id": "app.py#import_by_hand:30$v2",
+          "id": "app.py#import_by_hand:30:1$v2",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -556,11 +556,11 @@
             "column": 26
           },
           "name": "bundle",
-          "base": "app.py#import_by_hand:30$v1",
+          "base": "app.py#import_by_hand:30:1$v1",
           "path": "files.bundle"
         },
         {
-          "id": "app.py#import_by_hand:30$v3",
+          "id": "app.py#import_by_hand:30:1$v3",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -570,7 +570,7 @@
           "name": "zipfile"
         },
         {
-          "id": "app.py#import_by_hand:30$v4",
+          "id": "app.py#import_by_hand:30:1$v4",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -580,7 +580,7 @@
           "name": "zipfile.ZipFile"
         },
         {
-          "id": "app.py#import_by_hand:30$v5",
+          "id": "app.py#import_by_hand:30:1$v5",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -590,7 +590,7 @@
           "name": "archive"
         },
         {
-          "id": "app.py#import_by_hand:30$v6",
+          "id": "app.py#import_by_hand:30:1$v6",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -600,7 +600,7 @@
           "name": "archive.namelist"
         },
         {
-          "id": "app.py#import_by_hand:30$v7",
+          "id": "app.py#import_by_hand:30:1$v7",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -610,7 +610,7 @@
           "name": "name"
         },
         {
-          "id": "app.py#import_by_hand:30$v8",
+          "id": "app.py#import_by_hand:30:1$v8",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -620,7 +620,7 @@
           "name": "concat"
         },
         {
-          "id": "app.py#import_by_hand:30$v9",
+          "id": "app.py#import_by_hand:30:1$v9",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -630,7 +630,7 @@
           "literal": "/tmp/extensions/"
         },
         {
-          "id": "app.py#import_by_hand:30$v10",
+          "id": "app.py#import_by_hand:30:1$v10",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -640,7 +640,7 @@
           "literal": "wb"
         },
         {
-          "id": "app.py#import_by_hand:30$v11",
+          "id": "app.py#import_by_hand:30:1$v11",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -650,7 +650,7 @@
           "name": "builtins.open"
         },
         {
-          "id": "app.py#import_by_hand:30$v12",
+          "id": "app.py#import_by_hand:30:1$v12",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -660,7 +660,7 @@
           "name": "out"
         },
         {
-          "id": "app.py#import_by_hand:30$v13",
+          "id": "app.py#import_by_hand:30:1$v13",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -670,7 +670,7 @@
           "name": "archive.read"
         },
         {
-          "id": "app.py#import_by_hand:30$v14",
+          "id": "app.py#import_by_hand:30:1$v14",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -680,7 +680,7 @@
           "name": "out.write"
         },
         {
-          "id": "app.py#import_by_hand:30$v15",
+          "id": "app.py#import_by_hand:30:1$v15",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -692,8 +692,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#import_by_hand:30$v0",
-          "to": "app.py#import_by_hand:30$v1",
+          "from": "app.py#import_by_hand:30:1$v0",
+          "to": "app.py#import_by_hand:30:1$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -702,8 +702,8 @@
           }
         },
         {
-          "from": "app.py#import_by_hand:30$v1",
-          "to": "app.py#import_by_hand:30$v2",
+          "from": "app.py#import_by_hand:30:1$v1",
+          "to": "app.py#import_by_hand:30:1$v2",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -712,8 +712,8 @@
           }
         },
         {
-          "from": "app.py#import_by_hand:30$v4",
-          "to": "app.py#import_by_hand:30$v5",
+          "from": "app.py#import_by_hand:30:1$v4",
+          "to": "app.py#import_by_hand:30:1$v5",
           "kind": "assign",
           "loc": {
             "file": "app.py",
@@ -722,8 +722,8 @@
           }
         },
         {
-          "from": "app.py#import_by_hand:30$v6",
-          "to": "app.py#import_by_hand:30$v7",
+          "from": "app.py#import_by_hand:30:1$v6",
+          "to": "app.py#import_by_hand:30:1$v7",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -732,8 +732,8 @@
           }
         },
         {
-          "from": "app.py#import_by_hand:30$v9",
-          "to": "app.py#import_by_hand:30$v8",
+          "from": "app.py#import_by_hand:30:1$v9",
+          "to": "app.py#import_by_hand:30:1$v8",
           "kind": "binary",
           "loc": {
             "file": "app.py",
@@ -742,8 +742,8 @@
           }
         },
         {
-          "from": "app.py#import_by_hand:30$v7",
-          "to": "app.py#import_by_hand:30$v8",
+          "from": "app.py#import_by_hand:30:1$v7",
+          "to": "app.py#import_by_hand:30:1$v8",
           "kind": "binary",
           "loc": {
             "file": "app.py",
@@ -752,8 +752,8 @@
           }
         },
         {
-          "from": "app.py#import_by_hand:30$v11",
-          "to": "app.py#import_by_hand:30$v12",
+          "from": "app.py#import_by_hand:30:1$v11",
+          "to": "app.py#import_by_hand:30:1$v12",
           "kind": "assign",
           "loc": {
             "file": "app.py",
@@ -764,7 +764,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#import_by_hand:30$c0",
+          "id": "app.py#import_by_hand:30:1$c0",
           "loc": {
             "file": "app.py",
             "line": 36,
@@ -778,20 +778,20 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#import_by_hand:30$v2"
+              "valueId": "app.py#import_by_hand:30:1$v2"
             }
           ],
-          "resultValueId": "app.py#import_by_hand:30$v4",
-          "block": "app.py#import_by_hand:30$b0",
+          "resultValueId": "app.py#import_by_hand:30:1$v4",
+          "block": "app.py#import_by_hand:30:1$b0",
           "method": "ZipFile",
           "argCount": 1,
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#import_by_hand:30$v3"
+          "receiverValueId": "app.py#import_by_hand:30:1$v3"
         },
         {
-          "id": "app.py#import_by_hand:30$c1",
+          "id": "app.py#import_by_hand:30:1$c1",
           "loc": {
             "file": "app.py",
             "line": 37,
@@ -803,16 +803,16 @@
             "resolution": "probable"
           },
           "args": [],
-          "resultValueId": "app.py#import_by_hand:30$v6",
-          "block": "app.py#import_by_hand:30$b0",
+          "resultValueId": "app.py#import_by_hand:30:1$v6",
+          "block": "app.py#import_by_hand:30:1$b0",
           "method": "namelist",
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#import_by_hand:30$v5"
+          "receiverValueId": "app.py#import_by_hand:30:1$v5"
         },
         {
-          "id": "app.py#import_by_hand:30$c2",
+          "id": "app.py#import_by_hand:30:1$c2",
           "loc": {
             "file": "app.py",
             "line": 38,
@@ -826,15 +826,15 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#import_by_hand:30$v8"
+              "valueId": "app.py#import_by_hand:30:1$v8"
             },
             {
               "index": 1,
-              "valueId": "app.py#import_by_hand:30$v10"
+              "valueId": "app.py#import_by_hand:30:1$v10"
             }
           ],
-          "resultValueId": "app.py#import_by_hand:30$v11",
-          "block": "app.py#import_by_hand:30$b0",
+          "resultValueId": "app.py#import_by_hand:30:1$v11",
+          "block": "app.py#import_by_hand:30:1$b0",
           "argCount": 2,
           "argLiterals": {
             "1": "wb"
@@ -844,7 +844,7 @@
           ]
         },
         {
-          "id": "app.py#import_by_hand:30$c3",
+          "id": "app.py#import_by_hand:30:1$c3",
           "loc": {
             "file": "app.py",
             "line": 39,
@@ -858,20 +858,20 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#import_by_hand:30$v7"
+              "valueId": "app.py#import_by_hand:30:1$v7"
             }
           ],
-          "resultValueId": "app.py#import_by_hand:30$v13",
-          "block": "app.py#import_by_hand:30$b0",
+          "resultValueId": "app.py#import_by_hand:30:1$v13",
+          "block": "app.py#import_by_hand:30:1$b0",
           "method": "read",
           "argCount": 1,
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#import_by_hand:30$v5"
+          "receiverValueId": "app.py#import_by_hand:30:1$v5"
         },
         {
-          "id": "app.py#import_by_hand:30$c4",
+          "id": "app.py#import_by_hand:30:1$c4",
           "loc": {
             "file": "app.py",
             "line": 39,
@@ -885,28 +885,28 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#import_by_hand:30$v13"
+              "valueId": "app.py#import_by_hand:30:1$v13"
             }
           ],
-          "resultValueId": "app.py#import_by_hand:30$v14",
-          "block": "app.py#import_by_hand:30$b0",
+          "resultValueId": "app.py#import_by_hand:30:1$v14",
+          "block": "app.py#import_by_hand:30:1$b0",
           "method": "write",
           "argCount": 1,
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#import_by_hand:30$v12"
+          "receiverValueId": "app.py#import_by_hand:30:1$v12"
         }
       ],
       "returns": [
-        "app.py#import_by_hand:30$v15"
+        "app.py#import_by_hand:30:1$v15"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#import_by_hand:30$b0",
+      "entryBlock": "app.py#import_by_hand:30:1$b0",
       "blocks": [
         {
-          "id": "app.py#import_by_hand:30$b0",
+          "id": "app.py#import_by_hand:30:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -916,7 +916,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#import_by_hand:30$b1",
+          "id": "app.py#import_by_hand:30:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -927,7 +927,7 @@
       ]
     },
     {
-      "id": "app.py#import_by_hand_bundled:44",
+      "id": "app.py#import_by_hand_bundled:44:1",
       "name": "import_by_hand_bundled",
       "module": "app.py",
       "loc": {
@@ -938,7 +938,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#import_by_hand_bundled:44$v0",
+          "id": "app.py#import_by_hand_bundled:44:1$v0",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -948,7 +948,7 @@
           "literal": "/opt/app/bundle.zip"
         },
         {
-          "id": "app.py#import_by_hand_bundled:44$v1",
+          "id": "app.py#import_by_hand_bundled:44:1$v1",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -958,7 +958,7 @@
           "name": "zipfile"
         },
         {
-          "id": "app.py#import_by_hand_bundled:44$v2",
+          "id": "app.py#import_by_hand_bundled:44:1$v2",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -968,7 +968,7 @@
           "name": "zipfile.ZipFile"
         },
         {
-          "id": "app.py#import_by_hand_bundled:44$v3",
+          "id": "app.py#import_by_hand_bundled:44:1$v3",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -978,7 +978,7 @@
           "name": "archive"
         },
         {
-          "id": "app.py#import_by_hand_bundled:44$v4",
+          "id": "app.py#import_by_hand_bundled:44:1$v4",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -988,7 +988,7 @@
           "name": "archive.namelist"
         },
         {
-          "id": "app.py#import_by_hand_bundled:44$v5",
+          "id": "app.py#import_by_hand_bundled:44:1$v5",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -998,7 +998,7 @@
           "name": "name"
         },
         {
-          "id": "app.py#import_by_hand_bundled:44$v6",
+          "id": "app.py#import_by_hand_bundled:44:1$v6",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -1008,7 +1008,7 @@
           "name": "concat"
         },
         {
-          "id": "app.py#import_by_hand_bundled:44$v7",
+          "id": "app.py#import_by_hand_bundled:44:1$v7",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -1018,7 +1018,7 @@
           "literal": "/tmp/extensions/"
         },
         {
-          "id": "app.py#import_by_hand_bundled:44$v8",
+          "id": "app.py#import_by_hand_bundled:44:1$v8",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -1028,7 +1028,7 @@
           "literal": "wb"
         },
         {
-          "id": "app.py#import_by_hand_bundled:44$v9",
+          "id": "app.py#import_by_hand_bundled:44:1$v9",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -1038,7 +1038,7 @@
           "name": "builtins.open"
         },
         {
-          "id": "app.py#import_by_hand_bundled:44$v10",
+          "id": "app.py#import_by_hand_bundled:44:1$v10",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -1048,7 +1048,7 @@
           "name": "out"
         },
         {
-          "id": "app.py#import_by_hand_bundled:44$v11",
+          "id": "app.py#import_by_hand_bundled:44:1$v11",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -1058,7 +1058,7 @@
           "name": "archive.read"
         },
         {
-          "id": "app.py#import_by_hand_bundled:44$v12",
+          "id": "app.py#import_by_hand_bundled:44:1$v12",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -1068,7 +1068,7 @@
           "name": "out.write"
         },
         {
-          "id": "app.py#import_by_hand_bundled:44$v13",
+          "id": "app.py#import_by_hand_bundled:44:1$v13",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -1080,8 +1080,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#import_by_hand_bundled:44$v2",
-          "to": "app.py#import_by_hand_bundled:44$v3",
+          "from": "app.py#import_by_hand_bundled:44:1$v2",
+          "to": "app.py#import_by_hand_bundled:44:1$v3",
           "kind": "assign",
           "loc": {
             "file": "app.py",
@@ -1090,8 +1090,8 @@
           }
         },
         {
-          "from": "app.py#import_by_hand_bundled:44$v4",
-          "to": "app.py#import_by_hand_bundled:44$v5",
+          "from": "app.py#import_by_hand_bundled:44:1$v4",
+          "to": "app.py#import_by_hand_bundled:44:1$v5",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -1100,8 +1100,8 @@
           }
         },
         {
-          "from": "app.py#import_by_hand_bundled:44$v7",
-          "to": "app.py#import_by_hand_bundled:44$v6",
+          "from": "app.py#import_by_hand_bundled:44:1$v7",
+          "to": "app.py#import_by_hand_bundled:44:1$v6",
           "kind": "binary",
           "loc": {
             "file": "app.py",
@@ -1110,8 +1110,8 @@
           }
         },
         {
-          "from": "app.py#import_by_hand_bundled:44$v5",
-          "to": "app.py#import_by_hand_bundled:44$v6",
+          "from": "app.py#import_by_hand_bundled:44:1$v5",
+          "to": "app.py#import_by_hand_bundled:44:1$v6",
           "kind": "binary",
           "loc": {
             "file": "app.py",
@@ -1120,8 +1120,8 @@
           }
         },
         {
-          "from": "app.py#import_by_hand_bundled:44$v9",
-          "to": "app.py#import_by_hand_bundled:44$v10",
+          "from": "app.py#import_by_hand_bundled:44:1$v9",
+          "to": "app.py#import_by_hand_bundled:44:1$v10",
           "kind": "assign",
           "loc": {
             "file": "app.py",
@@ -1132,7 +1132,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#import_by_hand_bundled:44$c0",
+          "id": "app.py#import_by_hand_bundled:44:1$c0",
           "loc": {
             "file": "app.py",
             "line": 47,
@@ -1146,11 +1146,11 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#import_by_hand_bundled:44$v0"
+              "valueId": "app.py#import_by_hand_bundled:44:1$v0"
             }
           ],
-          "resultValueId": "app.py#import_by_hand_bundled:44$v2",
-          "block": "app.py#import_by_hand_bundled:44$b0",
+          "resultValueId": "app.py#import_by_hand_bundled:44:1$v2",
+          "block": "app.py#import_by_hand_bundled:44:1$b0",
           "method": "ZipFile",
           "argCount": 1,
           "argLiterals": {
@@ -1159,10 +1159,10 @@
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#import_by_hand_bundled:44$v1"
+          "receiverValueId": "app.py#import_by_hand_bundled:44:1$v1"
         },
         {
-          "id": "app.py#import_by_hand_bundled:44$c1",
+          "id": "app.py#import_by_hand_bundled:44:1$c1",
           "loc": {
             "file": "app.py",
             "line": 48,
@@ -1174,16 +1174,16 @@
             "resolution": "probable"
           },
           "args": [],
-          "resultValueId": "app.py#import_by_hand_bundled:44$v4",
-          "block": "app.py#import_by_hand_bundled:44$b0",
+          "resultValueId": "app.py#import_by_hand_bundled:44:1$v4",
+          "block": "app.py#import_by_hand_bundled:44:1$b0",
           "method": "namelist",
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#import_by_hand_bundled:44$v3"
+          "receiverValueId": "app.py#import_by_hand_bundled:44:1$v3"
         },
         {
-          "id": "app.py#import_by_hand_bundled:44$c2",
+          "id": "app.py#import_by_hand_bundled:44:1$c2",
           "loc": {
             "file": "app.py",
             "line": 49,
@@ -1197,15 +1197,15 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#import_by_hand_bundled:44$v6"
+              "valueId": "app.py#import_by_hand_bundled:44:1$v6"
             },
             {
               "index": 1,
-              "valueId": "app.py#import_by_hand_bundled:44$v8"
+              "valueId": "app.py#import_by_hand_bundled:44:1$v8"
             }
           ],
-          "resultValueId": "app.py#import_by_hand_bundled:44$v9",
-          "block": "app.py#import_by_hand_bundled:44$b0",
+          "resultValueId": "app.py#import_by_hand_bundled:44:1$v9",
+          "block": "app.py#import_by_hand_bundled:44:1$b0",
           "argCount": 2,
           "argLiterals": {
             "1": "wb"
@@ -1215,7 +1215,7 @@
           ]
         },
         {
-          "id": "app.py#import_by_hand_bundled:44$c3",
+          "id": "app.py#import_by_hand_bundled:44:1$c3",
           "loc": {
             "file": "app.py",
             "line": 50,
@@ -1229,20 +1229,20 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#import_by_hand_bundled:44$v5"
+              "valueId": "app.py#import_by_hand_bundled:44:1$v5"
             }
           ],
-          "resultValueId": "app.py#import_by_hand_bundled:44$v11",
-          "block": "app.py#import_by_hand_bundled:44$b0",
+          "resultValueId": "app.py#import_by_hand_bundled:44:1$v11",
+          "block": "app.py#import_by_hand_bundled:44:1$b0",
           "method": "read",
           "argCount": 1,
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#import_by_hand_bundled:44$v3"
+          "receiverValueId": "app.py#import_by_hand_bundled:44:1$v3"
         },
         {
-          "id": "app.py#import_by_hand_bundled:44$c4",
+          "id": "app.py#import_by_hand_bundled:44:1$c4",
           "loc": {
             "file": "app.py",
             "line": 50,
@@ -1256,28 +1256,28 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#import_by_hand_bundled:44$v11"
+              "valueId": "app.py#import_by_hand_bundled:44:1$v11"
             }
           ],
-          "resultValueId": "app.py#import_by_hand_bundled:44$v12",
-          "block": "app.py#import_by_hand_bundled:44$b0",
+          "resultValueId": "app.py#import_by_hand_bundled:44:1$v12",
+          "block": "app.py#import_by_hand_bundled:44:1$b0",
           "method": "write",
           "argCount": 1,
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#import_by_hand_bundled:44$v10"
+          "receiverValueId": "app.py#import_by_hand_bundled:44:1$v10"
         }
       ],
       "returns": [
-        "app.py#import_by_hand_bundled:44$v13"
+        "app.py#import_by_hand_bundled:44:1$v13"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#import_by_hand_bundled:44$b0",
+      "entryBlock": "app.py#import_by_hand_bundled:44:1$b0",
       "blocks": [
         {
-          "id": "app.py#import_by_hand_bundled:44$b0",
+          "id": "app.py#import_by_hand_bundled:44:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -1287,7 +1287,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#import_by_hand_bundled:44$b1",
+          "id": "app.py#import_by_hand_bundled:44:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -1300,7 +1300,7 @@
   ],
   "entryPoints": [
     {
-      "functionId": "app.py#import_extension:9",
+      "functionId": "app.py#import_extension:9:1",
       "kind": "http-route",
       "framework": "flask",
       "detail": {
@@ -1309,7 +1309,7 @@
       }
     },
     {
-      "functionId": "app.py#import_bundled:21",
+      "functionId": "app.py#import_bundled:21:1",
       "kind": "http-route",
       "framework": "flask",
       "detail": {
@@ -1318,7 +1318,7 @@
       }
     },
     {
-      "functionId": "app.py#import_by_hand:30",
+      "functionId": "app.py#import_by_hand:30:1",
       "kind": "http-route",
       "framework": "flask",
       "detail": {
@@ -1327,7 +1327,7 @@
       }
     },
     {
-      "functionId": "app.py#import_by_hand_bundled:44",
+      "functionId": "app.py#import_by_hand_bundled:44:1",
       "kind": "http-route",
       "framework": "flask",
       "detail": {

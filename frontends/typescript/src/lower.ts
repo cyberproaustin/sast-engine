@@ -170,22 +170,28 @@ function makeFunctionResolver(
     return count === 1 ? found : undefined;
   };
 
-  // Nodes already followed through an export table, so one entry naming another cannot
-  // walk in a circle.
-  const seen = new Set<ts.Node>();
+  // Nodes already followed through an export table on THIS resolution, so one entry
+  // naming another cannot walk in a circle.
+  //
+  // Per call, emphatically. A set shared across the whole program made the guard a
+  // one-shot: the first `products.getProduct(...)` resolved and every later one answered
+  // external, because the initializer had already been marked seen and was never followed
+  // again. The cycle it guards against is within a single resolution, so that is where
+  // the memory belongs.
+  const resolve: FunctionResolver = (node) => resolveWith(node, new Set<ts.Node>());
 
-  const resolve: FunctionResolver = (node) => {
+  const resolveWith = (node: ts.Node, seen: Set<ts.Node>): FuncMeta | undefined => {
     const direct = funcByNode.get(node);
     if (direct) return direct;
 
     // A handler produced by calling a factory.
     if (ts.isCallExpression(node)) {
-      const factory = resolve(node.expression);
+      const factory = resolveWith(node.expression, seen);
       const produced = returnedFunction(factory);
       if (produced && factory) {
         const at = forwardedParamIndex(factory, produced);
         const passed = at === undefined ? undefined : node.arguments[at];
-        const wrapped = passed ? resolve(passed) : undefined;
+        const wrapped = passed ? resolveWith(passed, seen) : undefined;
         if (wrapped) return wrapped;
       }
       if (produced) return produced;
@@ -249,7 +255,7 @@ function makeFunctionResolver(
         // a chain nobody writes, and the guard keeps a cycle from being possible at all.
         if (ts.isIdentifier(decl.initializer) && !seen.has(decl.initializer)) {
           seen.add(decl.initializer);
-          const named = resolve(decl.initializer);
+          const named = resolveWith(decl.initializer, seen);
           if (named) return named;
         }
       }
@@ -412,7 +418,18 @@ function collectFunctions(
     if (isFunctionLike(node)) {
       const name = functionNameOf(node);
       const loc = locOf(sf, node);
-      out.set(node, { id: `${moduleId}#${name}:${loc.line}`, name, moduleId, node });
+      // The COLUMN is part of the identity, not decoration. Two anonymous functions on
+      // one line collide without it -- and `app.get("/x", (req, res) => { work(req).then(
+      // (row) => res.json(row)); });` puts two on one line, which is how a great many
+      // handlers are written. The entry point then names an id that resolves to the
+      // callback instead of the handler: the route is enumerated, the surface looks
+      // complete, and nothing inside the handler is ever reached.
+      out.set(node, {
+        id: `${moduleId}#${name}:${loc.line}:${loc.column}`,
+        name,
+        moduleId,
+        node,
+      });
     }
     ts.forEachChild(node, visit);
   };
@@ -1218,13 +1235,26 @@ function lowerFunction(
       return newValue("literal", locOf(sf, expr), { literal: expr.text });
     }
 
-    // A unary operator produces something new -- a boolean, a number -- so nothing flows
-    // out of it. Its OPERAND still has to be lowered, because that is where the calls
-    // are, and `if (!pattern.test(input))` is how a great deal of validation is written.
-    // Falling through here meant the operand was never visited at all: the call was not
-    // in the IR, and no rule could see an operation the program plainly performs.
-    if (ts.isPrefixUnaryExpression(expr) || ts.isVoidExpression(expr) || ts.isTypeOfExpression(expr)) {
-      lowerExpr(expr.operand ?? (expr as ts.VoidExpression | ts.TypeOfExpression).expression);
+    // The OPERAND of a unary operator has to be lowered whatever the operator does with
+    // it, because that is where the calls are: `if (!pattern.test(input))` is how a great
+    // deal of validation is written, and falling through here meant the call was not in
+    // the IR at all.
+    //
+    // What flows OUT depends on the operator. `!x`, `typeof x` and `void x` produce
+    // something unrelated to what they were given. `+x` and `-x` are numeric coercion and
+    // the MAGNITUDE survives, which is the security-relevant part: `Buffer.alloc(
+    // +req.query.size)` is an allocation a caller sizes.
+    if (ts.isVoidExpression(expr) || ts.isTypeOfExpression(expr)) {
+      lowerExpr(expr.expression);
+      return undefined;
+    }
+    if (ts.isPrefixUnaryExpression(expr)) {
+      const inner = lowerExpr(expr.operand);
+      switch (expr.operator) {
+        case ts.SyntaxKind.PlusToken:
+        case ts.SyntaxKind.MinusToken:
+          return inner;
+      }
       return undefined;
     }
 
@@ -1323,11 +1353,16 @@ function lowerFunction(
       // Lowered as a property read rather than an enclosure, because that is the
       // direction it goes -- an element comes OUT of the collection, and it comes out
       // whole.
+      // for-OF only. A for-in binding is a property NAME, not a value, and the two are
+      // different things: `for (const i in req.body.items)` binds "0" and "1", and
+      // marking those as arbitrary caller text would report an array index as an
+      // injection. A key that IS caller-chosen is a real shape and needs its own rule,
+      // not this one.
       const iterated =
         n.parent &&
         ts.isVariableDeclarationList(n.parent) &&
         n.parent.parent &&
-        (ts.isForOfStatement(n.parent.parent) || ts.isForInStatement(n.parent.parent))
+        ts.isForOfStatement(n.parent.parent)
           ? n.parent.parent.expression
           : undefined;
       const init = n.initializer

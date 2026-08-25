@@ -82,16 +82,26 @@ func CatastrophicPattern(pattern string) bool {
 // where its actual body begins.
 func bodyStart(p string, open int) int {
 	i := open + 1
-	if i < len(p) && p[i] == '?' {
-		i++
-		for i < len(p) && p[i] != '>' && (p[i] == ':' || p[i] == '=' || p[i] == '!' || p[i] == '<' || p[i] == 'P') {
-			if p[i] == ':' || p[i] == '=' || p[i] == '!' {
-				return i + 1
-			}
-			i++
+	if i >= len(p) || p[i] != '?' {
+		return i
+	}
+	i++
+	if i >= len(p) {
+		return i
+	}
+	switch p[i] {
+	case ':', '=', '!':
+		return i + 1
+	case '<', 'P':
+		// A NAME, which runs to the closing angle bracket -- and a lookbehind, whose
+		// `<=` and `<!` are two characters. Scanning to the `>` covers both, and not
+		// scanning to it read `(?<chunk>a+)+` as a body beginning with the letter c,
+		// which looks like a separator and made a catastrophic pattern read as safe.
+		if end := strings.IndexByte(p[i:], '>'); end >= 0 {
+			return i + end + 1
 		}
-		if i < len(p) && p[i] == '>' {
-			return i + 1
+		if i+1 < len(p) && (p[i+1] == '=' || p[i+1] == '!') {
+			return i + 2
 		}
 	}
 	return i
@@ -121,6 +131,60 @@ func topLevelAlternation(body string) bool {
 	return false
 }
 
+// distinctSingleCharacters reports whether every top-level branch of an alternation is
+// one character (or one class) and no two of them are the same.
+func distinctSingleCharacters(body string) bool {
+	seen := map[string]bool{}
+	depth, inClass, start := 0, false, 0
+	branch := func(end int) bool {
+		b := body[start:end]
+		if !singleAtom(b) || seen[b] {
+			return false
+		}
+		seen[b] = true
+		return true
+	}
+	for i := 0; i < len(body); i++ {
+		switch c := body[i]; {
+		case c == '\\':
+			i++
+		case inClass:
+			if c == ']' {
+				inClass = false
+			}
+		case c == '[':
+			inClass = true
+		case c == '(':
+			depth++
+		case c == ')':
+			depth--
+		case c == '|' && depth == 0:
+			if !branch(i) {
+				return false
+			}
+			start = i + 1
+		}
+	}
+	return branch(len(body))
+}
+
+// singleAtom reports whether a branch is exactly one character, one escape or one class,
+// with no quantifier on it.
+func singleAtom(b string) bool {
+	switch {
+	case b == "":
+		return false
+	case b[0] == '\\':
+		return len(b) == 2
+	case b[0] == '[':
+		end := strings.IndexByte(b, ']')
+		return end == len(b)-1
+	case b[0] == '(' || b[0] == '.' || b[0] == '^' || b[0] == '$':
+		return false
+	}
+	return len(b) == 1
+}
+
 // anchored reports whether a repeated body BEGINS with something that must match exactly
 // once -- a literal, or a character class with no quantifier after it.
 //
@@ -134,11 +198,19 @@ func topLevelAlternation(body string) bool {
 // Two real patterns from production repositories were reported before this existed, and
 // both are anchored this way. The nodegoat one that is genuinely catastrophic is not.
 func anchored(body string) bool {
-	if body == "" || topLevelAlternation(body) {
-		// An alternation gives the body more than one way in, so whatever the first
-		// branch starts with says nothing about the others. `(a|a)+` is the smallest
-		// catastrophic pattern there is and it starts with a plain literal.
+	if body == "" {
 		return false
+	}
+	if topLevelAlternation(body) {
+		// An alternation usually gives the body more than one way in, so whatever the
+		// first branch starts with says nothing about the others -- `(a|a)+` is the
+		// smallest catastrophic pattern there is and it starts with a plain literal.
+		//
+		// Unless the branches are single characters and all different, in which case the
+		// group is a character class written the long way and there is exactly one way to
+		// match each character. `(a|b)+` cannot blow up; `(a|a)+` can, and the difference
+		// is whether two branches can claim the same input.
+		return distinctSingleCharacters(body)
 	}
 	i := 0
 	switch body[0] {

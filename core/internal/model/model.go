@@ -1194,6 +1194,11 @@ func builtin() Model {
 			{
 				ID: "regex-subject", Visibility: "internal", Context: "regex-subject",
 				Method: "match", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				// Python's. JavaScript reverses the operands -- `subject.match(pattern)`
+				// -- so without this a string literal that happens to be a catastrophic
+				// pattern would be read as the subject's pattern and the short constant
+				// receiver as the caller's text.
+				Language:   "python",
 				PatternArg: at(-1),
 				CWE:        "CWE-1333",
 				Rationale:  "the compiled pattern this is matched against has a quantified group with a quantifier inside it",
@@ -1201,6 +1206,11 @@ func builtin() Model {
 			{
 				ID: "regex-subject", Visibility: "internal", Context: "regex-subject",
 				Method: "search", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				// Python's. JavaScript reverses the operands -- `subject.match(pattern)`
+				// -- so without this a string literal that happens to be a catastrophic
+				// pattern would be read as the subject's pattern and the short constant
+				// receiver as the caller's text.
+				Language:   "python",
 				PatternArg: at(-1),
 				CWE:        "CWE-1333",
 				Rationale:  "the compiled pattern this is searched with has a quantified group with a quantifier inside it",
@@ -1208,6 +1218,11 @@ func builtin() Model {
 			{
 				ID: "regex-subject", Visibility: "internal", Context: "regex-subject",
 				Method: "fullmatch", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				// Python's. JavaScript reverses the operands -- `subject.match(pattern)`
+				// -- so without this a string literal that happens to be a catastrophic
+				// pattern would be read as the subject's pattern and the short constant
+				// receiver as the caller's text.
+				Language:   "python",
 				PatternArg: at(-1),
 				CWE:        "CWE-1333",
 				Rationale:  "the compiled pattern this is matched against has a quantified group with a quantifier inside it",
@@ -3009,6 +3024,47 @@ func builtin() Model {
 				CWE:       "CWE-95",
 				Rationale: "the Function constructor compiles its argument as program source",
 			},
+			// An expression evaluator is an interpreter. `mathjs` looks like arithmetic
+			// and is not: its expression language reaches the host through function
+			// definitions and property access, which is why its own advisories are
+			// remote code execution. A recall audit found one in a vulnerable
+			// application and the symbol was simply absent.
+			{
+				ID: "code-interpreter", Visibility: "internal", Context: "code",
+				Symbol: "mathjs.eval", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-95",
+				Rationale: "eval evaluates its argument as an expression, and the expression language reaches the host",
+			},
+			{
+				ID: "code-interpreter", Visibility: "internal", Context: "code",
+				Symbol: "mathjs.evaluate", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-95",
+				Rationale: "evaluate evaluates its argument as an expression, and the expression language reaches the host",
+			},
+			{
+				ID: "code-interpreter", Visibility: "internal", Context: "code",
+				Symbol: "mathjs.default.eval", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-95",
+				Rationale: "eval evaluates its argument as an expression, and the expression language reaches the host",
+			},
+			{
+				ID: "code-interpreter", Visibility: "internal", Context: "code",
+				Symbol: "mathjs.default.evaluate", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-95",
+				Rationale: "evaluate evaluates its argument as an expression, and the expression language reaches the host",
+			},
+			{
+				ID: "code-interpreter", Visibility: "internal", Context: "code",
+				Symbol: "math.eval", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-95",
+				Rationale: "eval evaluates its argument as an expression, and the expression language reaches the host",
+			},
+			{
+				ID: "code-interpreter", Visibility: "internal", Context: "code",
+				Symbol: "math.evaluate", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-95",
+				Rationale: "evaluate evaluates its argument as an expression, and the expression language reaches the host",
+			},
 			{
 				// MongoDB's `$where` takes a JavaScript EXPRESSION and evaluates it on the
 				// server, so caller data in one is caller data being executed -- the same
@@ -3221,6 +3277,40 @@ func builtin() Model {
 				ID: "template-output", Visibility: "public", Context: "html-escaped",
 				Symbol: "<template>.escaped", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
 				Rationale: "the template writes this value into the page, escaped",
+			},
+			// Turning the framework's escaping OFF, by name. Angular escapes everything
+			// it renders and offers exactly one way out, spelled so that nobody can use
+			// it by accident -- which makes it the clearest possible statement that
+			// whatever reaches it will be written into the page as markup.
+			{
+				ID: "html-response", Visibility: "public", Context: "html",
+				Method: "bypassSecurityTrustHtml", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-79",
+				Rationale: "bypassSecurityTrustHtml tells the framework to stop escaping this value",
+			},
+			{
+				ID: "html-response", Visibility: "public", Context: "html",
+				Method: "bypassSecurityTrustScript", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-79",
+				Rationale: "bypassSecurityTrustScript tells the framework to stop escaping this value",
+			},
+			{
+				ID: "html-response", Visibility: "public", Context: "html",
+				Method: "bypassSecurityTrustResourceUrl", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-79",
+				Rationale: "bypassSecurityTrustResourceUrl tells the framework to stop escaping this value",
+			},
+			{
+				ID: "html-response", Visibility: "public", Context: "html",
+				Method: "bypassSecurityTrustUrl", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-79",
+				Rationale: "bypassSecurityTrustUrl tells the framework to stop escaping this value",
+			},
+			{
+				ID: "html-response", Visibility: "public", Context: "html",
+				Method: "bypassSecurityTrustStyle", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-79",
+				Rationale: "bypassSecurityTrustStyle tells the framework to stop escaping this value",
 			},
 			// Added as a DESCRIPTION of a channel, not as a rule for a defect.
 			// Every policy that denies a class reaching "thirdparty" now covers
@@ -6361,6 +6451,22 @@ type StoreRule struct {
 
 func builtinStores() []StoreRule {
 	return []StoreRule{
+		{
+			// Writing to `innerHTML` parses what it is given as markup. It is the
+			// browser-side twin of an unescaped template interpolation and it needs no
+			// call at all -- the assignment IS the parse, which is why a rule that
+			// watches calls could not see it.
+			//
+			// `textContent` is deliberately absent: it is the same assignment with the
+			// parsing turned off, and it is the fix.
+			ID:        "markup-assignment",
+			Class:     "untrusted-input",
+			Path:      []string{"innerHTML", "outerHTML"},
+			CWE:       "CWE-79",
+			Finding:   "Caller's text assigned as markup",
+			Reason:    "assigning to innerHTML parses what it is given as HTML, so a caller who sends a tag gets a tag",
+			Rationale: "the value is written into a property the browser parses as markup",
+		},
 		{
 			// A session is server-side state, which is exactly what makes this worth
 			// reporting: everything downstream reads it back as something the server

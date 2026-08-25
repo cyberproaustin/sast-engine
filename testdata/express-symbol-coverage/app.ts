@@ -15,6 +15,8 @@ import * as http from "http";
 import ejs from "ejs";
 import nunjucks from "nunjucks";
 import escapeHtml from "escape-html";
+import * as mathjs from "mathjs";
+import { sanitizer } from "./sanitizer";
 
 const app = express();
 
@@ -58,3 +60,32 @@ app.get("/greet", (req, res) => {
 });
 
 app.listen(3000);
+
+app.post("/calc", (req, res) => {
+  // POSITIVE. An expression evaluator is an interpreter. mathjs looks like arithmetic and
+  // is not: its expression language reaches the host through function definitions and
+  // property access, which is why its own advisories are remote code execution.
+  res.json({ value: mathjs.evaluate(req.body.expr) });
+});
+
+app.get("/trusted", (req, res) => {
+  // POSITIVE. Angular escapes everything it renders and offers exactly one way out,
+  // spelled so nobody uses it by accident -- which makes it the clearest possible
+  // statement that whatever reaches it goes into the page as markup.
+  res.send(sanitizer.bypassSecurityTrustHtml(req.query.note as string));
+});
+
+app.get("/render-note", (req, res) => {
+  // POSITIVE, and it needs no call at all: the assignment IS the parse. This is the
+  // browser-side twin of an unescaped template interpolation, and a rule that watches
+  // calls cannot see it.
+  const el: any = element();
+  el.innerHTML = req.query.note;
+  // NEGATIVE. The same assignment with the parsing turned off, which is the fix.
+  el.textContent = req.query.note;
+  res.end();
+});
+
+function element(): any {
+  return {};
+}

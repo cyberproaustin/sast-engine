@@ -28,7 +28,7 @@
   ],
   "functions": [
     {
-      "id": "app.py#<module>:0",
+      "id": "app.py#<module>:0:0",
       "name": "<module>",
       "module": "app.py",
       "loc": {
@@ -39,7 +39,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#<module>:0$v0",
+          "id": "app.py#<module>:0:0$v0",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -49,7 +49,7 @@
           "literal": "The same two SQL channels, on a second language, with no engine or policy change.\n\n`cursor.execute(sql, params)` is the canonical parameterized call and the canonical\ninjection, depending only on which argument the caller's data ends up in. The channel\nthat finds the JavaScript case finds this one, because what it describes is the\noperation rather than the library.\n"
         },
         {
-          "id": "app.py#<module>:0$v1",
+          "id": "app.py#<module>:0:0$v1",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -59,7 +59,7 @@
           "name": "flask.Flask"
         },
         {
-          "id": "app.py#<module>:0$v2",
+          "id": "app.py#<module>:0:0$v2",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -71,8 +71,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#<module>:0$v1",
-          "to": "app.py#<module>:0$v2",
+          "from": "app.py#<module>:0:0$v1",
+          "to": "app.py#<module>:0:0$v2",
           "kind": "assign",
           "loc": {
             "file": "app.py",
@@ -83,7 +83,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#<module>:0$c0",
+          "id": "app.py#<module>:0:0$c0",
           "loc": {
             "file": "app.py",
             "line": 12,
@@ -95,8 +95,8 @@
             "resolution": "resolved"
           },
           "args": [],
-          "resultValueId": "app.py#<module>:0$v1",
-          "block": "app.py#<module>:0$b0",
+          "resultValueId": "app.py#<module>:0:0$v1",
+          "block": "app.py#<module>:0:0$b0",
           "argCount": 1,
           "enumeratedOptions": [
             -1
@@ -106,10 +106,10 @@
       "returns": [],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#<module>:0$b0",
+      "entryBlock": "app.py#<module>:0:0$b0",
       "blocks": [
         {
-          "id": "app.py#<module>:0$b0",
+          "id": "app.py#<module>:0:0$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -120,7 +120,7 @@
       ]
     },
     {
-      "id": "app.py#find_user:16",
+      "id": "app.py#find_user:16:1",
       "name": "find_user",
       "module": "app.py",
       "loc": {
@@ -131,7 +131,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#find_user:16$v0",
+          "id": "app.py#find_user:16:1$v0",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -141,19 +141,19 @@
           "name": "flask.g"
         },
         {
-          "id": "app.py#find_user:16$v1",
+          "id": "app.py#find_user:16:1$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
             "line": 18,
             "column": 11
           },
-          "base": "app.py#find_user:16$v0",
+          "base": "app.py#find_user:16:1$v0",
           "path": "db",
           "name": "db"
         },
         {
-          "id": "app.py#find_user:16$v2",
+          "id": "app.py#find_user:16:1$v2",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -163,7 +163,7 @@
           "name": "flask.g.db.cursor"
         },
         {
-          "id": "app.py#find_user:16$v3",
+          "id": "app.py#find_user:16:1$v3",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -173,7 +173,7 @@
           "name": "cur"
         },
         {
-          "id": "app.py#find_user:16$v4",
+          "id": "app.py#find_user:16:1$v4",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -183,7 +183,7 @@
           "name": "concat"
         },
         {
-          "id": "app.py#find_user:16$v5",
+          "id": "app.py#find_user:16:1$v5",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -193,7 +193,7 @@
           "name": "concat"
         },
         {
-          "id": "app.py#find_user:16$v6",
+          "id": "app.py#find_user:16:1$v6",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -203,7 +203,7 @@
           "literal": "SELECT id, name FROM users WHERE login = '"
         },
         {
-          "id": "app.py#find_user:16$v7",
+          "id": "app.py#find_user:16:1$v7",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -213,19 +213,19 @@
           "name": "flask.request"
         },
         {
-          "id": "app.py#find_user:16$v8",
+          "id": "app.py#find_user:16:1$v8",
           "kind": "property",
           "loc": {
             "file": "app.py",
             "line": 19,
             "column": 64
           },
-          "base": "app.py#find_user:16$v7",
+          "base": "app.py#find_user:16:1$v7",
           "path": "args",
           "name": "args"
         },
         {
-          "id": "app.py#find_user:16$v9",
+          "id": "app.py#find_user:16:1$v9",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -233,11 +233,11 @@
             "column": 64
           },
           "name": "login",
-          "base": "app.py#find_user:16$v8",
+          "base": "app.py#find_user:16:1$v8",
           "path": "args.login"
         },
         {
-          "id": "app.py#find_user:16$v10",
+          "id": "app.py#find_user:16:1$v10",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -247,7 +247,7 @@
           "literal": "'"
         },
         {
-          "id": "app.py#find_user:16$v11",
+          "id": "app.py#find_user:16:1$v11",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -257,7 +257,7 @@
           "name": "cur.execute"
         },
         {
-          "id": "app.py#find_user:16$v12",
+          "id": "app.py#find_user:16:1$v12",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -269,8 +269,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#find_user:16$v0",
-          "to": "app.py#find_user:16$v1",
+          "from": "app.py#find_user:16:1$v0",
+          "to": "app.py#find_user:16:1$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -279,8 +279,8 @@
           }
         },
         {
-          "from": "app.py#find_user:16$v2",
-          "to": "app.py#find_user:16$v3",
+          "from": "app.py#find_user:16:1$v2",
+          "to": "app.py#find_user:16:1$v3",
           "kind": "assign",
           "loc": {
             "file": "app.py",
@@ -289,8 +289,8 @@
           }
         },
         {
-          "from": "app.py#find_user:16$v6",
-          "to": "app.py#find_user:16$v5",
+          "from": "app.py#find_user:16:1$v6",
+          "to": "app.py#find_user:16:1$v5",
           "kind": "binary",
           "loc": {
             "file": "app.py",
@@ -299,8 +299,8 @@
           }
         },
         {
-          "from": "app.py#find_user:16$v7",
-          "to": "app.py#find_user:16$v8",
+          "from": "app.py#find_user:16:1$v7",
+          "to": "app.py#find_user:16:1$v8",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -309,8 +309,8 @@
           }
         },
         {
-          "from": "app.py#find_user:16$v8",
-          "to": "app.py#find_user:16$v9",
+          "from": "app.py#find_user:16:1$v8",
+          "to": "app.py#find_user:16:1$v9",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -319,8 +319,8 @@
           }
         },
         {
-          "from": "app.py#find_user:16$v9",
-          "to": "app.py#find_user:16$v5",
+          "from": "app.py#find_user:16:1$v9",
+          "to": "app.py#find_user:16:1$v5",
           "kind": "binary",
           "loc": {
             "file": "app.py",
@@ -329,8 +329,8 @@
           }
         },
         {
-          "from": "app.py#find_user:16$v5",
-          "to": "app.py#find_user:16$v4",
+          "from": "app.py#find_user:16:1$v5",
+          "to": "app.py#find_user:16:1$v4",
           "kind": "binary",
           "loc": {
             "file": "app.py",
@@ -339,8 +339,8 @@
           }
         },
         {
-          "from": "app.py#find_user:16$v10",
-          "to": "app.py#find_user:16$v4",
+          "from": "app.py#find_user:16:1$v10",
+          "to": "app.py#find_user:16:1$v4",
           "kind": "binary",
           "loc": {
             "file": "app.py",
@@ -351,7 +351,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#find_user:16$c0",
+          "id": "app.py#find_user:16:1$c0",
           "loc": {
             "file": "app.py",
             "line": 18,
@@ -363,16 +363,16 @@
             "resolution": "probable"
           },
           "args": [],
-          "resultValueId": "app.py#find_user:16$v2",
-          "block": "app.py#find_user:16$b0",
+          "resultValueId": "app.py#find_user:16:1$v2",
+          "block": "app.py#find_user:16:1$b0",
           "method": "cursor",
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#find_user:16$v1"
+          "receiverValueId": "app.py#find_user:16:1$v1"
         },
         {
-          "id": "app.py#find_user:16$c1",
+          "id": "app.py#find_user:16:1$c1",
           "loc": {
             "file": "app.py",
             "line": 19,
@@ -386,20 +386,20 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#find_user:16$v4"
+              "valueId": "app.py#find_user:16:1$v4"
             }
           ],
-          "resultValueId": "app.py#find_user:16$v11",
-          "block": "app.py#find_user:16$b0",
+          "resultValueId": "app.py#find_user:16:1$v11",
+          "block": "app.py#find_user:16:1$b0",
           "method": "execute",
           "argCount": 1,
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#find_user:16$v3"
+          "receiverValueId": "app.py#find_user:16:1$v3"
         },
         {
-          "id": "app.py#find_user:16$c2",
+          "id": "app.py#find_user:16:1$c2",
           "loc": {
             "file": "app.py",
             "line": 20,
@@ -411,24 +411,24 @@
             "resolution": "probable"
           },
           "args": [],
-          "resultValueId": "app.py#find_user:16$v12",
-          "block": "app.py#find_user:16$b0",
+          "resultValueId": "app.py#find_user:16:1$v12",
+          "block": "app.py#find_user:16:1$b0",
           "method": "fetchall",
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#find_user:16$v3"
+          "receiverValueId": "app.py#find_user:16:1$v3"
         }
       ],
       "returns": [
-        "app.py#find_user:16$v12"
+        "app.py#find_user:16:1$v12"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#find_user:16$b0",
+      "entryBlock": "app.py#find_user:16:1$b0",
       "blocks": [
         {
-          "id": "app.py#find_user:16$b0",
+          "id": "app.py#find_user:16:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -438,7 +438,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#find_user:16$b1",
+          "id": "app.py#find_user:16:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -449,7 +449,7 @@
       ]
     },
     {
-      "id": "app.py#find_user_by_id:24",
+      "id": "app.py#find_user_by_id:24:1",
       "name": "find_user_by_id",
       "module": "app.py",
       "loc": {
@@ -460,7 +460,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#find_user_by_id:24$v0",
+          "id": "app.py#find_user_by_id:24:1$v0",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -470,19 +470,19 @@
           "name": "flask.g"
         },
         {
-          "id": "app.py#find_user_by_id:24$v1",
+          "id": "app.py#find_user_by_id:24:1$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
             "line": 26,
             "column": 11
           },
-          "base": "app.py#find_user_by_id:24$v0",
+          "base": "app.py#find_user_by_id:24:1$v0",
           "path": "db",
           "name": "db"
         },
         {
-          "id": "app.py#find_user_by_id:24$v2",
+          "id": "app.py#find_user_by_id:24:1$v2",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -492,7 +492,7 @@
           "name": "flask.g.db.cursor"
         },
         {
-          "id": "app.py#find_user_by_id:24$v3",
+          "id": "app.py#find_user_by_id:24:1$v3",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -502,7 +502,7 @@
           "name": "cur"
         },
         {
-          "id": "app.py#find_user_by_id:24$v4",
+          "id": "app.py#find_user_by_id:24:1$v4",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -512,7 +512,7 @@
           "literal": "SELECT id, name FROM users WHERE id = %s"
         },
         {
-          "id": "app.py#find_user_by_id:24$v5",
+          "id": "app.py#find_user_by_id:24:1$v5",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -522,7 +522,7 @@
           "name": "[sequence]"
         },
         {
-          "id": "app.py#find_user_by_id:24$v6",
+          "id": "app.py#find_user_by_id:24:1$v6",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -532,19 +532,19 @@
           "name": "flask.request"
         },
         {
-          "id": "app.py#find_user_by_id:24$v7",
+          "id": "app.py#find_user_by_id:24:1$v7",
           "kind": "property",
           "loc": {
             "file": "app.py",
             "line": 27,
             "column": 62
           },
-          "base": "app.py#find_user_by_id:24$v6",
+          "base": "app.py#find_user_by_id:24:1$v6",
           "path": "args",
           "name": "args"
         },
         {
-          "id": "app.py#find_user_by_id:24$v8",
+          "id": "app.py#find_user_by_id:24:1$v8",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -552,11 +552,11 @@
             "column": 62
           },
           "name": "id",
-          "base": "app.py#find_user_by_id:24$v7",
+          "base": "app.py#find_user_by_id:24:1$v7",
           "path": "args.id"
         },
         {
-          "id": "app.py#find_user_by_id:24$v9",
+          "id": "app.py#find_user_by_id:24:1$v9",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -566,7 +566,7 @@
           "name": "cur.execute"
         },
         {
-          "id": "app.py#find_user_by_id:24$v10",
+          "id": "app.py#find_user_by_id:24:1$v10",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -578,8 +578,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#find_user_by_id:24$v0",
-          "to": "app.py#find_user_by_id:24$v1",
+          "from": "app.py#find_user_by_id:24:1$v0",
+          "to": "app.py#find_user_by_id:24:1$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -588,8 +588,8 @@
           }
         },
         {
-          "from": "app.py#find_user_by_id:24$v2",
-          "to": "app.py#find_user_by_id:24$v3",
+          "from": "app.py#find_user_by_id:24:1$v2",
+          "to": "app.py#find_user_by_id:24:1$v3",
           "kind": "assign",
           "loc": {
             "file": "app.py",
@@ -598,8 +598,8 @@
           }
         },
         {
-          "from": "app.py#find_user_by_id:24$v6",
-          "to": "app.py#find_user_by_id:24$v7",
+          "from": "app.py#find_user_by_id:24:1$v6",
+          "to": "app.py#find_user_by_id:24:1$v7",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -608,8 +608,8 @@
           }
         },
         {
-          "from": "app.py#find_user_by_id:24$v7",
-          "to": "app.py#find_user_by_id:24$v8",
+          "from": "app.py#find_user_by_id:24:1$v7",
+          "to": "app.py#find_user_by_id:24:1$v8",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -618,8 +618,8 @@
           }
         },
         {
-          "from": "app.py#find_user_by_id:24$v8",
-          "to": "app.py#find_user_by_id:24$v5",
+          "from": "app.py#find_user_by_id:24:1$v8",
+          "to": "app.py#find_user_by_id:24:1$v5",
           "kind": "enclose",
           "loc": {
             "file": "app.py",
@@ -630,7 +630,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#find_user_by_id:24$c0",
+          "id": "app.py#find_user_by_id:24:1$c0",
           "loc": {
             "file": "app.py",
             "line": 26,
@@ -642,16 +642,16 @@
             "resolution": "probable"
           },
           "args": [],
-          "resultValueId": "app.py#find_user_by_id:24$v2",
-          "block": "app.py#find_user_by_id:24$b0",
+          "resultValueId": "app.py#find_user_by_id:24:1$v2",
+          "block": "app.py#find_user_by_id:24:1$b0",
           "method": "cursor",
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#find_user_by_id:24$v1"
+          "receiverValueId": "app.py#find_user_by_id:24:1$v1"
         },
         {
-          "id": "app.py#find_user_by_id:24$c1",
+          "id": "app.py#find_user_by_id:24:1$c1",
           "loc": {
             "file": "app.py",
             "line": 27,
@@ -665,15 +665,15 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#find_user_by_id:24$v4"
+              "valueId": "app.py#find_user_by_id:24:1$v4"
             },
             {
               "index": 1,
-              "valueId": "app.py#find_user_by_id:24$v5"
+              "valueId": "app.py#find_user_by_id:24:1$v5"
             }
           ],
-          "resultValueId": "app.py#find_user_by_id:24$v9",
-          "block": "app.py#find_user_by_id:24$b0",
+          "resultValueId": "app.py#find_user_by_id:24:1$v9",
+          "block": "app.py#find_user_by_id:24:1$b0",
           "method": "execute",
           "argCount": 2,
           "argLiterals": {
@@ -682,10 +682,10 @@
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#find_user_by_id:24$v3"
+          "receiverValueId": "app.py#find_user_by_id:24:1$v3"
         },
         {
-          "id": "app.py#find_user_by_id:24$c2",
+          "id": "app.py#find_user_by_id:24:1$c2",
           "loc": {
             "file": "app.py",
             "line": 28,
@@ -697,24 +697,24 @@
             "resolution": "probable"
           },
           "args": [],
-          "resultValueId": "app.py#find_user_by_id:24$v10",
-          "block": "app.py#find_user_by_id:24$b0",
+          "resultValueId": "app.py#find_user_by_id:24:1$v10",
+          "block": "app.py#find_user_by_id:24:1$b0",
           "method": "fetchall",
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#find_user_by_id:24$v3"
+          "receiverValueId": "app.py#find_user_by_id:24:1$v3"
         }
       ],
       "returns": [
-        "app.py#find_user_by_id:24$v10"
+        "app.py#find_user_by_id:24:1$v10"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#find_user_by_id:24$b0",
+      "entryBlock": "app.py#find_user_by_id:24:1$b0",
       "blocks": [
         {
-          "id": "app.py#find_user_by_id:24$b0",
+          "id": "app.py#find_user_by_id:24:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -724,7 +724,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#find_user_by_id:24$b1",
+          "id": "app.py#find_user_by_id:24:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -735,7 +735,7 @@
       ]
     },
     {
-      "id": "app.py#all_users:32",
+      "id": "app.py#all_users:32:1",
       "name": "all_users",
       "module": "app.py",
       "loc": {
@@ -746,7 +746,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#all_users:32$v0",
+          "id": "app.py#all_users:32:1$v0",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -756,19 +756,19 @@
           "name": "flask.g"
         },
         {
-          "id": "app.py#all_users:32$v1",
+          "id": "app.py#all_users:32:1$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
             "line": 33,
             "column": 11
           },
-          "base": "app.py#all_users:32$v0",
+          "base": "app.py#all_users:32:1$v0",
           "path": "db",
           "name": "db"
         },
         {
-          "id": "app.py#all_users:32$v2",
+          "id": "app.py#all_users:32:1$v2",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -778,7 +778,7 @@
           "name": "flask.g.db.cursor"
         },
         {
-          "id": "app.py#all_users:32$v3",
+          "id": "app.py#all_users:32:1$v3",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -788,7 +788,7 @@
           "name": "cur"
         },
         {
-          "id": "app.py#all_users:32$v4",
+          "id": "app.py#all_users:32:1$v4",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -798,7 +798,7 @@
           "literal": "SELECT id, name FROM users"
         },
         {
-          "id": "app.py#all_users:32$v5",
+          "id": "app.py#all_users:32:1$v5",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -808,7 +808,7 @@
           "name": "cur.execute"
         },
         {
-          "id": "app.py#all_users:32$v6",
+          "id": "app.py#all_users:32:1$v6",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -820,8 +820,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#all_users:32$v0",
-          "to": "app.py#all_users:32$v1",
+          "from": "app.py#all_users:32:1$v0",
+          "to": "app.py#all_users:32:1$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -830,8 +830,8 @@
           }
         },
         {
-          "from": "app.py#all_users:32$v2",
-          "to": "app.py#all_users:32$v3",
+          "from": "app.py#all_users:32:1$v2",
+          "to": "app.py#all_users:32:1$v3",
           "kind": "assign",
           "loc": {
             "file": "app.py",
@@ -842,7 +842,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#all_users:32$c0",
+          "id": "app.py#all_users:32:1$c0",
           "loc": {
             "file": "app.py",
             "line": 33,
@@ -854,16 +854,16 @@
             "resolution": "probable"
           },
           "args": [],
-          "resultValueId": "app.py#all_users:32$v2",
-          "block": "app.py#all_users:32$b0",
+          "resultValueId": "app.py#all_users:32:1$v2",
+          "block": "app.py#all_users:32:1$b0",
           "method": "cursor",
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#all_users:32$v1"
+          "receiverValueId": "app.py#all_users:32:1$v1"
         },
         {
-          "id": "app.py#all_users:32$c1",
+          "id": "app.py#all_users:32:1$c1",
           "loc": {
             "file": "app.py",
             "line": 34,
@@ -877,11 +877,11 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#all_users:32$v4"
+              "valueId": "app.py#all_users:32:1$v4"
             }
           ],
-          "resultValueId": "app.py#all_users:32$v5",
-          "block": "app.py#all_users:32$b0",
+          "resultValueId": "app.py#all_users:32:1$v5",
+          "block": "app.py#all_users:32:1$b0",
           "method": "execute",
           "argCount": 1,
           "argLiterals": {
@@ -890,10 +890,10 @@
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#all_users:32$v3"
+          "receiverValueId": "app.py#all_users:32:1$v3"
         },
         {
-          "id": "app.py#all_users:32$c2",
+          "id": "app.py#all_users:32:1$c2",
           "loc": {
             "file": "app.py",
             "line": 35,
@@ -905,24 +905,24 @@
             "resolution": "probable"
           },
           "args": [],
-          "resultValueId": "app.py#all_users:32$v6",
-          "block": "app.py#all_users:32$b0",
+          "resultValueId": "app.py#all_users:32:1$v6",
+          "block": "app.py#all_users:32:1$b0",
           "method": "fetchall",
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#all_users:32$v3"
+          "receiverValueId": "app.py#all_users:32:1$v3"
         }
       ],
       "returns": [
-        "app.py#all_users:32$v6"
+        "app.py#all_users:32:1$v6"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#all_users:32$b0",
+      "entryBlock": "app.py#all_users:32:1$b0",
       "blocks": [
         {
-          "id": "app.py#all_users:32$b0",
+          "id": "app.py#all_users:32:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -932,7 +932,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#all_users:32$b1",
+          "id": "app.py#all_users:32:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -943,7 +943,7 @@
       ]
     },
     {
-      "id": "app.py#find_user_fstring:39",
+      "id": "app.py#find_user_fstring:39:1",
       "name": "find_user_fstring",
       "module": "app.py",
       "loc": {
@@ -954,7 +954,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#find_user_fstring:39$v0",
+          "id": "app.py#find_user_fstring:39:1$v0",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -964,19 +964,19 @@
           "name": "flask.g"
         },
         {
-          "id": "app.py#find_user_fstring:39$v1",
+          "id": "app.py#find_user_fstring:39:1$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
             "line": 44,
             "column": 11
           },
-          "base": "app.py#find_user_fstring:39$v0",
+          "base": "app.py#find_user_fstring:39:1$v0",
           "path": "db",
           "name": "db"
         },
         {
-          "id": "app.py#find_user_fstring:39$v2",
+          "id": "app.py#find_user_fstring:39:1$v2",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -986,7 +986,7 @@
           "name": "flask.g.db.cursor"
         },
         {
-          "id": "app.py#find_user_fstring:39$v3",
+          "id": "app.py#find_user_fstring:39:1$v3",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -996,7 +996,7 @@
           "name": "cur"
         },
         {
-          "id": "app.py#find_user_fstring:39$v4",
+          "id": "app.py#find_user_fstring:39:1$v4",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -1006,7 +1006,7 @@
           "name": "f-string"
         },
         {
-          "id": "app.py#find_user_fstring:39$v5",
+          "id": "app.py#find_user_fstring:39:1$v5",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -1016,7 +1016,7 @@
           "literal": "SELECT id, name FROM users WHERE login = '"
         },
         {
-          "id": "app.py#find_user_fstring:39$v6",
+          "id": "app.py#find_user_fstring:39:1$v6",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -1026,19 +1026,19 @@
           "name": "flask.request"
         },
         {
-          "id": "app.py#find_user_fstring:39$v7",
+          "id": "app.py#find_user_fstring:39:1$v7",
           "kind": "property",
           "loc": {
             "file": "app.py",
             "line": 45,
             "column": 62
           },
-          "base": "app.py#find_user_fstring:39$v6",
+          "base": "app.py#find_user_fstring:39:1$v6",
           "path": "args",
           "name": "args"
         },
         {
-          "id": "app.py#find_user_fstring:39$v8",
+          "id": "app.py#find_user_fstring:39:1$v8",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -1046,11 +1046,11 @@
             "column": 62
           },
           "name": "login",
-          "base": "app.py#find_user_fstring:39$v7",
+          "base": "app.py#find_user_fstring:39:1$v7",
           "path": "args.login"
         },
         {
-          "id": "app.py#find_user_fstring:39$v9",
+          "id": "app.py#find_user_fstring:39:1$v9",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -1060,7 +1060,7 @@
           "literal": "'"
         },
         {
-          "id": "app.py#find_user_fstring:39$v10",
+          "id": "app.py#find_user_fstring:39:1$v10",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -1070,7 +1070,7 @@
           "name": "cur.execute"
         },
         {
-          "id": "app.py#find_user_fstring:39$v11",
+          "id": "app.py#find_user_fstring:39:1$v11",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -1082,8 +1082,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#find_user_fstring:39$v0",
-          "to": "app.py#find_user_fstring:39$v1",
+          "from": "app.py#find_user_fstring:39:1$v0",
+          "to": "app.py#find_user_fstring:39:1$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -1092,8 +1092,8 @@
           }
         },
         {
-          "from": "app.py#find_user_fstring:39$v2",
-          "to": "app.py#find_user_fstring:39$v3",
+          "from": "app.py#find_user_fstring:39:1$v2",
+          "to": "app.py#find_user_fstring:39:1$v3",
           "kind": "assign",
           "loc": {
             "file": "app.py",
@@ -1102,8 +1102,8 @@
           }
         },
         {
-          "from": "app.py#find_user_fstring:39$v5",
-          "to": "app.py#find_user_fstring:39$v4",
+          "from": "app.py#find_user_fstring:39:1$v5",
+          "to": "app.py#find_user_fstring:39:1$v4",
           "kind": "template",
           "loc": {
             "file": "app.py",
@@ -1112,8 +1112,8 @@
           }
         },
         {
-          "from": "app.py#find_user_fstring:39$v6",
-          "to": "app.py#find_user_fstring:39$v7",
+          "from": "app.py#find_user_fstring:39:1$v6",
+          "to": "app.py#find_user_fstring:39:1$v7",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -1122,8 +1122,8 @@
           }
         },
         {
-          "from": "app.py#find_user_fstring:39$v7",
-          "to": "app.py#find_user_fstring:39$v8",
+          "from": "app.py#find_user_fstring:39:1$v7",
+          "to": "app.py#find_user_fstring:39:1$v8",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -1132,8 +1132,8 @@
           }
         },
         {
-          "from": "app.py#find_user_fstring:39$v8",
-          "to": "app.py#find_user_fstring:39$v4",
+          "from": "app.py#find_user_fstring:39:1$v8",
+          "to": "app.py#find_user_fstring:39:1$v4",
           "kind": "template",
           "loc": {
             "file": "app.py",
@@ -1142,8 +1142,8 @@
           }
         },
         {
-          "from": "app.py#find_user_fstring:39$v9",
-          "to": "app.py#find_user_fstring:39$v4",
+          "from": "app.py#find_user_fstring:39:1$v9",
+          "to": "app.py#find_user_fstring:39:1$v4",
           "kind": "template",
           "loc": {
             "file": "app.py",
@@ -1154,7 +1154,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#find_user_fstring:39$c0",
+          "id": "app.py#find_user_fstring:39:1$c0",
           "loc": {
             "file": "app.py",
             "line": 44,
@@ -1166,16 +1166,16 @@
             "resolution": "probable"
           },
           "args": [],
-          "resultValueId": "app.py#find_user_fstring:39$v2",
-          "block": "app.py#find_user_fstring:39$b0",
+          "resultValueId": "app.py#find_user_fstring:39:1$v2",
+          "block": "app.py#find_user_fstring:39:1$b0",
           "method": "cursor",
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#find_user_fstring:39$v1"
+          "receiverValueId": "app.py#find_user_fstring:39:1$v1"
         },
         {
-          "id": "app.py#find_user_fstring:39$c1",
+          "id": "app.py#find_user_fstring:39:1$c1",
           "loc": {
             "file": "app.py",
             "line": 45,
@@ -1189,20 +1189,20 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#find_user_fstring:39$v4"
+              "valueId": "app.py#find_user_fstring:39:1$v4"
             }
           ],
-          "resultValueId": "app.py#find_user_fstring:39$v10",
-          "block": "app.py#find_user_fstring:39$b0",
+          "resultValueId": "app.py#find_user_fstring:39:1$v10",
+          "block": "app.py#find_user_fstring:39:1$b0",
           "method": "execute",
           "argCount": 1,
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#find_user_fstring:39$v3"
+          "receiverValueId": "app.py#find_user_fstring:39:1$v3"
         },
         {
-          "id": "app.py#find_user_fstring:39$c2",
+          "id": "app.py#find_user_fstring:39:1$c2",
           "loc": {
             "file": "app.py",
             "line": 46,
@@ -1214,24 +1214,24 @@
             "resolution": "probable"
           },
           "args": [],
-          "resultValueId": "app.py#find_user_fstring:39$v11",
-          "block": "app.py#find_user_fstring:39$b0",
+          "resultValueId": "app.py#find_user_fstring:39:1$v11",
+          "block": "app.py#find_user_fstring:39:1$b0",
           "method": "fetchall",
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#find_user_fstring:39$v3"
+          "receiverValueId": "app.py#find_user_fstring:39:1$v3"
         }
       ],
       "returns": [
-        "app.py#find_user_fstring:39$v11"
+        "app.py#find_user_fstring:39:1$v11"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#find_user_fstring:39$b0",
+      "entryBlock": "app.py#find_user_fstring:39:1$b0",
       "blocks": [
         {
-          "id": "app.py#find_user_fstring:39$b0",
+          "id": "app.py#find_user_fstring:39:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -1241,7 +1241,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#find_user_fstring:39$b1",
+          "id": "app.py#find_user_fstring:39:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -1252,7 +1252,7 @@
       ]
     },
     {
-      "id": "app.py#greeting:50",
+      "id": "app.py#greeting:50:1",
       "name": "greeting",
       "module": "app.py",
       "loc": {
@@ -1263,7 +1263,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#greeting:50$v0",
+          "id": "app.py#greeting:50:1$v0",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -1273,7 +1273,7 @@
           "name": "f-string"
         },
         {
-          "id": "app.py#greeting:50$v1",
+          "id": "app.py#greeting:50:1$v1",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -1283,7 +1283,7 @@
           "literal": "welcome back, "
         },
         {
-          "id": "app.py#greeting:50$v2",
+          "id": "app.py#greeting:50:1$v2",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -1293,19 +1293,19 @@
           "name": "flask.request"
         },
         {
-          "id": "app.py#greeting:50$v3",
+          "id": "app.py#greeting:50:1$v3",
           "kind": "property",
           "loc": {
             "file": "app.py",
             "line": 55,
             "column": 44
           },
-          "base": "app.py#greeting:50$v2",
+          "base": "app.py#greeting:50:1$v2",
           "path": "args",
           "name": "args"
         },
         {
-          "id": "app.py#greeting:50$v4",
+          "id": "app.py#greeting:50:1$v4",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -1313,11 +1313,11 @@
             "column": 44
           },
           "name": "name",
-          "base": "app.py#greeting:50$v3",
+          "base": "app.py#greeting:50:1$v3",
           "path": "args.name"
         },
         {
-          "id": "app.py#greeting:50$v5",
+          "id": "app.py#greeting:50:1$v5",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -1327,7 +1327,7 @@
           "name": "mailer"
         },
         {
-          "id": "app.py#greeting:50$v6",
+          "id": "app.py#greeting:50:1$v6",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -1339,8 +1339,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#greeting:50$v1",
-          "to": "app.py#greeting:50$v0",
+          "from": "app.py#greeting:50:1$v1",
+          "to": "app.py#greeting:50:1$v0",
           "kind": "template",
           "loc": {
             "file": "app.py",
@@ -1349,8 +1349,8 @@
           }
         },
         {
-          "from": "app.py#greeting:50$v2",
-          "to": "app.py#greeting:50$v3",
+          "from": "app.py#greeting:50:1$v2",
+          "to": "app.py#greeting:50:1$v3",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -1359,8 +1359,8 @@
           }
         },
         {
-          "from": "app.py#greeting:50$v3",
-          "to": "app.py#greeting:50$v4",
+          "from": "app.py#greeting:50:1$v3",
+          "to": "app.py#greeting:50:1$v4",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -1369,8 +1369,8 @@
           }
         },
         {
-          "from": "app.py#greeting:50$v4",
-          "to": "app.py#greeting:50$v0",
+          "from": "app.py#greeting:50:1$v4",
+          "to": "app.py#greeting:50:1$v0",
           "kind": "template",
           "loc": {
             "file": "app.py",
@@ -1381,7 +1381,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#greeting:50$c0",
+          "id": "app.py#greeting:50:1$c0",
           "loc": {
             "file": "app.py",
             "line": 55,
@@ -1395,28 +1395,28 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#greeting:50$v0"
+              "valueId": "app.py#greeting:50:1$v0"
             }
           ],
-          "resultValueId": "app.py#greeting:50$v6",
-          "block": "app.py#greeting:50$b0",
+          "resultValueId": "app.py#greeting:50:1$v6",
+          "block": "app.py#greeting:50:1$b0",
           "method": "execute",
           "argCount": 1,
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#greeting:50$v5"
+          "receiverValueId": "app.py#greeting:50:1$v5"
         }
       ],
       "returns": [
-        "app.py#greeting:50$v6"
+        "app.py#greeting:50:1$v6"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#greeting:50$b0",
+      "entryBlock": "app.py#greeting:50:1$b0",
       "blocks": [
         {
-          "id": "app.py#greeting:50$b0",
+          "id": "app.py#greeting:50:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -1426,7 +1426,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#greeting:50$b1",
+          "id": "app.py#greeting:50:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -1437,7 +1437,7 @@
       ]
     },
     {
-      "id": "mailer.py#<module>:0",
+      "id": "mailer.py#<module>:0:0",
       "name": "<module>",
       "module": "mailer.py",
       "loc": {
@@ -1448,7 +1448,7 @@
       "params": [],
       "values": [
         {
-          "id": "mailer.py#<module>:0$v0",
+          "id": "mailer.py#<module>:0:0$v0",
           "kind": "literal",
           "loc": {
             "file": "mailer.py",
@@ -1463,10 +1463,10 @@
       "returns": [],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "mailer.py#<module>:0$b0",
+      "entryBlock": "mailer.py#<module>:0:0$b0",
       "blocks": [
         {
-          "id": "mailer.py#<module>:0$b0",
+          "id": "mailer.py#<module>:0:0$b0",
           "successors": [],
           "loc": {
             "file": "mailer.py",
@@ -1477,7 +1477,7 @@
       ]
     },
     {
-      "id": "mailer.py#execute:4",
+      "id": "mailer.py#execute:4:1",
       "name": "execute",
       "module": "mailer.py",
       "loc": {
@@ -1489,12 +1489,12 @@
         {
           "index": 0,
           "name": "message",
-          "valueId": "mailer.py#execute:4$v0"
+          "valueId": "mailer.py#execute:4:1$v0"
         }
       ],
       "values": [
         {
-          "id": "mailer.py#execute:4$v0",
+          "id": "mailer.py#execute:4:1$v0",
           "kind": "param",
           "loc": {
             "file": "mailer.py",
@@ -1507,14 +1507,14 @@
       "flows": [],
       "calls": [],
       "returns": [
-        "mailer.py#execute:4$v0"
+        "mailer.py#execute:4:1$v0"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "mailer.py#execute:4$b0",
+      "entryBlock": "mailer.py#execute:4:1$b0",
       "blocks": [
         {
-          "id": "mailer.py#execute:4$b0",
+          "id": "mailer.py#execute:4:1$b0",
           "successors": [],
           "loc": {
             "file": "mailer.py",
@@ -1524,7 +1524,7 @@
           "terminator": "return"
         },
         {
-          "id": "mailer.py#execute:4$b1",
+          "id": "mailer.py#execute:4:1$b1",
           "successors": [],
           "loc": {
             "file": "mailer.py",
@@ -1537,7 +1537,7 @@
   ],
   "entryPoints": [
     {
-      "functionId": "app.py#find_user:16",
+      "functionId": "app.py#find_user:16:1",
       "kind": "http-route",
       "framework": "flask",
       "detail": {
@@ -1546,7 +1546,7 @@
       }
     },
     {
-      "functionId": "app.py#find_user_by_id:24",
+      "functionId": "app.py#find_user_by_id:24:1",
       "kind": "http-route",
       "framework": "flask",
       "detail": {
@@ -1555,7 +1555,7 @@
       }
     },
     {
-      "functionId": "app.py#all_users:32",
+      "functionId": "app.py#all_users:32:1",
       "kind": "http-route",
       "framework": "flask",
       "detail": {
@@ -1564,7 +1564,7 @@
       }
     },
     {
-      "functionId": "app.py#find_user_fstring:39",
+      "functionId": "app.py#find_user_fstring:39:1",
       "kind": "http-route",
       "framework": "flask",
       "detail": {
@@ -1573,7 +1573,7 @@
       }
     },
     {
-      "functionId": "app.py#greeting:50",
+      "functionId": "app.py#greeting:50:1",
       "kind": "http-route",
       "framework": "flask",
       "detail": {

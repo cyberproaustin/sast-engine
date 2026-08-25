@@ -1,6 +1,6 @@
 {
   "corpus": "express-template-xss",
-  "description": "Cross-site scripting decided in the VIEW rather than in the handler. `<%= %>` escapes and `<%- %>` does not, a difference of one character, and reading only the source reads the half where nothing is decided. The finding points at the template line that writes the page. The negatives cover the three ways this stays quiet: a value the caller never sent, locals built in another function -- a stated miss, because naming a file on a guess is worse than saying nothing -- and a value escaped before it ever reached the view.",
+  "description": "Cross-site scripting decided in the VIEW rather than in the handler. `<%= %>` escapes and `<%- %>` does not, a difference of one character, and reading only the source reads the half where nothing is decided. The finding points at the template line that writes the page. The negatives cover the three ways this stays quiet: a value the caller never sent, locals built in another function -- a stated miss, because naming a file on a guess is worse than saying nothing -- and a value escaped before it ever reached the view. The last one is inside a loop, indexed by a variable. Refusing to read that path meant refusing the most common place an unescaped interpolation appears.",
   "expected": [
     {
       "cwe": "CWE-79",
@@ -17,6 +17,14 @@
       "sourceLabel": "req.query.name",
       "confidence": "high",
       "note": "read as `user.name`, so the path below the root is a property read off what the handler passed"
+    },
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "views/products.ejs",
+      "sinkLine": 11,
+      "sourceLabel": "req.query.rows",
+      "confidence": "high",
+      "note": "a VARIABLE index is an index, for the same reason a numeric one is: the engine is not field-sensitive about array elements, so rows[0].name and rows[i].name are the same read. Refusing the second meant refusing the most common place an unescaped interpolation appears -- inside the loop that renders a table"
     }
   ]
 }

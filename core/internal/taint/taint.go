@@ -1555,14 +1555,22 @@ func (e *engine) taintLeads(valueID string) bool {
 	id := valueID
 	for hops := 0; hops < 8 && id != ""; hops++ {
 		into := e.flowsInto[id]
-		if len(into) > 1 {
+		switch {
+		case len(into) > 1:
 			return e.tainted[into[0]]
-		}
-		if len(into) == 1 && e.assignedFrom[id] == into[0] {
+		case len(into) == 1 && e.assignedFrom[id] == into[0]:
+			// The composed value under another name.
 			id = into[0]
-			continue
+		case len(into) == 1:
+			// A composition with ONE component: `fetch(`${req.query.url}`)` is a template
+			// whose head is empty, so nothing is written before the caller's value and
+			// nothing was recorded for it either. Requiring two components read that as
+			// "not a composition at all" and dropped a finding where the caller supplies
+			// the entire destination.
+			return e.tainted[into[0]]
+		default:
+			return false
 		}
-		return false
 	}
 	return false
 }

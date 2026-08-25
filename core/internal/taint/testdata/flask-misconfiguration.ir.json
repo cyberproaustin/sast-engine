@@ -24,7 +24,7 @@
   ],
   "functions": [
     {
-      "id": "app.py#<module>:0",
+      "id": "app.py#<module>:0:0",
       "name": "<module>",
       "module": "app.py",
       "loc": {
@@ -35,7 +35,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#<module>:0$v0",
+          "id": "app.py#<module>:0:0$v0",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -45,7 +45,7 @@
           "name": "flask.Flask"
         },
         {
-          "id": "app.py#<module>:0$v1",
+          "id": "app.py#<module>:0:0$v1",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -55,7 +55,7 @@
           "name": "app"
         },
         {
-          "id": "app.py#<module>:0$v2",
+          "id": "app.py#<module>:0:0$v2",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -65,7 +65,7 @@
           "name": "comparison"
         },
         {
-          "id": "app.py#<module>:0$v3",
+          "id": "app.py#<module>:0:0$v3",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -75,7 +75,7 @@
           "literal": "__main__"
         },
         {
-          "id": "app.py#<module>:0$v4",
+          "id": "app.py#<module>:0:0$v4",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -85,7 +85,7 @@
           "literal": "0.0.0.0"
         },
         {
-          "id": "app.py#<module>:0$v5",
+          "id": "app.py#<module>:0:0$v5",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -95,7 +95,7 @@
           "literal": "8080"
         },
         {
-          "id": "app.py#<module>:0$v6",
+          "id": "app.py#<module>:0:0$v6",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -105,7 +105,7 @@
           "literal": "true"
         },
         {
-          "id": "app.py#<module>:0$v7",
+          "id": "app.py#<module>:0:0$v7",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -117,8 +117,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#<module>:0$v0",
-          "to": "app.py#<module>:0$v1",
+          "from": "app.py#<module>:0:0$v0",
+          "to": "app.py#<module>:0:0$v1",
           "kind": "assign",
           "loc": {
             "file": "app.py",
@@ -129,7 +129,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#<module>:0$c0",
+          "id": "app.py#<module>:0:0$c0",
           "loc": {
             "file": "app.py",
             "line": 4,
@@ -141,15 +141,15 @@
             "resolution": "resolved"
           },
           "args": [],
-          "resultValueId": "app.py#<module>:0$v0",
-          "block": "app.py#<module>:0$b0",
+          "resultValueId": "app.py#<module>:0:0$v0",
+          "block": "app.py#<module>:0:0$b0",
           "argCount": 1,
           "enumeratedOptions": [
             -1
           ]
         },
         {
-          "id": "app.py#<module>:0$c1",
+          "id": "app.py#<module>:0:0$c1",
           "loc": {
             "file": "app.py",
             "line": 23,
@@ -163,19 +163,19 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#<module>:0$v4"
+              "valueId": "app.py#<module>:0:0$v4"
             },
             {
               "index": 0,
-              "valueId": "app.py#<module>:0$v5"
+              "valueId": "app.py#<module>:0:0$v5"
             },
             {
               "index": 0,
-              "valueId": "app.py#<module>:0$v6"
+              "valueId": "app.py#<module>:0:0$v6"
             }
           ],
-          "resultValueId": "app.py#<module>:0$v7",
-          "block": "app.py#<module>:0$b1",
+          "resultValueId": "app.py#<module>:0:0$v7",
+          "block": "app.py#<module>:0:0$b1",
           "method": "run",
           "argCount": 3,
           "argLiterals": {
@@ -186,19 +186,19 @@
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#<module>:0$v1"
+          "receiverValueId": "app.py#<module>:0:0$v1"
         }
       ],
       "returns": [],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#<module>:0$b0",
+      "entryBlock": "app.py#<module>:0:0$b0",
       "blocks": [
         {
-          "id": "app.py#<module>:0$b0",
+          "id": "app.py#<module>:0:0$b0",
           "successors": [
-            "app.py#<module>:0$b1",
-            "app.py#<module>:0$b2"
+            "app.py#<module>:0:0$b1",
+            "app.py#<module>:0:0$b2"
           ],
           "loc": {
             "file": "app.py",
@@ -208,9 +208,9 @@
           "terminator": "branch"
         },
         {
-          "id": "app.py#<module>:0$b1",
+          "id": "app.py#<module>:0:0$b1",
           "successors": [
-            "app.py#<module>:0$b2"
+            "app.py#<module>:0:0$b2"
           ],
           "loc": {
             "file": "app.py",
@@ -219,7 +219,7 @@
           }
         },
         {
-          "id": "app.py#<module>:0$b2",
+          "id": "app.py#<module>:0:0$b2",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -230,7 +230,7 @@
       ]
     },
     {
-      "id": "app.py#upstream:8",
+      "id": "app.py#upstream:8:1",
       "name": "upstream",
       "module": "app.py",
       "loc": {
@@ -241,7 +241,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#upstream:8$v0",
+          "id": "app.py#upstream:8:1$v0",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -251,7 +251,7 @@
           "literal": "https://api.example.com/status"
         },
         {
-          "id": "app.py#upstream:8$v1",
+          "id": "app.py#upstream:8:1$v1",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -261,7 +261,7 @@
           "literal": "false"
         },
         {
-          "id": "app.py#upstream:8$v2",
+          "id": "app.py#upstream:8:1$v2",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -271,7 +271,7 @@
           "name": "requests"
         },
         {
-          "id": "app.py#upstream:8$v3",
+          "id": "app.py#upstream:8:1$v3",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -281,7 +281,7 @@
           "name": "requests.get"
         },
         {
-          "id": "app.py#upstream:8$v4",
+          "id": "app.py#upstream:8:1$v4",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -291,22 +291,22 @@
           "name": "r"
         },
         {
-          "id": "app.py#upstream:8$v5",
+          "id": "app.py#upstream:8:1$v5",
           "kind": "property",
           "loc": {
             "file": "app.py",
             "line": 11,
             "column": 12
           },
-          "base": "app.py#upstream:8$v4",
+          "base": "app.py#upstream:8:1$v4",
           "path": "text",
           "name": "text"
         }
       ],
       "flows": [
         {
-          "from": "app.py#upstream:8$v3",
-          "to": "app.py#upstream:8$v4",
+          "from": "app.py#upstream:8:1$v3",
+          "to": "app.py#upstream:8:1$v4",
           "kind": "assign",
           "loc": {
             "file": "app.py",
@@ -315,8 +315,8 @@
           }
         },
         {
-          "from": "app.py#upstream:8$v4",
-          "to": "app.py#upstream:8$v5",
+          "from": "app.py#upstream:8:1$v4",
+          "to": "app.py#upstream:8:1$v5",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -327,7 +327,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#upstream:8$c0",
+          "id": "app.py#upstream:8:1$c0",
           "loc": {
             "file": "app.py",
             "line": 10,
@@ -341,15 +341,15 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#upstream:8$v0"
+              "valueId": "app.py#upstream:8:1$v0"
             },
             {
               "index": 1,
-              "valueId": "app.py#upstream:8$v1"
+              "valueId": "app.py#upstream:8:1$v1"
             }
           ],
-          "resultValueId": "app.py#upstream:8$v3",
-          "block": "app.py#upstream:8$b0",
+          "resultValueId": "app.py#upstream:8:1$v3",
+          "block": "app.py#upstream:8:1$b0",
           "method": "get",
           "argCount": 2,
           "argLiterals": {
@@ -359,18 +359,18 @@
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#upstream:8$v2"
+          "receiverValueId": "app.py#upstream:8:1$v2"
         }
       ],
       "returns": [
-        "app.py#upstream:8$v5"
+        "app.py#upstream:8:1$v5"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#upstream:8$b0",
+      "entryBlock": "app.py#upstream:8:1$b0",
       "blocks": [
         {
-          "id": "app.py#upstream:8$b0",
+          "id": "app.py#upstream:8:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -380,7 +380,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#upstream:8$b1",
+          "id": "app.py#upstream:8:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -391,7 +391,7 @@
       ]
     },
     {
-      "id": "app.py#upstream_strict:15",
+      "id": "app.py#upstream_strict:15:1",
       "name": "upstream_strict",
       "module": "app.py",
       "loc": {
@@ -402,7 +402,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#upstream_strict:15$v0",
+          "id": "app.py#upstream_strict:15:1$v0",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -412,7 +412,7 @@
           "literal": "https://api.example.com/status"
         },
         {
-          "id": "app.py#upstream_strict:15$v1",
+          "id": "app.py#upstream_strict:15:1$v1",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -422,7 +422,7 @@
           "literal": "5"
         },
         {
-          "id": "app.py#upstream_strict:15$v2",
+          "id": "app.py#upstream_strict:15:1$v2",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -432,7 +432,7 @@
           "name": "requests"
         },
         {
-          "id": "app.py#upstream_strict:15$v3",
+          "id": "app.py#upstream_strict:15:1$v3",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -442,7 +442,7 @@
           "name": "requests.get"
         },
         {
-          "id": "app.py#upstream_strict:15$v4",
+          "id": "app.py#upstream_strict:15:1$v4",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -452,22 +452,22 @@
           "name": "r"
         },
         {
-          "id": "app.py#upstream_strict:15$v5",
+          "id": "app.py#upstream_strict:15:1$v5",
           "kind": "property",
           "loc": {
             "file": "app.py",
             "line": 18,
             "column": 12
           },
-          "base": "app.py#upstream_strict:15$v4",
+          "base": "app.py#upstream_strict:15:1$v4",
           "path": "text",
           "name": "text"
         }
       ],
       "flows": [
         {
-          "from": "app.py#upstream_strict:15$v3",
-          "to": "app.py#upstream_strict:15$v4",
+          "from": "app.py#upstream_strict:15:1$v3",
+          "to": "app.py#upstream_strict:15:1$v4",
           "kind": "assign",
           "loc": {
             "file": "app.py",
@@ -476,8 +476,8 @@
           }
         },
         {
-          "from": "app.py#upstream_strict:15$v4",
-          "to": "app.py#upstream_strict:15$v5",
+          "from": "app.py#upstream_strict:15:1$v4",
+          "to": "app.py#upstream_strict:15:1$v5",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -488,7 +488,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#upstream_strict:15$c0",
+          "id": "app.py#upstream_strict:15:1$c0",
           "loc": {
             "file": "app.py",
             "line": 17,
@@ -502,15 +502,15 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#upstream_strict:15$v0"
+              "valueId": "app.py#upstream_strict:15:1$v0"
             },
             {
               "index": 1,
-              "valueId": "app.py#upstream_strict:15$v1"
+              "valueId": "app.py#upstream_strict:15:1$v1"
             }
           ],
-          "resultValueId": "app.py#upstream_strict:15$v3",
-          "block": "app.py#upstream_strict:15$b0",
+          "resultValueId": "app.py#upstream_strict:15:1$v3",
+          "block": "app.py#upstream_strict:15:1$b0",
           "method": "get",
           "argCount": 2,
           "argLiterals": {
@@ -520,18 +520,18 @@
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#upstream_strict:15$v2"
+          "receiverValueId": "app.py#upstream_strict:15:1$v2"
         }
       ],
       "returns": [
-        "app.py#upstream_strict:15$v5"
+        "app.py#upstream_strict:15:1$v5"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#upstream_strict:15$b0",
+      "entryBlock": "app.py#upstream_strict:15:1$b0",
       "blocks": [
         {
-          "id": "app.py#upstream_strict:15$b0",
+          "id": "app.py#upstream_strict:15:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -541,7 +541,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#upstream_strict:15$b1",
+          "id": "app.py#upstream_strict:15:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -554,7 +554,7 @@
   ],
   "entryPoints": [
     {
-      "functionId": "app.py#upstream:8",
+      "functionId": "app.py#upstream:8:1",
       "kind": "http-route",
       "framework": "flask",
       "detail": {
@@ -563,7 +563,7 @@
       }
     },
     {
-      "functionId": "app.py#upstream_strict:15",
+      "functionId": "app.py#upstream_strict:15:1",
       "kind": "http-route",
       "framework": "flask",
       "detail": {

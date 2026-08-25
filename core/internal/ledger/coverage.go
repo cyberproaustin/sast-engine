@@ -41,10 +41,15 @@ var claims = map[string]Claim{
 			"measurement rather than a structural limit: an engine configured with " +
 			"autoescaping off globally makes every interpolation in its templates " +
 			"unescaped, and the configuration is not connected to the files it governs. " +
+			"A third place escaping is decided needs no call and no template: assigning " +
+			"to `innerHTML` parses what it is given as markup, which is the browser-side " +
+			"twin of an unescaped interpolation and is why a rule that watches calls " +
+			"could not see it. `textContent` is the same assignment with the parsing off, " +
+			"and is the fix. " +
 			"Reporting the configuration instead was counted and declined -- 15 mentions " +
 			"of autoescape across the clean corpus, the two that disable it being a " +
 			"LaTeX renderer and a code generator, where HTML escaping would be the bug",
-		By:       []string{"untrusted-to-interpreter"},
+		By:       []string{"untrusted-to-interpreter", "markup-assignment"},
 		Subsumes: true,
 	},
 	"CWE-81": {State: Asserted, Reason: "failure detail reaching a markup channel. Not subsumed by CWE-79 even though it sits beneath it: what distinguishes it is the SOURCE, and this engine classifies error detail separately from caller input precisely so it can tell them apart -- an error message is where a program repeats back what it was given, which is how the message becomes script",

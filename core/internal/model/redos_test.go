@@ -59,3 +59,27 @@ func TestAnchoredRepetitionIsNotCatastrophic(t *testing.T) {
 		t.Error(`([0-9]+)+\# must be reported: a run of digits can be split any number of ways`)
 	}
 }
+
+// Two shapes an audit found the first version answering backwards.
+func TestNamedGroupsAndDisjointAlternation(t *testing.T) {
+	// A named group's NAME is not the start of its body. Reading it as one made this
+	// look like a pattern whose repetitions are separated by the letter c.
+	if !model.CatastrophicPattern(`(?<chunk>a+)+$`) {
+		t.Error(`(?<chunk>a+)+$ must be reported: the name is not part of the body`)
+	}
+	if !model.CatastrophicPattern(`(?:a+)+$`) {
+		t.Error(`(?:a+)+$ must be reported`)
+	}
+
+	// An alternation of DISTINCT single characters is a character class written the long
+	// way, and there is exactly one way to match each character.
+	for _, p := range []string{`(a|b)+$`, `(a|b|c)*`, `([0-9]|[a-z])+`} {
+		if model.CatastrophicPattern(p) {
+			t.Errorf("%s must not be reported: no two branches can claim the same input", p)
+		}
+	}
+	// And when two branches CAN claim the same input, it can.
+	if !model.CatastrophicPattern(`(a|a)+`) {
+		t.Error(`(a|a)+ must be reported: both branches match the same character`)
+	}
+}

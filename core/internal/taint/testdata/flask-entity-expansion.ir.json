@@ -24,7 +24,7 @@
   ],
   "functions": [
     {
-      "id": "app.py#<module>:0",
+      "id": "app.py#<module>:0:0",
       "name": "<module>",
       "module": "app.py",
       "loc": {
@@ -35,7 +35,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#<module>:0$v0",
+          "id": "app.py#<module>:0:0$v0",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -45,7 +45,7 @@
           "name": "flask.Flask"
         },
         {
-          "id": "app.py#<module>:0$v1",
+          "id": "app.py#<module>:0:0$v1",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -57,8 +57,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#<module>:0$v0",
-          "to": "app.py#<module>:0$v1",
+          "from": "app.py#<module>:0:0$v0",
+          "to": "app.py#<module>:0:0$v1",
           "kind": "assign",
           "loc": {
             "file": "app.py",
@@ -69,7 +69,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#<module>:0$c0",
+          "id": "app.py#<module>:0:0$c0",
           "loc": {
             "file": "app.py",
             "line": 4,
@@ -81,8 +81,8 @@
             "resolution": "resolved"
           },
           "args": [],
-          "resultValueId": "app.py#<module>:0$v0",
-          "block": "app.py#<module>:0$b0",
+          "resultValueId": "app.py#<module>:0:0$v0",
+          "block": "app.py#<module>:0:0$b0",
           "argCount": 1,
           "enumeratedOptions": [
             -1
@@ -92,10 +92,10 @@
       "returns": [],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#<module>:0$b0",
+      "entryBlock": "app.py#<module>:0:0$b0",
       "blocks": [
         {
-          "id": "app.py#<module>:0$b0",
+          "id": "app.py#<module>:0:0$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -106,7 +106,7 @@
       ]
     },
     {
-      "id": "app.py#import_document:8",
+      "id": "app.py#import_document:8:1",
       "name": "import_document",
       "module": "app.py",
       "loc": {
@@ -117,7 +117,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#import_document:8$v0",
+          "id": "app.py#import_document:8:1$v0",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -127,7 +127,7 @@
           "literal": "true"
         },
         {
-          "id": "app.py#import_document:8$v1",
+          "id": "app.py#import_document:8:1$v1",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -137,7 +137,7 @@
           "name": "lxml.etree"
         },
         {
-          "id": "app.py#import_document:8$v2",
+          "id": "app.py#import_document:8:1$v2",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -147,7 +147,7 @@
           "name": "lxml.etree.XMLParser"
         },
         {
-          "id": "app.py#import_document:8$v3",
+          "id": "app.py#import_document:8:1$v3",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -157,7 +157,7 @@
           "name": "parser"
         },
         {
-          "id": "app.py#import_document:8$v4",
+          "id": "app.py#import_document:8:1$v4",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -167,19 +167,19 @@
           "name": "flask.request"
         },
         {
-          "id": "app.py#import_document:8$v5",
+          "id": "app.py#import_document:8:1$v5",
           "kind": "property",
           "loc": {
             "file": "app.py",
             "line": 13,
             "column": 33
           },
-          "base": "app.py#import_document:8$v4",
+          "base": "app.py#import_document:8:1$v4",
           "path": "data",
           "name": "data"
         },
         {
-          "id": "app.py#import_document:8$v6",
+          "id": "app.py#import_document:8:1$v6",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -189,7 +189,7 @@
           "name": "lxml.etree.fromstring"
         },
         {
-          "id": "app.py#import_document:8$v7",
+          "id": "app.py#import_document:8:1$v7",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -201,8 +201,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#import_document:8$v2",
-          "to": "app.py#import_document:8$v3",
+          "from": "app.py#import_document:8:1$v2",
+          "to": "app.py#import_document:8:1$v3",
           "kind": "assign",
           "loc": {
             "file": "app.py",
@@ -211,8 +211,8 @@
           }
         },
         {
-          "from": "app.py#import_document:8$v4",
-          "to": "app.py#import_document:8$v5",
+          "from": "app.py#import_document:8:1$v4",
+          "to": "app.py#import_document:8:1$v5",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -223,7 +223,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#import_document:8$c0",
+          "id": "app.py#import_document:8:1$c0",
           "loc": {
             "file": "app.py",
             "line": 12,
@@ -237,11 +237,11 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#import_document:8$v0"
+              "valueId": "app.py#import_document:8:1$v0"
             }
           ],
-          "resultValueId": "app.py#import_document:8$v2",
-          "block": "app.py#import_document:8$b0",
+          "resultValueId": "app.py#import_document:8:1$v2",
+          "block": "app.py#import_document:8:1$b0",
           "method": "XMLParser",
           "argCount": 1,
           "argLiterals": {
@@ -250,10 +250,10 @@
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#import_document:8$v1"
+          "receiverValueId": "app.py#import_document:8:1$v1"
         },
         {
-          "id": "app.py#import_document:8$c1",
+          "id": "app.py#import_document:8:1$c1",
           "loc": {
             "file": "app.py",
             "line": 13,
@@ -267,24 +267,24 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#import_document:8$v5"
+              "valueId": "app.py#import_document:8:1$v5"
             },
             {
               "index": 1,
-              "valueId": "app.py#import_document:8$v3"
+              "valueId": "app.py#import_document:8:1$v3"
             }
           ],
-          "resultValueId": "app.py#import_document:8$v6",
-          "block": "app.py#import_document:8$b0",
+          "resultValueId": "app.py#import_document:8:1$v6",
+          "block": "app.py#import_document:8:1$b0",
           "method": "fromstring",
           "argCount": 2,
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#import_document:8$v1"
+          "receiverValueId": "app.py#import_document:8:1$v1"
         },
         {
-          "id": "app.py#import_document:8$c2",
+          "id": "app.py#import_document:8:1$c2",
           "loc": {
             "file": "app.py",
             "line": 13,
@@ -298,11 +298,11 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#import_document:8$v6"
+              "valueId": "app.py#import_document:8:1$v6"
             }
           ],
-          "resultValueId": "app.py#import_document:8$v7",
-          "block": "app.py#import_document:8$b0",
+          "resultValueId": "app.py#import_document:8:1$v7",
+          "block": "app.py#import_document:8:1$b0",
           "argCount": 1,
           "enumeratedOptions": [
             -1
@@ -310,14 +310,14 @@
         }
       ],
       "returns": [
-        "app.py#import_document:8$v7"
+        "app.py#import_document:8:1$v7"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#import_document:8$b0",
+      "entryBlock": "app.py#import_document:8:1$b0",
       "blocks": [
         {
-          "id": "app.py#import_document:8$b0",
+          "id": "app.py#import_document:8:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -327,7 +327,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#import_document:8$b1",
+          "id": "app.py#import_document:8:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -338,7 +338,7 @@
       ]
     },
     {
-      "id": "app.py#import_guarded:17",
+      "id": "app.py#import_guarded:17:1",
       "name": "import_guarded",
       "module": "app.py",
       "loc": {
@@ -349,7 +349,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#import_guarded:17$v0",
+          "id": "app.py#import_guarded:17:1$v0",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -359,7 +359,7 @@
           "literal": "false"
         },
         {
-          "id": "app.py#import_guarded:17$v1",
+          "id": "app.py#import_guarded:17:1$v1",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -369,7 +369,7 @@
           "name": "lxml.etree"
         },
         {
-          "id": "app.py#import_guarded:17$v2",
+          "id": "app.py#import_guarded:17:1$v2",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -379,7 +379,7 @@
           "name": "lxml.etree.XMLParser"
         },
         {
-          "id": "app.py#import_guarded:17$v3",
+          "id": "app.py#import_guarded:17:1$v3",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -389,7 +389,7 @@
           "name": "parser"
         },
         {
-          "id": "app.py#import_guarded:17$v4",
+          "id": "app.py#import_guarded:17:1$v4",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -399,19 +399,19 @@
           "name": "flask.request"
         },
         {
-          "id": "app.py#import_guarded:17$v5",
+          "id": "app.py#import_guarded:17:1$v5",
           "kind": "property",
           "loc": {
             "file": "app.py",
             "line": 23,
             "column": 33
           },
-          "base": "app.py#import_guarded:17$v4",
+          "base": "app.py#import_guarded:17:1$v4",
           "path": "data",
           "name": "data"
         },
         {
-          "id": "app.py#import_guarded:17$v6",
+          "id": "app.py#import_guarded:17:1$v6",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -421,7 +421,7 @@
           "name": "lxml.etree.fromstring"
         },
         {
-          "id": "app.py#import_guarded:17$v7",
+          "id": "app.py#import_guarded:17:1$v7",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -433,8 +433,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#import_guarded:17$v2",
-          "to": "app.py#import_guarded:17$v3",
+          "from": "app.py#import_guarded:17:1$v2",
+          "to": "app.py#import_guarded:17:1$v3",
           "kind": "assign",
           "loc": {
             "file": "app.py",
@@ -443,8 +443,8 @@
           }
         },
         {
-          "from": "app.py#import_guarded:17$v4",
-          "to": "app.py#import_guarded:17$v5",
+          "from": "app.py#import_guarded:17:1$v4",
+          "to": "app.py#import_guarded:17:1$v5",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -455,7 +455,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#import_guarded:17$c0",
+          "id": "app.py#import_guarded:17:1$c0",
           "loc": {
             "file": "app.py",
             "line": 22,
@@ -469,11 +469,11 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#import_guarded:17$v0"
+              "valueId": "app.py#import_guarded:17:1$v0"
             }
           ],
-          "resultValueId": "app.py#import_guarded:17$v2",
-          "block": "app.py#import_guarded:17$b0",
+          "resultValueId": "app.py#import_guarded:17:1$v2",
+          "block": "app.py#import_guarded:17:1$b0",
           "method": "XMLParser",
           "argCount": 1,
           "argLiterals": {
@@ -482,10 +482,10 @@
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#import_guarded:17$v1"
+          "receiverValueId": "app.py#import_guarded:17:1$v1"
         },
         {
-          "id": "app.py#import_guarded:17$c1",
+          "id": "app.py#import_guarded:17:1$c1",
           "loc": {
             "file": "app.py",
             "line": 23,
@@ -499,24 +499,24 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#import_guarded:17$v5"
+              "valueId": "app.py#import_guarded:17:1$v5"
             },
             {
               "index": 1,
-              "valueId": "app.py#import_guarded:17$v3"
+              "valueId": "app.py#import_guarded:17:1$v3"
             }
           ],
-          "resultValueId": "app.py#import_guarded:17$v6",
-          "block": "app.py#import_guarded:17$b0",
+          "resultValueId": "app.py#import_guarded:17:1$v6",
+          "block": "app.py#import_guarded:17:1$b0",
           "method": "fromstring",
           "argCount": 2,
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#import_guarded:17$v1"
+          "receiverValueId": "app.py#import_guarded:17:1$v1"
         },
         {
-          "id": "app.py#import_guarded:17$c2",
+          "id": "app.py#import_guarded:17:1$c2",
           "loc": {
             "file": "app.py",
             "line": 23,
@@ -530,11 +530,11 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#import_guarded:17$v6"
+              "valueId": "app.py#import_guarded:17:1$v6"
             }
           ],
-          "resultValueId": "app.py#import_guarded:17$v7",
-          "block": "app.py#import_guarded:17$b0",
+          "resultValueId": "app.py#import_guarded:17:1$v7",
+          "block": "app.py#import_guarded:17:1$b0",
           "argCount": 1,
           "enumeratedOptions": [
             -1
@@ -542,14 +542,14 @@
         }
       ],
       "returns": [
-        "app.py#import_guarded:17$v7"
+        "app.py#import_guarded:17:1$v7"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#import_guarded:17$b0",
+      "entryBlock": "app.py#import_guarded:17:1$b0",
       "blocks": [
         {
-          "id": "app.py#import_guarded:17$b0",
+          "id": "app.py#import_guarded:17:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -559,7 +559,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#import_guarded:17$b1",
+          "id": "app.py#import_guarded:17:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -570,7 +570,7 @@
       ]
     },
     {
-      "id": "app.py#import_default:27",
+      "id": "app.py#import_default:27:1",
       "name": "import_default",
       "module": "app.py",
       "loc": {
@@ -581,7 +581,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#import_default:27$v0",
+          "id": "app.py#import_default:27:1$v0",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -591,19 +591,19 @@
           "name": "flask.request"
         },
         {
-          "id": "app.py#import_default:27$v1",
+          "id": "app.py#import_default:27:1$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
             "line": 33,
             "column": 33
           },
-          "base": "app.py#import_default:27$v0",
+          "base": "app.py#import_default:27:1$v0",
           "path": "data",
           "name": "data"
         },
         {
-          "id": "app.py#import_default:27$v2",
+          "id": "app.py#import_default:27:1$v2",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -613,7 +613,7 @@
           "name": "lxml.etree"
         },
         {
-          "id": "app.py#import_default:27$v3",
+          "id": "app.py#import_default:27:1$v3",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -623,7 +623,7 @@
           "name": "lxml.etree.fromstring"
         },
         {
-          "id": "app.py#import_default:27$v4",
+          "id": "app.py#import_default:27:1$v4",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -635,8 +635,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#import_default:27$v0",
-          "to": "app.py#import_default:27$v1",
+          "from": "app.py#import_default:27:1$v0",
+          "to": "app.py#import_default:27:1$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -647,7 +647,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#import_default:27$c0",
+          "id": "app.py#import_default:27:1$c0",
           "loc": {
             "file": "app.py",
             "line": 33,
@@ -661,20 +661,20 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#import_default:27$v1"
+              "valueId": "app.py#import_default:27:1$v1"
             }
           ],
-          "resultValueId": "app.py#import_default:27$v3",
-          "block": "app.py#import_default:27$b0",
+          "resultValueId": "app.py#import_default:27:1$v3",
+          "block": "app.py#import_default:27:1$b0",
           "method": "fromstring",
           "argCount": 1,
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#import_default:27$v2"
+          "receiverValueId": "app.py#import_default:27:1$v2"
         },
         {
-          "id": "app.py#import_default:27$c1",
+          "id": "app.py#import_default:27:1$c1",
           "loc": {
             "file": "app.py",
             "line": 33,
@@ -688,11 +688,11 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#import_default:27$v3"
+              "valueId": "app.py#import_default:27:1$v3"
             }
           ],
-          "resultValueId": "app.py#import_default:27$v4",
-          "block": "app.py#import_default:27$b0",
+          "resultValueId": "app.py#import_default:27:1$v4",
+          "block": "app.py#import_default:27:1$b0",
           "argCount": 1,
           "enumeratedOptions": [
             -1
@@ -700,14 +700,14 @@
         }
       ],
       "returns": [
-        "app.py#import_default:27$v4"
+        "app.py#import_default:27:1$v4"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#import_default:27$b0",
+      "entryBlock": "app.py#import_default:27:1$b0",
       "blocks": [
         {
-          "id": "app.py#import_default:27$b0",
+          "id": "app.py#import_default:27:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -717,7 +717,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#import_default:27$b1",
+          "id": "app.py#import_default:27:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -730,7 +730,7 @@
   ],
   "entryPoints": [
     {
-      "functionId": "app.py#import_document:8",
+      "functionId": "app.py#import_document:8:1",
       "kind": "http-route",
       "framework": "flask",
       "detail": {
@@ -739,7 +739,7 @@
       }
     },
     {
-      "functionId": "app.py#import_guarded:17",
+      "functionId": "app.py#import_guarded:17:1",
       "kind": "http-route",
       "framework": "flask",
       "detail": {
@@ -748,7 +748,7 @@
       }
     },
     {
-      "functionId": "app.py#import_default:27",
+      "functionId": "app.py#import_default:27:1",
       "kind": "http-route",
       "framework": "flask",
       "detail": {

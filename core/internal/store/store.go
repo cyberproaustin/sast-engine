@@ -112,11 +112,22 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 func reachedFromEntry(ix *ir.Index, fn *ir.Function) bool {
 	seen := map[string]bool{fn.ID: true}
 	frontier := []*ir.Function{fn}
-	for depth := 0; depth < 2 && len(frontier) > 0; depth++ {
+	// The function itself and its DIRECT callers, and no further. The limit is a
+	// measurement rather than a preference: at three hops the answer stopped being
+	// evidence that this line runs per-request and started being evidence that the
+	// program is connected, and narrowing it removed five findings from one production
+	// repository that were an allow-list, a strategy table and a sanitiser configuration
+	// assembled at startup from a hook a route also calls.
+	const hops = 2
+	for depth := 0; depth < hops && len(frontier) > 0; depth++ {
 		var next []*ir.Function
 		for _, f := range frontier {
 			if _, ok := ix.EntryByFunc[f.ID]; ok {
 				return true
+			}
+			// Nothing is queued on the last pass, because nothing would look at it.
+			if depth == hops-1 {
+				continue
 			}
 			for _, site := range ix.CallSitesOf[f.ID] {
 				caller := ix.OwnerOfCall[site.ID]
@@ -311,9 +322,14 @@ func (r *rotation) down(id string, want []string, seen map[string]bool, depth in
 	return false
 }
 
-// elementParams collects the parameters bound to an ELEMENT of a collection, from the
-// callback methods whose first parameter is the element. What a loop writes to is not the
-// caller's own anything.
+// elementParams collects the values bound to an ELEMENT of a collection: the first
+// parameter of a callback passed to one of the iteration methods, and the variable a
+// for-of loop binds. What a loop writes to is not the caller's own anything.
+//
+// The second half became necessary the moment loop variables started carrying what their
+// collection carried. `for (const session of sessions) session.userId = id` is an
+// administrative page updating other people's sessions, and it reads exactly like a login
+// until you notice the loop.
 func elementParams(d *ir.IR, ix *ir.Index) map[string]bool {
 	over := map[string]bool{"foreach": true, "map": true, "filter": true, "find": true,
 		"flatmap": true, "some": true, "every": true}
@@ -328,6 +344,22 @@ func elementParams(d *ir.IR, ix *ir.Index) map[string]bool {
 				if cb != nil && len(cb.Params) > 0 {
 					out[cb.Params[0].ValueID] = true
 				}
+			}
+		}
+	}
+	// The loop form. A value reached only by a `property` flow out of something a
+	// program iterates is an element of it, and the frontends lower a for-of binding
+	// exactly that way.
+	for _, fn := range d.Functions {
+		for _, f := range fn.Flows {
+			if f.Kind != "property" || f.To == "" {
+				continue
+			}
+			if v := ix.ValueByID[f.To]; v != nil && v.Path == "" && v.Name != "" {
+				// A property read with no PATH is not `x.field` -- the frontends always
+				// record a path for those. It is a binding that took its value out of
+				// something, which is what a loop variable is.
+				out[f.To] = true
 			}
 		}
 	}
@@ -380,7 +412,13 @@ func meaningfulSecret(literal string) bool {
 	}
 	// The mask a value is replaced with before it is logged, which is the one literal a
 	// secret-named setting holds precisely BECAUSE the real secret must not be there.
-	return strings.TrimLeft(v, v[:1]) != ""
+	//
+	// Only the characters a mask is actually made of. Rejecting ANY repeated character
+	// threw away `app.secret_key = "aaaa"`, which is a hardcoded secret and a bad one.
+	if strings.ContainsAny(v[:1], "*x•.-_#") && strings.TrimLeft(v, v[:1]) == "" {
+		return false
+	}
+	return true
 }
 
 func quoted(s string) string { return "\"" + s + "\"" }
