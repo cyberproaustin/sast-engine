@@ -171,6 +171,13 @@ func match(c *ir.Call, shape model.CallShape) (string, bool) {
 // claimed only where the keys were actually enumerated, or where no options were passed
 // at all -- which is the one case where "it does not set this" is simply true.
 func matchAbsent(c *ir.Call, shape model.CallShape) (string, bool) {
+	// Further arguments whose keys must also have been read. A payload built by another
+	// function says nothing about whether it contains an expiry.
+	for _, idx := range shape.AlsoEnumerated {
+		if !c.OptionsEnumerated(idx) {
+			return "", false
+		}
+	}
 	knowable := c.OptionsEnumerated(shape.OptionsArg)
 	if shape.OptionsArg >= 0 && !c.HasArg(shape.OptionsArg) {
 		// A rule that needs the options written down says nothing about a call that has
@@ -184,14 +191,24 @@ func matchAbsent(c *ir.Call, shape model.CallShape) (string, bool) {
 		return "", false
 	}
 
-	want := strings.ToLower(shape.RequiredKeyword)
+	// One key names the rule; a widened rule accepts any of several spellings of the
+	// same decision, and the absence is only claimed when none of them is there.
+	wanted := shape.RequiredAnyOf
+	if len(wanted) == 0 {
+		wanted = []string{shape.RequiredKeyword}
+	}
 	for i, lit := range c.ArgLiterals {
 		if i >= 0 {
 			continue
 		}
 		key, _, ok := strings.Cut(lit, "=")
-		if ok && keyIs(key, want) {
-			return "", false
+		if !ok {
+			continue
+		}
+		for _, want := range wanted {
+			if keyIs(key, strings.ToLower(want)) {
+				return "", false
+			}
 		}
 	}
 	return "no " + shape.RequiredKeyword, true

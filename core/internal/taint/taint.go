@@ -260,6 +260,15 @@ type Result struct {
 type Classified struct {
 	Values map[string]bool
 	Origin map[string]Origin
+	// Projected marks a value that was read OUT of a structure the classification
+	// reached, rather than being the classified value itself.
+	//
+	// A credential loaded into a session and then compared field by field is the case:
+	// `session.tenantId !== current` compares a tenant id, and the fact that a token was
+	// handed to the function that produced the session does not make a tenant id a
+	// secret. The flow analysis already answers this for its own sinks; the same answer
+	// is recorded here so the analyses that read comparisons and writes can ask it too.
+	Projected map[string]bool
 }
 
 // Origin is where a classified value entered the program, in the terms a finding needs.
@@ -408,18 +417,23 @@ func Analyze(d *ir.IR, m model.Model) Result {
 		// finding that is anchored. The seed is where the answer is, so the walk back to
 		// it happens here once rather than at every call site that might need it.
 		origins := make(map[string]Origin, len(e.tainted))
+		proj := make(map[string]bool)
 		for id := range e.tainted {
 			if sd, ok := e.seeds[id]; ok {
 				origins[id] = as(sd)
 				continue
 			}
-			if _, from := e.tracePath(id); from != "" {
+			path, from := e.tracePath(id)
+			if projected(path) {
+				proj[id] = true
+			}
+			if from != "" {
 				if sd, ok := e.seeds[from]; ok {
 					origins[id] = as(sd)
 				}
 			}
 		}
-		res.ByClass[name] = Classified{Values: e.tainted, Origin: origins}
+		res.ByClass[name] = Classified{Values: e.tainted, Origin: origins, Projected: proj}
 	}
 
 	seen := map[string]bool{}

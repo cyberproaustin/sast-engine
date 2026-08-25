@@ -3500,6 +3500,19 @@ type CallShape struct {
 	RequiredKeyword string
 	OptionsArg      int
 
+	// RequiredAnyOf widens an absence rule: the absence is claimed only when NONE of
+	// these keys appears anywhere in the call.
+	//
+	// A token's expiry can be written two ways -- `expiresIn` in the signing options, or
+	// an `exp` claim in the payload -- and a rule that looked for only the first reported
+	// eighteen calls across the clean corpus, the two examined both false.
+	RequiredAnyOf []string
+
+	// AlsoEnumerated names further argument positions whose KEY SET must also have been
+	// read before an absence is claimed. A payload built by another function says nothing
+	// about whether it contains an expiry.
+	AlsoEnumerated []int
+
 	// OptionsMustBeWritten requires the options argument to actually be there before an
 	// absence is claimed.
 	//
@@ -3648,20 +3661,22 @@ func builtinCallShapes() []CallShape {
 			// 58 sites across the clean corpus say so. What is not ordinary is telling
 			// the verifier not to verify.
 			ID: "unverified-signature", AnyCall: true, Keyword: "verify_signature",
-			Disallowed: []string{"false"},
-			CWE:        "CWE-347",
-			Finding:    "Token accepted without checking its signature",
-			Reason:     "a token whose signature is not checked is a token anyone can write, so everything it claims is the sender's to choose",
-			Rationale:  "signature verification is switched off in the call",
+			Disallowed:   []string{"false"},
+			DependsOnUse: "reading a token to LOOK at it is ordinary -- capping an expiry, routing on an issuer, logging a subject -- and verifying it first would be pointless for those. What makes an unverified decode a defect is whether the claims are then believed, and the call does not say. Measured across the clean corpus the rule found seven, four of them reads of an expiry the code had just been handed over TLS",
+			CWE:          "CWE-347",
+			Finding:      "Token accepted without checking its signature",
+			Reason:       "a token whose signature is not checked is a token anyone can write, so everything it claims is the sender's to choose",
+			Rationale:    "signature verification is switched off in the call",
 		},
 		{
 			ID: "unverified-signature", AnyCall: true, Keyword: "verify",
-			Disallowed: []string{"false"},
-			Qualifiers: []ArgCondition{{Keyword: "algorithms"}},
-			CWE:        "CWE-347",
-			Finding:    "Token accepted without checking its signature",
-			Reason:     "a token whose signature is not checked is a token anyone can write, so everything it claims is the sender's to choose",
-			Rationale:  "signature verification is switched off in the call",
+			Disallowed:   []string{"false"},
+			Qualifiers:   []ArgCondition{{Keyword: "algorithms"}},
+			DependsOnUse: "reading a token to LOOK at it is ordinary -- capping an expiry, routing on an issuer, logging a subject -- and verifying it first would be pointless for those. What makes an unverified decode a defect is whether the claims are then believed, and the call does not say. Measured across the clean corpus the rule found seven, four of them reads of an expiry the code had just been handed over TLS",
+			CWE:          "CWE-347",
+			Finding:      "Token accepted without checking its signature",
+			Reason:       "a token whose signature is not checked is a token anyone can write, so everything it claims is the sender's to choose",
+			Rationale:    "signature verification is switched off in the call",
 		},
 		{
 			ID: "hardcoded-password", Symbol: "mysql.createConnection", Keyword: "password", AnyLiteral: true,
@@ -4228,7 +4243,8 @@ func builtinCallShapes() []CallShape {
 			// enumerated. Options built in another function are unknowable and are passed
 			// over in silence.
 			ID: "unexpiring-token", Symbol: "jsonwebtoken.sign",
-			RequiredKeyword: "expiresIn", OptionsArg: 2, OptionsMustBeWritten: true,
+			RequiredKeyword: "expiresIn", RequiredAnyOf: []string{"expiresIn", "exp"},
+			OptionsArg: 2, OptionsMustBeWritten: true, AlsoEnumerated: []int{0},
 			CWE:       "CWE-613",
 			Finding:   "Signed token issued with no expiry",
 			Reason:    "a signed token cannot be revoked, so the only thing that ends one is its expiry, and this one has none",
@@ -4669,6 +4685,24 @@ type DecisionRule struct {
 	// OtherIsText requires the other side to be a string written into the source.
 	OtherIsText bool
 
+	// RequiresUnprojected forbids the judgement for a value read OUT of a structure the
+	// classification reached.
+	//
+	// A credential handed to a function and a field read back off what it returned are
+	// not the same value: `session.tenantId !== current` compares a tenant id, and that a
+	// token was involved in producing the session does not make a tenant id a secret.
+	// Four findings in one production repository were exactly that.
+	RequiresUnprojected bool
+
+	// OtherNotSameClass forbids the judgement when BOTH sides carry the classification.
+	//
+	// `req.body.password == req.body.cpassword` is a password confirmation: two values the
+	// same caller just sent, compared against each other. There is no secret to learn from
+	// how long it takes, because the person timing it wrote both. The timing rule found
+	// exactly this in the vulnerable corpus and was right about the shape and wrong about
+	// the weakness.
+	OtherNotSameClass bool
+
 	// OtherNotLiteral requires the other side to be a runtime value rather than
 	// something written down.
 	//
@@ -4734,11 +4768,14 @@ func builtinDecisions() []DecisionRule {
 			// presence check, a flag test, or a hardcoded credential, and the last of
 			// those has its own number.
 			ID: "credential-compared-in-variable-time", Class: "caller-credential",
-			Ops: []string{"==", "===", "!=", "!==", "Eq", "NotEq"}, OtherNotLiteral: true,
-			CWE:       "CWE-208",
-			Finding:   "Secret compared in variable time",
-			Reason:    "the comparison stops at the first byte that differs, so how long it takes says how much of the guess was right, and enough guesses recover the whole value",
-			Rationale: "a value the caller sent as a credential is compared with the language's equality operator",
+			Ops:                 []string{"==", "===", "!=", "!==", "Eq", "NotEq"},
+			OtherNotLiteral:     true,
+			OtherNotSameClass:   true,
+			RequiresUnprojected: true,
+			CWE:                 "CWE-208",
+			Finding:             "Secret compared in variable time",
+			Reason:              "the comparison stops at the first byte that differs, so how long it takes says how much of the guess was right, and enough guesses recover the whole value",
+			Rationale:           "a value the caller sent as a credential is compared with the language's equality operator",
 		},
 		{
 			// The Referer says where a request came from only in the sense that it says

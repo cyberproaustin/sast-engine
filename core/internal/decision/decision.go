@@ -74,6 +74,16 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 				if rule.OtherIsText && !isText(ix.ValueByID[other]) {
 					continue
 				}
+				// A field read off something the credential produced is not the
+				// credential.
+				if rule.RequiresUnprojected && carrying.Projected[side] {
+					continue
+				}
+				// Two values the same caller just sent, compared against each other:
+				// a confirmation field, not a secret check.
+				if rule.OtherNotSameClass && carrying.Values[other] {
+					continue
+				}
 				if rule.OtherNotLiteral {
 					if v := ix.ValueByID[other]; v == nil || v.Kind == ir.ValueLiteral {
 						continue
