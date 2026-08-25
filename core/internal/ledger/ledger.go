@@ -168,7 +168,14 @@ func All() []Entry {
 func InScope() []Entry {
 	var out []Entry
 	for _, e := range All() {
-		if e.Status == "Deprecated" || !e.StaticDetectable || !e.HasCodeShape() {
+		// A weakness this engine actually asserts belongs in the denominator whatever the
+		// catalog's detection-method field says. That field is a statement about the
+		// weakness in general and it is sometimes wrong about a particular decidable form
+		// -- a secret compared with `===` is one -- and a coverage map that reported a
+		// finding while refusing to count the weakness would be understating itself for a
+		// reason no reader could work out.
+		asserted := e.Claim.State == Asserted || e.Claim.State == Partial
+		if e.Status == "Deprecated" || (!asserted && !e.StaticDetectable) || !e.HasCodeShape() {
 			continue
 		}
 		if e.Claim.State == OutOfScope {
