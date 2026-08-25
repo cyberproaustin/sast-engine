@@ -1,6 +1,7 @@
 package ledger_test
 
 import (
+	"github.com/cyberproaustin/sast-engine/core/internal/model"
 	"strings"
 	"testing"
 
@@ -113,6 +114,49 @@ func TestSubsumedEntriesNameTheirParent(t *testing.T) {
 		}
 		if len(e.Claim.By) == 0 {
 			t.Errorf("%s is subsumed but names no rule that catches it", e.ID)
+		}
+	}
+}
+
+// Every rule the engine runs must be named by a claim, and every rule a claim names must
+// exist. Two real drifts were found by hand before this test existed: CWE-134 had a
+// working rule and no claim at all, so the coverage map reported it unbuilt while the
+// engine detected it; and CWE-539 named a policy that had been split in two and renamed.
+//
+// Both failure directions are silent. A rule nobody claims is coverage the report does not
+// take credit for; a claim naming nothing is a promise with no code behind it.
+func TestClaimsAndRulesNameEachOther(t *testing.T) {
+	m := model.Builtin()
+
+	// The convention analysis is named by its kind rather than by a rule id, because it
+	// has no per-weakness rules: it compares an entry point against its peers.
+	known := map[string]bool{"expectations": true}
+	for _, p := range m.Policies {
+		known[p.ID] = true
+	}
+	for _, s := range m.CallShapes {
+		known[s.ID] = true
+	}
+	for _, d := range m.Decisions {
+		known[d.ID] = true
+	}
+
+	claimed := map[string]bool{}
+	for _, e := range ledger.All() {
+		for _, by := range e.Claim.By {
+			claimed[by] = true
+			if !known[by] {
+				t.Errorf("%s claims to be backed by %q, which no rule in the model defines", e.ID, by)
+			}
+		}
+	}
+
+	for id := range known {
+		if id == "expectations" {
+			continue
+		}
+		if !claimed[id] {
+			t.Errorf("rule %q runs but no claim names it, so the coverage map takes no credit for it", id)
 		}
 	}
 }
