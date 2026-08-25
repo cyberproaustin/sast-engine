@@ -282,6 +282,8 @@ var claims = map[string]Claim{
 		Subsumes: true},
 	"CWE-359": {State: Partial, Reason: "a fact about a person that cannot be reissued -- a national identity number, a date of birth, a medical record -- reaching a log or a third party. Its own classification rather than more credentials, because a password gets rotated after it leaks and this does not. The vocabulary is short and specific: these names appear three times across 28 production repositories and two of those three are Passport, the authentication library, which is why the bare word is not on the list. A field this engine has no name for is a stated miss",
 		By: []string{"personal-information-logged", "personal-information-sent"}},
+	"CWE-488": {State: Partial, Reason: "one request's data assigned to a name bound outside the handler, which every later request reads back. The language rule is the whole evidence and there is no guessing in it: Python needs the name declared global and JavaScript needs it bound in an enclosing scope, and the same statement without either makes a local and touches nothing. A value stored in a module-level CONTAINER -- a dict, a Map -- is a cache and is not matched",
+		By: []string{"request-data-into-process-state"}},
 	"CWE-472": {State: Partial, Reason: "a field naming a privilege -- role, isAdmin, permissions, scopes -- assigned from data the caller sent. The rule names the FIELD and says nothing about the object holding it, because `user.role = req.body.role` and `account.isAdmin = req.body.isAdmin` are the same weakness on two records and enumerating what a record can be called would be a list that goes wrong immediately. Distinct from mass assignment, where the caller supplies keys nobody enumerated: here the application enumerated one and picked the wrong one. Counted 22 sites across the clean corpus that mention a privilege field and none of them is a write, so a privilege PASSED to a service constructor is a stated miss",
 		By: []string{"caller-sets-own-privilege"}},
 	"CWE-494": {State: Partial, Reason: "a shell command that fetches something over the network and pipes it into an interpreter. Whoever can answer for that host chooses what this machine runs, and there is no signature to check because nothing was signed. Only a command written as a literal: a URL built at runtime is not read, and a download whose bytes are executed later by some other means is not seen at all",
@@ -450,8 +452,8 @@ var groupedReasons = []struct {
 		ids:    []string{"CWE-252", "CWE-253"},
 	},
 	{
-		reason: "process-wide state written from a request handler, which the next request reads back. Real, buildable, and not built: the IR records a write into a property or a subscript but not an assignment to a name bound in an enclosing scope, so the plainest form of it -- `currentUser = req.body.email` -- is invisible. The frontends now resolve module-level names for READS, which is the half of the work this needs",
-		ids:    []string{"CWE-454", "CWE-488"},
+		reason: "a TRUSTED module-level variable initialised from outside. The caller's data reaching process-wide state is claimed under CWE-488; what this number adds is the judgement that the variable was one the program later trusts, and the source does not say which module-level variables those are",
+		ids:    []string{"CWE-454"},
 	},
 	{
 		reason: "a secret or a security-relevant constant living somewhere this engine does not read. Configuration files, environment templates and deployment manifests are not source and are not lowered; what IS in the source is claimed under CWE-798 and CWE-321",

@@ -1,0 +1,14 @@
+{
+  "corpus": "flask-shared-state",
+  "description": "The same judgement on the second language, where the evidence is even plainer: Python needs the name declared global before an assignment reaches outside the function at all.",
+  "expected": [
+    {
+      "cwe": "CWE-488",
+      "sinkFile": "app.py",
+      "sinkLine": 14,
+      "sourceLabel": "flask.request.form.email",
+      "confidence": "high",
+      "note": "the `global` declaration is what makes this a write to shared state; the route below has none and is silent"
+    }
+  ]
+}

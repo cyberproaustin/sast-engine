@@ -324,6 +324,9 @@ class FunctionLowerer:
         self.prop_cache: dict[str, str] = {}
         self.local_types: dict[str, str] = {}
         self.globals_seen: dict[str, str] = {}
+        # Names this function declared global or nonlocal, which is what makes an
+        # assignment to one a write to state outside it.
+        self.declared_global: set[str] = set()
         self._v = 0
         self._c = 0
 
@@ -443,12 +446,29 @@ class FunctionLowerer:
                     })
                     continue
                 if isinstance(target, ast.Name):
+                    # Assigning a name a function DECLARED global writes state the whole
+                    # process shares, and the next request reads it back. Python makes
+                    # this unambiguous: without the declaration the same statement makes a
+                    # local and touches nothing outside, so the declaration is the entire
+                    # evidence and there is no guessing.
+                    if not self.is_module and target.id in self.declared_global:
+                        self.writes.append({
+                            "loc": loc_of(self.mod.module, node),
+                            "base": self.mod.module_scope.get(target.id),
+                            "path": target.id,
+                            "from": src,
+                            "scope": "process",
+                        })
                     vid = self.new_value("local", target, name=target.id)
                     self.scope[target.id] = vid
                     if self.is_module:
                         self.mod.module_scope[target.id] = vid
                     self.add_flow(src, vid, "assign", node)
                     self.note_local_type(target, None, node.value)
+            return
+
+        if isinstance(node, (ast.Global, ast.Nonlocal)):
+            self.declared_global.update(node.names)
             return
 
         if isinstance(node, ast.AnnAssign):

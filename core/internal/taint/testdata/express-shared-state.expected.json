@@ -1,0 +1,14 @@
+{
+  "corpus": "express-shared-state",
+  "description": "One request's data left where the next request finds it. The discriminator is a language rule rather than a name: an assignment to a name declared inside the handler is a local and touches nothing, and a module-level CONTAINER keyed by something is a cache, where what the next request reads is what it asked for.",
+  "expected": [
+    {
+      "cwe": "CWE-488",
+      "sinkFile": "app.js",
+      "sinkLine": 11,
+      "sourceLabel": "req.body.email",
+      "confidence": "high",
+      "note": "the identical statement fifteen lines down declares the name locally and is silent"
+    }
+  ]
+}

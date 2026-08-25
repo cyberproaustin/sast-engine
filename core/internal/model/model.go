@@ -4787,6 +4787,10 @@ type StoreRule struct {
 	// NotPath excludes keys another rule already claims, so two rules can describe the
 	// same destination at different granularities without reporting one line twice.
 	NotPath []string
+	// IntoScope matches on how far the destination REACHES rather than on what it is
+	// called. Process-wide state written from a request handler is read back by the next
+	// request, and the name it happens to have says nothing about that.
+	IntoScope string
 	// NotInto is the same exclusion on the DESTINATION rather than the key.
 	//
 	// `req.session.role = req.body.role` is a privilege set from the request AND a
@@ -4836,6 +4840,22 @@ func builtinStores() []StoreRule {
 			Finding:   "A privilege field set from the request",
 			Reason:    "the value written decides what this account may do, and it arrived in a request the account holder wrote",
 			Rationale: "a field naming a privilege was assigned from data the caller sent",
+		},
+		{
+			// One request's data left where the next request finds it. A module-level
+			// variable assigned inside a handler is shared by every caller the process
+			// serves, so whatever was put there is answered to somebody else.
+			//
+			// The language rule is the evidence and there is no guessing in it: Python
+			// needs the name declared `global` and JavaScript needs it bound in an
+			// enclosing scope, and the same statement without either makes a local and
+			// touches nothing.
+			ID: "request-data-into-process-state", Class: "untrusted-input",
+			IntoScope: "process",
+			CWE:       "CWE-488",
+			Finding:   "One request's data written into state the whole process shares",
+			Reason:    "every request this process handles reads the same variable, so what one caller put there is what the next caller gets",
+			Rationale: "the assignment reaches a name bound outside the handler",
 		},
 		{
 			// PATH decides where the next program comes from. A caller who can prepend to

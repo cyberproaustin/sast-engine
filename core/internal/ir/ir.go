@@ -109,6 +109,16 @@ type Write struct {
 	Path string `json:"path,omitempty"`
 	// From is the value written, when it produced one.
 	From string `json:"from,omitempty"`
+
+	// Scope says how far the destination reaches, for a write whose danger is not what
+	// it writes into but how long that lives. "process" marks state shared by every
+	// request this process handles.
+	//
+	// The frontend decides it, because what makes an assignment reach outside the
+	// function is a language rule: Python needs the name declared global and JavaScript
+	// needs it bound in an enclosing scope, and the same statement without either touches
+	// nothing but a local.
+	Scope string `json:"scope,omitempty"`
 }
 
 // Comparison is one relational test between two values.
