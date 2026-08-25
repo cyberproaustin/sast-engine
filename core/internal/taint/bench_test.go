@@ -77,6 +77,7 @@ var corpora = []string{
 	"express-session-fixation",
 	"express-csrf",
 	"written-secrets",
+	"express-error-in-page",
 	"express-session-store",
 	"express-nosql-where",
 	"express-origin-check",

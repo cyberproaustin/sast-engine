@@ -290,6 +290,21 @@ type Policy struct {
 	DeniedVisibility []string
 	DeniedContext    []string
 
+	// ClassNamesTheWeakness makes this policy's CWE win over the channel's.
+	//
+	// Normally the channel names the weakness, and that is right for a broad policy
+	// refined by where it lands: untrusted input reaching an interpreter is CWE-89 at a
+	// database, CWE-79 in markup, CWE-78 at a shell. One rule, many identities, and the
+	// destination is what decides.
+	//
+	// It is exactly wrong for a policy whose CLASS decides. Internal failure detail
+	// leaving the system is CWE-209 whether the page escaped it or not -- and before this
+	// flag existed the same policy reported CWE-209 on an escaped template slot and
+	// CWE-79 on an unescaped one, purely because the second channel happened to name a
+	// number. The finding said "sensitive information exposure" and carried the identity
+	// of cross-site scripting.
+	ClassNamesTheWeakness bool
+
 	// RequiresComposition is an ADDITIONAL requirement this judgement makes, on top of
 	// whatever the channel asks.
 	//
@@ -3302,12 +3317,32 @@ func builtin() Model {
 				CWE:                 "CWE-497",
 			},
 			{
-				ID:               "internal-detail-outward",
-				Class:            "internal-error",
-				DeniedVisibility: []string{"public", "thirdparty"},
-				Reason:           "internal failure detail describes the system to people outside it",
-				Finding:          "Sensitive information exposure",
-				CWE:              "CWE-209",
+				// Not subsumed by CWE-79 even though it sits beneath it, and the reason
+				// is the SOURCE. This engine classifies failure detail separately from
+				// caller input precisely so it can tell them apart, and an error message
+				// written into a page unescaped is the shape that carries the caller's own
+				// bad input back to them -- which is how the message becomes script.
+				//
+				// It is a second reading of a line the disclosure policy also reads, and
+				// both are true: the message describes the system to people outside it AND
+				// it is written into markup without escaping. Different fixes, so both are
+				// reported (ADR-016).
+				ID:                    "error-detail-into-markup",
+				Class:                 "internal-error",
+				DeniedContext:         []string{"html", "template"},
+				ClassNamesTheWeakness: true,
+				Reason:                "an error message is where a program repeats back what it was given, so writing one into a page unescaped hands the caller a way to put script there",
+				Finding:               "Error message written into a page unescaped",
+				CWE:                   "CWE-81",
+			},
+			{
+				ID:                    "internal-detail-outward",
+				Class:                 "internal-error",
+				DeniedVisibility:      []string{"public", "thirdparty"},
+				ClassNamesTheWeakness: true,
+				Reason:                "internal failure detail describes the system to people outside it",
+				Finding:               "Sensitive information exposure",
+				CWE:                   "CWE-209",
 			},
 		},
 
