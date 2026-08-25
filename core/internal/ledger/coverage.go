@@ -308,7 +308,37 @@ func claimFor(w Weakness) Claim {
 			By: claims[parent.ID].By,
 		}
 	}
+	// The default reason, derived rather than repeated.
+	//
+	// "No rule has been written for it" is true of two hundred entries and tells a reader
+	// nothing about which of them are worth writing next. The catalog already knows which
+	// languages a weakness applies to, so where those do not include the ones this engine
+	// reads, the reason can say so and name them.
+	//
+	// The STATE stays not-built rather than out-of-scope, deliberately. Out-of-scope
+	// removes an entry from the denominator, and a denominator that shrinks whenever
+	// something looks hard is not a denominator anybody should trust. These stay counted
+	// and are simply honest about why nobody has written them.
+	if !w.LanguageAgnostic && len(w.Languages) > 0 && !analysed(w.Languages) {
+		return Claim{State: NotBuilt, Reason: "the catalog lists this as applying to " +
+			strings.Join(w.Languages, ", ") + ", and this engine reads JavaScript, " +
+			"TypeScript and Python; a rule would have to wait for a frontend that reads one of those"}
+	}
 	return Claim{State: NotBuilt, Reason: "no rule has been written for it"}
+}
+
+// analysed reports whether any of these languages is one the engine actually reads today.
+// Distinct from ours(), which is the wider set the denominator is drawn from: a weakness
+// specific to a language nobody has a frontend for is still counted, and this is only
+// about what its reason should say.
+func analysed(langs []string) bool {
+	for _, l := range langs {
+		switch l {
+		case "JavaScript", "TypeScript", "Python":
+			return true
+		}
+	}
+	return false
 }
 
 // subsumingAncestor walks up the catalog's own ChildOf relationships for a claim that
