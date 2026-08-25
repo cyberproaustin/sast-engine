@@ -320,6 +320,7 @@ type engine struct {
 	argUses      map[string][]*ir.Call // value ID -> call sites using it as an argument
 	receiverUses map[string][]*ir.Call // value ID -> call sites invoking a method on it
 	callByResult map[string]*ir.Call   // result value ID -> producing call
+	assignedFrom map[string]string     // value ID -> the value it was plainly assigned from
 	returns      map[string][]string   // function ID -> returned value IDs
 	queue        []string
 }
@@ -376,6 +377,7 @@ func Analyze(d *ir.IR, m model.Model) Result {
 			argUses:      make(map[string][]*ir.Call),
 			receiverUses: make(map[string][]*ir.Call),
 			callByResult: make(map[string]*ir.Call),
+			assignedFrom: make(map[string]string),
 			returns:      make(map[string][]string),
 		}
 		e.programInjects = programInjectsIdentity(ix)
@@ -466,7 +468,50 @@ func (e *engine) build() {
 				e.callByResult[c.ResultID] = c
 			}
 		}
+		// A plain assignment is the same value under a second name. Recorded so that a
+		// question about what produced a receiver survives being stored in a variable.
+		for _, f := range fn.Flows {
+			if f.Kind == "assign" && f.From != "" && f.To != "" {
+				e.assignedFrom[f.To] = f.From
+			}
+		}
 	}
+}
+
+// receiverMadeBy reports whether the object a method was called on came out of one of
+// these calls, following plain assignments back so that
+//
+//	crypto.createHash("sha256").update(pw)
+//
+// and
+//
+//	const h = crypto.createHash("sha256")
+//	h.update(pw)
+//
+// are one channel rather than two shapes. Symbols are compared on their final segment,
+// because `crypto.createHash` and a destructured `createHash` name the same function.
+func (e *engine) receiverMadeBy(c *ir.Call, symbols []string) bool {
+	id := c.ReceiverID
+	for hops := 0; hops < 8 && id != ""; hops++ {
+		if prev := e.callByResult[id]; prev != nil {
+			made := lastSegment(prev.Callee.Symbol)
+			for _, want := range symbols {
+				if made == lastSegment(want) {
+					return true
+				}
+			}
+			return false
+		}
+		id = e.assignedFrom[id]
+	}
+	return false
+}
+
+func lastSegment(symbol string) string {
+	if i := strings.LastIndex(symbol, "."); i >= 0 {
+		return symbol[i+1:]
+	}
+	return symbol
 }
 
 // seedSources marks the origins this flow cares about. Which strategy a rule uses is
@@ -519,22 +564,57 @@ func (e *engine) seedByValueKind(rule model.SourceRule) {
 	}
 }
 
-// rootsAtGlobal reports whether a chain of property reads starts at a named global.
+// globalPathOf walks a chain of property reads back to a named global and returns the
+// whole access path it spells out, or false when the chain starts somewhere else.
+//
+// The walk crosses assignments, which is the difference between seeing a request field
+// and not seeing it. Both of these read the same field:
+//
+//	request.json["password"]
+//	data = request.json
+//	data["password"]
+//
+// and only the first arrives as one value with the whole path on it. The second is two
+// property reads with a local in between, and a walk that stopped at the local read the
+// path as `password` on something unknown -- so every rule that names a LEAF was blind to
+// the spelling that most code actually uses. Following the assignment back rejoins the
+// halves.
+//
 // Bounded and cycle-guarded, because an IR is data and this walks it.
-func (e *engine) rootsAtGlobal(v *ir.Value, symbol string) bool {
+func (e *engine) globalPathOf(v *ir.Value, symbol string) (string, bool) {
 	seen := map[string]bool{}
+	path := v.Path
 	cur := v
 	for cur != nil && !seen[cur.ID] {
 		seen[cur.ID] = true
 		if cur.Kind == "global" {
-			return cur.Name == symbol
+			return path, cur.Name == symbol
 		}
-		if cur.Base == "" {
-			return false
+		next := cur.Base
+		if next == "" {
+			next = e.assignedFrom[cur.ID]
 		}
-		cur = e.ix.ValueByID[cur.Base]
+		if next == "" {
+			return path, false
+		}
+		cur = e.ix.ValueByID[next]
+		if cur == nil {
+			return path, false
+		}
+		// The segments a base already carries are not repeated. A frontend that
+		// accumulated the whole path onto the leaf hands over `json.password` with a
+		// base of `json`, and prepending it again would invent a field nobody read.
+		if cur.Path != "" && !strings.HasPrefix(path, cur.Path+".") && path != cur.Path {
+			path = cur.Path + "." + path
+		}
 	}
-	return false
+	return path, false
+}
+
+// rootsAtGlobal reports whether a chain of property reads starts at a named global.
+func (e *engine) rootsAtGlobal(v *ir.Value, symbol string) bool {
+	_, ok := e.globalPathOf(v, symbol)
+	return ok
 }
 
 // seedByCallResult marks what a named call RETURNS.
@@ -573,24 +653,26 @@ func (e *engine) seedByCallResult(rule model.SourceRule) {
 func (e *engine) seedByGlobalProperty(rule model.SourceRule) {
 	for _, fn := range e.ix.IR.Functions {
 		for _, v := range fn.Values {
-			if v.Kind != ir.ValueProperty || !matchesPath(v.Path, rule.Paths) {
+			if v.Kind != ir.ValueProperty {
 				continue
 			}
-			if rule.ExactPath && !exactlyOneOf(v.Path, rule.Paths) {
+			// The base chain is walked rather than checked one link back, and the whole
+			// path it spells out is what the rule is tested against. `request.form` has
+			// the global as its base and `request.form["password"]` has `request.form`,
+			// so a one-link check saw the first and never the second -- which is every
+			// leaf-named rule blind on the nested form, and the nested form is how a
+			// request field is actually written.
+			path, rooted := e.globalPathOf(v, rule.Symbol)
+			if !rooted || !matchesPath(path, rule.Paths) {
 				continue
 			}
-			if !leafMatches(v.Path, rule) {
+			if rule.ExactPath && !exactlyOneOf(path, rule.Paths) {
 				continue
 			}
-			// The base chain is walked rather than checked one link back.
-			// `request.form` has the global as its base and `request.form["password"]`
-			// has `request.form`, so a one-link check saw the first and never the second
-			// -- which is every leaf-named rule blind on the nested form, and the nested
-			// form is how a request field is actually written.
-			if !e.rootsAtGlobal(v, rule.Symbol) {
+			if !leafMatches(path, rule) {
 				continue
 			}
-			label := fmt.Sprintf("%s.%s", rule.Symbol, v.Path)
+			label := fmt.Sprintf("%s.%s", rule.Symbol, path)
 			entry, anchored := enclosingEntry(e.ix, fn)
 			sd := seed{label: label, entryPoint: entry, anchored: anchored}
 			if ep, ok := entryOf(e.ix, fn); ok {
@@ -803,6 +885,11 @@ func (e *engine) collect(all map[string]*engine, caps ir.Capabilities) []Finding
 					continue
 				}
 				if ch.Symbol != "" && c.Callee.Kind != "external" {
+					continue
+				}
+				// A method name with no identity of its own, narrowed by what made the
+				// object it was called on.
+				if len(ch.ReceiverFrom) > 0 && !e.receiverMadeBy(c, ch.ReceiverFrom) {
 					continue
 				}
 				// The language's own containers are not stores of shared records.
