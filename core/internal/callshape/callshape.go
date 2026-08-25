@@ -45,6 +45,9 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 		}
 	}
 
+	// Judged once over the whole program, because that is the scope of the question:
+	// "does this application anywhere disable the header" has one answer, not one per
+	// call site.
 	var out []taint.Finding
 	for _, fn := range d.Functions {
 		for _, c := range fn.Calls {

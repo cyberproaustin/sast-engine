@@ -1,0 +1,14 @@
+{
+  "corpus": "express-dev-error-handler",
+  "description": "A middleware that is a defect by existing. errorhandler answers a failed request with the stack trace, the source line and the local variables, and its own documentation says development only -- so there is nothing in the call to inspect and no way to call it safely. Whether NODE_ENV guards it is a deployment fact, not a property of the source. The negative is the production handler beside it, which answers with a status and nothing else.",
+  "expected": [
+    {
+      "cwe": "CWE-209",
+      "sinkFile": "app.js",
+      "sinkLine": 16,
+      "sourceLabel": "\"errorhandler.default()\"",
+      "confidence": "high",
+      "note": "measured at two across the vulnerable corpus, both of them findings a recall audit named, and none at all across twenty-eight production repositories"
+    }
+  ]
+}

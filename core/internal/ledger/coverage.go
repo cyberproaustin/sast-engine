@@ -50,7 +50,7 @@ var claims = map[string]Claim{
 	"CWE-81": {State: Asserted, Reason: "failure detail reaching a markup channel. Not subsumed by CWE-79 even though it sits beneath it: what distinguishes it is the SOURCE, and this engine classifies error detail separately from caller input precisely so it can tell them apart -- an error message is where a program repeats back what it was given, which is how the message becomes script",
 		By: []string{"error-detail-into-markup"}},
 	"CWE-209": {State: Partial, Reason: "caught error detail reaching a channel visible outside the system; cannot judge whether a message is generic enough",
-		By: []string{"internal-detail-outward"}},
+		By: []string{"internal-detail-outward", "development-error-handler"}},
 	// Subsumes CWE-566, which is the same weakness with the record's identifier being a
 	// SQL primary key. Whether the selector is a primary key, a document id or a slug is
 	// a detail the ownership question never asks about.
@@ -175,6 +175,10 @@ var claims = map[string]Claim{
 	"CWE-532": {State: Partial, Reason: "a credential the CALLER sent reaching a log. The name list decides a classification over request PATHS rather than over local variable names, which is the whole reason it works: matching credential-shaped locals was measured across twenty clean repositories first and every match was a counter of language-model tokens. A one-way hash ends the classification, because a password hash is not a password anywhere. Credentials the application holds rather than receives are not covered, and the named loggers only",
 		By: []string{"credential-recorded"}},
 
+	// The parent of every disclosure entry in the catalog. What counts as sensitive
+	// information is a judgement about the data, and this engine makes that judgement
+	// under the numbers that name the data rather than under the parent.
+	"CWE-200": {State: NotBuilt, Reason: "information exposed to somebody who should not have it. Every decidable form of it is claimed under the number that names the DATA -- credentials under CWE-522, failure detail under CWE-209, the process environment under CWE-497, personal information under CWE-359 -- because what makes information sensitive is what it IS, and a rule for the parent would have to decide that without being told. One form that needs no such judgement was BUILT AND WITHDRAWN: the framework announcing itself in an X-Powered-By header, which is decidable from the source and fixed in one line. It measured three of the four Express applications on the vulnerable corpus against four of the ten across twenty-eight production repositories -- the worst ratio of anything shipped -- for a header a reverse proxy strips routinely, and it put a finding into every one of 55 fixtures that constructs an Express app. A rule has to earn its noise"},
 	"CWE-319": {State: Partial, Reason: "a credential the caller sent reaching the body of an outbound request whose destination is written into the call as a plaintext URL. The qualifier is the whole rule -- `https://` does not contain `http://` -- so the same channel says nothing about the overwhelming majority of outbound calls. A destination assembled at runtime is not a literal and is not matched",
 		By: []string{"credential-in-cleartext"}},
 
