@@ -48,10 +48,21 @@ const COMPARISON_OPERATORS = new Set<ts.SyntaxKind>([
   ts.SyntaxKind.GreaterThanEqualsToken,
 ]);
 
+// `||`, `??` and `&&` choose between their operands rather than combining them, so the
+// result carries whichever was chosen and BOTH sides flow into it.
+const SELECTION_OPERATORS = new Set<ts.SyntaxKind>([
+  ts.SyntaxKind.BarBarToken,
+  ts.SyntaxKind.QuestionQuestionToken,
+  ts.SyntaxKind.AmpersandAmpersandToken,
+]);
+
 interface FuncMeta {
   id: string;
   name: string;
   moduleId: string;
+  // The declaration this came from, so a resolver can look inside it. A factory's
+  // handler is the function its body returns, and finding it means reading the body.
+  node?: ts.Node;
 }
 
 /**
@@ -65,9 +76,53 @@ function makeFunctionResolver(
   checker: ts.TypeChecker,
   funcByNode: Map<ts.Node, FuncMeta>,
 ): FunctionResolver {
-  return (node) => {
+  // The function a factory RETURNS, when its body returns exactly one function.
+  //
+  // `app.post('/rest/user/login', login())` is a middleware factory, and it is how a
+  // great deal of Express code is written: the handler is the RESULT of a call, so
+  // resolving the call site finds `login` -- a function taking no request at all --
+  // rather than the handler it produces. The route is then enumerated with a body that
+  // reads nothing, no request parameter is seeded, and every defect inside the real
+  // handler is invisible while the surface still looks complete. OWASP Juice Shop
+  // registers its entire API this way.
+  //
+  // Only an unambiguous single returned function counts. A factory that returns one of
+  // several functions depending on its arguments is a question this cannot answer, and
+  // it says nothing rather than picking one.
+  const returnedFunction = (factory: FuncMeta | undefined): FuncMeta | undefined => {
+    if (!factory) return undefined;
+    const decl = factory.node;
+    if (!decl) return undefined;
+    const body = (decl as ts.FunctionLikeDeclaration).body;
+    if (!body) return undefined;
+
+    const found: FuncMeta[] = [];
+    const scan = (n: ts.Node): void => {
+      if (n !== decl && isFunctionLike(n)) return;
+      if (ts.isReturnStatement(n) && n.expression) {
+        const inner = funcByNode.get(n.expression);
+        if (inner) found.push(inner);
+        return;
+      }
+      ts.forEachChild(n, scan);
+    };
+    if (ts.isBlock(body)) scan(body);
+    else {
+      const inner = funcByNode.get(body);
+      if (inner) found.push(inner);
+    }
+    return found.length === 1 ? found[0] : undefined;
+  };
+
+  const resolve: FunctionResolver = (node) => {
     const direct = funcByNode.get(node);
     if (direct) return direct;
+
+    // A handler produced by calling a factory.
+    if (ts.isCallExpression(node)) {
+      const produced = returnedFunction(resolve(node.expression));
+      if (produced) return produced;
+    }
 
     // `sessionHandler.displayWelcomePage` and `auth.optional` are function values
     // too. Real applications register handlers and middleware this way far more
@@ -118,6 +173,7 @@ function makeFunctionResolver(
     }
     return undefined;
   };
+  return resolve;
 }
 
 export interface LowerOptions {
@@ -263,7 +319,7 @@ function collectFunctions(
     if (isFunctionLike(node)) {
       const name = functionNameOf(node);
       const loc = locOf(sf, node);
-      out.set(node, { id: `${moduleId}#${name}:${loc.line}`, name, moduleId });
+      out.set(node, { id: `${moduleId}#${name}:${loc.line}`, name, moduleId, node });
     }
     ts.forEachChild(node, visit);
   };
@@ -761,6 +817,27 @@ function lowerFunction(
         });
       }
       return newValue("local", loc, { name: "comparison" });
+    }
+
+    // `req.body.email || ''` is the single most common way real code writes a default,
+    // and taint flowed through none of it. The result is whichever side was chosen, so
+    // both sides carry into it.
+    //
+    // The flow kind is "assign" and deliberately NOT "binary": choosing between two
+    // values is not composing text out of them. Calling it composition would make
+    // `query(req.body.x || '')` look like a built statement to the SQL channel, and
+    // would make `axios.get(req.query.url || BASE)` look composed to the channels that
+    // require a whole value -- wrong in opposite directions, from one mislabelled hop.
+    //
+    // OWASP Juice Shop's headline SQL injection interpolates `req.body.email || ''`
+    // into a template literal. The template hop was recorded, the value reaching it
+    // never was, and the whole flow ended before it started.
+    if (ts.isBinaryExpression(expr) && SELECTION_OPERATORS.has(expr.operatorToken.kind)) {
+      const loc = locOf(sf, expr);
+      const id = newValue("local", loc, { name: "either" });
+      addFlow(lowerExpr(expr.left), id, "assign", loc);
+      addFlow(lowerExpr(expr.right), id, "assign", loc);
+      return id;
     }
 
     if (ts.isBinaryExpression(expr) && expr.operatorToken.kind === ts.SyntaxKind.PlusToken) {
