@@ -68,8 +68,13 @@ func TestCoverageDenominatorIsHonest(t *testing.T) {
 		if !e.HasCodeShape() {
 			t.Errorf("%s is a %s and has no code shape; it must not be in the denominator", e.ID, e.Abstraction)
 		}
-		if !e.StaticDetectable {
-			t.Errorf("%s has no static detection method and must not be in the denominator", e.ID)
+		// The catalog's detection-method field is a statement about a weakness in
+		// general, and it is occasionally wrong about a particular decidable form -- a
+		// secret compared with `===` is one. An entry may enter the denominator against
+		// that field ONLY by being asserted, which means a rule exists and a fixture
+		// holds it: disagreeing with the catalog costs a working rule, not an opinion.
+		if !e.StaticDetectable && e.Claim.State != ledger.Asserted && e.Claim.State != ledger.Partial {
+			t.Errorf("%s has no static detection method and is not asserted; it must not be in the denominator", e.ID)
 		}
 		if e.Status == "Deprecated" {
 			t.Errorf("%s is deprecated and must not be in the denominator", e.ID)

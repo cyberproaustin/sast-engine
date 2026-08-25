@@ -280,6 +280,13 @@ var claims = map[string]Claim{
 		// looks: a core dump and a database backup in the project root are the same
 		// finding at the same line, under narrower names.
 		Subsumes: true},
+	// The catalog records no static-analysis detection method for this one, which is
+	// where an entry would normally stop. Disagreeing with it deliberately: there IS a
+	// decidable form -- a secret compared with the language equality operator rather than
+	// with a constant-time compare -- and saying so is more useful than deferring to a
+	// field that was written about the weakness in general.
+	"CWE-208": {State: Partial, Reason: "a value the caller sent as a credential compared with the language's equality operator. Both runtimes stop at the first differing byte, so the time taken says how much of the guess was right. The other side must be a RUNTIME value: comparing a token to a literal is a presence check, a flag test, or a hardcoded credential, and the last of those is CWE-798. The correct fix is a constant-time compare, which is a call and leaves no comparison to match, so a fixed program is silent",
+		By: []string{"credential-compared-in-variable-time"}},
 	"CWE-359": {State: Partial, Reason: "a fact about a person that cannot be reissued -- a national identity number, a date of birth, a medical record -- reaching a log or a third party. Its own classification rather than more credentials, because a password gets rotated after it leaks and this does not. The vocabulary is short and specific: these names appear three times across 28 production repositories and two of those three are Passport, the authentication library, which is why the bare word is not on the list. A field this engine has no name for is a stated miss",
 		By: []string{"personal-information-logged", "personal-information-sent"}},
 	"CWE-488": {State: Partial, Reason: "one request's data assigned to a name bound outside the handler, which every later request reads back. The language rule is the whole evidence and there is no guessing in it: Python needs the name declared global and JavaScript needs it bound in an enclosing scope, and the same statement without either makes a local and touches nothing. A value stored in a module-level CONTAINER -- a dict, a Map -- is a cache and is not matched",

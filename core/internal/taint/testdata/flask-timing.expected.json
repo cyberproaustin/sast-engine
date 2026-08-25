@@ -1,0 +1,14 @@
+{
+  "corpus": "flask-timing",
+  "description": "The same judgement on the second language, where the correct answer is compare_digest.",
+  "expected": [
+    {
+      "cwe": "CWE-208",
+      "sinkFile": "app.py",
+      "sinkLine": 15,
+      "sourceLabel": "flask.request.headers.Authorization",
+      "confidence": "high",
+      "note": "compare_digest in the route below takes the same time whatever the inputs are"
+    }
+  ]
+}

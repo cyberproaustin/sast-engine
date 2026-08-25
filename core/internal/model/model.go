@@ -4692,6 +4692,15 @@ type DecisionRule struct {
 	// OtherIsText requires the other side to be a string written into the source.
 	OtherIsText bool
 
+	// OtherNotLiteral requires the other side to be a runtime value rather than
+	// something written down.
+	//
+	// A secret compared against a secret is two runtime values. A secret compared against
+	// a literal is a presence check (`=== undefined`), a flag test, or a hardcoded
+	// credential -- which is a different weakness with its own number. Requiring the
+	// other side to be unwritten is what separates them.
+	OtherNotLiteral bool
+
 	CWE       string
 	Finding   string
 	Reason    string
@@ -4736,6 +4745,23 @@ func builtinDecisions() []DecisionRule {
 			Finding:   "String compared by identity rather than by value",
 			Reason:    "identity asks whether two strings are the same object, which for two equal strings is not guaranteed, so this check can pass or fail on how the value happened to be built",
 			Rationale: "an identity comparison against a string written in the source",
+		},
+		{
+			// A secret compared with the language's equality operator. Both runtimes stop
+			// at the first byte that differs, so the time the comparison takes says how
+			// much of the guess was right -- and a few thousand guesses turn that into the
+			// whole value. The fix is a constant-time compare, which is a CALL and leaves
+			// no comparison here to match.
+			//
+			// The other side must be a runtime value: comparing a token to a literal is a
+			// presence check, a flag test, or a hardcoded credential, and the last of
+			// those has its own number.
+			ID: "credential-compared-in-variable-time", Class: "caller-credential",
+			Ops: []string{"==", "===", "!=", "!==", "Eq", "NotEq"}, OtherNotLiteral: true,
+			CWE:       "CWE-208",
+			Finding:   "Secret compared in variable time",
+			Reason:    "the comparison stops at the first byte that differs, so how long it takes says how much of the guess was right, and enough guesses recover the whole value",
+			Rationale: "a value the caller sent as a credential is compared with the language's equality operator",
 		},
 		{
 			// The Referer says where a request came from only in the sense that it says

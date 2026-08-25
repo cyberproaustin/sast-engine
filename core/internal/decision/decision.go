@@ -74,6 +74,11 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 				if rule.OtherIsText && !isText(ix.ValueByID[other]) {
 					continue
 				}
+				if rule.OtherNotLiteral {
+					if v := ix.ValueByID[other]; v == nil || v.Kind == ir.ValueLiteral {
+						continue
+					}
+				}
 				o := carrying.Origin[side]
 				// A rule with no class has no source to name, so the evidence is the
 				// literal that was compared -- which is the whole of what was written.
