@@ -38,6 +38,8 @@ func weaknessFor(controlKind string) string {
 		return "CWE-862"
 	case "rate-limit":
 		return "CWE-770"
+	case "csrf":
+		return "CWE-352"
 	default:
 		return "CWE-284"
 	}
@@ -69,6 +71,29 @@ func looksLikeAuthentication(path string) bool {
 		}
 	}
 	return false
+}
+
+// applies reports whether a control is one THIS entry point ought to carry, independently
+// of what its peers do.
+//
+// The population answers "is this control expected around here" and cannot answer "is it
+// expected of this route", and for one control kind the difference matters. An anti-CSRF
+// token exists to prove a state-changing request was intended; a GET is not supposed to
+// change state, and every CSRF middleware worth the name -- csurf included -- lets safe
+// methods through without a token. Flagging a read for lacking one reports the library's
+// own documented behaviour as a defect.
+//
+// Every other control kind applies to a read exactly as it applies to a write: an
+// unauthenticated GET is still unauthenticated.
+func applies(kind string, e surface.EntryFacts) bool {
+	if kind != "csrf" {
+		return true
+	}
+	switch strings.ToUpper(e.Method) {
+	case "GET", "HEAD", "OPTIONS":
+		return false
+	}
+	return true
 }
 
 // entryPath is the route an entry point serves, or its label when the framework gave it
@@ -249,6 +274,9 @@ func (r *Result) appendInferred(s surface.Surface, t Thresholds, exempt map[stri
 		for _, sig := range expectedSignals(peers, t) {
 			for _, e := range peers {
 				if _, has := e.ControlRefs()[sig.ref]; has {
+					continue
+				}
+				if !applies(sig.kind, e) {
 					continue
 				}
 				// A declaration that this surface is public by design overrides what
