@@ -73,18 +73,53 @@ function firstStringArg(dec: ts.Decorator): string | undefined {
 }
 
 /** `@UseGuards(AuthGuard, RolesGuard)` — the controls on a Nest entry point. */
+/**
+ * A decorator that is not routing and not parameter binding is a CONTROL.
+ *
+ * `@UseGuards(AuthGuard)` is Nest's own spelling and names the guard as an argument.
+ * Everything else in this family names itself: `@GlobalScope('user:create')`,
+ * `@Authorized()`, `@RequirePermission('admin')`. Reading only the first left every route
+ * in an application built on a decorator library of its own looking unguarded, which is
+ * the worst possible answer -- the convention analysis infers what peers have, and a
+ * population where nobody has anything agrees on nothing.
+ */
+const NOT_A_CONTROL = new Set([
+  "Controller",
+  "RestController",
+  "Injectable",
+  "Module",
+  "HttpCode",
+  "Header",
+  "Redirect",
+  "Render",
+  "ApiTags",
+  "ApiOperation",
+  "ApiResponse",
+  "UseInterceptors",
+  "UsePipes",
+  "UseFilters",
+]);
+
 function guardsFrom(node: ts.Node, scope: string, locOf: LocOf): MiddlewareRef[] {
   const out: MiddlewareRef[] = [];
   for (const dec of decoratorsOf(node)) {
-    if (decoratorName(dec) !== "UseGuards" || !ts.isCallExpression(dec.expression)) continue;
-    for (const arg of dec.expression.arguments) {
-      const name = ts.isIdentifier(arg)
-        ? arg.text
-        : ts.isPropertyAccessExpression(arg)
-          ? arg.name.text
-          : undefined;
-      if (name) out.push({ symbol: name, name, scope, loc: locOf(arg) });
+    const decName = decoratorName(dec);
+    if (!decName) continue;
+
+    if (decName === "UseGuards" && ts.isCallExpression(dec.expression)) {
+      for (const arg of dec.expression.arguments) {
+        const name = ts.isIdentifier(arg)
+          ? arg.text
+          : ts.isPropertyAccessExpression(arg)
+            ? arg.name.text
+            : undefined;
+        if (name) out.push({ symbol: name, name, scope, loc: locOf(arg) });
+      }
+      continue;
     }
+    if (ROUTE_DECORATORS.has(decName) || NOT_A_CONTROL.has(decName)) continue;
+    if (decName.endsWith("Controller")) continue;
+    out.push({ symbol: decName, name: decName, scope, loc: locOf(dec) });
   }
   return out;
 }
@@ -110,7 +145,18 @@ export function detectNestRoutes(
 
   const visit = (node: ts.Node): void => {
     if (ts.isClassDeclaration(node)) {
-      const controller = decoratorsOf(node).find((d) => decoratorName(d) === "Controller");
+      // Any class decorator whose NAME ends in Controller.
+      //
+      // `@Controller` is Nest's; `@RestController` is n8n's; `@JsonController` is
+      // routing-controllers'. They are the same declaration under three names, and a list
+      // of the ones somebody thought of would be wrong at the next framework -- which is
+      // not a hypothetical: n8n enumerated 6 entry points while 870 of its functions read
+      // caller-supplied input, and the whole difference was one word in a decorator.
+      //
+      // Safe in the direction it can be wrong: a class this matches that is not a
+      // controller becomes an entry point nobody can reach, which the surface prints for
+      // a reader to see. The opposite mistake is silence about an entire API.
+      const controller = decoratorsOf(node).find((d) => (decoratorName(d) ?? "").endsWith("Controller"));
       if (controller) {
         const prefix = firstStringArg(controller) ?? "";
         // Class-level guards apply to every route on the controller.

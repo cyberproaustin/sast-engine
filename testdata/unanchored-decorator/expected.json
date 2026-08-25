@@ -5,7 +5,7 @@
     {
       "cwe": "CWE-78",
       "sinkFile": "tags.controller.ts",
-      "sinkLine": 19,
+      "sinkLine": 25,
       "sourceLabel": "id",
       "confidence": "high",
       "note": "reported as unanchored: no enumerated entry point reaches it, so it never gates"

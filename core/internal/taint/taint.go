@@ -1029,6 +1029,15 @@ func (e *engine) collect(all map[string]*engine, caps ir.Capabilities) []Finding
 				if ch.RequiresUntrustedReceiver && !e.tainted[c.ReceiverID] {
 					continue
 				}
+				// And the receiver must be the classified value itself, for a channel
+				// that says so. A service object a shared helper returned is not an
+				// upload however tainted it looks.
+				if ch.RequiresUnprojectedReceiver {
+					path, _ := e.tracePath(c.ReceiverID)
+					if projected(path) {
+						continue
+					}
+				}
 				// Reaching a channel is not itself a defect. Policy decides whether
 				// THIS class reaching THIS channel is forbidden (ADR-012).
 				policies := e.m.PoliciesFor(e.class.Class, ch)

@@ -184,6 +184,16 @@ type Channel struct {
 	// a map lookup and is far stronger evidence than any name.
 	RequiresUntrustedReceiver bool
 
+	// RequiresUnprojectedReceiver narrows that further: the receiver must be the
+	// classified value ITSELF rather than a field read out of something the
+	// classification reached.
+	//
+	// `request.files["f"].save(dest)` is called on the upload. A service object that a
+	// shared helper returned, in a program where some other route once handed that helper
+	// caller data, is not an upload however tainted it looks -- and n8n's snapshot store
+	// is exactly that.
+	RequiresUnprojectedReceiver bool
+
 	// Qualifiers are conditions on the call's own literals that must hold for this to be
 	// a dangerous destination at all.
 	//
@@ -2048,15 +2058,17 @@ func Builtin() Model {
 			{
 				ID: "stored-upload-destination", Visibility: "internal", Context: "upload-type",
 				Method: "save", ReceiverIsEntryParam: -1, RequiresUntrustedReceiver: true, ArgIndex: []int{0},
-				CWE:       "CWE-434",
-				Rationale: "writes an uploaded file to a destination the caller named",
+				RequiresUnprojectedReceiver: true,
+				CWE:                         "CWE-434",
+				Rationale:                   "writes an uploaded file to a destination the caller named",
 			},
 			{
 				// express-fileupload moves the temporary file into place.
 				ID: "stored-upload-destination", Visibility: "internal", Context: "upload-type",
 				Method: "mv", ReceiverIsEntryParam: -1, RequiresUntrustedReceiver: true, ArgIndex: []int{0},
-				CWE:       "CWE-434",
-				Rationale: "moves an uploaded file to a destination the caller named",
+				RequiresUnprojectedReceiver: true,
+				CWE:                         "CWE-434",
+				Rationale:                   "moves an uploaded file to a destination the caller named",
 			},
 			// A template is a program. Every engine here exposes property access and
 			// method calls to the template text, which is why server-side template
