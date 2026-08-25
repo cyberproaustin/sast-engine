@@ -49,6 +49,31 @@ type Hop struct {
 // is expected. Negative, so it can never collide with a real position.
 const receiverArgIndex = -1
 
+// leafMatches tests the LAST segment of an access path, which is where a request says
+// what a field IS. A rule that names no leaves accepts every path, so this costs nothing
+// where it is not used.
+func leafMatches(path string, rule model.SourceRule) bool {
+	if len(rule.LeafContains) == 0 {
+		return true
+	}
+	leaf := path
+	if i := strings.LastIndexByte(leaf, '.'); i >= 0 {
+		leaf = leaf[i+1:]
+	}
+	leaf = strings.ToLower(leaf)
+	for _, veto := range rule.LeafExcept {
+		if strings.Contains(leaf, strings.ToLower(veto)) {
+			return false
+		}
+	}
+	for _, want := range rule.LeafContains {
+		if strings.Contains(leaf, strings.ToLower(want)) {
+			return true
+		}
+	}
+	return false
+}
+
 // exactlyOneOf reports whether a path IS one of these rather than starting with one.
 func exactlyOneOf(path string, want []string) bool {
 	for _, w := range want {
@@ -438,6 +463,9 @@ func (e *engine) seedByGlobalProperty(rule model.SourceRule) {
 			if rule.ExactPath && !exactlyOneOf(v.Path, rule.Paths) {
 				continue
 			}
+			if !leafMatches(v.Path, rule) {
+				continue
+			}
 			base := e.ix.ValueByID[v.Base]
 			if base == nil || base.Kind != "global" || base.Name != rule.Symbol {
 				continue
@@ -486,6 +514,9 @@ func (e *engine) seedByEntryParamProperty(rule model.SourceRule) {
 					continue
 				}
 				if !matchesPath(v.Path, rule.Paths) {
+					continue
+				}
+				if !leafMatches(v.Path, rule) {
 					continue
 				}
 				label := fmt.Sprintf("%s.%s", param.Name, v.Path)
