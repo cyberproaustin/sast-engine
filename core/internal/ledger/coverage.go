@@ -144,6 +144,9 @@ var claims = map[string]Claim{
 	"CWE-532": {State: Partial, Reason: "a credential the CALLER sent reaching a log. The name list decides a classification over request PATHS rather than over local variable names, which is the whole reason it works: matching credential-shaped locals was measured across twenty clean repositories first and every match was a counter of language-model tokens. A one-way hash ends the classification, because a password hash is not a password anywhere. Credentials the application holds rather than receives are not covered, and the named loggers only",
 		By: []string{"credential-recorded"}},
 
+	"CWE-319": {State: Partial, Reason: "a credential the caller sent reaching the body of an outbound request whose destination is written into the call as a plaintext URL. The qualifier is the whole rule -- `https://` does not contain `http://` -- so the same channel says nothing about the overwhelming majority of outbound calls. A destination assembled at runtime is not a literal and is not matched",
+		By: []string{"credential-in-cleartext"}},
+
 	// Cookie attributes. Two of the three are claimed for an explicit downgrade AND for
 	// an omission; Secure is claimed only for the downgrade, because the correct idiom
 	// makes it conditional on the environment and a rule demanding a literal would report
