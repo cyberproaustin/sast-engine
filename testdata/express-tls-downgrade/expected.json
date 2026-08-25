@@ -1,0 +1,8 @@
+{
+  "corpus": "express-tls-downgrade",
+  "description": "Naming a protocol version in the call is asking for it specifically, which is different from accepting whatever a peer offers. Only versions written as literals are matched, and a version read from configuration is not -- so this claims what the call says and nothing about what actually gets negotiated.",
+  "expected": [
+    {"cwe": "CWE-757", "sinkFile": "app.js", "sinkLine": 5, "sourceLabel": "\"secureProtocol=TLSv1_method\"", "confidence": "high", "note": "a version with known breaks, requested outright"},
+    {"cwe": "CWE-757", "sinkFile": "app.js", "sinkLine": 8, "sourceLabel": "\"minVersion=TLSv1\"", "confidence": "high", "note": "an obsolete version accepted as the floor"}
+  ]
+}

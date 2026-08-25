@@ -1,0 +1,22 @@
+{
+  "corpus": "flask-query-languages",
+  "description": "Two more small query languages, judged the same way SQL is: composition is what separates a value being searched FOR from a filter the caller wrote. The bound route passes the caller's text whole as the filter argument and is silent, which is the same reasoning that keeps a parameterized SQL call silent -- and is a stated miss when the whole filter really is the caller's.",
+  "expected": [
+    {
+      "cwe": "CWE-90",
+      "sinkFile": "app.py",
+      "sinkLine": 15,
+      "sourceLabel": "flask.request.args",
+      "confidence": "medium",
+      "note": "the caller's text is built into the filter"
+    },
+    {
+      "cwe": "CWE-643",
+      "sinkFile": "app.py",
+      "sinkLine": 30,
+      "sourceLabel": "flask.request.args",
+      "confidence": "medium",
+      "note": "the caller's text is built into the expression"
+    }
+  ]
+}
