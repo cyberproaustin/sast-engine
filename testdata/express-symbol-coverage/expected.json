@@ -1,0 +1,70 @@
+{
+  "corpus": "express-symbol-coverage",
+  "description": "The companion to flask-symbol-coverage. Rules the model shipped and no fixture had ever exercised, written after a diagnostic asked whether any lowered program produces each symbol the model names. Most of the unseen ones are libraries no corpus happens to use, which is fine and unknowable until somebody scans a program that uses them. The point of this file is that the description and the frontend agree, so a rule that finds nothing is a rule that found nothing rather than one that could never fire. The negative is a sanitizer whose context matches the sink it reaches.",
+  "expected": [
+    {
+      "cwe": "CWE-918",
+      "sinkFile": "app.ts",
+      "sinkLine": 23,
+      "sourceLabel": "req.query.url",
+      "confidence": "high",
+      "note": "node-fetch, the most common HTTP client in this ecosystem"
+    },
+    {
+      "cwe": "CWE-918",
+      "sinkFile": "app.ts",
+      "sinkLine": 29,
+      "sourceLabel": "req.query.url",
+      "confidence": "high",
+      "note": "the runtime's own client"
+    },
+    {
+      "cwe": "CWE-95",
+      "sinkFile": "app.ts",
+      "sinkLine": 35,
+      "sourceLabel": "req.body.code",
+      "confidence": "high",
+      "note": "a separate vm context is not a sandbox: it runs with the host's globals one prototype away"
+    },
+    {
+      "cwe": "CWE-22",
+      "sinkFile": "app.ts",
+      "sinkLine": 41,
+      "sourceLabel": "req.body.path",
+      "confidence": "high",
+      "note": "the caller chooses which file grows"
+    },
+    {
+      "cwe": "CWE-1336",
+      "sinkFile": "app.ts",
+      "sinkLine": 46,
+      "sourceLabel": "req.body.template",
+      "confidence": "high",
+      "note": "a template compiled from a caller's text is a caller's program"
+    },
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "app.ts",
+      "sinkLine": 46,
+      "sourceLabel": "req.body.template",
+      "confidence": "medium",
+      "note": "and the same line read a second time: whatever the template produced is written into the page"
+    },
+    {
+      "cwe": "CWE-1336",
+      "sinkFile": "app.ts",
+      "sinkLine": 51,
+      "sourceLabel": "req.body.template",
+      "confidence": "high",
+      "note": "the same weakness at a second engine"
+    },
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "app.ts",
+      "sinkLine": 51,
+      "sourceLabel": "req.body.template",
+      "confidence": "medium",
+      "note": "and the same second reading"
+    }
+  ]
+}
