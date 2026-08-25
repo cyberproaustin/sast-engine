@@ -1,6 +1,6 @@
 {
   "corpus": "express-command-injection",
-  "description": "Interprocedural, cross-module command injection through Express request data. Also contains reflected XSS: the same caller-supplied value comes back out in a text/html response body. One source, two sinks, two weaknesses, one policy.",
+  "description": "Interprocedural, cross-module command injection through Express request data. Also contains reflected XSS: the same caller-supplied value comes back out in a text/html response body. One source, two sinks, two weaknesses, one policy. The /status route is the negative control for a precision property rather than for a rule: it shares a helper with a route that passes caller data, and the helper's tainted return no longer reaches it.",
   "expected": [
     {
       "cwe": "CWE-78",
@@ -21,7 +21,7 @@
     {
       "cwe": "CWE-73",
       "sinkFile": "app.ts",
-      "sinkLine": 42,
+      "sinkLine": 48,
       "sourceLabel": "req.query.bin",
       "confidence": "high",
       "note": "tainted executable path; the channel determines the weakness identity, not the policy"
@@ -41,14 +41,6 @@
       "sourceLabel": "req.query.domain",
       "confidence": "medium",
       "note": "encodeURIComponent does not neutralize markup either"
-    },
-    {
-      "cwe": "CWE-79",
-      "sinkFile": "app.ts",
-      "sinkLine": 34,
-      "sourceLabel": "req.query.host",
-      "confidence": "medium",
-      "note": "reached through a second route sharing the helper"
     }
   ]
 }

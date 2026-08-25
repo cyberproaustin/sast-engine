@@ -304,14 +304,20 @@ lands on the template line rather than on the handler that rendered it. `capabil
 prints `templates=`, because "no findings in the view layer" and "the view layer was not
 opened" are different results.
 
-**The largest remaining imprecision, named.** Interprocedural taint here is
-*context-insensitive*: when a tainted value is returned from a function, every call site of
-that function gets a tainted result, not only the one that passed it. On a large
-application this is how a request value ends up "reaching" a JSON path parser four frames
-below the handler. It is the source of most of the engine's remaining false positives, and
-the reason several rules ask not only whether a value is classified but whether it is the
-classified thing ITSELF — a password's own length rather than the length of something a
-password was once involved in producing.
+**A function that returns what it was given returns it only to the callers that gave it
+something.** Interprocedural taint is not fully context-sensitive — that is a much larger
+thing — but the cheapest half of it is here: when a tainted value is returned, the call
+sites that receive it are the ones that passed something tainted in, rather than all of
+them. Without that, one route handing a role to a shared helper taints every other caller
+of that helper and everything computed from the answer; measured on one production
+repository it produced 118 findings from a single route. Taint that arises INSIDE a
+function — it read a request global, it opened a file — still belongs to every caller and
+is untouched.
+
+What remains context-insensitive is a value that reaches a callee through a parameter and
+comes back changed several frames later. That is why several rules ask not only whether a
+value is classified but whether it is the classified thing ITSELF: a password's own length,
+rather than the length of something a password was once involved in producing.
 
 **What it does not do.** A dozen data classes and several dozen channels; two frameworks,
 two languages. The remaining code surface is the set of **matching strategies** — how a value

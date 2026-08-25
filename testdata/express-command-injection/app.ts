@@ -29,7 +29,13 @@ app.get("/ping-safe", (req, res) => {
   res.send("ok");
 });
 
-// EXPECTED CLEAN — no untrusted input reaches the command.
+// EXPECTED CLEAN — no untrusted input reaches the command, and none comes back out.
+//
+// This route used to report. `runPing` is shared with `/ping` above, which DOES pass
+// caller data, and a tainted return was handed to every call site of the function rather
+// than to the ones that had passed something -- so the output of `ping localhost` read as
+// the caller's own text. A function that returns what it was GIVEN returns it only to the
+// callers that gave it something.
 app.get("/status", (req, res) => {
   res.send(runPing("localhost"));
 });
