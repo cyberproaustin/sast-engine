@@ -1,0 +1,14 @@
+{
+  "corpus": "flask-xxe",
+  "description": "The other half of the same weakness: lxml resolves entities by default, so unlike libxmljs there is no option to look for and the parser is named outright. Stated in the ledger rather than implied, because the two libraries are opposite defaults and a rule that treated them alike would be wrong about one of them.",
+  "expected": [
+    {
+      "cwe": "CWE-611",
+      "sinkFile": "app.py",
+      "sinkLine": 11,
+      "sourceLabel": "flask.request.data",
+      "confidence": "high",
+      "note": "the default parser resolves entities and the document is the caller's"
+    }
+  ]
+}
