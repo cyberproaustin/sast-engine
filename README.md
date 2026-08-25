@@ -262,8 +262,8 @@ and libraries that register no routes.
 Notably, Python outperformed TypeScript on recognition, which is the opposite of where the
 engineering had gone: one uniform decorator beats a dozen registration idioms.
 
-**Measured, not asserted.** Nine corpora are scored on every test run — vulnerable, safe,
-and shape-regression:
+**Measured, not asserted.** 83 corpora are scored on every test run — vulnerable, safe,
+and shape-regression — and a test fails if one is lowered but not scored. A sample:
 
 | corpus | precision | recall | |
 |---|---|---|---|
@@ -294,8 +294,8 @@ sanitizer model makes the engine report one of those routes, which shows the zer
 earned rather than the result of not analyzing the code. These corpora are small; the
 numbers describe the fixtures and nothing beyond them.
 
-**What it does not do.** Two data classes and a handful of channels; two frameworks, two
-languages. The remaining code surface is the set of **matching strategies** — how a value
+**What it does not do.** A dozen data classes and several dozen channels; two frameworks,
+two languages. The remaining code surface is the set of **matching strategies** — how a value
 acquires a class, and how a call site is recognized as a channel. Those are still Go, and
 shrinking that set is the standing generalization work; classes, channels, and policies
 themselves are data.
@@ -364,6 +364,33 @@ releases: the Top 10 reshuffled its categories in 2025, and ASVS 5.0 replaced th
 chapter structure entirely. Assignments were verified against the published per-category CWE
 lists and the ASVS 5.0.0 requirement text.
 
+### The CWE ledger
+
+The same honesty runs one level deeper. The engine carries the **whole published CWE
+catalogue** and states, for every entry in it, what this build claims and why:
+
+```
+  asserts 93 of 313 weaknesses a rule could be written for (29.7%)
+  and 28 more are subsumed: a rule above them catches them, because
+  what distinguishes them is a detail the analysis never looks at
+```
+
+The denominator is the honest one. It excludes deprecated entries, pillars and classes with
+no code shape, and weaknesses specific to a language this build has no frontend for — and it
+does **not** shrink when something turns out to be hard, because a denominator that moves
+whenever the work looks difficult is not one anybody should trust. It grows by one only when
+a rule is written for a weakness the catalogue itself calls undecidable, which has happened
+twice and cost a working rule and a fixture each time.
+
+Every one of the 313 says something specific. A test fails the build if any entry falls back
+to "no rule has been written for it", because a coverage map is only worth reading if it
+distinguishes a weakness this engine could catch tomorrow from one no analysis of source will
+ever decide. The declines that were measured carry their numbers: 968 empty catch blocks,
+5001 generic catches, 162 path comparisons, 79 of 142 outbound calls with no timeout, 3
+route-scoped logging middlewares in 6,390 entry points. Those numbers are the useful part —
+they say which gaps are waiting for a discriminator nobody has thought of yet, and which are
+closed for a reason.
+
 Weakness identity comes from the **channel**, not the policy. One judgement — *a caller must
 not choose what an interpreter executes* — covers both `exec()` and `execFile()`, but
 choosing what a shell runs is CWE-78 and choosing which executable runs is CWE-73, and those
@@ -383,7 +410,7 @@ This project is early. The architecture is complete end to end and exercised by 
 policy families across two languages, but it is not a tool that should be relied on in
 place of an established scanner.
 
-What has been measured: ten corpora in this repository score precision 1.00 and recall
+What has been measured: 83 corpora in this repository score precision 1.00 and recall
 1.00, and a batch run against 28 unmodified open source repositories produced a surface
 for 19 of them — 778 entry points — with every finding triaged by hand. Those runs
 measured *recall and enumeration*: whether the engine sees an application's real attack
