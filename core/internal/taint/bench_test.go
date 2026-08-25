@@ -56,6 +56,7 @@ var corpora = []string{
 	"express-dynamic-load",
 	"flask-xxe",
 	"flask-unsafe-files",
+	"flask-csv-injection",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {
