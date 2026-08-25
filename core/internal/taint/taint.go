@@ -388,14 +388,32 @@ func Analyze(d *ir.IR, m model.Model) Result {
 
 	res.ByClass = make(map[string]Classified, len(engines))
 	for name, e := range engines {
-		origins := make(map[string]Origin, len(e.seeds))
-		for id, sd := range e.seeds {
-			origins[id] = Origin{
+		as := func(sd seed) Origin {
+			return Origin{
 				Label:      sd.label,
 				EntryPoint: sd.entryPoint,
 				Method:     sd.method,
 				Path:       sd.path,
 				Anchored:   sd.anchored,
+			}
+		}
+		// Recorded for EVERY value carrying the class, not just the seeds.
+		//
+		// A consumer asking about a value one hop downstream of a source -- a comparison
+		// against `name` where `name` came back from a lookup -- was getting a zero
+		// origin, which reads as "not anchored to any entry point" and quietly demotes a
+		// finding that is anchored. The seed is where the answer is, so the walk back to
+		// it happens here once rather than at every call site that might need it.
+		origins := make(map[string]Origin, len(e.tainted))
+		for id := range e.tainted {
+			if sd, ok := e.seeds[id]; ok {
+				origins[id] = as(sd)
+				continue
+			}
+			if _, from := e.tracePath(id); from != "" {
+				if sd, ok := e.seeds[from]; ok {
+					origins[id] = as(sd)
+				}
 			}
 		}
 		res.ByClass[name] = Classified{Values: e.tainted, Origin: origins}

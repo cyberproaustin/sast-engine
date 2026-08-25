@@ -217,6 +217,11 @@ var claims = map[string]Claim{
 	"CWE-565": {State: Partial, Reason: "the same decision made on a COOKIE, which is its own weakness: a cookie is a value the browser was handed and hands back, and getting it back is no evidence it came from here or came back unchanged. Nothing is claimed about whether the cookie is signed, because a signed cookie and an unsigned one are read identically",
 		By: []string{"cookie-decides-authority"}},
 
+	"CWE-293": {State: Partial, Reason: "a branch decided on the Referer header, which says where a request came from only in the sense that it says whatever the sender wrote there. A browser sends it, a script omits it, and anything can forge it. Only a comparison; using the Referer to build a link is not this",
+		By: []string{"referer-decides-access"}},
+	"CWE-350": {State: Partial, Reason: "a branch decided on the result of a reverse DNS lookup, which returns whatever the owner of the address block published in the PTR record -- not evidence of who they are. The named lookup functions only",
+		By: []string{"reverse-dns-decides-access"}},
+
 	// Cookie attributes. Two of the three are claimed for an explicit downgrade AND for
 	// an omission; Secure is claimed only for the downgrade, because the correct idiom
 	// makes it conditional on the environment and a rule demanding a literal would report

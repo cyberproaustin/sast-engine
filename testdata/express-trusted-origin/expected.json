@@ -1,0 +1,22 @@
+{
+  "corpus": "express-trusted-origin",
+  "description": "Two things a server is told and has no reason to believe. The Referer is written by whoever made the request, so a check against it is a check the caller passes by choosing what to write. A reverse DNS lookup answers with whatever the owner of the address block published, which is not the owner of the name it hands back. The negative route uses the Referer to build a link back, which is what it is for and is not a decision. The lookup is written in its promise form because a result delivered through a callback parameter is not the call's return value, and only the return value is classified -- a stated miss recorded in the ledger rather than worked around here.",
+  "expected": [
+    {
+      "cwe": "CWE-293",
+      "sinkFile": "app.js",
+      "sinkLine": 10,
+      "sourceLabel": "req.headers.referer",
+      "confidence": "high",
+      "note": "the caller passes the check by choosing what to send"
+    },
+    {
+      "cwe": "CWE-350",
+      "sinkFile": "app.js",
+      "sinkLine": 25,
+      "sourceLabel": "dns/promises.reverse()",
+      "confidence": "high",
+      "note": "the address block's owner chooses what the lookup returns"
+    }
+  ]
+}
