@@ -1025,6 +1025,27 @@ func Builtin() Model {
 				Rationale: "the first argument is the URL this request is sent to",
 			},
 
+			// A response HEADER value. A carriage return and newline end the header and
+			// start whatever the caller writes next -- another header, or the body.
+			{
+				ID: "response-header", Visibility: "public", Context: "header",
+				Method: "setHeader", ReceiverIsEntryParam: 1, ArgIndex: []int{1},
+				CWE:       "CWE-93",
+				Rationale: "the second argument to setHeader() is the header value",
+			},
+			{
+				ID: "response-header", Visibility: "public", Context: "header",
+				Method: "header", ReceiverIsEntryParam: 1, ArgIndex: []int{1},
+				CWE:       "CWE-93",
+				Rationale: "the second argument to header() is the header value",
+			},
+			{
+				ID: "response-header", Visibility: "public", Context: "header",
+				Method: "set", ReceiverIsEntryParam: 1, ArgIndex: []int{1},
+				CWE:       "CWE-93",
+				Rationale: "the second argument to set() is the header value",
+			},
+
 			// Where the interpreter loads modules FROM. Putting a caller-controlled
 			// directory at the front of it means the next import takes whatever is in
 			// that directory, under whatever name it expects.
@@ -1992,6 +2013,18 @@ func Builtin() Model {
 				CWE:           "CWE-598",
 			},
 			{
+				// A carriage return and a newline end a header and begin whatever comes
+				// next, so a caller who can put them in a header value writes headers of
+				// their own -- or a body.
+				ID:            "untrusted-to-header",
+				Class:         "untrusted-input",
+				DeniedContext: []string{"header"},
+				Requires:      Requirements{Interprocedural: true},
+				Reason:        "a caller who can put a line break in a header value ends the header and begins one of their own",
+				Finding:       "Untrusted input reaches a response header",
+				CWE:           "CWE-93",
+			},
+			{
 				// Where the interpreter looks for modules is a security decision, and a
 				// caller who can steer it decides what the next import runs.
 				ID:            "untrusted-search-path",
@@ -2200,6 +2233,20 @@ func Builtin() Model {
 				Symbol:   "ldap.filter.filter_format",
 				Contexts: []string{"ldap"},
 				Note:     "builds a filter with its arguments escaped",
+			},
+			{
+				// The package whose entire job is producing a well-formed
+				// Content-Disposition: it encodes the filename rather than interpolating
+				// it, which is the correct way to put a caller's filename in a header and
+				// is read as a finding without this.
+				Symbol:   "content-disposition",
+				Contexts: []string{"header"},
+				Note:     "encodes a filename into a well-formed header value",
+			},
+			{
+				Symbol:   "content-disposition.default",
+				Contexts: []string{"header"},
+				Note:     "encodes a filename into a well-formed header value",
 			},
 			{
 				Symbol:   "escape-html",
@@ -2942,6 +2989,40 @@ func builtinCallShapes() []CallShape {
 			Finding:   "Directory listing served",
 			Reason:    "publishing the file names in a directory publishes a map of everything in it, including whatever was left there by accident",
 			Rationale: "serve-index generates a listing for a directory",
+		},
+
+		{
+			// Superseded and dangerous in a way its replacement is not: createCipher
+			// derives the key from the password with a single unsalted MD5, so two
+			// applications with the same passphrase get the same key. Node removed it.
+			ID: "obsolete-function", Symbol: "crypto.createCipher", Always: true,
+			CWE:       "CWE-477",
+			Finding:   "Obsolete function",
+			Reason:    "createCipher derives its key with a single unsalted MD5 of the passphrase, which is why it was deprecated and then removed",
+			Rationale: "createCipher() is superseded by createCipheriv()",
+		},
+		{
+			ID: "obsolete-function", Symbol: "crypto.createDecipher", Always: true,
+			CWE:       "CWE-477",
+			Finding:   "Obsolete function",
+			Reason:    "createDecipher derives its key with a single unsalted MD5 of the passphrase, which is why it was deprecated and then removed",
+			Rationale: "createDecipher() is superseded by createDecipheriv()",
+		},
+		{
+			// RSA without OAEP. PKCS#1 v1.5 encryption padding has been known broken
+			// since 1998 and the fix is a different padding, not a different key.
+			ID: "rsa-without-oaep", Symbol: "Crypto.Cipher.PKCS1_v1_5.new", Always: true,
+			CWE:       "CWE-780",
+			Finding:   "RSA used without OAEP padding",
+			Reason:    "PKCS#1 v1.5 encryption padding is vulnerable to an adaptive chosen-ciphertext attack that recovers the plaintext, and OAEP is the padding that is not",
+			Rationale: "PKCS1_v1_5 is the padding without OAEP",
+		},
+		{
+			ID: "rsa-without-oaep", Symbol: "Cryptodome.Cipher.PKCS1_v1_5.new", Always: true,
+			CWE:       "CWE-780",
+			Finding:   "RSA used without OAEP padding",
+			Reason:    "PKCS#1 v1.5 encryption padding is vulnerable to an adaptive chosen-ciphertext attack that recovers the plaintext, and OAEP is the padding that is not",
+			Rationale: "PKCS1_v1_5 is the padding without OAEP",
 		},
 
 		// --- files and permissions --------------------------------------------------

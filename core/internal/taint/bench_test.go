@@ -62,6 +62,7 @@ var corpora = []string{
 	"express-tls-downgrade",
 	"express-cookie-storage",
 	"express-credential-in-url",
+	"express-header-injection",
 	"flask-search-path",
 	"flask-xxe",
 	"flask-unsafe-files",
