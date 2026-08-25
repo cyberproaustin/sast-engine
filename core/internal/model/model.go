@@ -4968,6 +4968,17 @@ type StoreRule struct {
 	// NotPath excludes keys another rule already claims, so two rules can describe the
 	// same destination at different granularities without reporting one line twice.
 	NotPath []string
+	// RequiresEntryFunction narrows a rule to writes that happen INSIDE a request
+	// handler, rather than anywhere the data happens to reach.
+	//
+	// Taint answers "did this value come from a request", which is not the same question
+	// as "did this line run while serving one". A plugin hook bus carries request data
+	// into an initialisation function, and five findings in one production repository
+	// were exactly that: a module-level allow-list, a login-strategy table and a
+	// sanitiser configuration, all assembled at startup from a hook whose other callers
+	// include a route.
+	RequiresEntryFunction bool
+
 	// IntoScope matches on how far the destination REACHES rather than on what it is
 	// called. Process-wide state written from a request handler is read back by the next
 	// request, and the name it happens to have says nothing about that.
@@ -5032,11 +5043,12 @@ func builtinStores() []StoreRule {
 			// enclosing scope, and the same statement without either makes a local and
 			// touches nothing.
 			ID: "request-data-into-process-state", Class: "untrusted-input",
-			IntoScope: "process",
-			CWE:       "CWE-488",
-			Finding:   "One request's data written into state the whole process shares",
-			Reason:    "every request this process handles reads the same variable, so what one caller put there is what the next caller gets",
-			Rationale: "the assignment reaches a name bound outside the handler",
+			IntoScope:             "process",
+			RequiresEntryFunction: true,
+			CWE:                   "CWE-488",
+			Finding:               "One request's data written into state the whole process shares",
+			Reason:                "every request this process handles reads the same variable, so what one caller put there is what the next caller gets",
+			Rationale:             "the assignment reaches a name bound outside the handler",
 		},
 		{
 			// PATH decides where the next program comes from. A caller who can prepend to
