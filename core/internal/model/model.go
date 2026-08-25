@@ -685,6 +685,17 @@ func Builtin() Model {
 						ParamIndex: 0,
 						Paths:      []string{"user", "session", "auth", "principal"},
 					},
+					// A token whose signature was CHECKED. That is what makes the claims
+					// inside it an established identity rather than something the caller
+					// said about themselves: `decode` reads the same fields and proves
+					// nothing, which is why it is a weakness of its own (CWE-347) and is
+					// deliberately not listed here.
+					//
+					// This is how an application without a session gets its identity, and
+					// an ownership analysis that only knows `req.user` reports NOT
+					// EVALUATED on every one of them -- honest, and no use to anybody.
+					{Match: MatchCallResult, Symbol: "flask_jwt_extended.get_jwt_identity"},
+					{Match: MatchCallResult, Symbol: "flask_login.current_user"},
 					{
 						Match:  MatchGlobalProperty,
 						Symbol: "flask.g",
@@ -2119,6 +2130,23 @@ func Builtin() Model {
 			// was described here and could never match anything, which is a rule that
 			// looks like coverage and is not -- found by auditing the symbol list against
 			// the libraries rather than by anything failing.
+			// The whole request body handed to a view as its locals.
+			//
+			// A template engine's render options are not only data: Handlebars and
+			// express-handlebars read `layout` out of them and load the file it names, so
+			// a caller who sends `{"layout": "../../etc/passwd"}` chooses which file the
+			// server reads. What makes it decidable is that the body arrived WHOLE --
+			// `res.render("page", { name: req.body.name })` names one field and cannot
+			// carry an option nobody asked for, and the frontends already record which of
+			// the two happened.
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Method: "render", ReceiverIsEntryParam: 1, ArgIndex: []int{1},
+				RequiresUnenclosed: true,
+				CWE:                "CWE-22",
+				Rationale:          "the render options are read for a layout or a view name, and this call hands over everything the caller sent",
+			},
+
 			// An archive the caller supplied, unpacked. Every entry in it names its own
 			// destination, so an entry called `../../etc/cron.d/x` writes there -- the
 			// path traversal is inside the file rather than in the call, which is why the
@@ -3363,6 +3391,32 @@ func Builtin() Model {
 				Contexts: []string{AnyContext},
 				Note:     "a digest is not what was digested, and a hex digest cannot carry syntax",
 			},
+			// VERIFYING. A token whose signature was checked carries claims the server
+			// itself issued, so selecting a record by one is the caller reaching their OWN
+			// record -- which is what an ownership check is for, not a violation of one.
+			//
+			// Scoped to that question and no further. The claims are still values somebody
+			// chose at registration, so a name out of a verified token interpolated into a
+			// SQL statement is still injection, and this says nothing about it.
+			{
+				Symbol:   "jsonwebtoken.verify",
+				Classes:  []string{"untrusted-input"},
+				Contexts: []string{"record-selector"},
+				Note:     "the signature was checked, so these claims are the ones this server issued",
+			},
+			{
+				Symbol:   "jose.jwtVerify",
+				Classes:  []string{"untrusted-input"},
+				Contexts: []string{"record-selector"},
+				Note:     "the signature was checked, so these claims are the ones this server issued",
+			},
+			{
+				Symbol:   "jwt.decode",
+				Classes:  []string{"untrusted-input"},
+				Contexts: []string{"record-selector"},
+				Note:     "PyJWT verifies by default, so these claims are the ones this server issued",
+			},
+
 			// SIGNING. A signed token cannot be forged even when every field in it is
 			// public, so it ends the question "could a caller have guessed this" -- and
 			// only that question. A JWT payload is base64 rather than encrypted, so a
