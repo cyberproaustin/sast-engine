@@ -70,6 +70,7 @@ var corpora = []string{
 	"express-trusted-origin",
 	"express-trust-boundary",
 	"flask-archive-extract",
+	"express-reused-iv",
 	"express-bind-address",
 	"flask-bind-address",
 	"express-timing",

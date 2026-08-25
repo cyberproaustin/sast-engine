@@ -3565,6 +3565,16 @@ type CallShape struct {
 	// and never matches.
 	AnyLiteral bool
 
+	// ArgFromModuleScope names an argument that must resolve to a value bound at MODULE
+	// scope -- computed once when the file was loaded, and the same on every call after.
+	//
+	// An initialisation vector is the case. It must be different for every message, and
+	// `const IV = randomBytes(16)` at the top of a file is different for every PROCESS,
+	// which is not the same thing and looks correct at a glance because a random number
+	// is involved. A literal IV is already caught by reading the literal; this catches the
+	// version that has no literal to read.
+	ArgFromModuleScope *int
+
 	// MissingArg names a positional argument whose ABSENCE, at a call that otherwise
 	// matches, is the defect.
 	//
@@ -4533,6 +4543,35 @@ func builtinCallShapes() []CallShape {
 			Finding:    "Server bound to every interface",
 			Reason:     "the listener accepts connections on every address the host has, which on anything but a laptop includes ones the application was never meant to be reachable from",
 			Rationale:  "the second argument to listen() is the address to bind, and this one means all of them",
+		},
+
+		{
+			// One initialisation vector for the whole process. It must be different for
+			// every message; bound at module scope it is computed once when the file
+			// loads, which is different for every PROCESS -- not the same thing, and it
+			// looks right at a glance because a random number was involved.
+			//
+			// Two messages encrypted under one key and one IV leak the XOR of their
+			// plaintexts, and in counter mode they leak it outright.
+			ID: "reused-iv", Symbol: "crypto.createCipheriv", ArgFromModuleScope: arg(2),
+			CWE:       "CWE-323",
+			Finding:   "One initialisation vector for every message",
+			Reason:    "an initialisation vector bound at module scope is computed once and reused for every message the process encrypts, which is the one thing it must never be",
+			Rationale: "the third argument is the initialisation vector, and it is bound where the file loads rather than where the message is",
+		},
+		{
+			// One initialisation vector for the whole process. It must be different for
+			// every message; bound at module scope it is computed once when the file
+			// loads, which is different for every PROCESS -- not the same thing, and it
+			// looks right at a glance because a random number was involved.
+			//
+			// Two messages encrypted under one key and one IV leak the XOR of their
+			// plaintexts, and in counter mode they leak it outright.
+			ID: "reused-iv", Symbol: "crypto.createDecipheriv", ArgFromModuleScope: arg(2),
+			CWE:       "CWE-323",
+			Finding:   "One initialisation vector for every message",
+			Reason:    "an initialisation vector bound at module scope is computed once and reused for every message the process encrypts, which is the one thing it must never be",
+			Rationale: "the third argument is the initialisation vector, and it is bound where the file loads rather than where the message is",
 		},
 
 		{

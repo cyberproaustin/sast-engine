@@ -261,6 +261,10 @@ export function lowerProgram(opts: LowerOptions): IRDoc {
   for (const sf of sources) {
     const imports = importsByFile.get(sf) ?? new Map<string, ImportRef>();
     const moduleId = moduleIdOf(opts.rootDir, sf.fileName);
+    // One map per FILE. The module is lowered first and fills it; every function below
+    // reads from it, which is how a name declared at the top of a file resolves inside a
+    // handler halfway down.
+    const moduleScope = new Map<ts.Symbol, string>();
     functions.push(
       lowerFunction(
         sf,
@@ -270,11 +274,12 @@ export function lowerProgram(opts: LowerOptions): IRDoc {
         imports,
         resolveFunction,
         identity,
+        moduleScope,
       ),
     );
     for (const [node, meta] of funcsBySource.get(sf) ?? []) {
       functions.push(
-        lowerFunction(node as ts.SignatureDeclaration, meta, sf, checker, imports, resolveFunction, identity),
+        lowerFunction(node as ts.SignatureDeclaration, meta, sf, checker, imports, resolveFunction, identity, moduleScope),
       );
     }
     entryPoints.push(...detectExpressRoutes(sf, imports, resolveFunction, (n) => locOf(sf, n)));
@@ -456,6 +461,14 @@ function lowerFunction(
   imports: Map<string, ImportRef>,
   resolveFunction: FunctionResolver,
   identity: Set<string>,
+  // Names bound at the module's top level, shared across every function in the file.
+  //
+  // `const IV = randomBytes(16)` above a handler and `IV` inside it are the same value,
+  // and without this link the second is an identifier that resolves to nothing -- so a
+  // client, a key, a cache or a configuration object declared at the top of a file was
+  // invisible to dataflow everywhere it was actually used. The module is lowered first,
+  // which is what makes the map populated by the time the handlers below it are.
+  moduleScope: Map<ts.Symbol, string>,
 ): FunctionIR {
   const values: Value[] = [];
   const flows: Flow[] = [];
@@ -548,9 +561,12 @@ function lowerFunction(
     if (from && to) flows.push({ from, to, kind, loc });
   };
 
+  const isModule = ts.isSourceFile(node);
   const bind = (name: ts.Identifier, valueId: string): void => {
     const sym = checker.getSymbolAtLocation(name);
-    if (sym) bySymbol.set(sym, valueId);
+    if (!sym) return;
+    bySymbol.set(sym, valueId);
+    if (isModule) moduleScope.set(sym, valueId);
   };
 
   // Whether a name was declared outside the function being lowered. `let current` at a
@@ -768,7 +784,8 @@ function lowerFunction(
 
     if (ts.isIdentifier(expr)) {
       const sym = checker.getSymbolAtLocation(expr);
-      return sym ? bySymbol.get(sym) : undefined;
+      if (!sym) return undefined;
+      return bySymbol.get(sym) ?? moduleScope.get(sym);
     }
 
     if (ts.isPropertyAccessExpression(expr)) return lowerProperty(expr);

@@ -36,7 +36,10 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 	// shortcut has to know whether any such shape exists before it can take it.
 	callIsEnough := false
 	for _, shape := range m.CallShapes {
-		if shape.Always {
+		// A shape that reads a literal needs one; a shape that asks where an argument
+		// CAME FROM does not, and a call whose arguments are all variables is exactly the
+		// case it exists for.
+		if shape.Always || shape.ArgFromModuleScope != nil {
 			callIsEnough = true
 			break
 		}
@@ -50,6 +53,13 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 			}
 			for _, shape := range m.CallShapes {
 				if !targets(shape, c) {
+					continue
+				}
+				if shape.ArgFromModuleScope != nil {
+					if !boundAtModuleScope(ix, c, *shape.ArgFromModuleScope) {
+						continue
+					}
+					out = append(out, finding(ix, fn, c, shape, callName(c)))
 					continue
 				}
 				lit, ok := match(c, shape)
@@ -74,6 +84,23 @@ func keyIs(key, want string) bool {
 		key = key[i+1:]
 	}
 	return key == want
+}
+
+// boundAtModuleScope reports whether an argument resolves to a value the module owns --
+// computed once when the file loaded, and the same on every call afterwards.
+//
+// Only a DIRECT reference counts. Following it through assignments would start answering
+// a question about the value's history rather than about where it lives, and the two stop
+// agreeing as soon as a function copies it into a local.
+func boundAtModuleScope(ix *ir.Index, c *ir.Call, index int) bool {
+	for _, a := range c.Args {
+		if a.Index != index || a.ValueID == "" {
+			continue
+		}
+		owner := ix.OwnerOfValue[a.ValueID]
+		return owner != nil && owner.Name == "<module>"
+	}
+	return false
 }
 
 func targets(shape model.CallShape, c *ir.Call) bool {

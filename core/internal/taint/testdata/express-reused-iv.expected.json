@@ -1,0 +1,14 @@
+{
+  "corpus": "express-reused-iv",
+  "description": "One initialisation vector for the whole process. It has to be different for every message; bound at module scope it is computed once when the file loads, which is different for every PROCESS -- not the same thing, and it looks right at a glance because a random number was involved. Two messages under one key and one IV leak the XOR of their plaintexts, and in counter mode they leak it outright.",
+  "expected": [
+    {
+      "cwe": "CWE-323",
+      "sinkFile": "app.js",
+      "sinkLine": 15,
+      "sourceLabel": "\"crypto.createCipheriv()\"",
+      "confidence": "high",
+      "note": "asks where the argument was BOUND rather than what it says; the route below binds a new one per request and is silent"
+    }
+  ]
+}

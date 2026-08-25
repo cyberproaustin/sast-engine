@@ -293,6 +293,8 @@ var claims = map[string]Claim{
 	// anything in this file.
 	"CWE-1327": {State: Partial, Reason: "a server told to listen on every address the host has. On a laptop that is a demo; on a host with a second interface, a container in host-network mode, or a cloud instance with a public address, it is the difference between a service the application can reach and a service anybody can. Only an address written into the call: a host read from configuration is the correct way to do this and is not a literal. Measured across the clean corpus this matches once, in an end-to-end test helper",
 		By: []string{"bound-to-every-interface"}},
+	"CWE-323": {State: Partial, Reason: "an initialisation vector bound at MODULE scope, which is computed once when the file loads and reused for every message the process encrypts. Distinct from a literal IV, which CWE-1204 and CWE-329 already read: this is the version with no literal to read, and it looks correct at a glance because a random number was involved. Asks where the argument was bound rather than what it says, and only a direct reference counts -- following it through assignments would answer a question about the value's history instead of about where it lives",
+		By: []string{"reused-iv"}},
 	"CWE-359": {State: Partial, Reason: "a fact about a person that cannot be reissued -- a national identity number, a date of birth, a medical record -- reaching a log or a third party. Its own classification rather than more credentials, because a password gets rotated after it leaks and this does not. The vocabulary is short and specific: these names appear three times across 28 production repositories and two of those three are Passport, the authentication library, which is why the bare word is not on the list. A field this engine has no name for is a stated miss",
 		By: []string{"personal-information-logged", "personal-information-sent"}},
 	"CWE-488": {State: Partial, Reason: "one request's data assigned to a name bound outside the handler, which every later request reads back. The language rule is the whole evidence and there is no guessing in it: Python needs the name declared global and JavaScript needs it bound in an enclosing scope, and the same statement without either makes a local and touches nothing. A value stored in a module-level CONTAINER -- a dict, a Map -- is a cache and is not matched",
@@ -451,7 +453,7 @@ var groupedReasons = []struct {
 	{
 		reason: "a protocol or format the engine models no vocabulary for. Each would need the shape of a correct exchange written down -- which steps an authentication has, what a schema validates, what a nonce may not be reused across -- and this project builds a rule only where the source itself carries the answer",
 		ids: []string{"CWE-91", "CWE-112", "CWE-130", "CWE-150", "CWE-155", "CWE-182",
-			"CWE-183", "CWE-233", "CWE-289", "CWE-304", "CWE-322", "CWE-323", "CWE-325",
+			"CWE-183", "CWE-233", "CWE-289", "CWE-304", "CWE-322", "CWE-325",
 			"CWE-335", "CWE-394", "CWE-397", "CWE-474", "CWE-549", "CWE-1173"},
 	},
 	{
