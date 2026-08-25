@@ -70,6 +70,9 @@ var claims = map[string]Claim{
 	"CWE-1336": {Partial, "untrusted data reaching a call that COMPILES a template. Every engine described here exposes property access and method calls to the template text, which is why this ends in code execution rather than in mangled markup. A template loaded from disk and rendered WITH untrusted data is not this weakness and is not reported",
 		[]string{"untrusted-to-interpreter"}},
 
+	"CWE-611": {Partial, "untrusted data reaching an XML parser that resolves external entities. The two libraries described have opposite defaults and are treated accordingly: libxmljs resolves only when the call passes `noent`, so the call is read for it, while lxml's default parser resolves and is named outright. Nothing is claimed about parsers that are safe by default and can be made unsafe by configuration this engine cannot see",
+		[]string{"untrusted-to-xml-parser"}},
+
 	// Cookie attributes. Two of the three are claimed for an explicit downgrade AND for
 	// an omission; Secure is claimed only for the downgrade, because the correct idiom
 	// makes it conditional on the environment and a rule demanding a literal would report

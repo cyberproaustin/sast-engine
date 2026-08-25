@@ -124,6 +124,16 @@ type Channel struct {
 	// a map lookup and is far stronger evidence than any name.
 	RequiresUntrustedReceiver bool
 
+	// Qualifiers are conditions on the call's own literals that must hold for this to be
+	// a dangerous destination at all.
+	//
+	// An XML parser is the clear case. libxmljs resolves external entities only when
+	// asked -- `parseXmlString(data, {noent: true})` -- and the same call without that
+	// option is the safe way to parse XML. The destination is not dangerous by identity;
+	// it is dangerous by configuration, and the configuration is written right there in
+	// the call.
+	Qualifiers []ArgCondition
+
 	// RequiresComposition marks a channel that interprets a STATEMENT its caller built.
 	// The untrusted value must have been concatenated or interpolated into text on its
 	// way here; a value passed along whole is data being handed over, not a program
@@ -704,6 +714,45 @@ func Builtin() Model {
 			// interpreter and this is not injection: nothing is executed, a different
 			// file is simply opened than the one intended. Its own context and its own
 			// policy, because it is its own judgement.
+			// An XML parser that has been told to resolve entities will fetch and inline
+			// whatever a document names, which is how a document becomes a file read on
+			// the server. The option is the whole difference: libxmljs without `noent`
+			// is the safe way to parse XML, and this says nothing about it.
+			{
+				ID: "xml-parser", Visibility: "internal", Context: "xml",
+				Symbol: "libxmljs.parseXmlString", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				Qualifiers: []ArgCondition{{Keyword: "noent", AnyOf: []string{"true"}}},
+				CWE:        "CWE-611",
+				Rationale:  "parseXmlString() is asked to resolve entities with noent",
+			},
+			{
+				ID: "xml-parser", Visibility: "internal", Context: "xml",
+				Symbol: "libxmljs.parseXml", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				Qualifiers: []ArgCondition{{Keyword: "noent", AnyOf: []string{"true"}}},
+				CWE:        "CWE-611",
+				Rationale:  "parseXml() is asked to resolve entities with noent",
+			},
+			{
+				// lxml's default parser resolves entities, so on this one the absence of
+				// configuration IS the configuration.
+				ID: "xml-parser", Visibility: "internal", Context: "xml",
+				Symbol: "lxml.etree.fromstring", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-611",
+				Rationale: "lxml's default parser resolves entities",
+			},
+			{
+				ID: "xml-parser", Visibility: "internal", Context: "xml",
+				Symbol: "lxml.etree.XML", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-611",
+				Rationale: "lxml's default parser resolves entities",
+			},
+			{
+				ID: "xml-parser", Visibility: "internal", Context: "xml",
+				Symbol: "lxml.etree.parse", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-611",
+				Rationale: "lxml's default parser resolves entities",
+			},
+
 			// Where an uploaded file's BYTES come to rest. Separate from filesystem-path
 			// because the danger is different and so is the fix: traversal is about
 			// escaping a directory, and this is about what the file turns out to BE once
@@ -1314,6 +1363,18 @@ func Builtin() Model {
 				Reason:        "a caller must not be able to choose where this application sends a browser, because the application's own name is what makes the destination look trustworthy",
 				Finding:       "Untrusted input chooses a redirect destination",
 				CWE:           "CWE-601",
+			},
+			{
+				// An external entity reference is not deserialization and not injection: the
+				// document names a resource and the parser goes and gets it. Its own
+				// policy, because its own remedy -- turn entity resolution off.
+				ID:            "untrusted-to-xml-parser",
+				Class:         "untrusted-input",
+				DeniedContext: []string{"xml"},
+				Requires:      Requirements{Interprocedural: true},
+				Reason:        "a parser told to resolve entities will fetch whatever the document names, so a caller who supplies the document chooses what the server reads",
+				Finding:       "Untrusted XML parsed with entity resolution enabled",
+				CWE:           "CWE-611",
 			},
 			{
 				ID:            "untrusted-to-deserializer",

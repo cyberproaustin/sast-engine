@@ -613,6 +613,18 @@ func (e *engine) collect(all map[string]*engine, caps ir.Capabilities) []Finding
 					(c.ReceiverTypeOrigin == "builtin" || c.ReceiverTypeOrigin == "module") {
 					continue
 				}
+				// A destination that is only dangerous when configured to be. An XML
+				// parser resolves entities when asked and not otherwise.
+				skip := false
+				for _, q := range ch.Qualifiers {
+					if !q.Holds(c.ArgLiterals) {
+						skip = true
+						break
+					}
+				}
+				if skip {
+					continue
+				}
 				// A channel identified by what it is called on. `user.save()` and
 				// `uploaded.save(dest)` are the same method name and nothing else in
 				// common; only one of them is called on data the caller sent.

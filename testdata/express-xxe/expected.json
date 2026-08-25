@@ -1,0 +1,14 @@
+{
+  "corpus": "express-xxe",
+  "description": "A destination that is dangerous by configuration rather than by identity. libxmljs resolves external entities only when asked, so the same call is a finding with `noent: true` and silence without it -- which is why the parser is described with a condition on the call's own options rather than by name alone. Two of these three routes parse caller-supplied XML perfectly safely.",
+  "expected": [
+    {
+      "cwe": "CWE-611",
+      "sinkFile": "app.js",
+      "sinkLine": 9,
+      "sourceLabel": "req.body.xml",
+      "confidence": "high",
+      "note": "entity resolution is switched on in the call, so the document chooses what the server reads"
+    }
+  ]
+}
