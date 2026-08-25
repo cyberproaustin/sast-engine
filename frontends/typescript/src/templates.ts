@@ -84,24 +84,51 @@ function engineFor(fileName: string, moduleId: string): string | undefined {
 /**
  * An access path this frontend is willing to say it understands.
  *
- * `user.name` and `user["name"]` are a read of a field. `helper(user)` and `a ? b : c`
- * are not paths, and pretending they were would attach a finding to a value nobody can
- * point at. Anything that is not this shape is skipped.
+ * `user.name`, `user["name"]` and `items[0].name` are reads of a field. `helper(user)` and
+ * `a ? b : c` are not paths, and pretending they were would attach a finding to a value
+ * nobody can point at. Anything that is not this shape is skipped.
  */
-const PATH_ONLY = /^[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*|\[["'][^"'\]]+["']\])*$/;
+const PATH_ONLY = /^[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*|\[["'][^"'\]]+["']\]|\[\d+\])*$/;
 
-/** Strips template-engine filters, so `name | safe` reads as `name`. */
-function beforeFilter(expr: string): string {
+/** Values that are not reads of anything a render call supplied. */
+const NOT_A_READ = new Set(["null", "undefined", "true", "false", "none", "this"]);
+
+/**
+ * Bounded so a pathological file cannot make the scan quadratic.
+ *
+ * `"{{".repeat(100000)` with no closing brace makes an unbounded lazy span rescan to the
+ * end of the file from every opener. No real interpolation is anywhere near this long, so
+ * the cap costs nothing and removes the shape of a denial of service in a tool people are
+ * meant to run on code they did not write.
+ */
+const SPAN = "[\\s\\S]{0,400}?";
+
+/** Whitespace-control and trim markers, which belong to the delimiter and not to the expression. */
+function stripMarkers(expr: string): string {
+  return expr.replace(/^[-_~]+/, "").replace(/[-_~]+$/, "").trim();
+}
+
+/**
+ * The filter chain, for the engines that HAVE one.
+ *
+ * Only the Jinja-shaped engines use `|` as a filter separator. In EJS and Pug the same
+ * character is JavaScript's bitwise or, so splitting on it there would read `x | 0` as a
+ * read of `x` -- a different expression with a different value.
+ */
+function beforeFilter(expr: string, piped: boolean): string {
+  if (!piped) return expr.trim();
   const bar = expr.indexOf("|");
   return (bar === -1 ? expr : expr.slice(0, bar)).trim();
 }
 
-function normalizePath(expr: string): string | undefined {
-  const text = beforeFilter(expr);
-  if (!PATH_ONLY.test(text)) return undefined;
+function normalizePath(expr: string, piped = false): string | undefined {
+  const text = beforeFilter(stripMarkers(expr), piped);
+  if (!PATH_ONLY.test(text) || NOT_A_READ.has(text.toLowerCase())) return undefined;
   // `user["name"]` and `user.name` are one path, and every rule keyed on a leaf reads it
-  // the second way.
-  return text.replace(/\[["']([^"'\]]+)["']\]/g, ".$1");
+  // the second way. A numeric index is dropped rather than kept: this engine is not
+  // field-sensitive about array elements, and `items[0].name` and `items[3].name` are the
+  // same read as far as any rule here is concerned.
+  return text.replace(/\[["']([^"'\]]+)["']\]/g, ".$1").replace(/\[\d+\]/g, "");
 }
 
 /** Line and column of an offset, 1-based, for locations a reader can click. */
@@ -117,6 +144,22 @@ function positionOf(source: string, offset: number): { line: number; column: num
   return { line, column: offset - lineStart + 1 };
 }
 
+/**
+ * Blanks out regions that are not interpolations at all, keeping every other character in
+ * place so line and column numbers stay true.
+ *
+ * A raw block and a comment LOOK exactly like the syntax around them, which is the point
+ * of them: `{{{{raw}}}}{{{ x }}}{{{{/raw}}}}` prints three braces and reads nothing.
+ * Reporting that would be reporting a page's documentation of its own template language.
+ */
+function blankRegions(source: string, patterns: RegExp[]): string {
+  let out = source;
+  for (const re of patterns) {
+    out = out.replace(re, (m) => m.replace(/[^\n]/g, " "));
+  }
+  return out;
+}
+
 type Extractor = (source: string) => Interpolation[];
 
 /**
@@ -125,7 +168,7 @@ type Extractor = (source: string) => Interpolation[];
  */
 const extractEjs: Extractor = (source) => {
   const out: Interpolation[] = [];
-  const re = /<%(-|=)([\s\S]*?)%>/g;
+  const re = new RegExp(`<%(-|=)(${SPAN})%>`, "g");
   for (let m = re.exec(source); m; m = re.exec(source)) {
     const p = normalizePath(m[2]);
     if (!p) continue;
@@ -137,13 +180,16 @@ const extractEjs: Extractor = (source) => {
 /**
  * Handlebars and Mustache. `{{{ x }}}` and `{{& x}}` write raw HTML; `{{ x }}` escapes.
  * Block helpers (`{{#if}}`, `{{/if}}`, `{{else}}`) read nothing into the page and are
- * skipped by the path test rather than by a list of helper names, which would be wrong
- * at the first custom one.
+ * skipped by the path test rather than by a list of helper names, which would be wrong at
+ * the first custom one.
+ *
+ * A `{{{{raw}}}}` block prints its contents literally, so what is inside one is text.
  */
 const extractHandlebars: Extractor = (source) => {
   const out: Interpolation[] = [];
-  const re = /\{\{(\{)?\s*(&)?\s*([\s\S]*?)\s*(\})?\}\}/g;
-  for (let m = re.exec(source); m; m = re.exec(source)) {
+  const text = blankRegions(source, [/\{\{\{\{[\s\S]*?\{\{\{\{\/[\s\S]*?\}\}\}\}/g, /\{\{!(?:--)?[\s\S]*?\}\}/g]);
+  const re = new RegExp(`\\{\\{(\\{)?\\s*(&)?\\s*(${SPAN})\\s*(\\})?\\}\\}`, "g");
+  for (let m = re.exec(text); m; m = re.exec(text)) {
     const p = normalizePath(m[3]);
     if (!p) continue;
     const raw = m[1] === "{" || m[2] === "&";
@@ -154,46 +200,93 @@ const extractHandlebars: Extractor = (source) => {
 
 /**
  * Pug. `#{x}` and `= x` escape; `!{x}` and `!= x` do not.
+ *
+ * A line beginning with `-` is unbuffered code that prints nothing, and a line beginning
+ * with a control keyword is a statement rather than output — `while i != x` is not an
+ * unescaped interpolation, however much its `!=` looks like one.
  */
+const PUG_CONTROL = /^[ \t]*(-|\/\/|while\b|if\b|else\b|unless\b|each\b|for\b|case\b|when\b|mixin\b)/;
+
 const extractPug: Extractor = (source) => {
   const out: Interpolation[] = [];
-  const inline = /(!|#)\{([\s\S]*?)\}/g;
-  for (let m = inline.exec(source); m; m = inline.exec(source)) {
-    const p = normalizePath(m[2]);
-    if (!p) continue;
-    out.push({ path: p, escaped: m[1] === "#", ...positionOf(source, m.index) });
-  }
-  // The tag and its attributes, then `=` or `!=`, then the expression -- all on ONE line.
-  // The class deliberately excludes a newline: allowing one let the lazy part run back
-  // through earlier lines and report an interpolation at the top of the file.
-  const buffered = /^[ \t]*[\w.#\-[\]="' \t]*?(!?)=[ \t]*([^\n]+)$/gm;
-  for (let m = buffered.exec(source); m; m = buffered.exec(source)) {
-    const p = normalizePath(m[2]);
-    if (!p) continue;
-    out.push({ path: p, escaped: m[1] !== "!", ...positionOf(source, m.index) });
+  const lines = source.split("\n");
+  let offset = 0;
+  for (const line of lines) {
+    const lineStart = offset;
+    offset += line.length + 1;
+    if (PUG_CONTROL.test(line)) continue;
+
+    const inline = new RegExp(`(!|#)\\{(${SPAN})\\}`, "g");
+    for (let m = inline.exec(line); m; m = inline.exec(line)) {
+      const p = normalizePath(m[2]);
+      if (!p) continue;
+      out.push({ path: p, escaped: m[1] === "#", ...positionOf(source, lineStart + m.index) });
+    }
+    const buffered = /^[ \t]*[\w.#\-[\]="' \t]*?(!?)=[ \t]*(.+)$/.exec(line);
+    if (buffered) {
+      const p = normalizePath(buffered[2]);
+      if (p) out.push({ path: p, escaped: buffered[1] !== "!", ...positionOf(source, lineStart) });
+    }
   }
   return out;
 };
 
 /**
- * Nunjucks, Swig and Jinja-shaped engines. Autoescaping is on, so only an explicit
- * `| safe` opts out — which makes the filter the whole of the judgement.
+ * Nunjucks, Swig and Jinja-shaped engines. Autoescaping is on, so only an explicit `|safe`
+ * opts out — which makes the filter chain the whole of the judgement, and makes its ORDER
+ * part of it: `x|escape|safe` was escaped before it was marked safe, and is safe.
+ *
+ * `{% raw %}` and `{# ... #}` are text and a comment; an `{% autoescape false %}` block
+ * turns the default off for everything inside it, which is the one place a bare `{{ x }}`
+ * is unescaped.
  */
 const extractJinjaLike: Extractor = (source) => {
   const out: Interpolation[] = [];
-  const re = /\{\{([\s\S]*?)\}\}/g;
-  for (let m = re.exec(source); m; m = re.exec(source)) {
+  const text = blankRegions(source, [
+    /\{%-?\s*raw\s*-?%\}[\s\S]*?\{%-?\s*endraw\s*-?%\}/g,
+    /\{#[\s\S]*?#\}/g,
+  ]);
+  const unescapedRegions = autoescapeOffRegions(text);
+  const re = new RegExp(`\\{\\{(${SPAN})\\}\\}`, "g");
+  for (let m = re.exec(text); m; m = re.exec(text)) {
     const body = m[1];
-    const p = normalizePath(body);
+    const p = normalizePath(body, true);
     if (!p) continue;
-    out.push({ path: p, escaped: !isMarkedSafe(body), ...positionOf(source, m.index) });
+    const inOffBlock = unescapedRegions.some(([a, b]) => m.index >= a && m.index < b);
+    out.push({
+      path: p,
+      escaped: !inOffBlock && !isMarkedSafe(body),
+      ...positionOf(source, m.index),
+    });
   }
   return out;
 };
 
-/** `| safe`, `|safe`, `| e | safe` — the filter that turns escaping off. */
+/** Character ranges covered by an `{% autoescape false %}` block. */
+export function autoescapeOffRegions(source: string): Array<[number, number]> {
+  const out: Array<[number, number]> = [];
+  const open = /\{%-?\s*autoescape\s+(false|no|off|0)\s*-?%\}/gi;
+  for (let m = open.exec(source); m; m = open.exec(source)) {
+    const close = source.indexOf("endautoescape", m.index);
+    out.push([m.index, close === -1 ? source.length : close]);
+  }
+  return out;
+}
+
+/**
+ * Whether a filter chain leaves the value unescaped.
+ *
+ * String arguments are removed first, because `|default("|safe")` contains the filter's
+ * name inside a quoted default and means nothing by it. And an escaping filter appearing
+ * BEFORE `safe` settles the question the other way: the value was escaped, and `safe` only
+ * stops it being escaped a second time.
+ */
 export function isMarkedSafe(body: string): boolean {
-  return /\|\s*(safe|n)\b/.test(body) || /\bMarkup\s*\(/.test(body);
+  const chain = stripMarkers(body).replace(/(["'])(?:\\.|(?!\1)[^\\])*\1/g, "");
+  const safeAt = chain.search(/\|\s*safe\b/);
+  if (safeAt === -1) return /\bMarkup\s*\(/.test(chain);
+  const escapeAt = chain.search(/\|\s*(e|escape|forceescape|urlencode)\b/);
+  return escapeAt === -1 || escapeAt > safeAt;
 }
 
 const EXTRACTORS: Record<string, Extractor> = {
@@ -268,9 +361,9 @@ export function indexTemplates(rootDir: string): TemplateIndex {
  * finding pointing at the wrong file is worse than no finding (ADR-003).
  */
 export function resolveTemplate(index: TemplateIndex, name: string): Template | undefined {
+  // A traversal in a view name is not a view name. Express rejects one and so does this.
+  if (name.includes("..")) return undefined;
   const wanted = name.replace(/^\.?\//, "");
-  const direct = index.byPath.get(wanted);
-  if (direct) return direct;
 
   const matches: Template[] = [];
   for (const [p, t] of index.byPath) {
@@ -279,5 +372,11 @@ export function resolveTemplate(index: TemplateIndex, name: string): Template | 
       matches.push(t);
     }
   }
-  return matches.length === 1 ? matches[0] : undefined;
+  if (matches.length === 1) return matches[0];
+  // A view directory wins over a file of the same name elsewhere, because that is where
+  // the framework looks: `res.render("admin")` in a project holding both `admin.ejs` and
+  // `views/admin.ejs` renders the second one, and answering with the first would attach a
+  // finding to a file the application never renders.
+  const inViews = matches.filter((t) => VIEW_DIRECTORIES.test(t.moduleId));
+  return inViews.length === 1 ? inViews[0] : undefined;
 }
