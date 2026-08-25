@@ -323,6 +323,7 @@
           "argLiterals": {
             "-1": "timeout=5",
             "-2": "headers=?",
+            "-1001": "headers.accept=json",
             "-3": "verify=false"
           },
           "enumeratedOptions": [
@@ -620,6 +621,192 @@
           "loc": {
             "file": "app.py",
             "line": 30,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#fetch_nested:33",
+      "name": "fetch_nested",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 33,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "url",
+          "valueId": "app.py#fetch_nested:33$v0"
+        },
+        {
+          "index": 1,
+          "name": "session",
+          "valueId": "app.py#fetch_nested:33$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#fetch_nested:33$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 18
+          },
+          "name": "url"
+        },
+        {
+          "id": "app.py#fetch_nested:33$v1",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 23
+          },
+          "name": "session"
+        },
+        {
+          "id": "app.py#fetch_nested:33$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 28
+          },
+          "literal": "GET"
+        },
+        {
+          "id": "app.py#fetch_nested:33$v3",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 44
+          },
+          "name": "{dict}"
+        },
+        {
+          "id": "app.py#fetch_nested:33$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 55
+          },
+          "literal": "false"
+        },
+        {
+          "id": "app.py#fetch_nested:33$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 80
+          },
+          "literal": "false"
+        },
+        {
+          "id": "app.py#fetch_nested:33$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 12
+          },
+          "name": "session.request"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#fetch_nested:33$v4",
+          "to": "app.py#fetch_nested:33$v3",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 44
+          }
+        },
+        {
+          "from": "app.py#fetch_nested:33$v5",
+          "to": "app.py#fetch_nested:33$v3",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 44
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#fetch_nested:33$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "session.request",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#fetch_nested:33$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#fetch_nested:33$v0"
+            },
+            {
+              "index": 2,
+              "valueId": "app.py#fetch_nested:33$v3"
+            }
+          ],
+          "resultValueId": "app.py#fetch_nested:33$v6",
+          "block": "app.py#fetch_nested:33$b0",
+          "method": "request",
+          "argCount": 3,
+          "argLiterals": {
+            "0": "GET",
+            "-1": "ssl=?",
+            "-1001": "ssl.verify=false",
+            "-1002": "ssl.check_hostname=false"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#fetch_nested:33$v1"
+        }
+      ],
+      "returns": [
+        "app.py#fetch_nested:33$v6"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#fetch_nested:33$b0",
+      "blocks": [
+        {
+          "id": "app.py#fetch_nested:33$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#fetch_nested:33$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 42,
             "column": 5
           }
         }

@@ -39,28 +39,50 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 				if !operatorMatches(rule, cmp.Op) {
 					continue
 				}
-				carrying := byClass[rule.Class]
-				if carrying.Values == nil {
-					continue
-				}
-				// Either side. `role === "admin"` and `"admin" === role` are the same
-				// decision, and which way round it was written is not evidence of
-				// anything.
+				// A rule with no class is about the COMPARISON, not about what is being
+				// compared, so there is no classified side to find and either side may
+				// carry the literal.
+				var carrying taint.Classified
 				side, other := "", ""
-				switch {
-				case carrying.Values[cmp.Left]:
+				if rule.Class == "" {
 					side, other = cmp.Left, cmp.Right
-				case carrying.Values[cmp.Right]:
-					side, other = cmp.Right, cmp.Left
-				default:
-					continue
+					if rule.OtherIsText && !isText(ix.ValueByID[other]) {
+						side, other = cmp.Right, cmp.Left
+					}
+				} else {
+					carrying = byClass[rule.Class]
+					if carrying.Values == nil {
+						continue
+					}
+					// Either side. `role === "admin"` and `"admin" === role` are the same
+					// decision, and which way round it was written is not evidence of
+					// anything.
+					switch {
+					case carrying.Values[cmp.Left]:
+						side, other = cmp.Left, cmp.Right
+					case carrying.Values[cmp.Right]:
+						side, other = cmp.Right, cmp.Left
+					default:
+						continue
+					}
 				}
 				// A rule about a THRESHOLD needs the threshold, and a comparison against
 				// something computed at runtime has none to read.
 				if rule.OtherBelow != nil && !numberBelow(ix.ValueByID[other], *rule.OtherBelow) {
 					continue
 				}
-				out = append(out, finding(ix, fn, cmp, rule, carrying.Origin[side]))
+				if rule.OtherIsText && !isText(ix.ValueByID[other]) {
+					continue
+				}
+				o := carrying.Origin[side]
+				// A rule with no class has no source to name, so the evidence is the
+				// literal that was compared -- which is the whole of what was written.
+				if rule.Class == "" {
+					if v := ix.ValueByID[other]; v != nil && v.Literal != "" {
+						o.Label = fmt.Sprintf("%q", v.Literal)
+					}
+				}
+				out = append(out, finding(ix, fn, cmp, rule, o))
 			}
 		}
 	}
@@ -76,6 +98,19 @@ func numberBelow(v *ir.Value, threshold int) bool {
 	}
 	n, err := strconv.Atoi(strings.TrimSpace(v.Literal))
 	return err == nil && n < threshold
+}
+
+// isText reports whether a value is a STRING written into the source. A number is
+// written the same way and is not one: `x is 5` is a different question with a different
+// answer, and small integers are interned where strings are not.
+func isText(v *ir.Value) bool {
+	if v == nil || v.Kind != ir.ValueLiteral || v.Literal == "" {
+		return false
+	}
+	if _, err := strconv.ParseFloat(strings.TrimSpace(v.Literal), 64); err == nil {
+		return false
+	}
+	return v.Literal != "true" && v.Literal != "false" && v.Literal != "null" && v.Literal != "None"
 }
 
 // operatorMatches reports whether this rule cares about the operator used. A rule that
