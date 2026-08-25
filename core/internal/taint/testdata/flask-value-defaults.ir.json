@@ -240,7 +240,7 @@
             "line": 13,
             "column": 12
           },
-          "name": "unresolved"
+          "name": "flask.request.args.get"
         },
         {
           "id": "app.py#search:10$v5",
@@ -381,8 +381,9 @@
             "column": 12
           },
           "callee": {
-            "kind": "unresolved",
-            "resolution": "dynamic-unresolved"
+            "kind": "external",
+            "symbol": "flask.request.args.get",
+            "resolution": "probable"
           },
           "args": [
             {
@@ -524,7 +525,7 @@
             "line": 21,
             "column": 17
           },
-          "name": "unresolved"
+          "name": "flask.request.args.get"
         },
         {
           "id": "app.py#walrus:19$v4",
@@ -655,8 +656,9 @@
             "column": 17
           },
           "callee": {
-            "kind": "unresolved",
-            "resolution": "dynamic-unresolved"
+            "kind": "external",
+            "symbol": "flask.request.args.get",
+            "resolution": "probable"
           },
           "args": [
             {
@@ -1068,7 +1070,7 @@
             "line": 37,
             "column": 12
           },
-          "name": "unresolved"
+          "name": "flask.request.args.get"
         },
         {
           "id": "app.py#parameterized:35$v5",
@@ -1199,8 +1201,9 @@
             "column": 12
           },
           "callee": {
-            "kind": "unresolved",
-            "resolution": "dynamic-unresolved"
+            "kind": "external",
+            "symbol": "flask.request.args.get",
+            "resolution": "probable"
           },
           "args": [
             {

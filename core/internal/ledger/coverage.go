@@ -37,7 +37,7 @@ var claims = map[string]Claim{
 		[]string{"untrusted-to-outbound-destination"}},
 	"CWE-502": {Partial, "untrusted data reaching a deserializer that reconstructs objects rather than parsing data; yaml.safe_load and JSON.parse are deliberately not described because they build data and never behaviour",
 		[]string{"untrusted-to-deserializer"}},
-	"CWE-601": {Partial, "untrusted data forming the WHOLE destination of a redirect; a path within the application cannot leave it and is not reported",
+	"CWE-601": {Partial, "untrusted data forming the WHOLE destination of a redirect; a path within the application cannot leave it and is not reported. Applications very often validate a redirect target with a helper of their own or behind an `is_safe_url` check, and whether such a check is CORRECT is not something this engine can decide -- it does not model guards at all, so those report rather than being cleared, and in a frontend without types they land below the gating tier rather than above it",
 		[]string{"untrusted-to-redirect"}},
 	"CWE-328": {Partial, "a broken hash algorithm named as a literal in the call; an algorithm chosen at runtime is not matched and not guessed at",
 		[]string{"weak-hash"}},

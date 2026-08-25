@@ -242,6 +242,19 @@ class ModuleLowerer:
             else:
                 continue
 
+            # An error handler is reached by making a request that fails, which is
+            # something any caller can do on purpose. It reads the request object like
+            # any other handler, and a vulnerable Flask application interpolates
+            # `request.url` into a template inside one. Treating it as unreachable left
+            # a real template injection in the unanchored section, where nothing gates.
+            if attr == "errorhandler":
+                return {
+                    "functionId": function_id,
+                    "kind": "http-route",
+                    "framework": framework,
+                    "detail": {"method": "ANY", "path": "<error handler>"},
+                }
+
             if attr not in ("route", "expose", "get", "post", "put", "patch", "delete"):
                 continue
 
@@ -788,6 +801,49 @@ class FunctionLowerer:
                 "symbol": f"{func.value.id}.{func.attr}",
                 "resolution": "probable",
             }
+
+        # A chain of attributes: `db.engine.execute(...)`, `self.db.session.execute(...)`,
+        # `app.config.get(...)`. Only a one-level `a.b()` was handled, so anything deeper
+        # fell through to unresolved -- which is a hole rather than a judgement, and it
+        # cost every such sink its confidence. A vulnerable Flask application's SQL
+        # injection read LOW for no reason except the number of dots in front of it.
+        if isinstance(func, ast.Attribute):
+            parts: list[str] = []
+            cur: ast.AST = func
+            while isinstance(cur, ast.Attribute):
+                parts.append(cur.attr)
+                cur = cur.value
+            if isinstance(cur, ast.Name):
+                parts.append(cur.id)
+                parts.reverse()
+                root = self.mod.imports.get(parts[0])
+                if root:
+                    # RESOLVED only one attribute deep. `flask.redirect` is the imported
+                    # thing itself; `flask.request.args.get` is two attribute accesses
+                    # past it, on values whose types this frontend does not have and
+                    # cannot get. Calling that resolved is claiming to know that `.get`
+                    # here is the dict method, and the whole reason confidence exists is
+                    # to avoid claims like that (ADR-005).
+                    #
+                    # Measured: treating it as resolved put ten findings from four clean
+                    # Flask applications into the gating tier, and almost every one was a
+                    # redirect the application validates -- through its own helper, or
+                    # behind an `is_safe_url` check the engine can see and cannot
+                    # evaluate.
+                    return {
+                        "kind": "external",
+                        "symbol": ".".join([root, *parts[1:]]),
+                        "resolution": "resolved" if len(parts) <= 2 else "probable",
+                    }
+                # PROBABLE, not resolved: what `db.engine` IS cannot be established
+                # without types, and this frontend has none. The name is evidence and
+                # not proof, which is what costs confidence rather than pretending
+                # (ADR-005).
+                return {
+                    "kind": "external",
+                    "symbol": ".".join(parts),
+                    "resolution": "probable",
+                }
 
         return {"kind": "unresolved", "resolution": "dynamic-unresolved"}
 

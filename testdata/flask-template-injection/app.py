@@ -19,6 +19,14 @@ def hello_safe():
     return render_template("hello.html", name=request.args["name"])
 
 
+@app.errorhandler(404)
+def not_found(e):
+    # POSITIVE, and reachable: any caller can ask for a page that does not exist. An
+    # error handler reads the request like any other handler, and the URL it echoes back
+    # is the caller's.
+    return render_template_string("<h1>Not found: " + request.url + "</h1>"), 404
+
+
 @app.route("/greeting")
 def greeting():
     # NEGATIVE. A template compiled from a literal.

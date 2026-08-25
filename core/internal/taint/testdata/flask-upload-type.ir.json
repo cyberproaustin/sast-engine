@@ -247,7 +247,7 @@
             "line": 17,
             "column": 12
           },
-          "name": "unresolved"
+          "name": "os.path.join"
         },
         {
           "id": "app.py#upload:12$v10",
@@ -364,8 +364,9 @@
             "column": 12
           },
           "callee": {
-            "kind": "unresolved",
-            "resolution": "dynamic-unresolved"
+            "kind": "external",
+            "symbol": "os.path.join",
+            "resolution": "probable"
           },
           "args": [
             {
@@ -531,7 +532,7 @@
             "line": 25,
             "column": 12
           },
-          "name": "unresolved"
+          "name": "os.path.join"
         },
         {
           "id": "app.py#upload_raw:22$v8",
@@ -614,8 +615,9 @@
             "column": 12
           },
           "callee": {
-            "kind": "unresolved",
-            "resolution": "dynamic-unresolved"
+            "kind": "external",
+            "symbol": "os.path.join",
+            "resolution": "probable"
           },
           "args": [
             {
@@ -818,7 +820,7 @@
             "line": 34,
             "column": 12
           },
-          "name": "unresolved"
+          "name": "os.path.join"
         },
         {
           "id": "app.py#upload_generated:30$v12",
@@ -976,8 +978,9 @@
             "column": 12
           },
           "callee": {
-            "kind": "unresolved",
-            "resolution": "dynamic-unresolved"
+            "kind": "external",
+            "symbol": "os.path.join",
+            "resolution": "probable"
           },
           "args": [
             {

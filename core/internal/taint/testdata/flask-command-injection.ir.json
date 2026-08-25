@@ -156,7 +156,7 @@
             "line": 12,
             "column": 12
           },
-          "name": "unresolved"
+          "name": "flask.request.args.get"
         },
         {
           "id": "app.py#ping:9$v4",
@@ -210,8 +210,9 @@
             "column": 12
           },
           "callee": {
-            "kind": "unresolved",
-            "resolution": "dynamic-unresolved"
+            "kind": "external",
+            "symbol": "flask.request.args.get",
+            "resolution": "probable"
           },
           "args": [
             {
