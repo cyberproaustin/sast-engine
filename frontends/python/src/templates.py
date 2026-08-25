@@ -47,8 +47,8 @@ _NOT_A_READ = {"none", "true", "false", "loop", "self"}
 # closing brace would otherwise rescan to the end of the file from every opener, and no
 # real interpolation is anywhere near this long.
 _INTERPOLATION = re.compile(r"\{\{(.{0,400}?)\}\}", re.S)
-_RAW_BLOCK = re.compile(r"\{%-?\s*raw\s*-?%\}.*?\{%-?\s*endraw\s*-?%\}", re.S)
-_COMMENT = re.compile(r"\{#.*?#\}", re.S)
+_RAW_OPEN = re.compile(r"\{%-?\s*raw\s*-?%\}")
+_RAW_CLOSE = re.compile(r"\{%-?\s*endraw\s*-?%\}")
 _AUTOESCAPE_OFF = re.compile(r"\{%-?\s*autoescape\s+(?:false|no|off|0)\s*-?%\}", re.I)
 _STRING_ARG = re.compile(r"(['\"])(?:\\.|(?!\1)[^\\])*\1")
 _SAFE_FILTER = re.compile(r"\|\s*safe\b")
@@ -106,17 +106,45 @@ def _is_marked_safe(body: str) -> bool:
     return escape is None or escape.start() > safe.start()
 
 
-def _blank(source: str, patterns) -> str:
+def _blank_span(source: str, start: int, stop: int) -> str:
+    """One region blanked, with newlines kept so line numbers stay true."""
+    return source[:start] + re.sub(r"[^\n]", " ", source[start:stop]) + source[stop:]
+
+
+def _blank(source: str) -> str:
     """Blanks out regions that are not interpolations, keeping every other character in
     place so line and column numbers stay true.
 
     `{% raw %}` prints its contents literally and `{# ... #}` prints nothing at all, which
     is the point of both: reporting what is inside one would be reporting a page's
     documentation of its own template language.
+
+    Scanned linearly rather than matched with a span between two delimiters. A lazy span
+    rescans from every opener, so an unclosed one repeated across a file costs one scan of
+    the rest of the file each time -- and a template is the one input a scanner reads that
+    an attacker may have written.
     """
     out = source
-    for pattern in patterns:
-        out = pattern.sub(lambda m: re.sub(r"[^\n]", " ", m.group(0)), out)
+    i = 0
+    while True:
+        m = _RAW_OPEN.search(out, i)
+        if m is None:
+            break
+        close = _RAW_CLOSE.search(out, m.end())
+        if close is None:
+            break
+        out = _blank_span(out, m.start(), close.end())
+        i = close.end()
+    i = 0
+    while True:
+        start = out.find("{#", i)
+        if start == -1:
+            break
+        end = out.find("#}", start + 2)
+        if end == -1:
+            break
+        out = _blank_span(out, start, end + 2)
+        i = end + 2
     return out
 
 
@@ -131,7 +159,7 @@ def _autoescape_off_regions(source: str) -> list[tuple[int, int]]:
 
 
 def parse_template(module: str, source: str) -> Template:
-    text = _blank(source, (_RAW_BLOCK, _COMMENT))
+    text = _blank(source)
     off = _autoescape_off_regions(text)
     reads = []
     for m in _INTERPOLATION.finditer(text):
