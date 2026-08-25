@@ -260,6 +260,10 @@ type Result struct {
 type Classified struct {
 	Values map[string]bool
 	Origin map[string]Origin
+	// Seeds are the values where the classification ENTERED the program, as opposed to
+	// everywhere it subsequently reached. A rule about the classified thing itself --
+	// rather than about anything a program later computed from it -- asks this.
+	Seeds map[string]bool
 	// Projected marks a value that was read OUT of a structure the classification
 	// reached, rather than being the classified value itself.
 	//
@@ -433,7 +437,11 @@ func Analyze(d *ir.IR, m model.Model) Result {
 				}
 			}
 		}
-		res.ByClass[name] = Classified{Values: e.tainted, Origin: origins, Projected: proj}
+		seeds := make(map[string]bool, len(e.seeds))
+		for id := range e.seeds {
+			seeds[id] = true
+		}
+		res.ByClass[name] = Classified{Values: e.tainted, Origin: origins, Projected: proj, Seeds: seeds}
 	}
 
 	seen := map[string]bool{}

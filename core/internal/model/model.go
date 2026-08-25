@@ -5274,6 +5274,15 @@ type DecisionRule struct {
 	// source and is not matched.
 	OtherBelow *int
 
+	// OtherAtLeast requires that same number to be at least this, which is how a
+	// THRESHOLD is told from a PRESENCE test.
+	//
+	// `password.length > 0` and `secret.length !== 0` ask whether anything was sent at
+	// all, and every application asks it. A policy that admits a short password is a
+	// comparison against a small number that is not zero or one, and directus's
+	// `client_secret.length > 0` is the reason this is written down.
+	OtherAtLeast *int
+
 	// OtherIsText requires the other side to be a string written into the source.
 	OtherIsText bool
 
@@ -5285,6 +5294,18 @@ type DecisionRule struct {
 	// token was involved in producing the session does not make a tenant id a secret.
 	// Four findings in one production repository were exactly that.
 	RequiresUnprojected bool
+
+	// SideVia narrows to a classified side that is a particular DERIVATION of the
+	// classified value, named by the property leaf or the function that produced it.
+	//
+	// A password policy is about the password's LENGTH. `password.length < 6` and
+	// `len(password) < 6` are the check; `password[0] < 'a'` and `parts.length < 6` on
+	// something a password was involved in producing are not, and once a request value
+	// reaches a library it is involved in producing a great many things. Measured on the
+	// clean corpus without this, one directus route sent a password into the permissions
+	// engine and produced 51 findings, every one of them a length check on something
+	// else.
+	SideVia []string
 
 	// OtherNotSameClass forbids the judgement when BOTH sides carry the classification.
 	//
@@ -5315,10 +5336,11 @@ func builtinDecisions() []DecisionRule {
 	return []DecisionRule{
 		{
 			ID: "caller-decides-own-authority", Class: "caller-asserted-authority", Ops: equality,
-			CWE:       "CWE-807",
-			Finding:   "Security decision made on the caller's own claim",
-			Reason:    "a field the caller sent is a statement the caller made about themselves, and a branch that trusts it lets them choose which branch runs",
-			Rationale: "the comparison decides on a value that arrived in the request",
+			RequiresUnprojected: true,
+			CWE:                 "CWE-807",
+			Finding:             "Security decision made on the caller's own claim",
+			Reason:              "a field the caller sent is a statement the caller made about themselves, and a branch that trusts it lets them choose which branch runs",
+			Rationale:           "the comparison decides on a value that arrived in the request",
 		},
 		{
 			// A password policy that permits a short password. What makes this decidable
@@ -5329,11 +5351,14 @@ func builtinDecisions() []DecisionRule {
 			// Only ordering comparisons, and only against a small number. `len(password)
 			// > 72` is bcrypt's maximum and the same shape read the other way.
 			ID: "weak-password-policy", Class: "caller-credential",
-			Ops: []string{"<", "<=", ">", ">=", "Lt", "LtE", "Gt", "GtE"}, OtherBelow: atLeast(8),
-			CWE:       "CWE-521",
-			Finding:   "Password policy admits a password shorter than eight characters",
-			Reason:    "a password this short can be guessed offline in minutes once the hashes leak, and the length the policy admits is the length people will use",
-			Rationale: "the caller's password is measured against a number written in the source",
+			Ops:          []string{"<", "<=", ">", ">=", "Lt", "LtE", "Gt", "GtE"},
+			SideVia:      []string{"length", "len", "size"},
+			OtherBelow:   atLeast(8),
+			OtherAtLeast: atLeast(2),
+			CWE:          "CWE-521",
+			Finding:      "Password policy admits a password shorter than eight characters",
+			Reason:       "a password this short can be guessed offline in minutes once the hashes leak, and the length the policy admits is the length people will use",
+			Rationale:    "the caller's password is measured against a number written in the source",
 		},
 		{
 			// `password is "admin"` asks whether two strings are the same OBJECT. Python
@@ -5375,26 +5400,29 @@ func builtinDecisions() []DecisionRule {
 			// whatever the sender wrote there. A browser sends it, a script omits it, and
 			// anything at all can forge it.
 			ID: "referer-decides-access", Class: "referer", Ops: equality,
-			CWE:       "CWE-293",
-			Finding:   "Access decided on the Referer header",
-			Reason:    "the Referer is written by whoever made the request, so a check against it is a check the caller can pass by choosing what to write",
-			Rationale: "the comparison decides on a header the caller controls",
+			RequiresUnprojected: true,
+			CWE:                 "CWE-293",
+			Finding:             "Access decided on the Referer header",
+			Reason:              "the Referer is written by whoever made the request, so a check against it is a check the caller can pass by choosing what to write",
+			Rationale:           "the comparison decides on a header the caller controls",
 		},
 		{
 			// A reverse lookup answers with whatever the owner of the ADDRESS block put
 			// in the PTR record, and that is not the owner of the name it gives back.
 			ID: "reverse-dns-decides-access", Class: "reverse-dns-name", Ops: equality,
-			CWE:       "CWE-350",
-			Finding:   "Access decided on a reverse DNS name",
-			Reason:    "a reverse lookup returns what the address's owner chose to publish, which is not evidence of who they are",
-			Rationale: "the comparison decides on the result of a reverse lookup",
+			RequiresUnprojected: true,
+			CWE:                 "CWE-350",
+			Finding:             "Access decided on a reverse DNS name",
+			Reason:              "a reverse lookup returns what the address's owner chose to publish, which is not evidence of who they are",
+			Rationale:           "the comparison decides on the result of a reverse lookup",
 		},
 		{
 			ID: "cookie-decides-authority", Class: "cookie-asserted-authority", Ops: equality,
-			CWE:       "CWE-565",
-			Finding:   "Security decision made on a cookie",
-			Reason:    "a cookie is a value the browser was handed and hands back, and getting it back is no evidence it came from here or came back unchanged",
-			Rationale: "the comparison decides on a cookie the caller returned",
+			RequiresUnprojected: true,
+			CWE:                 "CWE-565",
+			Finding:             "Security decision made on a cookie",
+			Reason:              "a cookie is a value the browser was handed and hands back, and getting it back is no evidence it came from here or came back unchanged",
+			Rationale:           "the comparison decides on a cookie the caller returned",
 		},
 	}
 }
@@ -5420,6 +5448,12 @@ type StoreRule struct {
 	// NotPath excludes keys another rule already claims, so two rules can describe the
 	// same destination at different granularities without reporting one line twice.
 	NotPath []string
+	// RequiresUnprojected forbids the judgement for a value read OUT of something the
+	// classification reached. `accountability.admin = userGlobalAccess.admin` writes a
+	// field of what a server-side lookup returned, and that the lookup was once handed a
+	// request does not make its answer the caller's.
+	RequiresUnprojected bool
+
 	// RequiresEntryFunction narrows a rule to writes that happen INSIDE a request
 	// handler, rather than anywhere the data happens to reach.
 	//
@@ -5474,7 +5508,8 @@ func builtinStores() []StoreRule {
 			// Distinct from mass assignment, which is the caller supplying keys nobody
 			// enumerated. Here the application enumerated one, and picked the wrong one.
 			ID: "caller-sets-own-privilege", Class: "caller-asserted-authority",
-			Path: authorityNames,
+			Path:                authorityNames,
+			RequiresUnprojected: true,
 			// A session is the trust-boundary rule's subject and it reports the same
 			// line under CWE-501, which says the sharper thing about it: what makes a
 			// session dangerous is that everything downstream reads it back as
@@ -5497,6 +5532,7 @@ func builtinStores() []StoreRule {
 			ID: "request-data-into-process-state", Class: "untrusted-input",
 			IntoScope:             "process",
 			RequiresEntryFunction: true,
+			RequiresUnprojected:   true,
 			CWE:                   "CWE-488",
 			Finding:               "One request's data written into state the whole process shares",
 			Reason:                "every request this process handles reads the same variable, so what one caller put there is what the next caller gets",
