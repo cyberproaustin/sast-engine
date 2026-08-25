@@ -1,0 +1,30 @@
+{
+  "corpus": "express-error-in-page",
+  "description": "Failure detail written into a page. Not subsumed by ordinary cross-site scripting even though it sits beneath it, and the difference is the SOURCE: an error message is where a program repeats back what it was given, and this engine classifies failure detail separately from caller input precisely so it can tell them apart. The negative is the same value in an escaped slot -- still failure detail on a page, reported separately and under its own number, because the two are different weaknesses with different remedies.",
+  "expected": [
+    {
+      "cwe": "CWE-81",
+      "sinkFile": "views/error.ejs",
+      "sinkLine": 2,
+      "sourceLabel": "err",
+      "confidence": "high",
+      "note": "failure detail written into an unescaped slot. The finding lands on the TEMPLATE line, not on the handler that rendered it"
+    },
+    {
+      "cwe": "CWE-209",
+      "sinkFile": "views/error.ejs",
+      "sinkLine": 2,
+      "sourceLabel": "err",
+      "confidence": "high",
+      "note": "the same line read a second time: it is script AND it describes the system to people outside it, and escaping fixes only the first"
+    },
+    {
+      "cwe": "CWE-209",
+      "sinkFile": "views/error-escaped.ejs",
+      "sinkLine": 2,
+      "sourceLabel": "err",
+      "confidence": "high",
+      "note": "the escaped slot, and the reason the two readings are separate: no script here, and the failure detail is on the page either way"
+    }
+  ]
+}

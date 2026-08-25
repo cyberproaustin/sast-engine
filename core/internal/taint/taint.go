@@ -1458,9 +1458,12 @@ func (e *engine) buildFinding(c *ir.Call, ch model.Channel, p model.Policy, arg 
 	}
 	path = append(path, sinkHop)
 
-	// The channel names the weakness when it determines it; otherwise the policy does.
+	// The channel names the weakness when the DESTINATION is what decides it -- untrusted
+	// input is CWE-89 at a database and CWE-79 in markup -- and the policy names it when
+	// the CLASS is (ADR-012). Failure detail leaving the system is the same weakness
+	// whether the page escaped it or not.
 	cwe := p.CWE
-	if ch.CWE != "" {
+	if ch.CWE != "" && !p.ClassNamesTheWeakness {
 		cwe = ch.CWE
 	}
 

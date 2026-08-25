@@ -47,7 +47,8 @@ var claims = map[string]Claim{
 		By:       []string{"untrusted-to-interpreter"},
 		Subsumes: true,
 	},
-	"CWE-81": {State: NotBuilt, Reason: "script reaching a page through an ERROR message rather than through caller-supplied input. Not subsumed by CWE-79 even though it sits beneath it: what distinguishes it is the SOURCE, and this engine classifies error detail separately from caller input precisely so it can tell them apart. A rule would pair the error class with the markup channel"},
+	"CWE-81": {State: Asserted, Reason: "failure detail reaching a markup channel. Not subsumed by CWE-79 even though it sits beneath it: what distinguishes it is the SOURCE, and this engine classifies error detail separately from caller input precisely so it can tell them apart -- an error message is where a program repeats back what it was given, which is how the message becomes script",
+		By: []string{"error-detail-into-markup"}},
 	"CWE-209": {State: Partial, Reason: "caught error detail reaching a channel visible outside the system; cannot judge whether a message is generic enough",
 		By: []string{"internal-detail-outward"}},
 	// Subsumes CWE-566, which is the same weakness with the record's identifier being a
