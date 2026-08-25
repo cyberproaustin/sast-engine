@@ -52,6 +52,7 @@ var corpora = []string{
 	"flask-value-defaults",
 	"express-xxe",
 	"express-mass-assignment",
+	"express-weak-kdf",
 	"flask-xxe",
 }
 

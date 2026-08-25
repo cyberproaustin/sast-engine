@@ -15,6 +15,7 @@
 package model
 
 import (
+	"strconv"
 	"strings"
 
 	"github.com/cyberproaustin/sast-engine/core/internal/ir"
@@ -267,6 +268,9 @@ type SanitizerRule struct {
 
 // arg is a pointer to an argument index, for the optional condition above.
 func arg(i int) *int { return &i }
+
+// atLeast is a pointer to a threshold, for a shape that matches values below it.
+func atLeast(i int) *int { return &i }
 
 // Clears reports whether this transform neutralizes a value for a channel context.
 func (s SanitizerRule) Clears(context string) bool {
@@ -1691,6 +1695,11 @@ func (a ArgCondition) Holds(literals map[int]string) bool {
 			return false
 		}
 	}
+	// No AnyOf means "any literal that survived the vetoes". A condition can then say
+	// what a value must NOT be without having to enumerate what it may be.
+	if len(a.AnyOf) == 0 {
+		return true
+	}
 	for _, want := range a.AnyOf {
 		want = strings.ToLower(want)
 		if lit == want || (a.Substring && strings.Contains(lit, want)) {
@@ -1724,6 +1733,15 @@ type CallShape struct {
 	// says nothing about a value computed at runtime, and says nothing loudly rather
 	// than guessing.
 	Disallowed []string
+	// BelowValue matches when the argument is a NUMBER written in the call and smaller
+	// than this. A work factor is the case that needs it: `bcrypt.hash(pw, 4)` is wrong
+	// for a reason no list of forbidden strings can express, and the answer is a
+	// threshold rather than an enumeration.
+	//
+	// A value computed at runtime is not a number written in the call and is not
+	// matched, which keeps this at the precision that makes the kind worth having.
+	BelowValue *int
+
 	// AnyLiteral matches when the argument was written as a literal at all, whatever it
 	// says. For an argument that is supposed to hold a secret, being written down IS the
 	// defect and its contents are beside the point -- and the same test is what makes it
@@ -1786,6 +1804,10 @@ type CallShape struct {
 
 // Matches reports whether a literal argument value is one this shape forbids.
 func (c CallShape) Matches(literal string) bool {
+	if c.BelowValue != nil {
+		n, err := strconv.Atoi(strings.TrimSpace(literal))
+		return err == nil && n < *c.BelowValue
+	}
 	if c.AnyLiteral {
 		return true
 	}
@@ -1821,6 +1843,84 @@ func builtinCallShapes() []CallShape {
 	}
 
 	return []CallShape{
+		// --- key derivation and IVs -------------------------------------------------
+		// A work factor is wrong for a reason no list of forbidden strings can express,
+		// so these are thresholds. The numbers are the floors below which the parameter
+		// is doing no work worth the name, not the values anybody should ship: bcrypt at
+		// 10 is the library default, and PBKDF2 guidance has been climbing for a decade
+		// and is far above 100,000 now. Being at the floor is not a finding, because a
+		// rule that fires on current guidance would fire on every codebase forever and
+		// be turned off within the week.
+		{
+			ID: "weak-password-hash", Symbol: "bcrypt.hash", ArgIndex: 1, BelowValue: atLeast(10),
+			CWE:          "CWE-916",
+			Finding:      "Password hash with too little work",
+			Reason:       "a password hash is only as good as the time it costs to compute, and below this the cost is small enough that guessing the whole password space is practical",
+			DependsOnUse: "a work factor is only too low for a LOW-ENTROPY input, and the call does not say what it was given: lnbits derives a key from an already-random 32-byte secret with 2048 iterations, which is fine, and reads identically to hashing a password with 2048 iterations, which is not",
+			Rationale:    "the second argument to hash() is the cost factor",
+		},
+		{
+			ID: "weak-password-hash", Symbol: "bcrypt.hashSync", ArgIndex: 1, BelowValue: atLeast(10),
+			CWE:          "CWE-916",
+			Finding:      "Password hash with too little work",
+			Reason:       "a password hash is only as good as the time it costs to compute, and below this the cost is small enough that guessing the whole password space is practical",
+			DependsOnUse: "a work factor is only too low for a LOW-ENTROPY input, and the call does not say what it was given: lnbits derives a key from an already-random 32-byte secret with 2048 iterations, which is fine, and reads identically to hashing a password with 2048 iterations, which is not",
+			Rationale:    "the second argument to hashSync() is the cost factor",
+		},
+		{
+			ID: "weak-password-hash", Symbol: "bcrypt.genSalt", ArgIndex: 0, BelowValue: atLeast(10),
+			CWE:          "CWE-916",
+			Finding:      "Password hash with too little work",
+			Reason:       "a password hash is only as good as the time it costs to compute, and below this the cost is small enough that guessing the whole password space is practical",
+			DependsOnUse: "a work factor is only too low for a LOW-ENTROPY input, and the call does not say what it was given: lnbits derives a key from an already-random 32-byte secret with 2048 iterations, which is fine, and reads identically to hashing a password with 2048 iterations, which is not",
+			Rationale:    "genSalt() is given the cost factor",
+		},
+		{
+			ID: "weak-password-hash", Symbol: "bcrypt.genSaltSync", ArgIndex: 0, BelowValue: atLeast(10),
+			CWE:          "CWE-916",
+			Finding:      "Password hash with too little work",
+			Reason:       "a password hash is only as good as the time it costs to compute, and below this the cost is small enough that guessing the whole password space is practical",
+			DependsOnUse: "a work factor is only too low for a LOW-ENTROPY input, and the call does not say what it was given: lnbits derives a key from an already-random 32-byte secret with 2048 iterations, which is fine, and reads identically to hashing a password with 2048 iterations, which is not",
+			Rationale:    "genSaltSync() is given the cost factor",
+		},
+		{
+			ID: "weak-password-hash", Symbol: "crypto.pbkdf2", ArgIndex: 2, BelowValue: atLeast(100000),
+			CWE:          "CWE-916",
+			Finding:      "Password hash with too little work",
+			Reason:       "a password hash is only as good as the time it costs to compute, and below this the cost is small enough that guessing the whole password space is practical",
+			DependsOnUse: "a work factor is only too low for a LOW-ENTROPY input, and the call does not say what it was given: lnbits derives a key from an already-random 32-byte secret with 2048 iterations, which is fine, and reads identically to hashing a password with 2048 iterations, which is not",
+			Rationale:    "the third argument to pbkdf2() is the iteration count",
+		},
+		{
+			ID: "weak-password-hash", Symbol: "crypto.pbkdf2Sync", ArgIndex: 2, BelowValue: atLeast(100000),
+			CWE:          "CWE-916",
+			Finding:      "Password hash with too little work",
+			Reason:       "a password hash is only as good as the time it costs to compute, and below this the cost is small enough that guessing the whole password space is practical",
+			DependsOnUse: "a work factor is only too low for a LOW-ENTROPY input, and the call does not say what it was given: lnbits derives a key from an already-random 32-byte secret with 2048 iterations, which is fine, and reads identically to hashing a password with 2048 iterations, which is not",
+			Rationale:    "the third argument to pbkdf2Sync() is the iteration count",
+		},
+		{
+			ID: "weak-password-hash", Symbol: "hashlib.pbkdf2_hmac", ArgIndex: 3, BelowValue: atLeast(100000),
+			CWE:          "CWE-916",
+			Finding:      "Password hash with too little work",
+			Reason:       "a password hash is only as good as the time it costs to compute, and below this the cost is small enough that guessing the whole password space is practical",
+			DependsOnUse: "a work factor is only too low for a LOW-ENTROPY input, and the call does not say what it was given: lnbits derives a key from an already-random 32-byte secret with 2048 iterations, which is fine, and reads identically to hashing a password with 2048 iterations, which is not",
+			Rationale:    "the fourth argument to pbkdf2_hmac() is the iteration count",
+		},
+		{
+			// An initialisation vector must be unpredictable and must not repeat. Written
+			// into the source it is both predictable and reused on every single message,
+			// which for CBC leaks whether two plaintexts start alike and for CTR is
+			// catastrophic. Matched on having been WRITTEN DOWN, exactly as a hardcoded
+			// key is: what it says does not matter.
+			ID: "predictable-iv", Symbol: "crypto.createCipheriv", ArgIndex: 2, AnyLiteral: true,
+			Qualifiers: []ArgCondition{{ArgIndex: 2, NoneOf: []string{"null", "undefined"}}},
+			CWE:        "CWE-329",
+			Finding:    "Initialisation vector written into the source",
+			Reason:     "an IV must be unpredictable and must never repeat, and one written down is both predictable and reused on every message",
+			Rationale:  "the third argument to createCipheriv() is the IV",
+		},
+
 		// --- cookie attributes ------------------------------------------------------
 		// Two shapes per weakness, because the two ecosystems spell options differently
 		// and the difference is real: JavaScript passes an object, Python passes keyword

@@ -76,6 +76,11 @@ var claims = map[string]Claim{
 	"CWE-915": {Partial, "the caller's object handed to a record writer WHOLE rather than field by field, which is a question about structure in the same way SQL injection is a question about text: a value that became a FIELD of something is not the caller's object. Matched only where the symbol leaves no room for doubt. `update`, `create` and `save` were tried and withdrawn -- `save` is what an uploaded file is written with, `update` is already how a record is selected by its identifier, and a dictionary has all three -- so ORM-specific spellings of this weakness are a stated miss",
 		[]string{"untrusted-to-record-fields"}},
 
+	"CWE-916": {Partial, "a password-hash work factor written into the call and below the floor at which it does any work worth the name. Reported and never gating: a work factor is only too low for a LOW-ENTROPY input, and the call does not carry what it was given -- deriving a key from an already-random secret with a small count is correct and reads identically. Deciding it properly means knowing the input is a password, which is a flow question this kind cannot answer alone. The thresholds are floors and deliberately not current guidance -- bcrypt at 10 is the library default -- because a rule that fired on current guidance would fire on every codebase forever and be switched off. A work factor read from configuration is not a number in the call and is not matched",
+		[]string{"weak-password-hash"}},
+	"CWE-329": {Partial, "an initialisation vector written into the source, matched on having been written down rather than on what it says, exactly as a hardcoded key is. An IV must be unpredictable and must never repeat, and one in the source is both predictable and reused on every message",
+		[]string{"predictable-iv"}},
+
 	// Cookie attributes. Two of the three are claimed for an explicit downgrade AND for
 	// an omission; Secure is claimed only for the downgrade, because the correct idiom
 	// makes it conditional on the environment and a rule demanding a literal would report
