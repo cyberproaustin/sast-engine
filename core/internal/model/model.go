@@ -1004,6 +1004,42 @@ func Builtin() Model {
 				CWE:       "CWE-502",
 				Rationale: "yaml.load constructs Python objects unless given a safe loader",
 			},
+			{
+				ID: "object-deserializer", Visibility: "internal", Context: "deserialize",
+				Symbol: "yaml.unsafe_load", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-502",
+				Rationale: "the name is the documentation: this loader constructs whatever the document names",
+			},
+			{
+				ID: "object-deserializer", Visibility: "internal", Context: "deserialize",
+				Symbol: "yaml.full_load", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-502",
+				Rationale: "the full loader constructs arbitrary Python objects",
+			},
+			{
+				ID: "object-deserializer", Visibility: "internal", Context: "deserialize",
+				Symbol: "marshal.loads", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-502",
+				Rationale: "marshal reads code objects and validates nothing about the format",
+			},
+			{
+				ID: "object-deserializer", Visibility: "internal", Context: "deserialize",
+				Symbol: "jsonpickle.decode", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-502",
+				Rationale: "jsonpickle reconstructs objects by importing the classes the document names",
+			},
+			{
+				ID: "object-deserializer", Visibility: "internal", Context: "deserialize",
+				Symbol: "dill.loads", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-502",
+				Rationale: "dill extends pickle and reconstructs arbitrary objects the same way",
+			},
+			{
+				ID: "object-deserializer", Visibility: "internal", Context: "deserialize",
+				Symbol: "shelve.open", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-502",
+				Rationale: "a shelf is a pickle file, so opening one the caller named unpickles what it holds",
+			},
 
 			// Where an outbound request GOES, as opposed to what it carries. The same
 			// axios.post is two different destinations depending on which argument is
@@ -2032,6 +2068,28 @@ func Builtin() Model {
 			// was described here and could never match anything, which is a rule that
 			// looks like coverage and is not -- found by auditing the symbol list against
 			// the libraries rather than by anything failing.
+			// An archive the caller supplied, unpacked. Every entry in it names its own
+			// destination, so an entry called `../../etc/cron.d/x` writes there -- the
+			// path traversal is inside the file rather than in the call, which is why the
+			// question here is what the archive IS rather than what the path says.
+			//
+			// The receiver is the evidence and the dataflow already answers it: `zip_ref`
+			// came out of ZipFile(uploaded), so asking whether the thing being extracted
+			// is caller-supplied costs a map lookup.
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Method: "extractall", ReceiverIsEntryParam: -1,
+				RequiresUntrustedReceiver: true,
+				CWE:                       "CWE-22",
+				Rationale:                 "every entry in an archive names where it goes, and this archive came from the caller",
+			},
+			{
+				ID: "filesystem-path", Visibility: "internal", Context: "path",
+				Method: "extract", ReceiverIsEntryParam: -1,
+				RequiresUntrustedReceiver: true,
+				CWE:                       "CWE-22",
+				Rationale:                 "the entry being extracted names where it goes, and this archive came from the caller",
+			},
 			{
 				ID: "filesystem-path", Visibility: "internal", Context: "path",
 				Symbol: "fs.readFile", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
@@ -2401,6 +2459,33 @@ func Builtin() Model {
 				Symbol: "Function", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
 				CWE:       "CWE-95",
 				Rationale: "the Function constructor compiles its argument as program source",
+			},
+			{
+				// A sandbox that is not one. `vm` isolates the global object and nothing
+				// else: code inside it reaches back out through constructors and
+				// prototypes, which the module's own documentation says outright.
+				ID: "code-interpreter", Visibility: "internal", Context: "code",
+				Symbol: "vm.runInNewContext", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-95",
+				Rationale: "runInNewContext() compiles and runs its argument as program source",
+			},
+			{
+				ID: "code-interpreter", Visibility: "internal", Context: "code",
+				Symbol: "vm.runInThisContext", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-95",
+				Rationale: "runInThisContext() runs its argument in this process's own global scope",
+			},
+			{
+				ID: "code-interpreter", Visibility: "internal", Context: "code",
+				Symbol: "vm.compileFunction", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-95",
+				Rationale: "compileFunction() compiles its argument as a function body",
+			},
+			{
+				ID: "code-interpreter", Visibility: "internal", Context: "code",
+				Symbol: "vm.Script", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-95",
+				Rationale: "a Script is compiled from its argument as program source",
 			},
 			{
 				ID: "code-interpreter", Visibility: "internal", Context: "code",
@@ -4180,6 +4265,17 @@ func builtinCallShapes() []CallShape {
 			// Serving a directory that was never meant to be public. `express.static(".")`
 			// hands over the whole project: the .env file, the .git directory, the
 			// backups somebody left in the root, the source itself.
+			// The same handler told to serve the files a directory listing would hide.
+			// `.env`, `.git` and `.npmrc` are dotfiles, and serving them is serving the
+			// credentials in them.
+			ID: "world-readable-root", Symbol: "express.static", Keyword: "dotfiles",
+			Disallowed: []string{"allow"},
+			CWE:        "CWE-552",
+			Finding:    "A directory served whole to anyone who asks",
+			Reason:     "the files this option un-hides are the ones that hold credentials: the environment file, the version control directory, the package registry token",
+			Rationale:  "dotfiles are served rather than ignored",
+		},
+		{
 			ID: "world-readable-root", Symbol: "express.static", ArgIndex: 0,
 			Disallowed: []string{".", "./", "/", "..", "../", "/home", "/etc", "/root", "/var"},
 			CWE:        "CWE-552",

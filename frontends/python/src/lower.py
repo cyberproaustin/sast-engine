@@ -467,6 +467,25 @@ class FunctionLowerer:
                     self.note_local_type(target, None, node.value)
             return
 
+        # `with open(path) as fh:` is how Python opens anything, and the call sat in a
+        # place the statement walk never reached: the context expression is not a
+        # statement, so the generic recursion walked past it into its children and the
+        # call was never lowered at all. Every rule about what a program opens, connects
+        # to or unpacks was blind to the spelling the language recommends.
+        if isinstance(node, (ast.With, ast.AsyncWith)):
+            for item in node.items:
+                src = self.expr(item.context_expr)
+                target = item.optional_vars
+                if isinstance(target, ast.Name):
+                    vid = self.new_value("local", node, name=target.id)
+                    self.scope[target.id] = vid
+                    if self.is_module:
+                        self.mod.module_scope[target.id] = vid
+                    self.add_flow(src, vid, "assign", node)
+            for stmt in node.body:
+                self.walk(stmt)
+            return
+
         if isinstance(node, (ast.Global, ast.Nonlocal)):
             self.declared_global.update(node.names)
             return
