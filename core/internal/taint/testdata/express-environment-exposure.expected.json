@@ -1,0 +1,22 @@
+{
+  "corpus": "express-environment-exposure",
+  "description": "The third structural question, after composition and enclosure: was something READ OUT of this value on the way here? The environment is where a process keeps its secrets, and handing it over whole hands over all of them -- but one variable published deliberately is ordinary, and a rule that could not tell the difference would report the ordinary case. The IR already recorded a property read as its own flow kind, so asking needed no new fact.",
+  "expected": [
+    {
+      "cwe": "CWE-497",
+      "sinkFile": "app.js",
+      "sinkLine": 8,
+      "sourceLabel": "process.env",
+      "confidence": "medium",
+      "note": "the whole environment reaches the response body"
+    },
+    {
+      "cwe": "CWE-497",
+      "sinkFile": "app.js",
+      "sinkLine": 13,
+      "sourceLabel": "process.env",
+      "confidence": "medium",
+      "note": "wrapping it in an object changes nothing about what is in it"
+    }
+  ]
+}

@@ -138,6 +138,9 @@ var claims = map[string]Claim{
 	"CWE-1236": {State: Partial, Reason: "untrusted data written into a CSV a spreadsheet will later interpret, where a cell beginning with a formula character runs on the machine of whoever opens it. The named writers only, and nothing is claimed about whether the application prefixes cells to defuse them, because no such convention is modelled",
 		By: []string{"untrusted-to-spreadsheet"}},
 
+	"CWE-497": {State: Partial, Reason: "the process environment reaching a response body or an outbound request WHOLE. One variable published on purpose is ordinary and is not reported: the classification is the environment itself, not anything read out of it, and a value that was projected on its way to the sink is excluded again there. Only the environment; a configuration object an application builds itself is not described",
+		By: []string{"environment-outward"}},
+
 	// Cookie attributes. Two of the three are claimed for an explicit downgrade AND for
 	// an omission; Secure is claimed only for the downgrade, because the correct idiom
 	// makes it conditional on the environment and a rule demanding a literal would report

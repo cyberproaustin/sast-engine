@@ -51,6 +51,15 @@ type SourceRule struct {
 	ParamIndex int
 	Paths      []string
 
+	// ExactPath seeds only the path itself and not anything read out of it.
+	//
+	// `request.args` and `request.args.name` are both caller-supplied, so the usual
+	// prefix match is right there. `process.env` and `process.env.AWS_REGION` are not
+	// the same thing at all: one is every secret the process holds and the other is a
+	// value the application chose to publish, and treating the second as the first
+	// reports every application that puts its region in a health check.
+	ExactPath bool
+
 	// MatchValueKind
 	ValueKind string
 
@@ -209,6 +218,17 @@ type Policy struct {
 
 	DeniedVisibility []string
 	DeniedContext    []string
+
+	// RequiresUnprojected forbids the pairing only for the WHOLE structure, not for
+	// something read out of it.
+	//
+	// `res.json(process.env)` hands over every secret the process was started with.
+	// `res.json({region: process.env.AWS_REGION})` hands over one value the application
+	// chose to publish, and applications publish configuration on purpose all the time.
+	// The difference is a property read, which the IR already records as its own flow
+	// kind -- so this is the third structural question after composition and enclosure,
+	// and it needed no new fact to ask.
+	RequiresUnprojected bool
 
 	// RequiresRelationTo permits the pairing only when the handler relates the value
 	// to data of another class — the difference between "this must never happen" and
@@ -524,6 +544,28 @@ func Builtin() Model {
 					Match:     MatchValueKind,
 					ValueKind: "catch-param",
 				}},
+			},
+			{
+				// The environment a process was started with is where its secrets are:
+				// database URLs, API keys, signing keys. It is also where its harmless
+				// configuration is, which is why the policy asks for the whole structure
+				// rather than for anything read out of it.
+				Class: "system-information",
+				Label: "the environment this process was started with",
+				Rules: []SourceRule{
+					{
+						Match:     MatchGlobalProperty,
+						Symbol:    "process",
+						Paths:     []string{"env"},
+						ExactPath: true,
+					},
+					{
+						Match:     MatchGlobalProperty,
+						Symbol:    "os",
+						Paths:     []string{"environ"},
+						ExactPath: true,
+					},
+				},
 			},
 		},
 
@@ -1608,6 +1650,20 @@ func Builtin() Model {
 				Reason:        "a caller must not be able to choose which file the application opens",
 				Finding:       "Untrusted input chooses a file path",
 				CWE:           "CWE-22",
+			},
+			{
+				// Not the same judgement as an error message reaching a caller, though
+				// they land in the same place: an error describes one failure, and the
+				// environment is the whole set of secrets the process holds. Handing over
+				// a single variable on purpose is ordinary and is not this.
+				ID:                  "environment-outward",
+				Class:               "system-information",
+				DeniedVisibility:    []string{"public", "thirdparty"},
+				RequiresUnprojected: true,
+				Requires:            Requirements{Interprocedural: true},
+				Reason:              "the environment holds every secret the process was started with, so handing it out whole hands out all of them",
+				Finding:             "Process environment exposed",
+				CWE:                 "CWE-497",
 			},
 			{
 				ID:               "internal-detail-outward",

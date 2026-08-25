@@ -690,6 +690,18 @@ function lowerFunction(
     return cur;
   };
 
+  // The value standing for a global, one per name per function.
+  const globals = new Map<string, string>();
+  const globalBase = (name: ts.Identifier): string | undefined => {
+    if (imports.has(name.text)) return undefined;
+    if (resolveFunction(name)) return undefined;
+    const cached = globals.get(name.text);
+    if (cached) return cached;
+    const id = newValue("global", locOf(sf, name), { name: name.text });
+    globals.set(name.text, id);
+    return id;
+  };
+
   const lowerProperty = (node2: ts.PropertyAccessExpression): string | undefined => {
     const segments: string[] = [];
     let cur: ts.Expression = node2;
@@ -702,7 +714,15 @@ function lowerFunction(
     if (!ts.isIdentifier(cur)) return undefined;
 
     const sym = checker.getSymbolAtLocation(cur);
-    const baseId = sym ? bySymbol.get(sym) : undefined;
+    let baseId = sym ? bySymbol.get(sym) : undefined;
+    if (!baseId) {
+      // A name with no local binding and no import is a GLOBAL, and some globals hold
+      // things worth tracking: `process.env` is where a process keeps every secret it
+      // was started with. Created only as the base of a property access, because that
+      // is the only shape a rule describes a global in -- lowering every unresolved
+      // identifier would fill the IR with `console` and `JSON` for nothing.
+      baseId = globalBase(cur);
+    }
     if (!baseId) return undefined;
 
     const dotted = segments.join(".");
