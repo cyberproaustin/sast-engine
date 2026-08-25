@@ -1322,7 +1322,40 @@ func (e *engine) functionsOnPath(valueID string, sink *ir.Function) []*ir.Functi
 // method calls (`res.status(500).json(x)`) and reports which entry-point parameter it
 // originates from, or -1.
 func (e *engine) receiverRootParam(c *ir.Call) int {
-	id := c.ReceiverID
+	return e.rootParamOf(c.ReceiverID, 0)
+}
+
+// passedAt returns the value every call site of this function passes at one parameter
+// position, or "" when they disagree or there are none.
+func (e *engine) passedAt(fn *ir.Function, index, depth int) string {
+	if depth >= 3 {
+		return ""
+	}
+	var agreed string
+	for _, site := range e.ix.CallSitesOf[fn.ID] {
+		var passed string
+		for _, a := range site.Args {
+			if a.Index == index {
+				passed = a.ValueID
+			}
+		}
+		if passed == "" {
+			return ""
+		}
+		if agreed == "" {
+			agreed = passed
+			continue
+		}
+		// Different values are fine as long as they answer the same question.
+		if e.rootParamOf(agreed, depth+1) != e.rootParamOf(passed, depth+1) {
+			return ""
+		}
+	}
+	return agreed
+}
+
+func (e *engine) rootParamOf(start string, depth int) int {
+	id := start
 	for hops := 0; hops < 8 && id != ""; hops++ {
 		v := e.ix.ValueByID[id]
 		if v == nil {
@@ -1334,15 +1367,34 @@ func (e *engine) receiverRootParam(c *ir.Call) int {
 			if fn == nil {
 				return -1
 			}
-			if _, isEntry := e.ix.EntryByFunc[fn.ID]; !isEntry {
-				return -1
-			}
+			index := -1
 			for _, p := range fn.Params {
 				if p.ValueID == id {
-					return p.Index
+					index = p.Index
 				}
 			}
-			return -1
+			if index < 0 {
+				return -1
+			}
+			if _, isEntry := e.ix.EntryByFunc[fn.ID]; isEntry {
+				return index
+			}
+			// A parameter of a HELPER. `adminLoginSuccess(redirectPage, session,
+			// username, res)` is how a handler that got long gets shorter, and the
+			// response object is a value like any other -- but a channel that asks
+			// "is this the entry point's second parameter" stopped at the call boundary
+			// and answered no, so `res.redirect()` inside the helper was not a response
+			// at all. An open redirect in the vulnerable corpus is written exactly that
+			// way.
+			//
+			// Answered from the CALL SITES: whatever they pass at this position is what
+			// the parameter is. Agreement is required, so a helper called once from a
+			// route and once from a command-line entry says nothing rather than guessing.
+			next := e.passedAt(fn, index, depth)
+			if next == "" {
+				return -1
+			}
+			id = next
 		case ir.ValueCallResult:
 			prev := e.callByResult[id]
 			if prev == nil {
