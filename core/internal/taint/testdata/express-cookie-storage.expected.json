@@ -1,0 +1,30 @@
+{
+  "corpus": "express-cookie-storage",
+  "description": "A cookie is storage on a machine the application does not control. The two storage findings are the same call with and without an expiry, and exactly one fires for each: a condition can now require a named option to be ABSENT, which is what stops a persistent cookie reporting twice under two numbers. Whether the value is signed or sealed is not decidable from the call, so an encrypted cookie reports too, and the ledger says so rather than guessing.",
+  "expected": [
+    {
+      "cwe": "CWE-548",
+      "sinkFile": "app.js",
+      "sinkLine": 8,
+      "sourceLabel": "\"serve-index.default()\"",
+      "confidence": "high",
+      "note": "the file names in a directory become a published map of it"
+    },
+    {
+      "cwe": "CWE-315",
+      "sinkFile": "app.js",
+      "sinkLine": 13,
+      "sourceLabel": "req.body.password",
+      "confidence": "medium",
+      "note": "a credential stored in the browser and sent on every request"
+    },
+    {
+      "cwe": "CWE-539",
+      "sinkFile": "app.js",
+      "sinkLine": 20,
+      "sourceLabel": "req.body.password",
+      "confidence": "medium",
+      "note": "the expiry makes it survive the browser closing"
+    }
+  ]
+}

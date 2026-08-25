@@ -975,6 +975,41 @@ func Builtin() Model {
 				Rationale:  "the destination is written into the call as a plaintext URL",
 			},
 
+			// The VALUE of a cookie. Whatever goes here is stored on a machine the
+			// application does not control, sent on every request, and readable by
+			// anything with access to the browser profile.
+			{
+				ID: "cookie-store", Visibility: "public", Context: "cookie-store",
+				Method: "cookie", ReceiverIsEntryParam: 1, ArgIndex: []int{1},
+				Qualifiers: []ArgCondition{{Keyword: "maxAge", Absent: true}},
+				CWE:        "CWE-315",
+				Rationale:  "the second argument to cookie() is the value stored in the browser",
+			},
+			{
+				ID: "cookie-store", Visibility: "public", Context: "cookie-store",
+				Method: "set_cookie", ReceiverIsEntryParam: -1, ArgIndex: []int{1},
+				Qualifiers: []ArgCondition{{Keyword: "max_age", Absent: true}},
+				CWE:        "CWE-315",
+				Rationale:  "the second argument to set_cookie() is the value stored in the browser",
+			},
+			{
+				// The same value with an expiry on it, which is what makes the cookie
+				// PERSISTENT: it survives the browser closing and sits on disk until the
+				// date passes.
+				ID: "persistent-cookie-store", Visibility: "public", Context: "cookie-persist",
+				Method: "cookie", ReceiverIsEntryParam: 1, ArgIndex: []int{1},
+				Qualifiers: []ArgCondition{{Keyword: "maxAge"}},
+				CWE:        "CWE-539",
+				Rationale:  "the cookie is given an expiry, so it is written to disk rather than held for the session",
+			},
+			{
+				ID: "persistent-cookie-store", Visibility: "public", Context: "cookie-persist",
+				Method: "set_cookie", ReceiverIsEntryParam: -1, ArgIndex: []int{1},
+				Qualifiers: []ArgCondition{{Keyword: "max_age"}},
+				CWE:        "CWE-539",
+				Rationale:  "the cookie is given an expiry, so it is written to disk rather than held for the session",
+			},
+
 			// Where an operator can read it later. A log is not a secret store: it is
 			// copied to aggregators, shipped to vendors, and kept long after the thing it
 			// describes is gone.
@@ -1853,14 +1888,32 @@ func Builtin() Model {
 				CWE:           "CWE-319",
 			},
 			{
+				// A cookie is storage on a machine the application does not control. A
+				// credential put there is sent on every request and readable by anything
+				// with access to the browser profile, and an expiry makes it survive the
+				// browser closing.
+				ID:                  "credential-in-cookie",
+				Class:               "caller-credential",
+				DeniedContext:       []string{"cookie-store", "cookie-persist"},
+				RequiresUnprojected: true,
+				Requires:            Requirements{Interprocedural: true},
+				Reason:              "a credential stored in a cookie sits on a machine the application does not control and is sent on every request to it",
+				Finding:             "Credential stored in a cookie",
+				CWE:                 "CWE-315",
+			},
+			{
 				// Echoed back to whoever sent it. Narrower than it sounds, and precisely
 				// because the class is a credential the CALLER SENT: a login endpoint
 				// returning a freshly issued token is returning something it generated,
 				// which is the entire point of a login endpoint and is not this. This is
 				// `res.json(req.body)` on a form that had a password in it.
-				ID:                  "credential-echoed",
-				Class:               "caller-credential",
-				DeniedVisibility:    []string{"public"},
+				ID:    "credential-echoed",
+				Class: "caller-credential",
+				// The response BODY by context rather than by visibility. A cookie is
+				// public too, and putting a credential in one is a different judgement
+				// with a different remedy -- naming visibility here made every cookie
+				// finding report twice under two numbers.
+				DeniedContext:       []string{"http-response", "html"},
 				RequiresUnprojected: true,
 				Requires:            Requirements{Interprocedural: true},
 				Reason:              "a credential the caller sent must not come back in the response, where it reaches proxies, caches and browser history that had no reason to hold it",
@@ -2132,6 +2185,12 @@ type ArgCondition struct {
 	// Substring matches when the literal CONTAINS one of AnyOf rather than equalling
 	// it, which is what makes `connect.sid` and `refresh_token` both read as credentials.
 	Substring bool
+	// Absent holds when the named option is NOT set at all, which is how two channels
+	// can describe the same call and exactly one of them match. A session cookie and a
+	// persistent one are the same call with and without an expiry, and reporting both
+	// would double every cookie finding.
+	Absent bool
+
 	// NotLiteral holds when the argument was NOT written as a literal, which is how a
 	// call can prove a value is not a secret.
 	//
@@ -2159,6 +2218,18 @@ type ArgCondition struct {
 func (a ArgCondition) Holds(literals map[int]string) bool {
 	var lit string
 	var ok bool
+	if a.Absent {
+		want := strings.ToLower(a.Keyword)
+		for i, l := range literals {
+			if i >= 0 {
+				continue
+			}
+			if key, _, cut := strings.Cut(l, "="); cut && strings.ToLower(key) == want {
+				return false
+			}
+		}
+		return true
+	}
 	if a.NotLiteral {
 		lit, written := literals[a.ArgIndex]
 		// A value the frontend could not read is not a value that was written down.
@@ -2726,6 +2797,23 @@ func builtinCallShapes() []CallShape {
 			Finding:    "Certificate hostname not checked",
 			Reason:     "without a hostname check the connection accepts any valid certificate, not the one belonging to the host it is talking to",
 			Rationale:  "check_hostname is set to False",
+		},
+
+		{
+			// Serving an index means publishing the file NAMES, which is a map of
+			// everything in the directory including whatever was left there.
+			ID: "directory-listing", Symbol: "serve-index", Always: true,
+			CWE:       "CWE-548",
+			Finding:   "Directory listing served",
+			Reason:    "publishing the file names in a directory publishes a map of everything in it, including whatever was left there by accident",
+			Rationale: "serve-index generates a listing for a directory",
+		},
+		{
+			ID: "directory-listing", Symbol: "serve-index.default", Always: true,
+			CWE:       "CWE-548",
+			Finding:   "Directory listing served",
+			Reason:    "publishing the file names in a directory publishes a map of everything in it, including whatever was left there by accident",
+			Rationale: "serve-index generates a listing for a directory",
 		},
 
 		// --- files and permissions --------------------------------------------------

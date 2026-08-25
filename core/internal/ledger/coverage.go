@@ -175,6 +175,13 @@ var claims = map[string]Claim{
 	"CWE-757": {State: Partial, Reason: "an obsolete TLS version named in the call, either requested outright or accepted as a floor. Only versions written as literals; a version read from configuration is not matched, and nothing is claimed about what a peer actually negotiates",
 		By: []string{"obsolete-tls"}},
 
+	"CWE-315": {State: Partial, Reason: "a credential the caller sent stored as a cookie VALUE, which puts it on a machine the application does not control and sends it on every subsequent request. Whether the value is encrypted is not decidable from the call, so a signed or sealed cookie reports too -- stated rather than guessed at",
+		By: []string{"credential-in-cookie"}},
+	"CWE-539": {State: Partial, Reason: "the same value in a cookie carrying an EXPIRY, which is what makes it persistent: it survives the browser closing and sits on disk until the date passes. The expiry option must be written in the call",
+		By: []string{"credential-in-cookie"}},
+	"CWE-548": {State: Partial, Reason: "a directory listing served by the one middleware that generates them. Publishing file names publishes a map of everything in the directory, including whatever was left there. Nothing is claimed about a listing an application builds itself",
+		By: []string{"directory-listing"}},
+
 	// Cookie attributes. Two of the three are claimed for an explicit downgrade AND for
 	// an omission; Secure is claimed only for the downgrade, because the correct idiom
 	// makes it conditional on the environment and a rule demanding a literal would report
