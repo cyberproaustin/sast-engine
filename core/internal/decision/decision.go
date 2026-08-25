@@ -140,8 +140,10 @@ func numberBelow(v *ir.Value, threshold int) bool {
 	if v == nil || v.Kind != ir.ValueLiteral || v.Literal == "" {
 		return false
 	}
-	n, err := strconv.Atoi(strings.TrimSpace(v.Literal))
-	return err == nil && n < threshold
+	// Parsed as a real rather than an integer: `len(password) < 6.0` is below eight, and
+	// an integer parse rejects it outright.
+	n, err := strconv.ParseFloat(strings.TrimSpace(v.Literal), 64)
+	return err == nil && n < float64(threshold)
 }
 
 // derivedVia reports whether a value is a named derivation of something else: a property
