@@ -29,11 +29,18 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 
 	var out []taint.Finding
 	for _, fn := range d.Functions {
+		servesRequest := reachedFromEntry(ix, fn)
 		for _, w := range fn.Writes {
 			if w.From == "" {
 				continue
 			}
 			for _, rule := range m.Stores {
+				// "Did this value come from a request" and "did this line run while
+				// serving one" are different questions, and only the second one makes a
+				// write into shared state a cross-request leak.
+				if rule.RequiresEntryFunction && !servesRequest {
+					continue
+				}
 				if rule.IntoScope != "" {
 					if w.Scope != rule.IntoScope {
 						continue
@@ -59,6 +66,32 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 		}
 	}
 	return out
+}
+
+// reachedFromEntry reports whether a function is a request handler or is called by one,
+// within a few hops. Bounded on purpose: past three calls the answer stops being evidence
+// that this line runs per-request and starts being evidence that the program is connected.
+func reachedFromEntry(ix *ir.Index, fn *ir.Function) bool {
+	seen := map[string]bool{fn.ID: true}
+	frontier := []*ir.Function{fn}
+	for depth := 0; depth < 3 && len(frontier) > 0; depth++ {
+		var next []*ir.Function
+		for _, f := range frontier {
+			if _, ok := ix.EntryByFunc[f.ID]; ok {
+				return true
+			}
+			for _, site := range ix.CallSitesOf[f.ID] {
+				caller := ix.OwnerOfCall[site.ID]
+				if caller == nil || seen[caller.ID] {
+					continue
+				}
+				seen[caller.ID] = true
+				next = append(next, caller)
+			}
+		}
+		frontier = next
+	}
+	return false
 }
 
 // intoMatches asks what is being written INTO, by the last segment of the base's access
