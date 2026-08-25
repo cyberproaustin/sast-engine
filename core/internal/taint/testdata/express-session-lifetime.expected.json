@@ -1,6 +1,6 @@
 {
   "corpus": "express-session-lifetime",
-  "description": "How long a credential stays valid, and -- on the JavaScript side -- a window opened without cutting the reference back to the page that opened it. Both negatives are the discriminators: a preference cookie that lasts a year is a feature, and a lifetime is only long relative to the unit the call counts in.",
+  "description": "How long a credential stays valid, whether it is a cookie or a signed token, and -- on the JavaScript side -- a window opened without cutting the reference back to the page that opened it. Both negatives are the discriminators: a preference cookie that lasts a year is a feature, and a lifetime is only long relative to the unit the call counts in.",
   "expected": [
     {
       "cwe": "CWE-613",
@@ -17,6 +17,14 @@
       "sourceLabel": "\"window.open()\"",
       "confidence": "high",
       "note": "no third argument, which is where noopener would be; the call below has one"
+    },
+    {
+      "cwe": "CWE-613",
+      "sinkFile": "app.js",
+      "sinkLine": 47,
+      "sourceLabel": "\"no expiresIn\"",
+      "confidence": "high",
+      "note": "an ABSENCE: the options were enumerated and expiresIn is not among them. A signed token cannot be revoked, so its expiry is the only thing that ends it"
     }
   ]
 }

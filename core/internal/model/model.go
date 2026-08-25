@@ -3512,6 +3512,16 @@ type CallShape struct {
 	RequiredKeyword string
 	OptionsArg      int
 
+	// OptionsMustBeWritten requires the options argument to actually be there before an
+	// absence is claimed.
+	//
+	// A missing options argument usually IS the absence -- `res.cookie(name, value)`
+	// genuinely has no httpOnly. It is not always: `jwt.sign(payload, key)` can carry its
+	// expiry as an `exp` claim inside the payload, so a call with no options argument
+	// says nothing about whether the token expires. The difference is per-rule, so the
+	// rule states it.
+	OptionsMustBeWritten bool
+
 	// Qualifiers are further conditions on the SAME call, all of which must hold.
 	//
 	// Cookie attributes are the case that needed it. Whether a cookie ought to be
@@ -4231,6 +4241,21 @@ func builtinCallShapes() []CallShape {
 			Finding:    "Session cookie valid for longer than a month",
 			Reason:     "a credential that stays valid for a year is a credential an attacker who steals it keeps for a year, and nothing the user does afterwards takes it back",
 			Rationale:  "maxAge is how long the browser keeps sending this cookie, in milliseconds",
+		},
+		{
+			// A bearer token with no expiry at all. Whoever holds it holds it forever:
+			// there is no revocation in a signed token, so the only thing that ends one is
+			// the clock, and this one has no clock.
+			//
+			// An ABSENCE rule, so it only speaks where the option keys were actually
+			// enumerated. Options built in another function are unknowable and are passed
+			// over in silence.
+			ID: "unexpiring-token", Symbol: "jsonwebtoken.sign",
+			RequiredKeyword: "expiresIn", OptionsArg: 2, OptionsMustBeWritten: true,
+			CWE:       "CWE-613",
+			Finding:   "Signed token issued with no expiry",
+			Reason:    "a signed token cannot be revoked, so the only thing that ends one is its expiry, and this one has none",
+			Rationale: "the options argument to sign() enumerates its keys and expiresIn is not among them",
 		},
 		{
 			// Flask counts SECONDS. Same keyword, different unit, which is why the
