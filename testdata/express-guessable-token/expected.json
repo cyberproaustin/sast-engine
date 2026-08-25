@@ -1,0 +1,7 @@
+{
+  "corpus": "express-guessable-token",
+  "description": "This rule was declined three times before it was built, and the reason it could be built now is the sink rather than the source. Math.random appears 90 times across twenty-eight clean repositories and almost all of it is jitter, sampling and placeholders -- so the call alone says nothing, and reporting it would have meant a hundred permanent advisories nobody reads. What makes it a weakness is where the number ENDS UP: a cookie value is something a caller must not be able to guess, because guessing one is being that user. The jitter route is the shape that made the naive rule unusable, and it is silent.",
+  "expected": [
+    {"cwe": "CWE-338", "sinkFile": "app.js", "sinkLine": 10, "sourceLabel": "Math.random()", "confidence": "medium", "note": "a guessable value used as a session cookie"}
+  ]
+}

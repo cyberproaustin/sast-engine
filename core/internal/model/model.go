@@ -595,6 +595,23 @@ func Builtin() Model {
 				},
 			},
 			{
+				// A number from a generator that is fast rather than unpredictable. What
+				// makes this a weakness is not the call -- Math.random appears 90 times
+				// across the clean corpus, almost all of it jitter, sampling and
+				// placeholders -- but where the number ENDS UP. So it is classified here
+				// and judged at the sink, which is the only place the question can be
+				// answered.
+				Class: "predictable-value",
+				Label: "a number from a generator built for speed rather than unpredictability",
+				Rules: []SourceRule{
+					{Match: MatchCallResult, Symbol: "Math.random"},
+					{Match: MatchCallResult, Symbol: "random.random"},
+					{Match: MatchCallResult, Symbol: "random.randint"},
+					{Match: MatchCallResult, Symbol: "random.choice"},
+					{Match: MatchCallResult, Symbol: "random.randrange"},
+				},
+			},
+			{
 				// The environment a process was started with is where its secrets are:
 				// database URLs, API keys, signing keys. It is also where its harmless
 				// configuration is, which is why the policy asks for the whole structure
@@ -1107,14 +1124,16 @@ func Builtin() Model {
 				ID: "cookie-store", Visibility: "public", Context: "cookie-store",
 				Method: "cookie", ReceiverIsEntryParam: 1, ArgIndex: []int{1},
 				Qualifiers: []ArgCondition{{Keyword: "maxAge", Absent: true}},
-				CWE:        "CWE-315",
-				Rationale:  "the second argument to cookie() is the value stored in the browser",
+				// No CWE here on purpose. Two policies use this channel and they are about
+				// different weaknesses -- a credential STORED in a cookie, and a GUESSABLE
+				// value used as one -- so the identity belongs to whichever judgement is
+				// being made rather than to the destination.
+				Rationale: "the second argument to cookie() is the value stored in the browser",
 			},
 			{
 				ID: "cookie-store", Visibility: "public", Context: "cookie-store",
 				Method: "set_cookie", ReceiverIsEntryParam: -1, ArgIndex: []int{1},
 				Qualifiers: []ArgCondition{{Keyword: "max_age", Absent: true}},
-				CWE:        "CWE-315",
 				Rationale:  "the second argument to set_cookie() is the value stored in the browser",
 			},
 			{
@@ -1124,14 +1143,12 @@ func Builtin() Model {
 				ID: "persistent-cookie-store", Visibility: "public", Context: "cookie-persist",
 				Method: "cookie", ReceiverIsEntryParam: 1, ArgIndex: []int{1},
 				Qualifiers: []ArgCondition{{Keyword: "maxAge"}},
-				CWE:        "CWE-539",
 				Rationale:  "the cookie is given an expiry, so it is written to disk rather than held for the session",
 			},
 			{
 				ID: "persistent-cookie-store", Visibility: "public", Context: "cookie-persist",
 				Method: "set_cookie", ReceiverIsEntryParam: -1, ArgIndex: []int{1},
 				Qualifiers: []ArgCondition{{Keyword: "max_age"}},
-				CWE:        "CWE-539",
 				Rationale:  "the cookie is given an expiry, so it is written to disk rather than held for the session",
 			},
 
@@ -2049,18 +2066,44 @@ func Builtin() Model {
 				CWE:           "CWE-319",
 			},
 			{
+				// A cookie value is something a caller must not be able to guess: guessing
+				// one is being that user. This is the sink that turns a weak generator
+				// from a fact into a weakness, and it is why the generator alone is not
+				// reported -- the same call is a retry delay somewhere else in the same
+				// file.
+				ID:            "predictable-secret",
+				Class:         "predictable-value",
+				DeniedContext: []string{"cookie-store", "cookie-persist"},
+				Requires:      Requirements{Interprocedural: true},
+				Reason:        "a value a caller must not be able to guess cannot come from a generator built for speed, because its output is reproducible from a few samples",
+				Finding:       "Guessable value used where unpredictability is required",
+				CWE:           "CWE-338",
+			},
+			{
 				// A cookie is storage on a machine the application does not control. A
 				// credential put there is sent on every request and readable by anything
 				// with access to the browser profile, and an expiry makes it survive the
 				// browser closing.
 				ID:                  "credential-in-cookie",
 				Class:               "caller-credential",
-				DeniedContext:       []string{"cookie-store", "cookie-persist"},
+				DeniedContext:       []string{"cookie-store"},
 				RequiresUnprojected: true,
 				Requires:            Requirements{Interprocedural: true},
 				Reason:              "a credential stored in a cookie sits on a machine the application does not control and is sent on every request to it",
 				Finding:             "Credential stored in a cookie",
 				CWE:                 "CWE-315",
+			},
+			{
+				// The same value with an EXPIRY, which is a different weakness: it
+				// survives the browser closing and sits on disk until the date passes.
+				ID:                  "credential-in-persistent-cookie",
+				Class:               "caller-credential",
+				DeniedContext:       []string{"cookie-persist"},
+				RequiresUnprojected: true,
+				Requires:            Requirements{Interprocedural: true},
+				Reason:              "a credential in a cookie with an expiry outlives the session, sitting on disk until the date passes",
+				Finding:             "Credential stored in a persistent cookie",
+				CWE:                 "CWE-539",
 			},
 			{
 				// Echoed back to whoever sent it. Narrower than it sounds, and precisely
