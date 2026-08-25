@@ -553,6 +553,27 @@ function lowerFunction(
     if (sym) bySymbol.set(sym, valueId);
   };
 
+  // Whether a name was declared outside the function being lowered. `let current` at a
+  // module's top level assigned inside a handler is process-wide state; the identical
+  // statement on a name declared in the handler is a local and means nothing.
+  //
+  // Imports and function declarations are excluded: rebinding one is a different mistake
+  // and not this one.
+  const declaredOutside = (name: ts.Identifier): boolean => {
+    const sym = checker.getSymbolAtLocation(name);
+    const decls = sym?.declarations ?? [];
+    if (decls.length === 0) return false;
+    for (const decl of decls) {
+      if (!ts.isVariableDeclaration(decl)) return false;
+      if (decl.getSourceFile() !== sf) return false;
+      for (let p: ts.Node | undefined = decl; p; p = p.parent) {
+        if (p === node) return false;
+        if (ts.isSourceFile(p)) break;
+      }
+    }
+    return true;
+  };
+
   // A module has no parameters and no decorators on them. Asking either question of a
   // source file reaches into a property that is not there.
   const injected = ts.isSourceFile(node) ? new Set<number>() : untrustedParams(node);
@@ -1147,6 +1168,21 @@ function lowerFunction(
           path: ts.isStringLiteralLike(key) ? key.text : undefined,
           from,
         });
+        return;
+      }
+      // A plain name that was DECLARED somewhere else. Inside a request handler that is
+      // state the whole process shares, so what one caller put there is what the next
+      // caller gets. The declaration's position is the whole evidence: a name declared in
+      // this function is a local and touches nothing outside it.
+      if (ts.isIdentifier(target) && !ts.isSourceFile(node) && declaredOutside(target)) {
+        writes.push({
+          loc: locOf(sf, n),
+          base: bySymbol.get(checker.getSymbolAtLocation(target)!),
+          path: target.text,
+          from,
+          scope: "process",
+        });
+        lowerExpr(n.expression);
         return;
       }
     }

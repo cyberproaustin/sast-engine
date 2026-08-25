@@ -121,6 +121,8 @@ export interface Write {
   base?: string;
   path?: string;
   from?: string;
+  /** How far the destination reaches: "process" for state shared by every request. */
+  scope?: string;
 }
 
 export interface FunctionIR {

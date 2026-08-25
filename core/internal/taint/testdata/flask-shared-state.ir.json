@@ -1,0 +1,682 @@
+{
+  "irVersion": "0.11.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "app.py",
+      "path": "app.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "app.py#<module>:0",
+      "name": "<module>",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#<module>:0$v0",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 3,
+            "column": 7
+          },
+          "name": "flask.Flask"
+        },
+        {
+          "id": "app.py#<module>:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 3,
+            "column": 1
+          },
+          "name": "app"
+        },
+        {
+          "id": "app.py#<module>:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 4,
+            "column": 16
+          }
+        },
+        {
+          "id": "app.py#<module>:0$v3",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 4,
+            "column": 1
+          },
+          "name": "current_user"
+        },
+        {
+          "id": "app.py#<module>:0$v4",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 5,
+            "column": 12
+          },
+          "name": "{dict}"
+        },
+        {
+          "id": "app.py#<module>:0$v5",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 5,
+            "column": 1
+          },
+          "name": "SESSIONS"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#<module>:0$v0",
+          "to": "app.py#<module>:0$v1",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 3,
+            "column": 1
+          }
+        },
+        {
+          "from": "app.py#<module>:0$v2",
+          "to": "app.py#<module>:0$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 4,
+            "column": 1
+          }
+        },
+        {
+          "from": "app.py#<module>:0$v4",
+          "to": "app.py#<module>:0$v5",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 5,
+            "column": 1
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#<module>:0$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 3,
+            "column": 7
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.Flask",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#<module>:0$v0",
+          "block": "app.py#<module>:0$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#<module>:0$b0",
+      "blocks": [
+        {
+          "id": "app.py#<module>:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#login:9",
+      "name": "login",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 9,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#login:9$v0",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 20
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#login:9$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 20
+          },
+          "base": "app.py#login:9$v0",
+          "path": "form",
+          "name": "form"
+        },
+        {
+          "id": "app.py#login:9$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 20
+          },
+          "name": "email",
+          "base": "app.py#login:9$v1",
+          "path": "form.email"
+        },
+        {
+          "id": "app.py#login:9$v3",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 5
+          },
+          "name": "current_user"
+        },
+        {
+          "id": "app.py#login:9$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 12
+          },
+          "literal": "ok"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#login:9$v0",
+          "to": "app.py#login:9$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 20
+          }
+        },
+        {
+          "from": "app.py#login:9$v1",
+          "to": "app.py#login:9$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 20
+          }
+        },
+        {
+          "from": "app.py#login:9$v2",
+          "to": "app.py#login:9$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 5
+          }
+        }
+      ],
+      "calls": [],
+      "returns": [
+        "app.py#login:9$v4"
+      ],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 5
+          },
+          "base": "app.py#<module>:0$v3",
+          "path": "current_user",
+          "from": "app.py#login:9$v2",
+          "scope": "process"
+        }
+      ],
+      "entryBlock": "app.py#login:9$b0",
+      "blocks": [
+        {
+          "id": "app.py#login:9$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 9,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#login:9$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#login_keyed:19",
+      "name": "login_keyed",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 19,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#login_keyed:19$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 39
+          },
+          "literal": "true"
+        },
+        {
+          "id": "app.py#login_keyed:19$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 12
+          },
+          "literal": "ok"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [
+        "app.py#login_keyed:19$v1"
+      ],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 5
+          },
+          "base": "app.py#<module>:0$v5",
+          "from": "app.py#login_keyed:19$v0"
+        }
+      ],
+      "entryBlock": "app.py#login_keyed:19$b0",
+      "blocks": [
+        {
+          "id": "app.py#login_keyed:19$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#login_keyed:19$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#login_local:26",
+      "name": "login_local",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 26,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#login_local:26$v0",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 20
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#login_local:26$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 20
+          },
+          "base": "app.py#login_local:26$v0",
+          "path": "form",
+          "name": "form"
+        },
+        {
+          "id": "app.py#login_local:26$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 20
+          },
+          "name": "email",
+          "base": "app.py#login_local:26$v1",
+          "path": "form.email"
+        },
+        {
+          "id": "app.py#login_local:26$v3",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 5
+          },
+          "name": "current_user"
+        },
+        {
+          "id": "app.py#login_local:26$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 16
+          },
+          "name": "bool"
+        },
+        {
+          "id": "app.py#login_local:26$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 12
+          },
+          "name": "str"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#login_local:26$v0",
+          "to": "app.py#login_local:26$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 20
+          }
+        },
+        {
+          "from": "app.py#login_local:26$v1",
+          "to": "app.py#login_local:26$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 20
+          }
+        },
+        {
+          "from": "app.py#login_local:26$v2",
+          "to": "app.py#login_local:26$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 5
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#login_local:26$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "bool",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#login_local:26$v3"
+            }
+          ],
+          "resultValueId": "app.py#login_local:26$v4",
+          "block": "app.py#login_local:26$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#login_local:26$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "str",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#login_local:26$v4"
+            }
+          ],
+          "resultValueId": "app.py#login_local:26$v5",
+          "block": "app.py#login_local:26$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "app.py#login_local:26$v5"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#login_local:26$b0",
+      "blocks": [
+        {
+          "id": "app.py#login_local:26$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#login_local:26$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#whoami:33",
+      "name": "whoami",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 33,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#whoami:33$v0",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 12
+          },
+          "name": "str"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "app.py#whoami:33$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "str",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#<module>:0$v3"
+            }
+          ],
+          "resultValueId": "app.py#whoami:33$v0",
+          "block": "app.py#whoami:33$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "app.py#whoami:33$v0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#whoami:33$b0",
+      "blocks": [
+        {
+          "id": "app.py#whoami:33$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#whoami:33$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 5
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "app.py#login:9",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "POST",
+        "path": "/login"
+      }
+    },
+    {
+      "functionId": "app.py#login_keyed:19",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "POST",
+        "path": "/login-keyed"
+      }
+    },
+    {
+      "functionId": "app.py#login_local:26",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "POST",
+        "path": "/login-local"
+      }
+    },
+    {
+      "functionId": "app.py#whoami:33",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/whoami"
+      }
+    }
+  ]
+}

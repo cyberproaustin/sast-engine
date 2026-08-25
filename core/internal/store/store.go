@@ -34,7 +34,11 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 				continue
 			}
 			for _, rule := range m.Stores {
-				if !intoMatches(ix, w, rule) {
+				if rule.IntoScope != "" {
+					if w.Scope != rule.IntoScope {
+						continue
+					}
+				} else if !intoMatches(ix, w, rule) {
 					continue
 				}
 				if len(rule.NotInto) > 0 && intoMatches(ix, w, model.StoreRule{Into: rule.NotInto}) {
