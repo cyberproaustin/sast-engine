@@ -23,6 +23,44 @@
   ],
   "functions": [
     {
+      "id": "app.py#<module>:0",
+      "name": "<module>",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#<module>:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 1,
+            "column": 1
+          }
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "entryBlock": "app.py#<module>:0$b0",
+      "blocks": [
+        {
+          "id": "app.py#<module>:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
       "id": "app.py#fetch_insecure:16",
       "name": "fetch_insecure",
       "module": "app.py",

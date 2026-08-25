@@ -299,12 +299,19 @@ func writeTaint(b *strings.Builder, res taint.Result, newness, scoped map[string
 			if f.InTestModule {
 				fmt.Fprintf(b, "  in a test module: ships with the repository, does not run in production\n")
 			}
-			if f.DependsOnUse {
-				fmt.Fprintf(b, "  whether this is a defect depends on what the result is used for,\n")
-				fmt.Fprintf(b, "  which this analysis cannot see: reported, never gating\n")
+			if f.DependsOnUse != "" {
+				// Verdict first, reason after. A reader scanning for what will stop a
+				// build should not have to finish a sentence to find out.
+				for i, line := range wrap("reported, never gating: "+f.DependsOnUse, 74) {
+					if i == 0 {
+						fmt.Fprintf(b, "  %s\n", line)
+						continue
+					}
+					fmt.Fprintf(b, "    %s\n", line)
+				}
 			}
 			anchored++
-			if isNew && inScope && !f.DependsOnUse && f.Confidence.Gating() {
+			if isNew && inScope && f.DependsOnUse == "" && f.Confidence.Gating() {
 				gating++
 			}
 		}
@@ -585,4 +592,22 @@ func describeCapabilities(c ir.Capabilities) string {
 		parts = append(parts, "models="+strings.Join(c.FrameworkModels, "+"))
 	}
 	return strings.Join(parts, " ")
+}
+
+// wrap breaks a sentence into lines no longer than width, on word boundaries.
+func wrap(text string, width int) []string {
+	words := strings.Fields(text)
+	if len(words) == 0 {
+		return nil
+	}
+	lines := []string{words[0]}
+	for _, w := range words[1:] {
+		last := len(lines) - 1
+		if len(lines[last])+1+len(w) <= width {
+			lines[last] += " " + w
+			continue
+		}
+		lines = append(lines, w)
+	}
+	return lines
 }

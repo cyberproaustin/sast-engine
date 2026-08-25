@@ -44,6 +44,8 @@ var corpora = []string{
 	"flask-upload-type",
 	"express-cookie-attributes",
 	"flask-cookie-attributes",
+	"express-misconfiguration",
+	"flask-misconfiguration",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {

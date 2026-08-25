@@ -98,6 +98,8 @@ class ModuleLowerer:
         # sits below the class it points at.
         view_paths = self._view_registration_paths()
 
+        self.functions.append(FunctionLowerer(self, self.tree).lower())
+
         for node in ast.walk(self.tree):
             if isinstance(node, FUNCTION_NODES):
                 fn = FunctionLowerer(self, node).lower()
@@ -269,8 +271,10 @@ class FunctionLowerer:
     def __init__(self, mod: ModuleLowerer, node: ast.AST):
         self.mod = mod
         self.node = node
-        self.name = getattr(node, "name", "<lambda>")
-        self.id = f"{mod.module}#{self.name}:{node.lineno}"
+        self.is_module = isinstance(node, ast.Module)
+        self.name = "<module>" if self.is_module else getattr(node, "name", "<lambda>")
+        lineno = 0 if self.is_module else node.lineno
+        self.id = f"{mod.module}#{self.name}:{lineno}"
         self.enclosing_class = mod.class_of.get(id(node))
         self.values: list[dict] = []
         self.flows: list[dict] = []
@@ -329,6 +333,15 @@ class FunctionLowerer:
             )
 
     def lower(self) -> dict:
+        # A module's top level is code like any other, and it is where configuration
+        # lives: `app.run(debug=True)` is never inside a function. Lowering it as a
+        # function of its own lets every analysis kind see it without learning a new
+        # shape. The statement walk already stops at function boundaries.
+        if self.is_module:
+            for stmt in self.node.body:
+                self.walk(stmt)
+            return self._result()
+
         for index, arg in enumerate(self.node.args.args):
             vid = self.new_value("param", arg, name=arg.arg)
             self.scope[arg.arg] = vid
@@ -347,11 +360,14 @@ class FunctionLowerer:
         for stmt in self.node.body:
             self.walk(stmt)
 
+        return self._result()
+
+    def _result(self) -> dict:
         return {
             "id": self.id,
             "name": self.name,
             "module": self.mod.module,
-            "loc": loc_of(self.mod.module, self.node),
+            "loc": loc_of(self.mod.module, self.node) if not self.is_module else {"file": self.mod.module, "line": 1, "column": 1},
             "params": self.params,
             "values": self.values,
             "flows": self.flows,

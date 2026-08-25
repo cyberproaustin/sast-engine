@@ -56,7 +56,7 @@ func (r Result) InScope(f taint.Finding) bool {
 // it touches the change under review.
 func (r Result) Gates(f taint.Finding) bool {
 	return f.EntryAnchored &&
-		!f.DependsOnUse &&
+		f.DependsOnUse == "" &&
 		!f.InTestModule &&
 		f.Confidence.Gating() &&
 		r.IsNew(f) &&
@@ -170,7 +170,7 @@ func (r Result) Gating() bool {
 		// A baselined finding does not gate either. It is still reported and still
 		// counted — the baseline records that a finding was already there, and makes
 		// no claim that it is acceptable.
-		if f.DependsOnUse {
+		if f.DependsOnUse != "" {
 			continue
 		}
 		if f.EntryAnchored && f.Confidence.Gating() && r.IsNew(f) && r.InScope(f) {
