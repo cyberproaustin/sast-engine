@@ -964,6 +964,15 @@ function lowerFunction(
     if (ts.isAwaitExpression(expr)) return lowerExpr(expr.expression);
     if (ts.isNonNullExpression(expr)) return lowerExpr(expr.expression);
     if (ts.isAsExpression(expr)) return lowerExpr(expr.expression);
+    // `x satisfies T` is a type assertion like `as`, and was falling through -- so a
+    // value passed through one stopped being related to anything.
+    if (ts.isSatisfiesExpression(expr)) return lowerExpr(expr.expression);
+    // A TAGGED template is deliberately NOT unwrapped to its text. The tag is a
+    // function and in practice it is the one that makes the thing safe: `sql`SELECT ...
+    // ${id}`` in postgres.js parameterises, and `html`<p>${x}</p>`` in lit escapes.
+    // Lowering it as the raw composition would report the two most common ways of
+    // writing this correctly as though they were concatenation. Saying nothing is the
+    // pre-existing behaviour and it is the right one until the tag itself is modelled.
 
     if (ts.isIdentifier(expr)) {
       const sym = checker.getSymbolAtLocation(expr);
@@ -1472,6 +1481,20 @@ function lowerFunction(
         addFlow(from, id, "assign", locOf(sf, n));
         writes.push({ loc: locOf(sf, n), base: id, path: target.text, from, scope: "process" });
         return;
+      }
+      // A plain name declared in THIS function and assigned again. `var cart = null;`
+      // followed by `cart = {...}` inside a try block is ordinary JavaScript, and the
+      // second statement produced nothing at all: an `=` is not one of the operators
+      // lowerExpr reads, so neither side was visited and the value never reached the
+      // name. One vulnerable application hid a SQL injection and a catastrophic regular
+      // expression behind that single missing edge.
+      if (ts.isIdentifier(target)) {
+        const sym = checker.getSymbolAtLocation(target);
+        const existing = sym ? bySymbol.get(sym) : undefined;
+        if (existing) {
+          addFlow(from, existing, "assign", locOf(sf, n));
+          return;
+        }
       }
     }
 

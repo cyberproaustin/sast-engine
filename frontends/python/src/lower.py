@@ -759,6 +759,36 @@ class FunctionLowerer:
                 return vid
             return src
 
+        # A comprehension produces a collection out of an iterable, and the element
+        # expression is where the values come from. `[row["name"] for row in
+        # request.json]` was falling through, so a list built out of a caller's data was
+        # related to nothing -- and building a list out of a request body is what a bulk
+        # endpoint does.
+        if isinstance(node, (ast.ListComp, ast.SetComp, ast.GeneratorExp)):
+            vid = self.new_value("local", node, name="[comprehension]")
+            for gen in node.generators:
+                src = self.expr(gen.iter)
+                if isinstance(gen.target, ast.Name):
+                    tid = self.new_value("local", gen.target, name=gen.target.id)
+                    self.scope[gen.target.id] = tid
+                    self.add_flow(src, tid, "property", node)
+            self.add_flow(self.expr(node.elt), vid, "enclose", node)
+            return vid
+
+        if isinstance(node, ast.DictComp):
+            vid = self.new_value("local", node, name="{comprehension}")
+            for gen in node.generators:
+                src = self.expr(gen.iter)
+                if isinstance(gen.target, ast.Name):
+                    tid = self.new_value("local", gen.target, name=gen.target.id)
+                    self.scope[gen.target.id] = tid
+                    self.add_flow(src, tid, "property", node)
+            self.add_flow(self.expr(node.value), vid, "enclose", node)
+            return vid
+
+        if isinstance(node, ast.Starred):
+            return self.expr(node.value)
+
         if isinstance(node, ast.IfExp):
             vid = self.new_value("local", node, name="conditional")
             self.add_flow(self.expr(node.body), vid, "assign", node)

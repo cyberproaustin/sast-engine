@@ -1,0 +1,22 @@
+{
+  "corpus": "express-reassigned",
+  "description": "Two edges that were simply absent, each of which silenced everything downstream of it. A name declared with one value and assigned another later lost the second value entirely, because an assignment expression is not one of the operators the expression lowering reads. And a response object passed to a helper stopped being a response, because the channel asks whether the receiver is the entry point parameter and the question was not followed across the call. A vulnerable application hid a SQL injection and a catastrophic regular expression behind the first, and an open redirect behind the second. One inaccuracy is deliberately left in view: the redirect's source label names the wrong field, because the engine is not field-sensitive through an object literal and offers whichever contributor it reached first.",
+  "expected": [
+    {
+      "cwe": "CWE-89",
+      "sinkFile": "app.js",
+      "sinkLine": 25,
+      "sourceLabel": "req.body.mail",
+      "confidence": "high",
+      "note": "reached only because the reassignment carries a value now"
+    },
+    {
+      "cwe": "CWE-601",
+      "sinkFile": "app.js",
+      "sinkLine": 26,
+      "sourceLabel": "req.body.mail",
+      "confidence": "medium",
+      "note": "reached only because the receiver is followed across the call into the helper. The SOURCE LABEL is wrong on purpose and the limit is recorded rather than hidden: the value read here is `cart.next`, and the engine is not field-sensitive through an object literal, so the witness it offers is whichever field contributed first. The finding is right, the sentence naming its origin is approximate"
+    }
+  ]
+}
