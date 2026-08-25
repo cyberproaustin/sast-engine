@@ -4720,6 +4720,30 @@ func builtinCallShapes() []CallShape {
 		},
 
 		{
+			// The `errorhandler` middleware exists to print a stack trace to the browser,
+			// and its own documentation says to use it in development only. Whether the
+			// program guards it with a NODE_ENV test is not the question: the guard is a
+			// deployment fact and the middleware is in the bundle either way, so what a
+			// scanner can say is that the application is one environment variable away
+			// from serving its internals.
+			//
+			// Measured: two calls across the vulnerable corpus, both of them findings a
+			// recall audit named, and none at all across twenty-eight production
+			// repositories.
+			ID: "development-error-handler", Symbol: "errorhandler.default", Always: true,
+			CWE:       "CWE-209",
+			Finding:   "Development error handler installed",
+			Reason:    "this middleware answers a failed request with the stack trace, the source line and the local variables, which describes the system to whoever provoked the failure",
+			Rationale: "errorhandler renders internal failure detail into the response",
+		},
+		{
+			ID: "development-error-handler", Symbol: "errorhandler", Always: true,
+			CWE:       "CWE-209",
+			Finding:   "Development error handler installed",
+			Reason:    "this middleware answers a failed request with the stack trace, the source line and the local variables, which describes the system to whoever provoked the failure",
+			Rationale: "errorhandler renders internal failure detail into the response",
+		},
+		{
 			// Serving an index means publishing the file NAMES, which is a map of
 			// everything in the directory including whatever was left there.
 			ID: "directory-listing", Symbol: "serve-index", Always: true,
