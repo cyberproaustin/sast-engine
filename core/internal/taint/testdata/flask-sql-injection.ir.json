@@ -152,7 +152,7 @@
             "line": 16,
             "column": 11
           },
-          "name": "unresolved"
+          "name": "flask.g.db.cursor"
         },
         {
           "id": "app.py#find_user:14$v3",
@@ -347,8 +347,9 @@
             "column": 11
           },
           "callee": {
-            "kind": "unresolved",
-            "resolution": "dynamic-unresolved"
+            "kind": "external",
+            "symbol": "flask.g.db.cursor",
+            "resolution": "probable"
           },
           "args": [],
           "resultValueId": "app.py#find_user:14$v2",
@@ -475,7 +476,7 @@
             "line": 24,
             "column": 11
           },
-          "name": "unresolved"
+          "name": "flask.g.db.cursor"
         },
         {
           "id": "app.py#find_user_by_id:22$v3",
@@ -621,8 +622,9 @@
             "column": 11
           },
           "callee": {
-            "kind": "unresolved",
-            "resolution": "dynamic-unresolved"
+            "kind": "external",
+            "symbol": "flask.g.db.cursor",
+            "resolution": "probable"
           },
           "args": [],
           "resultValueId": "app.py#find_user_by_id:22$v2",
@@ -756,7 +758,7 @@
             "line": 31,
             "column": 11
           },
-          "name": "unresolved"
+          "name": "flask.g.db.cursor"
         },
         {
           "id": "app.py#all_users:30$v3",
@@ -829,8 +831,9 @@
             "column": 11
           },
           "callee": {
-            "kind": "unresolved",
-            "resolution": "dynamic-unresolved"
+            "kind": "external",
+            "symbol": "flask.g.db.cursor",
+            "resolution": "probable"
           },
           "args": [],
           "resultValueId": "app.py#all_users:30$v2",

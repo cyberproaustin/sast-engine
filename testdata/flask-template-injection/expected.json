@@ -1,6 +1,6 @@
 {
   "corpus": "flask-template-injection",
-  "description": "Compiling a template is not rendering into one, and the distinction is the whole rule. The safe route passes the caller's text as DATA to a fixed template file, which is the correct and far more common shape; the unsafe one builds the template text itself out of it. Escaping would not help here either, which is why this is its own context rather than a spelling of XSS: the five characters that make markup are not what a template engine interprets.",
+  "description": "Compiling a template is not rendering into one, and the distinction is the whole rule. The safe route passes the caller's text as DATA to a fixed template file, which is the correct and far more common shape; the unsafe one builds the template text itself out of it. Escaping would not help here either, which is why this is its own context rather than a spelling of XSS: the five characters that make markup are not what a template engine interprets. The error handler is here because it is an entry point: a caller reaches it by asking for a page that does not exist, and treating it as unreachable left a real template injection in the unanchored section where nothing gates.",
   "expected": [
     {
       "cwe": "CWE-1336",
@@ -9,6 +9,14 @@
       "sourceLabel": "flask.request.args",
       "confidence": "high",
       "note": "the caller's text becomes part of the template source, and Jinja reaches the object graph from inside a template"
+    },
+    {
+      "cwe": "CWE-1336",
+      "sinkFile": "app.py",
+      "sinkLine": 27,
+      "sourceLabel": "flask.request.url",
+      "confidence": "high",
+      "note": "an error handler is reachable on purpose, and the URL it echoes is the caller's"
     }
   ]
 }

@@ -7,15 +7,15 @@
       "sinkFile": "app.py",
       "sinkLine": 17,
       "sourceLabel": "flask.request.files",
-      "confidence": "low",
-      "note": "secure_filename addresses the path context and not the type; low because os.path.join does not resolve in this frontend, which costs confidence on every Python path finding"
+      "confidence": "medium",
+      "note": "secure_filename addresses the path context and not the type; medium rather than high because the save receiver is untyped, not because the path build is unresolved -- os.path.join reads correctly now"
     },
     {
       "cwe": "CWE-434",
       "sinkFile": "app.py",
       "sinkLine": 25,
       "sourceLabel": "flask.request.files",
-      "confidence": "low",
+      "confidence": "medium",
       "note": "the caller's filename reaches the destination with no transform at all"
     }
   ]
