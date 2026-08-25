@@ -1,0 +1,38 @@
+{
+  "corpus": "express-session-store",
+  "description": "Four decisions in one call, every one of them written a level down inside a `cookie` group -- which is why none of it was readable until the frontends started reading nested options. The store is identified by the presence of a `secret` rather than by its name: express-session, cookie-session and koa-session all take it, and a list of the ones somebody thought of would be wrong at the next wrapper.",
+  "expected": [
+    {
+      "cwe": "CWE-798",
+      "sinkFile": "app.js",
+      "sinkLine": 12,
+      "sourceLabel": "\"secret=keyboard cat\"",
+      "confidence": "high",
+      "note": "a session signing key in the source means anybody holding the repository can mint a session"
+    },
+    {
+      "cwe": "CWE-1004",
+      "sinkFile": "app.js",
+      "sinkLine": 12,
+      "sourceLabel": "\"cookie.httpOnly=false\"",
+      "confidence": "high",
+      "note": "written as cookie.httpOnly, matched on the last segment"
+    },
+    {
+      "cwe": "CWE-614",
+      "sinkFile": "app.js",
+      "sinkLine": 12,
+      "sourceLabel": "\"cookie.secure=false\"",
+      "confidence": "high",
+      "note": "written as cookie.secure"
+    },
+    {
+      "cwe": "CWE-613",
+      "sinkFile": "app.js",
+      "sinkLine": 12,
+      "sourceLabel": "\"cookie.maxAge=31536000000\"",
+      "confidence": "high",
+      "note": "a year, written as cookie.maxAge"
+    }
+  ]
+}

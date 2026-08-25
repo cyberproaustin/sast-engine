@@ -321,7 +321,7 @@ var claims = map[string]Claim{
 	// Two weaknesses this engine finds and reports under a SIBLING'"'"'s number. Recorded as
 	// not built rather than claimed, because a coverage map is read by someone looking
 	// for findings carrying that identity, and none ever will.
-	"CWE-256": {State: NotBuilt, Reason: "a password stored in plaintext. The credential-to-file rule finds exactly this and reports it as CWE-312, which is the broader identity for the same line; a separate password-only classification would report it twice"},
+	"CWE-256": {State: NotBuilt, Reason: "a password stored in plaintext. BUILT AND WITHDRAWN: a caller's password reaching an ORM create, save or insert. Sound in principle and wrong in practice, because ORMs hash in a lifecycle hook the engine cannot connect to the insert -- wikijs writes `password: req.body.adminPassword` into an Objection insert and hashes it with bcrypt in a $beforeInsert on the model, which is correct code and the only finding the rule produced on the clean corpus. The vulnerable corpus writes passwords through constructors and raw SQL, which this shape does not reach either, so it cost a false positive and bought nothing. What the engine DOES find is a credential reaching a file, reported as CWE-312"},
 	"CWE-523": {State: NotBuilt, Reason: "credentials sent without transport protection. The cleartext-transmission rule finds exactly this and reports it as CWE-319, which is the same line under the identity that names the scheme rather than the payload"},
 
 	// CONSIDERED AND DECLINED for a reason that is not a measurement: either another
