@@ -406,6 +406,7 @@ type Model struct {
 	Channels        []Channel
 	CallShapes      []CallShape
 	Decisions       []DecisionRule
+	Stores          []StoreRule
 	Policies        []Policy
 	Sanitizers      []SanitizerRule
 	Callbacks       []CallbackRule
@@ -2004,6 +2005,7 @@ func Builtin() Model {
 		// every instance of the pairing, including channels added later.
 		CallShapes: builtinCallShapes(),
 		Decisions:  builtinDecisions(),
+		Stores:     builtinStores(),
 
 		Policies: []Policy{
 			{
@@ -2462,6 +2464,24 @@ func Builtin() Model {
 				Symbol:   "content-disposition.default",
 				Contexts: []string{"header"},
 				Note:     "encodes a filename into a well-formed header value",
+			},
+			{
+				// The regex escaper. novu builds `^${escapeRegExp(email)}$` and compiles
+				// it, which is the correct way to search for a literal string and read as
+				// catastrophic backtracking without this.
+				Symbol:   "escapeRegExp",
+				Contexts: []string{"regex"},
+				Note:     "escapes the characters a pattern treats as syntax",
+			},
+			{
+				Symbol:   "lodash.escapeRegExp",
+				Contexts: []string{"regex"},
+				Note:     "escapes the characters a pattern treats as syntax",
+			},
+			{
+				Symbol:   "re.escape",
+				Contexts: []string{"regex"},
+				Note:     "escapes the characters a pattern treats as syntax",
 			},
 			{
 				Symbol:   "escape-html",
@@ -3656,6 +3676,47 @@ func builtinDecisions() []DecisionRule {
 			Finding:   "Security decision made on a cookie",
 			Reason:    "a cookie is a value the browser was handed and hands back, and getting it back is no evidence it came from here or came back unchanged",
 			Rationale: "the comparison decides on a cookie the caller returned",
+		},
+	}
+}
+
+// StoreRule is a weakness in what got WRITTEN somewhere, rather than in what was called or
+// what was compared.
+//
+// A session is the case that needs it. `req.session.role = req.body.role` calls nothing and
+// compares nothing: the caller's claim is simply moved to the far side of a trust boundary,
+// and everything downstream that reads the session gets it back looking like something the
+// server established.
+type StoreRule struct {
+	ID string
+	// Class is the classification the written value must carry.
+	Class string
+	// Into names the destination, matched against the last segment of the base's access
+	// path: `req.session` and `request.session` are both "session".
+	Into []string
+
+	CWE       string
+	Finding   string
+	Reason    string
+	Rationale string
+}
+
+func builtinStores() []StoreRule {
+	return []StoreRule{
+		{
+			// A session is server-side state, which is exactly what makes this worth
+			// reporting: everything downstream reads it back as something the server
+			// established, and by then the fact that a caller chose it is gone.
+			// The class is a caller-asserted AUTHORITY, not caller input generally.
+			// Sessions legitimately hold things the caller chose -- a return URL, a
+			// pending registration, a theme -- and nodebb does exactly that twice. What
+			// must not cross is a claim about what the caller is ALLOWED to do, because
+			// that is what everything downstream reads back as established.
+			ID: "untrusted-into-session", Class: "caller-asserted-authority", Into: []string{"session"},
+			CWE:       "CWE-501",
+			Finding:   "Caller's data written into the session",
+			Reason:    "a session is read back as state the server established, so putting the caller's own data there launders it across the trust boundary and everything downstream believes it",
+			Rationale: "the value written into the session came from the request",
 		},
 	}
 }

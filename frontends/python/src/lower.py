@@ -16,7 +16,7 @@ import re
 import os
 from typing import Any
 
-IR_VERSION = "0.9.1"
+IR_VERSION = "0.10.0"
 FRONTEND_VERSION = "0.1.0"
 
 FUNCTION_NODES = (ast.FunctionDef, ast.AsyncFunctionDef)
@@ -294,6 +294,7 @@ class FunctionLowerer:
         self.calls: list[dict] = []
         self.returns: list[str] = []
         self.comparisons: list[dict] = []
+        self.writes: list[dict] = []
         self.blocks: list[dict] = []
         self._b = 0
         self.entry_block = self.new_block(node)
@@ -387,6 +388,7 @@ class FunctionLowerer:
             "calls": self.calls,
             "returns": self.returns,
             "comparisons": self.comparisons,
+            "writes": [{k: v for k, v in w.items() if v is not None} for w in self.writes],
             "entryBlock": self.entry_block,
             "blocks": self.blocks,
         }
@@ -399,6 +401,27 @@ class FunctionLowerer:
         if isinstance(node, ast.Assign):
             src = self.expr(node.value)
             for target in node.targets:
+                # An assignment INTO something: `session["user"] = x`, `cfg.debug = y`.
+                # Only plain names were lowered, so writing into an attribute or a
+                # subscript recorded nothing -- and putting caller data into a session is
+                # a weakness whose entire shape is the write.
+                if isinstance(target, ast.Attribute):
+                    self.writes.append({
+                        "loc": loc_of(self.mod.module, node),
+                        "base": self.expr(target.value),
+                        "path": target.attr,
+                        "from": src,
+                    })
+                    continue
+                if isinstance(target, ast.Subscript):
+                    key = target.slice
+                    self.writes.append({
+                        "loc": loc_of(self.mod.module, node),
+                        "base": self.expr(target.value),
+                        "path": key.value if isinstance(key, ast.Constant) and isinstance(key.value, str) else None,
+                        "from": src,
+                    })
+                    continue
                 if isinstance(target, ast.Name):
                     vid = self.new_value("local", target, name=target.id)
                     self.scope[target.id] = vid

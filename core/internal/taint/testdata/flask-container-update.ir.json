@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.9.1",
+  "irVersion": "0.10.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -99,6 +99,7 @@
       ],
       "returns": [],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "app.py#<module>:0$b0",
       "blocks": [
         {
@@ -233,6 +234,7 @@
         "app.py#log_request:18$v1"
       ],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "app.py#log_request:18$b0",
       "blocks": [
         {
@@ -396,6 +398,7 @@
         "app.py#search:26$v1"
       ],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "app.py#search:26$b0",
       "blocks": [
         {
@@ -562,6 +565,7 @@
         "app.py#cache_key:34$v1"
       ],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "app.py#cache_key:34$b0",
       "blocks": [
         {
@@ -656,6 +660,7 @@
         "app.py#whoami:42$v0"
       ],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "app.py#whoami:42$b0",
       "blocks": [
         {
@@ -826,6 +831,7 @@
         "app.py#touch_record:50$v5"
       ],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "app.py#touch_record:50$b0",
       "blocks": [
         {
@@ -877,6 +883,7 @@
         "app.py#build_defaults:57$v0"
       ],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "app.py#build_defaults:57$b0",
       "blocks": [
         {
@@ -927,6 +934,7 @@
         "app.py#get_store:61$v0"
       ],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "app.py#get_store:61$b0",
       "blocks": [
         {

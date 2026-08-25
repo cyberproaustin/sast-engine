@@ -698,8 +698,15 @@ func (e *engine) throughCall(argValueID string, c *ir.Call) {
 				continue
 			}
 			e.markTainted(param.ValueID, edge{
-				from:       argValueID,
-				desc:       fmt.Sprintf("passed as argument %d to %s()", a.Index, callee.Name),
+				from: argValueID,
+				desc: fmt.Sprintf("passed as argument %d to %s()", a.Index, callee.Name),
+				// The callee's own NAME, so a sanitizer can recognise a transform an
+				// application defined for itself. novu writes its own `escapeRegExp` and
+				// interpolates the result into a pattern, which is the correct way to
+				// search for a literal string -- and every sanitizer here matched imported
+				// symbols only, so a local one was invisible and the flow read as
+				// catastrophic backtracking.
+				symbol:     callee.Name,
 				kind:       "call",
 				loc:        c.Loc,
 				resolution: c.Callee.Resolution,
@@ -1283,9 +1290,13 @@ func (e *engine) buildFinding(c *ir.Call, ch model.Channel, p model.Policy, arg 
 	// still reported — the operation may well be a record selector — but it has not
 	// earned the confidence that stops a build (ADR-005).
 	confidence := confidenceOf(path)
-	// No type at all is the unanswerable case. An origin that is merely empty means
-	// "not a builtin", which is what every ORM in existence looks like.
-	if ch.RequiresExternalReceiver && c.ReceiverType == "" && confidence == High {
+	// No type at all is the unanswerable case -- and so is an ANONYMOUS one. A receiver
+	// typed `__object` is an object literal, which is what an aggregating namespace looks
+	// like: budibase reaches its data layer through `sdk.queries`, an object built out of
+	// other modules, and that says no more about whether records live behind it than no
+	// type at all does. An origin that is merely empty means "not a builtin", which is
+	// what every ORM in existence looks like, so that is not the test.
+	if ch.RequiresExternalReceiver && (c.ReceiverType == "" || c.ReceiverType == "__object") && confidence == High {
 		confidence = Medium
 	}
 

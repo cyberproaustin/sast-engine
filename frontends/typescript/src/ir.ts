@@ -1,7 +1,7 @@
 // Program IR — the wire contract with the core (docs/IR.md, ADR-001).
 // Types only. This file must stay a mirror of the spec, not of the TypeScript AST.
 
-export const IR_VERSION = "0.9.1";
+export const IR_VERSION = "0.10.0";
 
 export interface Loc {
   file: string;
@@ -114,6 +114,13 @@ export interface Block {
   loc: Loc;
 }
 
+export interface Write {
+  loc: Loc;
+  base?: string;
+  path?: string;
+  from?: string;
+}
+
 export interface FunctionIR {
   id: string;
   name: string;
@@ -125,6 +132,7 @@ export interface FunctionIR {
   calls: Call[];
   returns: string[];
   comparisons?: Comparison[];
+  writes?: Write[];
   entryBlock?: string;
   blocks?: Block[];
 }

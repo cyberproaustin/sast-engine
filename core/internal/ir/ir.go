@@ -86,6 +86,29 @@ type Function struct {
 	// Dataflow alone cannot see that a handler checked one thing against another,
 	// and "was this related to the caller's identity?" is exactly that question.
 	Comparisons []Comparison `json:"comparisons,omitempty"`
+	// Writes are assignments INTO something: `session["user"] = x`, `config.debug = y`.
+	//
+	// Only assignments to a plain name were lowered before, so writing into a property or
+	// a subscript recorded nothing at all -- and putting caller data into a session is a
+	// weakness whose entire shape is the write.
+	//
+	// Deliberately not fed into taint propagation. Whether a value read back out of an
+	// object should carry what was written into it is a field-sensitivity question this
+	// project measured once and found worth nothing, and answering it as a side effect of
+	// recording the write would be deciding it by accident.
+	Writes []Write `json:"writes,omitempty"`
+}
+
+// Write is an assignment into a property or a subscript of something.
+type Write struct {
+	Loc Loc `json:"loc"`
+	// Base is the value being written INTO, when the frontend could identify one.
+	Base string `json:"base,omitempty"`
+	// Path is what was written to: a property name, or the key of a subscript when it
+	// was written as a literal.
+	Path string `json:"path,omitempty"`
+	// From is the value written, when it produced one.
+	From string `json:"from,omitempty"`
 }
 
 // Comparison is one relational test between two values.

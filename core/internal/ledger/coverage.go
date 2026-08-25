@@ -250,6 +250,9 @@ var claims = map[string]Claim{
 		Subsumes: true,
 	},
 
+	"CWE-501": {State: Partial, Reason: "a caller-asserted AUTHORITY written into the session, which everything downstream reads back as state the server established. Deliberately not caller input generally: sessions legitimately hold a return URL, a pending registration or a theme, and nodebb does exactly that twice. What must not cross is a claim about what the caller is allowed to do. Only the session is described as a destination, because the engine has no way to know where an application draws its other boundaries",
+		By: []string{"untrusted-into-session"}},
+
 	// Cookie attributes. Two of the three are claimed for an explicit downgrade AND for
 	// an omission; Secure is claimed only for the downgrade, because the correct idiom
 	// makes it conditional on the environment and a rule demanding a literal would report

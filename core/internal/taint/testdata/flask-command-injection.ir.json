@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.9.1",
+  "irVersion": "0.10.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -94,6 +94,7 @@
       ],
       "returns": [],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "app.py#<module>:0$b0",
       "blocks": [
         {
@@ -263,6 +264,7 @@
         "app.py#ping:9$v5"
       ],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "app.py#ping:9$b0",
       "blocks": [
         {
@@ -493,6 +495,7 @@
         "app.py#get_order:17$v6"
       ],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "app.py#get_order:17$b0",
       "blocks": [
         {
@@ -592,6 +595,7 @@
         "app.py#status:25$v1"
       ],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "app.py#status:25$b0",
       "blocks": [
         {
@@ -695,6 +699,7 @@
       ],
       "returns": [],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "app.py#load_order:29$b0",
       "blocks": [
         {
@@ -733,6 +738,7 @@
       "calls": [],
       "returns": [],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "helpers.py#<module>:0$b0",
       "blocks": [
         {
@@ -869,6 +875,7 @@
         "helpers.py#run_ping:4$v2"
       ],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "helpers.py#run_ping:4$b0",
       "blocks": [
         {

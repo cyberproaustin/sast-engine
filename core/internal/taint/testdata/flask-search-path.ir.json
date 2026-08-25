@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.9.1",
+  "irVersion": "0.10.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -90,6 +90,7 @@
       ],
       "returns": [],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "app.py#<module>:0$b0",
       "blocks": [
         {
@@ -270,6 +271,7 @@
         "app.py#add_plugin:9$v7"
       ],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "app.py#add_plugin:9$b0",
       "blocks": [
         {
@@ -417,6 +419,7 @@
         "app.py#reset:19$v5"
       ],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "app.py#reset:19$b0",
       "blocks": [
         {

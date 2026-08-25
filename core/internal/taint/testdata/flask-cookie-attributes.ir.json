@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.9.1",
+  "irVersion": "0.10.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -177,6 +177,7 @@
       ],
       "returns": [],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "app.py#<module>:0$b0",
       "blocks": [
         {
@@ -383,6 +384,7 @@
         "app.py#login:9$v2"
       ],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "app.py#login:9$b0",
       "blocks": [
         {
@@ -613,6 +615,7 @@
         "app.py#login_explicit:17$v2"
       ],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "app.py#login_explicit:17$b0",
       "blocks": [
         {
@@ -857,6 +860,7 @@
         "app.py#login_crosssite:25$v2"
       ],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "app.py#login_crosssite:25$b0",
       "blocks": [
         {
@@ -1070,6 +1074,7 @@
         "app.py#login_spread:33$v2"
       ],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "app.py#login_spread:33$b0",
       "blocks": [
         {
@@ -1328,6 +1333,7 @@
         "app.py#login_correct:42$v2"
       ],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "app.py#login_correct:42$b0",
       "blocks": [
         {
@@ -1544,6 +1550,7 @@
         "app.py#csrf:50$v2"
       ],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "app.py#csrf:50$b0",
       "blocks": [
         {
