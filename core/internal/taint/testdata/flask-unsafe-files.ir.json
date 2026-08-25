@@ -194,7 +194,7 @@
             "line": 16,
             "column": 10
           },
-          "name": "open"
+          "name": "builtins.open"
         },
         {
           "id": "app.py#report:12$v5",
@@ -310,8 +310,8 @@
           },
           "callee": {
             "kind": "external",
-            "symbol": "open",
-            "resolution": "probable"
+            "symbol": "builtins.open",
+            "resolution": "resolved"
           },
           "args": [
             {

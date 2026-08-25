@@ -33,6 +33,15 @@ HTTP_METHODS = frozenset({"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTI
 # Base classes whose subclasses Flask dispatches by HTTP verb.
 VIEW_BASES = frozenset({"MethodView", "View"})
 
+# The builtins a rule in this project has anything to say about. Deliberately a short
+# list rather than everything in the module: a name is only qualified as a builtin when
+# nothing in the file defines or imports it, and a short list keeps a shadowed name in
+# some other file from being labelled as the language's.
+PYTHON_BUILTINS = frozenset({
+    "open", "eval", "exec", "compile", "__import__", "input", "int", "float",
+    "getattr", "setattr", "delattr", "globals", "locals", "vars",
+})
+
 BUILTIN_CONTAINERS = frozenset({"dict", "list", "set", "frozenset", "bytearray", "tuple", "Counter", "defaultdict", "OrderedDict"})
 
 
@@ -491,6 +500,29 @@ class FunctionLowerer:
                 self.walk(stmt)
             return
 
+        # `for entry in archive.namelist():` binds a name to an ELEMENT of something, and
+        # the collection is the whole evidence for what the element is. Without this the
+        # chain simply stopped at the loop: a list of objects a caller sent produced
+        # elements related to nothing, and every judgement about what the loop did with
+        # them was silent.
+        #
+        # The flow kind is "property" rather than "enclose" because that is the direction
+        # it goes -- an element comes OUT of the collection, and it comes out whole.
+        if isinstance(node, (ast.For, ast.AsyncFor)):
+            src = self.expr(node.iter)
+            targets = node.target.elts if isinstance(node.target, ast.Tuple) else [node.target]
+            for target in targets:
+                if not isinstance(target, ast.Name):
+                    continue
+                vid = self.new_value("local", target, name=target.id)
+                self.scope[target.id] = vid
+                if self.is_module:
+                    self.mod.module_scope[target.id] = vid
+                self.add_flow(src, vid, "property", node)
+            for stmt in list(node.body) + list(node.orelse):
+                self.walk(stmt)
+            return
+
         if isinstance(node, (ast.Global, ast.Nonlocal)):
             self.declared_global.update(node.names)
             return
@@ -681,8 +713,14 @@ class FunctionLowerer:
 
         if isinstance(node, ast.Dict):
             vid = self.new_value("local", node, name="{dict}")
-            for value in node.values:
-                self.add_flow(self.expr(value), vid, "enclose", node)
+            for key, value in zip(node.keys, node.values):
+                # `{**request.json}` is not an enclosure. A double-star has no key, and
+                # every key the value HAD is still a key here -- which is exactly what a
+                # rule asking "did this arrive whole" wants to know. Calling it an
+                # enclosure said the application had chosen the fields when it had chosen
+                # none of them.
+                kind = "enclose" if key is not None else "assign"
+                self.add_flow(self.expr(value), vid, kind, node)
             return vid
 
         if isinstance(node, (ast.List, ast.Tuple, ast.Set)):
@@ -983,6 +1021,13 @@ class FunctionLowerer:
                 if target:
                     return {"kind": "local", "functionId": target, "resolution": "resolved"}
                 return {"kind": "external", "symbol": imported, "resolution": "resolved"}
+            # A name that is neither defined here nor imported is the language's own.
+            # Qualifying it is what lets a rule be written against `builtins.open` rather
+            # than against the bare word -- and the bare word was what the frontend
+            # emitted, so every rule about what Python OPENS matched nothing at all.
+            # `open` is the most common file API in the language.
+            if func.id in PYTHON_BUILTINS:
+                return {"kind": "external", "symbol": f"builtins.{func.id}", "resolution": "resolved"}
             return {"kind": "external", "symbol": func.id, "resolution": "probable"}
 
         if isinstance(func, ast.Attribute) and isinstance(func.value, ast.Name):

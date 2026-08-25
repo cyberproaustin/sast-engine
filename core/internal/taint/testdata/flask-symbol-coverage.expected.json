@@ -1,0 +1,78 @@
+{
+  "corpus": "flask-symbol-coverage",
+  "description": "Rules the model shipped and no fixture had ever exercised. Written after a diagnostic asked, for every symbol the model names, whether any lowered program produces it -- and answered that 130 of 304 never had. Most are libraries no corpus uses; some were a spelling the frontend never emits, which is a rule that cannot fire and looks exactly like a rule that found nothing. Every finding here was already described in the model. The point of the file is that the description and the frontend agree.",
+  "expected": [
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "app.py",
+      "sinkLine": 28,
+      "sourceLabel": "flask.request.args.host",
+      "confidence": "high",
+      "note": "subprocess.run, the modern spelling and the one no fixture had"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "app.py",
+      "sinkLine": 29,
+      "sourceLabel": "flask.request.args.host",
+      "confidence": "high",
+      "note": "subprocess.call"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "app.py",
+      "sinkLine": 30,
+      "sourceLabel": "flask.request.args.host",
+      "confidence": "high",
+      "note": "subprocess.Popen"
+    },
+    {
+      "cwe": "CWE-502",
+      "sinkFile": "app.py",
+      "sinkLine": 37,
+      "sourceLabel": "flask.request.get_data()",
+      "confidence": "high",
+      "note": "pickle.loads, reached through the METHOD form of the request body -- `request.get_json()` appears 44 times across the clean corpus and was not a source at all"
+    },
+    {
+      "cwe": "CWE-502",
+      "sinkFile": "app.py",
+      "sinkLine": 38,
+      "sourceLabel": "flask.request.args.doc",
+      "confidence": "high",
+      "note": "yaml.unsafe_load"
+    },
+    {
+      "cwe": "CWE-918",
+      "sinkFile": "app.py",
+      "sinkLine": 45,
+      "sourceLabel": "flask.request.args.url",
+      "confidence": "medium",
+      "note": "urllib.request.urlopen"
+    },
+    {
+      "cwe": "CWE-22",
+      "sinkFile": "app.py",
+      "sinkLine": 52,
+      "sourceLabel": "flask.request.args.name",
+      "confidence": "high",
+      "note": "flask.send_file"
+    },
+    {
+      "cwe": "CWE-1336",
+      "sinkFile": "app.py",
+      "sinkLine": 59,
+      "sourceLabel": "flask.request.args.tpl",
+      "confidence": "high",
+      "note": "jinja2.Template compiled from a caller's text"
+    },
+    {
+      "cwe": "CWE-328",
+      "sinkFile": "app.py",
+      "sinkLine": 69,
+      "sourceLabel": "\"hashlib.sha1()\"",
+      "confidence": "high",
+      "note": "the direct form of a weak hash, which the named-algorithm rules never covered. Reported and never gating: across the clean corpus the direct form is 44 of the 80 weak-hash findings, every one examined being a cache key, an ETag or a Gravatar URL"
+    }
+  ]
+}

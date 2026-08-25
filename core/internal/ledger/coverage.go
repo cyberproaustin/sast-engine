@@ -75,7 +75,12 @@ var claims = map[string]Claim{
 	"CWE-22": {
 		State: Partial,
 		Reason: "untrusted data choosing the path argument of a described filesystem API; " +
-			"path.basename and Flask's send_from_directory are recognized as confining it",
+			"path.basename and Flask's send_from_directory are recognized as confining it. " +
+			"An archive is covered from both ends by the same rule: the library call that " +
+			"unpacks a whole one at once is reported where it is written, and a program " +
+			"that walks the entries and writes each one itself is reported on the entry " +
+			"NAME -- because the loop variable carries what the collection carried, and " +
+			"the collection came out of opening an archive the caller sent",
 		By:       []string{"untrusted-to-filesystem-path"},
 		Subsumes: true,
 	},
@@ -85,7 +90,7 @@ var claims = map[string]Claim{
 		By: []string{"untrusted-to-deserializer"}},
 	"CWE-601": {State: Partial, Reason: "untrusted data forming the WHOLE destination of a redirect; a path within the application cannot leave it and is not reported. Applications very often validate a redirect target with a helper of their own or behind an `is_safe_url` check, and whether such a check is CORRECT is not something this engine can decide -- it does not model guards at all, so those report rather than being cleared, and in a frontend without types they land below the gating tier rather than above it",
 		By: []string{"untrusted-to-redirect"}},
-	"CWE-328": {State: Partial, Reason: "a broken hash algorithm named as a literal in the call; an algorithm chosen at runtime is not matched and not guessed at",
+	"CWE-328": {State: Partial, Reason: "a broken hash algorithm named in the call, in both spellings: as a literal argument to `createHash`, `createHmac` or `hashlib.new`, and as the function itself in `hashlib.md5` and `hashlib.sha1` -- the second is how Python is actually written and was missing for a long time. An algorithm chosen at runtime is not matched and not guessed at. Reported and never gating: measured across the clean corpus the direct form is 44 of the 80 findings, every one examined being a cache key, an ETag or a Gravatar URL, and whether a broken digest matters depends on what it is used for",
 		By: []string{"weak-hash"}},
 	"CWE-295": {State: Partial, Reason: "certificate verification disabled by a literal argument or option: `verify=False` on a Python request, and `rejectUnauthorized: false` anywhere at all, because that option name means one thing in Node and a list of the clients it can be handed to would be wrong the moment somebody used a different one",
 		By: []string{"disabled-certificate-check"},

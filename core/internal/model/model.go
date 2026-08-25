@@ -744,6 +744,16 @@ func builtin() Model {
 							// SOURCE, and was invisible while this list stopped at the body.
 							"url", "path", "full_path", "base_url", "url_root", "query_string", "referrer", "user_agent"},
 					},
+					// The METHOD forms of the same properties, which is how Flask code
+					// actually reads a body. `request.get_json()` appears 44 times across
+					// the clean corpus and was not a source at all: the property list
+					// covered `request.json` and the call was a different shape entirely,
+					// so the most common way to read a JSON request in this framework
+					// produced values related to nothing.
+					{Match: MatchCallResult, Symbol: "flask.request.get_json"},
+					{Match: MatchCallResult, Symbol: "flask.request.get_data"},
+					{Match: MatchCallResult, Symbol: "request.get_json"},
+					{Match: MatchCallResult, Symbol: "request.get_data"},
 				},
 			},
 			{
@@ -3526,27 +3536,62 @@ func builtin() Model {
 				// in a number.
 				Symbol:   "parseInt",
 				Contexts: []string{AnyContext},
-				Note:     "produces a number, which cannot carry syntax",
+				// Scoped to the class the argument is actually about. A number cannot
+				// carry syntax, so it neutralizes anything a caller might have written --
+				// and it does nothing whatever about PREDICTABILITY. `int(time.time())`
+				// is still the clock, and while these cleared every class the finding for
+				// a token built from the clock disappeared the moment the Python spelling
+				// started matching at all.
+				Classes: []string{"untrusted-input"},
+				Note:    "produces a number, which cannot carry syntax",
 			},
 			{
 				Symbol:   "parseFloat",
 				Contexts: []string{AnyContext},
-				Note:     "produces a number, which cannot carry syntax",
+				// Scoped to the class the argument is actually about. A number cannot
+				// carry syntax, so it neutralizes anything a caller might have written --
+				// and it does nothing whatever about PREDICTABILITY. `int(time.time())`
+				// is still the clock, and while these cleared every class the finding for
+				// a token built from the clock disappeared the moment the Python spelling
+				// started matching at all.
+				Classes: []string{"untrusted-input"},
+				Note:    "produces a number, which cannot carry syntax",
 			},
 			{
 				Symbol:   "Number",
 				Contexts: []string{AnyContext},
-				Note:     "produces a number, which cannot carry syntax",
+				// Scoped to the class the argument is actually about. A number cannot
+				// carry syntax, so it neutralizes anything a caller might have written --
+				// and it does nothing whatever about PREDICTABILITY. `int(time.time())`
+				// is still the clock, and while these cleared every class the finding for
+				// a token built from the clock disappeared the moment the Python spelling
+				// started matching at all.
+				Classes: []string{"untrusted-input"},
+				Note:    "produces a number, which cannot carry syntax",
 			},
 			{
 				Symbol:   "builtins.int",
 				Contexts: []string{AnyContext},
-				Note:     "produces a number, which cannot carry syntax",
+				// Scoped to the class the argument is actually about. A number cannot
+				// carry syntax, so it neutralizes anything a caller might have written --
+				// and it does nothing whatever about PREDICTABILITY. `int(time.time())`
+				// is still the clock, and while these cleared every class the finding for
+				// a token built from the clock disappeared the moment the Python spelling
+				// started matching at all.
+				Classes: []string{"untrusted-input"},
+				Note:    "produces a number, which cannot carry syntax",
 			},
 			{
 				Symbol:   "builtins.float",
 				Contexts: []string{AnyContext},
-				Note:     "produces a number, which cannot carry syntax",
+				// Scoped to the class the argument is actually about. A number cannot
+				// carry syntax, so it neutralizes anything a caller might have written --
+				// and it does nothing whatever about PREDICTABILITY. `int(time.time())`
+				// is still the clock, and while these cleared every class the finding for
+				// a token built from the clock disappeared the moment the Python spelling
+				// started matching at all.
+				Classes: []string{"untrusted-input"},
+				Note:    "produces a number, which cannot carry syntax",
 			},
 			{
 				// One-way by construction: the output is a verifier, and nothing that
@@ -5431,6 +5476,31 @@ func builtinCallShapes() []CallShape {
 			Rationale:    "samesite is set to None",
 		},
 
+		{
+			// The direct form, which is how Python actually writes it. The named-algorithm
+			// rules below cover `hashlib.new("md5")` and `crypto.createHash("md5")`, and
+			// for a long time they were the only ones -- so `hashlib.md5(x)`, the spelling
+			// in every Python tutorial ever written, was not reported at all. The
+			// algorithm is named just as plainly; it is the function rather than a string.
+			//
+			// Measured across the clean corpus: 15 md5 and 2 sha1, every one of them a
+			// cache key or an ETag, which is exactly why this carries the same
+			// DependsOnUse the named form does.
+			ID: "weak-hash", Symbol: "hashlib.md5", Always: true,
+			DependsOnUse: "whether a broken digest matters depends on what it is used for, which this call does not carry: the same call builds a cache key, a filename, and a Gravatar URL",
+			CWE:          "CWE-328",
+			Finding:      "Weak hash algorithm",
+			Reason:       "the algorithm is broken against collision, so a digest does not establish what it is used to establish",
+			Rationale:    "md5() names the algorithm as the function itself",
+		},
+		{
+			ID: "weak-hash", Symbol: "hashlib.sha1", Always: true,
+			DependsOnUse: "whether a broken digest matters depends on what it is used for, which this call does not carry: the same call builds a cache key, a filename, and a Gravatar URL",
+			CWE:          "CWE-328",
+			Finding:      "Weak hash algorithm",
+			Reason:       "the algorithm is broken against collision, so a digest does not establish what it is used to establish",
+			Rationale:    "sha1() names the algorithm as the function itself",
+		},
 		{
 			ID: "weak-hash", Symbol: "crypto.createHash", ArgIndex: 0, Disallowed: weakHash,
 			DependsOnUse: "whether a broken digest matters depends on what it is used for, which this call does not carry: the same call builds a cache key, a filename, and a Gravatar URL",
