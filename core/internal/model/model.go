@@ -214,6 +214,16 @@ type Channel struct {
 	// format string at all.
 	RequiresArgs int
 
+	// MaxArgs is the number of arguments the call must NOT exceed, for a destination
+	// that is only dangerous in its DEFAULT configuration.
+	//
+	// lxml's `fromstring(data)` uses a parser that resolves entities; `fromstring(data,
+	// parser)` uses the one the application built, and building one is how the weakness
+	// is fixed. Reporting both makes the rule report its own remedy, which is how the
+	// argument-injection rule was withdrawn. The engine cannot see how that parser was
+	// configured, so the honest line is silence on the form that supplies one.
+	MaxArgs int
+
 	// RequiresUnenclosed marks a channel where the danger is handing over the caller's
 	// object WHOLE.
 	//
@@ -1815,20 +1825,26 @@ func Builtin() Model {
 				// configuration IS the configuration.
 				ID: "xml-parser", Visibility: "internal", Context: "xml",
 				Symbol: "lxml.etree.fromstring", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE:       "CWE-611",
-				Rationale: "lxml's default parser resolves entities",
+				MaxArgs:    1,
+				Qualifiers: []ArgCondition{{Keyword: "parser", Absent: true}},
+				CWE:        "CWE-611",
+				Rationale:  "lxml's default parser resolves entities, and this call did not supply one",
 			},
 			{
 				ID: "xml-parser", Visibility: "internal", Context: "xml",
 				Symbol: "lxml.etree.XML", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE:       "CWE-611",
-				Rationale: "lxml's default parser resolves entities",
+				MaxArgs:    1,
+				Qualifiers: []ArgCondition{{Keyword: "parser", Absent: true}},
+				CWE:        "CWE-611",
+				Rationale:  "lxml's default parser resolves entities, and this call did not supply one",
 			},
 			{
 				ID: "xml-parser", Visibility: "internal", Context: "xml",
 				Symbol: "lxml.etree.parse", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE:       "CWE-611",
-				Rationale: "lxml's default parser resolves entities",
+				MaxArgs:    1,
+				Qualifiers: []ArgCondition{{Keyword: "parser", Absent: true}},
+				CWE:        "CWE-611",
+				Rationale:  "lxml's default parser resolves entities, and this call did not supply one",
 			},
 
 			// Where an uploaded file's BYTES come to rest. Separate from filesystem-path
@@ -4074,6 +4090,84 @@ func builtinCallShapes() []CallShape {
 			Finding:    "A new window left holding a reference back to this one",
 			Reason:     "the opened page can navigate the page that opened it, which is how a link to somewhere else replaces the page behind it with a copy that asks for a password",
 			Rationale:  "the third argument is where noopener would be, and the call has no third argument",
+		},
+
+		{
+			// Code fetched over the network and run without anybody checking WHAT was
+			// fetched. Whoever can answer for that host, or sit between here and it,
+			// chooses what this machine executes -- and a redirect, an expired domain or a
+			// compromised mirror is enough. There is no signature to verify because
+			// nothing was signed.
+			ID: "unverified-download", Symbol: "child_process.exec", ArgIndex: 0, Always: true,
+			Qualifiers: []ArgCondition{
+				{ArgIndex: 0, Substring: true, AnyOf: []string{"curl ", "wget ", "iwr ", "invoke-webrequest"}},
+				{ArgIndex: 0, Substring: true, AnyOf: []string{"| sh", "|sh", "| bash", "|bash", "| python", "|python", "| ruby", "|ruby"}},
+			},
+			CWE:       "CWE-494",
+			Finding:   "Code downloaded and run without an integrity check",
+			Reason:    "what gets executed is whatever the host answered with, and nothing here checks that it is what was expected",
+			Rationale: "the command fetches something over the network and pipes it into an interpreter",
+		},
+		{
+			// Code fetched over the network and run without anybody checking WHAT was
+			// fetched. Whoever can answer for that host, or sit between here and it,
+			// chooses what this machine executes -- and a redirect, an expired domain or a
+			// compromised mirror is enough. There is no signature to verify because
+			// nothing was signed.
+			ID: "unverified-download", Symbol: "child_process.execSync", ArgIndex: 0, Always: true,
+			Qualifiers: []ArgCondition{
+				{ArgIndex: 0, Substring: true, AnyOf: []string{"curl ", "wget ", "iwr ", "invoke-webrequest"}},
+				{ArgIndex: 0, Substring: true, AnyOf: []string{"| sh", "|sh", "| bash", "|bash", "| python", "|python", "| ruby", "|ruby"}},
+			},
+			CWE:       "CWE-494",
+			Finding:   "Code downloaded and run without an integrity check",
+			Reason:    "what gets executed is whatever the host answered with, and nothing here checks that it is what was expected",
+			Rationale: "the command fetches something over the network and pipes it into an interpreter",
+		},
+		{
+			// Code fetched over the network and run without anybody checking WHAT was
+			// fetched. Whoever can answer for that host, or sit between here and it,
+			// chooses what this machine executes -- and a redirect, an expired domain or a
+			// compromised mirror is enough. There is no signature to verify because
+			// nothing was signed.
+			ID: "unverified-download", Symbol: "os.system", ArgIndex: 0, Always: true,
+			Qualifiers: []ArgCondition{
+				{ArgIndex: 0, Substring: true, AnyOf: []string{"curl ", "wget ", "iwr ", "invoke-webrequest"}},
+				{ArgIndex: 0, Substring: true, AnyOf: []string{"| sh", "|sh", "| bash", "|bash", "| python", "|python", "| ruby", "|ruby"}},
+			},
+			CWE:       "CWE-494",
+			Finding:   "Code downloaded and run without an integrity check",
+			Reason:    "what gets executed is whatever the host answered with, and nothing here checks that it is what was expected",
+			Rationale: "the command fetches something over the network and pipes it into an interpreter",
+		},
+		{
+			// Code fetched over the network and run without anybody checking WHAT was
+			// fetched. Whoever can answer for that host, or sit between here and it,
+			// chooses what this machine executes -- and a redirect, an expired domain or a
+			// compromised mirror is enough. There is no signature to verify because
+			// nothing was signed.
+			ID: "unverified-download", Symbol: "subprocess.getoutput", ArgIndex: 0, Always: true,
+			Qualifiers: []ArgCondition{
+				{ArgIndex: 0, Substring: true, AnyOf: []string{"curl ", "wget ", "iwr ", "invoke-webrequest"}},
+				{ArgIndex: 0, Substring: true, AnyOf: []string{"| sh", "|sh", "| bash", "|bash", "| python", "|python", "| ruby", "|ruby"}},
+			},
+			CWE:       "CWE-494",
+			Finding:   "Code downloaded and run without an integrity check",
+			Reason:    "what gets executed is whatever the host answered with, and nothing here checks that it is what was expected",
+			Rationale: "the command fetches something over the network and pipes it into an interpreter",
+		},
+
+		{
+			// An XML parser told to lift its own limits. A document a few kilobytes long
+			// can then expand into gigabytes -- the same nested-entity trick that has had
+			// a name for twenty years -- and the process dies holding whatever else it
+			// was doing.
+			ID: "entity-expansion", Symbol: "lxml.etree.XMLParser", Keyword: "huge_tree",
+			Disallowed: []string{"true"},
+			CWE:        "CWE-776",
+			Finding:    "XML parser told to lift its expansion limits",
+			Reason:     "the limits being lifted are the ones that stop a small document from expanding into a large one, which is the whole of the attack",
+			Rationale:  "huge_tree removes libxml2's own guard against runaway entity expansion",
 		},
 
 		{
