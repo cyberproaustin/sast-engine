@@ -1,0 +1,22 @@
+{
+  "corpus": "electron-window",
+  "description": "A desktop shell window told to hand page content the runtime. Named by OPTION rather than by callee, because these names mean one thing wherever they appear and enumerating the wrappers that pass them through would be wrong the moment somebody wrote another one.",
+  "expected": [
+    {
+      "cwe": "CWE-749",
+      "sinkFile": "main.js",
+      "sinkLine": 8,
+      "sourceLabel": "\"webPreferences.nodeIntegration=true\"",
+      "confidence": "high",
+      "note": "the option is written one level down inside a named group, which is where options that decide something usually live"
+    },
+    {
+      "cwe": "CWE-749",
+      "sinkFile": "main.js",
+      "sinkLine": 8,
+      "sourceLabel": "\"webPreferences.contextIsolation=false\"",
+      "confidence": "high",
+      "note": "a second decision in the same call; the window below sets both the other way and is silent"
+    }
+  ]
+}

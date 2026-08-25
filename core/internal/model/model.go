@@ -426,6 +426,17 @@ func (s SanitizerRule) Clears(context string) bool {
 	return false
 }
 
+// lastKeySegment reads an option key on its last segment. An option written inside a
+// named group is the same option: `cookie.maxAge` and `maxAge` are one decision, and the
+// group it sits in is not what makes it one.
+func lastKeySegment(key string) string {
+	key = strings.ToLower(key)
+	if i := strings.LastIndex(key, "."); i >= 0 {
+		return key[i+1:]
+	}
+	return key
+}
+
 // AnyContext marks a transform whose output is not the thing that went in, whatever it
 // is about to be used for.
 const AnyContext = "*"
@@ -3357,7 +3368,7 @@ func (a ArgCondition) Holds(literals map[int]string) bool {
 			if i >= 0 {
 				continue
 			}
-			if key, _, cut := strings.Cut(l, "="); cut && strings.ToLower(key) == want {
+			if key, _, cut := strings.Cut(l, "="); cut && lastKeySegment(key) == want {
 				return false
 			}
 		}
@@ -3375,7 +3386,7 @@ func (a ArgCondition) Holds(literals map[int]string) bool {
 				continue
 			}
 			key, value, cut := strings.Cut(l, "=")
-			if cut && strings.ToLower(key) == want {
+			if cut && lastKeySegment(key) == want {
 				lit, ok = value, true
 				break
 			}
@@ -4324,6 +4335,49 @@ func builtinCallShapes() []CallShape {
 		},
 
 		{
+			// The renderer given the whole runtime. With node integration on, anything
+			// that ends up as script in the page -- a remote resource, a rendered
+			// message, an injected string -- has the filesystem and the process API,
+			// which turns every cross-site scripting bug in the page into code execution
+			// on the machine.
+			ID: "renderer-has-runtime", AnyCall: true, Keyword: "nodeIntegration",
+			Disallowed: []string{"true"},
+			CWE:        "CWE-749",
+			Finding:    "Dangerous runtime exposed to page content",
+			Reason:     "page content gets the filesystem and the process API, so anything that becomes script in this window becomes code running on the machine",
+			Rationale:  "node integration is switched on in the window's options",
+		},
+		{
+			ID: "renderer-has-runtime", AnyCall: true, Keyword: "contextIsolation",
+			Disallowed: []string{"false"},
+			CWE:        "CWE-749",
+			Finding:    "Dangerous runtime exposed to page content",
+			Reason:     "without isolation the preload script and the page share one context, so anything the preload exposed is reachable from the page itself",
+			Rationale:  "context isolation is switched off in the window's options",
+		},
+		{
+			ID: "renderer-has-runtime", AnyCall: true, Keyword: "enableRemoteModule",
+			Disallowed: []string{"true"},
+			CWE:        "CWE-749",
+			Finding:    "Dangerous runtime exposed to page content",
+			Reason:     "the remote module hands the page a live reference to objects in the privileged process",
+			Rationale:  "the remote module is enabled in the window's options",
+		},
+
+		{
+			// Radix zero asks the parser to GUESS the base from the text, so `010` is
+			// eight and `0x10` is sixteen. Every place this matters -- a port, an address
+			// octet, a quantity, an identifier -- the caller writes the text and the
+			// parser picks the base.
+			ID: "inferred-radix", Symbol: "parseInt", ArgIndex: 1,
+			Disallowed: []string{"0"},
+			CWE:        "CWE-1389",
+			Finding:    "Number parsed with the base left to the text",
+			Reason:     "radix zero lets the input choose the base, so `010` is eight and `0x10` is sixteen, and the caller decides which",
+			Rationale:  "the second argument to parseInt() is the radix, and zero means infer it",
+		},
+
+		{
 			// Turning off the header that stops the page being framed. Clickjacking is
 			// the caller's page wrapping yours and collecting the clicks.
 			ID: "frames-allowed", AnyCall: true, Keyword: "xFrameOptions",
@@ -4589,7 +4643,11 @@ func builtinCallShapes() []CallShape {
 // dressing it up as a call would mean inventing both.
 type DecisionRule struct {
 	ID string
-	// Class is the classification one side of the comparison must carry.
+	// Class is the classification one side of the comparison must carry. EMPTY means the
+	// rule is about the comparison ITSELF rather than about what is being compared:
+	// `x is "admin"` in Python asks whether two strings are the same OBJECT, which for
+	// two equal strings is not guaranteed and is a different question from the one the
+	// author meant to ask. No classification is involved and none should be required.
 	Class string
 	// Ops narrows to particular operators, or empty for any. Equality and inequality are
 	// how a privilege is tested; ordering comparisons on a role are rare enough that
@@ -4605,6 +4663,9 @@ type DecisionRule struct {
 	// tells them apart. A threshold computed at runtime is not a number written in the
 	// source and is not matched.
 	OtherBelow *int
+
+	// OtherIsText requires the other side to be a string written into the source.
+	OtherIsText bool
 
 	CWE       string
 	Finding   string
@@ -4636,6 +4697,20 @@ func builtinDecisions() []DecisionRule {
 			Finding:   "Password policy admits a password shorter than eight characters",
 			Reason:    "a password this short can be guessed offline in minutes once the hashes leak, and the length the policy admits is the length people will use",
 			Rationale: "the caller's password is measured against a number written in the source",
+		},
+		{
+			// `password is "admin"` asks whether two strings are the same OBJECT. Python
+			// interns some strings and not others, so the answer depends on how the value
+			// was built rather than on what it says -- and the check silently stops
+			// working the day the string arrives from somewhere else.
+			//
+			// No classification: the defect is in the comparison itself, whatever is
+			// being compared.
+			ID: "identity-compared-to-text", Ops: []string{"Is", "IsNot"}, OtherIsText: true,
+			CWE:       "CWE-597",
+			Finding:   "String compared by identity rather than by value",
+			Reason:    "identity asks whether two strings are the same object, which for two equal strings is not guaranteed, so this check can pass or fail on how the value happened to be built",
+			Rationale: "an identity comparison against a string written in the source",
 		},
 		{
 			// The Referer says where a request came from only in the sense that it says

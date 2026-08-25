@@ -1,0 +1,747 @@
+{
+  "irVersion": "0.11.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "app.py",
+      "path": "app.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "app.py#<module>:0",
+      "name": "<module>",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#<module>:0$v0",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 3,
+            "column": 7
+          },
+          "name": "flask.Flask"
+        },
+        {
+          "id": "app.py#<module>:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 3,
+            "column": 1
+          },
+          "name": "app"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#<module>:0$v0",
+          "to": "app.py#<module>:0$v1",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 3,
+            "column": 1
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#<module>:0$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 3,
+            "column": 7
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.Flask",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#<module>:0$v0",
+          "block": "app.py#<module>:0$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#<module>:0$b0",
+      "blocks": [
+        {
+          "id": "app.py#<module>:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#mode:7",
+      "name": "mode",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 7,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#mode:7$v0",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 12
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#mode:7$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 12
+          },
+          "base": "app.py#mode:7$v0",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "app.py#mode:7$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 12
+          },
+          "name": "mode",
+          "base": "app.py#mode:7$v1",
+          "path": "args.mode"
+        },
+        {
+          "id": "app.py#mode:7$v3",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 5
+          },
+          "name": "mode"
+        },
+        {
+          "id": "app.py#mode:7$v4",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 13,
+            "column": 8
+          },
+          "name": "comparison"
+        },
+        {
+          "id": "app.py#mode:7$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 13,
+            "column": 16
+          },
+          "literal": "admin"
+        },
+        {
+          "id": "app.py#mode:7$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 16
+          },
+          "literal": "admin mode"
+        },
+        {
+          "id": "app.py#mode:7$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 12
+          },
+          "literal": "normal mode"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#mode:7$v0",
+          "to": "app.py#mode:7$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 12
+          }
+        },
+        {
+          "from": "app.py#mode:7$v1",
+          "to": "app.py#mode:7$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 12
+          }
+        },
+        {
+          "from": "app.py#mode:7$v2",
+          "to": "app.py#mode:7$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 5
+          }
+        }
+      ],
+      "calls": [],
+      "returns": [
+        "app.py#mode:7$v6",
+        "app.py#mode:7$v7"
+      ],
+      "comparisons": [
+        {
+          "left": "app.py#mode:7$v3",
+          "right": "app.py#mode:7$v5",
+          "op": "Is",
+          "block": "app.py#mode:7$b0",
+          "loc": {
+            "file": "app.py",
+            "line": 13,
+            "column": 8
+          }
+        }
+      ],
+      "writes": [],
+      "entryBlock": "app.py#mode:7$b0",
+      "blocks": [
+        {
+          "id": "app.py#mode:7$b0",
+          "successors": [
+            "app.py#mode:7$b1",
+            "app.py#mode:7$b3"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 7,
+            "column": 1
+          },
+          "terminator": "branch"
+        },
+        {
+          "id": "app.py#mode:7$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 13,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#mode:7$b2",
+          "successors": [
+            "app.py#mode:7$b3"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 9
+          }
+        },
+        {
+          "id": "app.py#mode:7$b3",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 13,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#mode:7$b4",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#mode_equal:19",
+      "name": "mode_equal",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 19,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#mode_equal:19$v0",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 8
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#mode_equal:19$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 8
+          },
+          "base": "app.py#mode_equal:19$v0",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "app.py#mode_equal:19$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 8
+          },
+          "name": "mode",
+          "base": "app.py#mode_equal:19$v1",
+          "path": "args.mode"
+        },
+        {
+          "id": "app.py#mode_equal:19$v3",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 8
+          },
+          "name": "comparison"
+        },
+        {
+          "id": "app.py#mode_equal:19$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 32
+          },
+          "literal": "admin"
+        },
+        {
+          "id": "app.py#mode_equal:19$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 16
+          },
+          "literal": "admin mode"
+        },
+        {
+          "id": "app.py#mode_equal:19$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 12
+          },
+          "literal": "normal mode"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#mode_equal:19$v0",
+          "to": "app.py#mode_equal:19$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 8
+          }
+        },
+        {
+          "from": "app.py#mode_equal:19$v1",
+          "to": "app.py#mode_equal:19$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 8
+          }
+        }
+      ],
+      "calls": [],
+      "returns": [
+        "app.py#mode_equal:19$v5",
+        "app.py#mode_equal:19$v6"
+      ],
+      "comparisons": [
+        {
+          "left": "app.py#mode_equal:19$v2",
+          "right": "app.py#mode_equal:19$v4",
+          "op": "Eq",
+          "block": "app.py#mode_equal:19$b0",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 8
+          }
+        }
+      ],
+      "writes": [],
+      "entryBlock": "app.py#mode_equal:19$b0",
+      "blocks": [
+        {
+          "id": "app.py#mode_equal:19$b0",
+          "successors": [
+            "app.py#mode_equal:19$b1",
+            "app.py#mode_equal:19$b3"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 1
+          },
+          "terminator": "branch"
+        },
+        {
+          "id": "app.py#mode_equal:19$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#mode_equal:19$b2",
+          "successors": [
+            "app.py#mode_equal:19$b3"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 9
+          }
+        },
+        {
+          "id": "app.py#mode_equal:19$b3",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#mode_equal:19$b4",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#missing:27",
+      "name": "missing",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 27,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#missing:27$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 32,
+            "column": 30
+          },
+          "literal": "mode"
+        },
+        {
+          "id": "app.py#missing:27$v1",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 32,
+            "column": 13
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#missing:27$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 32,
+            "column": 13
+          },
+          "base": "app.py#missing:27$v1",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "app.py#missing:27$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 32,
+            "column": 13
+          },
+          "name": "flask.request.args.get"
+        },
+        {
+          "id": "app.py#missing:27$v4",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 32,
+            "column": 5
+          },
+          "name": "value"
+        },
+        {
+          "id": "app.py#missing:27$v5",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 8
+          },
+          "name": "comparison"
+        },
+        {
+          "id": "app.py#missing:27$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 17
+          }
+        },
+        {
+          "id": "app.py#missing:27$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 16
+          },
+          "literal": "missing"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#missing:27$v1",
+          "to": "app.py#missing:27$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 32,
+            "column": 13
+          }
+        },
+        {
+          "from": "app.py#missing:27$v3",
+          "to": "app.py#missing:27$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 32,
+            "column": 5
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#missing:27$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 32,
+            "column": 13
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.request.args.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#missing:27$v0"
+            }
+          ],
+          "resultValueId": "app.py#missing:27$v3",
+          "block": "app.py#missing:27$b0",
+          "method": "get",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "mode"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#missing:27$v2"
+        }
+      ],
+      "returns": [
+        "app.py#missing:27$v7",
+        "app.py#missing:27$v4"
+      ],
+      "comparisons": [
+        {
+          "left": "app.py#missing:27$v4",
+          "right": "app.py#missing:27$v6",
+          "op": "Is",
+          "block": "app.py#missing:27$b0",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 8
+          }
+        }
+      ],
+      "writes": [],
+      "entryBlock": "app.py#missing:27$b0",
+      "blocks": [
+        {
+          "id": "app.py#missing:27$b0",
+          "successors": [
+            "app.py#missing:27$b1",
+            "app.py#missing:27$b3"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 1
+          },
+          "terminator": "branch"
+        },
+        {
+          "id": "app.py#missing:27$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#missing:27$b2",
+          "successors": [
+            "app.py#missing:27$b3"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 9
+          }
+        },
+        {
+          "id": "app.py#missing:27$b3",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#missing:27$b4",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 5
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "app.py#mode:7",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/mode"
+      }
+    },
+    {
+      "functionId": "app.py#mode_equal:19",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/mode-equal"
+      }
+    },
+    {
+      "functionId": "app.py#missing:27",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/missing"
+      }
+    }
+  ]
+}

@@ -1004,6 +1004,24 @@ function lowerFunction(
         const value = ts.isPropertyAssignment(prop) ? literalOf(prop.initializer) : undefined;
         keyword += 1;
         argLiterals[-keyword] = `${key}=${value ?? "?"}`;
+
+        // One level down. Options that decide something are routinely written inside a
+        // named group -- `webPreferences: { nodeIntegration: true }`, `httpsAgent: {
+        // rejectUnauthorized: false }`, `cookie: { maxAge: ... }` -- and reading only
+        // the top level meant the option was recorded as present-with-unknown-value
+        // while the decision sat one line below it. The key keeps its parent so the
+        // nesting is visible; matching compares the last segment.
+        if (ts.isPropertyAssignment(prop) && ts.isObjectLiteralExpression(prop.initializer)) {
+          for (const inner of prop.initializer.properties) {
+            if (!ts.isPropertyAssignment(inner) && !ts.isShorthandPropertyAssignment(inner)) continue;
+            const iname = inner.name;
+            if (!iname || (!ts.isIdentifier(iname) && !ts.isStringLiteralLike(iname))) continue;
+            const ikey = (iname as ts.Identifier | ts.StringLiteralLike).text;
+            const ivalue = ts.isPropertyAssignment(inner) ? literalOf(inner.initializer) : undefined;
+            keyword += 1;
+            argLiterals[-keyword] = `${key}.${ikey}=${ivalue ?? "?"}`;
+          }
+        }
       }
       if (keysKnown) enumeratedOptions.push(index);
     });

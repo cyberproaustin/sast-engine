@@ -779,6 +779,9 @@ class FunctionLowerer:
         # "cannot see what it sets" are different claims and only one of them is safe
         # to report.
         keys_known = True
+        # Nested option keys are numbered below every top-level one, so the two never
+        # collide however many of each a call has.
+        nested = -1000
         for offset, kw in enumerate(node.keywords):
             vid = self.expr(kw.value)
             if vid:
@@ -790,6 +793,19 @@ class FunctionLowerer:
             # position, because `verify=False` means the same thing wherever it is written.
             lit = self._literal_of(kw.value)
             literals[-(offset + 1)] = f"{kw.arg}={lit if lit is not None else '?'}"
+
+            # One level down. An option that decides something is routinely written
+            # inside a named group -- `ssl={"verify": False}`, `options={"debug": True}`
+            # -- and reading only the top level recorded the group as present with an
+            # unknown value while the decision sat inside it. The key keeps its parent so
+            # the nesting stays visible; matching compares the last segment.
+            if isinstance(kw.value, ast.Dict):
+                for ik, iv in zip(kw.value.keys, kw.value.values):
+                    if not isinstance(ik, ast.Constant) or not isinstance(ik.value, str):
+                        continue
+                    ilit = self._literal_of(iv)
+                    nested -= 1
+                    literals[nested] = f"{kw.arg}.{ik.value}={ilit if ilit is not None else '?'}"
 
         method = None
         receiver = None

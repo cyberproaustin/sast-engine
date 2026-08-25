@@ -1,0 +1,14 @@
+{
+  "corpus": "python-comparison",
+  "description": "Identity where equality was meant. `is` asks whether two strings are the same OBJECT, and Python interns some strings and not others -- so the check can pass today on a literal and fail tomorrow on the same text read from a database. The negatives are the shape of the rule: equality is the right question, and identity against None is the recommended idiom because there is exactly one None.",
+  "expected": [
+    {
+      "cwe": "CWE-597",
+      "sinkFile": "app.py",
+      "sinkLine": 13,
+      "sourceLabel": "\"admin\"",
+      "confidence": "high",
+      "note": "the only rule in this engine that names no classification: the defect is in the comparison itself, whatever is being compared"
+    }
+  ]
+}

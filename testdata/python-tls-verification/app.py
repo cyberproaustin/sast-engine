@@ -28,3 +28,15 @@ def fetch(url):
 
 def post_insecure(url, body):
     return requests.post(url, json=body, verify=False)
+
+
+def fetch_nested(url, session):
+    # The decision is written one level down, inside a named group. Options that decide
+    # something usually are, and reading only the top level recorded `ssl` as present
+    # with an unknown value while the answer sat inside it.
+    #
+    # Reported under the HOST CHECK identity rather than the verification one, and that is
+    # not an accident: the `verify` keyword means one thing on a request and another on a
+    # token, so its rule is scoped to the clients this engine knows, and `session.request`
+    # is not one of them. `check_hostname` means one thing everywhere.
+    return session.request("GET", url, ssl={"verify": False, "check_hostname": False})

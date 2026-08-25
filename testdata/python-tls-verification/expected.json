@@ -25,6 +25,14 @@
       "sourceLabel": "\"verify=false\"",
       "confidence": "high",
       "note": "the same shape on a different method"
+    },
+    {
+      "cwe": "CWE-297",
+      "sinkFile": "app.py",
+      "sinkLine": 42,
+      "sourceLabel": "\"ssl.check_hostname=false\"",
+      "confidence": "high",
+      "note": "the decision is written one level down inside a named group, which is where options that decide something usually live"
     }
   ]
 }

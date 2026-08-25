@@ -63,6 +63,19 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 	return out
 }
 
+// keyIs compares an option key on its LAST segment, because an option that decides
+// something is routinely written inside a named group -- `webPreferences.nodeIntegration`,
+// `httpsAgent.rejectUnauthorized`, `cookie.maxAge` -- and the group it sits in is not what
+// makes it a decision. The frontend keeps the parent so the nesting stays visible in the
+// evidence.
+func keyIs(key, want string) bool {
+	key = strings.ToLower(key)
+	if i := strings.LastIndex(key, "."); i >= 0 {
+		key = key[i+1:]
+	}
+	return key == want
+}
+
 func targets(shape model.CallShape, c *ir.Call) bool {
 	if shape.Symbol != "" {
 		return c.Callee.Symbol == shape.Symbol
@@ -113,7 +126,7 @@ func match(c *ir.Call, shape model.CallShape) (string, bool) {
 				continue
 			}
 			key, value, cut := strings.Cut(lit, "=")
-			if !cut || strings.ToLower(key) != want {
+			if !cut || !keyIs(key, want) {
 				continue
 			}
 			// The key was read and the value was not written down. An absence rule wants
