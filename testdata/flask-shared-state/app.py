@@ -17,7 +17,10 @@ def login():
 
 @app.route("/login-keyed", methods=["POST"])
 def login_keyed():
-    # NEGATIVE. A module-level container keyed by something is a cache.
+    # NEGATIVE for THIS rule. A container keyed by something is a cache: what the next
+    # request reads is what it asked for. That the caller also chooses the keys, and can
+    # grow this dictionary until the process runs out of memory, is a different question
+    # and this rule does not ask it.
     SESSIONS[request.form["email"]] = True
     return "ok"
 

@@ -13,9 +13,10 @@ app.post("/enroll", (req, res) => {
   // this process's decision any more.
   axios.post("https://analytics.example.com/events", { dob: req.body.dateOfBirth });
 
-  // POSITIVE. The caller decides what this account may do.
+  // POSITIVE. The caller decides what this account may do, and the record is kept.
   const user = users[req.body.email] || {};
   user.role = req.body.role;
+  users[req.body.email] = user;
 
   res.json({ ok: true });
 });
@@ -27,6 +28,7 @@ app.post("/enroll-safe", (req, res) => {
   // NEGATIVE. The role is chosen by the application, not by the caller.
   const user = users[req.body.email] || {};
   user.role = "member";
+  users[req.body.email] = user;
 
   res.json({ ok: true });
 });

@@ -21,10 +21,10 @@
     {
       "cwe": "CWE-613",
       "sinkFile": "app.js",
-      "sinkLine": 47,
+      "sinkLine": 48,
       "sourceLabel": "\"no expiresIn\"",
       "confidence": "high",
-      "note": "an ABSENCE: the options were enumerated and expiresIn is not among them. A signed token cannot be revoked, so its expiry is the only thing that ends it"
+      "note": "an ABSENCE: the options were enumerated and expiresIn is not among them. A signed token carries no revocation of its own, so unless the server keeps state to check it against, its expiry is the only thing that ends it"
     }
   ]
 }

@@ -20,7 +20,11 @@ app.post("/register-stored", (req, res) => {
 });
 
 app.post("/register-salted", (req, res) => {
-  // NEGATIVE. Composed with a per-account value before hashing.
+  // NEGATIVE, and a STATED MISS rather than a safe line. Composed, so this rule declines.
+  // What it is composed WITH came from the caller, which is worse than a fixed salt rather
+  // than better: whoever chooses the salt chooses the digest. Judging that is CWE-760's
+  // question, and the composition requirement is what buys this rule its precision on the
+  // shape that matters.
   const salted = req.body.salt + req.body.password;
   res.json({ digest: crypto.createHash("sha256").update(salted).digest("hex") });
 });

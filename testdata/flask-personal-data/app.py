@@ -22,8 +22,11 @@ def enroll():
 
 @app.route("/enroll-safe", methods=["POST"])
 def enroll_safe():
-    # NEGATIVE. An email address is personal but it is also reissuable and is the key
-    # every application already logs; the list is deliberately short.
+    # NEGATIVE, and a STATED MISS rather than a safe line. An email address IS personal
+    # data and logging one is a disclosure. It is off this list because it is the key
+    # every application already logs and because it can be changed, and a list that
+    # matched it would report the identifier every request is traced by. The list is short
+    # for that reason and this is what the shortness costs.
     log.info("enrolling %s", request.form["email"])
     user = USERS.setdefault(request.form["email"], {})
     user["is_admin"] = False

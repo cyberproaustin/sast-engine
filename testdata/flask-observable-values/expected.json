@@ -5,15 +5,15 @@
     {
       "cwe": "CWE-341",
       "sinkFile": "app.py",
-      "sinkLine": 17,
+      "sinkLine": 18,
       "sourceLabel": "uuid.uuid1()",
       "confidence": "medium",
-      "note": "a version 1 UUID is the clock and a MAC address, and looks exactly like a version 4 one"
+      "note": "a version 1 UUID is a timestamp and a node identifier written down; it is the same shape and length as a random one"
     },
     {
       "cwe": "CWE-337",
       "sinkFile": "app.py",
-      "sinkLine": 25,
+      "sinkLine": 27,
       "sourceLabel": "time.time()",
       "confidence": "high",
       "note": "seeded from the clock, so the sequence is recomputable"
@@ -21,15 +21,15 @@
     {
       "cwe": "CWE-331",
       "sinkFile": "app.py",
-      "sinkLine": 34,
+      "sinkLine": 38,
       "sourceLabel": "secrets.token_hex()",
       "confidence": "medium",
-      "note": "token_hex counts bytes rather than characters, so this is sixty-four bits"
+      "note": "token_hex counts bytes rather than characters, so four bytes is thirty-two bits"
     },
     {
       "cwe": "CWE-552",
       "sinkFile": "app.py",
-      "sinkLine": 59,
+      "sinkLine": 65,
       "sourceLabel": "\"/\"",
       "confidence": "high",
       "note": "the filesystem root served whole"

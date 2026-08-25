@@ -24,10 +24,11 @@ def register_strict():
 
 @app.route("/register-max", methods=["POST"])
 def register_max():
-    # NEGATIVE, and the reason the number matters rather than the shape: this is the
-    # SAME comparison read the other way. bcrypt silently truncates past 72 bytes, so
-    # rejecting longer input is correct and reporting it would be advice to remove a
-    # check that exists for a reason.
+    # NEGATIVE, and the reason the NUMBER matters rather than the shape: this is the same
+    # comparison read the other way. bcrypt silently truncates past 72 BYTES -- len()
+    # counts characters, so this check is itself slightly wrong for non-ASCII passwords --
+    # and rejecting long input is a real thing to do. Reporting it would be advice to
+    # remove a check that exists for a reason.
     password = request.form["password"]
     if len(password) > 72:
         return "too long", 400
