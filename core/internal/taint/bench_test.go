@@ -2,6 +2,8 @@ package taint_test
 
 import (
 	"os"
+	"path/filepath"
+	"strings"
 	"testing"
 
 	"github.com/cyberproaustin/sast-engine/core/internal/bench"
@@ -173,5 +175,29 @@ func TestAsyncAndHigherOrderFlowsAreFound(t *testing.T) {
 	}
 	if rep.TruePositives != 3 {
 		t.Errorf("want 3 true positives (await, .then continuation, forEach callback), got %d", rep.TruePositives)
+	}
+}
+
+// TestEveryLoweredCorpusIsScored closes the gap between having a fixture and running one.
+//
+// A corpus lives in three places -- a directory of source, an entry in the Makefile that
+// lowers it, and a name in the list above that scores it -- and forgetting the third
+// leaves a fixture that is regenerated on every build and never checked. Nothing about
+// that failure is visible: the suite passes, the coverage looks the same, and the rule the
+// fixture was written to hold has no test.
+func TestEveryLoweredCorpusIsScored(t *testing.T) {
+	golden, err := filepath.Glob(filepath.Join("testdata", "*.ir.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	scored := make(map[string]bool, len(corpora))
+	for _, c := range corpora {
+		scored[c] = true
+	}
+	for _, g := range golden {
+		name := strings.TrimSuffix(filepath.Base(g), ".ir.json")
+		if !scored[name] {
+			t.Errorf("corpus %q is lowered but never scored; add it to the list in this file", name)
+		}
 	}
 }
