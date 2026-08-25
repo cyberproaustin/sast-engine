@@ -1183,7 +1183,14 @@ function lowerFunction(
           addFlow(from, id, "enclose", loc);
           if (from) fields.set(prop.name.text, from);
         } else if (ts.isSpreadAssignment(prop)) {
-          addFlow(lowerExpr(prop.expression), id, "enclose", loc);
+          // A spread is NOT an enclosure. `{ ...req.body }` is the caller's object with
+          // extra keys, and every key it had is still a key here -- which is the whole
+          // question a rule about "did this arrive whole" is asking. Lowering it as an
+          // enclosure said the application had chosen the fields, when it had chosen
+          // none of them: Juice Shop's local file read is `res.render(view, { ...req.body,
+          // ...themeVars })`, and the layout option a caller sends survives that exactly
+          // as it survives passing the body itself.
+          addFlow(lowerExpr(prop.expression), id, "assign", loc);
         }
       }
       objectFields.set(id, fields);
@@ -1281,12 +1288,32 @@ function lowerFunction(
 
     if (ts.isVariableDeclaration(n)) {
       const loc = locOf(sf, n);
-      const init = n.initializer ? lowerExpr(n.initializer) : undefined;
+      // `for (const entry of files)` declares a variable with no initializer, and the
+      // collection it reads from is two nodes up. Without this the chain simply stopped
+      // at the loop: an array of objects a caller sent produced elements related to
+      // nothing, and every judgement about what the loop did with them was silent.
+      //
+      // Lowered as a property read rather than an enclosure, because that is the
+      // direction it goes -- an element comes OUT of the collection, and it comes out
+      // whole.
+      const iterated =
+        n.parent &&
+        ts.isVariableDeclarationList(n.parent) &&
+        n.parent.parent &&
+        (ts.isForOfStatement(n.parent.parent) || ts.isForInStatement(n.parent.parent))
+          ? n.parent.parent.expression
+          : undefined;
+      const init = n.initializer
+        ? lowerExpr(n.initializer)
+        : iterated
+          ? lowerExpr(iterated)
+          : undefined;
+      const kind = n.initializer || !iterated ? "assign" : "property";
 
       if (ts.isIdentifier(n.name)) {
         const id = newValue("local", loc, { name: n.name.text });
         bind(n.name, id);
-        addFlow(init, id, "assign", loc);
+        addFlow(init, id, kind, loc);
         return;
       }
 

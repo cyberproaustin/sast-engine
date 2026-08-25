@@ -1,0 +1,973 @@
+{
+  "irVersion": "0.12.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "app.py",
+      "path": "app.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "app.py#<module>:0",
+      "name": "<module>",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#<module>:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "Python's own interpreters, reached from a request.\n\nEvery channel here was described in the model from the beginning and none of them had\never matched, because the frontend emitted the bare name `eval` while the rule named\n`builtins.eval`. A name that is neither defined in the file nor imported is the\nlanguage's own, and saying so is what connects the two.\n"
+        },
+        {
+          "id": "app.py#<module>:0$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 7
+          },
+          "name": "flask.Flask"
+        },
+        {
+          "id": "app.py#<module>:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 1
+          },
+          "name": "app"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#<module>:0$v1",
+          "to": "app.py#<module>:0$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 1
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#<module>:0$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 7
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.Flask",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#<module>:0$v1",
+          "block": "app.py#<module>:0$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#<module>:0$b0",
+      "blocks": [
+        {
+          "id": "app.py#<module>:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#calc:16",
+      "name": "calc",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 16,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#calc:16$v0",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 21
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#calc:16$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 21
+          },
+          "base": "app.py#calc:16$v0",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "app.py#calc:16$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 21
+          },
+          "name": "expr",
+          "base": "app.py#calc:16$v1",
+          "path": "args.expr"
+        },
+        {
+          "id": "app.py#calc:16$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 16
+          },
+          "name": "builtins.eval"
+        },
+        {
+          "id": "app.py#calc:16$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 12
+          },
+          "name": "str"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#calc:16$v0",
+          "to": "app.py#calc:16$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 21
+          }
+        },
+        {
+          "from": "app.py#calc:16$v1",
+          "to": "app.py#calc:16$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 21
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#calc:16$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "builtins.eval",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#calc:16$v2"
+            }
+          ],
+          "resultValueId": "app.py#calc:16$v3",
+          "block": "app.py#calc:16$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#calc:16$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "str",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#calc:16$v3"
+            }
+          ],
+          "resultValueId": "app.py#calc:16$v4",
+          "block": "app.py#calc:16$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "app.py#calc:16$v4"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#calc:16$b0",
+      "blocks": [
+        {
+          "id": "app.py#calc:16$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 16,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#calc:16$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#run:23",
+      "name": "run",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 23,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#run:23$v0",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 10
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#run:23$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 10
+          },
+          "base": "app.py#run:23$v0",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "app.py#run:23$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 10
+          },
+          "name": "code",
+          "base": "app.py#run:23$v1",
+          "path": "args.code"
+        },
+        {
+          "id": "app.py#run:23$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 5
+          },
+          "name": "builtins.exec"
+        },
+        {
+          "id": "app.py#run:23$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 12
+          },
+          "literal": "ok"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#run:23$v0",
+          "to": "app.py#run:23$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 10
+          }
+        },
+        {
+          "from": "app.py#run:23$v1",
+          "to": "app.py#run:23$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 10
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#run:23$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "builtins.exec",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#run:23$v2"
+            }
+          ],
+          "resultValueId": "app.py#run:23$v3",
+          "block": "app.py#run:23$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "app.py#run:23$v4"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#run:23$b0",
+      "blocks": [
+        {
+          "id": "app.py#run:23$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#run:23$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#load:30",
+      "name": "load",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 30,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#load:30$v0",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 16
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#load:30$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 16
+          },
+          "base": "app.py#load:30$v0",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "app.py#load:30$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 16
+          },
+          "name": "module",
+          "base": "app.py#load:30$v1",
+          "path": "args.module"
+        },
+        {
+          "id": "app.py#load:30$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 5
+          },
+          "name": "builtins.__import__"
+        },
+        {
+          "id": "app.py#load:30$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 12
+          },
+          "literal": "ok"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#load:30$v0",
+          "to": "app.py#load:30$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 16
+          }
+        },
+        {
+          "from": "app.py#load:30$v1",
+          "to": "app.py#load:30$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 16
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#load:30$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "builtins.__import__",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#load:30$v2"
+            }
+          ],
+          "resultValueId": "app.py#load:30$v3",
+          "block": "app.py#load:30$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "app.py#load:30$v4"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#load:30$b0",
+      "blocks": [
+        {
+          "id": "app.py#load:30$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#load:30$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#safe_calc:38",
+      "name": "safe_calc",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 38,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#safe_calc:38$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 40,
+            "column": 21
+          },
+          "literal": "2 + 2"
+        },
+        {
+          "id": "app.py#safe_calc:38$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 40,
+            "column": 16
+          },
+          "name": "builtins.eval"
+        },
+        {
+          "id": "app.py#safe_calc:38$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 40,
+            "column": 12
+          },
+          "name": "str"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "app.py#safe_calc:38$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 40,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "builtins.eval",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#safe_calc:38$v0"
+            }
+          ],
+          "resultValueId": "app.py#safe_calc:38$v1",
+          "block": "app.py#safe_calc:38$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "2 + 2"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#safe_calc:38$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 40,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "str",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#safe_calc:38$v1"
+            }
+          ],
+          "resultValueId": "app.py#safe_calc:38$v2",
+          "block": "app.py#safe_calc:38$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "app.py#safe_calc:38$v2"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#safe_calc:38$b0",
+      "blocks": [
+        {
+          "id": "app.py#safe_calc:38$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 38,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#safe_calc:38$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 40,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#lookup:44",
+      "name": "lookup",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 44,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#lookup:44$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 47,
+            "column": 28
+          },
+          "literal": "/opt/app/data"
+        },
+        {
+          "id": "app.py#lookup:44$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 47,
+            "column": 45
+          },
+          "literal": "index.txt"
+        },
+        {
+          "id": "app.py#lookup:44$v2",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 47,
+            "column": 15
+          },
+          "name": "os"
+        },
+        {
+          "id": "app.py#lookup:44$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 47,
+            "column": 15
+          },
+          "base": "app.py#lookup:44$v2",
+          "path": "path",
+          "name": "path"
+        },
+        {
+          "id": "app.py#lookup:44$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 47,
+            "column": 15
+          },
+          "name": "os.path.join"
+        },
+        {
+          "id": "app.py#lookup:44$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 47,
+            "column": 10
+          },
+          "name": "builtins.open"
+        },
+        {
+          "id": "app.py#lookup:44$v6",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 47,
+            "column": 5
+          },
+          "name": "fh"
+        },
+        {
+          "id": "app.py#lookup:44$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 48,
+            "column": 16
+          },
+          "name": "fh.read"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#lookup:44$v2",
+          "to": "app.py#lookup:44$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 47,
+            "column": 15
+          }
+        },
+        {
+          "from": "app.py#lookup:44$v5",
+          "to": "app.py#lookup:44$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 47,
+            "column": 5
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#lookup:44$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 47,
+            "column": 15
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "os.path.join",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#lookup:44$v0"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#lookup:44$v1"
+            }
+          ],
+          "resultValueId": "app.py#lookup:44$v4",
+          "block": "app.py#lookup:44$b0",
+          "method": "join",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "/opt/app/data",
+            "1": "index.txt"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#lookup:44$v3"
+        },
+        {
+          "id": "app.py#lookup:44$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 47,
+            "column": 10
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "builtins.open",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#lookup:44$v4"
+            }
+          ],
+          "resultValueId": "app.py#lookup:44$v5",
+          "block": "app.py#lookup:44$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#lookup:44$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 48,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "fh.read",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "app.py#lookup:44$v7",
+          "block": "app.py#lookup:44$b0",
+          "method": "read",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#lookup:44$v6"
+        }
+      ],
+      "returns": [
+        "app.py#lookup:44$v7"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#lookup:44$b0",
+      "blocks": [
+        {
+          "id": "app.py#lookup:44$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 44,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#lookup:44$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 48,
+            "column": 9
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "app.py#calc:16",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/calc"
+      }
+    },
+    {
+      "functionId": "app.py#run:23",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/run"
+      }
+    },
+    {
+      "functionId": "app.py#load:30",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/load"
+      }
+    },
+    {
+      "functionId": "app.py#safe_calc:38",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/safe-calc"
+      }
+    },
+    {
+      "functionId": "app.py#lookup:44",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/lookup"
+      }
+    }
+  ]
+}

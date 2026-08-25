@@ -56,7 +56,8 @@ export interface Value {
 export interface Flow {
   from: string;
   to: string;
-  kind: "assign" | "property" | "template" | "binary" | "return";
+  /** "enclose" = the value became a PART of a structure rather than becoming it. */
+  kind: "assign" | "property" | "template" | "binary" | "return" | "enclose";
   loc: Loc;
 }
 
