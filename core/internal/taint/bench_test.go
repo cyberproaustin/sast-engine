@@ -67,6 +67,7 @@ var corpora = []string{
 	"express-trusted-claim",
 	"express-trusted-origin",
 	"express-trust-boundary",
+	"flask-archive-extract",
 	"express-bind-address",
 	"flask-bind-address",
 	"express-timing",

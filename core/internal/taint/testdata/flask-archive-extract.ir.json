@@ -1,0 +1,537 @@
+{
+  "irVersion": "0.11.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "app.py",
+      "path": "app.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "app.py#<module>:0",
+      "name": "<module>",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#<module>:0$v0",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 5,
+            "column": 7
+          },
+          "name": "flask.Flask"
+        },
+        {
+          "id": "app.py#<module>:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 5,
+            "column": 1
+          },
+          "name": "app"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#<module>:0$v0",
+          "to": "app.py#<module>:0$v1",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 5,
+            "column": 1
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#<module>:0$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 5,
+            "column": 7
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.Flask",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#<module>:0$v0",
+          "block": "app.py#<module>:0$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#<module>:0$b0",
+      "blocks": [
+        {
+          "id": "app.py#<module>:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#import_extension:9",
+      "name": "import_extension",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 9,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#import_extension:9$v0",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 26
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#import_extension:9$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 26
+          },
+          "base": "app.py#import_extension:9$v0",
+          "path": "files",
+          "name": "files"
+        },
+        {
+          "id": "app.py#import_extension:9$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 26
+          },
+          "name": "bundle",
+          "base": "app.py#import_extension:9$v1",
+          "path": "files.bundle"
+        },
+        {
+          "id": "app.py#import_extension:9$v3",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 10
+          },
+          "name": "zipfile"
+        },
+        {
+          "id": "app.py#import_extension:9$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 10
+          },
+          "name": "zipfile.ZipFile"
+        },
+        {
+          "id": "app.py#import_extension:9$v5",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 5
+          },
+          "name": "archive"
+        },
+        {
+          "id": "app.py#import_extension:9$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 16,
+            "column": 28
+          },
+          "literal": "/tmp/extensions"
+        },
+        {
+          "id": "app.py#import_extension:9$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 16,
+            "column": 9
+          },
+          "name": "archive.extractall"
+        },
+        {
+          "id": "app.py#import_extension:9$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 12
+          },
+          "literal": "ok"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#import_extension:9$v0",
+          "to": "app.py#import_extension:9$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 26
+          }
+        },
+        {
+          "from": "app.py#import_extension:9$v1",
+          "to": "app.py#import_extension:9$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 26
+          }
+        },
+        {
+          "from": "app.py#import_extension:9$v4",
+          "to": "app.py#import_extension:9$v5",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 5
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#import_extension:9$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 10
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "zipfile.ZipFile",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#import_extension:9$v2"
+            }
+          ],
+          "resultValueId": "app.py#import_extension:9$v4",
+          "block": "app.py#import_extension:9$b0",
+          "method": "ZipFile",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#import_extension:9$v3"
+        },
+        {
+          "id": "app.py#import_extension:9$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 16,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "archive.extractall",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#import_extension:9$v6"
+            }
+          ],
+          "resultValueId": "app.py#import_extension:9$v7",
+          "block": "app.py#import_extension:9$b0",
+          "method": "extractall",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "/tmp/extensions"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#import_extension:9$v5"
+        }
+      ],
+      "returns": [
+        "app.py#import_extension:9$v8"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#import_extension:9$b0",
+      "blocks": [
+        {
+          "id": "app.py#import_extension:9$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 9,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#import_extension:9$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#import_bundled:21",
+      "name": "import_bundled",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 21,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#import_bundled:21$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 24,
+            "column": 26
+          },
+          "literal": "/opt/app/bundle.zip"
+        },
+        {
+          "id": "app.py#import_bundled:21$v1",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 24,
+            "column": 10
+          },
+          "name": "zipfile"
+        },
+        {
+          "id": "app.py#import_bundled:21$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 24,
+            "column": 10
+          },
+          "name": "zipfile.ZipFile"
+        },
+        {
+          "id": "app.py#import_bundled:21$v3",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 24,
+            "column": 5
+          },
+          "name": "archive"
+        },
+        {
+          "id": "app.py#import_bundled:21$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 28
+          },
+          "literal": "/tmp/extensions"
+        },
+        {
+          "id": "app.py#import_bundled:21$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 9
+          },
+          "name": "archive.extractall"
+        },
+        {
+          "id": "app.py#import_bundled:21$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 12
+          },
+          "literal": "ok"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#import_bundled:21$v2",
+          "to": "app.py#import_bundled:21$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 24,
+            "column": 5
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#import_bundled:21$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 24,
+            "column": 10
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "zipfile.ZipFile",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#import_bundled:21$v0"
+            }
+          ],
+          "resultValueId": "app.py#import_bundled:21$v2",
+          "block": "app.py#import_bundled:21$b0",
+          "method": "ZipFile",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "/opt/app/bundle.zip"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#import_bundled:21$v1"
+        },
+        {
+          "id": "app.py#import_bundled:21$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "archive.extractall",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#import_bundled:21$v4"
+            }
+          ],
+          "resultValueId": "app.py#import_bundled:21$v5",
+          "block": "app.py#import_bundled:21$b0",
+          "method": "extractall",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "/tmp/extensions"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#import_bundled:21$v3"
+        }
+      ],
+      "returns": [
+        "app.py#import_bundled:21$v6"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#import_bundled:21$b0",
+      "blocks": [
+        {
+          "id": "app.py#import_bundled:21$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#import_bundled:21$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 5
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "app.py#import_extension:9",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "POST",
+        "path": "/import"
+      }
+    },
+    {
+      "functionId": "app.py#import_bundled:21",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "POST",
+        "path": "/import-bundled"
+      }
+    }
+  ]
+}

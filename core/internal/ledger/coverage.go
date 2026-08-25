@@ -343,6 +343,7 @@ var claims = map[string]Claim{
 	// was written, and each turned out to describe ordinary code rather than a defect. The
 	// numbers are kept because "we decided not to" is only an honest answer when it says
 	// what the decision was based on.
+	"CWE-617":  {State: NotBuilt, Reason: "an assertion an attacker can reach, which in Python is also an assertion that disappears under -O. Counted 2695 assert statements across 361 non-test files in the clean corpus, nearly all of them invariants somebody wanted checked during development. The narrow form worth having -- an assert that performs an authorization check -- would need the IR to record assertions at all, and would then have to tell a security check from an invariant, which the statement does not say"},
 	"CWE-1088": {State: NotBuilt, Reason: "an outbound request with no timeout, which waits for as long as the far end cares to keep it waiting. Decidable and measured: 79 of the 142 outbound calls across the clean corpus pass no timeout, which is five production applications behaving the same way. Reporting it would double this engine's output to say something every one of them has already decided to live with, and nothing in the source distinguishes an oversight from that decision"},
 	"CWE-390":  {State: NotBuilt, Reason: "an error caught and nothing done about it. Counted first: the clean corpus holds 372 Python handlers whose entire body is `pass` and 596 empty JavaScript catch blocks, nearly all of them deliberate -- a cleanup that may fail, an optional parse, a cache miss. A rule matching the shape would report a thousand lines of working code, and nothing in the source distinguishes a swallowed failure from an ignored one"},
 	"CWE-391":  {State: NotBuilt, Reason: "the same measurement as CWE-390 and the same conclusion: what makes an unchecked error a weakness is what the program then does as though nothing had failed, and that is not in the handler"},
@@ -430,7 +431,7 @@ var groupedReasons = []struct {
 	{
 		reason: "a maintainability property rather than a weakness. This engine reports defects an attacker can reach, and a long file, a complex function, a redundant branch or a dead assignment is none of those. A linter measures these well and this is not one",
 		ids: []string{"CWE-474", "CWE-475", "CWE-478", "CWE-480", "CWE-484", "CWE-561",
-			"CWE-563", "CWE-570", "CWE-571", "CWE-584", "CWE-589", "CWE-595", "CWE-617",
+			"CWE-563", "CWE-570", "CWE-571", "CWE-584", "CWE-589", "CWE-595",
 			"CWE-687", "CWE-768", "CWE-783", "CWE-835", "CWE-1025", "CWE-1041", "CWE-1055",
 			"CWE-1056", "CWE-1064", "CWE-1071", "CWE-1075", "CWE-1079", "CWE-1080",
 			"CWE-1085", "CWE-1099", "CWE-1105", "CWE-1106", "CWE-1108", "CWE-1121",
