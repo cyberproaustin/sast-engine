@@ -1,0 +1,38 @@
+{
+  "corpus": "express-cookie-attributes",
+  "description": "Misconfiguration is usually an omission rather than a mistake, and an omission can only be reported where the options were actually visible. The /login-helper route builds its attributes in another function and is silent: that shape appears four times in one production file, and treating it as absence would have been four false positives. The qualifier is the cookie's own name, because whether these attributes matter depends on what the cookie carries -- which is also why csrf_token is exempt, since a double-submit token has to be readable by script, and why a theme cookie is not a finding at all.",
+  "expected": [
+    {
+      "cwe": "CWE-1004",
+      "sinkFile": "app.js",
+      "sinkLine": 9,
+      "sourceLabel": "\"no httpOnly\"",
+      "confidence": "high",
+      "note": "no options argument at all, so the absence is certain rather than assumed"
+    },
+    {
+      "cwe": "CWE-1004",
+      "sinkFile": "app.js",
+      "sinkLine": 15,
+      "sourceLabel": "\"httpOnly=false\"",
+      "confidence": "high",
+      "note": "httpOnly written as false"
+    },
+    {
+      "cwe": "CWE-614",
+      "sinkFile": "app.js",
+      "sinkLine": 21,
+      "sourceLabel": "\"secure=false\"",
+      "confidence": "high",
+      "note": "secure written as false; absence of Secure is deliberately NOT claimed, because the correct idiom makes it conditional on the environment and therefore not a literal"
+    },
+    {
+      "cwe": "CWE-1275",
+      "sinkFile": "app.js",
+      "sinkLine": 28,
+      "sourceLabel": "\"sameSite=none\"",
+      "confidence": "high",
+      "note": "SameSite=None, reported and never gating because a cross-site cookie is sometimes exactly what is wanted"
+    }
+  ]
+}

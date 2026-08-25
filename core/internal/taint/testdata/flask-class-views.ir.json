@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.8.0",
+  "irVersion": "0.9.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -191,7 +191,10 @@
           "method": "as_view",
           "argLiterals": {
             "0": "search"
-          }
+          },
+          "enumeratedOptions": [
+            -1
+          ]
         },
         {
           "id": "app.py#register:33$c1",
@@ -219,8 +222,12 @@
           "block": "app.py#register:33$b0",
           "method": "add_url_rule",
           "argLiterals": {
-            "0": "/search"
+            "0": "/search",
+            "-1": "view_func=?"
           },
+          "enumeratedOptions": [
+            -1
+          ],
           "receiverValueId": "app.py#register:33$v0"
         },
         {
@@ -252,6 +259,9 @@
             "0": "/report",
             "1": "report"
           },
+          "enumeratedOptions": [
+            -1
+          ],
           "receiverValueId": "app.py#register:33$v0"
         }
       ],
@@ -459,6 +469,9 @@
           "argLiterals": {
             "-1": "shell=true"
           },
+          "enumeratedOptions": [
+            -1
+          ],
           "receiverValueId": "app.py#get:20$v7"
         }
       ],

@@ -1,0 +1,1447 @@
+{
+  "irVersion": "0.9.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "app.py",
+      "path": "app.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "app.py#login:9",
+      "name": "login",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 9,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#login:9$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 11,
+            "column": 23
+          }
+        },
+        {
+          "id": "app.py#login:9$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 11,
+            "column": 9
+          },
+          "name": "flask.make_response"
+        },
+        {
+          "id": "app.py#login:9$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 11,
+            "column": 5
+          },
+          "name": "r"
+        },
+        {
+          "id": "app.py#login:9$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 18
+          }
+        },
+        {
+          "id": "app.py#login:9$v4",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 29
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#login:9$v5",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 29
+          },
+          "base": "app.py#login:9$v4",
+          "path": "form",
+          "name": "form"
+        },
+        {
+          "id": "app.py#login:9$v6",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 29
+          },
+          "name": "[index]",
+          "base": "app.py#login:9$v5"
+        },
+        {
+          "id": "app.py#login:9$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 5
+          },
+          "name": "r.set_cookie"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#login:9$v1",
+          "to": "app.py#login:9$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 11,
+            "column": 5
+          }
+        },
+        {
+          "from": "app.py#login:9$v4",
+          "to": "app.py#login:9$v5",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 29
+          }
+        },
+        {
+          "from": "app.py#login:9$v5",
+          "to": "app.py#login:9$v6",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 29
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#login:9$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 11,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.make_response",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#login:9$v0"
+            }
+          ],
+          "resultValueId": "app.py#login:9$v1",
+          "block": "app.py#login:9$b0",
+          "argLiterals": {
+            "0": "ok"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#login:9$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "r.set_cookie",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#login:9$v3"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#login:9$v6"
+            }
+          ],
+          "resultValueId": "app.py#login:9$v7",
+          "block": "app.py#login:9$b0",
+          "method": "set_cookie",
+          "argLiterals": {
+            "0": "session"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#login:9$v2"
+        }
+      ],
+      "returns": [
+        "app.py#login:9$v2"
+      ],
+      "comparisons": [],
+      "entryBlock": "app.py#login:9$b0",
+      "blocks": [
+        {
+          "id": "app.py#login:9$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 9,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#login:9$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 13,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#login_explicit:17",
+      "name": "login_explicit",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 17,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#login_explicit:17$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 23
+          }
+        },
+        {
+          "id": "app.py#login_explicit:17$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 9
+          },
+          "name": "flask.make_response"
+        },
+        {
+          "id": "app.py#login_explicit:17$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 5
+          },
+          "name": "r"
+        },
+        {
+          "id": "app.py#login_explicit:17$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 18
+          }
+        },
+        {
+          "id": "app.py#login_explicit:17$v4",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 25
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#login_explicit:17$v5",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 25
+          },
+          "base": "app.py#login_explicit:17$v4",
+          "path": "form",
+          "name": "form"
+        },
+        {
+          "id": "app.py#login_explicit:17$v6",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 25
+          },
+          "name": "[index]",
+          "base": "app.py#login_explicit:17$v5"
+        },
+        {
+          "id": "app.py#login_explicit:17$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 57
+          }
+        },
+        {
+          "id": "app.py#login_explicit:17$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 5
+          },
+          "name": "r.set_cookie"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#login_explicit:17$v1",
+          "to": "app.py#login_explicit:17$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 5
+          }
+        },
+        {
+          "from": "app.py#login_explicit:17$v4",
+          "to": "app.py#login_explicit:17$v5",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 25
+          }
+        },
+        {
+          "from": "app.py#login_explicit:17$v5",
+          "to": "app.py#login_explicit:17$v6",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 25
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#login_explicit:17$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.make_response",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#login_explicit:17$v0"
+            }
+          ],
+          "resultValueId": "app.py#login_explicit:17$v1",
+          "block": "app.py#login_explicit:17$b0",
+          "argLiterals": {
+            "0": "ok"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#login_explicit:17$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "r.set_cookie",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#login_explicit:17$v3"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#login_explicit:17$v6"
+            },
+            {
+              "index": 2,
+              "valueId": "app.py#login_explicit:17$v7"
+            }
+          ],
+          "resultValueId": "app.py#login_explicit:17$v8",
+          "block": "app.py#login_explicit:17$b0",
+          "method": "set_cookie",
+          "argLiterals": {
+            "0": "jwt",
+            "-1": "httponly=false"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#login_explicit:17$v2"
+        }
+      ],
+      "returns": [
+        "app.py#login_explicit:17$v2"
+      ],
+      "comparisons": [],
+      "entryBlock": "app.py#login_explicit:17$b0",
+      "blocks": [
+        {
+          "id": "app.py#login_explicit:17$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#login_explicit:17$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#login_crosssite:25",
+      "name": "login_crosssite",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 25,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#login_crosssite:25$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 23
+          }
+        },
+        {
+          "id": "app.py#login_crosssite:25$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 9
+          },
+          "name": "flask.make_response"
+        },
+        {
+          "id": "app.py#login_crosssite:25$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 5
+          },
+          "name": "r"
+        },
+        {
+          "id": "app.py#login_crosssite:25$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 18
+          }
+        },
+        {
+          "id": "app.py#login_crosssite:25$v4",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 35
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#login_crosssite:25$v5",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 35
+          },
+          "base": "app.py#login_crosssite:25$v4",
+          "path": "form",
+          "name": "form"
+        },
+        {
+          "id": "app.py#login_crosssite:25$v6",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 35
+          },
+          "name": "[index]",
+          "base": "app.py#login_crosssite:25$v5"
+        },
+        {
+          "id": "app.py#login_crosssite:25$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 67
+          }
+        },
+        {
+          "id": "app.py#login_crosssite:25$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 82
+          }
+        },
+        {
+          "id": "app.py#login_crosssite:25$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 5
+          },
+          "name": "r.set_cookie"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#login_crosssite:25$v1",
+          "to": "app.py#login_crosssite:25$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 5
+          }
+        },
+        {
+          "from": "app.py#login_crosssite:25$v4",
+          "to": "app.py#login_crosssite:25$v5",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 35
+          }
+        },
+        {
+          "from": "app.py#login_crosssite:25$v5",
+          "to": "app.py#login_crosssite:25$v6",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 35
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#login_crosssite:25$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.make_response",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#login_crosssite:25$v0"
+            }
+          ],
+          "resultValueId": "app.py#login_crosssite:25$v1",
+          "block": "app.py#login_crosssite:25$b0",
+          "argLiterals": {
+            "0": "ok"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#login_crosssite:25$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "r.set_cookie",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#login_crosssite:25$v3"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#login_crosssite:25$v6"
+            },
+            {
+              "index": 2,
+              "valueId": "app.py#login_crosssite:25$v7"
+            },
+            {
+              "index": 2,
+              "valueId": "app.py#login_crosssite:25$v8"
+            }
+          ],
+          "resultValueId": "app.py#login_crosssite:25$v9",
+          "block": "app.py#login_crosssite:25$b0",
+          "method": "set_cookie",
+          "argLiterals": {
+            "0": "refresh_token",
+            "-1": "httponly=true",
+            "-2": "samesite=None"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#login_crosssite:25$v2"
+        }
+      ],
+      "returns": [
+        "app.py#login_crosssite:25$v2"
+      ],
+      "comparisons": [],
+      "entryBlock": "app.py#login_crosssite:25$b0",
+      "blocks": [
+        {
+          "id": "app.py#login_crosssite:25$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#login_crosssite:25$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#login_spread:33",
+      "name": "login_spread",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 33,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#login_spread:33$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 23
+          }
+        },
+        {
+          "id": "app.py#login_spread:33$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 9
+          },
+          "name": "flask.make_response"
+        },
+        {
+          "id": "app.py#login_spread:33$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 5
+          },
+          "name": "r"
+        },
+        {
+          "id": "app.py#login_spread:33$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 18
+          }
+        },
+        {
+          "id": "app.py#login_spread:33$v4",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 29
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#login_spread:33$v5",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 29
+          },
+          "base": "app.py#login_spread:33$v4",
+          "path": "form",
+          "name": "form"
+        },
+        {
+          "id": "app.py#login_spread:33$v6",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 29
+          },
+          "name": "[index]",
+          "base": "app.py#login_spread:33$v5"
+        },
+        {
+          "id": "app.py#login_spread:33$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 5
+          },
+          "name": "r.set_cookie"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#login_spread:33$v1",
+          "to": "app.py#login_spread:33$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 5
+          }
+        },
+        {
+          "from": "app.py#login_spread:33$v4",
+          "to": "app.py#login_spread:33$v5",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 29
+          }
+        },
+        {
+          "from": "app.py#login_spread:33$v5",
+          "to": "app.py#login_spread:33$v6",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 29
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#login_spread:33$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.make_response",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#login_spread:33$v0"
+            }
+          ],
+          "resultValueId": "app.py#login_spread:33$v1",
+          "block": "app.py#login_spread:33$b0",
+          "argLiterals": {
+            "0": "ok"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#login_spread:33$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "r.set_cookie",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#login_spread:33$v3"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#login_spread:33$v6"
+            }
+          ],
+          "resultValueId": "app.py#login_spread:33$v7",
+          "block": "app.py#login_spread:33$b0",
+          "method": "set_cookie",
+          "argLiterals": {
+            "0": "session"
+          },
+          "receiverValueId": "app.py#login_spread:33$v2"
+        }
+      ],
+      "returns": [
+        "app.py#login_spread:33$v2"
+      ],
+      "comparisons": [],
+      "entryBlock": "app.py#login_spread:33$b0",
+      "blocks": [
+        {
+          "id": "app.py#login_spread:33$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#login_spread:33$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 38,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#login_correct:42",
+      "name": "login_correct",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 42,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#login_correct:42$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 44,
+            "column": 23
+          }
+        },
+        {
+          "id": "app.py#login_correct:42$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 44,
+            "column": 9
+          },
+          "name": "flask.make_response"
+        },
+        {
+          "id": "app.py#login_correct:42$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 44,
+            "column": 5
+          },
+          "name": "r"
+        },
+        {
+          "id": "app.py#login_correct:42$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 18
+          }
+        },
+        {
+          "id": "app.py#login_correct:42$v4",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 29
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#login_correct:42$v5",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 29
+          },
+          "base": "app.py#login_correct:42$v4",
+          "path": "form",
+          "name": "form"
+        },
+        {
+          "id": "app.py#login_correct:42$v6",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 29
+          },
+          "name": "[index]",
+          "base": "app.py#login_correct:42$v5"
+        },
+        {
+          "id": "app.py#login_correct:42$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 61
+          }
+        },
+        {
+          "id": "app.py#login_correct:42$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 74
+          }
+        },
+        {
+          "id": "app.py#login_correct:42$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 89
+          }
+        },
+        {
+          "id": "app.py#login_correct:42$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 5
+          },
+          "name": "r.set_cookie"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#login_correct:42$v1",
+          "to": "app.py#login_correct:42$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 44,
+            "column": 5
+          }
+        },
+        {
+          "from": "app.py#login_correct:42$v4",
+          "to": "app.py#login_correct:42$v5",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 29
+          }
+        },
+        {
+          "from": "app.py#login_correct:42$v5",
+          "to": "app.py#login_correct:42$v6",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 29
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#login_correct:42$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 44,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.make_response",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#login_correct:42$v0"
+            }
+          ],
+          "resultValueId": "app.py#login_correct:42$v1",
+          "block": "app.py#login_correct:42$b0",
+          "argLiterals": {
+            "0": "ok"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#login_correct:42$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "r.set_cookie",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#login_correct:42$v3"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#login_correct:42$v6"
+            },
+            {
+              "index": 2,
+              "valueId": "app.py#login_correct:42$v7"
+            },
+            {
+              "index": 2,
+              "valueId": "app.py#login_correct:42$v8"
+            },
+            {
+              "index": 2,
+              "valueId": "app.py#login_correct:42$v9"
+            }
+          ],
+          "resultValueId": "app.py#login_correct:42$v10",
+          "block": "app.py#login_correct:42$b0",
+          "method": "set_cookie",
+          "argLiterals": {
+            "0": "session",
+            "-1": "httponly=true",
+            "-2": "secure=true",
+            "-3": "samesite=Lax"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#login_correct:42$v2"
+        }
+      ],
+      "returns": [
+        "app.py#login_correct:42$v2"
+      ],
+      "comparisons": [],
+      "entryBlock": "app.py#login_correct:42$b0",
+      "blocks": [
+        {
+          "id": "app.py#login_correct:42$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#login_correct:42$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 46,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#csrf:50",
+      "name": "csrf",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 50,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#csrf:50$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 23
+          }
+        },
+        {
+          "id": "app.py#csrf:50$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 9
+          },
+          "name": "flask.make_response"
+        },
+        {
+          "id": "app.py#csrf:50$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 5
+          },
+          "name": "r"
+        },
+        {
+          "id": "app.py#csrf:50$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 18
+          }
+        },
+        {
+          "id": "app.py#csrf:50$v4",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 32
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#csrf:50$v5",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 32
+          },
+          "base": "app.py#csrf:50$v4",
+          "path": "form",
+          "name": "form"
+        },
+        {
+          "id": "app.py#csrf:50$v6",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 32
+          },
+          "name": "[index]",
+          "base": "app.py#csrf:50$v5"
+        },
+        {
+          "id": "app.py#csrf:50$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 5
+          },
+          "name": "r.set_cookie"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#csrf:50$v1",
+          "to": "app.py#csrf:50$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 5
+          }
+        },
+        {
+          "from": "app.py#csrf:50$v4",
+          "to": "app.py#csrf:50$v5",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 32
+          }
+        },
+        {
+          "from": "app.py#csrf:50$v5",
+          "to": "app.py#csrf:50$v6",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 32
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#csrf:50$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.make_response",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#csrf:50$v0"
+            }
+          ],
+          "resultValueId": "app.py#csrf:50$v1",
+          "block": "app.py#csrf:50$b0",
+          "argLiterals": {
+            "0": "ok"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#csrf:50$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "r.set_cookie",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#csrf:50$v3"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#csrf:50$v6"
+            }
+          ],
+          "resultValueId": "app.py#csrf:50$v7",
+          "block": "app.py#csrf:50$b0",
+          "method": "set_cookie",
+          "argLiterals": {
+            "0": "csrf_token"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#csrf:50$v2"
+        }
+      ],
+      "returns": [
+        "app.py#csrf:50$v2"
+      ],
+      "comparisons": [],
+      "entryBlock": "app.py#csrf:50$b0",
+      "blocks": [
+        {
+          "id": "app.py#csrf:50$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 50,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#csrf:50$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 54,
+            "column": 5
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "app.py#login:9",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "POST",
+        "path": "/login"
+      }
+    },
+    {
+      "functionId": "app.py#login_explicit:17",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "POST",
+        "path": "/login-explicit"
+      }
+    },
+    {
+      "functionId": "app.py#login_crosssite:25",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "POST",
+        "path": "/login-crosssite"
+      }
+    },
+    {
+      "functionId": "app.py#login_spread:33",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "POST",
+        "path": "/login-spread"
+      }
+    },
+    {
+      "functionId": "app.py#login_correct:42",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "POST",
+        "path": "/login-correct"
+      }
+    },
+    {
+      "functionId": "app.py#csrf:50",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "POST",
+        "path": "/csrf"
+      }
+    }
+  ]
+}

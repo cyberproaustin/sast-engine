@@ -16,7 +16,7 @@ import re
 import os
 from typing import Any
 
-IR_VERSION = "0.8.0"
+IR_VERSION = "0.9.0"
 FRONTEND_VERSION = "0.1.0"
 
 FUNCTION_NODES = (ast.FunctionDef, ast.AsyncFunctionDef)
@@ -655,15 +655,22 @@ class FunctionLowerer:
             lit = self._literal_of(arg)
             if lit is not None:
                 literals[index] = lit
+        # `**opts` hides which keywords the call actually passes, so after one the key
+        # set is no longer knowable. Recorded, because "does not set httponly" and
+        # "cannot see what it sets" are different claims and only one of them is safe
+        # to report.
+        keys_known = True
         for offset, kw in enumerate(node.keywords):
             vid = self.expr(kw.value)
             if vid:
                 args.append({"index": len(node.args), "valueId": vid})
+            if not kw.arg:
+                keys_known = False
+                continue
             # A keyword argument's literal is recorded under its NAME rather than a
             # position, because `verify=False` means the same thing wherever it is written.
             lit = self._literal_of(kw.value)
-            if lit is not None and kw.arg:
-                literals[-(offset + 1)] = f"{kw.arg}={lit}"
+            literals[-(offset + 1)] = f"{kw.arg}={lit if lit is not None else '?'}"
 
         method = None
         receiver = None
@@ -691,6 +698,10 @@ class FunctionLowerer:
             call["method"] = method
         if literals:
             call["argLiterals"] = {str(k): v for k, v in literals.items()}
+        if keys_known:
+            # -1 denotes the keyword arguments taken as a group, which is where a
+            # Python call keeps the options an object literal holds in JavaScript.
+            call["enumeratedOptions"] = [-1]
         if receiver_type:
             call["receiverType"] = receiver_type
             if receiver_type in BUILTIN_CONTAINERS:

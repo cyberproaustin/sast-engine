@@ -1402,6 +1402,47 @@ func Builtin() Model {
 // Because these are not flows, ADR-009 does not govern them: a weak hash in a utility file
 // nothing routes to is still a weak hash. Anchoring to the enumerated surface is a rule
 // about ASSERTIONS OVER A SURFACE, and this is an assertion about a line of code.
+// ArgCondition is a test against one argument's literal value.
+type ArgCondition struct {
+	ArgIndex int
+	// AnyOf are the values that satisfy it, compared without regard to case.
+	AnyOf []string
+	// Substring matches when the literal CONTAINS one of AnyOf rather than equalling
+	// it, which is what makes `connect.sid` and `refresh_token` both read as credentials.
+	Substring bool
+	// NoneOf disqualifies, and is checked first.
+	//
+	// A double-submit CSRF token is the case that requires it. `csrf_token` contains
+	// "token" and is a credential by any reasonable reading, and it is deliberately
+	// readable by script -- that is the entire mechanism, since the page has to echo it
+	// back in a header. Reporting it as needing HttpOnly would be advising a change that
+	// breaks the protection it is part of.
+	NoneOf []string
+}
+
+// Holds reports whether a call satisfies this condition. An argument that was not
+// written as a literal does not satisfy it: nothing is assumed about a value decided
+// at runtime.
+func (a ArgCondition) Holds(literals map[int]string) bool {
+	lit, ok := literals[a.ArgIndex]
+	if !ok {
+		return false
+	}
+	lit = strings.ToLower(lit)
+	for _, veto := range a.NoneOf {
+		if strings.Contains(lit, strings.ToLower(veto)) {
+			return false
+		}
+	}
+	for _, want := range a.AnyOf {
+		want = strings.ToLower(want)
+		if lit == want || (a.Substring && strings.Contains(lit, want)) {
+			return true
+		}
+	}
+	return false
+}
+
 type CallShape struct {
 	ID string
 
@@ -1423,6 +1464,32 @@ type CallShape struct {
 	// precise, because a secret read from the environment or a vault is not a literal
 	// and never matches.
 	AnyLiteral bool
+
+	// RequiredKeyword names an option whose ABSENCE is the defect, which is the shape
+	// most misconfiguration takes: nothing wrong was written down, the right thing was
+	// left out.
+	//
+	// Absence is only claimable where the option keys are knowable, and OptionsArg says
+	// where to look -- a positional index for a language that passes an options object,
+	// -1 for one that uses keyword arguments. Where the options were built elsewhere the
+	// answer is silence, not a finding (ADR-003).
+	RequiredKeyword string
+	OptionsArg      int
+
+	// Qualifier is a second literal in the SAME call that must also hold.
+	//
+	// Cookie attributes are the case that needed it. Whether a cookie ought to be
+	// HttpOnly is a question about what the cookie CARRIES: a session token must never
+	// be readable by script, and a theme preference is written to be read by script.
+	// The call carries the answer, because argument zero is the cookie's name and real
+	// code writes it as a literal -- `jwt`, `access_token`, `refresh_token`,
+	// `csrf_token` all appear in the corpus exactly that way.
+	//
+	// A name list is the weakest kind of rule in this project, and it is used here in
+	// the safe direction: to NARROW an existing match, never to make one. The worst it
+	// can do is stay quiet about a session cookie somebody named `q7`, which is a
+	// stated false negative rather than a false alarm.
+	Qualifier *ArgCondition
 
 	// DependsOnUse marks a shape whose judgement turns on what the result is USED for,
 	// which the call does not carry.
@@ -1463,7 +1530,102 @@ func (c CallShape) Matches(literal string) bool {
 
 func builtinCallShapes() []CallShape {
 	weakHash := []string{"md5", "sha1", "md4", "md2", "ripemd", "sha"}
+
+	// What a cookie CARRIES decides whether its attributes matter. A session token must
+	// never be readable by script; a theme preference is written to be read by script,
+	// and there is nothing to fix about it. The name in argument zero is the only
+	// evidence of that available at the call, and real code supplies it: `jwt`,
+	// `access_token`, `refresh_token`, `connect.sid` all appear in the corpus written as
+	// literals.
+	//
+	// `login` is deliberately absent. It matched `loginRedirect`, which holds a path.
+	credentialCookie := &ArgCondition{
+		ArgIndex:  0,
+		Substring: true,
+		AnyOf:     []string{"session", "sess", "sid", "jwt", "token", "auth", "remember"},
+		NoneOf:    []string{"csrf", "xsrf"},
+	}
+
 	return []CallShape{
+		// --- cookie attributes ------------------------------------------------------
+		// Two shapes per weakness, because the two ecosystems spell options differently
+		// and the difference is real: JavaScript passes an object, Python passes keyword
+		// arguments. Both end up in the same keyword slots, which is the seam doing its
+		// job (ADR-001).
+		{
+			ID: "cookie-not-http-only", Method: "cookie", ArgIndex: -1, Qualifier: credentialCookie,
+			RequiredKeyword: "httpOnly", OptionsArg: 2,
+			CWE:       "CWE-1004",
+			Finding:   "Session cookie readable by script",
+			Reason:    "a cookie that carries a credential must not be readable by script, or any cross-site scripting anywhere on the origin becomes account takeover",
+			Rationale: "res.cookie() sets no httpOnly attribute",
+		},
+		{
+			ID: "cookie-not-http-only", Method: "set_cookie", ArgIndex: -1, Qualifier: credentialCookie,
+			RequiredKeyword: "httponly", OptionsArg: -1,
+			CWE:       "CWE-1004",
+			Finding:   "Session cookie readable by script",
+			Reason:    "a cookie that carries a credential must not be readable by script, or any cross-site scripting anywhere on the origin becomes account takeover",
+			Rationale: "set_cookie() passes no httponly keyword",
+		},
+		{
+			// Written down explicitly, which is a decision rather than an omission.
+			ID: "cookie-http-only-disabled", Method: "cookie", ArgIndex: -1, Qualifier: credentialCookie,
+			Disallowed: []string{"httponly=false"},
+			CWE:        "CWE-1004",
+			Finding:    "Session cookie readable by script",
+			Reason:     "a cookie that carries a credential must not be readable by script, or any cross-site scripting anywhere on the origin becomes account takeover",
+			Rationale:  "httpOnly is set to false",
+		},
+		{
+			ID: "cookie-http-only-disabled", Method: "set_cookie", ArgIndex: -1, Qualifier: credentialCookie,
+			Disallowed: []string{"httponly=false"},
+			CWE:        "CWE-1004",
+			Finding:    "Session cookie readable by script",
+			Reason:     "a cookie that carries a credential must not be readable by script, or any cross-site scripting anywhere on the origin becomes account takeover",
+			Rationale:  "httponly is set to False",
+		},
+		{
+			// Absence is NOT claimed for Secure. Real code writes
+			// `secure: process.env.NODE_ENV === "production"`, which is correct and is not
+			// a literal, and a rule that demanded the attribute be written down would
+			// report every application that does the right thing conditionally. An
+			// explicit false is a different matter: it is a decision, and it is here.
+			ID: "cookie-not-secure", Method: "cookie", ArgIndex: -1, Qualifier: credentialCookie,
+			Disallowed: []string{"secure=false"},
+			CWE:        "CWE-614",
+			Finding:    "Credential cookie sent over plaintext",
+			Reason:     "without the Secure attribute the cookie is sent on plain HTTP, where anyone on the path can read it",
+			Rationale:  "secure is set to false",
+		},
+		{
+			ID: "cookie-not-secure", Method: "set_cookie", ArgIndex: -1, Qualifier: credentialCookie,
+			Disallowed: []string{"secure=false"},
+			CWE:        "CWE-614",
+			Finding:    "Credential cookie sent over plaintext",
+			Reason:     "without the Secure attribute the cookie is sent on plain HTTP, where anyone on the path can read it",
+			Rationale:  "secure is set to False",
+		},
+		{
+			// SameSite=None is legitimate -- an embedded widget or an OAuth flow needs
+			// it -- so this reports and never gates, the same treatment a weak hash gets
+			// and for the same reason: the call does not carry the fact that decides it.
+			ID: "cookie-same-site-none", Method: "cookie", ArgIndex: -1, Qualifier: credentialCookie,
+			Disallowed: []string{"samesite=none"}, DependsOnUse: true,
+			CWE:       "CWE-1275",
+			Finding:   "Credential cookie sent on cross-site requests",
+			Reason:    "SameSite=None lets the cookie ride requests a third-party site makes, which is what cross-site request forgery needs",
+			Rationale: "sameSite is set to none",
+		},
+		{
+			ID: "cookie-same-site-none", Method: "set_cookie", ArgIndex: -1, Qualifier: credentialCookie,
+			Disallowed: []string{"samesite=none"}, DependsOnUse: true,
+			CWE:       "CWE-1275",
+			Finding:   "Credential cookie sent on cross-site requests",
+			Reason:    "SameSite=None lets the cookie ride requests a third-party site makes, which is what cross-site request forgery needs",
+			Rationale: "samesite is set to None",
+		},
+
 		{
 			ID: "weak-hash", Symbol: "crypto.createHash", ArgIndex: 0, DependsOnUse: true, Disallowed: weakHash,
 			CWE:       "CWE-328",

@@ -12,7 +12,7 @@ could not be expressed without it. Nothing is added in anticipation.
 
 ```jsonc
 {
-  "irVersion": "0.6.0",
+  "irVersion": "0.9.0",
   "frontend": { "name": "typescript", "version": "0.1.0", "capabilities": { ... } },
   "modules":     [ ... ],
   "functions":   [ ... ],
@@ -108,7 +108,12 @@ A call site. Together, the `calls` of every function form the call graph.
   "receiverValueId": "...$v2",      // the object the method was called on
   "resultValueId": "...$v4",
   "receiverType": "Map",            // the receiver's type, when the frontend knows
-  "receiverTypeOrigin": "builtin"   // where that type is declared
+  "receiverTypeOrigin": "builtin",  // where that type is declared
+  "argLiterals": {                  // arguments written as literals
+    "0": "session",                 //   positional, by index
+    "-1": "httpOnly=false"          //   an option, by name, numbered from -1 downward
+  },
+  "enumeratedOptions": [2]          // positions whose option KEYS were read in full
 }
 ```
 
@@ -137,6 +142,29 @@ Absent means the frontend could not tell. **Absent is never "not builtin."** A c
 that needs this answer and does not get one still matches, but the finding cannot reach
 the confidence that gates (ADR-005): an analysis must not become more certain because a
 frontend went quiet.
+
+### Options and `enumeratedOptions` (added in 0.9.0)
+
+Most misconfiguration is an omission rather than a mistake: nothing wrong was written
+down, the right thing was left out. Reporting an omission requires knowing that the thing
+really is absent, and not merely that this frontend could not see it — two situations that
+look identical unless the IR distinguishes them.
+
+Options are recorded in `argLiterals` under NEGATIVE indices, numbered from -1 downward,
+as `name=value`. A JavaScript options object and a Python keyword argument are the same
+decision spelled two ways, so both arrive in the same slots and the core needs one
+vocabulary rather than two. A key whose value is not a literal is recorded as `name=?`:
+the key is known to be set even though the value is decided at runtime.
+
+`enumeratedOptions` lists the argument positions whose KEY SET was read in full, with
+`-1` standing for keyword arguments taken as a group. A spread (`...defaults`, `**opts`)
+hides keys, so an object containing one is not listed and nothing may be concluded from a
+key not appearing in it.
+
+Absence of an entry is never evidence of anything. `res.cookie('jwt', t, getCookieOpts())`
+sets its attributes in another function; a rule that read that as "sets no attributes"
+reported four false positives in a single production file, which is what this field exists
+to prevent (ADR-003).
 
 ### Why `method`, `receiverValueId`, and `arg.functionId` exist (added in 0.2.0)
 

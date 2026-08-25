@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.8.0",
+  "irVersion": "0.9.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -145,6 +145,9 @@
           "argLiterals": {
             "0": "host"
           },
+          "enumeratedOptions": [
+            -1
+          ],
           "receiverValueId": "app.py#ping:9$v2"
         },
         {
@@ -166,7 +169,10 @@
             }
           ],
           "resultValueId": "app.py#ping:9$v5",
-          "block": "app.py#ping:9$b0"
+          "block": "app.py#ping:9$b0",
+          "enumeratedOptions": [
+            -1
+          ]
         }
       ],
       "returns": [
@@ -316,7 +322,10 @@
             }
           ],
           "resultValueId": "app.py#get_order:17$v1",
-          "block": "app.py#get_order:17$b0"
+          "block": "app.py#get_order:17$b0",
+          "enumeratedOptions": [
+            -1
+          ]
         },
         {
           "id": "app.py#get_order:17$c1",
@@ -337,7 +346,10 @@
             }
           ],
           "resultValueId": "app.py#get_order:17$v2",
-          "block": "app.py#get_order:17$b0"
+          "block": "app.py#get_order:17$b0",
+          "enumeratedOptions": [
+            -1
+          ]
         },
         {
           "id": "app.py#get_order:17$c2",
@@ -358,7 +370,10 @@
             }
           ],
           "resultValueId": "app.py#get_order:17$v5",
-          "block": "app.py#get_order:17$b1"
+          "block": "app.py#get_order:17$b1",
+          "enumeratedOptions": [
+            -1
+          ]
         },
         {
           "id": "app.py#get_order:17$c3",
@@ -379,7 +394,10 @@
             }
           ],
           "resultValueId": "app.py#get_order:17$v6",
-          "block": "app.py#get_order:17$b1"
+          "block": "app.py#get_order:17$b1",
+          "enumeratedOptions": [
+            -1
+          ]
         }
       ],
       "returns": [
@@ -475,7 +493,10 @@
           "block": "app.py#status:25$b0",
           "argLiterals": {
             "0": "localhost"
-          }
+          },
+          "enumeratedOptions": [
+            -1
+          ]
         }
       ],
       "returns": [
@@ -576,7 +597,10 @@
           "block": "app.py#load_order:29$b0",
           "argLiterals": {
             "0": "driver: relation \"orders\" does not exist"
-          }
+          },
+          "enumeratedOptions": [
+            -1
+          ]
         }
       ],
       "returns": [],
@@ -716,6 +740,9 @@
           "resultValueId": "helpers.py#run_ping:4$v4",
           "block": "helpers.py#run_ping:4$b0",
           "method": "system",
+          "enumeratedOptions": [
+            -1
+          ],
           "receiverValueId": "helpers.py#run_ping:4$v3"
         }
       ],

@@ -50,8 +50,6 @@ var claims = map[string]Claim{
 	"CWE-330": {NotBuilt, "needs a notion of which randomness is used for a security decision, which a call shape alone does not carry", nil},
 	"CWE-798": {Partial, "a key argument written as a literal, matched on having been written down rather than on what it says; a key read from the environment or a vault is not a literal and never matches",
 		[]string{"hardcoded-secret"}},
-	"CWE-614": {NotBuilt, "a call-shape assertion over cookie options; the analysis kind is not built", nil},
-
 	// Members of the catalog's own Top 25 that apply to these languages. Named rather than
 	// left blank, because this list is the closest thing the project has to a prioritised
 	// backlog that nobody wrote by hand.
@@ -64,6 +62,17 @@ var claims = map[string]Claim{
 	"CWE-476": {Undecidable, "in these languages this is a TypeError on undefined at runtime rather than a memory fault, and deciding it statically means proving nullability across a dynamic language; the value even when solved is reliability rather than security", nil},
 	"CWE-770": {Partial, "an entry point missing a throttle most of its comparable peers apply, which is the observable half of this weakness. Unbounded reads and allocations are not observable at all yet, so the claim is narrow on purpose",
 		[]string{"expectations"}},
+
+	// Cookie attributes. Two of the three are claimed for an explicit downgrade AND for
+	// an omission; Secure is claimed only for the downgrade, because the correct idiom
+	// makes it conditional on the environment and a rule demanding a literal would report
+	// every application that does the right thing.
+	"CWE-1004": {Partial, "a credential-carrying cookie set with no httpOnly attribute, or with one written as false. Claimed only where the option keys were actually enumerated: options built in another function are unknowable and are passed over in silence, which is four sites in one production file. Which cookies carry credentials is decided by name, used to narrow an existing match rather than to make one, so the failure mode is a stated miss rather than a false alarm",
+		[]string{"cookie-not-http-only", "cookie-http-only-disabled"}},
+	"CWE-614": {Partial, "a credential cookie with Secure explicitly disabled. Absence is deliberately not claimed: `secure: process.env.NODE_ENV === \"production\"` is correct and is not a literal",
+		[]string{"cookie-not-secure"}},
+	"CWE-1275": {Partial, "a credential cookie with SameSite=None. Reported and never gating, because an embedded widget and an OAuth flow both legitimately need it and the call does not carry which case this is",
+		[]string{"cookie-same-site-none"}},
 
 	// Real, and about something no analysis of source can see.
 	"CWE-285": {Undecidable, "the intended entitlements are not in the code; a declared policy is what supplies them (ADR-011)",

@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.8.0",
+  "irVersion": "0.9.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -130,6 +130,9 @@
           "resultValueId": "app.py#log_request:18$v4",
           "block": "app.py#log_request:18$b0",
           "method": "update",
+          "enumeratedOptions": [
+            -1
+          ],
           "receiverType": "dict",
           "receiverTypeOrigin": "builtin",
           "receiverValueId": "app.py#log_request:18$v1"
@@ -263,7 +266,10 @@
           },
           "args": [],
           "resultValueId": "app.py#search:26$v0",
-          "block": "app.py#search:26$b0"
+          "block": "app.py#search:26$b0",
+          "enumeratedOptions": [
+            -1
+          ]
         },
         {
           "id": "app.py#search:26$c1",
@@ -286,6 +292,9 @@
           "resultValueId": "app.py#search:26$v4",
           "block": "app.py#search:26$b0",
           "method": "update",
+          "enumeratedOptions": [
+            -1
+          ],
           "receiverType": "dict",
           "receiverTypeOrigin": "builtin",
           "receiverValueId": "app.py#search:26$v1"
@@ -421,6 +430,9 @@
           "resultValueId": "app.py#cache_key:34$v0",
           "block": "app.py#cache_key:34$b0",
           "method": "copy",
+          "enumeratedOptions": [
+            -1
+          ],
           "receiverType": "dict",
           "receiverTypeOrigin": "builtin"
         },
@@ -445,6 +457,9 @@
           "resultValueId": "app.py#cache_key:34$v4",
           "block": "app.py#cache_key:34$b0",
           "method": "update",
+          "enumeratedOptions": [
+            -1
+          ],
           "receiverType": "dict",
           "receiverTypeOrigin": "builtin",
           "receiverValueId": "app.py#cache_key:34$v1"
@@ -681,7 +696,10 @@
           },
           "args": [],
           "resultValueId": "app.py#touch_record:50$v0",
-          "block": "app.py#touch_record:50$b0"
+          "block": "app.py#touch_record:50$b0",
+          "enumeratedOptions": [
+            -1
+          ]
         },
         {
           "id": "app.py#touch_record:50$c1",
@@ -704,6 +722,9 @@
           "resultValueId": "app.py#touch_record:50$v4",
           "block": "app.py#touch_record:50$b0",
           "method": "update",
+          "enumeratedOptions": [
+            -1
+          ],
           "receiverValueId": "app.py#touch_record:50$v1"
         }
       ],

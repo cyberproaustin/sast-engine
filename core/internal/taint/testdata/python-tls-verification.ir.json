@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.8.0",
+  "irVersion": "0.9.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -109,6 +109,9 @@
           "argLiterals": {
             "-1": "verify=false"
           },
+          "enumeratedOptions": [
+            -1
+          ],
           "receiverValueId": "app.py#fetch_insecure:16$v2"
         }
       ],
@@ -272,8 +275,12 @@
           "method": "get",
           "argLiterals": {
             "-1": "timeout=5",
+            "-2": "headers=?",
             "-3": "verify=false"
           },
+          "enumeratedOptions": [
+            -1
+          ],
           "receiverValueId": "app.py#fetch_insecure_with_neighbours:20$v5"
         }
       ],
@@ -391,6 +398,9 @@
           "argLiterals": {
             "-1": "timeout=5"
           },
+          "enumeratedOptions": [
+            -1
+          ],
           "receiverValueId": "app.py#fetch:25$v2"
         }
       ],
@@ -525,8 +535,12 @@
           "block": "app.py#post_insecure:29$b0",
           "method": "post",
           "argLiterals": {
+            "-1": "json=?",
             "-2": "verify=false"
           },
+          "enumeratedOptions": [
+            -1
+          ],
           "receiverValueId": "app.py#post_insecure:29$v3"
         }
       ],
