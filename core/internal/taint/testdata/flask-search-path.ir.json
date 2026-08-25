@@ -154,8 +154,9 @@
             "line": 12,
             "column": 24
           },
-          "name": "[index]",
-          "base": "app.py#add_plugin:9$v2"
+          "name": "dir",
+          "base": "app.py#add_plugin:9$v2",
+          "path": "args.dir"
         },
         {
           "id": "app.py#add_plugin:9$v4",

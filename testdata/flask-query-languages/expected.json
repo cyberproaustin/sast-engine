@@ -6,7 +6,7 @@
       "cwe": "CWE-90",
       "sinkFile": "app.py",
       "sinkLine": 15,
-      "sourceLabel": "flask.request.args",
+      "sourceLabel": "flask.request.args.name",
       "confidence": "medium",
       "note": "the caller's text is built into the filter"
     },
@@ -14,7 +14,7 @@
       "cwe": "CWE-643",
       "sinkFile": "app.py",
       "sinkLine": 32,
-      "sourceLabel": "flask.request.args",
+      "sourceLabel": "flask.request.args.name",
       "confidence": "medium",
       "note": "the caller's text is built into the expression"
     }

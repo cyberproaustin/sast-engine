@@ -5,11 +5,19 @@ app = Flask(__name__)
 DEFAULTS = {"httponly": True, "secure": True, "samesite": "Lax"}
 
 
+def mint_session(email):
+    # The value stored is GENERATED here, which is what a login actually does. Using the
+    # caller's own submission would be a different weakness in a corpus about a different
+    # judgement -- and it was one, until the engine learned to read `form["token"]` as a
+    # field called token rather than as an anonymous index.
+    return f"s-{email}-fixed"
+
+
 @app.route("/login", methods=["POST"])
 def login():
     # POSITIVE. No httponly keyword, and the keyword set is fully visible.
     r = make_response("ok")
-    r.set_cookie("session", request.form["token"])
+    r.set_cookie("session", mint_session(request.form["email"]))
     return r
 
 
@@ -17,7 +25,7 @@ def login():
 def login_explicit():
     # POSITIVE. Written down.
     r = make_response("ok")
-    r.set_cookie("jwt", request.form["token"], httponly=False)
+    r.set_cookie("jwt", mint_session(request.form["email"]), httponly=False)
     return r
 
 
@@ -25,7 +33,7 @@ def login_explicit():
 def login_crosssite():
     # POSITIVE, never gating.
     r = make_response("ok")
-    r.set_cookie("refresh_token", request.form["token"], httponly=True, samesite="None")
+    r.set_cookie("refresh_token", mint_session(request.form["email"]), httponly=True, samesite="None")
     return r
 
 
@@ -34,7 +42,7 @@ def login_spread():
     # NEGATIVE. ** hides which keywords are passed, so nothing can be concluded from
     # httponly not appearing.
     r = make_response("ok")
-    r.set_cookie("session", request.form["token"], **DEFAULTS)
+    r.set_cookie("session", mint_session(request.form["email"]), **DEFAULTS)
     return r
 
 
@@ -42,7 +50,7 @@ def login_spread():
 def login_correct():
     # NEGATIVE.
     r = make_response("ok")
-    r.set_cookie("session", request.form["token"], httponly=True, secure=True, samesite="Lax")
+    r.set_cookie("session", mint_session(request.form["email"]), httponly=True, secure=True, samesite="Lax")
     return r
 
 
@@ -50,5 +58,5 @@ def login_correct():
 def csrf():
     # NEGATIVE. A double-submit token must be readable by script.
     r = make_response("ok")
-    r.set_cookie("csrf_token", request.form["token"])
+    r.set_cookie("csrf_token", mint_session(request.form["email"]))
     return r

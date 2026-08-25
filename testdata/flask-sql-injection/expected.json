@@ -6,7 +6,7 @@
       "cwe": "CWE-89",
       "sinkFile": "app.py",
       "sinkLine": 17,
-      "sourceLabel": "flask.request.args",
+      "sourceLabel": "flask.request.args.login",
       "confidence": "medium",
       "note": "interpolated into the statement; the parameterized route below is not a finding"
     }

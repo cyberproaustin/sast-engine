@@ -918,8 +918,9 @@
             "line": 54,
             "column": 16
           },
-          "name": "[index]",
-          "base": "app.py#greet_caller:51$v1"
+          "name": "template",
+          "base": "app.py#greet_caller:51$v1",
+          "path": "args.template"
         },
         {
           "id": "app.py#greet_caller:51$v3",

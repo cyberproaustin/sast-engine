@@ -275,6 +275,13 @@ var claims = map[string]Claim{
 	"CWE-250": {State: Partial, Reason: "a process asking for the superuser by calling setuid or seteuid with 0. A process running as root does everything as root, so any defect anywhere in it has the whole machine behind it. Zero occurrences across thirty-five repositories, so this is fixture-validated only -- which is stated rather than left for a reader to discover",
 		By: []string{"unnecessary-privilege"}},
 
+	"CWE-15": {State: Partial, Reason: "the caller's data written into the process environment, which is inherited by every process this one starts and is where libraries look for their own configuration. The search-path names are excluded because CWE-427 claims them at a granularity that says something sharper",
+		By: []string{"untrusted-into-environment"}},
+	"CWE-261": {State: Partial, Reason: "a password passed to a base64 encoder. Encoding is not hiding: it turns straight back into what went in, so whoever holds the result holds the password. The named encoders only",
+		By: []string{"credential-encoded"}},
+	"CWE-257": {State: Partial, Reason: "a password passed to a reversible cipher. Encryption is not hashing -- it is recoverable by design, which is what a stored password must never be. The named encryption APIs only; a cipher assembled through an object is not matched",
+		By: []string{"credential-encrypted"}},
+
 	// Cookie attributes. Two of the three are claimed for an explicit downgrade AND for
 	// an omission; Secure is claimed only for the downgrade, because the correct idiom
 	// makes it conditional on the environment and a rule demanding a literal would report

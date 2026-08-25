@@ -12,7 +12,11 @@ app.post("/tools/register", (req, res) => {
 });
 
 app.post("/tools/label", (req, res) => {
-  // NEGATIVE. An environment variable that decides nothing about where code comes from.
+  // POSITIVE, at the coarser granularity. This is not a search path, so it is not
+  // CWE-427 -- but the environment is inherited by every process this one starts and is
+  // where libraries look for their own configuration, so a caller who can write to it
+  // reconfigures things that never read the request. Exactly one of the two rules fires
+  // on each of these lines, which is what the exclusion is for.
   process.env.APP_LABEL = req.body.label;
   res.json({ ok: true });
 });

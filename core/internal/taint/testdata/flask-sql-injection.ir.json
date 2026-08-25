@@ -225,8 +225,9 @@
             "line": 17,
             "column": 64
           },
-          "name": "[index]",
-          "base": "app.py#find_user:14$v8"
+          "name": "login",
+          "base": "app.py#find_user:14$v8",
+          "path": "args.login"
         },
         {
           "id": "app.py#find_user:14$v10",
@@ -541,8 +542,9 @@
             "line": 25,
             "column": 62
           },
-          "name": "[index]",
-          "base": "app.py#find_user_by_id:22$v7"
+          "name": "id",
+          "base": "app.py#find_user_by_id:22$v7",
+          "path": "args.id"
         },
         {
           "id": "app.py#find_user_by_id:22$v9",

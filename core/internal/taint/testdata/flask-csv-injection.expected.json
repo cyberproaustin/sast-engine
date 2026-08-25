@@ -2,6 +2,13 @@
   "corpus": "flask-csv-injection",
   "description": "The interpreter is a spreadsheet on somebody else's machine, which is why this channel is third-party rather than internal: the application that writes the file never sees the damage. Nothing is claimed about whether the application prefixes cells to defuse them, because no such convention is modelled and inventing one would be guessing at intent.",
   "expected": [
-    {"cwe": "CWE-1236", "sinkFile": "app.py", "sinkLine": 15, "sourceLabel": "flask.request.args", "confidence": "medium", "note": "the caller's text becomes a cell a spreadsheet will interpret"}
+    {
+      "cwe": "CWE-1236",
+      "sinkFile": "app.py",
+      "sinkLine": 15,
+      "sourceLabel": "flask.request.args.name",
+      "confidence": "medium",
+      "note": "the caller's text becomes a cell a spreadsheet will interpret"
+    }
   ]
 }

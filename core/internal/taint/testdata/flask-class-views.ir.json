@@ -452,8 +452,9 @@
             "line": 22,
             "column": 45
           },
-          "name": "[index]",
-          "base": "app.py#get:20$v4"
+          "name": "q",
+          "base": "app.py#get:20$v4",
+          "path": "args.q"
         },
         {
           "id": "app.py#get:20$v6",

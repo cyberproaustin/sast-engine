@@ -303,8 +303,9 @@
             "line": 14,
             "column": 12
           },
-          "name": "[index]",
-          "base": "app.py#find:11$v1"
+          "name": "name",
+          "base": "app.py#find:11$v1",
+          "path": "args.name"
         },
         {
           "id": "app.py#find:11$v3",
@@ -613,8 +614,9 @@
             "line": 24,
             "column": 69
           },
-          "name": "[index]",
-          "base": "app.py#find_bound:19$v4"
+          "name": "name",
+          "base": "app.py#find_bound:19$v4",
+          "path": "args.name"
         },
         {
           "id": "app.py#find_bound:19$v6",
@@ -802,8 +804,9 @@
             "line": 31,
             "column": 12
           },
-          "name": "[index]",
-          "base": "app.py#lookup:28$v1"
+          "name": "name",
+          "base": "app.py#lookup:28$v1",
+          "path": "args.name"
         },
         {
           "id": "app.py#lookup:28$v3",

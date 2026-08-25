@@ -1236,6 +1236,45 @@ func Builtin() Model {
 				Rationale: "the first argument is how many bytes to reserve",
 			},
 
+			// Turning a password into something REVERSIBLE. Encoding is not hiding and
+			// encryption is not hashing: both leave a value that can be turned back into
+			// the password by whoever holds what is needed, which for a stored password
+			// is the whole problem.
+			{
+				ID: "reversible-encoding", Visibility: "internal", Context: "reversible",
+				Symbol: "btoa", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-261",
+				Rationale: "base64 is an encoding and turns straight back into what went in",
+			},
+			{
+				ID: "reversible-encoding", Visibility: "internal", Context: "reversible",
+				Symbol: "base64.b64encode", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-261",
+				Rationale: "base64 is an encoding and turns straight back into what went in",
+			},
+			{
+				ID: "reversible-encoding", Visibility: "internal", Context: "reversible",
+				Symbol: "base64.encodebytes", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-261",
+				Rationale: "base64 is an encoding and turns straight back into what went in",
+			},
+			{
+				ID: "reversible-cipher", Visibility: "internal", Context: "recoverable",
+				Symbol: "crypto.publicEncrypt", ReceiverIsEntryParam: -1, ArgIndex: []int{1},
+				CWE:       "CWE-257",
+				Rationale: "encryption is reversible by design, which is what a stored password must not be",
+			},
+			{
+				ID: "reversible-cipher", Visibility: "internal", Context: "recoverable",
+				// By METHOD: a cipher is always a bound object rather than the module,
+				// so the symbol is whatever the instance was called. `encrypt` is
+				// distinctive, and the classification does the narrowing -- this only
+				// fires when what is being encrypted is a password.
+				Method: "encrypt", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-257",
+				Rationale: "encryption is reversible by design, which is what a stored password must not be",
+			},
+
 			// Where the interpreter loads modules FROM. Putting a caller-controlled
 			// directory at the front of it means the next import takes whatever is in
 			// that directory, under whatever name it expects.
@@ -2238,6 +2277,31 @@ func Builtin() Model {
 				Reason:              "a credential written to a file outlives the request that carried it and ends up in backups and images nobody thinks of as holding secrets",
 				Finding:             "Credential written to a file in the clear",
 				CWE:                 "CWE-312",
+			},
+			{
+				// Encoding is not hiding. base64 turns straight back into what went in,
+				// and anybody who has the encoded form has the password.
+				ID:                  "credential-encoded",
+				Class:               "caller-credential",
+				DeniedContext:       []string{"reversible"},
+				RequiresUnprojected: true,
+				Requires:            Requirements{Interprocedural: true},
+				Reason:              "base64 is an encoding rather than a transformation, so whoever holds the result holds the password",
+				Finding:             "Password merely encoded",
+				CWE:                 "CWE-261",
+			},
+			{
+				// Encryption is not hashing. A stored password must not be recoverable
+				// AT ALL, and encryption is recoverable by design -- that is what it is
+				// for.
+				ID:                  "credential-encrypted",
+				Class:               "caller-credential",
+				DeniedContext:       []string{"recoverable"},
+				RequiresUnprojected: true,
+				Requires:            Requirements{Interprocedural: true},
+				Reason:              "encryption is reversible by design, so a password kept that way is recoverable by anyone who reaches the key",
+				Finding:             "Password kept in a recoverable form",
+				CWE:                 "CWE-257",
 			},
 			{
 				// A cookie is storage on a machine the application does not control. A
@@ -3811,6 +3875,9 @@ type StoreRule struct {
 	// for any. The environment holds a hundred harmless variables and one that decides
 	// where the next program comes from.
 	Path []string
+	// NotPath excludes keys another rule already claims, so two rules can describe the
+	// same destination at different granularities without reporting one line twice.
+	NotPath []string
 
 	CWE       string
 	Finding   string
@@ -3845,6 +3912,19 @@ func builtinStores() []StoreRule {
 			Finding:   "Caller's data written into an executable search path",
 			Reason:    "the search path decides which binary the next exec actually runs, so a caller who can write to it chooses the program without touching the call that runs it",
 			Rationale: "the value written into the search path came from the request",
+		},
+		{
+			// The environment is read by everything the process later starts, and by
+			// libraries that look for their own configuration in it. The search-path keys
+			// are excluded because the rule above already claims them, at a granularity
+			// that says something sharper about what goes wrong.
+			ID: "untrusted-into-environment", Class: "untrusted-input",
+			Into:      []string{"env", "environ"},
+			NotPath:   []string{"PATH", "NODE_PATH", "PYTHONPATH", "LD_PRELOAD", "LD_LIBRARY_PATH"},
+			CWE:       "CWE-15",
+			Finding:   "Caller's data written into the environment",
+			Reason:    "the environment is inherited by every process this one starts and is where libraries look for their own configuration, so a caller who can write to it reconfigures things that never read the request",
+			Rationale: "the value written into the environment came from the request",
 		},
 	}
 }

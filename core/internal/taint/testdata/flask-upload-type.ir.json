@@ -174,8 +174,9 @@
             "line": 15,
             "column": 9
           },
-          "name": "[index]",
-          "base": "app.py#upload:12$v1"
+          "name": "file",
+          "base": "app.py#upload:12$v1",
+          "path": "files.file"
         },
         {
           "id": "app.py#upload:12$v3",
@@ -483,8 +484,9 @@
             "line": 24,
             "column": 9
           },
-          "name": "[index]",
-          "base": "app.py#upload_raw:22$v1"
+          "name": "file",
+          "base": "app.py#upload_raw:22$v1",
+          "path": "files.file"
         },
         {
           "id": "app.py#upload_raw:22$v3",
@@ -737,8 +739,9 @@
             "line": 33,
             "column": 9
           },
-          "name": "[index]",
-          "base": "app.py#upload_generated:30$v1"
+          "name": "file",
+          "base": "app.py#upload_generated:30$v1",
+          "path": "files.file"
         },
         {
           "id": "app.py#upload_generated:30$v3",
@@ -1114,8 +1117,9 @@
             "line": 44,
             "column": 19
           },
-          "name": "[index]",
-          "base": "app.py#note:40$v2"
+          "name": "title",
+          "base": "app.py#note:40$v2",
+          "path": "title"
         },
         {
           "id": "app.py#note:40$v4",
