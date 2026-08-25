@@ -36,7 +36,7 @@ func Text(w io.Writer, res scan.Result) error {
 		newness[f.Fingerprint()] = res.IsNew(f)
 		scoped[f.Fingerprint()] = res.InScope(f)
 	}
-	writeTaint(b, res.Taint, newness, scoped)
+	writeTaint(b, res.Taint, newness, scoped, res.Gates)
 	writeExpectations(b, res.Expectation)
 	writeCoverage(b, assertion.Evaluate(res))
 
@@ -57,10 +57,33 @@ func writeSurface(b *strings.Builder, s surface.Surface) {
 		return
 	}
 
-	for _, name := range names {
-		fmt.Fprintf(b, "  %s\n", name)
-		for _, e := range groups[name] {
-			fmt.Fprintf(b, "    %-30s %s\n", e.Label(), describeControls(e))
+	// A surface is the primary output and an operator is meant to AUDIT it: if the
+	// enumerated entry points do not match the application they know, no conclusion below
+	// is worth anything (ADR-009). That argument assumes it can be read. One production
+	// repository enumerates 280 routes, and printing every one put 320 lines between the
+	// header and the first finding -- at which point nobody audits anything.
+	//
+	// So a large surface is summarised by group, with the count and how many carry no
+	// control. Nothing is hidden: the groups are all there, the totals are exact, and the
+	// SARIF output has always carried every entry point for anything that wants them.
+	if len(s.Entries) > surfaceDetailLimit {
+		fmt.Fprintf(b, "  listed by group; %d entry points is too many to read one by one\n", len(s.Entries))
+		for _, name := range names {
+			g := groups[name]
+			bare := 0
+			for _, e := range g {
+				if len(e.Controls) == 0 {
+					bare++
+				}
+			}
+			fmt.Fprintf(b, "    %-52s %3d entry point(s), %d with no control\n", name, len(g), bare)
+		}
+	} else {
+		for _, name := range names {
+			fmt.Fprintf(b, "  %s\n", name)
+			for _, e := range groups[name] {
+				fmt.Fprintf(b, "    %-30s %s\n", e.Label(), describeControls(e))
+			}
 		}
 	}
 	writeUniversalControls(b, s)
@@ -75,6 +98,14 @@ func writeSurface(b *strings.Builder, s surface.Surface) {
 // on all 39 routes and the other on 10. The first tells a reader nothing about any
 // particular route, and reporting that is more honest than leaving them to assume it is
 // protection.
+// sameRuleDetailLimit is how many findings from ONE rule are shown in full before the
+// rest are counted by file. Gating findings are never subject to it.
+const sameRuleDetailLimit = 5
+
+// surfaceDetailLimit is where listing every entry point stops helping. Chosen so that the
+// surface stays shorter than the findings it introduces on every repository in the corpus.
+const surfaceDetailLimit = 40
+
 func writeUniversalControls(b *strings.Builder, s surface.Surface) {
 	if len(s.Entries) < 2 {
 		return
@@ -246,7 +277,11 @@ func writeExemptions(b *strings.Builder, ex []scan.Exemption) {
 	}
 }
 
-func writeTaint(b *strings.Builder, res taint.Result, newness, scoped map[string]bool) {
+// gates is passed in rather than recomputed. There is one definition of what stops a
+// build (scan.Gates) and this file used to hold a second, which had already drifted: it
+// omitted the test-module term, so a hardcoded key in a spec file counted as gating here
+// and did not in SARIF. Two answers to that question is one too many.
+func writeTaint(b *strings.Builder, res taint.Result, newness, scoped map[string]bool, gates func(taint.Finding) bool) {
 	if !res.Applicable {
 		writeNotApplicable(b, "taint-flow", res.MissingCapabilities)
 		return
@@ -292,9 +327,33 @@ func writeTaint(b *strings.Builder, res taint.Result, newness, scoped map[string
 	anchored, gating, known, out := 0, 0, 0, 0
 	for _, flow := range order {
 		fmt.Fprintf(b, "\n  -- %s --\n", flow)
+		// One rule firing twenty-one times says the same thing twenty-one times, and in
+		// one production repository that was 210 lines of identical hardcoded-secret
+		// findings between the reader and the next rule. The first few are printed in
+		// full and the rest are counted by file.
+		//
+		// A GATING finding is never summarised away, however many there are: those are
+		// the ones that stop a build, and a reader who has to expand a summary to see
+		// what stopped it is a reader who will turn the tool off. The count and the files
+		// are exact either way, and SARIF carries every one regardless.
+		shown := 0
+		elided := map[string]int{}
 		for _, f := range byFlow[flow] {
 			isNew := newness == nil || newness[f.Fingerprint()]
 			inScope := scoped == nil || scoped[f.Fingerprint()]
+			stops := gates(f)
+			if shown >= sameRuleDetailLimit && !stops {
+				elided[f.SinkLoc.File]++
+				anchored++
+				if !isNew {
+					known++
+				}
+				if !inScope {
+					out++
+				}
+				continue
+			}
+			shown++
 			writeTaintFinding(b, f)
 			if !isNew {
 				fmt.Fprintf(b, "  in baseline: %s\n", f.Fingerprint())
@@ -319,8 +378,21 @@ func writeTaint(b *strings.Builder, res taint.Result, newness, scoped map[string
 				}
 			}
 			anchored++
-			if isNew && inScope && f.DependsOnUse == "" && f.Confidence.Gating() {
+			if stops {
 				gating++
+			}
+		}
+		if len(elided) > 0 {
+			total := 0
+			files := make([]string, 0, len(elided))
+			for f, n := range elided {
+				total += n
+				files = append(files, f)
+			}
+			sort.Strings(files)
+			fmt.Fprintf(b, "\n  and %d more from this rule, none of them gating:\n", total)
+			for _, f := range files {
+				fmt.Fprintf(b, "    %-64s %d\n", f, elided[f])
 			}
 		}
 	}
