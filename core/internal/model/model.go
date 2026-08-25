@@ -664,6 +664,42 @@ func Builtin() Model {
 				},
 			},
 			{
+				// The Referer header, which the browser sends and the caller controls. It
+				// says where a request came from only in the sense that it says whatever
+				// the sender wrote there.
+				Class: "referer",
+				Label: "the Referer header the caller sent",
+				Rules: []SourceRule{
+					{
+						Match:      MatchEntryParamProperty,
+						Framework:  "express",
+						EntryKind:  "http-route",
+						ParamIndex: 0,
+						Paths:      []string{"headers"},
+						LeafEquals: []string{"referer", "referrer", "origin"},
+					},
+					{
+						Match:      MatchGlobalProperty,
+						Symbol:     "flask.request",
+						Paths:      []string{"referrer", "headers"},
+						LeafEquals: []string{"referer", "referrer", "origin"},
+					},
+				},
+			},
+			{
+				// A name from a reverse lookup, which is controlled by whoever runs the
+				// PTR record for the address -- and that is not necessarily whoever runs
+				// the name it resolves to.
+				Class: "reverse-dns-name",
+				Label: "a name from a reverse DNS lookup",
+				Rules: []SourceRule{
+					{Match: MatchCallResult, Symbol: "dns.reverse"},
+					{Match: MatchCallResult, Symbol: "dns/promises.reverse"},
+					{Match: MatchCallResult, Symbol: "socket.gethostbyaddr"},
+					{Match: MatchCallResult, Symbol: "socket.getfqdn"},
+				},
+			},
+			{
 				// A number from a generator that is fast rather than unpredictable. What
 				// makes this a weakness is not the call -- Math.random appears 90 times
 				// across the clean corpus, almost all of it jitter, sampling and
@@ -3485,6 +3521,25 @@ func builtinDecisions() []DecisionRule {
 			Finding:   "Security decision made on the caller's own claim",
 			Reason:    "a field the caller sent is a statement the caller made about themselves, and a branch that trusts it lets them choose which branch runs",
 			Rationale: "the comparison decides on a value that arrived in the request",
+		},
+		{
+			// The Referer says where a request came from only in the sense that it says
+			// whatever the sender wrote there. A browser sends it, a script omits it, and
+			// anything at all can forge it.
+			ID: "referer-decides-access", Class: "referer", Ops: equality,
+			CWE:       "CWE-293",
+			Finding:   "Access decided on the Referer header",
+			Reason:    "the Referer is written by whoever made the request, so a check against it is a check the caller can pass by choosing what to write",
+			Rationale: "the comparison decides on a header the caller controls",
+		},
+		{
+			// A reverse lookup answers with whatever the owner of the ADDRESS block put
+			// in the PTR record, and that is not the owner of the name it gives back.
+			ID: "reverse-dns-decides-access", Class: "reverse-dns-name", Ops: equality,
+			CWE:       "CWE-350",
+			Finding:   "Access decided on a reverse DNS name",
+			Reason:    "a reverse lookup returns what the address's owner chose to publish, which is not evidence of who they are",
+			Rationale: "the comparison decides on the result of a reverse lookup",
 		},
 		{
 			ID: "cookie-decides-authority", Class: "cookie-asserted-authority", Ops: equality,
