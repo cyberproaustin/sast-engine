@@ -75,8 +75,44 @@ func TestCoverageDenominatorIsHonest(t *testing.T) {
 		}
 	}
 
-	asserted, total := ledger.Covered()
+	asserted, subsumed, total := ledger.Covered()
 	if asserted == 0 || asserted > total {
 		t.Errorf("coverage %d/%d is not a sensible fraction", asserted, total)
+	}
+	if asserted+subsumed > total {
+		t.Errorf("asserted %d plus subsumed %d exceeds the denominator %d", asserted, subsumed, total)
+	}
+}
+
+// A claim that says it covers everything beneath it must itself be a claim the engine
+// stands behind. Subsuming from a not-built or undecidable parent would hand a whole
+// branch of the catalog a coverage it has no basis for.
+func TestSubsumingClaimsAreThemselvesAsserted(t *testing.T) {
+	for _, e := range ledger.All() {
+		if !e.Claim.Subsumes {
+			continue
+		}
+		if e.Claim.State != ledger.Asserted && e.Claim.State != ledger.Partial {
+			t.Errorf("%s subsumes its children while claiming %q", e.ID, e.Claim.State)
+		}
+		if len(e.Claim.By) == 0 {
+			t.Errorf("%s subsumes its children but names no rule that does the catching", e.ID)
+		}
+	}
+}
+
+// Nothing may be subsumed without naming the parent doing the work, for the same reason
+// nothing may be unbuilt without a reason: a claim nobody can check is not a claim.
+func TestSubsumedEntriesNameTheirParent(t *testing.T) {
+	for _, e := range ledger.InScope() {
+		if e.Claim.State != ledger.Subsumed {
+			continue
+		}
+		if !strings.Contains(e.Claim.Reason, "CWE-") {
+			t.Errorf("%s is subsumed but its reason names no parent: %q", e.ID, e.Claim.Reason)
+		}
+		if len(e.Claim.By) == 0 {
+			t.Errorf("%s is subsumed but names no rule that catches it", e.ID)
+		}
 	}
 }

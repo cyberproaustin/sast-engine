@@ -14,6 +14,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-319"
+   ],
    "owasp": "A02:2025 - Security Misconfiguration"
   },
   {
@@ -27,6 +30,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-334"
+   ],
    "owasp": ""
   },
   {
@@ -40,6 +46,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-756"
+   ],
    "owasp": ""
   },
   {
@@ -53,6 +62,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-668"
+   ],
    "owasp": ""
   },
   {
@@ -66,6 +78,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-266"
+   ],
    "owasp": ""
   },
   {
@@ -79,6 +94,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-489"
+   ],
    "owasp": "A02:2025 - Security Misconfiguration"
   },
   {
@@ -92,6 +110,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-756"
+   ],
    "owasp": ""
   },
   {
@@ -105,6 +126,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-260"
+   ],
    "owasp": "A02:2025 - Security Misconfiguration"
   },
   {
@@ -120,6 +144,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-733"
+   ],
    "owasp": ""
   },
   {
@@ -131,6 +158,11 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-20",
+    "CWE-610",
+    "CWE-642"
+   ],
    "owasp": "A02:2025 - Security Misconfiguration"
   },
   {
@@ -145,6 +177,9 @@
    "languageAgnostic": true,
    "lists": [
     "cwe-top-25-2025"
+   ],
+   "childOf": [
+    "CWE-707"
    ],
    "owasp": "A05:2025 - Injection"
   },
@@ -161,6 +196,9 @@
    "lists": [
     "cwe-top-25-2025"
    ],
+   "childOf": [
+    "CWE-706"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -174,6 +212,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-22"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -187,6 +228,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-23"
+   ],
    "owasp": ""
   },
   {
@@ -200,6 +244,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-23"
+   ],
    "owasp": ""
   },
   {
@@ -213,6 +260,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-23"
+   ],
    "owasp": ""
   },
   {
@@ -226,6 +276,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-23"
+   ],
    "owasp": ""
   },
   {
@@ -239,6 +292,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-23"
+   ],
    "owasp": ""
   },
   {
@@ -252,6 +308,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-23"
+   ],
    "owasp": ""
   },
   {
@@ -265,6 +324,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-23"
+   ],
    "owasp": ""
   },
   {
@@ -278,6 +340,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-23"
+   ],
    "owasp": ""
   },
   {
@@ -291,6 +356,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-23"
+   ],
    "owasp": ""
   },
   {
@@ -304,6 +372,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-23"
+   ],
    "owasp": ""
   },
   {
@@ -317,6 +388,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-23"
+   ],
    "owasp": ""
   },
   {
@@ -330,6 +404,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-23"
+   ],
    "owasp": ""
   },
   {
@@ -343,6 +420,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-22"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -356,6 +436,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-160",
+    "CWE-36"
+   ],
    "owasp": ""
   },
   {
@@ -369,6 +453,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-36"
+   ],
    "owasp": ""
   },
   {
@@ -382,6 +469,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-36"
+   ],
    "owasp": ""
   },
   {
@@ -395,6 +485,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-36"
+   ],
    "owasp": ""
   },
   {
@@ -408,6 +501,11 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1390",
+    "CWE-706",
+    "CWE-863"
+   ],
    "owasp": ""
   },
   {
@@ -421,6 +519,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-162",
+    "CWE-41"
+   ],
    "owasp": ""
   },
   {
@@ -434,6 +536,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-163",
+    "CWE-42"
+   ],
    "owasp": ""
   },
   {
@@ -447,6 +553,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-41"
+   ],
    "owasp": ""
   },
   {
@@ -460,6 +569,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-165",
+    "CWE-44"
+   ],
    "owasp": ""
   },
   {
@@ -473,6 +586,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-162",
+    "CWE-41"
+   ],
    "owasp": ""
   },
   {
@@ -486,6 +603,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-41"
+   ],
    "owasp": ""
   },
   {
@@ -499,6 +619,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-41"
+   ],
    "owasp": ""
   },
   {
@@ -512,6 +635,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-162",
+    "CWE-41"
+   ],
    "owasp": ""
   },
   {
@@ -525,6 +652,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-161",
+    "CWE-41"
+   ],
    "owasp": ""
   },
   {
@@ -538,6 +669,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-41"
+   ],
    "owasp": ""
   },
   {
@@ -551,6 +685,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-163",
+    "CWE-41"
+   ],
    "owasp": ""
   },
   {
@@ -564,6 +702,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-165",
+    "CWE-41"
+   ],
    "owasp": ""
   },
   {
@@ -577,6 +719,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-162",
+    "CWE-41"
+   ],
    "owasp": ""
   },
   {
@@ -590,6 +736,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-41"
+   ],
    "owasp": ""
   },
   {
@@ -603,6 +752,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-155",
+    "CWE-41"
+   ],
    "owasp": ""
   },
   {
@@ -616,6 +769,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-41"
+   ],
    "owasp": ""
   },
   {
@@ -629,6 +785,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-41"
+   ],
    "owasp": ""
   },
   {
@@ -642,6 +801,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-706"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -655,6 +817,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-59"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -668,6 +833,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-59"
+   ],
    "owasp": ""
   },
   {
@@ -681,6 +849,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-59"
+   ],
    "owasp": ""
   },
   {
@@ -694,6 +865,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-59"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -707,6 +881,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-706"
+   ],
    "owasp": ""
   },
   {
@@ -720,6 +897,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-66"
+   ],
    "owasp": ""
   },
   {
@@ -733,6 +913,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-66"
+   ],
    "owasp": ""
   },
   {
@@ -744,6 +927,7 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -757,6 +941,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-66"
+   ],
    "owasp": ""
   },
   {
@@ -770,6 +957,11 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-20",
+    "CWE-610",
+    "CWE-642"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -783,6 +975,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-707"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -796,6 +991,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-74"
+   ],
    "owasp": ""
   },
   {
@@ -809,6 +1007,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-75"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -823,6 +1024,9 @@
    "languageAgnostic": true,
    "lists": [
     "cwe-top-25-2025"
+   ],
+   "childOf": [
+    "CWE-74"
    ],
    "owasp": "A05:2025 - Injection"
   },
@@ -839,6 +1043,10 @@
    "lists": [
     "cwe-top-25-2025"
    ],
+   "childOf": [
+    "CWE-74",
+    "CWE-77"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -854,6 +1062,9 @@
    "lists": [
     "cwe-top-25-2025"
    ],
+   "childOf": [
+    "CWE-74"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -867,6 +1078,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-79"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -880,6 +1094,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-79"
+   ],
    "owasp": ""
   },
   {
@@ -893,6 +1110,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-83"
+   ],
    "owasp": ""
   },
   {
@@ -906,6 +1126,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-79"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -919,6 +1142,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-79"
+   ],
    "owasp": ""
   },
   {
@@ -932,6 +1158,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-79"
+   ],
    "owasp": ""
   },
   {
@@ -945,6 +1174,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-436",
+    "CWE-79"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -958,6 +1191,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-79"
+   ],
    "owasp": ""
   },
   {
@@ -972,6 +1208,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-74",
+    "CWE-77"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -988,6 +1228,10 @@
    "lists": [
     "cwe-top-25-2025"
    ],
+   "childOf": [
+    "CWE-74",
+    "CWE-943"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -1001,6 +1245,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-943"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -1014,6 +1261,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-74"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -1025,6 +1275,7 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -1038,6 +1289,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-74"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -1052,6 +1306,10 @@
    "languageAgnostic": false,
    "lists": [
     "cwe-top-25-2025"
+   ],
+   "childOf": [
+    "CWE-74",
+    "CWE-913"
    ],
    "owasp": "A05:2025 - Injection"
   },
@@ -1072,6 +1330,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-94"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -1087,6 +1348,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-94"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -1100,6 +1364,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-96"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -1113,6 +1380,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-706",
+    "CWE-829"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -1126,6 +1397,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-74"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -1139,6 +1413,11 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-1173",
+    "CWE-20",
+    "CWE-694"
+   ],
    "owasp": ""
   },
   {
@@ -1152,6 +1431,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-20",
+    "CWE-573"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -1165,6 +1448,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-20",
+    "CWE-573"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -1178,6 +1465,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-1173",
+    "CWE-20"
+   ],
    "owasp": ""
   },
   {
@@ -1191,6 +1482,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-1173",
+    "CWE-20"
+   ],
    "owasp": ""
   },
   {
@@ -1204,6 +1499,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-1164",
+    "CWE-20"
+   ],
    "owasp": ""
   },
   {
@@ -1217,6 +1516,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-1173",
+    "CWE-20"
+   ],
    "owasp": ""
   },
   {
@@ -1230,6 +1533,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-1173",
+    "CWE-20"
+   ],
    "owasp": ""
   },
   {
@@ -1243,6 +1550,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-1164",
+    "CWE-20"
+   ],
    "owasp": ""
   },
   {
@@ -1256,6 +1567,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-20",
+    "CWE-695"
+   ],
    "owasp": ""
   },
   {
@@ -1269,6 +1584,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1286",
+    "CWE-20"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -1282,6 +1601,11 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-20",
+    "CWE-436",
+    "CWE-93"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -1295,6 +1619,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-20",
+    "CWE-73"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -1308,6 +1636,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-436"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -1321,6 +1652,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-707"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -1334,6 +1668,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-116",
+    "CWE-20"
+   ],
    "owasp": "A09:2025 - Logging & Alerting Failures"
   },
   {
@@ -1347,6 +1685,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-664"
+   ],
    "owasp": ""
   },
   {
@@ -1363,6 +1704,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-118",
+    "CWE-20"
+   ],
    "owasp": ""
   },
   {
@@ -1381,6 +1726,11 @@
    "lists": [
     "cwe-top-25-2025"
    ],
+   "childOf": [
+    "CWE-119",
+    "CWE-20",
+    "CWE-787"
+   ],
    "owasp": ""
   },
   {
@@ -1397,6 +1747,10 @@
    "languageAgnostic": false,
    "lists": [
     "cwe-top-25-2025"
+   ],
+   "childOf": [
+    "CWE-787",
+    "CWE-788"
    ],
    "owasp": ""
   },
@@ -1415,6 +1769,10 @@
    "lists": [
     "cwe-top-25-2025"
    ],
+   "childOf": [
+    "CWE-787",
+    "CWE-788"
+   ],
    "owasp": ""
   },
   {
@@ -1430,6 +1788,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-119",
+    "CWE-787"
+   ],
    "owasp": ""
   },
   {
@@ -1445,6 +1807,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-786",
+    "CWE-787"
+   ],
    "owasp": ""
   },
   {
@@ -1462,6 +1828,9 @@
    "lists": [
     "cwe-top-25-2025"
    ],
+   "childOf": [
+    "CWE-119"
+   ],
    "owasp": ""
   },
   {
@@ -1477,6 +1846,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-125",
+    "CWE-788"
+   ],
    "owasp": ""
   },
   {
@@ -1492,6 +1865,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-125",
+    "CWE-786"
+   ],
    "owasp": ""
   },
   {
@@ -1506,6 +1883,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-682"
+   ],
    "owasp": ""
   },
   {
@@ -1521,6 +1901,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1285",
+    "CWE-20"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -1536,6 +1920,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-119",
+    "CWE-240"
+   ],
    "owasp": ""
   },
   {
@@ -1551,6 +1939,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-682"
+   ],
    "owasp": ""
   },
   {
@@ -1562,6 +1953,7 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -1578,6 +1970,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-20",
+    "CWE-668"
+   ],
    "owasp": ""
   },
   {
@@ -1592,6 +1988,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-682"
+   ],
    "owasp": ""
   },
   {
@@ -1605,6 +2004,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-707"
+   ],
    "owasp": ""
   },
   {
@@ -1618,6 +2020,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-138"
+   ],
    "owasp": ""
   },
   {
@@ -1631,6 +2036,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-140"
+   ],
    "owasp": ""
   },
   {
@@ -1644,6 +2052,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-140"
+   ],
    "owasp": ""
   },
   {
@@ -1657,6 +2068,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-140"
+   ],
    "owasp": ""
   },
   {
@@ -1670,6 +2084,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-140"
+   ],
    "owasp": ""
   },
   {
@@ -1683,6 +2100,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-140"
+   ],
    "owasp": ""
   },
   {
@@ -1696,6 +2116,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-140"
+   ],
    "owasp": ""
   },
   {
@@ -1709,6 +2132,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-138"
+   ],
    "owasp": ""
   },
   {
@@ -1722,6 +2148,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-138"
+   ],
    "owasp": ""
   },
   {
@@ -1735,6 +2164,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-138"
+   ],
    "owasp": ""
   },
   {
@@ -1748,6 +2180,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-138"
+   ],
    "owasp": ""
   },
   {
@@ -1761,6 +2196,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-138"
+   ],
    "owasp": ""
   },
   {
@@ -1774,6 +2212,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-138"
+   ],
    "owasp": ""
   },
   {
@@ -1787,6 +2228,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-138"
+   ],
    "owasp": ""
   },
   {
@@ -1800,6 +2244,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-138"
+   ],
    "owasp": ""
   },
   {
@@ -1813,6 +2260,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-138"
+   ],
    "owasp": ""
   },
   {
@@ -1826,6 +2276,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-138"
+   ],
    "owasp": ""
   },
   {
@@ -1839,6 +2292,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-138"
+   ],
    "owasp": ""
   },
   {
@@ -1854,6 +2310,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-138"
+   ],
    "owasp": ""
   },
   {
@@ -1867,6 +2326,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-138"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -1880,6 +2342,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-138"
+   ],
    "owasp": ""
   },
   {
@@ -1893,6 +2358,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-160"
+   ],
    "owasp": ""
   },
   {
@@ -1906,6 +2374,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-138"
+   ],
    "owasp": ""
   },
   {
@@ -1919,6 +2390,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-162"
+   ],
    "owasp": ""
   },
   {
@@ -1932,6 +2406,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-138"
+   ],
    "owasp": ""
   },
   {
@@ -1945,6 +2422,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-164"
+   ],
    "owasp": ""
   },
   {
@@ -1958,6 +2438,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-159",
+    "CWE-228"
+   ],
    "owasp": ""
   },
   {
@@ -1971,6 +2455,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-159",
+    "CWE-228"
+   ],
    "owasp": ""
   },
   {
@@ -1984,6 +2472,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-159",
+    "CWE-228"
+   ],
    "owasp": ""
   },
   {
@@ -1998,6 +2490,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-20",
+    "CWE-707"
+   ],
    "owasp": ""
   },
   {
@@ -2011,6 +2507,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-707"
+   ],
    "owasp": ""
   },
   {
@@ -2024,6 +2523,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-172"
+   ],
    "owasp": ""
   },
   {
@@ -2037,6 +2539,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-172",
+    "CWE-675"
+   ],
    "owasp": ""
   },
   {
@@ -2050,6 +2556,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-172"
+   ],
    "owasp": ""
   },
   {
@@ -2063,6 +2572,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-172"
+   ],
    "owasp": ""
   },
   {
@@ -2076,6 +2588,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-172"
+   ],
    "owasp": ""
   },
   {
@@ -2089,6 +2604,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-706"
+   ],
    "owasp": ""
   },
   {
@@ -2102,6 +2620,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-20",
+    "CWE-696"
+   ],
    "owasp": ""
   },
   {
@@ -2115,6 +2637,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-179"
+   ],
    "owasp": ""
   },
   {
@@ -2128,6 +2653,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-179"
+   ],
    "owasp": ""
   },
   {
@@ -2141,6 +2669,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-707"
+   ],
    "owasp": ""
   },
   {
@@ -2154,6 +2685,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-697"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -2167,6 +2701,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1023",
+    "CWE-693"
+   ],
    "owasp": ""
   },
   {
@@ -2180,6 +2718,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-697"
+   ],
    "owasp": ""
   },
   {
@@ -2193,6 +2734,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-185"
+   ],
    "owasp": ""
   },
   {
@@ -2206,6 +2750,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1023"
+   ],
    "owasp": ""
   },
   {
@@ -2221,6 +2768,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1105",
+    "CWE-435"
+   ],
    "owasp": ""
   },
   {
@@ -2235,6 +2786,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-20",
+    "CWE-682"
+   ],
    "owasp": ""
   },
   {
@@ -2251,6 +2806,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-682"
+   ],
    "owasp": ""
   },
   {
@@ -2267,6 +2825,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-681"
+   ],
    "owasp": ""
   },
   {
@@ -2281,6 +2842,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-682"
+   ],
    "owasp": ""
   },
   {
@@ -2295,6 +2859,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-681"
+   ],
    "owasp": ""
   },
   {
@@ -2309,6 +2876,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-681"
+   ],
    "owasp": ""
   },
   {
@@ -2323,6 +2893,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-681"
+   ],
    "owasp": ""
   },
   {
@@ -2339,6 +2912,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-681"
+   ],
    "owasp": ""
   },
   {
@@ -2352,6 +2928,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-188"
+   ],
    "owasp": ""
   },
   {
@@ -2367,6 +2946,9 @@
    "lists": [
     "cwe-top-25-2025"
    ],
+   "childOf": [
+    "CWE-668"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -2380,6 +2962,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-200"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -2393,6 +2978,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1230"
+   ],
    "owasp": ""
   },
   {
@@ -2406,6 +2994,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-200"
+   ],
    "owasp": ""
   },
   {
@@ -2419,6 +3010,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-203"
+   ],
    "owasp": ""
   },
   {
@@ -2432,6 +3026,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-203"
+   ],
    "owasp": ""
   },
   {
@@ -2445,6 +3042,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-205"
+   ],
    "owasp": ""
   },
   {
@@ -2458,6 +3058,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-205"
+   ],
    "owasp": ""
   },
   {
@@ -2471,6 +3074,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-203"
+   ],
    "owasp": ""
   },
   {
@@ -2486,6 +3092,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-200",
+    "CWE-755"
+   ],
    "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
@@ -2499,6 +3109,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-209"
+   ],
    "owasp": ""
   },
   {
@@ -2513,6 +3126,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-209"
+   ],
    "owasp": ""
   },
   {
@@ -2526,6 +3142,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-669"
+   ],
    "owasp": ""
   },
   {
@@ -2539,6 +3158,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-200"
+   ],
    "owasp": ""
   },
   {
@@ -2552,6 +3174,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-497"
+   ],
    "owasp": ""
   },
   {
@@ -2565,6 +3190,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-200"
+   ],
    "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
@@ -2576,6 +3204,7 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -2587,6 +3216,7 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -2598,6 +3228,7 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -2611,6 +3242,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-552"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -2624,6 +3258,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-552"
+   ],
    "owasp": ""
   },
   {
@@ -2637,6 +3274,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-664"
+   ],
    "owasp": "A09:2025 - Logging & Alerting Failures"
   },
   {
@@ -2650,6 +3290,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-221"
+   ],
    "owasp": ""
   },
   {
@@ -2663,6 +3306,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-221"
+   ],
    "owasp": "A09:2025 - Logging & Alerting Failures"
   },
   {
@@ -2676,6 +3322,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-221"
+   ],
    "owasp": ""
   },
   {
@@ -2687,6 +3336,7 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -2700,6 +3350,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-212",
+    "CWE-459"
+   ],
    "owasp": ""
   },
   {
@@ -2713,6 +3367,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-703",
+    "CWE-707"
+   ],
    "owasp": ""
   },
   {
@@ -2726,6 +3384,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-228"
+   ],
    "owasp": ""
   },
   {
@@ -2739,6 +3400,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-229"
+   ],
    "owasp": ""
   },
   {
@@ -2752,6 +3416,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-229"
+   ],
    "owasp": ""
   },
   {
@@ -2765,6 +3432,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-229"
+   ],
    "owasp": ""
   },
   {
@@ -2778,6 +3448,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-228"
+   ],
    "owasp": ""
   },
   {
@@ -2791,6 +3464,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-233"
+   ],
    "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
@@ -2804,6 +3480,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-233"
+   ],
    "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
@@ -2817,6 +3496,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-233"
+   ],
    "owasp": ""
   },
   {
@@ -2830,6 +3512,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-228"
+   ],
    "owasp": ""
   },
   {
@@ -2843,6 +3528,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-237"
+   ],
    "owasp": ""
   },
   {
@@ -2856,6 +3544,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-237"
+   ],
    "owasp": ""
   },
   {
@@ -2869,6 +3560,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-237",
+    "CWE-707"
+   ],
    "owasp": ""
   },
   {
@@ -2882,6 +3577,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-228"
+   ],
    "owasp": ""
   },
   {
@@ -2896,6 +3594,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-1177"
+   ],
    "owasp": ""
   },
   {
@@ -2910,6 +3611,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-573",
+    "CWE-669"
+   ],
    "owasp": ""
   },
   {
@@ -2925,6 +3630,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-226"
+   ],
    "owasp": ""
   },
   {
@@ -2938,6 +3646,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-695"
+   ],
    "owasp": ""
   },
   {
@@ -2951,6 +3662,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-695"
+   ],
    "owasp": ""
   },
   {
@@ -2962,6 +3676,7 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -2977,6 +3692,11 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-703",
+    "CWE-705",
+    "CWE-755"
+   ],
    "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
@@ -2988,6 +3708,7 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -3001,6 +3722,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-269",
+    "CWE-657"
+   ],
    "owasp": ""
   },
   {
@@ -3014,6 +3739,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-754"
+   ],
    "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
@@ -3027,6 +3755,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-573",
+    "CWE-754"
+   ],
    "owasp": ""
   },
   {
@@ -3040,6 +3772,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-522"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -3053,6 +3788,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-522"
+   ],
    "owasp": ""
   },
   {
@@ -3066,6 +3804,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-260",
+    "CWE-521"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -3079,6 +3821,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-798"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -3092,6 +3837,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-522"
+   ],
    "owasp": "A02:2025 - Security Misconfiguration"
   },
   {
@@ -3105,6 +3853,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-522"
+   ],
    "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
@@ -3118,6 +3869,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1390"
+   ],
    "owasp": ""
   },
   {
@@ -3131,6 +3885,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1390"
+   ],
    "owasp": ""
   },
   {
@@ -3144,6 +3901,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-269"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -3157,6 +3917,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-269"
+   ],
    "owasp": ""
   },
   {
@@ -3170,6 +3933,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-269"
+   ],
    "owasp": ""
   },
   {
@@ -3183,6 +3949,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -3196,6 +3965,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-269"
+   ],
    "owasp": ""
   },
   {
@@ -3209,6 +3981,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-269"
+   ],
    "owasp": ""
   },
   {
@@ -3222,6 +3997,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-271"
+   ],
    "owasp": ""
   },
   {
@@ -3235,6 +4013,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-271",
+    "CWE-754"
+   ],
    "owasp": ""
   },
   {
@@ -3248,6 +4030,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-269",
+    "CWE-755"
+   ],
    "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
@@ -3261,6 +4047,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-732"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -3274,6 +4063,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-732"
+   ],
    "owasp": ""
   },
   {
@@ -3287,6 +4079,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-732"
+   ],
    "owasp": ""
   },
   {
@@ -3300,6 +4095,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-732"
+   ],
    "owasp": ""
   },
   {
@@ -3313,6 +4111,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-755"
+   ],
    "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
@@ -3326,6 +4127,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-732"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -3339,6 +4143,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -3352,6 +4159,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-282"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -3367,6 +4177,7 @@
    "lists": [
     "cwe-top-25-2025"
    ],
+   "childOf": [],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -3380,6 +4191,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -3393,6 +4207,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -3406,6 +4223,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -3419,6 +4239,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284",
+    "CWE-306"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -3432,6 +4256,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1390"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -3445,6 +4272,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1390",
+    "CWE-287"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -3458,6 +4289,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-290",
+    "CWE-923"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -3469,6 +4304,7 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -3482,6 +4318,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-290"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -3495,6 +4334,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1390",
+    "CWE-287"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -3508,6 +4351,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-287"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -3521,6 +4367,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-295",
+    "CWE-573"
+   ],
    "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
@@ -3534,6 +4384,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-295",
+    "CWE-923"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -3547,6 +4401,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-295",
+    "CWE-672"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -3560,6 +4418,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-295",
+    "CWE-404"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -3573,6 +4435,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-923"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -3586,6 +4451,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1390"
+   ],
    "owasp": ""
   },
   {
@@ -3599,6 +4467,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1390",
+    "CWE-807"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -3612,6 +4484,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1390"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -3625,6 +4500,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-303",
+    "CWE-573"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -3638,6 +4517,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1390"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -3653,6 +4535,9 @@
    "lists": [
     "cwe-top-25-2025"
    ],
+   "childOf": [
+    "CWE-287"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -3666,6 +4551,11 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1390",
+    "CWE-287",
+    "CWE-799"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -3679,6 +4569,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1390",
+    "CWE-654"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -3692,6 +4586,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1390",
+    "CWE-654"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -3705,6 +4603,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-693"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -3718,6 +4619,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-311",
+    "CWE-922"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -3731,6 +4636,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-312"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -3744,6 +4652,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-312"
+   ],
    "owasp": ""
   },
   {
@@ -3757,6 +4668,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-312"
+   ],
    "owasp": "A02:2025 - Security Misconfiguration"
   },
   {
@@ -3770,6 +4684,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-312"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -3783,6 +4700,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-312"
+   ],
    "owasp": ""
   },
   {
@@ -3796,6 +4716,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-312"
+   ],
    "owasp": ""
   },
   {
@@ -3809,6 +4732,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-311"
+   ],
    "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
@@ -3822,6 +4748,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-798"
+   ],
    "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
@@ -3835,6 +4764,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-306"
+   ],
    "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
@@ -3848,6 +4780,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-344"
+   ],
    "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
@@ -3861,6 +4796,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-672"
+   ],
    "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
@@ -3874,6 +4812,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1240",
+    "CWE-573"
+   ],
    "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
@@ -3887,6 +4829,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-693"
+   ],
    "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
@@ -3902,6 +4847,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-693"
+   ],
    "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
@@ -3915,6 +4863,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-326",
+    "CWE-327"
+   ],
    "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
@@ -3928,6 +4880,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1204",
+    "CWE-573"
+   ],
    "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
@@ -3941,6 +4897,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-693"
+   ],
    "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
@@ -3954,6 +4913,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-330"
+   ],
    "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
@@ -3967,6 +4929,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-331"
+   ],
    "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
@@ -3980,6 +4945,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-331",
+    "CWE-755"
+   ],
    "owasp": ""
   },
   {
@@ -3993,6 +4962,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-330"
+   ],
    "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
@@ -4006,6 +4978,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-330"
+   ],
    "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
@@ -4019,6 +4994,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-335"
+   ],
    "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
@@ -4032,6 +5010,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-335"
+   ],
    "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
@@ -4045,6 +5026,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-330"
+   ],
    "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
@@ -4058,6 +5042,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-335"
+   ],
    "owasp": ""
   },
   {
@@ -4071,6 +5058,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-330"
+   ],
    "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
@@ -4084,6 +5074,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-340"
+   ],
    "owasp": ""
   },
   {
@@ -4097,6 +5090,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-340"
+   ],
    "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
@@ -4110,6 +5106,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-340"
+   ],
    "owasp": ""
   },
   {
@@ -4123,6 +5122,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-330"
+   ],
    "owasp": ""
   },
   {
@@ -4136,6 +5138,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-693"
+   ],
    "owasp": "A08:2025 - Software or Data Integrity Failures"
   },
   {
@@ -4149,6 +5154,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284",
+    "CWE-345"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -4162,6 +5171,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-345"
+   ],
    "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
@@ -4175,6 +5187,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-345"
+   ],
    "owasp": ""
   },
   {
@@ -4188,6 +5203,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-345"
+   ],
    "owasp": ""
   },
   {
@@ -4201,6 +5219,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-290",
+    "CWE-807"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -4214,6 +5236,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-345"
+   ],
    "owasp": ""
   },
   {
@@ -4229,6 +5254,9 @@
    "lists": [
     "cwe-top-25-2025"
    ],
+   "childOf": [
+    "CWE-345"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -4242,6 +5270,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-345"
+   ],
    "owasp": "A08:2025 - Software or Data Integrity Failures"
   },
   {
@@ -4255,6 +5286,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-345",
+    "CWE-754"
+   ],
    "owasp": ""
   },
   {
@@ -4268,6 +5303,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-221"
+   ],
    "owasp": ""
   },
   {
@@ -4281,6 +5319,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-693"
+   ],
    "owasp": ""
   },
   {
@@ -4294,6 +5335,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-573",
+    "CWE-693"
+   ],
    "owasp": ""
   },
   {
@@ -4307,6 +5352,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-200"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -4320,6 +5368,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-345"
+   ],
    "owasp": ""
   },
   {
@@ -4335,6 +5386,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-662"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -4348,6 +5402,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-367"
+   ],
    "owasp": ""
   },
   {
@@ -4362,6 +5419,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-362"
+   ],
    "owasp": ""
   },
   {
@@ -4373,6 +5433,7 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -4389,6 +5450,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-362",
+    "CWE-662"
+   ],
    "owasp": ""
   },
   {
@@ -4402,6 +5467,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-362"
+   ],
    "owasp": ""
   },
   {
@@ -4415,6 +5483,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-362"
+   ],
    "owasp": ""
   },
   {
@@ -4428,6 +5499,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-682"
+   ],
    "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
@@ -4441,6 +5515,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-299"
+   ],
    "owasp": ""
   },
   {
@@ -4454,6 +5531,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-664"
+   ],
    "owasp": ""
   },
   {
@@ -4465,6 +5545,7 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -4482,6 +5563,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-668"
+   ],
    "owasp": ""
   },
   {
@@ -4499,6 +5583,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-668"
+   ],
    "owasp": ""
   },
   {
@@ -4512,6 +5599,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-668"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -4525,6 +5615,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-377"
+   ],
    "owasp": ""
   },
   {
@@ -4538,6 +5631,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-377"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -4551,6 +5647,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-705"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -4564,6 +5663,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-695"
+   ],
    "owasp": ""
   },
   {
@@ -4577,6 +5679,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-610"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -4590,6 +5695,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-514"
+   ],
    "owasp": ""
   },
   {
@@ -4603,6 +5711,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-706"
+   ],
    "owasp": ""
   },
   {
@@ -4616,6 +5727,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-755"
+   ],
    "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
@@ -4629,6 +5743,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-703",
+    "CWE-754"
+   ],
    "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
@@ -4642,6 +5760,11 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-684",
+    "CWE-703",
+    "CWE-755"
+   ],
    "owasp": ""
   },
   {
@@ -4655,6 +5778,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-684",
+    "CWE-703"
+   ],
    "owasp": ""
   },
   {
@@ -4668,6 +5795,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-754"
+   ],
    "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
@@ -4681,6 +5811,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-705",
+    "CWE-755"
+   ],
    "owasp": ""
   },
   {
@@ -4697,6 +5831,11 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-221",
+    "CWE-705",
+    "CWE-755"
+   ],
    "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
@@ -4713,6 +5852,11 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-221",
+    "CWE-703",
+    "CWE-705"
+   ],
    "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
@@ -4726,6 +5870,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-664"
+   ],
    "owasp": ""
   },
   {
@@ -4741,6 +5888,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-404",
+    "CWE-772"
+   ],
    "owasp": ""
   },
   {
@@ -4754,6 +5905,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-668"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -4768,6 +5922,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-402"
+   ],
    "owasp": ""
   },
   {
@@ -4781,6 +5938,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-664"
+   ],
    "owasp": ""
   },
   {
@@ -4794,6 +5954,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-400"
+   ],
    "owasp": ""
   },
   {
@@ -4807,6 +5970,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-405"
+   ],
    "owasp": ""
   },
   {
@@ -4820,6 +5986,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-405"
+   ],
    "owasp": ""
   },
   {
@@ -4833,6 +6002,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-405",
+    "CWE-696"
+   ],
    "owasp": ""
   },
   {
@@ -4846,6 +6019,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-405"
+   ],
    "owasp": ""
   },
   {
@@ -4859,6 +6035,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-664"
+   ],
    "owasp": ""
   },
   {
@@ -4872,6 +6051,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-667"
+   ],
    "owasp": ""
   },
   {
@@ -4885,6 +6067,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-667"
+   ],
    "owasp": ""
   },
   {
@@ -4898,6 +6083,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-667"
+   ],
    "owasp": ""
   },
   {
@@ -4913,6 +6101,12 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-1341",
+    "CWE-666",
+    "CWE-672",
+    "CWE-825"
+   ],
    "owasp": ""
   },
   {
@@ -4930,6 +6124,10 @@
    "lists": [
     "cwe-top-25-2025"
    ],
+   "childOf": [
+    "CWE-672",
+    "CWE-825"
+   ],
    "owasp": ""
   },
   {
@@ -4943,6 +6141,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-923"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -4956,6 +6157,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-923"
+   ],
    "owasp": ""
   },
   {
@@ -4969,6 +6173,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-362",
+    "CWE-420"
+   ],
    "owasp": ""
   },
   {
@@ -4982,6 +6190,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-360",
+    "CWE-420"
+   ],
    "owasp": ""
   },
   {
@@ -4993,6 +6205,7 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -5006,6 +6219,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-638",
+    "CWE-693"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -5019,6 +6236,11 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-288",
+    "CWE-424",
+    "CWE-862"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -5032,6 +6254,11 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-642",
+    "CWE-668",
+    "CWE-673"
+   ],
    "owasp": "A08:2025 - Software or Data Integrity Failures"
   },
   {
@@ -5045,6 +6272,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-668"
+   ],
    "owasp": "A08:2025 - Software or Data Integrity Failures"
   },
   {
@@ -5058,6 +6288,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-668"
+   ],
    "owasp": ""
   },
   {
@@ -5071,6 +6304,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-691"
+   ],
    "owasp": ""
   },
   {
@@ -5084,6 +6320,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-691"
+   ],
    "owasp": ""
   },
   {
@@ -5097,6 +6336,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-364"
+   ],
    "owasp": ""
   },
   {
@@ -5110,6 +6352,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-219"
+   ],
    "owasp": ""
   },
   {
@@ -5127,6 +6372,9 @@
    "lists": [
     "cwe-top-25-2025"
    ],
+   "childOf": [
+    "CWE-669"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -5140,6 +6388,7 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -5153,6 +6402,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-435"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -5166,6 +6418,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-436"
+   ],
    "owasp": ""
   },
   {
@@ -5179,6 +6434,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-435"
+   ],
    "owasp": ""
   },
   {
@@ -5192,6 +6450,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-684"
+   ],
    "owasp": ""
   },
   {
@@ -5205,6 +6466,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-610"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -5216,6 +6480,7 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -5229,6 +6494,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-436"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -5242,6 +6510,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-684"
+   ],
    "owasp": ""
   },
   {
@@ -5255,6 +6526,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-446",
+    "CWE-671"
+   ],
    "owasp": "A03:2025 - Software Supply Chain Failures"
   },
   {
@@ -5268,6 +6543,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-446"
+   ],
    "owasp": ""
   },
   {
@@ -5281,6 +6559,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-446"
+   ],
    "owasp": ""
   },
   {
@@ -5294,6 +6575,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-357"
+   ],
    "owasp": ""
   },
   {
@@ -5307,6 +6591,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-221",
+    "CWE-684"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -5321,6 +6609,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1188"
+   ],
    "owasp": ""
   },
   {
@@ -5335,6 +6626,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1419"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -5348,6 +6642,11 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-636",
+    "CWE-665",
+    "CWE-705"
+   ],
    "owasp": ""
   },
   {
@@ -5361,6 +6660,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-665",
+    "CWE-909"
+   ],
    "owasp": ""
   },
   {
@@ -5378,6 +6681,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-665",
+    "CWE-908"
+   ],
    "owasp": ""
   },
   {
@@ -5389,6 +6696,7 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -5402,6 +6710,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-404"
+   ],
    "owasp": ""
   },
   {
@@ -5418,6 +6729,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-459",
+    "CWE-755"
+   ],
    "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
@@ -5434,6 +6749,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-694"
+   ],
    "owasp": ""
   },
   {
@@ -5448,6 +6766,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-707"
+   ],
    "owasp": ""
   },
   {
@@ -5462,6 +6783,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-138"
+   ],
    "owasp": ""
   },
   {
@@ -5477,6 +6801,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-119",
+    "CWE-20"
+   ],
    "owasp": ""
   },
   {
@@ -5491,6 +6819,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-131"
+   ],
    "owasp": ""
   },
   {
@@ -5505,6 +6836,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-682"
+   ],
    "owasp": ""
   },
   {
@@ -5519,6 +6853,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-682"
+   ],
    "owasp": ""
   },
   {
@@ -5534,6 +6871,11 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-20",
+    "CWE-610",
+    "CWE-913"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -5547,6 +6889,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-664"
+   ],
    "owasp": ""
   },
   {
@@ -5560,6 +6905,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-471",
+    "CWE-642"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -5573,6 +6922,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-471"
+   ],
    "owasp": ""
   },
   {
@@ -5588,6 +6940,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-758"
+   ],
    "owasp": ""
   },
   {
@@ -5601,6 +6956,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-573"
+   ],
    "owasp": ""
   },
   {
@@ -5620,6 +6978,10 @@
    "lists": [
     "cwe-top-25-2025"
    ],
+   "childOf": [
+    "CWE-710",
+    "CWE-754"
+   ],
    "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
@@ -5633,6 +6995,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-710"
+   ],
    "owasp": "A03:2025 - Software Supply Chain Failures"
   },
   {
@@ -5651,6 +7016,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-1023"
+   ],
    "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
@@ -5665,6 +7033,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-663",
+    "CWE-828"
+   ],
    "owasp": ""
   },
   {
@@ -5681,6 +7053,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-670"
+   ],
    "owasp": ""
   },
   {
@@ -5697,6 +7072,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-480"
+   ],
    "owasp": ""
   },
   {
@@ -5711,6 +7089,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-480"
+   ],
    "owasp": ""
   },
   {
@@ -5725,6 +7106,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-670"
+   ],
    "owasp": ""
   },
   {
@@ -5743,6 +7127,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-670",
+    "CWE-710"
+   ],
    "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
@@ -5756,6 +7144,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-1025"
+   ],
    "owasp": ""
   },
   {
@@ -5769,6 +7160,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-664"
+   ],
    "owasp": ""
   },
   {
@@ -5782,6 +7176,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-668"
+   ],
    "owasp": ""
   },
   {
@@ -5795,6 +7192,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-710"
+   ],
    "owasp": "A02:2025 - Security Misconfiguration"
   },
   {
@@ -5808,6 +7208,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-668"
+   ],
    "owasp": ""
   },
   {
@@ -5821,6 +7224,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-668"
+   ],
    "owasp": ""
   },
   {
@@ -5836,6 +7242,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-668"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -5849,6 +7258,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-345",
+    "CWE-669"
+   ],
    "owasp": "A08:2025 - Software or Data Integrity Failures"
   },
   {
@@ -5866,6 +7279,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-664"
+   ],
    "owasp": ""
   },
   {
@@ -5883,6 +7299,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-664"
+   ],
    "owasp": ""
   },
   {
@@ -5896,6 +7315,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-200"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -5912,6 +7334,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-668"
+   ],
    "owasp": ""
   },
   {
@@ -5925,6 +7350,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-668"
+   ],
    "owasp": ""
   },
   {
@@ -5939,6 +7367,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-493"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -5952,6 +7383,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-664"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -5971,6 +7405,9 @@
    "lists": [
     "cwe-top-25-2025"
    ],
+   "childOf": [
+    "CWE-913"
+   ],
    "owasp": "A08:2025 - Software or Data Integrity Failures"
   },
   {
@@ -5984,6 +7421,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-912"
+   ],
    "owasp": "A08:2025 - Software or Data Integrity Failures"
   },
   {
@@ -5997,6 +7437,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-506"
+   ],
    "owasp": ""
   },
   {
@@ -6010,6 +7453,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-507"
+   ],
    "owasp": ""
   },
   {
@@ -6023,6 +7469,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-507"
+   ],
    "owasp": "A08:2025 - Software or Data Integrity Failures"
   },
   {
@@ -6036,6 +7485,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-506"
+   ],
    "owasp": ""
   },
   {
@@ -6049,6 +7501,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-506"
+   ],
    "owasp": ""
   },
   {
@@ -6062,6 +7517,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-506"
+   ],
    "owasp": ""
   },
   {
@@ -6075,6 +7533,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1229"
+   ],
    "owasp": ""
   },
   {
@@ -6088,6 +7549,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-514"
+   ],
    "owasp": ""
   },
   {
@@ -6099,6 +7563,7 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -6114,6 +7579,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-266"
+   ],
    "owasp": ""
   },
   {
@@ -6127,6 +7595,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1391",
+    "CWE-287"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -6140,6 +7612,11 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1390",
+    "CWE-287",
+    "CWE-668"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -6153,6 +7630,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-522"
+   ],
    "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
@@ -6166,6 +7646,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-668"
+   ],
    "owasp": ""
   },
   {
@@ -6179,6 +7662,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-524"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -6192,6 +7678,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-312"
+   ],
    "owasp": "A02:2025 - Security Misconfiguration"
   },
   {
@@ -6205,6 +7694,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-552"
+   ],
    "owasp": ""
   },
   {
@@ -6218,6 +7710,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-552"
+   ],
    "owasp": ""
   },
   {
@@ -6231,6 +7726,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-552"
+   ],
    "owasp": ""
   },
   {
@@ -6244,6 +7742,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-552"
+   ],
    "owasp": ""
   },
   {
@@ -6257,6 +7758,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-540"
+   ],
    "owasp": ""
   },
   {
@@ -6270,6 +7774,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-200",
+    "CWE-538"
+   ],
    "owasp": "A09:2025 - Logging & Alerting Failures"
   },
   {
@@ -6281,6 +7789,7 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -6292,6 +7801,7 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -6305,6 +7815,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-211"
+   ],
    "owasp": ""
   },
   {
@@ -6318,6 +7831,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-211"
+   ],
    "owasp": ""
   },
   {
@@ -6331,6 +7847,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-211"
+   ],
    "owasp": ""
   },
   {
@@ -6344,6 +7863,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-200"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -6357,6 +7879,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-552"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -6370,6 +7895,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-538"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -6383,6 +7911,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-540"
+   ],
    "owasp": ""
   },
   {
@@ -6394,6 +7925,7 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -6408,6 +7940,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-662",
+    "CWE-820"
+   ],
    "owasp": ""
   },
   {
@@ -6421,6 +7957,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-755"
+   ],
    "owasp": ""
   },
   {
@@ -6432,6 +7971,7 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -6445,6 +7985,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1078"
+   ],
    "owasp": ""
   },
   {
@@ -6458,6 +8001,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1078"
+   ],
    "owasp": "A02:2025 - Security Misconfiguration"
   },
   {
@@ -6471,6 +8017,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-497"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -6484,6 +8033,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-522"
+   ],
    "owasp": ""
   },
   {
@@ -6497,6 +8049,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-209"
+   ],
    "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
@@ -6510,6 +8065,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-696",
+    "CWE-863"
+   ],
    "owasp": ""
   },
   {
@@ -6523,6 +8082,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-285",
+    "CWE-668"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -6536,6 +8099,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-552"
+   ],
    "owasp": ""
   },
   {
@@ -6549,6 +8115,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-1173"
+   ],
    "owasp": ""
   },
   {
@@ -6562,6 +8131,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-260"
+   ],
    "owasp": ""
   },
   {
@@ -6575,6 +8147,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-266"
+   ],
    "owasp": ""
   },
   {
@@ -6589,6 +8164,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-663"
+   ],
    "owasp": ""
   },
   {
@@ -6602,6 +8180,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-687"
+   ],
    "owasp": ""
   },
   {
@@ -6615,6 +8196,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1164"
+   ],
    "owasp": ""
   },
   {
@@ -6629,6 +8213,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-758"
+   ],
    "owasp": ""
   },
   {
@@ -6642,6 +8229,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1164"
+   ],
    "owasp": ""
   },
   {
@@ -6655,6 +8245,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-89"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -6668,6 +8261,11 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-602",
+    "CWE-642",
+    "CWE-669"
+   ],
    "owasp": "A08:2025 - Software or Data Integrity Failures"
   },
   {
@@ -6681,6 +8279,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-639"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -6694,6 +8295,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-662",
+    "CWE-820"
+   ],
    "owasp": ""
   },
   {
@@ -6707,6 +8312,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-459",
+    "CWE-573"
+   ],
    "owasp": ""
   },
   {
@@ -6720,6 +8329,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-710"
+   ],
    "owasp": ""
   },
   {
@@ -6733,6 +8345,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-710"
+   ],
    "owasp": ""
   },
   {
@@ -6746,6 +8361,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-821"
+   ],
    "owasp": ""
   },
   {
@@ -6759,6 +8377,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-710"
+   ],
    "owasp": ""
   },
   {
@@ -6772,6 +8393,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-695",
+    "CWE-821"
+   ],
    "owasp": ""
   },
   {
@@ -6785,6 +8410,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-695"
+   ],
    "owasp": ""
   },
   {
@@ -6798,6 +8426,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-695"
+   ],
    "owasp": ""
   },
   {
@@ -6811,6 +8442,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-573"
+   ],
    "owasp": ""
   },
   {
@@ -6824,6 +8458,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-573"
+   ],
    "owasp": ""
   },
   {
@@ -6837,6 +8474,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-573"
+   ],
    "owasp": ""
   },
   {
@@ -6850,6 +8490,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-573",
+    "CWE-664"
+   ],
    "owasp": ""
   },
   {
@@ -6863,6 +8507,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-573",
+    "CWE-697"
+   ],
    "owasp": ""
   },
   {
@@ -6876,6 +8524,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-668"
+   ],
    "owasp": ""
   },
   {
@@ -6889,6 +8540,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-668"
+   ],
    "owasp": ""
   },
   {
@@ -6902,6 +8556,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-705"
+   ],
    "owasp": ""
   },
   {
@@ -6915,6 +8572,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-1071"
+   ],
    "owasp": ""
   },
   {
@@ -6928,6 +8588,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-1076"
+   ],
    "owasp": ""
   },
   {
@@ -6945,6 +8608,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-344",
+    "CWE-758"
+   ],
    "owasp": ""
   },
   {
@@ -6959,6 +8626,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-704",
+    "CWE-758"
+   ],
    "owasp": ""
   },
   {
@@ -6972,6 +8643,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-474"
+   ],
    "owasp": ""
   },
   {
@@ -6986,6 +8660,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-762"
+   ],
    "owasp": ""
   },
   {
@@ -6999,6 +8676,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-413"
+   ],
    "owasp": ""
   },
   {
@@ -7010,6 +8690,7 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -7023,6 +8704,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1390",
+    "CWE-666"
+   ],
    "owasp": ""
   },
   {
@@ -7036,6 +8721,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-1076"
+   ],
    "owasp": ""
   },
   {
@@ -7052,6 +8740,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1025"
+   ],
    "owasp": ""
   },
   {
@@ -7063,6 +8754,7 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -7079,6 +8771,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-480",
+    "CWE-595"
+   ],
    "owasp": ""
   },
   {
@@ -7092,6 +8788,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-201"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -7105,6 +8804,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-295"
+   ],
    "owasp": ""
   },
   {
@@ -7118,6 +8820,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-248"
+   ],
    "owasp": ""
   },
   {
@@ -7131,6 +8836,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-610"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -7144,6 +8852,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-693"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -7157,6 +8868,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1390",
+    "CWE-602"
+   ],
    "owasp": ""
   },
   {
@@ -7170,6 +8885,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-666",
+    "CWE-675"
+   ],
    "owasp": ""
   },
   {
@@ -7183,6 +8902,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1284"
+   ],
    "owasp": ""
   },
   {
@@ -7196,6 +8918,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-471"
+   ],
    "owasp": ""
   },
   {
@@ -7209,6 +8934,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-668"
+   ],
    "owasp": ""
   },
   {
@@ -7222,6 +8950,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-667"
+   ],
    "owasp": ""
   },
   {
@@ -7235,6 +8966,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-664"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -7249,6 +8983,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-610"
+   ],
    "owasp": "A02:2025 - Security Misconfiguration"
   },
   {
@@ -7262,6 +8999,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1230"
+   ],
    "owasp": ""
   },
   {
@@ -7275,6 +9015,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-672"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -7286,6 +9029,9 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-319"
+   ],
    "owasp": "A02:2025 - Security Misconfiguration"
   },
   {
@@ -7299,6 +9045,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-540"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -7312,6 +9061,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-345"
+   ],
    "owasp": ""
   },
   {
@@ -7328,6 +9080,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-670",
+    "CWE-705"
+   ],
    "owasp": ""
   },
   {
@@ -7341,6 +9097,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-749"
+   ],
    "owasp": ""
   },
   {
@@ -7354,6 +9113,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-402"
+   ],
    "owasp": ""
   },
   {
@@ -7367,6 +9129,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1390"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -7380,6 +9145,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-914"
+   ],
    "owasp": ""
   },
   {
@@ -7393,6 +9161,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-20"
+   ],
    "owasp": ""
   },
   {
@@ -7406,6 +9177,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-267"
+   ],
    "owasp": ""
   },
   {
@@ -7420,6 +9194,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-77"
+   ],
    "owasp": ""
   },
   {
@@ -7434,6 +9211,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-185"
+   ],
    "owasp": ""
   },
   {
@@ -7449,6 +9229,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-147",
+    "CWE-436"
+   ],
    "owasp": ""
   },
   {
@@ -7463,6 +9247,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-914"
+   ],
    "owasp": ""
   },
   {
@@ -7476,6 +9263,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-573"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -7489,6 +9279,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-657",
+    "CWE-755"
+   ],
    "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
@@ -7502,6 +9296,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-657"
+   ],
    "owasp": ""
   },
   {
@@ -7515,6 +9312,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-657",
+    "CWE-862"
+   ],
    "owasp": ""
   },
   {
@@ -7530,6 +9331,10 @@
    "lists": [
     "cwe-top-25-2025"
    ],
+   "childOf": [
+    "CWE-284",
+    "CWE-863"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -7543,6 +9348,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1390",
+    "CWE-287"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -7556,6 +9365,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-99"
+   ],
    "owasp": ""
   },
   {
@@ -7569,6 +9381,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-668"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -7582,6 +9397,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-91",
+    "CWE-943"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -7595,6 +9414,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-116"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -7608,6 +9430,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-287"
+   ],
    "owasp": ""
   },
   {
@@ -7621,6 +9446,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-345"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -7634,6 +9462,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-180",
+    "CWE-863"
+   ],
    "owasp": ""
   },
   {
@@ -7647,6 +9479,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-269"
+   ],
    "owasp": ""
   },
   {
@@ -7660,6 +9495,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-345"
+   ],
    "owasp": ""
   },
   {
@@ -7673,6 +9511,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-436"
+   ],
    "owasp": ""
   },
   {
@@ -7686,6 +9527,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-538"
+   ],
    "owasp": ""
   },
   {
@@ -7699,6 +9543,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-91",
+    "CWE-943"
+   ],
    "owasp": ""
   },
   {
@@ -7712,6 +9560,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-657",
+    "CWE-693"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -7725,6 +9577,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-657",
+    "CWE-693"
+   ],
    "owasp": ""
   },
   {
@@ -7738,6 +9594,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-657",
+    "CWE-693"
+   ],
    "owasp": ""
   },
   {
@@ -7751,6 +9611,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-657",
+    "CWE-693"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -7764,6 +9628,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-710"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -7777,6 +9644,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-664",
+    "CWE-691"
+   ],
    "owasp": ""
   },
   {
@@ -7791,6 +9662,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-662"
+   ],
    "owasp": ""
   },
   {
@@ -7804,6 +9678,7 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -7817,6 +9692,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-664"
+   ],
    "owasp": ""
   },
   {
@@ -7830,6 +9708,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-664"
+   ],
    "owasp": ""
   },
   {
@@ -7843,6 +9724,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-662"
+   ],
    "owasp": ""
   },
   {
@@ -7856,6 +9740,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-664"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -7869,6 +9756,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-664"
+   ],
    "owasp": ""
   },
   {
@@ -7882,6 +9772,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-691"
+   ],
    "owasp": ""
   },
   {
@@ -7895,6 +9788,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-657"
+   ],
    "owasp": ""
   },
   {
@@ -7908,6 +9804,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-666"
+   ],
    "owasp": ""
   },
   {
@@ -7921,6 +9820,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-664"
+   ],
    "owasp": ""
   },
   {
@@ -7934,6 +9836,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-834"
+   ],
    "owasp": ""
   },
   {
@@ -7947,6 +9852,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-573"
+   ],
    "owasp": ""
   },
   {
@@ -7961,6 +9869,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-1177"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -7976,6 +9887,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-190"
+   ],
    "owasp": ""
   },
   {
@@ -7990,6 +9904,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-704"
+   ],
    "owasp": ""
   },
   {
@@ -8003,6 +9920,7 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -8016,6 +9934,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-628"
+   ],
    "owasp": ""
   },
   {
@@ -8029,6 +9950,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-710"
+   ],
    "owasp": ""
   },
   {
@@ -8043,6 +9967,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-628"
+   ],
    "owasp": ""
   },
   {
@@ -8056,6 +9983,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-628"
+   ],
    "owasp": ""
   },
   {
@@ -8069,6 +9999,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-628"
+   ],
    "owasp": ""
   },
   {
@@ -8083,6 +10016,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-628"
+   ],
    "owasp": ""
   },
   {
@@ -8097,6 +10033,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-362"
+   ],
    "owasp": ""
   },
   {
@@ -8112,6 +10051,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-252"
+   ],
    "owasp": ""
   },
   {
@@ -8125,6 +10067,7 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -8138,6 +10081,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-184"
+   ],
    "owasp": ""
   },
   {
@@ -8151,6 +10097,7 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -8164,6 +10111,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-573",
+    "CWE-99"
+   ],
    "owasp": ""
   },
   {
@@ -8177,6 +10128,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-573"
+   ],
    "owasp": ""
   },
   {
@@ -8190,6 +10144,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-691"
+   ],
    "owasp": ""
   },
   {
@@ -8203,6 +10160,7 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -8216,6 +10174,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-670",
+    "CWE-705"
+   ],
    "owasp": ""
   },
   {
@@ -8229,6 +10191,7 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
@@ -8245,6 +10208,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-664"
+   ],
    "owasp": ""
   },
   {
@@ -8258,6 +10224,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-691"
+   ],
    "owasp": ""
   },
   {
@@ -8271,6 +10240,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-664"
+   ],
    "owasp": ""
   },
   {
@@ -8284,6 +10256,7 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -8297,6 +10270,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-282"
+   ],
    "owasp": ""
   },
   {
@@ -8310,6 +10286,7 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -8323,6 +10300,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-285",
+    "CWE-668"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -8338,6 +10319,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-1038"
+   ],
    "owasp": ""
   },
   {
@@ -8351,6 +10335,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -8364,6 +10351,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-703"
+   ],
    "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
@@ -8377,6 +10367,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-703"
+   ],
    "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
@@ -8390,6 +10383,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-755"
+   ],
    "owasp": "A10:2025 - Mishandling of Exceptional Conditions"
   },
   {
@@ -8403,6 +10399,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-693"
+   ],
    "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
@@ -8416,6 +10415,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-710"
+   ],
    "owasp": ""
   },
   {
@@ -8429,6 +10431,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-916"
+   ],
    "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
@@ -8442,6 +10447,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-916"
+   ],
    "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
@@ -8456,6 +10464,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-404",
+    "CWE-763"
+   ],
    "owasp": ""
   },
   {
@@ -8471,6 +10483,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-404",
+    "CWE-763"
+   ],
    "owasp": ""
   },
   {
@@ -8486,6 +10502,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-404"
+   ],
    "owasp": ""
   },
   {
@@ -8499,6 +10518,11 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-662",
+    "CWE-667",
+    "CWE-675"
+   ],
    "owasp": ""
   },
   {
@@ -8512,6 +10536,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-667",
+    "CWE-675"
+   ],
    "owasp": ""
   },
   {
@@ -8527,6 +10555,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-1061",
+    "CWE-732"
+   ],
    "owasp": ""
   },
   {
@@ -8542,6 +10574,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-668"
+   ],
    "owasp": ""
   },
   {
@@ -8556,6 +10591,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-691"
+   ],
    "owasp": ""
   },
   {
@@ -8567,6 +10605,7 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -8582,6 +10621,10 @@
    "lists": [
     "cwe-top-25-2025"
    ],
+   "childOf": [
+    "CWE-400",
+    "CWE-665"
+   ],
    "owasp": ""
   },
   {
@@ -8595,6 +10638,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-400"
+   ],
    "owasp": ""
   },
   {
@@ -8606,6 +10652,9 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-404"
+   ],
    "owasp": ""
   },
   {
@@ -8619,6 +10668,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-771"
+   ],
    "owasp": ""
   },
   {
@@ -8632,6 +10684,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-770"
+   ],
    "owasp": ""
   },
   {
@@ -8645,6 +10700,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-404",
+    "CWE-772"
+   ],
    "owasp": ""
   },
   {
@@ -8659,6 +10718,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-405",
+    "CWE-674"
+   ],
    "owasp": "A02:2025 - Security Misconfiguration"
   },
   {
@@ -8672,6 +10735,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-625"
+   ],
    "owasp": ""
   },
   {
@@ -8685,6 +10751,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-223"
+   ],
    "owasp": "A09:2025 - Logging & Alerting Failures"
   },
   {
@@ -8698,6 +10767,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-400"
+   ],
    "owasp": ""
   },
   {
@@ -8711,6 +10783,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-327"
+   ],
    "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
@@ -8725,6 +10800,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-1285"
+   ],
    "owasp": ""
   },
   {
@@ -8739,6 +10817,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-749"
+   ],
    "owasp": ""
   },
   {
@@ -8754,6 +10835,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-670"
+   ],
    "owasp": ""
   },
   {
@@ -8767,6 +10851,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-565",
+    "CWE-807"
+   ],
    "owasp": "A08:2025 - Software or Data Integrity Failures"
   },
   {
@@ -8781,6 +10869,11 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-120",
+    "CWE-20",
+    "CWE-676"
+   ],
    "owasp": ""
   },
   {
@@ -8796,6 +10889,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-119"
+   ],
    "owasp": ""
   },
   {
@@ -8814,6 +10910,9 @@
    "lists": [
     "cwe-top-25-2025"
    ],
+   "childOf": [
+    "CWE-119"
+   ],
    "owasp": ""
   },
   {
@@ -8829,6 +10928,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-119"
+   ],
    "owasp": ""
   },
   {
@@ -8844,6 +10946,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-770"
+   ],
    "owasp": ""
   },
   {
@@ -8857,6 +10962,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-138"
+   ],
    "owasp": ""
   },
   {
@@ -8870,6 +10978,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-790"
+   ],
    "owasp": ""
   },
   {
@@ -8883,6 +10994,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-791"
+   ],
    "owasp": ""
   },
   {
@@ -8896,6 +11010,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-792"
+   ],
    "owasp": ""
   },
   {
@@ -8909,6 +11026,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-792"
+   ],
    "owasp": ""
   },
   {
@@ -8922,6 +11042,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-791"
+   ],
    "owasp": ""
   },
   {
@@ -8935,6 +11058,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-795"
+   ],
    "owasp": ""
   },
   {
@@ -8948,6 +11074,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-795"
+   ],
    "owasp": ""
   },
   {
@@ -8961,6 +11090,12 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1391",
+    "CWE-287",
+    "CWE-344",
+    "CWE-671"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -8974,6 +11109,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-691"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -8987,6 +11125,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1390",
+    "CWE-863"
+   ],
    "owasp": ""
   },
   {
@@ -9003,6 +11145,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-119"
+   ],
    "owasp": ""
   },
   {
@@ -9018,6 +11163,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-805"
+   ],
    "owasp": ""
   },
   {
@@ -9031,6 +11179,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-693"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -9044,6 +11195,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-662"
+   ],
    "owasp": ""
   },
   {
@@ -9057,6 +11211,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-662"
+   ],
    "owasp": ""
   },
   {
@@ -9072,6 +11229,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-119"
+   ],
    "owasp": ""
   },
   {
@@ -9087,6 +11247,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-119"
+   ],
    "owasp": ""
   },
   {
@@ -9102,6 +11265,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-119"
+   ],
    "owasp": ""
   },
   {
@@ -9117,6 +11283,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-119",
+    "CWE-672"
+   ],
    "owasp": ""
   },
   {
@@ -9130,6 +11300,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-666"
+   ],
    "owasp": ""
   },
   {
@@ -9143,6 +11316,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-706",
+    "CWE-829"
+   ],
    "owasp": ""
   },
   {
@@ -9157,6 +11334,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-364"
+   ],
    "owasp": ""
   },
   {
@@ -9170,6 +11350,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-669"
+   ],
    "owasp": "A08:2025 - Software or Data Integrity Failures"
   },
   {
@@ -9183,6 +11366,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-829"
+   ],
    "owasp": "A08:2025 - Software or Data Integrity Failures"
   },
   {
@@ -9196,6 +11382,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-364"
+   ],
    "owasp": ""
   },
   {
@@ -9209,6 +11398,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-667"
+   ],
    "owasp": ""
   },
   {
@@ -9222,6 +11414,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-662",
+    "CWE-667"
+   ],
    "owasp": ""
   },
   {
@@ -9235,6 +11431,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-691"
+   ],
    "owasp": ""
   },
   {
@@ -9248,6 +11447,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-834"
+   ],
    "owasp": ""
   },
   {
@@ -9261,6 +11463,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1390"
+   ],
    "owasp": ""
   },
   {
@@ -9274,6 +11479,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-799"
+   ],
    "owasp": ""
   },
   {
@@ -9287,6 +11495,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-116"
+   ],
    "owasp": ""
   },
   {
@@ -9301,6 +11512,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-1023"
+   ],
    "owasp": ""
   },
   {
@@ -9314,6 +11528,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-691"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -9327,6 +11544,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-286"
+   ],
    "owasp": ""
   },
   {
@@ -9341,6 +11561,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-704"
+   ],
    "owasp": ""
   },
   {
@@ -9355,6 +11578,10 @@
    "languageAgnostic": true,
    "lists": [
     "cwe-top-25-2025"
+   ],
+   "childOf": [
+    "CWE-284",
+    "CWE-285"
    ],
    "owasp": "A01:2025 - Broken Access Control"
   },
@@ -9371,6 +11598,10 @@
    "lists": [
     "cwe-top-25-2025"
    ],
+   "childOf": [
+    "CWE-284",
+    "CWE-285"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -9384,6 +11615,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-665"
+   ],
    "owasp": ""
   },
   {
@@ -9397,6 +11631,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-665"
+   ],
    "owasp": ""
   },
   {
@@ -9412,6 +11649,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-672"
+   ],
    "owasp": ""
   },
   {
@@ -9427,6 +11667,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-664"
+   ],
    "owasp": ""
   },
   {
@@ -9440,6 +11683,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-684"
+   ],
    "owasp": ""
   },
   {
@@ -9454,6 +11700,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-664"
+   ],
    "owasp": ""
   },
   {
@@ -9468,6 +11717,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-913",
+    "CWE-99"
+   ],
    "owasp": ""
   },
   {
@@ -9485,6 +11738,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-913"
+   ],
    "owasp": "A08:2025 - Software or Data Integrity Failures"
   },
   {
@@ -9498,6 +11754,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-327",
+    "CWE-328"
+   ],
    "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
@@ -9511,6 +11771,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-74",
+    "CWE-77"
+   ],
    "owasp": "A05:2025 - Injection"
   },
   {
@@ -9526,6 +11790,10 @@
    "lists": [
     "cwe-top-25-2025"
    ],
+   "childOf": [
+    "CWE-441",
+    "CWE-610"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -9539,6 +11807,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-400"
+   ],
    "owasp": ""
   },
   {
@@ -9552,6 +11823,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-922"
+   ],
    "owasp": ""
   },
   {
@@ -9565,6 +11839,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-664"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -9578,6 +11855,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": ""
   },
   {
@@ -9591,6 +11871,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-345"
+   ],
    "owasp": ""
   },
   {
@@ -9604,6 +11887,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-940"
+   ],
    "owasp": ""
   },
   {
@@ -9617,6 +11903,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-285"
+   ],
    "owasp": "A08:2025 - Software or Data Integrity Failures"
   },
   {
@@ -9630,6 +11919,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-285",
+    "CWE-668"
+   ],
    "owasp": ""
   },
   {
@@ -9641,6 +11934,10 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-862",
+    "CWE-940"
+   ],
    "owasp": ""
   },
   {
@@ -9654,6 +11951,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-346",
+    "CWE-923"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -9667,6 +11968,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-923"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -9680,6 +11984,11 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-183",
+    "CWE-863",
+    "CWE-923"
+   ],
    "owasp": "A02:2025 - Security Misconfiguration"
   },
   {
@@ -9693,6 +12002,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-74"
+   ],
    "owasp": ""
   },
   {
@@ -9706,6 +12018,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-732"
+   ],
    "owasp": "A02:2025 - Security Misconfiguration"
   },
   {
@@ -9719,6 +12034,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-451"
+   ],
    "owasp": ""
   },
   {
@@ -9732,6 +12050,11 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-441",
+    "CWE-451",
+    "CWE-610"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -9746,6 +12069,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-266"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -9759,6 +12085,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-697"
+   ],
    "owasp": ""
   },
   {
@@ -9774,6 +12103,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-697"
+   ],
    "owasp": ""
   },
   {
@@ -9787,6 +12119,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-697"
+   ],
    "owasp": ""
   },
   {
@@ -9800,6 +12135,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1038"
+   ],
    "owasp": ""
   },
   {
@@ -9813,6 +12151,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-435",
+    "CWE-758"
+   ],
    "owasp": ""
   },
   {
@@ -9826,6 +12168,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-693",
+    "CWE-697"
+   ],
    "owasp": ""
   },
   {
@@ -9839,6 +12185,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-710"
+   ],
    "owasp": ""
   },
   {
@@ -9852,6 +12201,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1176"
+   ],
    "owasp": ""
   },
   {
@@ -9865,6 +12217,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1093"
+   ],
    "owasp": ""
   },
   {
@@ -9878,6 +12233,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-710"
+   ],
    "owasp": ""
   },
   {
@@ -9891,6 +12249,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1076"
+   ],
    "owasp": ""
   },
   {
@@ -9904,6 +12265,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1176"
+   ],
    "owasp": ""
   },
   {
@@ -9917,6 +12281,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1120"
+   ],
    "owasp": ""
   },
   {
@@ -9930,6 +12297,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-710"
+   ],
    "owasp": ""
   },
   {
@@ -9943,6 +12313,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1176"
+   ],
    "owasp": ""
   },
   {
@@ -9956,6 +12329,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-405"
+   ],
    "owasp": ""
   },
   {
@@ -9969,6 +12345,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1419"
+   ],
    "owasp": ""
   },
   {
@@ -9982,6 +12361,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1419"
+   ],
    "owasp": ""
   },
   {
@@ -9995,6 +12377,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1059"
+   ],
    "owasp": ""
   },
   {
@@ -10008,6 +12393,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1061"
+   ],
    "owasp": ""
   },
   {
@@ -10021,6 +12409,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1093"
+   ],
    "owasp": ""
   },
   {
@@ -10034,6 +12425,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1120"
+   ],
    "owasp": ""
   },
   {
@@ -10047,6 +12441,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1061"
+   ],
    "owasp": ""
   },
   {
@@ -10060,6 +12457,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-662"
+   ],
    "owasp": ""
   },
   {
@@ -10073,6 +12473,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-710"
+   ],
    "owasp": ""
   },
   {
@@ -10086,6 +12489,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1120"
+   ],
    "owasp": ""
   },
   {
@@ -10099,6 +12505,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-710"
+   ],
    "owasp": ""
   },
   {
@@ -10112,6 +12521,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1061"
+   ],
    "owasp": ""
   },
   {
@@ -10125,6 +12537,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1176"
+   ],
    "owasp": ""
   },
   {
@@ -10138,6 +12553,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1120"
+   ],
    "owasp": ""
   },
   {
@@ -10151,6 +12569,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-710"
+   ],
    "owasp": ""
   },
   {
@@ -10164,6 +12585,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-710"
+   ],
    "owasp": ""
   },
   {
@@ -10177,6 +12601,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1176"
+   ],
    "owasp": ""
   },
   {
@@ -10188,6 +12615,9 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-710"
+   ],
    "owasp": ""
   },
   {
@@ -10201,6 +12631,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1071"
+   ],
    "owasp": ""
   },
   {
@@ -10214,6 +12647,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1076"
+   ],
    "owasp": ""
   },
   {
@@ -10227,6 +12663,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1164"
+   ],
    "owasp": ""
   },
   {
@@ -10240,6 +12679,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-405"
+   ],
    "owasp": ""
   },
   {
@@ -10253,6 +12695,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-405"
+   ],
    "owasp": ""
   },
   {
@@ -10266,6 +12711,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1093"
+   ],
    "owasp": ""
   },
   {
@@ -10279,6 +12727,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1120"
+   ],
    "owasp": ""
   },
   {
@@ -10292,6 +12743,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-710"
+   ],
    "owasp": ""
   },
   {
@@ -10305,6 +12759,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-697"
+   ],
    "owasp": ""
   },
   {
@@ -10318,6 +12775,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1076"
+   ],
    "owasp": ""
   },
   {
@@ -10331,6 +12791,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1076"
+   ],
    "owasp": ""
   },
   {
@@ -10344,6 +12807,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1120"
+   ],
    "owasp": ""
   },
   {
@@ -10357,6 +12823,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1076"
+   ],
    "owasp": ""
   },
   {
@@ -10370,6 +12839,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1061"
+   ],
    "owasp": ""
   },
   {
@@ -10383,6 +12855,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-405"
+   ],
    "owasp": ""
   },
   {
@@ -10396,6 +12871,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1078"
+   ],
    "owasp": ""
   },
   {
@@ -10409,6 +12887,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-1093"
+   ],
    "owasp": ""
   },
   {
@@ -10422,6 +12903,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-1076"
+   ],
    "owasp": ""
   },
   {
@@ -10435,6 +12919,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-821"
+   ],
    "owasp": ""
   },
   {
@@ -10448,6 +12935,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-405"
+   ],
    "owasp": ""
   },
   {
@@ -10461,6 +12951,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-1061"
+   ],
    "owasp": ""
   },
   {
@@ -10474,6 +12967,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-1076",
+    "CWE-772"
+   ],
    "owasp": ""
   },
   {
@@ -10487,6 +12984,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-710"
+   ],
    "owasp": ""
   },
   {
@@ -10500,6 +13000,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-710"
+   ],
    "owasp": ""
   },
   {
@@ -10513,6 +13016,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-405"
+   ],
    "owasp": ""
   },
   {
@@ -10526,6 +13032,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1120"
+   ],
    "owasp": ""
   },
   {
@@ -10539,6 +13048,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-662",
+    "CWE-820"
+   ],
    "owasp": ""
   },
   {
@@ -10552,6 +13065,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1076",
+    "CWE-595"
+   ],
    "owasp": ""
   },
   {
@@ -10565,6 +13082,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1076"
+   ],
    "owasp": ""
   },
   {
@@ -10578,6 +13098,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1078"
+   ],
    "owasp": ""
   },
   {
@@ -10591,6 +13114,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1061"
+   ],
    "owasp": ""
   },
   {
@@ -10604,6 +13130,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-710"
+   ],
    "owasp": ""
   },
   {
@@ -10617,6 +13146,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-758"
+   ],
    "owasp": ""
   },
   {
@@ -10630,6 +13162,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-758"
+   ],
    "owasp": ""
   },
   {
@@ -10643,6 +13178,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1357"
+   ],
    "owasp": "A03:2025 - Software Supply Chain Failures"
   },
   {
@@ -10656,6 +13194,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1061",
+    "CWE-758"
+   ],
    "owasp": ""
   },
   {
@@ -10669,6 +13211,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1078"
+   ],
    "owasp": ""
   },
   {
@@ -10682,6 +13227,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1078"
+   ],
    "owasp": ""
   },
   {
@@ -10695,6 +13243,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1076"
+   ],
    "owasp": ""
   },
   {
@@ -10708,6 +13259,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1078"
+   ],
    "owasp": ""
   },
   {
@@ -10719,6 +13273,9 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1059"
+   ],
    "owasp": ""
   },
   {
@@ -10732,6 +13289,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1059"
+   ],
    "owasp": ""
   },
   {
@@ -10745,6 +13305,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1059"
+   ],
    "owasp": ""
   },
   {
@@ -10758,6 +13321,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1078"
+   ],
    "owasp": ""
   },
   {
@@ -10771,6 +13337,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1078"
+   ],
    "owasp": ""
   },
   {
@@ -10784,6 +13353,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1078"
+   ],
    "owasp": ""
   },
   {
@@ -10797,6 +13369,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1078"
+   ],
    "owasp": ""
   },
   {
@@ -10810,6 +13385,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1078"
+   ],
    "owasp": ""
   },
   {
@@ -10823,6 +13401,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1059"
+   ],
    "owasp": ""
   },
   {
@@ -10836,6 +13417,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1120"
+   ],
    "owasp": ""
   },
   {
@@ -10849,6 +13433,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-710"
+   ],
    "owasp": ""
   },
   {
@@ -10862,6 +13449,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1120"
+   ],
    "owasp": ""
   },
   {
@@ -10875,6 +13465,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1120"
+   ],
    "owasp": ""
   },
   {
@@ -10888,6 +13481,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1120"
+   ],
    "owasp": ""
   },
   {
@@ -10901,6 +13497,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1120"
+   ],
    "owasp": ""
   },
   {
@@ -10914,6 +13513,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1120"
+   ],
    "owasp": "A06:2025 - Insecure Design"
   },
   {
@@ -10927,6 +13529,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-710"
+   ],
    "owasp": ""
   },
   {
@@ -10941,6 +13546,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-710"
+   ],
    "owasp": ""
   },
   {
@@ -10954,6 +13562,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-710"
+   ],
    "owasp": ""
   },
   {
@@ -10967,6 +13578,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-20"
+   ],
    "owasp": ""
   },
   {
@@ -10980,6 +13594,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-1173"
+   ],
    "owasp": "A02:2025 - Security Misconfiguration"
   },
   {
@@ -10993,6 +13610,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-405"
+   ],
    "owasp": ""
   },
   {
@@ -11006,6 +13626,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-710"
+   ],
    "owasp": ""
   },
   {
@@ -11017,6 +13640,7 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -11030,6 +13654,11 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1419",
+    "CWE-344",
+    "CWE-665"
+   ],
    "owasp": ""
   },
   {
@@ -11043,6 +13672,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-653",
+    "CWE-668"
+   ],
    "owasp": ""
   },
   {
@@ -11056,6 +13689,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-696"
+   ],
    "owasp": ""
   },
   {
@@ -11069,6 +13705,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": ""
   },
   {
@@ -11082,6 +13721,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-657"
+   ],
    "owasp": ""
   },
   {
@@ -11095,6 +13737,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-696"
+   ],
    "owasp": ""
   },
   {
@@ -11108,6 +13753,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-330"
+   ],
    "owasp": ""
   },
   {
@@ -11121,6 +13769,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-710"
+   ],
    "owasp": ""
   },
   {
@@ -11134,6 +13785,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": ""
   },
   {
@@ -11148,6 +13802,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-1419"
+   ],
    "owasp": ""
   },
   {
@@ -11161,6 +13818,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1220"
+   ],
    "owasp": ""
   },
   {
@@ -11175,6 +13835,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-362"
+   ],
    "owasp": ""
   },
   {
@@ -11189,6 +13852,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": ""
   },
   {
@@ -11202,6 +13868,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-664"
+   ],
    "owasp": ""
   },
   {
@@ -11215,6 +13884,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-285"
+   ],
    "owasp": ""
   },
   {
@@ -11228,6 +13900,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": ""
   },
   {
@@ -11241,6 +13916,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-667"
+   ],
    "owasp": ""
   },
   {
@@ -11254,6 +13932,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284",
+    "CWE-667"
+   ],
    "owasp": ""
   },
   {
@@ -11267,6 +13949,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-667"
+   ],
    "owasp": ""
   },
   {
@@ -11281,6 +13966,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-400"
+   ],
    "owasp": ""
   },
   {
@@ -11294,6 +13982,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-74"
+   ],
    "owasp": ""
   },
   {
@@ -11307,6 +13998,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-226"
+   ],
    "owasp": ""
   },
   {
@@ -11320,6 +14014,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-327"
+   ],
    "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
@@ -11331,6 +14028,9 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-330"
+   ],
    "owasp": "A04:2025 - Cryptographic Failures"
   },
   {
@@ -11344,6 +14044,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-912"
+   ],
    "owasp": ""
   },
   {
@@ -11357,6 +14060,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1263"
+   ],
    "owasp": ""
   },
   {
@@ -11370,6 +14076,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-863"
+   ],
    "owasp": ""
   },
   {
@@ -11383,6 +14092,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-684"
+   ],
    "owasp": ""
   },
   {
@@ -11396,6 +14108,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-400"
+   ],
    "owasp": ""
   },
   {
@@ -11409,6 +14124,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1384"
+   ],
    "owasp": ""
   },
   {
@@ -11422,6 +14140,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-693"
+   ],
    "owasp": ""
   },
   {
@@ -11435,6 +14156,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1250"
+   ],
    "owasp": ""
   },
   {
@@ -11448,6 +14172,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-664"
+   ],
    "owasp": ""
   },
   {
@@ -11462,6 +14189,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-1250"
+   ],
    "owasp": ""
   },
   {
@@ -11475,6 +14205,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": ""
   },
   {
@@ -11488,6 +14221,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-693"
+   ],
    "owasp": ""
   },
   {
@@ -11501,6 +14237,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-208",
+    "CWE-697"
+   ],
    "owasp": ""
   },
   {
@@ -11514,6 +14254,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1300"
+   ],
    "owasp": ""
   },
   {
@@ -11527,6 +14270,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-285"
+   ],
    "owasp": ""
   },
   {
@@ -11540,6 +14286,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": ""
   },
   {
@@ -11553,6 +14302,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-212"
+   ],
    "owasp": ""
   },
   {
@@ -11566,6 +14318,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1294",
+    "CWE-284"
+   ],
    "owasp": ""
   },
   {
@@ -11579,6 +14335,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": ""
   },
   {
@@ -11592,6 +14351,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1384"
+   ],
    "owasp": ""
   },
   {
@@ -11605,6 +14367,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": ""
   },
   {
@@ -11618,6 +14383,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": ""
   },
   {
@@ -11631,6 +14399,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-821"
+   ],
    "owasp": ""
   },
   {
@@ -11644,6 +14415,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-662"
+   ],
    "owasp": ""
   },
   {
@@ -11657,6 +14431,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-404"
+   ],
    "owasp": ""
   },
   {
@@ -11670,6 +14447,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": ""
   },
   {
@@ -11683,6 +14463,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-266"
+   ],
    "owasp": ""
   },
   {
@@ -11698,6 +14481,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-693"
+   ],
    "owasp": ""
   },
   {
@@ -11711,6 +14497,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1294",
+    "CWE-284"
+   ],
    "owasp": ""
   },
   {
@@ -11724,6 +14514,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-909"
+   ],
    "owasp": ""
   },
   {
@@ -11739,6 +14532,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-226"
+   ],
    "owasp": ""
   },
   {
@@ -11754,6 +14550,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-200"
+   ],
    "owasp": ""
   },
   {
@@ -11767,6 +14566,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": ""
   },
   {
@@ -11780,6 +14582,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-923"
+   ],
    "owasp": "A01:2025 - Broken Access Control"
   },
   {
@@ -11793,6 +14598,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": ""
   },
   {
@@ -11806,6 +14614,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1329"
+   ],
    "owasp": ""
   },
   {
@@ -11819,6 +14630,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-693"
+   ],
    "owasp": ""
   },
   {
@@ -11834,6 +14648,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-665",
+    "CWE-696"
+   ],
    "owasp": ""
   },
   {
@@ -11849,6 +14667,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284",
+    "CWE-696"
+   ],
    "owasp": ""
   },
   {
@@ -11862,6 +14684,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-691"
+   ],
    "owasp": ""
   },
   {
@@ -11875,6 +14700,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-668"
+   ],
    "owasp": ""
   },
   {
@@ -11888,6 +14716,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": ""
   },
   {
@@ -11901,6 +14732,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-20"
+   ],
    "owasp": ""
   },
   {
@@ -11914,6 +14748,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-20"
+   ],
    "owasp": ""
   },
   {
@@ -11927,6 +14764,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-20"
+   ],
    "owasp": ""
   },
   {
@@ -11940,6 +14780,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-20"
+   ],
    "owasp": ""
   },
   {
@@ -11953,6 +14796,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-20"
+   ],
    "owasp": ""
   },
   {
@@ -11966,6 +14812,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-20"
+   ],
    "owasp": ""
   },
   {
@@ -11979,6 +14828,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1294",
+    "CWE-284"
+   ],
    "owasp": ""
   },
   {
@@ -11992,6 +14845,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-693"
+   ],
    "owasp": ""
   },
   {
@@ -12005,6 +14861,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1294",
+    "CWE-284"
+   ],
    "owasp": ""
   },
   {
@@ -12018,6 +14878,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-345"
+   ],
    "owasp": ""
   },
   {
@@ -12031,6 +14894,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": ""
   },
   {
@@ -12044,6 +14910,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-200"
+   ],
    "owasp": ""
   },
   {
@@ -12059,6 +14928,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": ""
   },
   {
@@ -12074,6 +14946,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-285"
+   ],
    "owasp": ""
   },
   {
@@ -12088,6 +14963,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-362"
+   ],
    "owasp": ""
   },
   {
@@ -12101,6 +14979,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-288",
+    "CWE-420"
+   ],
    "owasp": ""
   },
   {
@@ -12114,6 +14996,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-203"
+   ],
    "owasp": ""
   },
   {
@@ -12127,6 +15012,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-226"
+   ],
    "owasp": ""
   },
   {
@@ -12140,6 +15028,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1294"
+   ],
    "owasp": ""
   },
   {
@@ -12153,6 +15044,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1189",
+    "CWE-203"
+   ],
    "owasp": ""
   },
   {
@@ -12166,6 +15061,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": ""
   },
   {
@@ -12179,6 +15077,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1329"
+   ],
    "owasp": ""
   },
   {
@@ -12193,6 +15094,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": ""
   },
   {
@@ -12206,6 +15110,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": ""
   },
   {
@@ -12219,6 +15126,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": ""
   },
   {
@@ -12232,6 +15142,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-862"
+   ],
    "owasp": ""
   },
   {
@@ -12245,6 +15158,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": ""
   },
   {
@@ -12258,6 +15174,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": ""
   },
   {
@@ -12271,6 +15190,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": ""
   },
   {
@@ -12284,6 +15206,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-693"
+   ],
    "owasp": ""
   },
   {
@@ -12297,6 +15222,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-693"
+   ],
    "owasp": ""
   },
   {
@@ -12310,6 +15238,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": ""
   },
   {
@@ -12323,6 +15254,10 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-913",
+    "CWE-915"
+   ],
    "owasp": ""
   },
   {
@@ -12336,6 +15271,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-834"
+   ],
    "owasp": ""
   },
   {
@@ -12349,6 +15287,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": ""
   },
   {
@@ -12360,6 +15301,7 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [],
    "owasp": ""
   },
   {
@@ -12375,6 +15317,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-770"
+   ],
    "owasp": ""
   },
   {
@@ -12388,6 +15333,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-693"
+   ],
    "owasp": ""
   },
   {
@@ -12401,6 +15349,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-668"
+   ],
    "owasp": ""
   },
   {
@@ -12414,6 +15365,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-285"
+   ],
    "owasp": ""
   },
   {
@@ -12427,6 +15381,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1357",
+    "CWE-664"
+   ],
    "owasp": "A03:2025 - Software Supply Chain Failures"
   },
   {
@@ -12440,6 +15398,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1301"
+   ],
    "owasp": ""
   },
   {
@@ -12453,6 +15414,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-653",
+    "CWE-668"
+   ],
    "owasp": ""
   },
   {
@@ -12466,6 +15431,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1384"
+   ],
    "owasp": ""
   },
   {
@@ -12479,6 +15447,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-407"
+   ],
    "owasp": ""
   },
   {
@@ -12492,6 +15463,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-284"
+   ],
    "owasp": ""
   },
   {
@@ -12509,6 +15483,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-682"
+   ],
    "owasp": ""
   },
   {
@@ -12526,6 +15503,9 @@
    ],
    "languageAgnostic": false,
    "lists": [],
+   "childOf": [
+    "CWE-94"
+   ],
    "owasp": ""
   },
   {
@@ -12539,6 +15519,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-693"
+   ],
    "owasp": ""
   },
   {
@@ -12552,6 +15535,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-682"
+   ],
    "owasp": ""
   },
   {
@@ -12569,6 +15555,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-675"
+   ],
    "owasp": ""
   },
   {
@@ -12582,6 +15571,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-226"
+   ],
    "owasp": ""
   },
   {
@@ -12595,6 +15587,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1384"
+   ],
    "owasp": ""
   },
   {
@@ -12606,6 +15601,9 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-710"
+   ],
    "owasp": ""
   },
   {
@@ -12617,6 +15615,9 @@
    "languages": [],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-703"
+   ],
    "owasp": ""
   },
   {
@@ -12630,6 +15631,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-346"
+   ],
    "owasp": ""
   },
   {
@@ -12643,6 +15647,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-59"
+   ],
    "owasp": ""
   },
   {
@@ -12656,6 +15663,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-704"
+   ],
    "owasp": ""
   },
   {
@@ -12669,6 +15679,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-287"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -12682,6 +15695,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1390"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -12695,6 +15711,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1391"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -12708,6 +15727,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1392"
+   ],
    "owasp": "A07:2025 - Authentication Failures"
   },
   {
@@ -12721,6 +15743,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1392"
+   ],
    "owasp": ""
   },
   {
@@ -12734,6 +15759,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1357",
+    "CWE-657"
+   ],
    "owasp": "A03:2025 - Software Supply Chain Failures"
   },
   {
@@ -12747,6 +15776,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-665"
+   ],
    "owasp": ""
   },
   {
@@ -12760,6 +15792,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-669"
+   ],
    "owasp": ""
   },
   {
@@ -12773,6 +15808,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1420"
+   ],
    "owasp": ""
   },
   {
@@ -12786,6 +15824,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1420"
+   ],
    "owasp": ""
   },
   {
@@ -12799,6 +15840,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-1420"
+   ],
    "owasp": ""
   },
   {
@@ -12812,6 +15856,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-707"
+   ],
    "owasp": ""
   },
   {
@@ -12825,6 +15872,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-77"
+   ],
    "owasp": ""
   },
   {
@@ -12838,6 +15888,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-319"
+   ],
    "owasp": ""
   },
   {
@@ -12855,6 +15908,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-223"
+   ],
    "owasp": ""
   },
   {
@@ -12868,6 +15924,9 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-200"
+   ],
    "owasp": ""
   },
   {
@@ -12881,6 +15940,10 @@
    ],
    "languageAgnostic": true,
    "lists": [],
+   "childOf": [
+    "CWE-440",
+    "CWE-665"
+   ],
    "owasp": ""
   }
  ]

@@ -64,6 +64,15 @@ def main() -> int:
 
     entries = []
     for w in root.findall(".//c:Weakness", NS):
+        # Which weaknesses this one is a more specific form OF. The catalog states it, so
+        # it is read rather than decided: a path traversal variant names the spelling of
+        # a payload, and an analysis that proves the caller controls the path never looks
+        # at the payload at all.
+        parents = sorted({
+            "CWE-" + r.get("CWE_ID")
+            for r in w.findall(".//c:Related_Weaknesses/c:Related_Weakness", NS)
+            if r.get("Nature") == "ChildOf" and r.get("CWE_ID")
+        })
         langs = set()
         for lang in w.findall(".//c:Applicable_Platforms/c:Language", NS):
             langs.add(lang.get("Name") or lang.get("Class") or "")
@@ -84,6 +93,7 @@ def main() -> int:
             "languages": sorted(x for x in langs if x),
             "languageAgnostic": (not langs) or ("Not Language-Specific" in langs),
             "lists": sorted(memberships.get("CWE-" + w.get("ID"), [])),
+            "childOf": parents,
             "owasp": owasp.get("CWE-" + w.get("ID"), ""),
         })
 

@@ -12,95 +12,128 @@ import "strings"
 //
 // A claim without a reason is not accepted. See TestEveryClaimStatesItsReason.
 var claims = map[string]Claim{
-	"CWE-78": {Asserted, "untrusted data reaching a described command API, across functions and modules",
-		[]string{"untrusted-to-interpreter"}},
-	"CWE-73": {Asserted, "untrusted data choosing the executable a process launches",
-		[]string{"untrusted-to-interpreter"}},
-	"CWE-95": {Asserted, "untrusted data reaching a language evaluator: eval, Function, Python exec",
-		[]string{"untrusted-to-interpreter"}},
-	"CWE-89": {Partial, "untrusted data COMPOSED into the statement argument of a described SQL API, where composed means composed into the value THIS sink receives rather than anywhere in its history. A parameterized call cannot match, because the channel names only the interpreted argument. Known imprecision: `execute` is also what a CQRS bus and a SQLAlchemy Session are called on, and neither takes a statement string -- telling them apart needs the receiver's type, which one frontend supplies patchily and the other not at all, so those report at reduced confidence rather than being excluded",
-		[]string{"untrusted-to-interpreter"}},
-	"CWE-79": {Partial, "untrusted data reaching a response body parsed as markup, with context-wrong encoders recorded as insufficient; escaping decided inside a template file is out of reach because templates are not lowered",
-		[]string{"untrusted-to-interpreter"}},
-	"CWE-209": {Partial, "caught error detail reaching a channel visible outside the system; cannot judge whether a message is generic enough",
-		[]string{"internal-detail-outward"}},
-	"CWE-639": {Partial, "a record selector chosen by the caller with no relation to the caller's identity; requires control flow. Judgements on entry points the framework handed no identity are set aside rather than reported: 42 of those were adjudicated by hand against sixteen production repositories at 0.00 precision, and setting them aside cost nothing on the vulnerable corpus",
-		[]string{"unowned-record-access"}},
-	"CWE-284": {Partial, "an entry point missing a control the engine could not classify, which most of its comparable peers apply. Reported at this level deliberately: naming it authentication or authorization would be claiming to know which, and the honest identity is the class above both",
-		[]string{"expectations"}},
+	"CWE-78": {State: Asserted, Reason: "untrusted data reaching a described command API, across functions and modules",
+		By: []string{"untrusted-to-interpreter"}},
+	"CWE-73": {State: Asserted, Reason: "untrusted data choosing the executable a process launches",
+		By: []string{"untrusted-to-interpreter"}},
+	"CWE-95": {State: Asserted, Reason: "untrusted data reaching a language evaluator: eval, Function, Python exec",
+		By: []string{"untrusted-to-interpreter"}},
+	"CWE-89": {State: Partial, Reason: "untrusted data COMPOSED into the statement argument of a described SQL API, where composed means composed into the value THIS sink receives rather than anywhere in its history. A parameterized call cannot match, because the channel names only the interpreted argument. Known imprecision: `execute` is also what a CQRS bus and a SQLAlchemy Session are called on, and neither takes a statement string -- telling them apart needs the receiver's type, which one frontend supplies patchily and the other not at all, so those report at reduced confidence rather than being excluded",
+		By: []string{"untrusted-to-interpreter"}},
+	// Subsumes the variants that name a PAYLOAD spelling -- script tags, script in an
+	// attribute, alternate identifier characters. The rule proves untrusted data reaches
+	// a response body parsed as markup and never inspects what the data says, so those
+	// are the same finding at the same line. CWE-81 is excluded below, because what makes
+	// it different is where the data came FROM, which this engine does look at.
+	"CWE-79": {
+		State: Partial,
+		Reason: "untrusted data reaching a response body parsed as markup, with " +
+			"context-wrong encoders recorded as insufficient; escaping decided inside a " +
+			"template file is out of reach because templates are not lowered",
+		By:       []string{"untrusted-to-interpreter"},
+		Subsumes: true,
+	},
+	"CWE-81": {State: NotBuilt, Reason: "script reaching a page through an ERROR message rather than through caller-supplied input. Not subsumed by CWE-79 even though it sits beneath it: what distinguishes it is the SOURCE, and this engine classifies error detail separately from caller input precisely so it can tell them apart. A rule would pair the error class with the markup channel"},
+	"CWE-209": {State: Partial, Reason: "caught error detail reaching a channel visible outside the system; cannot judge whether a message is generic enough",
+		By: []string{"internal-detail-outward"}},
+	// Subsumes CWE-566, which is the same weakness with the record's identifier being a
+	// SQL primary key. Whether the selector is a primary key, a document id or a slug is
+	// a detail the ownership question never asks about.
+	"CWE-639": {State: Partial, Reason: "a record selector chosen by the caller with no relation to the caller's identity; requires control flow. Judgements on entry points the framework handed no identity are set aside rather than reported: 42 of those were adjudicated by hand against sixteen production repositories at 0.00 precision, and setting them aside cost nothing on the vulnerable corpus",
+		Subsumes: true,
+		By:       []string{"unowned-record-access"}},
+	"CWE-321": {State: Partial, Reason: "a cryptographic key written as a literal into a call that must hold one -- the same rule as CWE-798 above, asserted in its own right because the argument positions it describes ARE key arguments. Only those three APIs; a key handed to anything else is a stated miss",
+		By: []string{"hardcoded-secret"}},
+	"CWE-259": {State: NotBuilt, Reason: "a password written into the source. Not covered by the hard-coded credential rule and deliberately not subsumed by it: that rule describes KEY arguments, and a database password in a connection string passes through none of them"},
+	"CWE-284": {State: Partial, Reason: "an entry point missing a control the engine could not classify, which most of its comparable peers apply. Reported at this level deliberately: naming it authentication or authorization would be claiming to know which, and the honest identity is the class above both",
+		By: []string{"expectations"}},
 
 	// Decidable in principle, and honestly not built. Listed because naming the next ones
 	// is more useful than an empty space.
-	"CWE-22": {Partial, "untrusted data choosing the path argument of a described filesystem API; path.basename and Flask's send_from_directory are recognized as confining it",
-		[]string{"untrusted-to-filesystem-path"}},
-	"CWE-918": {Partial, "untrusted data forming the WHOLE destination of a described outbound request; a URL whose host is fixed by a literal leaves the caller only a path and is not reported, at the cost of missing a host composed onto a bare scheme",
-		[]string{"untrusted-to-outbound-destination"}},
-	"CWE-502": {Partial, "untrusted data reaching a deserializer that reconstructs objects rather than parsing data; yaml.safe_load and JSON.parse are deliberately not described because they build data and never behaviour",
-		[]string{"untrusted-to-deserializer"}},
-	"CWE-601": {Partial, "untrusted data forming the WHOLE destination of a redirect; a path within the application cannot leave it and is not reported. Applications very often validate a redirect target with a helper of their own or behind an `is_safe_url` check, and whether such a check is CORRECT is not something this engine can decide -- it does not model guards at all, so those report rather than being cleared, and in a frontend without types they land below the gating tier rather than above it",
-		[]string{"untrusted-to-redirect"}},
-	"CWE-328": {Partial, "a broken hash algorithm named as a literal in the call; an algorithm chosen at runtime is not matched and not guessed at",
-		[]string{"weak-hash"}},
-	"CWE-295": {Partial, "certificate verification disabled by a literal argument or option: `verify=False` on a Python request, and `rejectUnauthorized: false` anywhere at all, because that option name means one thing in Node and a list of the clients it can be handed to would be wrong the moment somebody used a different one",
-		[]string{"disabled-certificate-check"}},
-	"CWE-489": {Partial, "a debug server started with debug enabled by a literal keyword. Narrow on purpose: this is the one shape where the decision is written at the call, and debug flags read from configuration or the environment are not literals and are not matched",
-		[]string{"debug-mode-enabled"}},
-	"CWE-942": {Partial, "credentials allowed on cross-origin requests while the origin is wildcarded or reflected. A conjunction rather than a single bad value, because either half alone is ordinary: a public API wildcards its origin, and a first-party front end sends credentials to a named one",
-		[]string{"permissive-cors"}},
-	"CWE-327": {Partial, "a broken cipher or a mode that leaks plaintext structure, named as a literal in the call; unlike a weak hash this gates, because nothing needs encryption for a purpose that does not need encryption",
-		[]string{"weak-cipher"}},
-	"CWE-1333": {Partial, "untrusted data compiled as a regular expression, where a backtracking engine can be made to take exponential time on a short input",
-		[]string{"untrusted-to-regex"}},
-	"CWE-330": {NotBuilt, "needs a notion of which randomness is used for a security decision, which a call shape alone does not carry", nil},
-	"CWE-798": {Partial, "a key argument written as a literal, matched on having been written down rather than on what it says; a key read from the environment or a vault is not a literal and never matches",
-		[]string{"hardcoded-secret"}},
+	// Subsumes its variants. The catalog gives path traversal seventeen of them, one per
+	// payload spelling -- `../filedir`, `..\filedir`, `/absolute/pathname`, a Windows UNC
+	// share -- and an analysis that proves the caller controls the path never inspects
+	// what the path CONTAINS. Every one of those spellings is the same finding at the
+	// same line, and calling them unbuilt would put seventeen items on a to-do list that
+	// no amount of work could remove.
+	"CWE-22": {
+		State: Partial,
+		Reason: "untrusted data choosing the path argument of a described filesystem API; " +
+			"path.basename and Flask's send_from_directory are recognized as confining it",
+		By:       []string{"untrusted-to-filesystem-path"},
+		Subsumes: true,
+	},
+	"CWE-918": {State: Partial, Reason: "untrusted data forming the WHOLE destination of a described outbound request; a URL whose host is fixed by a literal leaves the caller only a path and is not reported, at the cost of missing a host composed onto a bare scheme",
+		By: []string{"untrusted-to-outbound-destination"}},
+	"CWE-502": {State: Partial, Reason: "untrusted data reaching a deserializer that reconstructs objects rather than parsing data; yaml.safe_load and JSON.parse are deliberately not described because they build data and never behaviour",
+		By: []string{"untrusted-to-deserializer"}},
+	"CWE-601": {State: Partial, Reason: "untrusted data forming the WHOLE destination of a redirect; a path within the application cannot leave it and is not reported. Applications very often validate a redirect target with a helper of their own or behind an `is_safe_url` check, and whether such a check is CORRECT is not something this engine can decide -- it does not model guards at all, so those report rather than being cleared, and in a frontend without types they land below the gating tier rather than above it",
+		By: []string{"untrusted-to-redirect"}},
+	"CWE-328": {State: Partial, Reason: "a broken hash algorithm named as a literal in the call; an algorithm chosen at runtime is not matched and not guessed at",
+		By: []string{"weak-hash"}},
+	"CWE-295": {State: Partial, Reason: "certificate verification disabled by a literal argument or option: `verify=False` on a Python request, and `rejectUnauthorized: false` anywhere at all, because that option name means one thing in Node and a list of the clients it can be handed to would be wrong the moment somebody used a different one",
+		By: []string{"disabled-certificate-check"}},
+	"CWE-489": {State: Partial, Reason: "a debug server started with debug enabled by a literal keyword. Narrow on purpose: this is the one shape where the decision is written at the call, and debug flags read from configuration or the environment are not literals and are not matched",
+		By: []string{"debug-mode-enabled"}},
+	"CWE-942": {State: Partial, Reason: "credentials allowed on cross-origin requests while the origin is wildcarded or reflected. A conjunction rather than a single bad value, because either half alone is ordinary: a public API wildcards its origin, and a first-party front end sends credentials to a named one",
+		By: []string{"permissive-cors"}},
+	"CWE-327": {State: Partial, Reason: "a broken cipher or a mode that leaks plaintext structure, named as a literal in the call; unlike a weak hash this gates, because nothing needs encryption for a purpose that does not need encryption",
+		By: []string{"weak-cipher"}},
+	"CWE-1333": {State: Partial, Reason: "untrusted data compiled as a regular expression, where a backtracking engine can be made to take exponential time on a short input",
+		By: []string{"untrusted-to-regex"}},
+	"CWE-330": {State: NotBuilt, Reason: "needs a notion of which randomness is used for a security decision, which a call shape alone does not carry"},
+	// A key written into a call that must hold one. The CATEGORY of secret is something
+	// this rule does encode -- it names key arguments -- so the crypto-key variant is
+	// asserted directly rather than subsumed, and a hard-coded PASSWORD is not covered at
+	// all because no password argument is described.
+	"CWE-798": {State: Partial, Reason: "a key argument written as a literal, matched on having been written down rather than on what it says; a key read from the environment or a vault is not a literal and never matches",
+		By: []string{"hardcoded-secret"}},
 	// Members of the catalog's own Top 25 that apply to these languages. Named rather than
 	// left blank, because this list is the closest thing the project has to a prioritised
 	// backlog that nobody wrote by hand.
-	"CWE-306": {Partial, "an entry point missing an authentication control most of its comparable peers apply. Inferred from the population and therefore informing rather than gating (ADR-010); it cannot distinguish an endpoint unauthenticated by design from one that forgot, which is what a declaration supplies",
-		[]string{"expectations"}},
-	"CWE-862": {Partial, "an entry point missing an authorization control most of its comparable peers apply; same origin and same limits as CWE-306",
-		[]string{"expectations"}},
-	"CWE-434": {Partial, "an uploaded file stored at a destination the caller named, which is how the caller ends up choosing the stored type. Matched on the receiver rather than the method name -- `save` and `mv` belong to every ORM record in a program, and only an upload's is called on data that arrived in the request. Partial for two reasons: the confining validation is an extension allowlist, and no shape of one is modelled yet, so a handler that checks properly still reports; and the multer-plus-fs.writeFile shape reports as CWE-22 instead, because there the untrusted value is a filename and the sink is an ordinary file write",
-		[]string{"untrusted-to-stored-file-type"}},
-	"CWE-476": {Undecidable, "in these languages this is a TypeError on undefined at runtime rather than a memory fault, and deciding it statically means proving nullability across a dynamic language; the value even when solved is reliability rather than security", nil},
-	"CWE-770": {Partial, "an entry point missing a throttle most of its comparable peers apply, which is the observable half of this weakness. Unbounded reads and allocations are not observable at all yet, so the claim is narrow on purpose",
-		[]string{"expectations"}},
+	"CWE-306": {State: Partial, Reason: "an entry point missing an authentication control most of its comparable peers apply. Inferred from the population and therefore informing rather than gating (ADR-010); it cannot distinguish an endpoint unauthenticated by design from one that forgot, which is what a declaration supplies",
+		By: []string{"expectations"}},
+	"CWE-862": {State: Partial, Reason: "an entry point missing an authorization control most of its comparable peers apply; same origin and same limits as CWE-306",
+		By: []string{"expectations"}},
+	"CWE-434": {State: Partial, Reason: "an uploaded file stored at a destination the caller named, which is how the caller ends up choosing the stored type. Matched on the receiver rather than the method name -- `save` and `mv` belong to every ORM record in a program, and only an upload's is called on data that arrived in the request. Partial for two reasons: the confining validation is an extension allowlist, and no shape of one is modelled yet, so a handler that checks properly still reports; and the multer-plus-fs.writeFile shape reports as CWE-22 instead, because there the untrusted value is a filename and the sink is an ordinary file write",
+		By: []string{"untrusted-to-stored-file-type"}},
+	"CWE-476": {State: Undecidable, Reason: "in these languages this is a TypeError on undefined at runtime rather than a memory fault, and deciding it statically means proving nullability across a dynamic language; the value even when solved is reliability rather than security"},
+	"CWE-770": {State: Partial, Reason: "an entry point missing a throttle most of its comparable peers apply, which is the observable half of this weakness. Unbounded reads and allocations are not observable at all yet, so the claim is narrow on purpose",
+		By: []string{"expectations"}},
 
-	"CWE-1336": {Partial, "untrusted data reaching a call that COMPILES a template. Every engine described here exposes property access and method calls to the template text, which is why this ends in code execution rather than in mangled markup. A template loaded from disk and rendered WITH untrusted data is not this weakness and is not reported",
-		[]string{"untrusted-to-interpreter"}},
+	"CWE-1336": {State: Partial, Reason: "untrusted data reaching a call that COMPILES a template. Every engine described here exposes property access and method calls to the template text, which is why this ends in code execution rather than in mangled markup. A template loaded from disk and rendered WITH untrusted data is not this weakness and is not reported",
+		By: []string{"untrusted-to-interpreter"}},
 
-	"CWE-611": {Partial, "untrusted data reaching an XML parser that resolves external entities. The two libraries described have opposite defaults and are treated accordingly: libxmljs resolves only when the call passes `noent`, so the call is read for it, while lxml's default parser resolves and is named outright. Nothing is claimed about parsers that are safe by default and can be made unsafe by configuration this engine cannot see",
-		[]string{"untrusted-to-xml-parser"}},
+	"CWE-611": {State: Partial, Reason: "untrusted data reaching an XML parser that resolves external entities. The two libraries described have opposite defaults and are treated accordingly: libxmljs resolves only when the call passes `noent`, so the call is read for it, while lxml's default parser resolves and is named outright. Nothing is claimed about parsers that are safe by default and can be made unsafe by configuration this engine cannot see",
+		By: []string{"untrusted-to-xml-parser"}},
 
-	"CWE-915": {Partial, "the caller's object handed to a record writer WHOLE rather than field by field, which is a question about structure in the same way SQL injection is a question about text: a value that became a FIELD of something is not the caller's object. Matched only where the symbol leaves no room for doubt. `update`, `create` and `save` were tried and withdrawn -- `save` is what an uploaded file is written with, `update` is already how a record is selected by its identifier, and a dictionary has all three -- so ORM-specific spellings of this weakness are a stated miss",
-		[]string{"untrusted-to-record-fields"}},
+	"CWE-915": {State: Partial, Reason: "the caller's object handed to a record writer WHOLE rather than field by field, which is a question about structure in the same way SQL injection is a question about text: a value that became a FIELD of something is not the caller's object. Matched only where the symbol leaves no room for doubt. `update`, `create` and `save` were tried and withdrawn -- `save` is what an uploaded file is written with, `update` is already how a record is selected by its identifier, and a dictionary has all three -- so ORM-specific spellings of this weakness are a stated miss",
+		By: []string{"untrusted-to-record-fields"}},
 
-	"CWE-916": {Partial, "a password-hash work factor written into the call and below the floor at which it does any work worth the name. Reported and never gating: a work factor is only too low for a LOW-ENTROPY input, and the call does not carry what it was given -- deriving a key from an already-random secret with a small count is correct and reads identically. Deciding it properly means knowing the input is a password, which is a flow question this kind cannot answer alone. The thresholds are floors and deliberately not current guidance -- bcrypt at 10 is the library default -- because a rule that fired on current guidance would fire on every codebase forever and be switched off. A work factor read from configuration is not a number in the call and is not matched",
-		[]string{"weak-password-hash"}},
-	"CWE-329": {Partial, "an initialisation vector written into the source, matched on having been written down rather than on what it says, exactly as a hardcoded key is. An IV must be unpredictable and must never repeat, and one in the source is both predictable and reused on every message",
-		[]string{"predictable-iv"}},
+	"CWE-916": {State: Partial, Reason: "a password-hash work factor written into the call and below the floor at which it does any work worth the name. Reported and never gating: a work factor is only too low for a LOW-ENTROPY input, and the call does not carry what it was given -- deriving a key from an already-random secret with a small count is correct and reads identically. Deciding it properly means knowing the input is a password, which is a flow question this kind cannot answer alone. The thresholds are floors and deliberately not current guidance -- bcrypt at 10 is the library default -- because a rule that fired on current guidance would fire on every codebase forever and be switched off. A work factor read from configuration is not a number in the call and is not matched",
+		By: []string{"weak-password-hash"}},
+	"CWE-329": {State: Partial, Reason: "an initialisation vector written into the source, matched on having been written down rather than on what it says, exactly as a hardcoded key is. An IV must be unpredictable and must never repeat, and one in the source is both predictable and reused on every message",
+		By: []string{"predictable-iv"}},
 
-	"CWE-470": {Partial, "untrusted data naming a module for the runtime to load, which runs it. Requires a WHOLE value: `require(\"./handlers/\" + name)` fixes the directory in the literal and leaves the caller a leaf name, and treating that as caller-chosen would report every plugin loader there is",
-		[]string{"untrusted-to-interpreter"}},
-	"CWE-1321": {Partial, "the caller's object merged into another by a function that walks NESTED keys, so a `__proto__` key in it reaches the prototype every object inherits from. The named deep-merge helpers only; a merge written by hand is a loop over keys and is not matched",
-		[]string{"untrusted-to-record-fields"}},
+	"CWE-470": {State: Partial, Reason: "untrusted data naming a module for the runtime to load, which runs it. Requires a WHOLE value: `require(\"./handlers/\" + name)` fixes the directory in the literal and leaves the caller a leaf name, and treating that as caller-chosen would report every plugin loader there is",
+		By: []string{"untrusted-to-interpreter"}},
+	"CWE-1321": {State: Partial, Reason: "the caller's object merged into another by a function that walks NESTED keys, so a `__proto__` key in it reaches the prototype every object inherits from. The named deep-merge helpers only; a merge written by hand is a loop over keys and is not matched",
+		By: []string{"untrusted-to-record-fields"}},
 
 	// Cookie attributes. Two of the three are claimed for an explicit downgrade AND for
 	// an omission; Secure is claimed only for the downgrade, because the correct idiom
 	// makes it conditional on the environment and a rule demanding a literal would report
 	// every application that does the right thing.
-	"CWE-1004": {Partial, "a credential-carrying cookie set with no httpOnly attribute, or with one written as false. Claimed only where the option keys were actually enumerated: options built in another function are unknowable and are passed over in silence, which is four sites in one production file. Which cookies carry credentials is decided by name, used to narrow an existing match rather than to make one, so the failure mode is a stated miss rather than a false alarm",
-		[]string{"cookie-not-http-only", "cookie-http-only-disabled"}},
-	"CWE-614": {Partial, "a credential cookie with Secure explicitly disabled. Absence is deliberately not claimed: `secure: process.env.NODE_ENV === \"production\"` is correct and is not a literal",
-		[]string{"cookie-not-secure"}},
-	"CWE-1275": {Partial, "a credential cookie with SameSite=None. Reported and never gating, because an embedded widget and an OAuth flow both legitimately need it and the call does not carry which case this is",
-		[]string{"cookie-same-site-none"}},
+	"CWE-1004": {State: Partial, Reason: "a credential-carrying cookie set with no httpOnly attribute, or with one written as false. Claimed only where the option keys were actually enumerated: options built in another function are unknowable and are passed over in silence, which is four sites in one production file. Which cookies carry credentials is decided by name, used to narrow an existing match rather than to make one, so the failure mode is a stated miss rather than a false alarm",
+		By: []string{"cookie-not-http-only", "cookie-http-only-disabled"}},
+	"CWE-614": {State: Partial, Reason: "a credential cookie with Secure explicitly disabled. Absence is deliberately not claimed: `secure: process.env.NODE_ENV === \"production\"` is correct and is not a literal",
+		By: []string{"cookie-not-secure"}},
+	"CWE-1275": {State: Partial, Reason: "a credential cookie with SameSite=None. Reported and never gating, because an embedded widget and an OAuth flow both legitimately need it and the call does not carry which case this is",
+		By: []string{"cookie-same-site-none"}},
 
 	// Real, and about something no analysis of source can see.
-	"CWE-285": {Undecidable, "the intended entitlements are not in the code; a declared policy is what supplies them (ADR-011)",
-		nil},
-	"CWE-1104": {Undecidable, "whether a dependency is maintained is a fact about the world, not about this source", nil},
+	"CWE-285":  {State: Undecidable, Reason: "the intended entitlements are not in the code; a declared policy is what supplies them (ADR-011)"},
+	"CWE-1104": {State: Undecidable, Reason: "whether a dependency is maintained is a fact about the world, not about this source"},
 }
 
 // claimFor returns what the engine says about a weakness, defaulting from the catalog.
@@ -110,16 +143,56 @@ func claimFor(w Weakness) Claim {
 	}
 	switch {
 	case w.Status == "Deprecated":
-		return Claim{OutOfScope, "withdrawn from the catalog", nil}
+		return Claim{State: OutOfScope, Reason: "withdrawn from the catalog"}
 	case !w.HasCodeShape():
-		return Claim{Abstract, "a " + strings.ToLower(w.Abstraction) +
-			", covered by covering the weaknesses beneath it rather than directly", nil}
+		return Claim{State: Abstract, Reason: "a " + strings.ToLower(w.Abstraction) +
+			", covered by covering the weaknesses beneath it rather than directly"}
 	case !w.StaticDetectable:
-		return Claim{Undecidable, "the catalog records no static-analysis detection method for it", nil}
+		return Claim{State: Undecidable,
+			Reason: "the catalog records no static-analysis detection method for it"}
 	case !w.LanguageAgnostic && !ours(w.Languages):
-		return Claim{OutOfScope, "specific to a language this engine has no frontend for", nil}
+		return Claim{State: OutOfScope,
+			Reason: "specific to a language this engine has no frontend for"}
 	}
-	return Claim{NotBuilt, "no rule has been written for it", nil}
+	if parent, ok := subsumingAncestor(w); ok {
+		return Claim{
+			State: Subsumed,
+			Reason: "a more specific form of " + parent.ID + " (" + parent.Name +
+				"), which is asserted, and the detail that distinguishes it is one the " +
+				"analysis never looks at",
+			By: claims[parent.ID].By,
+		}
+	}
+	return Claim{State: NotBuilt, Reason: "no rule has been written for it"}
+}
+
+// subsumingAncestor walks up the catalog's own ChildOf relationships for a claim that
+// says it covers everything beneath it.
+//
+// Transitive because the catalog nests: `Path Traversal: '../filedir'` is a child of
+// `Relative Path Traversal`, which is a child of `Path Traversal`, and only the last of
+// those three has a rule. Depth is bounded and cycles are guarded because a published
+// taxonomy is not something this engine gets to assume is acyclic.
+func subsumingAncestor(w Weakness) (Weakness, bool) {
+	seen := map[string]bool{w.ID: true}
+	queue := append([]string(nil), w.ChildOf...)
+	for len(queue) > 0 {
+		id := queue[0]
+		queue = queue[1:]
+		if seen[id] {
+			continue
+		}
+		seen[id] = true
+		parent, ok := byID(id)
+		if !ok {
+			continue
+		}
+		if c, ok := claims[id]; ok && c.Subsumes {
+			return parent, true
+		}
+		queue = append(queue, parent.ChildOf...)
+	}
+	return Weakness{}, false
 }
 
 func ours(langs []string) bool {
