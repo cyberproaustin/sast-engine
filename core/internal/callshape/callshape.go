@@ -173,6 +173,11 @@ func match(c *ir.Call, shape model.CallShape) (string, bool) {
 func matchAbsent(c *ir.Call, shape model.CallShape) (string, bool) {
 	knowable := c.OptionsEnumerated(shape.OptionsArg)
 	if shape.OptionsArg >= 0 && !c.HasArg(shape.OptionsArg) {
+		// A rule that needs the options written down says nothing about a call that has
+		// none: the setting may live somewhere else in that call entirely.
+		if shape.OptionsMustBeWritten {
+			return "", false
+		}
 		knowable = true
 	}
 	if !knowable {
@@ -185,7 +190,7 @@ func matchAbsent(c *ir.Call, shape model.CallShape) (string, bool) {
 			continue
 		}
 		key, _, ok := strings.Cut(lit, "=")
-		if ok && strings.ToLower(key) == want {
+		if ok && keyIs(key, want) {
 			return "", false
 		}
 	}

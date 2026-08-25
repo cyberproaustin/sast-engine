@@ -293,7 +293,7 @@ var claims = map[string]Claim{
 	"CWE-1389": {State: Partial, Reason: "a number parsed with the base left to the text. Radix zero means infer, so `010` is eight and `0x10` is sixteen and the caller decides which. Only the explicit zero: an OMITTED radix is base ten in every runtime since ES5 and reporting it would report most of the JavaScript ever written",
 		By: []string{"inferred-radix"}},
 	"CWE-613": {State: Partial, Reason: "a credential cookie whose lifetime is written into the call and is longer than a month. Only cookies whose NAME says they carry a credential are asked about, because a year-long theme preference is a feature. Thresholds are per-rule rather than per-keyword, because express counts milliseconds and Flask counts seconds under names that look the same. A lifetime computed at runtime, and a server-side session store expiry, are not decidable here",
-		By: []string{"long-lived-session"}},
+		By: []string{"long-lived-session", "unexpiring-token"}},
 	"CWE-1022": {State: Partial, Reason: "a window opened onto a named target with no third argument, which is where noopener would be -- the opened page keeps a live reference back through window.opener and can navigate the page behind it. Only the scripted form: markup written as a template string is text to this engine and its attributes are not read",
 		By: []string{"opener-reachable"}},
 	"CWE-1021": {State: Partial, Reason: "framing protection switched off by name in the call. Only an explicit disable: an application that never sets the header at all is not reported, because absence would have to be judged program-wide and the engine cannot see middleware it has no model for",
@@ -368,6 +368,99 @@ var claims = map[string]Claim{
 	// Real, and about something no analysis of source can see.
 	"CWE-285":  {State: Undecidable, Reason: "the intended entitlements are not in the code; a declared policy is what supplies them (ADR-011)"},
 	"CWE-1104": {State: Undecidable, Reason: "whether a dependency is maintained is a fact about the world, not about this source"},
+}
+
+// Grouped reasons.
+//
+// A hundred and twenty entries once said "no rule has been written for it", which is true
+// of all of them and useful about none: a reader deciding what to build next learns
+// nothing from a sentence that does not distinguish a weakness this engine could catch
+// tomorrow from one no analysis of source will ever decide.
+//
+// These are grouped rather than repeated, because the reason really is shared -- what
+// makes a data race undecidable here is the same fact about both runtimes for every data
+// race -- and writing it once means it can be corrected once.
+func init() {
+	for _, g := range groupedReasons {
+		for _, id := range g.ids {
+			if _, taken := claims[id]; taken {
+				continue
+			}
+			claims[id] = Claim{State: NotBuilt, Reason: g.reason}
+		}
+	}
+}
+
+var groupedReasons = []struct {
+	reason string
+	ids    []string
+}{
+	{
+		reason: "a concurrency defect. Both runtimes this engine reads make the shape it would look for meaningless: JavaScript runs one event loop per process and Python holds a global lock, so two statements in one source file do not interleave the way this weakness assumes. The races these applications really have are between PROCESSES -- two workers reading the same row, two containers claiming the same job -- and nothing in one source tree shows a second process",
+		ids: []string{"CWE-363", "CWE-366", "CWE-368", "CWE-413", "CWE-414", "CWE-543",
+			"CWE-567", "CWE-609", "CWE-663", "CWE-764", "CWE-765", "CWE-821", "CWE-828",
+			"CWE-832", "CWE-833", "CWE-1341"},
+	},
+	{
+		reason: "a resource-lifetime defect. Both runtimes collect memory automatically, so the memory half of this cannot happen; the handle half can, and the shape that would find it -- a file opened outside a context manager, a connection never closed -- is how a great deal of correct code is written, because the handle is closed by the object going out of scope. What distinguishes a leak from that is how long the object lives, which is a runtime fact",
+		ids: []string{"CWE-401", "CWE-403", "CWE-459", "CWE-771", "CWE-772", "CWE-773",
+			"CWE-774", "CWE-775", "CWE-826", "CWE-908", "CWE-910"},
+	},
+	{
+		reason: "a numeric-representation defect. JavaScript has one number type and Python has arbitrary-precision integers, so wraparound does not occur in either. What IS real -- JavaScript losing precision above 2^53, a float compared for equality -- turns on the MAGNITUDE of values the source does not contain",
+		ids: []string{"CWE-190", "CWE-191", "CWE-192", "CWE-193", "CWE-197", "CWE-369",
+			"CWE-681", "CWE-1024", "CWE-1077", "CWE-1335", "CWE-1339"},
+	},
+	{
+		reason: "a maintainability property rather than a weakness. This engine reports defects an attacker can reach, and a long file, a complex function, a redundant branch or a dead assignment is none of those. A linter measures these well and this is not one",
+		ids: []string{"CWE-474", "CWE-475", "CWE-478", "CWE-480", "CWE-484", "CWE-561",
+			"CWE-563", "CWE-570", "CWE-571", "CWE-584", "CWE-589", "CWE-595", "CWE-617",
+			"CWE-687", "CWE-768", "CWE-783", "CWE-835", "CWE-1025", "CWE-1041", "CWE-1055",
+			"CWE-1056", "CWE-1064", "CWE-1071", "CWE-1075", "CWE-1079", "CWE-1080",
+			"CWE-1085", "CWE-1099", "CWE-1105", "CWE-1106", "CWE-1108", "CWE-1121",
+			"CWE-1126", "CWE-1235"},
+	},
+	{
+		reason: "specific to a platform this engine has no frontend for -- an Android application, a browser control, or silicon. The catalog does not mark these as language-specific because the weakness is about the platform rather than the language, so they are not filtered out automatically; they are still unreachable from a JavaScript or Python source tree",
+		ids: []string{"CWE-618", "CWE-695", "CWE-925", "CWE-926", "CWE-927", "CWE-939",
+			"CWE-1316", "CWE-1318", "CWE-1332", "CWE-1420", "CWE-1422", "CWE-1429", "CWE-1431"},
+	},
+	{
+		reason: "a fact about the running system rather than about the source. What privileges a process actually holds, what a deployment sets, which port is already bound, what a file's permissions are on the machine -- none of it is written in the code, and a rule reading the code would be guessing at it",
+		ids: []string{"CWE-226", "CWE-272", "CWE-273", "CWE-274", "CWE-279", "CWE-280",
+			"CWE-403", "CWE-453", "CWE-456", "CWE-457", "CWE-510", "CWE-511", "CWE-605",
+			"CWE-1188"},
+	},
+	{
+		reason: "a protocol or format the engine models no vocabulary for. Each would need the shape of a correct exchange written down -- which steps an authentication has, what a schema validates, what a nonce may not be reused across -- and this project builds a rule only where the source itself carries the answer",
+		ids: []string{"CWE-91", "CWE-112", "CWE-130", "CWE-150", "CWE-155", "CWE-182",
+			"CWE-183", "CWE-233", "CWE-289", "CWE-304", "CWE-322", "CWE-323", "CWE-325",
+			"CWE-335", "CWE-394", "CWE-397", "CWE-474", "CWE-549", "CWE-1173"},
+	},
+	{
+		reason: "a path-interpretation defect: two spellings of one location, or a link that points somewhere else. This engine reports the caller CONTROLLING a path (CWE-22 and CWE-73) and never inspects the path's CONTENTS, which is what would distinguish these -- and the answer depends on the filesystem the code is running on rather than on the code",
+		ids:    []string{"CWE-41", "CWE-59", "CWE-66"},
+	},
+	{
+		reason: "a bound the caller chose, used as an index, a length or a limit. Structurally out of reach rather than merely unbuilt: a request value has to become a NUMBER before it can be one of those, and the numeric conversions are one-way transforms that end the classification -- correctly, since a number cannot carry syntax. What remains is a question about magnitude, which this engine does not model. The allocation form is claimed under CWE-789",
+		ids:    []string{"CWE-129", "CWE-1284", "CWE-1285"},
+	},
+	{
+		reason: "an unchecked or misread return value. Both runtimes signal failure by raising rather than by returning a code, so the shape this weakness describes -- a status nobody looked at -- is not how errors travel here. A discarded promise is the real local form of it and is a correctness question rather than a security one",
+		ids:    []string{"CWE-252", "CWE-253"},
+	},
+	{
+		reason: "process-wide state written from a request handler, which the next request reads back. Real, buildable, and not built: the IR records a write into a property or a subscript but not an assignment to a name bound in an enclosing scope, so the plainest form of it -- `currentUser = req.body.email` -- is invisible. The frontends now resolve module-level names for READS, which is the half of the work this needs",
+		ids:    []string{"CWE-454", "CWE-488"},
+	},
+	{
+		reason: "a secret or a security-relevant constant living somewhere this engine does not read. Configuration files, environment templates and deployment manifests are not source and are not lowered; what IS in the source is claimed under CWE-798 and CWE-321",
+		ids:    []string{"CWE-260", "CWE-547"},
+	},
+	{
+		reason: "information written somewhere it can be reached from outside. The engine reports what it can watch data REACH -- a log, a response, a cache, a third party -- and this asks instead whether the destination is externally reachable, which is a deployment fact: whether that directory is served, whether that bucket is public, whether that path is behind the proxy",
+		ids:    []string{"CWE-538", "CWE-779"},
+	},
 }
 
 // claimFor returns what the engine says about a weakness, defaulting from the catalog.

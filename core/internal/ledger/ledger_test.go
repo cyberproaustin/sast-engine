@@ -163,3 +163,19 @@ func TestClaimsAndRulesNameEachOther(t *testing.T) {
 		}
 	}
 }
+
+// TestEveryEntryGivesAReason holds the line that a coverage map is only worth reading if
+// every line on it says something. The bare default is still there as a backstop, and a
+// weakness that reaches it is one nobody has thought about yet -- which is exactly what
+// this test is for.
+func TestEveryEntryGivesAReason(t *testing.T) {
+	for _, e := range ledger.InScope() {
+		if e.Claim.Reason == "no rule has been written for it" {
+			t.Errorf("%s (%s) carries the bare default reason; say what would be needed, or why nothing will be",
+				e.Weakness.ID, e.Weakness.Name)
+		}
+		if e.Claim.State != ledger.Asserted && e.Claim.State != ledger.Partial && e.Claim.Reason == "" {
+			t.Errorf("%s has no reason at all", e.Weakness.ID)
+		}
+	}
+}
