@@ -272,6 +272,9 @@ var claims = map[string]Claim{
 	"CWE-789": {State: Partial, Reason: "a caller choosing how many bytes to reserve, which is a caller choosing when the process runs out of memory. Nothing is interpreted and nothing leaks -- the request simply asks for more than there is. A bounds check the application performs first is not modelled, so a guarded allocation reports too",
 		By: []string{"untrusted-allocation-size"}},
 
+	"CWE-250": {State: Partial, Reason: "a process asking for the superuser by calling setuid or seteuid with 0. A process running as root does everything as root, so any defect anywhere in it has the whole machine behind it. Zero occurrences across thirty-five repositories, so this is fixture-validated only -- which is stated rather than left for a reader to discover",
+		By: []string{"unnecessary-privilege"}},
+
 	// Cookie attributes. Two of the three are claimed for an explicit downgrade AND for
 	// an omission; Secure is claimed only for the downgrade, because the correct idiom
 	// makes it conditional on the environment and a rule demanding a literal would report

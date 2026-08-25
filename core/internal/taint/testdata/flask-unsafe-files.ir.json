@@ -350,71 +350,251 @@
       ]
     },
     {
-      "id": "app.py#report_safe:24",
-      "name": "report_safe",
+      "id": "app.py#become_root:23",
+      "name": "become_root",
       "module": "app.py",
       "loc": {
         "file": "app.py",
-        "line": 24,
+        "line": 23,
         "column": 1
       },
       "params": [],
       "values": [
         {
-          "id": "app.py#report_safe:24$v0",
+          "id": "app.py#become_root:23$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 15
+          }
+        },
+        {
+          "id": "app.py#become_root:23$v1",
           "kind": "global",
           "loc": {
             "file": "app.py",
-            "line": 27,
-            "column": 16
-          },
-          "name": "tempfile"
-        },
-        {
-          "id": "app.py#report_safe:24$v1",
-          "kind": "call-result",
-          "loc": {
-            "file": "app.py",
-            "line": 27,
-            "column": 16
-          },
-          "name": "tempfile.mkstemp"
-        },
-        {
-          "id": "app.py#report_safe:24$v2",
-          "kind": "global",
-          "loc": {
-            "file": "app.py",
-            "line": 28,
+            "line": 26,
             "column": 5
           },
           "name": "os"
         },
         {
-          "id": "app.py#report_safe:24$v3",
+          "id": "app.py#become_root:23$v2",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
-            "line": 28,
+            "line": 26,
+            "column": 5
+          },
+          "name": "os.setuid"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "app.py#become_root:23$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "os.setuid",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#become_root:23$v0"
+            }
+          ],
+          "resultValueId": "app.py#become_root:23$v2",
+          "block": "app.py#become_root:23$b0",
+          "method": "setuid",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "0"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#become_root:23$v1"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#become_root:23$b0",
+      "blocks": [
+        {
+          "id": "app.py#become_root:23$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#drop_privileges:29",
+      "name": "drop_privileges",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 29,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#drop_privileges:29$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 15
+          }
+        },
+        {
+          "id": "app.py#drop_privileges:29$v1",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 5
+          },
+          "name": "os"
+        },
+        {
+          "id": "app.py#drop_privileges:29$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 5
+          },
+          "name": "os.setuid"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "app.py#drop_privileges:29$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "os.setuid",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#drop_privileges:29$v0"
+            }
+          ],
+          "resultValueId": "app.py#drop_privileges:29$v2",
+          "block": "app.py#drop_privileges:29$b0",
+          "method": "setuid",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "1000"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#drop_privileges:29$v1"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#drop_privileges:29$b0",
+      "blocks": [
+        {
+          "id": "app.py#drop_privileges:29$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#report_safe:35",
+      "name": "report_safe",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 35,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#report_safe:35$v0",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 38,
+            "column": 16
+          },
+          "name": "tempfile"
+        },
+        {
+          "id": "app.py#report_safe:35$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 38,
+            "column": 16
+          },
+          "name": "tempfile.mkstemp"
+        },
+        {
+          "id": "app.py#report_safe:35$v2",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 39,
+            "column": 5
+          },
+          "name": "os"
+        },
+        {
+          "id": "app.py#report_safe:35$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 39,
             "column": 5
           },
           "name": "os.close"
         },
         {
-          "id": "app.py#report_safe:24$v4",
+          "id": "app.py#report_safe:35$v4",
           "kind": "literal",
           "loc": {
             "file": "app.py",
-            "line": 29,
+            "line": 40,
             "column": 20
           }
         },
         {
-          "id": "app.py#report_safe:24$v5",
+          "id": "app.py#report_safe:35$v5",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
-            "line": 29,
+            "line": 40,
             "column": 5
           },
           "name": "os.chmod"
@@ -423,10 +603,10 @@
       "flows": [],
       "calls": [
         {
-          "id": "app.py#report_safe:24$c0",
+          "id": "app.py#report_safe:35$c0",
           "loc": {
             "file": "app.py",
-            "line": 27,
+            "line": 38,
             "column": 16
           },
           "callee": {
@@ -435,19 +615,19 @@
             "resolution": "resolved"
           },
           "args": [],
-          "resultValueId": "app.py#report_safe:24$v1",
-          "block": "app.py#report_safe:24$b0",
+          "resultValueId": "app.py#report_safe:35$v1",
+          "block": "app.py#report_safe:35$b0",
           "method": "mkstemp",
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#report_safe:24$v0"
+          "receiverValueId": "app.py#report_safe:35$v0"
         },
         {
-          "id": "app.py#report_safe:24$c1",
+          "id": "app.py#report_safe:35$c1",
           "loc": {
             "file": "app.py",
-            "line": 28,
+            "line": 39,
             "column": 5
           },
           "callee": {
@@ -456,20 +636,20 @@
             "resolution": "resolved"
           },
           "args": [],
-          "resultValueId": "app.py#report_safe:24$v3",
-          "block": "app.py#report_safe:24$b0",
+          "resultValueId": "app.py#report_safe:35$v3",
+          "block": "app.py#report_safe:35$b0",
           "method": "close",
           "argCount": 1,
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#report_safe:24$v2"
+          "receiverValueId": "app.py#report_safe:35$v2"
         },
         {
-          "id": "app.py#report_safe:24$c2",
+          "id": "app.py#report_safe:35$c2",
           "loc": {
             "file": "app.py",
-            "line": 29,
+            "line": 40,
             "column": 5
           },
           "callee": {
@@ -480,11 +660,11 @@
           "args": [
             {
               "index": 1,
-              "valueId": "app.py#report_safe:24$v4"
+              "valueId": "app.py#report_safe:35$v4"
             }
           ],
-          "resultValueId": "app.py#report_safe:24$v5",
-          "block": "app.py#report_safe:24$b0",
+          "resultValueId": "app.py#report_safe:35$v5",
+          "block": "app.py#report_safe:35$b0",
           "method": "chmod",
           "argCount": 2,
           "argLiterals": {
@@ -493,102 +673,102 @@
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#report_safe:24$v2"
+          "receiverValueId": "app.py#report_safe:35$v2"
         }
       ],
       "returns": [],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#report_safe:24$b0",
+      "entryBlock": "app.py#report_safe:35$b0",
       "blocks": [
         {
-          "id": "app.py#report_safe:24$b0",
+          "id": "app.py#report_safe:35$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
-            "line": 24,
+            "line": 35,
             "column": 1
           },
           "terminator": "return"
         },
         {
-          "id": "app.py#report_safe:24$b1",
+          "id": "app.py#report_safe:35$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
-            "line": 30,
+            "line": 41,
             "column": 5
           }
         }
       ]
     },
     {
-      "id": "app.py#greet:34",
+      "id": "app.py#greet:45",
       "name": "greet",
       "module": "app.py",
       "loc": {
         "file": "app.py",
-        "line": 34,
+        "line": 45,
         "column": 1
       },
       "params": [],
       "values": [
         {
-          "id": "app.py#greet:34$v0",
+          "id": "app.py#greet:45$v0",
           "kind": "literal",
           "loc": {
             "file": "app.py",
-            "line": 36,
+            "line": 47,
             "column": 45
           }
         },
         {
-          "id": "app.py#greet:34$v1",
+          "id": "app.py#greet:45$v1",
           "kind": "literal",
           "loc": {
             "file": "app.py",
-            "line": 36,
+            "line": 47,
             "column": 53
           }
         },
         {
-          "id": "app.py#greet:34$v2",
+          "id": "app.py#greet:45$v2",
           "kind": "global",
           "loc": {
             "file": "app.py",
-            "line": 36,
+            "line": 47,
             "column": 28
           },
           "name": "flask.request"
         },
         {
-          "id": "app.py#greet:34$v3",
+          "id": "app.py#greet:45$v3",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 36,
+            "line": 47,
             "column": 28
           },
-          "base": "app.py#greet:34$v2",
+          "base": "app.py#greet:45$v2",
           "path": "args",
           "name": "args"
         },
         {
-          "id": "app.py#greet:34$v4",
+          "id": "app.py#greet:45$v4",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
-            "line": 36,
+            "line": 47,
             "column": 28
           },
           "name": "flask.request.args.get"
         },
         {
-          "id": "app.py#greet:34$v5",
+          "id": "app.py#greet:45$v5",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
-            "line": 36,
+            "line": 47,
             "column": 12
           },
           "name": "GREETING.format"
@@ -596,22 +776,22 @@
       ],
       "flows": [
         {
-          "from": "app.py#greet:34$v2",
-          "to": "app.py#greet:34$v3",
+          "from": "app.py#greet:45$v2",
+          "to": "app.py#greet:45$v3",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 36,
+            "line": 47,
             "column": 28
           }
         }
       ],
       "calls": [
         {
-          "id": "app.py#greet:34$c0",
+          "id": "app.py#greet:45$c0",
           "loc": {
             "file": "app.py",
-            "line": 36,
+            "line": 47,
             "column": 28
           },
           "callee": {
@@ -622,15 +802,15 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#greet:34$v0"
+              "valueId": "app.py#greet:45$v0"
             },
             {
               "index": 1,
-              "valueId": "app.py#greet:34$v1"
+              "valueId": "app.py#greet:45$v1"
             }
           ],
-          "resultValueId": "app.py#greet:34$v4",
-          "block": "app.py#greet:34$b0",
+          "resultValueId": "app.py#greet:45$v4",
+          "block": "app.py#greet:45$b0",
           "method": "get",
           "argCount": 2,
           "argLiterals": {
@@ -640,13 +820,13 @@
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#greet:34$v3"
+          "receiverValueId": "app.py#greet:45$v3"
         },
         {
-          "id": "app.py#greet:34$c1",
+          "id": "app.py#greet:45$c1",
           "loc": {
             "file": "app.py",
-            "line": 36,
+            "line": 47,
             "column": 12
           },
           "callee": {
@@ -657,11 +837,11 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#greet:34$v4"
+              "valueId": "app.py#greet:45$v4"
             }
           ],
-          "resultValueId": "app.py#greet:34$v5",
-          "block": "app.py#greet:34$b0",
+          "resultValueId": "app.py#greet:45$v5",
+          "block": "app.py#greet:45$b0",
           "method": "format",
           "argCount": 1,
           "enumeratedOptions": [
@@ -670,93 +850,93 @@
         }
       ],
       "returns": [
-        "app.py#greet:34$v5"
+        "app.py#greet:45$v5"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#greet:34$b0",
+      "entryBlock": "app.py#greet:45$b0",
       "blocks": [
         {
-          "id": "app.py#greet:34$b0",
+          "id": "app.py#greet:45$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
-            "line": 34,
+            "line": 45,
             "column": 1
           },
           "terminator": "return"
         },
         {
-          "id": "app.py#greet:34$b1",
+          "id": "app.py#greet:45$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
-            "line": 36,
+            "line": 47,
             "column": 5
           }
         }
       ]
     },
     {
-      "id": "app.py#greet_caller:40",
+      "id": "app.py#greet_caller:51",
       "name": "greet_caller",
       "module": "app.py",
       "loc": {
         "file": "app.py",
-        "line": 40,
+        "line": 51,
         "column": 1
       },
       "params": [],
       "values": [
         {
-          "id": "app.py#greet_caller:40$v0",
+          "id": "app.py#greet_caller:51$v0",
           "kind": "global",
           "loc": {
             "file": "app.py",
-            "line": 43,
+            "line": 54,
             "column": 16
           },
           "name": "flask.request"
         },
         {
-          "id": "app.py#greet_caller:40$v1",
+          "id": "app.py#greet_caller:51$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 43,
+            "line": 54,
             "column": 16
           },
-          "base": "app.py#greet_caller:40$v0",
+          "base": "app.py#greet_caller:51$v0",
           "path": "args",
           "name": "args"
         },
         {
-          "id": "app.py#greet_caller:40$v2",
+          "id": "app.py#greet_caller:51$v2",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 43,
+            "line": 54,
             "column": 16
           },
           "name": "[index]",
-          "base": "app.py#greet_caller:40$v1"
+          "base": "app.py#greet_caller:51$v1"
         },
         {
-          "id": "app.py#greet_caller:40$v3",
+          "id": "app.py#greet_caller:51$v3",
           "kind": "local",
           "loc": {
             "file": "app.py",
-            "line": 43,
+            "line": 54,
             "column": 5
           },
           "name": "template"
         },
         {
-          "id": "app.py#greet_caller:40$v4",
+          "id": "app.py#greet_caller:51$v4",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
-            "line": 44,
+            "line": 55,
             "column": 12
           },
           "name": "template.format"
@@ -764,42 +944,42 @@
       ],
       "flows": [
         {
-          "from": "app.py#greet_caller:40$v0",
-          "to": "app.py#greet_caller:40$v1",
+          "from": "app.py#greet_caller:51$v0",
+          "to": "app.py#greet_caller:51$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 43,
+            "line": 54,
             "column": 16
           }
         },
         {
-          "from": "app.py#greet_caller:40$v1",
-          "to": "app.py#greet_caller:40$v2",
+          "from": "app.py#greet_caller:51$v1",
+          "to": "app.py#greet_caller:51$v2",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 43,
+            "line": 54,
             "column": 16
           }
         },
         {
-          "from": "app.py#greet_caller:40$v2",
-          "to": "app.py#greet_caller:40$v3",
+          "from": "app.py#greet_caller:51$v2",
+          "to": "app.py#greet_caller:51$v3",
           "kind": "assign",
           "loc": {
             "file": "app.py",
-            "line": 43,
+            "line": 54,
             "column": 5
           }
         }
       ],
       "calls": [
         {
-          "id": "app.py#greet_caller:40$c0",
+          "id": "app.py#greet_caller:51$c0",
           "loc": {
             "file": "app.py",
-            "line": 44,
+            "line": 55,
             "column": 12
           },
           "callee": {
@@ -808,39 +988,39 @@
             "resolution": "probable"
           },
           "args": [],
-          "resultValueId": "app.py#greet_caller:40$v4",
-          "block": "app.py#greet_caller:40$b0",
+          "resultValueId": "app.py#greet_caller:51$v4",
+          "block": "app.py#greet_caller:51$b0",
           "method": "format",
           "argCount": 1,
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#greet_caller:40$v3"
+          "receiverValueId": "app.py#greet_caller:51$v3"
         }
       ],
       "returns": [
-        "app.py#greet_caller:40$v4"
+        "app.py#greet_caller:51$v4"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#greet_caller:40$b0",
+      "entryBlock": "app.py#greet_caller:51$b0",
       "blocks": [
         {
-          "id": "app.py#greet_caller:40$b0",
+          "id": "app.py#greet_caller:51$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
-            "line": 40,
+            "line": 51,
             "column": 1
           },
           "terminator": "return"
         },
         {
-          "id": "app.py#greet_caller:40$b1",
+          "id": "app.py#greet_caller:51$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
-            "line": 44,
+            "line": 55,
             "column": 5
           }
         }
@@ -858,7 +1038,7 @@
       }
     },
     {
-      "functionId": "app.py#report_safe:24",
+      "functionId": "app.py#report_safe:35",
       "kind": "http-route",
       "framework": "flask",
       "detail": {
@@ -867,7 +1047,7 @@
       }
     },
     {
-      "functionId": "app.py#greet:34",
+      "functionId": "app.py#greet:45",
       "kind": "http-route",
       "framework": "flask",
       "detail": {
@@ -876,7 +1056,7 @@
       }
     },
     {
-      "functionId": "app.py#greet_caller:40",
+      "functionId": "app.py#greet_caller:51",
       "kind": "http-route",
       "framework": "flask",
       "detail": {

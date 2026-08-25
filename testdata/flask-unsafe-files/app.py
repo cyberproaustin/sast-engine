@@ -20,6 +20,17 @@ def report():
     return path
 
 
+def become_root():
+    # POSITIVE. A process running as root does everything as root, so any defect anywhere
+    # in it is a defect with the whole machine behind it.
+    os.setuid(0)
+
+
+def drop_privileges():
+    # NEGATIVE. Dropping TO an unprivileged account is the point of the call.
+    os.setuid(1000)
+
+
 @app.route("/report-safe")
 def report_safe():
     # NEGATIVE. mkstemp creates the file and returns a handle to it, and the mode grants
