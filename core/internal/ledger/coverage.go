@@ -265,6 +265,13 @@ var claims = map[string]Claim{
 	"CWE-256": {State: NotBuilt, Reason: "a password stored in plaintext. The credential-to-file rule finds exactly this and reports it as CWE-312, which is the broader identity for the same line; a separate password-only classification would report it twice"},
 	"CWE-523": {State: NotBuilt, Reason: "credentials sent without transport protection. The cleartext-transmission rule finds exactly this and reports it as CWE-319, which is the same line under the identity that names the scheme rather than the payload"},
 
+	"CWE-427": {State: Partial, Reason: "the caller's data written into an executable search path -- PATH, NODE_PATH, PYTHONPATH, LD_PRELOAD -- which decides which binary the next exec actually runs. Nothing about that exec looks wrong afterwards, which is the point. Only a write to one of those names is matched",
+		By: []string{"untrusted-into-search-path"}},
+	"CWE-444": {State: Partial, Reason: "a server configured to accept malformed requests, which is what lets it disagree with the proxy in front of it about where one request ends and the next begins. Only the explicit option; nothing is claimed about the proxy or about parser versions",
+		By: []string{"lenient-http-parser"}},
+	"CWE-789": {State: Partial, Reason: "a caller choosing how many bytes to reserve, which is a caller choosing when the process runs out of memory. Nothing is interpreted and nothing leaks -- the request simply asks for more than there is. A bounds check the application performs first is not modelled, so a guarded allocation reports too",
+		By: []string{"untrusted-allocation-size"}},
+
 	// Cookie attributes. Two of the three are claimed for an explicit downgrade AND for
 	// an omission; Secure is claimed only for the downgrade, because the correct idiom
 	// makes it conditional on the environment and a rule demanding a literal would report
