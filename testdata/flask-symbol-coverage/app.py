@@ -12,6 +12,7 @@ the description and the frontend agree.
 """
 import hashlib
 import pickle
+import re
 import subprocess
 import urllib.request
 
@@ -20,6 +21,9 @@ import yaml
 from flask import Flask, request, send_file
 
 app = Flask(__name__)
+
+EMAIL_RE = re.compile(r"^([a-zA-Z0-9])(([\-.]|[_]+)?([a-zA-Z0-9]+))*(@){1}[a-z0-9]+$")
+SLUG_RE = re.compile(r"^[a-z0-9-]{1,64}$")
 
 
 @app.route("/ping")
@@ -67,3 +71,23 @@ def digest():
     # reported at all. The algorithm is named just as plainly; it is the function rather
     # than a string.
     return hashlib.sha1(b"fixed").hexdigest()
+
+
+@app.route("/subscribe", methods=["POST"])
+def subscribe():
+    # POSITIVE, and the shape most email patterns on the internet have: a quantified
+    # group whose body is itself quantified, so one input can be split between the inner
+    # and outer repetition exponentially many ways. Compiled at module scope and used in
+    # the handler, which is the normal way to write this and means the rule has to follow
+    # the receiver through the compile step to see the pattern at all.
+    if not EMAIL_RE.match(request.form["mail"]):
+        return "bad", 400
+    return "ok"
+
+
+@app.route("/page/<slug>")
+def page(slug):
+    # NEGATIVE. The same caller-supplied string against a pattern that cannot churn.
+    if not SLUG_RE.match(slug):
+        return "no", 404
+    return "ok"

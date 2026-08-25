@@ -156,6 +156,18 @@ type Channel struct {
 	// answer, and a perfectly ordinary one for an ORM.
 	RequiresExternalReceiver bool
 
+	// PatternArg names where the regular expression this call uses is WRITTEN: -1 for the
+	// receiver, or an argument index. The channel then matches only when that pattern is
+	// one that can be made to backtrack exponentially (see CatastrophicPattern).
+	//
+	// This is the other direction of the regex weakness, and the common one. The engine
+	// already reports a caller who writes the PATTERN, which is rare; a caller who feeds
+	// a bad pattern is how ReDoS actually happens, and `if (!EMAIL.test(req.body.mail))`
+	// is where it lives. Both halves are decidable and neither is decidable alone: a
+	// nested quantifier is only a problem if something long and hostile reaches it, and
+	// an untrusted string is only a problem if the pattern can be made to churn on it.
+	PatternArg *int
+
 	// AllowsComposedPrefix readmits a COMPOSED value when the caller's part comes FIRST.
 	//
 	// RequiresWholeValue exists so that `fetch("https://api.example.com/" + id)` is not
@@ -1158,6 +1170,69 @@ func builtin() Model {
 			// argument 0 is the caller choosing which machine the application talks to
 			// from inside the network. Different arguments, different judgements, one
 			// call.
+			// A caller's string tested against a pattern that can be made to churn. The
+			// pattern is where the call says it is: the receiver for `RE.test(s)`, the
+			// first argument for Python's module-level functions.
+			{
+				ID: "regex-subject", Visibility: "internal", Context: "regex-subject",
+				Method: "test", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				PatternArg: at(-1),
+				CWE:        "CWE-1333",
+				Rationale:  "the pattern this is tested against has a quantified group with a quantifier inside it",
+			},
+			{
+				ID: "regex-subject", Visibility: "internal", Context: "regex-subject",
+				Method: "exec", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				PatternArg: at(-1),
+				CWE:        "CWE-1333",
+				Rationale:  "the pattern this is run against has a quantified group with a quantifier inside it",
+			},
+			// The compiled form, which is how Python is normally written: `PATTERN =
+			// re.compile(...)` at module scope and `PATTERN.match(value)` in the handler.
+			// The pattern is the receiver and it is a call result, so finding it means
+			// following the receiver through the compile step.
+			{
+				ID: "regex-subject", Visibility: "internal", Context: "regex-subject",
+				Method: "match", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				PatternArg: at(-1),
+				CWE:        "CWE-1333",
+				Rationale:  "the compiled pattern this is matched against has a quantified group with a quantifier inside it",
+			},
+			{
+				ID: "regex-subject", Visibility: "internal", Context: "regex-subject",
+				Method: "search", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				PatternArg: at(-1),
+				CWE:        "CWE-1333",
+				Rationale:  "the compiled pattern this is searched with has a quantified group with a quantifier inside it",
+			},
+			{
+				ID: "regex-subject", Visibility: "internal", Context: "regex-subject",
+				Method: "fullmatch", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				PatternArg: at(-1),
+				CWE:        "CWE-1333",
+				Rationale:  "the compiled pattern this is matched against has a quantified group with a quantifier inside it",
+			},
+			{
+				ID: "regex-subject", Visibility: "internal", Context: "regex-subject",
+				Symbol: "re.match", ReceiverIsEntryParam: -1, ArgIndex: []int{1},
+				PatternArg: at(0),
+				CWE:        "CWE-1333",
+				Rationale:  "the pattern this is matched against has a quantified group with a quantifier inside it",
+			},
+			{
+				ID: "regex-subject", Visibility: "internal", Context: "regex-subject",
+				Symbol: "re.search", ReceiverIsEntryParam: -1, ArgIndex: []int{1},
+				PatternArg: at(0),
+				CWE:        "CWE-1333",
+				Rationale:  "the pattern this is searched with has a quantified group with a quantifier inside it",
+			},
+			{
+				ID: "regex-subject", Visibility: "internal", Context: "regex-subject",
+				Symbol: "re.fullmatch", ReceiverIsEntryParam: -1, ArgIndex: []int{1},
+				PatternArg: at(0),
+				CWE:        "CWE-1333",
+				Rationale:  "the pattern this is matched against has a quantified group with a quantifier inside it",
+			},
 			{
 				ID: "outbound-destination", Visibility: "internal", Context: "url",
 				Symbol: "axios.get", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
@@ -3229,6 +3304,17 @@ func builtin() Model {
 				CWE:      "CWE-639",
 			},
 			{
+				// The other direction of the regex weakness, and the common one. A caller
+				// who writes the PATTERN is rare; a caller who feeds a long string to a
+				// pattern that backtracks is how a process actually gets stopped.
+				ID:            "untrusted-to-catastrophic-regex",
+				Class:         "untrusted-input",
+				DeniedContext: []string{"regex-subject"},
+				Reason:        "the pattern can be made to backtrack exponentially, so a long string a caller chooses stops the process without touching it",
+				Finding:       "Untrusted input is matched against a pattern that can be made to churn",
+				CWE:           "CWE-1333",
+			},
+			{
 				ID:            "untrusted-to-regex",
 				Class:         "untrusted-input",
 				DeniedContext: []string{"regex"},
@@ -4575,6 +4661,9 @@ func (c CallShape) Matches(literal string) bool {
 	}
 	return false
 }
+
+// at is a pointer to an int, for the optional index fields.
+func at(i int) *int { return &i }
 
 func builtinCallShapes() []CallShape {
 	weakHash := []string{"md5", "sha1", "md4", "md2", "ripemd", "sha"}

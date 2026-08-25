@@ -694,6 +694,15 @@ class FunctionLowerer:
             return vid
 
         # A relational test is a fact in its own right.
+        # `not x` produces a boolean, so nothing flows out of it -- but its OPERAND still
+        # has to be lowered, because that is where the calls are. `if not PATTERN.match(
+        # value):` is how a great deal of validation is written, and falling through here
+        # meant the call was never in the IR at all: no rule could see an operation the
+        # program plainly performs.
+        if isinstance(node, ast.UnaryOp):
+            self.expr(node.operand)
+            return None
+
         if isinstance(node, ast.Compare):
             left = self.expr(node.left)
             vid = self.new_value("local", node, name="comparison")

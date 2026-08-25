@@ -1,0 +1,14 @@
+{
+  "corpus": "express-redos",
+  "description": "The common direction of the regular-expression weakness: not a caller who writes the pattern, but a caller who feeds a long string to a pattern that backtracks. Two facts are needed at once and neither is a finding alone -- a quantified group with a quantifier inside it, and something a caller chose reaching it. The two negatives are each half: the same untrusted string against a linear pattern, and the dangerous pattern against a string nobody chose.",
+  "expected": [
+    {
+      "cwe": "CWE-1333",
+      "sinkFile": "app.ts",
+      "sinkLine": 24,
+      "sourceLabel": "req.body.mail",
+      "confidence": "high",
+      "note": "and written inside a negated condition, which is where validation lives and which the frontend used to walk straight past"
+    }
+  ]
+}

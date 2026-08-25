@@ -264,7 +264,7 @@ and libraries that register no routes.
 Notably, Python outperformed TypeScript on recognition, which is the opposite of where the
 engineering had gone: one uniform decorator beats a dozen registration idioms.
 
-**Measured, not asserted.** 99 corpora are scored on every test run — vulnerable, safe,
+**Measured, not asserted.** 100 corpora are scored on every test run — vulnerable, safe,
 and shape-regression — and a test fails if one is lowered but not scored. A sample:
 
 | corpus | precision | recall | |
@@ -303,6 +303,14 @@ templates and record, per interpolation, whether the engine escapes it — and t
 lands on the template line rather than on the handler that rendered it. `capabilities:`
 prints `templates=`, because "no findings in the view layer" and "the view layer was not
 opened" are different results.
+
+**A regular expression is judged from both ends.** The engine has always reported a
+caller who writes the *pattern* — rare, and unambiguous. What actually stops a process is
+a caller who feeds a long string to a pattern that backtracks, and that needs two facts at
+once: the pattern has a quantified group with a quantifier inside it, and something a
+caller chose reaches it. Neither is a finding alone. The pattern test is structural and
+narrow on purpose — a repeated body that begins with a separator can only be split one
+way, so `(?:[-_:][a-z]+)*` is silent and `([0-9]+)+` is not.
 
 **Six kinds of judgement, because a weakness is not always a flow.** Taint asks where a
 value came from. Convention asks whether an entry point has what its peers have. A call
@@ -451,7 +459,7 @@ This project is early. The architecture is complete end to end and exercised by 
 policy families across two languages, but it is not a tool that should be relied on in
 place of an established scanner.
 
-What has been measured: 99 corpora in this repository score precision 1.00 and recall
+What has been measured: 100 corpora in this repository score precision 1.00 and recall
 1.00, and a batch run against 28 unmodified open source repositories produced a surface
 for 19 of them — 778 entry points — with every finding triaged by hand. Those runs
 measured *recall and enumeration*: whether the engine sees an application's real attack
