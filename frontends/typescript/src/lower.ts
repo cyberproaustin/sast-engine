@@ -679,12 +679,47 @@ function lowerFunction(
 
       const args: Arg[] = [];
       const argLiterals: Record<number, string> = {};
+      // Keyword slots are numbered from -1 downward, the same encoding the Python
+      // frontend uses for `verify=False`. An options object IS JavaScript's keyword
+      // argument list, and writing it into the same slot means the core needs no new
+      // vocabulary to read one: `{ httpOnly: false }` and `httponly=False` describe the
+      // same decision and now arrive in the same shape (ADR-001).
+      let keyword = 0;
+      const enumeratedOptions: number[] = [];
       expr.arguments.forEach((a, index) => {
         const valueId = lowerExpr(a);
         const fn = resolveFunction(a);
         if (valueId || fn) args.push({ index, valueId, functionId: fn?.id });
         const lit = literalOf(a);
-        if (lit !== undefined) argLiterals[index] = lit;
+        if (lit !== undefined) {
+          argLiterals[index] = lit;
+          return;
+        }
+        if (!ts.isObjectLiteralExpression(a)) return;
+
+        // Whether the KEY SET is fully known is a separate question from whether the
+        // values are. A spread hides keys, so nothing can be concluded from a key not
+        // appearing; a computed value hides only itself, and the key is still known to
+        // be set. Only the first kind makes this object unenumerable.
+        let keysKnown = true;
+        for (const prop of a.properties) {
+          const named =
+            (ts.isPropertyAssignment(prop) || ts.isShorthandPropertyAssignment(prop)) &&
+            prop.name !== undefined &&
+            (ts.isIdentifier(prop.name) || ts.isStringLiteralLike(prop.name));
+          if (!named) {
+            keysKnown = false;
+            continue;
+          }
+          const key = (prop.name as ts.Identifier | ts.StringLiteralLike).text;
+          // Shorthand `{ httpOnly }` sets the key from a variable: the key is known,
+          // the value is not. Recorded as present-with-unknown-value so an absence
+          // rule sees it and a value rule does not match it.
+          const value = ts.isPropertyAssignment(prop) ? literalOf(prop.initializer) : undefined;
+          keyword += 1;
+          argLiterals[-keyword] = `${key}=${value ?? "?"}`;
+        }
+        if (keysKnown) enumeratedOptions.push(index);
       });
 
       // For a method call, record the receiver separately: taint on the object is
@@ -711,6 +746,7 @@ function lowerFunction(
         method,
         receiverValueId,
         argLiterals: Object.keys(argLiterals).length ? argLiterals : undefined,
+        enumeratedOptions: enumeratedOptions.length ? enumeratedOptions : undefined,
         receiverType: receiverType.type,
         receiverTypeOrigin: receiverType.origin,
         resultValueId: resultId,

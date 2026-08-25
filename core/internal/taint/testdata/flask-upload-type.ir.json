@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.8.0",
+  "irVersion": "0.9.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -242,7 +242,10 @@
             }
           ],
           "resultValueId": "app.py#upload:12$v5",
-          "block": "app.py#upload:12$b0"
+          "block": "app.py#upload:12$b0",
+          "enumeratedOptions": [
+            -1
+          ]
         },
         {
           "id": "app.py#upload:12$c1",
@@ -264,6 +267,9 @@
           "resultValueId": "app.py#upload:12$v9",
           "block": "app.py#upload:12$b0",
           "method": "join",
+          "enumeratedOptions": [
+            -1
+          ],
           "receiverValueId": "app.py#upload:12$v8"
         },
         {
@@ -287,6 +293,9 @@
           "resultValueId": "app.py#upload:12$v10",
           "block": "app.py#upload:12$b0",
           "method": "save",
+          "enumeratedOptions": [
+            -1
+          ],
           "receiverValueId": "app.py#upload:12$v3"
         }
       ],
@@ -508,6 +517,9 @@
           "resultValueId": "app.py#upload_raw:22$v7",
           "block": "app.py#upload_raw:22$b0",
           "method": "join",
+          "enumeratedOptions": [
+            -1
+          ],
           "receiverValueId": "app.py#upload_raw:22$v6"
         },
         {
@@ -531,6 +543,9 @@
           "resultValueId": "app.py#upload_raw:22$v8",
           "block": "app.py#upload_raw:22$b0",
           "method": "save",
+          "enumeratedOptions": [
+            -1
+          ],
           "receiverValueId": "app.py#upload_raw:22$v3"
         }
       ],
@@ -815,6 +830,9 @@
           "resultValueId": "app.py#upload_generated:30$v6",
           "block": "app.py#upload_generated:30$b0",
           "method": "uuid4",
+          "enumeratedOptions": [
+            -1
+          ],
           "receiverValueId": "app.py#upload_generated:30$v5"
         },
         {
@@ -836,7 +854,10 @@
             }
           ],
           "resultValueId": "app.py#upload_generated:30$v7",
-          "block": "app.py#upload_generated:30$b0"
+          "block": "app.py#upload_generated:30$b0",
+          "enumeratedOptions": [
+            -1
+          ]
         },
         {
           "id": "app.py#upload_generated:30$c2",
@@ -858,6 +879,9 @@
           "resultValueId": "app.py#upload_generated:30$v11",
           "block": "app.py#upload_generated:30$b0",
           "method": "join",
+          "enumeratedOptions": [
+            -1
+          ],
           "receiverValueId": "app.py#upload_generated:30$v10"
         },
         {
@@ -881,6 +905,9 @@
           "resultValueId": "app.py#upload_generated:30$v13",
           "block": "app.py#upload_generated:30$b0",
           "method": "save",
+          "enumeratedOptions": [
+            -1
+          ],
           "receiverValueId": "app.py#upload_generated:30$v3"
         }
       ],
@@ -1067,7 +1094,10 @@
             }
           ],
           "resultValueId": "app.py#note:40$v4",
-          "block": "app.py#note:40$b0"
+          "block": "app.py#note:40$b0",
+          "enumeratedOptions": [
+            -1
+          ]
         },
         {
           "id": "app.py#note:40$c1",
@@ -1085,6 +1115,9 @@
           "resultValueId": "app.py#note:40$v6",
           "block": "app.py#note:40$b0",
           "method": "save",
+          "enumeratedOptions": [
+            -1
+          ],
           "receiverValueId": "app.py#note:40$v5"
         }
       ],

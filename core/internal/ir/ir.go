@@ -207,6 +207,45 @@ type Call struct {
 	// builtin": an analysis must not become confident because a frontend went quiet.
 	ReceiverType       string `json:"receiverType,omitempty"`
 	ReceiverTypeOrigin string `json:"receiverTypeOrigin,omitempty"`
+
+	// EnumeratedOptions lists the argument positions whose option KEYS this frontend
+	// read in full. -1 stands for the call's keyword arguments taken as a group.
+	//
+	// This exists so the core can tell "this call does not set httpOnly" apart from "I
+	// could not see what this call sets", which look identical in ArgLiterals and are
+	// completely different claims. `res.cookie('jwt', t, getCookieOpts())` passes
+	// options built somewhere else, and a missing-attribute rule that treated that as
+	// absence would report four false positives in one production file -- measured, in
+	// wikijs, before this field existed.
+	//
+	// Absence of an entry is never evidence of anything. A frontend that does not
+	// populate this leaves every absence question unanswerable, which is the correct
+	// answer for a frontend that cannot see (ADR-003).
+	EnumeratedOptions []int `json:"enumeratedOptions,omitempty"`
+}
+
+// OptionsEnumerated reports whether this call's option keys at a position were read in
+// full. Index -1 asks about keyword arguments as a group.
+func (c Call) OptionsEnumerated(index int) bool {
+	for _, i := range c.EnumeratedOptions {
+		if i == index {
+			return true
+		}
+	}
+	return false
+}
+
+// HasArg reports whether an argument was passed at this position at all.
+func (c Call) HasArg(index int) bool {
+	for _, a := range c.Args {
+		if a.Index == index {
+			return true
+		}
+	}
+	if _, ok := c.ArgLiterals[index]; ok {
+		return true
+	}
+	return false
 }
 
 // EntryPoint marks where untrusted input enters. Kind is an OPEN string.

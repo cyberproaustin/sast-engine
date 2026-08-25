@@ -1,7 +1,7 @@
 // Program IR — the wire contract with the core (docs/IR.md, ADR-001).
 // Types only. This file must stay a mirror of the spec, not of the TypeScript AST.
 
-export const IR_VERSION = "0.8.0";
+export const IR_VERSION = "0.9.0";
 
 export interface Loc {
   file: string;
@@ -85,6 +85,7 @@ export interface Call {
   block?: string;
   /** Literal argument values by index, for defects visible in the call itself. */
   argLiterals?: Record<number, string>;
+  enumeratedOptions?: number[];
   /** The receiver's type, for evidence. Absent when the checker cannot say. */
   receiverType?: string;
   /** Where that type is declared. "builtin" = the language's own standard library. */

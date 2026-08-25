@@ -42,6 +42,8 @@ var corpora = []string{
 	"python-tls-verification",
 	"express-upload-type",
 	"flask-upload-type",
+	"express-cookie-attributes",
+	"flask-cookie-attributes",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {

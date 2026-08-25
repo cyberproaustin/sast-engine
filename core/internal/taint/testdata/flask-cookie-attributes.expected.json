@@ -1,0 +1,30 @@
+{
+  "corpus": "flask-cookie-attributes",
+  "description": "The same three weaknesses on the other language, with the same precondition doing the same work: ** hides which keywords a call passes, so the /login-spread route is silent rather than reported. Python spells options as keyword arguments and JavaScript spells them as an object, and both arrive in the core as the same keyword slots -- the seam absorbing a difference that is about language rather than about security.",
+  "expected": [
+    {
+      "cwe": "CWE-1004",
+      "sinkFile": "app.py",
+      "sinkLine": 12,
+      "sourceLabel": "\"no httponly\"",
+      "confidence": "high",
+      "note": "no httponly keyword, and the keyword set is fully enumerated so the absence is real"
+    },
+    {
+      "cwe": "CWE-1004",
+      "sinkFile": "app.py",
+      "sinkLine": 20,
+      "sourceLabel": "\"httponly=false\"",
+      "confidence": "high",
+      "note": "httponly written as False"
+    },
+    {
+      "cwe": "CWE-1275",
+      "sinkFile": "app.py",
+      "sinkLine": 28,
+      "sourceLabel": "\"samesite=None\"",
+      "confidence": "high",
+      "note": "SameSite=None, reported and never gating"
+    }
+  ]
+}

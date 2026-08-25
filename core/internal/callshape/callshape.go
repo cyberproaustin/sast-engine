@@ -16,6 +16,7 @@ import (
 	"fmt"
 	"sort"
 	"strconv"
+	"strings"
 
 	"github.com/cyberproaustin/sast-engine/core/internal/ir"
 	"github.com/cyberproaustin/sast-engine/core/internal/model"
@@ -66,6 +67,15 @@ func targets(shape model.CallShape, c *ir.Call) bool {
 // identical input is worse than one that answers wrongly, because the wrong answer can at
 // least be investigated.
 func match(c *ir.Call, shape model.CallShape) (string, bool) {
+	// A qualified shape says nothing at all unless its qualifier holds. Cookie
+	// attributes are judged against what the cookie carries, and the name in argument
+	// zero is the only evidence of that available at the call.
+	if shape.Qualifier != nil && !shape.Qualifier.Holds(c.ArgLiterals) {
+		return "", false
+	}
+	if shape.RequiredKeyword != "" {
+		return matchAbsent(c, shape)
+	}
 	if shape.ArgIndex >= 0 {
 		lit, ok := c.ArgLiterals[shape.ArgIndex]
 		if ok && shape.Matches(lit) {
@@ -87,6 +97,35 @@ func match(c *ir.Call, shape model.CallShape) (string, bool) {
 		}
 	}
 	return "", false
+}
+
+// matchAbsent reports a required option that this call does not set.
+//
+// The precondition is the whole rule. `res.cookie('jwt', t, getCookieOpts())` sets
+// attributes this frontend cannot see, and treating that as absence produced four false
+// positives in a single production file the first time it was tried. So absence is
+// claimed only where the keys were actually enumerated, or where no options were passed
+// at all -- which is the one case where "it does not set this" is simply true.
+func matchAbsent(c *ir.Call, shape model.CallShape) (string, bool) {
+	knowable := c.OptionsEnumerated(shape.OptionsArg)
+	if shape.OptionsArg >= 0 && !c.HasArg(shape.OptionsArg) {
+		knowable = true
+	}
+	if !knowable {
+		return "", false
+	}
+
+	want := strings.ToLower(shape.RequiredKeyword)
+	for i, lit := range c.ArgLiterals {
+		if i >= 0 {
+			continue
+		}
+		key, _, ok := strings.Cut(lit, "=")
+		if ok && strings.ToLower(key) == want {
+			return "", false
+		}
+	}
+	return "no " + shape.RequiredKeyword, true
 }
 
 func finding(ix *ir.Index, fn *ir.Function, c *ir.Call, shape model.CallShape, lit string) taint.Finding {
