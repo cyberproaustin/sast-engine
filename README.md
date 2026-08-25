@@ -59,7 +59,9 @@ and analyses that assert over it.
 
 ```
 frontends/typescript/   TS/JS via the TypeScript compiler's checker   (Express model)
+                        + its views: EJS, Handlebars, Mustache, Pug, Nunjucks, Swig
 frontends/python/       Python via the stdlib ast module              (Flask model)
+                        + its views: Jinja2
         │
         │  Program IR  (docs/IR.md — the only thing that crosses this boundary)
         ▼
@@ -293,6 +295,14 @@ engine gets wrong, and it is verified by negative control: disabling the `shell-
 sanitizer model makes the engine report one of those routes, which shows the zero is
 earned rather than the result of not analyzing the code. These corpora are small; the
 numbers describe the fixtures and nothing beyond them.
+
+**Views are read too.** A server-rendered application makes every escaping decision in a
+file the language's own compiler has never heard of, so a scanner that reads only the
+handler reads the half where nothing is decided. Both frontends read their ecosystem's
+templates and record, per interpolation, whether the engine escapes it — and the finding
+lands on the template line rather than on the handler that rendered it. `capabilities:`
+prints `templates=`, because "no findings in the view layer" and "the view layer was not
+opened" are different results.
 
 **What it does not do.** A dozen data classes and several dozen channels; two frameworks,
 two languages. The remaining code surface is the set of **matching strategies** — how a value
