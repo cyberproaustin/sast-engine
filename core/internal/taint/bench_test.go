@@ -82,6 +82,7 @@ var corpora = []string{
 	"express-error-in-page",
 	"express-export-table",
 	"express-dev-error-handler",
+	"express-symbol-coverage",
 	"express-session-store",
 	"express-nosql-where",
 	"express-origin-check",
