@@ -36,6 +36,9 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 				if !intoMatches(ix, w, rule) {
 					continue
 				}
+				if len(rule.Path) > 0 && !pathMatches(w.Path, rule.Path) {
+					continue
+				}
 				carrying := byClass[rule.Class]
 				if !carrying.Values[w.From] {
 					continue
@@ -64,6 +67,18 @@ func intoMatches(ix *ir.Index, w ir.Write, rule model.StoreRule) bool {
 	}
 	for _, want := range rule.Into {
 		if name == want {
+			return true
+		}
+	}
+	return false
+}
+
+// pathMatches narrows to particular keys written into a destination. The environment
+// holds a hundred harmless variables and a few that decide where the next program comes
+// from.
+func pathMatches(path string, want []string) bool {
+	for _, w := range want {
+		if path == w {
 			return true
 		}
 	}

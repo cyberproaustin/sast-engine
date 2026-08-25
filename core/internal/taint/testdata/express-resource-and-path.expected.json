@@ -1,0 +1,30 @@
+{
+  "corpus": "express-resource-and-path",
+  "description": "Three weaknesses where nothing is interpreted and nothing leaks. Writing to PATH chooses which binary a later exec runs, and that exec looks entirely normal afterwards, which is the point -- the negative writes an environment variable that decides nothing. Sizing an allocation from a request is choosing when the process runs out of memory. And a lenient HTTP parser is what lets a server disagree with the proxy in front of it about where one request ends.",
+  "expected": [
+    {
+      "cwe": "CWE-427",
+      "sinkFile": "app.js",
+      "sinkLine": 10,
+      "sourceLabel": "req.body.toolDir",
+      "confidence": "high",
+      "note": "the caller prepends a directory to the executable search path"
+    },
+    {
+      "cwe": "CWE-789",
+      "sinkFile": "app.js",
+      "sinkLine": 23,
+      "sourceLabel": "req.body.size",
+      "confidence": "medium",
+      "note": "the caller chooses how many bytes to reserve"
+    },
+    {
+      "cwe": "CWE-444",
+      "sinkFile": "app.js",
+      "sinkLine": 30,
+      "sourceLabel": "\"insecureHTTPParser=true\"",
+      "confidence": "high",
+      "note": "the server accepts malformed requests"
+    }
+  ]
+}

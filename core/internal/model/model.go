@@ -1215,6 +1215,27 @@ func Builtin() Model {
 				Rationale: "the second argument is what gets written to the file",
 			},
 
+			// How much memory to reserve, chosen by the caller. One request asking for a
+			// gigabyte is not a crash the caller had to find; it is one they asked for.
+			{
+				ID: "allocation-size", Visibility: "internal", Context: "allocation",
+				Symbol: "Buffer.alloc", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-789",
+				Rationale: "the first argument is how many bytes to reserve",
+			},
+			{
+				ID: "allocation-size", Visibility: "internal", Context: "allocation",
+				Symbol: "Buffer.allocUnsafe", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-789",
+				Rationale: "the first argument is how many bytes to reserve",
+			},
+			{
+				ID: "allocation-size", Visibility: "internal", Context: "allocation",
+				Symbol: "Buffer.allocUnsafeSlow", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-789",
+				Rationale: "the first argument is how many bytes to reserve",
+			},
+
 			// Where the interpreter loads modules FROM. Putting a caller-controlled
 			// directory at the front of it means the next import takes whatever is in
 			// that directory, under whatever name it expects.
@@ -2154,6 +2175,18 @@ func Builtin() Model {
 				Reason:        "a caller who can put a line break in a header value ends the header and begins one of their own",
 				Finding:       "Untrusted input reaches a response header",
 				CWE:           "CWE-93",
+			},
+			{
+				// A caller choosing how much memory to reserve is a caller choosing when
+				// the process dies. Nothing is interpreted and nothing leaks: the request
+				// simply asks for more than there is.
+				ID:            "untrusted-allocation-size",
+				Class:         "untrusted-input",
+				DeniedContext: []string{"allocation"},
+				Requires:      Requirements{Interprocedural: true},
+				Reason:        "a caller who chooses how much memory to reserve chooses when the process runs out of it",
+				Finding:       "Untrusted input sizes an allocation",
+				CWE:           "CWE-789",
 			},
 			{
 				// Where the interpreter looks for modules is a security decision, and a
@@ -3382,6 +3415,18 @@ func builtinCallShapes() []CallShape {
 			Rationale:    "the fourth argument to pbkdf2_hmac() is the iteration count",
 		},
 		{
+			// The lenient parser exists for peers that send malformed requests, and
+			// leniency is exactly what request smuggling needs: two parsers in a chain
+			// disagreeing about where one request ends and the next begins.
+			ID: "lenient-http-parser", AnyCall: true, Keyword: "insecureHTTPParser",
+			Disallowed: []string{"true"},
+			CWE:        "CWE-444",
+			Finding:    "Lenient HTTP parser enabled",
+			Reason:     "a parser that accepts malformed requests can disagree with the proxy in front of it about where one request ends, which is what lets a caller smuggle a second one",
+			Rationale:  "the server is configured to accept malformed requests",
+		},
+
+		{
 			// A salt written into the source is the same salt for every password in the
 			// database, which is what a salt exists to prevent: one precomputed table
 			// then works against all of them at once.
@@ -3737,6 +3782,10 @@ type StoreRule struct {
 	// Into names the destination, matched against the last segment of the base's access
 	// path: `req.session` and `request.session` are both "session".
 	Into []string
+	// Path narrows further to particular keys written INTO that destination, or empty
+	// for any. The environment holds a hundred harmless variables and one that decides
+	// where the next program comes from.
+	Path []string
 
 	CWE       string
 	Finding   string
@@ -3760,6 +3809,17 @@ func builtinStores() []StoreRule {
 			Finding:   "Caller's data written into the session",
 			Reason:    "a session is read back as state the server established, so putting the caller's own data there launders it across the trust boundary and everything downstream believes it",
 			Rationale: "the value written into the session came from the request",
+		},
+		{
+			// PATH decides where the next program comes from. A caller who can prepend to
+			// it chooses which binary every later exec actually runs, and nothing about
+			// the exec looks wrong.
+			ID: "untrusted-into-search-path", Class: "untrusted-input",
+			Into: []string{"env", "environ"}, Path: []string{"PATH", "NODE_PATH", "PYTHONPATH", "LD_PRELOAD", "LD_LIBRARY_PATH"},
+			CWE:       "CWE-427",
+			Finding:   "Caller's data written into an executable search path",
+			Reason:    "the search path decides which binary the next exec actually runs, so a caller who can write to it chooses the program without touching the call that runs it",
+			Rationale: "the value written into the search path came from the request",
 		},
 	}
 }
