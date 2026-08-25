@@ -804,8 +804,26 @@ func (e *engine) propagate() {
 		}
 
 		if fn := e.ix.OwnerOfValue[id]; fn != nil && contains(e.returns[fn.ID], id) {
+			// A function that returns what it was GIVEN returns it only to the callers
+			// that gave it something.
+			//
+			// Propagating a tainted return to every call site is how a request value ends
+			// up four frames below the handler in a JSON path parser: one route passes a
+			// role into a shared helper, and every other caller of that helper -- and
+			// everything they compute from the answer -- is tainted too. Measured on
+			// directus, that single imprecision produced 118 findings from one route.
+			//
+			// The condition is not context sensitivity, which is a much larger thing. It
+			// is the cheapest half of it: if the taint arrived through a PARAMETER, only
+			// the call sites that passed something tainted receive the answer. Taint that
+			// arose inside the function -- it read a request global, it opened a file --
+			// belongs to every caller, and is untouched.
+			fromParam := e.taintEnteredViaParam(fn, id)
 			for _, site := range e.ix.CallSitesOf[fn.ID] {
 				if site.ResultID == "" {
+					continue
+				}
+				if fromParam && !e.callSitePassesTaint(site) {
 					continue
 				}
 				e.markTainted(site.ResultID, edge{
@@ -818,6 +836,46 @@ func (e *engine) propagate() {
 			}
 		}
 	}
+}
+
+// taintEnteredViaParam reports whether this value's taint came in through one of the
+// function's own parameters, as opposed to arising inside it.
+func (e *engine) taintEnteredViaParam(fn *ir.Function, id string) bool {
+	params := make(map[string]bool, len(fn.Params))
+	for _, p := range fn.Params {
+		params[p.ValueID] = true
+	}
+	if len(params) == 0 {
+		return false
+	}
+	seen := map[string]bool{}
+	cur := id
+	for hops := 0; hops < 64 && cur != "" && !seen[cur]; hops++ {
+		seen[cur] = true
+		if params[cur] {
+			return true
+		}
+		ed, ok := e.pred[cur]
+		if !ok {
+			return false
+		}
+		cur = ed.from
+	}
+	return false
+}
+
+// callSitePassesTaint reports whether this call site handed the callee anything already
+// classified -- an argument, or the object it was called on.
+func (e *engine) callSitePassesTaint(c *ir.Call) bool {
+	if c.ReceiverID != "" && e.tainted[c.ReceiverID] {
+		return true
+	}
+	for _, a := range c.Args {
+		if a.ValueID != "" && e.tainted[a.ValueID] {
+			return true
+		}
+	}
+	return false
 }
 
 // throughCall propagates taint from a tainted argument into a call site: into the
