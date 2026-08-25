@@ -764,6 +764,18 @@ function lowerFunction(
       const base = lowerExpr(expr.expression);
       if (!base) return undefined;
       const loc = locOf(sf, expr);
+      // A LITERAL key is a property name written differently. `body["password"]` and
+      // `body.password` are the same access, and recording the first as an anonymous
+      // index threw away the only part that says what the field IS -- which is what
+      // every rule keyed on a path leaf reads.
+      const key = expr.argumentExpression;
+      if (ts.isStringLiteralLike(key)) {
+        const baseValue = values.find((v) => v.id === base);
+        const path = baseValue?.path ? `${baseValue.path}.${key.text}` : key.text;
+        const id = newValue("property", loc, { base, path, name: key.text });
+        addFlow(base, id, "property", loc);
+        return id;
+      }
       const id = newValue("property", loc, { base, name: "[index]" });
       addFlow(base, id, "property", loc);
       return id;

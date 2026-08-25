@@ -6,7 +6,7 @@
       "cwe": "CWE-1336",
       "sinkFile": "app.py",
       "sinkLine": 12,
-      "sourceLabel": "flask.request.args",
+      "sourceLabel": "flask.request.args.name",
       "confidence": "high",
       "note": "the caller's text becomes part of the template source, and Jinja reaches the object graph from inside a template"
     },

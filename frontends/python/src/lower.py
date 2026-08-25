@@ -506,6 +506,13 @@ class FunctionLowerer:
 
     # --- expressions ------------------------------------------------------
 
+    def path_of(self, vid: str) -> str:
+        """The access path already recorded for a value, or empty."""
+        for v in self.values:
+            if v["id"] == vid:
+                return v.get("path") or ""
+        return ""
+
     def expr(self, node: ast.AST) -> str | None:
         if isinstance(node, ast.Await):
             return self.expr(node.value)
@@ -542,6 +549,18 @@ class FunctionLowerer:
             base = self.expr(node.value)
             if not base:
                 return None
+            # A LITERAL key is a property name written differently. `form["password"]`
+            # and `form.password` are the same access, and recording the first as an
+            # anonymous index threw away the only part that says what the field IS --
+            # which is what every rule keyed on a path leaf reads. Flask exposes the
+            # request as a mapping, so that was every credential rule blind on Flask.
+            key = node.slice
+            if isinstance(key, ast.Constant) and isinstance(key.value, str):
+                base_path = self.path_of(base)
+                path = f"{base_path}.{key.value}" if base_path else key.value
+                vid = self.new_value("property", node, name=key.value, base=base, path=path)
+                self.add_flow(base, vid, "property", node)
+                return vid
             vid = self.new_value("property", node, name="[index]", base=base)
             self.add_flow(base, vid, "property", node)
             return vid

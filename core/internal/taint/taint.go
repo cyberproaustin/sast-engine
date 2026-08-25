@@ -519,6 +519,24 @@ func (e *engine) seedByValueKind(rule model.SourceRule) {
 	}
 }
 
+// rootsAtGlobal reports whether a chain of property reads starts at a named global.
+// Bounded and cycle-guarded, because an IR is data and this walks it.
+func (e *engine) rootsAtGlobal(v *ir.Value, symbol string) bool {
+	seen := map[string]bool{}
+	cur := v
+	for cur != nil && !seen[cur.ID] {
+		seen[cur.ID] = true
+		if cur.Kind == "global" {
+			return cur.Name == symbol
+		}
+		if cur.Base == "" {
+			return false
+		}
+		cur = e.ix.ValueByID[cur.Base]
+	}
+	return false
+}
+
 // seedByCallResult marks what a named call RETURNS.
 //
 // The match kind was declared and never implemented, so a rule using it fell through to
@@ -564,8 +582,12 @@ func (e *engine) seedByGlobalProperty(rule model.SourceRule) {
 			if !leafMatches(v.Path, rule) {
 				continue
 			}
-			base := e.ix.ValueByID[v.Base]
-			if base == nil || base.Kind != "global" || base.Name != rule.Symbol {
+			// The base chain is walked rather than checked one link back.
+			// `request.form` has the global as its base and `request.form["password"]`
+			// has `request.form`, so a one-link check saw the first and never the second
+			// -- which is every leaf-named rule blind on the nested form, and the nested
+			// form is how a request field is actually written.
+			if !e.rootsAtGlobal(v, rule.Symbol) {
 				continue
 			}
 			label := fmt.Sprintf("%s.%s", rule.Symbol, v.Path)

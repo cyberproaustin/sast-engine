@@ -1,0 +1,22 @@
+{
+  "corpus": "flask-password-storage",
+  "description": "Two ways of keeping a password that are not keeping a password safely, and they are different weaknesses with different remedies. Encoding is not hiding: base64 turns straight back into what went in. Encryption is not hashing: it is recoverable by design, which is the entire point of it and exactly what a stored password must never be. The hashed route is the negative, and the hash ends the classification everywhere rather than just here, because a password hash is not a password in any context.",
+  "expected": [
+    {
+      "cwe": "CWE-261",
+      "sinkFile": "app.py",
+      "sinkLine": 14,
+      "sourceLabel": "flask.request.form.password",
+      "confidence": "low",
+      "note": "whoever holds the encoded form holds the password"
+    },
+    {
+      "cwe": "CWE-257",
+      "sinkFile": "app.py",
+      "sinkLine": 22,
+      "sourceLabel": "flask.request.form.password",
+      "confidence": "low",
+      "note": "recoverable by anyone who reaches the key"
+    }
+  ]
+}

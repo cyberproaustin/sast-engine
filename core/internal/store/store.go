@@ -39,6 +39,9 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 				if len(rule.Path) > 0 && !pathMatches(w.Path, rule.Path) {
 					continue
 				}
+				if pathMatches(w.Path, rule.NotPath) {
+					continue
+				}
 				carrying := byClass[rule.Class]
 				if !carrying.Values[w.From] {
 					continue

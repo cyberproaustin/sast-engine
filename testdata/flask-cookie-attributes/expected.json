@@ -5,7 +5,7 @@
     {
       "cwe": "CWE-1004",
       "sinkFile": "app.py",
-      "sinkLine": 12,
+      "sinkLine": 20,
       "sourceLabel": "\"no httponly\"",
       "confidence": "high",
       "note": "no httponly keyword, and the keyword set is fully enumerated so the absence is real"
@@ -13,7 +13,7 @@
     {
       "cwe": "CWE-1004",
       "sinkFile": "app.py",
-      "sinkLine": 20,
+      "sinkLine": 28,
       "sourceLabel": "\"httponly=false\"",
       "confidence": "high",
       "note": "httponly written as False"
@@ -21,7 +21,7 @@
     {
       "cwe": "CWE-1275",
       "sinkFile": "app.py",
-      "sinkLine": 28,
+      "sinkLine": 36,
       "sourceLabel": "\"samesite=None\"",
       "confidence": "high",
       "note": "SameSite=None, reported and never gating"

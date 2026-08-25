@@ -224,8 +224,9 @@
             "line": 15,
             "column": 30
           },
-          "name": "[index]",
-          "base": "app.py#export:10$v9"
+          "name": "name",
+          "base": "app.py#export:10$v9",
+          "path": "args.name"
         },
         {
           "id": "app.py#export:10$v11",

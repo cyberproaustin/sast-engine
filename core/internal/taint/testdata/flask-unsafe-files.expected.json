@@ -22,7 +22,7 @@
       "cwe": "CWE-134",
       "sinkFile": "app.py",
       "sinkLine": 55,
-      "sourceLabel": "flask.request.args",
+      "sourceLabel": "flask.request.args.template",
       "confidence": "medium",
       "note": "the caller supplies the format itself, and a format walks attributes"
     },

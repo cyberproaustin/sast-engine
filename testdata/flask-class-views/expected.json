@@ -6,7 +6,7 @@
       "cwe": "CWE-78",
       "sinkFile": "app.py",
       "sinkLine": 22,
-      "sourceLabel": "flask.request.args",
+      "sourceLabel": "flask.request.args.q",
       "confidence": "high",
       "note": "reached through a MethodView verb method that no decorator registers"
     }
