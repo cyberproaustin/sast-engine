@@ -668,3 +668,49 @@ never in doubt.
 Ask also whether a decline names its number. A decline that says "too noisy" without
 saying how noisy is an opinion, and the next person will have to re-measure it to find
 out whether it is still true.
+
+---
+
+## ADR-016: An analysis kind exists when a weakness cannot be bent into an existing one
+
+**Status:** accepted
+
+**Context.** The engine began with one kind of judgement — a flow from a source to a sink
+— because that is what a taint analyser is. Five more exist now, and each was added for
+the same reason: a real weakness had no flow in it, and expressing it as one would have
+meant inventing a source for a defect that has none.
+
+- **FLOW** — where a value came from. `exec(req.query.host)`.
+- **CONVENTION** — whether an entry point has what its peers have. Nothing is *there* to
+  match; the defect is an absence, and the population is the only evidence.
+- **CALL SHAPE** — what a call was written with. `createHash("md5")` is weak wherever it
+  appears; nothing reaches it and no caller controls anything.
+- **DECISION** — what a comparison settles. `if (token == expected)` in variable time, a
+  password policy of one character, an origin matched with `startsWith`.
+- **STORE** — where a value was put. `req.session.role = req.body.role` calls nothing and
+  compares nothing: the caller's claim is simply moved to the far side of a boundary.
+- **LITERAL** — a value whose own shape is the defect. An RSA private key in a constant is
+  not an argument, not a destination, and nothing reaches it.
+
+**Decision.** A new kind is justified when a weakness cannot be *stated* in an existing
+one without lying about the program. It is not justified by a rule being awkward to write,
+by a rule needing a new field, or by a family of weaknesses being large.
+
+The test is whether the existing kind would have to be given a fact it does not have. A
+private key in a constant has no call for CALL SHAPE to read and no write for STORE to
+watch; making STORE report it would mean inventing a destination. That is a new kind. A
+rule that needs to know whether the receiver was projected is not — that is a field.
+
+**Consequence.** Every kind is one more surface to be wrong on, and the cost is paid in
+the same currency each time: each one needs its own measurement on correct code before it
+ships (ADR-015), its own fixture with negatives drawn from real programs, and its own
+answer to what it is silent about. LITERAL is silent about any secret with no recognisable
+shape, and says so.
+
+The kinds do not compose and are not meant to. Two of them reporting the same line is not
+a duplicate: `req.session.role = req.body.role` is a trust-boundary violation AND a login
+that does not rotate the session identifier, neither fix repairs the other, and a reader
+who is told only one of them has been told the smaller half.
+
+**How to tell if this is being applied.** Ask what fact the new kind reads that no existing
+kind can reach. If the answer is a field on an existing rule, it is a field.
