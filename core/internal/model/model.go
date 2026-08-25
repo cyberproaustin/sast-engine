@@ -398,6 +398,9 @@ func arg(i int) *int { return &i }
 // atLeast is a pointer to a threshold, for a shape that matches values below it.
 func atLeast(i int) *int { return &i }
 
+// atMost is a pointer to a threshold, for a shape that matches values above it.
+func atMost(i int) *int { return &i }
+
 // Clears reports whether this transform neutralizes a value for a channel context.
 func (s SanitizerRule) Clears(context string) bool {
 	for _, c := range s.Contexts {
@@ -3293,12 +3296,30 @@ type CallShape struct {
 	// matched, which keeps this at the precision that makes the kind worth having.
 	BelowValue *int
 
+	// AboveValue is the mirror, for a number that is wrong by being too LARGE. A session
+	// lifetime is the case: nothing about a cookie says what a reasonable one is, but a
+	// credential cookie good for a year is a stolen credential good for a year.
+	//
+	// Units are not guessable from a keyword, so the threshold lives on a rule that
+	// already knows which call it is reading: express counts milliseconds and Flask
+	// counts seconds, and the same name means different things in each.
+	AboveValue *int
+
 	// AnyLiteral matches when the argument was written as a literal at all, whatever it
 	// says. For an argument that is supposed to hold a secret, being written down IS the
 	// defect and its contents are beside the point -- and the same test is what makes it
 	// precise, because a secret read from the environment or a vault is not a literal
 	// and never matches.
 	AnyLiteral bool
+
+	// MissingArg names a positional argument whose ABSENCE, at a call that otherwise
+	// matches, is the defect.
+	//
+	// `window.open(url, "_blank")` hands the opened page a live reference back to this
+	// one through window.opener, and the third argument is where `noopener` would have
+	// gone. Nothing wrong was written down; the right thing was left out, and the count
+	// of arguments is the whole evidence.
+	MissingArg *int
 
 	// RequiredKeyword names an option whose ABSENCE is the defect, which is the shape
 	// most misconfiguration takes: nothing wrong was written down, the right thing was
@@ -3365,6 +3386,10 @@ func (c CallShape) Matches(literal string) bool {
 	if c.BelowValue != nil {
 		n, err := strconv.Atoi(strings.TrimSpace(literal))
 		return err == nil && n < *c.BelowValue
+	}
+	if c.AboveValue != nil {
+		n, err := strconv.Atoi(strings.TrimSpace(literal))
+		return err == nil && n > *c.AboveValue
 	}
 	if c.AnyLiteral {
 		return true
@@ -4012,6 +4037,45 @@ func builtinCallShapes() []CallShape {
 			Reason:    "a salt that is the same for every password is not doing the one thing a salt does, which is to make a precomputed table useless",
 			Rationale: "the third argument to pbkdf2_hmac() is the salt",
 		},
+		{
+			// A credential cookie good for a year is a stolen credential good for a year.
+			// Nothing says what a reasonable session lifetime is, but thirty days is well
+			// past the point where the answer stops being "it depends" -- and the
+			// attribute is only asked about for cookies that carry a credential, because
+			// a year-long theme preference is a feature.
+			//
+			// Express counts MILLISECONDS.
+			ID: "long-lived-session", Method: "cookie", Keyword: "maxAge", AboveValue: atMost(2592000000),
+			Qualifiers: credentialCookie,
+			CWE:        "CWE-613",
+			Finding:    "Session cookie valid for longer than a month",
+			Reason:     "a credential that stays valid for a year is a credential an attacker who steals it keeps for a year, and nothing the user does afterwards takes it back",
+			Rationale:  "maxAge is how long the browser keeps sending this cookie, in milliseconds",
+		},
+		{
+			// Flask counts SECONDS. Same keyword, different unit, which is why the
+			// threshold lives on the rule rather than on the name.
+			ID: "long-lived-session", Method: "set_cookie", Keyword: "max_age", AboveValue: atMost(2592000),
+			Qualifiers: credentialCookie,
+			CWE:        "CWE-613",
+			Finding:    "Session cookie valid for longer than a month",
+			Reason:     "a credential that stays valid for a year is a credential an attacker who steals it keeps for a year, and nothing the user does afterwards takes it back",
+			Rationale:  "max_age is how long the browser keeps sending this cookie, in seconds",
+		},
+
+		{
+			// A link or a script that opens a new window hands the opened page a live
+			// reference back to this one through `window.opener`, and the opened page can
+			// use it to navigate this one somewhere else. The third argument is where
+			// `noopener` would have gone, and it is not there.
+			ID: "opener-reachable", Symbol: "window.open", MissingArg: atLeast(2),
+			Qualifiers: []ArgCondition{{ArgIndex: 1, Substring: true, AnyOf: []string{"_blank", "blank"}}},
+			CWE:        "CWE-1022",
+			Finding:    "A new window left holding a reference back to this one",
+			Reason:     "the opened page can navigate the page that opened it, which is how a link to somewhere else replaces the page behind it with a copy that asks for a password",
+			Rationale:  "the third argument is where noopener would be, and the call has no third argument",
+		},
+
 		{
 			// Turning off the header that stops the page being framed. Clickjacking is
 			// the caller's page wrapping yours and collecting the clicks.

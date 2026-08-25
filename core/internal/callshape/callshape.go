@@ -93,6 +93,14 @@ func match(c *ir.Call, shape model.CallShape) (string, bool) {
 	if shape.RequiredKeyword != "" {
 		return matchAbsent(c, shape)
 	}
+	// A positional argument that was never supplied. The count of arguments is the whole
+	// evidence, so a call the frontend could not count is not judged.
+	if shape.MissingArg != nil {
+		if c.ArgCount > *shape.MissingArg {
+			return "", false
+		}
+		return callName(c), true
+	}
 	// A call that is a defect by existing has no argument to look at.
 	if shape.Always {
 		return callName(c), true

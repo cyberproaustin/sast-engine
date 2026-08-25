@@ -1,0 +1,855 @@
+{
+  "irVersion": "0.10.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "app.py",
+      "path": "app.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "app.py#<module>:0",
+      "name": "<module>",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#<module>:0$v0",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 5,
+            "column": 7
+          },
+          "name": "flask.Flask"
+        },
+        {
+          "id": "app.py#<module>:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 5,
+            "column": 1
+          },
+          "name": "app"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#<module>:0$v0",
+          "to": "app.py#<module>:0$v1",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 5,
+            "column": 1
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#<module>:0$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 5,
+            "column": 7
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.Flask",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#<module>:0$v0",
+          "block": "app.py#<module>:0$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#<module>:0$b0",
+      "blocks": [
+        {
+          "id": "app.py#<module>:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#login:9",
+      "name": "login",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 9,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#login:9$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 13,
+            "column": 30
+          }
+        },
+        {
+          "id": "app.py#login:9$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 13,
+            "column": 16
+          },
+          "name": "flask.make_response"
+        },
+        {
+          "id": "app.py#login:9$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 13,
+            "column": 5
+          },
+          "name": "response"
+        },
+        {
+          "id": "app.py#login:9$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 25
+          }
+        },
+        {
+          "id": "app.py#login:9$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 58
+          }
+        },
+        {
+          "id": "app.py#login:9$v5",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 36
+          },
+          "name": "secrets"
+        },
+        {
+          "id": "app.py#login:9$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 36
+          },
+          "name": "secrets.token_urlsafe"
+        },
+        {
+          "id": "app.py#login:9$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 72
+          }
+        },
+        {
+          "id": "app.py#login:9$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 85
+          }
+        },
+        {
+          "id": "app.py#login:9$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 99
+          }
+        },
+        {
+          "id": "app.py#login:9$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 5
+          },
+          "name": "response.set_cookie"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#login:9$v1",
+          "to": "app.py#login:9$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 13,
+            "column": 5
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#login:9$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 13,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.make_response",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#login:9$v0"
+            }
+          ],
+          "resultValueId": "app.py#login:9$v1",
+          "block": "app.py#login:9$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "ok"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#login:9$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 36
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "secrets.token_urlsafe",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#login:9$v4"
+            }
+          ],
+          "resultValueId": "app.py#login:9$v6",
+          "block": "app.py#login:9$b0",
+          "method": "token_urlsafe",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "32"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#login:9$v5"
+        },
+        {
+          "id": "app.py#login:9$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "response.set_cookie",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#login:9$v3"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#login:9$v6"
+            },
+            {
+              "index": 2,
+              "valueId": "app.py#login:9$v7"
+            },
+            {
+              "index": 2,
+              "valueId": "app.py#login:9$v8"
+            },
+            {
+              "index": 2,
+              "valueId": "app.py#login:9$v9"
+            }
+          ],
+          "resultValueId": "app.py#login:9$v10",
+          "block": "app.py#login:9$b0",
+          "method": "set_cookie",
+          "argCount": 5,
+          "argLiterals": {
+            "0": "session",
+            "-1": "httponly=true",
+            "-2": "secure=true",
+            "-3": "max_age=31536000"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#login:9$v2"
+        }
+      ],
+      "returns": [
+        "app.py#login:9$v2"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#login:9$b0",
+      "blocks": [
+        {
+          "id": "app.py#login:9$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 9,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#login:9$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#login_short:19",
+      "name": "login_short",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 19,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#login_short:19$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 30
+          }
+        },
+        {
+          "id": "app.py#login_short:19$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 16
+          },
+          "name": "flask.make_response"
+        },
+        {
+          "id": "app.py#login_short:19$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 5
+          },
+          "name": "response"
+        },
+        {
+          "id": "app.py#login_short:19$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 25
+          }
+        },
+        {
+          "id": "app.py#login_short:19$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 58
+          }
+        },
+        {
+          "id": "app.py#login_short:19$v5",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 36
+          },
+          "name": "secrets"
+        },
+        {
+          "id": "app.py#login_short:19$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 36
+          },
+          "name": "secrets.token_urlsafe"
+        },
+        {
+          "id": "app.py#login_short:19$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 72
+          }
+        },
+        {
+          "id": "app.py#login_short:19$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 85
+          }
+        },
+        {
+          "id": "app.py#login_short:19$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 99
+          }
+        },
+        {
+          "id": "app.py#login_short:19$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 5
+          },
+          "name": "response.set_cookie"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#login_short:19$v1",
+          "to": "app.py#login_short:19$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 5
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#login_short:19$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.make_response",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#login_short:19$v0"
+            }
+          ],
+          "resultValueId": "app.py#login_short:19$v1",
+          "block": "app.py#login_short:19$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "ok"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#login_short:19$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 36
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "secrets.token_urlsafe",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#login_short:19$v4"
+            }
+          ],
+          "resultValueId": "app.py#login_short:19$v6",
+          "block": "app.py#login_short:19$b0",
+          "method": "token_urlsafe",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "32"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#login_short:19$v5"
+        },
+        {
+          "id": "app.py#login_short:19$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "response.set_cookie",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#login_short:19$v3"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#login_short:19$v6"
+            },
+            {
+              "index": 2,
+              "valueId": "app.py#login_short:19$v7"
+            },
+            {
+              "index": 2,
+              "valueId": "app.py#login_short:19$v8"
+            },
+            {
+              "index": 2,
+              "valueId": "app.py#login_short:19$v9"
+            }
+          ],
+          "resultValueId": "app.py#login_short:19$v10",
+          "block": "app.py#login_short:19$b0",
+          "method": "set_cookie",
+          "argCount": 5,
+          "argLiterals": {
+            "0": "session",
+            "-1": "httponly=true",
+            "-2": "secure=true",
+            "-3": "max_age=900"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#login_short:19$v2"
+        }
+      ],
+      "returns": [
+        "app.py#login_short:19$v2"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#login_short:19$b0",
+      "blocks": [
+        {
+          "id": "app.py#login_short:19$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#login_short:19$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#theme:27",
+      "name": "theme",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 27,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#theme:27$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 30
+          }
+        },
+        {
+          "id": "app.py#theme:27$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 16
+          },
+          "name": "flask.make_response"
+        },
+        {
+          "id": "app.py#theme:27$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 5
+          },
+          "name": "response"
+        },
+        {
+          "id": "app.py#theme:27$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 25
+          }
+        },
+        {
+          "id": "app.py#theme:27$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 34
+          }
+        },
+        {
+          "id": "app.py#theme:27$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 50
+          }
+        },
+        {
+          "id": "app.py#theme:27$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 5
+          },
+          "name": "response.set_cookie"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#theme:27$v1",
+          "to": "app.py#theme:27$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 5
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#theme:27$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.make_response",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#theme:27$v0"
+            }
+          ],
+          "resultValueId": "app.py#theme:27$v1",
+          "block": "app.py#theme:27$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "ok"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#theme:27$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "response.set_cookie",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#theme:27$v3"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#theme:27$v4"
+            },
+            {
+              "index": 2,
+              "valueId": "app.py#theme:27$v5"
+            }
+          ],
+          "resultValueId": "app.py#theme:27$v6",
+          "block": "app.py#theme:27$b0",
+          "method": "set_cookie",
+          "argCount": 3,
+          "argLiterals": {
+            "0": "theme",
+            "1": "dark",
+            "-1": "max_age=31536000"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#theme:27$v2"
+        }
+      ],
+      "returns": [
+        "app.py#theme:27$v2"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#theme:27$b0",
+      "blocks": [
+        {
+          "id": "app.py#theme:27$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#theme:27$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 32,
+            "column": 5
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "app.py#login:9",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "POST",
+        "path": "/login"
+      }
+    },
+    {
+      "functionId": "app.py#login_short:19",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "POST",
+        "path": "/login-short"
+      }
+    },
+    {
+      "functionId": "app.py#theme:27",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "POST",
+        "path": "/theme"
+      }
+    }
+  ]
+}
