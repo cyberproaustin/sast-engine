@@ -1,6 +1,6 @@
 {
   "corpus": "express-weak-kdf",
-  "description": "A work factor is wrong for a reason no list of forbidden strings can express, so these rules are thresholds. The thresholds are floors below which the parameter is doing no work worth the name, deliberately NOT current guidance: bcrypt at 10 is the library default and PBKDF2 guidance is far above 100,000 now, and a rule that fired on either would fire on every codebase forever and be switched off within the week. The configured route passes a value that is not a number written in the call, and nothing is claimed about it. The CWE-916 findings are reported and never gate: a work factor is only too low for a LOW-ENTROPY input, and the call does not say what it was given. lnbits derives a key from an already-random 32-byte secret with 2048 iterations, which is fine, and it reads identically to hashing a password with 2048 iterations, which is not. The IV rule does gate, because an IV written into the source is wrong whatever it protects.",
+  "description": "A work factor is wrong for a reason no list of forbidden strings can express, so these rules are thresholds. The thresholds are floors below which the parameter is doing no work worth the name, deliberately NOT current guidance: bcrypt at 10 is the library default and PBKDF2 guidance is far above 100,000 now, and a rule that fired on either would fire on every codebase forever and be switched off within the week. The configured route passes a value that is not a number written in the call, and nothing is claimed about it. The CWE-916 findings are reported and never gate: a work factor is only too low for a LOW-ENTROPY input, and the call does not say what it was given. lnbits derives a key from an already-random 32-byte secret with 2048 iterations, which is fine, and it reads identically to hashing a password with 2048 iterations, which is not. The IV rule does gate, because an IV written into the source is wrong whatever it protects. The cheap derivation is two weaknesses on one line and the fixture says so: a work factor too small to matter, and a salt written into the source. The safe one fixes both.",
   "expected": [
     {
       "cwe": "CWE-916",
@@ -13,7 +13,7 @@
     {
       "cwe": "CWE-916",
       "sinkFile": "app.js",
-      "sinkLine": 29,
+      "sinkLine": 32,
       "sourceLabel": "\"1000\"",
       "confidence": "high",
       "note": "a thousand PBKDF2 iterations is a rounding error on a GPU"
@@ -21,10 +21,18 @@
     {
       "cwe": "CWE-329",
       "sinkFile": "app.js",
-      "sinkLine": 39,
+      "sinkLine": 44,
       "sourceLabel": "\"0000000000000000\"",
       "confidence": "high",
       "note": "an IV written into the source is predictable and reused on every message"
+    },
+    {
+      "cwe": "CWE-760",
+      "sinkFile": "app.js",
+      "sinkLine": 32,
+      "sourceLabel": "\"salt\"",
+      "confidence": "high",
+      "note": "the same salt for every password, which is what a salt exists to prevent"
     }
   ]
 }

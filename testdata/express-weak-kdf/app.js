@@ -25,13 +25,18 @@ app.post("/register-configured", async (req, res) => {
 });
 
 app.post("/derive-cheap", (req, res) => {
-  // POSITIVE. A thousand iterations of PBKDF2 is a rounding error on a GPU.
+  // POSITIVE TWICE, and they are different weaknesses. A thousand iterations of PBKDF2
+  // is a rounding error on a GPU, and a salt written into the source is the same salt
+  // for every password in the database -- which is the one thing a salt exists to
+  // prevent, because a single precomputed table then works against all of them.
   crypto.pbkdf2(req.body.password, "salt", 1000, 32, "sha256", () => res.json({}));
 });
 
 app.post("/derive", (req, res) => {
-  // NEGATIVE.
-  crypto.pbkdf2(req.body.password, "salt", 600000, 32, "sha256", () => res.json({}));
+  // NEGATIVE for both: enough iterations, and a salt generated per password rather than
+  // written down.
+  const salt = crypto.randomBytes(16);
+  crypto.pbkdf2(req.body.password, salt, 600000, 32, "sha256", () => res.json({}));
 });
 
 function encryptFixed(plaintext) {
