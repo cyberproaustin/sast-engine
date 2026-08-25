@@ -66,6 +66,15 @@ type SourceRule struct {
 	// page has to read it back and echo it.
 	LeafExcept []string
 
+	// LeafEquals matches the last path segment EXACTLY, ignoring case and separators, so
+	// `is_admin`, `isAdmin` and `ISADMIN` are one entry.
+	//
+	// Containment is right for credentials -- `access_token` and `refreshToken` both name
+	// secrets -- and wrong for privileges. wikijs has a setup form with an `adminEmail`
+	// field, and a rule that took "contains admin" as a claim of authority read an
+	// auto-increment id check as a security decision.
+	LeafEquals []string
+
 	// ExactPath seeds only the path itself and not anything read out of it.
 	//
 	// `request.args` and `request.args.name` are both caller-supplied, so the usual
@@ -385,6 +394,7 @@ type Model struct {
 	Classifications []Classification
 	Channels        []Channel
 	CallShapes      []CallShape
+	Decisions       []DecisionRule
 	Policies        []Policy
 	Sanitizers      []SanitizerRule
 	Callbacks       []CallbackRule
@@ -485,6 +495,18 @@ func (m Model) ClassifyControl(name string) string {
 }
 
 // Builtin returns the shipped model.
+// Field names that ARE a claim of authority rather than merely mentioning one. Compared
+// exactly, ignoring case and separators: containment reads `adminEmail` as a privilege,
+// and a setup form is not a security decision.
+var authorityNames = []string{
+	"role", "roles", "admin", "isadmin", "isstaff", "issuperuser", "superuser",
+	"permission", "permissions", "privilege", "privileges", "scope", "scopes",
+	"usertype", "accounttype", "isowner", "ismoderator",
+}
+
+// A cookie carrying any of these is being asked to establish who the caller is.
+var cookieAuthorityNames = append([]string{"user", "userid", "username", "auth", "authenticated", "loggedin", "isloggedin"}, authorityNames...)
+
 func Builtin() Model {
 	return Model{
 		// What dataflow actually needs is call resolution, not type inference. The
@@ -591,6 +613,53 @@ func Builtin() Model {
 						Paths:        []string{"form", "json", "args", "headers", "values"},
 						LeafContains: []string{"password", "passwd", "pwd", "secret", "token", "apikey", "api_key", "credential", "authorization"},
 						LeafExcept:   []string{"csrf", "xsrf"},
+					},
+				},
+			},
+			{
+				// A privilege the CALLER claims to have. The name is the whole evidence
+				// and it is enough: a request field called `role` or `isAdmin` is a
+				// statement the sender made about themselves, and the server has no
+				// reason to believe it.
+				Class: "caller-asserted-authority",
+				Label: "authority the caller claimed for itself",
+				Rules: []SourceRule{
+					{
+						Match:      MatchEntryParamProperty,
+						Framework:  "express",
+						EntryKind:  "http-route",
+						ParamIndex: 0,
+						Paths:      []string{"body", "query", "params", "headers"},
+						LeafEquals: authorityNames,
+					},
+					{
+						Match:      MatchGlobalProperty,
+						Symbol:     "flask.request",
+						Paths:      []string{"form", "json", "args", "headers", "values"},
+						LeafEquals: authorityNames,
+					},
+				},
+			},
+			{
+				// The same claim carried in a cookie, which is its own weakness: a cookie
+				// is a value the browser was handed and hands back, and nothing about
+				// getting it back says it came from here.
+				Class: "cookie-asserted-authority",
+				Label: "authority claimed by a cookie the caller sent back",
+				Rules: []SourceRule{
+					{
+						Match:      MatchEntryParamProperty,
+						Framework:  "express",
+						EntryKind:  "http-route",
+						ParamIndex: 0,
+						Paths:      []string{"cookies", "signedCookies"},
+						LeafEquals: cookieAuthorityNames,
+					},
+					{
+						Match:      MatchGlobalProperty,
+						Symbol:     "flask.request",
+						Paths:      []string{"cookies"},
+						LeafEquals: cookieAuthorityNames,
 					},
 				},
 			},
@@ -1409,6 +1478,11 @@ func Builtin() Model {
 				CWE:       "CWE-1336",
 				Rationale: "template() compiles its argument into a function",
 			},
+			// The synchronous variants live in `fs` and the promise-returning ones in
+			// `fs/promises`, and neither module has the other's. `fs/promises.readFileSync`
+			// was described here and could never match anything, which is a rule that
+			// looks like coverage and is not -- found by auditing the symbol list against
+			// the libraries rather than by anything failing.
 			{
 				ID: "filesystem-path", Visibility: "internal", Context: "path",
 				Symbol: "fs.readFile", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
@@ -1424,12 +1498,6 @@ func Builtin() Model {
 			{
 				ID: "filesystem-path", Visibility: "internal", Context: "path",
 				Symbol: "fs.readFileSync", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE:       "CWE-22",
-				Rationale: "the first argument names the file this opens",
-			},
-			{
-				ID: "filesystem-path", Visibility: "internal", Context: "path",
-				Symbol: "fs/promises.readFileSync", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
 				CWE:       "CWE-22",
 				Rationale: "the first argument names the file this opens",
 			},
@@ -1453,12 +1521,6 @@ func Builtin() Model {
 			},
 			{
 				ID: "filesystem-path", Visibility: "internal", Context: "path",
-				Symbol: "fs/promises.writeFileSync", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE:       "CWE-22",
-				Rationale: "the first argument names the file this opens",
-			},
-			{
-				ID: "filesystem-path", Visibility: "internal", Context: "path",
 				Symbol: "fs.appendFile", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
 				CWE:       "CWE-22",
 				Rationale: "the first argument names the file this opens",
@@ -1477,31 +1539,13 @@ func Builtin() Model {
 			},
 			{
 				ID: "filesystem-path", Visibility: "internal", Context: "path",
-				Symbol: "fs/promises.appendFileSync", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE:       "CWE-22",
-				Rationale: "the first argument names the file this opens",
-			},
-			{
-				ID: "filesystem-path", Visibility: "internal", Context: "path",
 				Symbol: "fs.createReadStream", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
 				CWE:       "CWE-22",
 				Rationale: "the first argument names the file this opens",
 			},
 			{
 				ID: "filesystem-path", Visibility: "internal", Context: "path",
-				Symbol: "fs/promises.createReadStream", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE:       "CWE-22",
-				Rationale: "the first argument names the file this opens",
-			},
-			{
-				ID: "filesystem-path", Visibility: "internal", Context: "path",
 				Symbol: "fs.createWriteStream", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE:       "CWE-22",
-				Rationale: "the first argument names the file this opens",
-			},
-			{
-				ID: "filesystem-path", Visibility: "internal", Context: "path",
-				Symbol: "fs/promises.createWriteStream", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
 				CWE:       "CWE-22",
 				Rationale: "the first argument names the file this opens",
 			},
@@ -1525,12 +1569,6 @@ func Builtin() Model {
 			},
 			{
 				ID: "filesystem-path", Visibility: "internal", Context: "path",
-				Symbol: "fs/promises.unlinkSync", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE:       "CWE-22",
-				Rationale: "the first argument names the file this opens",
-			},
-			{
-				ID: "filesystem-path", Visibility: "internal", Context: "path",
 				Symbol: "fs.rm", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
 				CWE:       "CWE-22",
 				Rationale: "the first argument names the file this opens",
@@ -1549,12 +1587,6 @@ func Builtin() Model {
 			},
 			{
 				ID: "filesystem-path", Visibility: "internal", Context: "path",
-				Symbol: "fs/promises.rmSync", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE:       "CWE-22",
-				Rationale: "the first argument names the file this opens",
-			},
-			{
-				ID: "filesystem-path", Visibility: "internal", Context: "path",
 				Symbol: "fs.readdir", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
 				CWE:       "CWE-22",
 				Rationale: "the first argument names the file this opens",
@@ -1568,12 +1600,6 @@ func Builtin() Model {
 			{
 				ID: "filesystem-path", Visibility: "internal", Context: "path",
 				Symbol: "fs.readdirSync", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE:       "CWE-22",
-				Rationale: "the first argument names the file this opens",
-			},
-			{
-				ID: "filesystem-path", Visibility: "internal", Context: "path",
-				Symbol: "fs/promises.readdirSync", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
 				CWE:       "CWE-22",
 				Rationale: "the first argument names the file this opens",
 			},
@@ -1892,6 +1918,7 @@ func Builtin() Model {
 		// WHAT IS FORBIDDEN. Judgements about class-and-channel pairings. Each covers
 		// every instance of the pairing, including channels added later.
 		CallShapes: builtinCallShapes(),
+		Decisions:  builtinDecisions(),
 
 		Policies: []Policy{
 			{
@@ -3421,6 +3448,50 @@ func builtinCallShapes() []CallShape {
 			Finding:    "Certificate verification disabled",
 			Reason:     "a connection that does not verify its peer authenticates nobody, so transport encryption protects against nothing",
 			Rationale:  "verify=False turns off certificate validation for this request",
+		},
+	}
+}
+
+// DecisionRule is a weakness visible in a COMPARISON rather than in a call.
+//
+// The engine's fourth analysis kind, and the smallest. A flow analysis asks where data
+// goes; this asks what a branch was decided ON. `if (req.body.role === "admin")` sends
+// nothing anywhere -- the defect is entirely that the server believed a claim the sender
+// made about themselves.
+//
+// It is deliberately not a channel. A comparison has no arguments and no callee, and
+// dressing it up as a call would mean inventing both.
+type DecisionRule struct {
+	ID string
+	// Class is the classification one side of the comparison must carry.
+	Class string
+	// Ops narrows to particular operators, or empty for any. Equality and inequality are
+	// how a privilege is tested; ordering comparisons on a role are rare enough that
+	// including them would be reaching.
+	Ops []string
+
+	CWE       string
+	Finding   string
+	Reason    string
+	Rationale string
+}
+
+func builtinDecisions() []DecisionRule {
+	equality := []string{"==", "===", "!=", "!==", "is", "is not"}
+	return []DecisionRule{
+		{
+			ID: "caller-decides-own-authority", Class: "caller-asserted-authority", Ops: equality,
+			CWE:       "CWE-807",
+			Finding:   "Security decision made on the caller's own claim",
+			Reason:    "a field the caller sent is a statement the caller made about themselves, and a branch that trusts it lets them choose which branch runs",
+			Rationale: "the comparison decides on a value that arrived in the request",
+		},
+		{
+			ID: "cookie-decides-authority", Class: "cookie-asserted-authority", Ops: equality,
+			CWE:       "CWE-565",
+			Finding:   "Security decision made on a cookie",
+			Reason:    "a cookie is a value the browser was handed and hands back, and getting it back is no evidence it came from here or came back unchanged",
+			Rationale: "the comparison decides on a cookie the caller returned",
 		},
 	}
 }

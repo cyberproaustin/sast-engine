@@ -53,7 +53,7 @@ const receiverArgIndex = -1
 // what a field IS. A rule that names no leaves accepts every path, so this costs nothing
 // where it is not used.
 func leafMatches(path string, rule model.SourceRule) bool {
-	if len(rule.LeafContains) == 0 {
+	if len(rule.LeafContains) == 0 && len(rule.LeafEquals) == 0 {
 		return true
 	}
 	leaf := path
@@ -69,6 +69,15 @@ func leafMatches(path string, rule model.SourceRule) bool {
 	for _, want := range rule.LeafContains {
 		if strings.Contains(leaf, strings.ToLower(want)) {
 			return true
+		}
+	}
+	// Exact, ignoring separators, so `is_admin` and `isAdmin` are one name.
+	if len(rule.LeafEquals) > 0 {
+		bare := strings.NewReplacer("_", "", "-", "").Replace(leaf)
+		for _, want := range rule.LeafEquals {
+			if bare == strings.ToLower(want) {
+				return true
+			}
 		}
 	}
 	return false
@@ -236,6 +245,29 @@ type Result struct {
 	// NoCallerIdentity holds judgements about the caller's identity made where the
 	// framework handed the entry point none. Reported, never counted, never gating.
 	NoCallerIdentity []Finding
+	// ByClass is what each classification's dataflow found, for analyses that ask a
+	// question about a value rather than about where it went.
+	//
+	// Exposed rather than recomputed. Which values carry a class is a question with one
+	// answer, and a second analysis working it out again would be a second answer that
+	// can disagree with the first.
+	ByClass map[string]Classified
+}
+
+// Classified is one classification's result: the values carrying it, and where each came
+// from.
+type Classified struct {
+	Values map[string]bool
+	Origin map[string]Origin
+}
+
+// Origin is where a classified value entered the program, in the terms a finding needs.
+type Origin struct {
+	Label      string
+	EntryPoint string
+	Method     string
+	Path       string
+	Anchored   bool
 }
 
 // SkippedPolicy is a judgement the engine declined to make.
@@ -352,6 +384,21 @@ func Analyze(d *ir.IR, m model.Model) Result {
 		e.propagate()
 		engines[class.Class] = e
 		order = append(order, class.Class)
+	}
+
+	res.ByClass = make(map[string]Classified, len(engines))
+	for name, e := range engines {
+		origins := make(map[string]Origin, len(e.seeds))
+		for id, sd := range e.seeds {
+			origins[id] = Origin{
+				Label:      sd.label,
+				EntryPoint: sd.entryPoint,
+				Method:     sd.method,
+				Path:       sd.path,
+				Anchored:   sd.anchored,
+			}
+		}
+		res.ByClass[name] = Classified{Values: e.tainted, Origin: origins}
 	}
 
 	seen := map[string]bool{}

@@ -451,7 +451,14 @@ func writeTaintFinding(b *strings.Builder, f taint.Finding) {
 	fmt.Fprintf(b, "\n[%s] %s (%s)\n", strings.ToUpper(string(f.Confidence)), f.Class, f.CWE)
 	fmt.Fprintf(b, "  %s\n", f.Message)
 	fmt.Fprintf(b, "  entry: %s\n", f.EntryPoint)
-	fmt.Fprintf(b, "  sink:  %s argument %d at %s\n", f.SinkSymbol, f.SinkArgIndex, f.SinkLoc)
+	// A negative index is not a position: -1 is "the value this was called ON", and a
+	// comparison has no arguments at all. Printing "argument -1" was reporting an index
+	// that does not exist.
+	if f.SinkArgIndex < 0 || strings.HasPrefix(f.SinkSymbol, "comparison ") {
+		fmt.Fprintf(b, "  sink:  %s at %s\n", f.SinkSymbol, f.SinkLoc)
+	} else {
+		fmt.Fprintf(b, "  sink:  %s argument %d at %s\n", f.SinkSymbol, f.SinkArgIndex, f.SinkLoc)
+	}
 	if f.SinkRational != "" {
 		fmt.Fprintf(b, "         %s\n", f.SinkRational)
 	}

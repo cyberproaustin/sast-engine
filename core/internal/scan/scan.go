@@ -9,6 +9,7 @@ package scan
 import (
 	"github.com/cyberproaustin/sast-engine/core/internal/baseline"
 	"github.com/cyberproaustin/sast-engine/core/internal/callshape"
+	"github.com/cyberproaustin/sast-engine/core/internal/decision"
 	"github.com/cyberproaustin/sast-engine/core/internal/expectation"
 	"github.com/cyberproaustin/sast-engine/core/internal/ir"
 	"github.com/cyberproaustin/sast-engine/core/internal/model"
@@ -91,6 +92,7 @@ func Run(d *ir.IR, m model.Model, p *policy.Policy) Result {
 	// to the same finding list because they are the same kind of claim to a reader, even
 	// though the analysis that produced them is a different one.
 	t.Findings = append(t.Findings, callshape.Analyze(d, m)...)
+	t.Findings = append(t.Findings, decision.Analyze(d, m, t.ByClass)...)
 
 	return Result{
 		IR:          d,

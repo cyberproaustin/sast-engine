@@ -1,0 +1,8 @@
+{
+  "corpus": "express-trusted-claim",
+  "description": "The fourth analysis kind, and the smallest: what a branch was decided ON. Nothing is sent anywhere and nothing dangerous is called -- the whole defect is that the server took the caller's word about the caller. The two negatives are what keep it precise: a privilege read from the session the server established is not a claim, and a caller-supplied sort order is a claim about nothing that matters.",
+  "expected": [
+    {"cwe": "CWE-807", "sinkFile": "app.js", "sinkLine": 8, "sourceLabel": "req.body.role", "confidence": "high", "note": "the caller states their own role and the branch believes it"},
+    {"cwe": "CWE-565", "sinkFile": "app.js", "sinkLine": 18, "sourceLabel": "req.cookies.isAdmin", "confidence": "high", "note": "a cookie coming back is no evidence it came from here"}
+  ]
+}
