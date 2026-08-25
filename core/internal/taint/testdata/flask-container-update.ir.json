@@ -639,7 +639,7 @@
         {
           "from": "app.py#whoami:42$v2",
           "to": "app.py#whoami:42$v0",
-          "kind": "assign",
+          "kind": "enclose",
           "loc": {
             "file": "app.py",
             "line": 46,

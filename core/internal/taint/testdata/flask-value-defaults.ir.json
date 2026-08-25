@@ -1184,7 +1184,7 @@
         {
           "from": "app.py#parameterized:35$v6",
           "to": "app.py#parameterized:35$v8",
-          "kind": "assign",
+          "kind": "enclose",
           "loc": {
             "file": "app.py",
             "line": 38,

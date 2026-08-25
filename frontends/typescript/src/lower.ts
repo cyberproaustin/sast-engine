@@ -861,7 +861,7 @@ function lowerFunction(
     if (ts.isArrayLiteralExpression(expr)) {
       const loc = locOf(sf, expr);
       const id = newValue("local", loc, { name: "[array]" });
-      for (const el of expr.elements) addFlow(lowerExpr(el), id, "assign", loc);
+      for (const el of expr.elements) addFlow(lowerExpr(el), id, "enclose", loc);
       return id;
     }
 
@@ -871,17 +871,23 @@ function lowerFunction(
       // Every form that carries a value in. `{ slug }` and `{ ...base }` are how
       // real code builds query objects; handling only `key: value` loses the taint
       // at the last hop before the sink.
+      //
+      // The kind is "enclose" rather than "assign" because the value became a PART of
+      // this object instead of becoming it. `update(req.body)` hands over everything
+      // the caller sent; `update({ name: req.body.name })` hands over one field the
+      // application chose, and only the first lets a caller set a column nobody meant
+      // to expose.
       for (const prop of expr.properties) {
         if (ts.isPropertyAssignment(prop)) {
-          addFlow(lowerExpr(prop.initializer), id, "assign", loc);
+          addFlow(lowerExpr(prop.initializer), id, "enclose", loc);
         } else if (ts.isShorthandPropertyAssignment(prop)) {
           // For `{ slug }` the identifier resolves to the PROPERTY symbol, not the
           // local it reads. The checker has a dedicated accessor for the value.
           const valueSym = checker.getShorthandAssignmentValueSymbol(prop);
           const from = valueSym ? bySymbol.get(valueSym) : undefined;
-          addFlow(from, id, "assign", loc);
+          addFlow(from, id, "enclose", loc);
         } else if (ts.isSpreadAssignment(prop)) {
-          addFlow(lowerExpr(prop.expression), id, "assign", loc);
+          addFlow(lowerExpr(prop.expression), id, "enclose", loc);
         }
       }
       return id;

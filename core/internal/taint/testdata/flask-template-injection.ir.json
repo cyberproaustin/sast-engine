@@ -648,7 +648,7 @@
         {
           "from": "app.py#not_found:23$v8",
           "to": "app.py#not_found:23$v1",
-          "kind": "assign",
+          "kind": "enclose",
           "loc": {
             "file": "app.py",
             "line": 27,
@@ -658,7 +658,7 @@
         {
           "from": "app.py#not_found:23$v9",
           "to": "app.py#not_found:23$v1",
-          "kind": "assign",
+          "kind": "enclose",
           "loc": {
             "file": "app.py",
             "line": 27,

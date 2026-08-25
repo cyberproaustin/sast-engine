@@ -605,7 +605,7 @@
         {
           "from": "app.py#find_user_by_id:22$v8",
           "to": "app.py#find_user_by_id:22$v5",
-          "kind": "assign",
+          "kind": "enclose",
           "loc": {
             "file": "app.py",
             "line": 25,

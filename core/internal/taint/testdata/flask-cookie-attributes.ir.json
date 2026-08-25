@@ -115,7 +115,7 @@
         {
           "from": "app.py#<module>:0$v3",
           "to": "app.py#<module>:0$v2",
-          "kind": "assign",
+          "kind": "enclose",
           "loc": {
             "file": "app.py",
             "line": 5,
@@ -125,7 +125,7 @@
         {
           "from": "app.py#<module>:0$v4",
           "to": "app.py#<module>:0$v2",
-          "kind": "assign",
+          "kind": "enclose",
           "loc": {
             "file": "app.py",
             "line": 5,
@@ -135,7 +135,7 @@
         {
           "from": "app.py#<module>:0$v5",
           "to": "app.py#<module>:0$v2",
-          "kind": "assign",
+          "kind": "enclose",
           "loc": {
             "file": "app.py",
             "line": 5,
