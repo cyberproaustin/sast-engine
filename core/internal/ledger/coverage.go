@@ -105,8 +105,8 @@ var claims = map[string]Claim{
 		By: []string{"permissive-cors"}},
 	"CWE-327": {State: Partial, Reason: "a broken cipher or a mode that leaks plaintext structure, named as a literal in the call; unlike a weak hash this gates, because nothing needs encryption for a purpose that does not need encryption",
 		By: []string{"weak-cipher"}},
-	"CWE-1333": {State: Partial, Reason: "untrusted data compiled as a regular expression, where a backtracking engine can be made to take exponential time on a short input",
-		By: []string{"untrusted-to-regex"}},
+	"CWE-1333": {State: Partial, Reason: "both directions of the same weakness, and they need different evidence. A caller who writes the PATTERN is reported wherever untrusted data reaches a regular-expression constructor -- rare, and unambiguous. A caller who feeds a long string to a pattern that BACKTRACKS is how a process actually gets stopped, and that needs two facts at once: the pattern has a quantified group with a quantifier inside it, and something a caller chose reaches it. Neither fact is a finding alone -- a nested quantifier nobody hostile can reach costs nothing, and an untrusted string meeting a linear pattern costs nothing. The pattern test is structural and deliberately narrow: everything it reports has the nesting, and a pattern that backtracks for a subtler reason is a stated miss, because a rule that guesses about this would fire on most of the regular expressions ever written. A pattern computed at runtime is not written down and is not guessed at",
+		By: []string{"untrusted-to-regex", "untrusted-to-catastrophic-regex"}},
 	"CWE-330": {State: NotBuilt, Reason: "needs a notion of which randomness is used for a security decision, which a call shape alone does not carry"},
 	// A key written into a call that must hold one. The CATEGORY of secret is something
 	// this rule does encode -- it names key arguments -- so the crypto-key variant is

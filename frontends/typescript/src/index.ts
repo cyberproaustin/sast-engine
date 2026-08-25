@@ -15,7 +15,15 @@ const SOURCE_EXTENSIONS = new Set([".ts", ".tsx", ".mts", ".cts", ".js", ".jsx",
 // ".yarn" holds Yarn Berry's vendored release bundles and its zip cache -- a checked-in
 // copy of somebody else's minified program, in the tree but not of it. Scanning one
 // reports the package manager's own code against the project that vendored it.
-const SKIP_DIRECTORIES = new Set(["node_modules", ".git", ".yarn", "dist", "build", "out", "coverage"]);
+// "vendor" is somebody else's code checked in, by a convention several ecosystems share.
+// A deliberately vulnerable application shipped a copy of jQuery under `assets/vendor`,
+// and lowering it put 748 calls of a browser library into an IR meant to describe a
+// server -- which is both noise and a way to report a finding against a project that
+// merely vendored the file.
+const SKIP_DIRECTORIES = new Set(["node_modules", ".git", ".yarn", "vendor", "dist", "build", "out", "coverage"]);
+
+/** `.min.js`, `.min.mjs`, `-min.js`, `.bundle.js` and friends. */
+const MINIFIED = /(^|[.-])min\.[cm]?jsx?$|\.bundle\.[cm]?jsx?$/i;
 
 function collectSources(rootDir: string): string[] {
   const found: string[] = [];
@@ -29,6 +37,11 @@ function collectSources(rootDir: string): string[] {
         continue;
       }
       if (entry.name.endsWith(".d.ts")) continue;
+      // A minified file is a build product, not source. Reporting one means reporting
+      // whatever library it was built from, at a line number nobody can act on -- and
+      // one production repository put three findings on a checked-in copy of the Yarn
+      // release bundle before the directory it sat in was skipped.
+      if (MINIFIED.test(entry.name)) continue;
       if (SOURCE_EXTENSIONS.has(path.extname(entry.name))) found.push(full);
     }
   };

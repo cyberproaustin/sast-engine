@@ -1201,6 +1201,24 @@ function lowerFunction(
       return newValue("literal", locOf(sf, expr), { literal: expr.text });
     }
 
+    // A regular expression written as a literal is a value with text in it, and the text
+    // is the whole of what some rules need to know. It was not lowered at all, so a
+    // pattern's own shape -- whether it can be made to backtrack catastrophically -- was
+    // outside the engine's reach however plainly it was written.
+    if (ts.isRegularExpressionLiteral(expr)) {
+      return newValue("literal", locOf(sf, expr), { literal: expr.text });
+    }
+
+    // A unary operator produces something new -- a boolean, a number -- so nothing flows
+    // out of it. Its OPERAND still has to be lowered, because that is where the calls
+    // are, and `if (!pattern.test(input))` is how a great deal of validation is written.
+    // Falling through here meant the operand was never visited at all: the call was not
+    // in the IR, and no rule could see an operation the program plainly performs.
+    if (ts.isPrefixUnaryExpression(expr) || ts.isVoidExpression(expr) || ts.isTypeOfExpression(expr)) {
+      lowerExpr(expr.operand ?? (expr as ts.VoidExpression | ts.TypeOfExpression).expression);
+      return undefined;
+    }
+
     return undefined;
   };
 

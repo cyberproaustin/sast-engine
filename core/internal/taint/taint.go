@@ -998,6 +998,10 @@ func (e *engine) collect(all map[string]*engine, caps ir.Capabilities) []Finding
 				if ch.Language != "" && !strings.EqualFold(ch.Language, e.ix.IR.Frontend.Name) {
 					continue
 				}
+				// A rule about the PATTERN this call uses rather than about the call.
+				if ch.PatternArg != nil && !model.CatastrophicPattern(e.patternAt(c, *ch.PatternArg)) {
+					continue
+				}
 				// A method name with no identity of its own, narrowed by what made the
 				// object it was called on.
 				if len(ch.ReceiverFrom) > 0 && !e.receiverMadeBy(c, ch.ReceiverFrom) {
@@ -1432,6 +1436,58 @@ func enclosingEntry(ix *ir.Index, fn *ir.Function) (string, bool) {
 		return describeEntry(*ep), true
 	}
 	return fn.Name + "()", false
+}
+
+// patternAt returns the regular expression a call uses, written down, or the empty
+// string when it was not written down here.
+//
+// Index -1 is the receiver -- `EMAIL.test(s)` -- which is usually a name bound to a
+// literal somewhere above, so plain assignments are followed back. A pattern computed at
+// runtime is not written down and is not guessed at: the rule it feeds says something
+// definite about a specific pattern, and half a pattern is nothing at all.
+func (e *engine) patternAt(c *ir.Call, index int) string {
+	var id string
+	if index < 0 {
+		id = c.ReceiverID
+	} else {
+		if lit, ok := c.ArgLiterals[index]; ok {
+			return lit
+		}
+		for _, a := range c.Args {
+			if a.Index == index {
+				id = a.ValueID
+			}
+		}
+	}
+	for hops := 0; hops < 8 && id != ""; hops++ {
+		if v := e.ix.ValueByID[id]; v != nil && v.Kind == ir.ValueLiteral {
+			return v.Literal
+		}
+		// Through a compile step. `PATTERN = re.compile(r"...")` at module scope and
+		// `PATTERN.match(s)` in a handler is the normal way to write this in Python, and
+		// stopping at the call would mean the rule only ever saw the inline form.
+		if c := e.callByResult[id]; c != nil && compilesPattern(c.Callee.Symbol) {
+			if lit, ok := c.ArgLiterals[0]; ok {
+				return lit
+			}
+			for _, a := range c.Args {
+				if a.Index == 0 {
+					id = a.ValueID
+				}
+			}
+			continue
+		}
+		id = e.assignedFrom[id]
+	}
+	return ""
+}
+
+func compilesPattern(symbol string) bool {
+	switch symbol {
+	case "re.compile", "RegExp", "regexp.compile":
+		return true
+	}
+	return false
 }
 
 // taintLeads reports whether the caller's value is the FIRST thing composed into this one.

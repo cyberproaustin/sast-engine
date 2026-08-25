@@ -5,7 +5,7 @@
     {
       "cwe": "CWE-78",
       "sinkFile": "app.py",
-      "sinkLine": 28,
+      "sinkLine": 32,
       "sourceLabel": "flask.request.args.host",
       "confidence": "high",
       "note": "subprocess.run, the modern spelling and the one no fixture had"
@@ -13,7 +13,7 @@
     {
       "cwe": "CWE-78",
       "sinkFile": "app.py",
-      "sinkLine": 29,
+      "sinkLine": 33,
       "sourceLabel": "flask.request.args.host",
       "confidence": "high",
       "note": "subprocess.call"
@@ -21,7 +21,7 @@
     {
       "cwe": "CWE-78",
       "sinkFile": "app.py",
-      "sinkLine": 30,
+      "sinkLine": 34,
       "sourceLabel": "flask.request.args.host",
       "confidence": "high",
       "note": "subprocess.Popen"
@@ -29,7 +29,7 @@
     {
       "cwe": "CWE-502",
       "sinkFile": "app.py",
-      "sinkLine": 37,
+      "sinkLine": 41,
       "sourceLabel": "flask.request.get_data()",
       "confidence": "high",
       "note": "pickle.loads, reached through the METHOD form of the request body -- `request.get_json()` appears 44 times across the clean corpus and was not a source at all"
@@ -37,7 +37,7 @@
     {
       "cwe": "CWE-502",
       "sinkFile": "app.py",
-      "sinkLine": 38,
+      "sinkLine": 42,
       "sourceLabel": "flask.request.args.doc",
       "confidence": "high",
       "note": "yaml.unsafe_load"
@@ -45,7 +45,7 @@
     {
       "cwe": "CWE-918",
       "sinkFile": "app.py",
-      "sinkLine": 45,
+      "sinkLine": 49,
       "sourceLabel": "flask.request.args.url",
       "confidence": "medium",
       "note": "urllib.request.urlopen"
@@ -53,7 +53,7 @@
     {
       "cwe": "CWE-22",
       "sinkFile": "app.py",
-      "sinkLine": 52,
+      "sinkLine": 56,
       "sourceLabel": "flask.request.args.name",
       "confidence": "high",
       "note": "flask.send_file"
@@ -61,7 +61,7 @@
     {
       "cwe": "CWE-1336",
       "sinkFile": "app.py",
-      "sinkLine": 59,
+      "sinkLine": 63,
       "sourceLabel": "flask.request.args.tpl",
       "confidence": "high",
       "note": "jinja2.Template compiled from a caller's text"
@@ -69,10 +69,18 @@
     {
       "cwe": "CWE-328",
       "sinkFile": "app.py",
-      "sinkLine": 69,
+      "sinkLine": 73,
       "sourceLabel": "\"hashlib.sha1()\"",
       "confidence": "high",
       "note": "the direct form of a weak hash, which the named-algorithm rules never covered. Reported and never gating: across the clean corpus the direct form is 44 of the 80 weak-hash findings, every one examined being a cache key, an ETag or a Gravatar URL"
+    },
+    {
+      "cwe": "CWE-1333",
+      "sinkFile": "app.py",
+      "sinkLine": 83,
+      "sourceLabel": "flask.request.form.mail",
+      "confidence": "medium",
+      "note": "a caller's string against a pattern that backtracks, compiled at module scope and used in the handler -- which is the normal way to write this and means the rule has to follow the receiver through the compile step. Written inside `if not ...`, where the frontend used to walk straight past the call"
     }
   ]
 }

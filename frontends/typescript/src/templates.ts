@@ -87,7 +87,7 @@ const ENGINES: Record<string, string> = {
   ".swig": "swig",
 };
 
-const SKIP_DIRECTORIES = new Set(["node_modules", ".git", ".yarn", "dist", "build", "out", "coverage"]);
+const SKIP_DIRECTORIES = new Set(["node_modules", ".git", ".yarn", "vendor", "dist", "build", "out", "coverage"]);
 
 /** Directories whose `.html` files are views rather than assets, by universal convention. */
 const VIEW_DIRECTORIES = /(^|\/)(views|templates|partials|layouts)\//;
