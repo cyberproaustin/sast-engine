@@ -1,3 +1,4 @@
+const { randomUUID } = require("crypto");
 const express = require("express");
 const { getCookieOpts } = require("./helper");
 
@@ -59,7 +60,7 @@ app.post("/theme", (req, res) => {
 // caller's own submission would be a different weakness in a corpus about a different
 // judgement.
 function mintSession(email) {
-  return `s-${email}-${Date.now()}`;
+  return `s-${email}-${randomUUID()}`;
 }
 
 module.exports = app;

@@ -257,13 +257,20 @@ var claims = map[string]Claim{
 		By: []string{"predictable-salt"}},
 	"CWE-759": {State: Partial, Reason: "a caller's password reaching a hash function that takes no salt -- hashlib's digests in Python, and in Node an update() on an object that came out of createHash. The whole-value requirement is the rule itself rather than a precision measure: sha256(password + salt) composes the password with something else, and something else is what a salt is. A salt mixed in inside a helper this engine cannot see through is a stated miss",
 		By: []string{"credential-unsalted-hash"}},
+	"CWE-331": {State: Partial, Reason: "a random value written to be shorter than 128 bits, reaching a cookie. Judged at the SINK and not at the call, because the call cannot answer it: written as a call shape it produced 77 findings across the clean corpus and every one was a unique suffix, a SQL parameter name, a colour, a temporary table name or a slug checked for collisions in a loop. A length computed at runtime is not a number written in the call and is not matched",
+		By: []string{"short-secret"}},
+	"CWE-337": {State: Partial, Reason: "the clock, the process id or a version 1 UUID reaching the argument a generator is seeded from. A seed decides every number that follows it, so a seed anybody can recompute is a sequence anybody can recompute. Only the generators this engine models are described as seedable",
+		By: []string{"predictable-seed"}},
+	"CWE-341": {State: Partial, Reason: "the same observable values reaching a cookie, which is the sink where unguessability is the whole point. Distinct from CWE-338 by WHAT the value came from: a fast random number is a different mistake from the current time, and both are judged at the sink rather than at the call. Signing ends it, because a signed token cannot be forged however public its fields are -- but only where the signing call is ON THE PATH: measured on the clean corpus two findings remain where the token is minted by the application's own helper and the engine cannot see the jwt.encode inside it",
+		By: []string{"observable-secret"}},
+	"CWE-552": {State: Partial, Reason: "a static file handler pointed at a directory that was never meant to be public -- the project root, the filesystem root, a home directory. Only a directory written as a literal in the call is matched: a path built at runtime is not decidable here and is not guessed at",
+		By: []string{"world-readable-root"}},
 	"CWE-1021": {State: Partial, Reason: "framing protection switched off by name in the call. Only an explicit disable: an application that never sets the header at all is not reported, because absence would have to be judged program-wide and the engine cannot see middleware it has no model for",
 		By: []string{"frames-allowed"}},
 
-	// Three weaknesses this engine finds and reports under a SIBLING'"'"'s number. Recorded as
+	// Two weaknesses this engine finds and reports under a SIBLING'"'"'s number. Recorded as
 	// not built rather than claimed, because a coverage map is read by someone looking
 	// for findings carrying that identity, and none ever will.
-	"CWE-337": {State: NotBuilt, Reason: "a predictable seed. The rule that finds a seed written into the call reports it as CWE-336, the same-seed sibling, and the same line is this weakness under a different name -- claiming both would put two numbers on one finding or double every one"},
 	"CWE-256": {State: NotBuilt, Reason: "a password stored in plaintext. The credential-to-file rule finds exactly this and reports it as CWE-312, which is the broader identity for the same line; a separate password-only classification would report it twice"},
 	"CWE-523": {State: NotBuilt, Reason: "credentials sent without transport protection. The cleartext-transmission rule finds exactly this and reports it as CWE-319, which is the same line under the identity that names the scheme rather than the payload"},
 

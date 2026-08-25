@@ -5,7 +5,7 @@
     {
       "cwe": "CWE-548",
       "sinkFile": "app.js",
-      "sinkLine": 8,
+      "sinkLine": 9,
       "sourceLabel": "\"serve-index.default()\"",
       "confidence": "high",
       "note": "the file names in a directory become a published map of it"
@@ -13,7 +13,7 @@
     {
       "cwe": "CWE-315",
       "sinkFile": "app.js",
-      "sinkLine": 13,
+      "sinkLine": 14,
       "sourceLabel": "req.body.password",
       "confidence": "medium",
       "note": "a credential stored in the browser and sent on every request"
@@ -21,7 +21,7 @@
     {
       "cwe": "CWE-539",
       "sinkFile": "app.js",
-      "sinkLine": 20,
+      "sinkLine": 21,
       "sourceLabel": "req.body.password",
       "confidence": "medium",
       "note": "the expiry makes it survive the browser closing"

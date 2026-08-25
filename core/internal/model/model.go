@@ -89,6 +89,17 @@ type SourceRule struct {
 
 	// MatchCallResult
 	Symbol string
+
+	// ArgBelow narrows a call-result source to calls that were WRITTEN with a number
+	// smaller than this in a particular argument.
+	//
+	// How many random bytes are enough cannot be answered at the call -- measured across
+	// the clean corpus, every short one was a unique suffix, a parameter name, a colour,
+	// a temporary table, or a slug checked for collisions in a loop, and none of them
+	// were secrets. The length only becomes a defect once the value reaches somewhere
+	// unguessability is the point, so the length is recorded HERE and judged there.
+	ArgBelow      *int
+	ArgBelowIndex int
 }
 
 // Classification assigns a data class to values by where they come from. What makes a
@@ -356,6 +367,29 @@ type SanitizerRule struct {
 	// `createHash` is a digest.
 	Method      string
 	AfterSymbol []string
+
+	// Classes narrows a transform to the classifications it actually ends. Empty means
+	// every one.
+	//
+	// Signing is the case that needed it. A signed token is unguessable however
+	// guessable the payload was, so signing ends "this came from the clock" -- and it
+	// does not end "there is a password in here", because a JWT payload is base64 and
+	// not a secret. One transform, two different answers, and the difference is WHICH
+	// classification is asking.
+	Classes []string
+}
+
+// AppliesTo reports whether this transform speaks to a classification at all.
+func (s SanitizerRule) AppliesTo(class string) bool {
+	if len(s.Classes) == 0 {
+		return true
+	}
+	for _, c := range s.Classes {
+		if c == class {
+			return true
+		}
+	}
+	return false
 }
 
 // arg is a pointer to an argument index, for the optional condition above.
@@ -769,6 +803,51 @@ func Builtin() Model {
 					{Match: MatchCallResult, Symbol: "random.randint"},
 					{Match: MatchCallResult, Symbol: "random.choice"},
 					{Match: MatchCallResult, Symbol: "random.randrange"},
+				},
+			},
+			{
+				// A random value that is TOO SHORT. How many bytes are enough cannot be
+				// answered at the call: measured across the clean corpus, every short
+				// one was a unique suffix, a SQL parameter name, a colour, a temporary
+				// table name, or a slug checked for collisions in a loop -- 77 findings
+				// and not one of them a secret. So the length is recorded here and
+				// judged where the value lands, which is the only place that knows
+				// whether guessing it matters.
+				Class: "short-random-value",
+				Label: "a random value written to be shorter than 128 bits",
+				Rules: []SourceRule{
+					{Match: MatchCallResult, Symbol: "crypto.randomBytes", ArgBelow: atLeast(16)},
+					{Match: MatchCallResult, Symbol: "os.urandom", ArgBelow: atLeast(16)},
+					{Match: MatchCallResult, Symbol: "secrets.token_bytes", ArgBelow: atLeast(16)},
+					{Match: MatchCallResult, Symbol: "secrets.token_hex", ArgBelow: atLeast(16)},
+					{Match: MatchCallResult, Symbol: "secrets.token_urlsafe", ArgBelow: atLeast(16)},
+				},
+			},
+			{
+				// A value anybody can observe or recompute: the clock, the process id, a
+				// counter. None of these are secrets and none of them are meant to be --
+				// what makes one a weakness is the same thing that makes a fast random
+				// number one, which is where it ENDS UP. `Date.now()` appears everywhere
+				// in every corpus and is almost always a timestamp, so it is classified
+				// here and judged at the sink.
+				Class: "observable-value",
+				Label: "a value anyone can observe or recompute, such as the current time",
+				Rules: []SourceRule{
+					{Match: MatchCallResult, Symbol: "Date.now"},
+					{Match: MatchCallResult, Symbol: "performance.now"},
+					{Match: MatchCallResult, Symbol: "process.hrtime"},
+					{Match: MatchCallResult, Symbol: "process.uptime"},
+					{Match: MatchCallResult, Symbol: "time.time"},
+					{Match: MatchCallResult, Symbol: "time.time_ns"},
+					{Match: MatchCallResult, Symbol: "time.monotonic"},
+					{Match: MatchCallResult, Symbol: "time.perf_counter"},
+					{Match: MatchCallResult, Symbol: "datetime.datetime.now"},
+					{Match: MatchCallResult, Symbol: "datetime.datetime.utcnow"},
+					{Match: MatchCallResult, Symbol: "os.getpid"},
+					// A version 1 UUID is the clock and the MAC address written down. It
+					// looks exactly like a version 4 one and is not a secret at all.
+					{Match: MatchCallResult, Symbol: "uuid.uuid1"},
+					{Match: MatchCallResult, Symbol: "uuid.v1"},
 				},
 			},
 			{
@@ -1277,6 +1356,54 @@ func Builtin() Model {
 				Symbol: "Buffer.allocUnsafeSlow", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
 				CWE:       "CWE-789",
 				Rationale: "the first argument is how many bytes to reserve",
+			},
+
+			// Where a generator is TOLD what to start from. A seed decides every number
+			// that follows it, so a seed anybody can recompute is a sequence anybody can
+			// recompute.
+			{
+				ID: "prng-seed", Visibility: "internal", Context: "prng-seed",
+				Symbol: "random.seed", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-337",
+				Rationale: "the argument is the seed",
+			},
+			{
+				ID: "prng-seed", Visibility: "internal", Context: "prng-seed",
+				Symbol: "numpy.random.seed", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-337",
+				Rationale: "the argument is the seed",
+			},
+			{
+				ID: "prng-seed", Visibility: "internal", Context: "prng-seed",
+				Symbol: "np.random.seed", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-337",
+				Rationale: "the argument is the seed",
+			},
+			{
+				ID: "prng-seed", Visibility: "internal", Context: "prng-seed",
+				Symbol: "random.Random", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-337",
+				Rationale: "the argument is the seed the generator starts from",
+			},
+			{
+				ID: "prng-seed", Visibility: "internal", Context: "prng-seed",
+				Symbol: "faker.seed", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-337",
+				Rationale: "the argument is the seed",
+			},
+			{
+				ID: "prng-seed", Visibility: "internal", Context: "prng-seed",
+				Symbol: "Math.seedrandom", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-337",
+				Rationale: "the argument is the seed",
+			},
+			{
+				// A default export called directly, which is how the seeded generator
+				// most Node projects reach for is imported.
+				ID: "prng-seed", Visibility: "internal", Context: "prng-seed",
+				Symbol: "seedrandom.default", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-337",
+				Rationale: "the argument is the seed",
 			},
 
 			// A cache outlives the request that filled it and is usually shared: another
@@ -2432,6 +2559,42 @@ func Builtin() Model {
 				CWE:           "CWE-338",
 			},
 			{
+				// A seed decides every number that follows it. Seeded from the clock, the
+				// sequence is reproducible by anyone who knows roughly when the process
+				// started, which for a server is anyone who has ever made a request to it.
+				ID:            "predictable-seed",
+				Class:         "observable-value",
+				DeniedContext: []string{"prng-seed"},
+				Requires:      Requirements{Interprocedural: true},
+				Reason:        "a seed anybody can recompute makes every number that follows it recomputable, and the clock is the most guessable seed there is",
+				Finding:       "Random number generator seeded from an observable value",
+				CWE:           "CWE-337",
+			},
+			{
+				// A generator that is perfect and was asked for too little. Four random
+				// bytes are four billion candidates, which is a weekend for anyone who
+				// wants the session.
+				ID:            "short-secret",
+				Class:         "short-random-value",
+				DeniedContext: []string{"cookie-store", "cookie-persist"},
+				Requires:      Requirements{Interprocedural: true},
+				Reason:        "a value under 128 bits can be searched, and the generator being a good one does not help when there is not enough of it",
+				Finding:       "Too few random bits where unpredictability is required",
+				CWE:           "CWE-331",
+			},
+			{
+				// The clock reaching somewhere unguessability is the whole point. A token
+				// built from the current time is a token an attacker can enumerate by
+				// trying the seconds around the moment it was issued.
+				ID:            "observable-secret",
+				Class:         "observable-value",
+				DeniedContext: []string{"cookie-store", "cookie-persist"},
+				Requires:      Requirements{Interprocedural: true},
+				Reason:        "a value built from the clock is reproducible by anyone who knows roughly when it was issued, and a value a caller must not be able to guess cannot be reproducible at all",
+				Finding:       "Value derived from observable state used where unpredictability is required",
+				CWE:           "CWE-341",
+			},
+			{
 				// On disk it outlives the process, the request and usually the incident:
 				// it is in the backup, in the image, and in whatever the log shipper picks
 				// up next.
@@ -2754,6 +2917,48 @@ func Builtin() Model {
 				Contexts: []string{AnyContext},
 				Note:     "a digest is not what was digested, and a hex digest cannot carry syntax",
 			},
+			// SIGNING. A signed token cannot be forged even when every field in it is
+			// public, so it ends the question "could a caller have guessed this" -- and
+			// only that question. A JWT payload is base64 rather than encrypted, so a
+			// secret put inside one is still a secret in the open, and the credential
+			// classifications are deliberately not listed here.
+			{
+				Symbol:   "jwt.encode",
+				Classes:  []string{"predictable-value", "observable-value", "short-random-value"},
+				Contexts: []string{AnyContext},
+				Note:     "the signature is what makes a token unguessable, whatever the payload was built from",
+			},
+			{
+				Symbol:   "jsonwebtoken.sign",
+				Classes:  []string{"predictable-value", "observable-value", "short-random-value"},
+				Contexts: []string{AnyContext},
+				Note:     "the signature is what makes a token unguessable, whatever the payload was built from",
+			},
+			{
+				Symbol:   "jose.jwt.encode",
+				Classes:  []string{"predictable-value", "observable-value", "short-random-value"},
+				Contexts: []string{AnyContext},
+				Note:     "the signature is what makes a token unguessable, whatever the payload was built from",
+			},
+			{
+				Symbol:   "jwt.sign",
+				Classes:  []string{"predictable-value", "observable-value", "short-random-value"},
+				Contexts: []string{AnyContext},
+				Note:     "the signature is what makes a token unguessable, whatever the payload was built from",
+			},
+			{
+				Symbol:   "itsdangerous.URLSafeTimedSerializer.dumps",
+				Classes:  []string{"predictable-value", "observable-value", "short-random-value"},
+				Contexts: []string{AnyContext},
+				Note:     "the signature is what makes a token unguessable, whatever the payload was built from",
+			},
+			{
+				Symbol:   "itsdangerous.TimestampSigner.sign",
+				Classes:  []string{"predictable-value", "observable-value", "short-random-value"},
+				Contexts: []string{AnyContext},
+				Note:     "the signature is what makes a token unguessable, whatever the payload was built from",
+			},
+
 			{
 				// Node's digest is a method on an object, so the identity comes from
 				// what built the object rather than from the name.
@@ -3764,6 +3969,25 @@ func builtinCallShapes() []CallShape {
 			Rationale:  "the server is configured to accept malformed requests",
 		},
 
+		{
+			// Serving a directory that was never meant to be public. `express.static(".")`
+			// hands over the whole project: the .env file, the .git directory, the
+			// backups somebody left in the root, the source itself.
+			ID: "world-readable-root", Symbol: "express.static", ArgIndex: 0,
+			Disallowed: []string{".", "./", "/", "..", "../", "/home", "/etc", "/root", "/var"},
+			CWE:        "CWE-552",
+			Finding:    "A directory served whole to anyone who asks",
+			Reason:     "everything under this path becomes fetchable by URL, and a project root holds the environment file, the version control directory and whatever was left there",
+			Rationale:  "the first argument is the directory being served",
+		},
+		{
+			ID: "world-readable-root", Symbol: "flask.send_from_directory", ArgIndex: 0,
+			Disallowed: []string{".", "./", "/", "..", "../", "/home", "/etc", "/root", "/var"},
+			CWE:        "CWE-552",
+			Finding:    "A directory served whole to anyone who asks",
+			Reason:     "everything under this path becomes fetchable by URL, and a project root holds the environment file, the version control directory and whatever was left there",
+			Rationale:  "the first argument is the directory being served from",
+		},
 		{
 			// A salt written into the source is the same salt for every password in the
 			// database, which is what a salt exists to prevent: one precomputed table
