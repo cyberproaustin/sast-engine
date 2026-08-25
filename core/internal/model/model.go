@@ -398,7 +398,12 @@ func Builtin() Model {
 						Framework:  "express",
 						EntryKind:  "http-route",
 						ParamIndex: 0,
-						Paths:      []string{"query", "body", "params", "headers", "cookies", "files"},
+						Paths: []string{"query", "body", "params", "headers", "cookies", "files",
+							// The request line is caller-supplied too. `req.originalUrl` and
+							// `req.hostname` are chosen by whoever made the request -- the
+							// latter comes from the Host header -- and code reaches for them
+							// constantly when building links back to itself.
+							"url", "originalUrl", "path", "hostname"},
 					},
 					{
 						// Frameworks that inject request data straight into a
@@ -409,7 +414,11 @@ func Builtin() Model {
 					{
 						Match:  MatchGlobalProperty,
 						Symbol: "flask.request",
-						Paths:  []string{"args", "form", "json", "values", "headers", "cookies", "data", "files"},
+						Paths: []string{"args", "form", "json", "values", "headers", "cookies", "data", "files",
+							// Same reasoning on Flask. A real template injection in the
+							// vulnerable corpus interpolates `request.url` into template
+							// SOURCE, and was invisible while this list stopped at the body.
+							"url", "path", "full_path", "base_url", "url_root", "query_string", "referrer", "user_agent"},
 					},
 				},
 			},
@@ -700,6 +709,73 @@ func Builtin() Model {
 				Method: "mv", ReceiverIsEntryParam: -1, RequiresUntrustedReceiver: true, ArgIndex: []int{0},
 				CWE:       "CWE-434",
 				Rationale: "moves an uploaded file to a destination the caller named",
+			},
+			// A template is a program. Every engine here exposes property access and
+			// method calls to the template text, which is why server-side template
+			// injection ends in code execution rather than in mangled markup -- Jinja
+			// reaches the object graph through `__class__`, and Handlebars and Pug compile
+			// to JavaScript. Distinct from the html context on purpose: escaping the five
+			// characters that make markup does nothing to a template that is being
+			// COMPILED rather than rendered into.
+			{
+				ID: "template-compiler", Visibility: "internal", Context: "template",
+				Symbol: "flask.render_template_string", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-1336",
+				Rationale: "render_template_string() compiles its argument as a Jinja template",
+			},
+			{
+				ID: "template-compiler", Visibility: "internal", Context: "template",
+				Symbol: "jinja2.Template", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-1336",
+				Rationale: "Template() compiles its argument",
+			},
+			{
+				ID: "template-compiler", Visibility: "internal", Context: "template",
+				Symbol: "jinja2.Environment.from_string", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-1336",
+				Rationale: "from_string() compiles its argument as a template",
+			},
+			{
+				ID: "template-compiler", Visibility: "internal", Context: "template",
+				Symbol: "handlebars.compile", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-1336",
+				Rationale: "compile() turns template text into a function",
+			},
+			{
+				ID: "template-compiler", Visibility: "internal", Context: "template",
+				Symbol: "handlebars.default.compile", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-1336",
+				Rationale: "compile() turns template text into a function",
+			},
+			{
+				ID: "template-compiler", Visibility: "internal", Context: "template",
+				Symbol: "pug.compile", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-1336",
+				Rationale: "compile() turns template text into a function",
+			},
+			{
+				ID: "template-compiler", Visibility: "internal", Context: "template",
+				Symbol: "pug.render", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-1336",
+				Rationale: "render() compiles its first argument as a template",
+			},
+			{
+				ID: "template-compiler", Visibility: "internal", Context: "template",
+				Symbol: "ejs.render", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-1336",
+				Rationale: "render() compiles its first argument as a template",
+			},
+			{
+				ID: "template-compiler", Visibility: "internal", Context: "template",
+				Symbol: "nunjucks.renderString", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-1336",
+				Rationale: "renderString() compiles its first argument as a template",
+			},
+			{
+				ID: "template-compiler", Visibility: "internal", Context: "template",
+				Symbol: "lodash.template", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-1336",
+				Rationale: "template() compiles its argument into a function",
 			},
 			{
 				ID: "filesystem-path", Visibility: "internal", Context: "path",
@@ -1189,7 +1265,7 @@ func Builtin() Model {
 			{
 				ID:            "untrusted-to-interpreter",
 				Class:         "untrusted-input",
-				DeniedContext: []string{"shell", "exec-path", "sql", "html", "code"},
+				DeniedContext: []string{"shell", "exec-path", "sql", "html", "code", "template"},
 				Reason:        "a caller must not be able to choose what an interpreter executes",
 				Finding:       "Untrusted input reaches an interpreter",
 				CWE:           "CWE-78",
