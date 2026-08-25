@@ -46,6 +46,8 @@ var corpora = []string{
 	"flask-cookie-attributes",
 	"express-misconfiguration",
 	"flask-misconfiguration",
+	"express-template-injection",
+	"flask-template-injection",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {

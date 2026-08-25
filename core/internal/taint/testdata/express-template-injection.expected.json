@@ -1,0 +1,14 @@
+{
+  "corpus": "express-template-injection",
+  "description": "The same judgement on the JavaScript side. The negative route is the one that matters: a template compiled once from a literal and then rendered with caller-supplied data appears in three of the production repositories in the corpus, and reporting it would make this rule unusable.",
+  "expected": [
+    {
+      "cwe": "CWE-1336",
+      "sinkFile": "app.js",
+      "sinkLine": 11,
+      "sourceLabel": "req.query.layout",
+      "confidence": "high",
+      "note": "the caller chooses the template source; Handlebars compiles to JavaScript"
+    }
+  ]
+}
