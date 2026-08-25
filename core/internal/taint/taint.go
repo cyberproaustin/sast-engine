@@ -49,6 +49,16 @@ type Hop struct {
 // is expected. Negative, so it can never collide with a real position.
 const receiverArgIndex = -1
 
+// exactlyOneOf reports whether a path IS one of these rather than starting with one.
+func exactlyOneOf(path string, want []string) bool {
+	for _, w := range want {
+		if path == w {
+			return true
+		}
+	}
+	return false
+}
+
 // composedIntoText reports whether this data was EVER built into text on its way here.
 //
 // Used by the channels that require a whole value. `axios.get(BASE + "/users/" + id)`
@@ -72,6 +82,18 @@ func composedIntoText(path []Hop) bool {
 func enclosed(path []Hop) bool {
 	for _, h := range path {
 		if h.Kind == "enclose" {
+			return true
+		}
+	}
+	return false
+}
+
+// projected reports whether something was READ OUT of this value's source on the way
+// here. The IR already records a property read as its own flow kind, so the third
+// structural question needed no new fact to ask.
+func projected(path []Hop) bool {
+	for _, h := range path {
+		if h.Kind == "property" {
 			return true
 		}
 	}
@@ -411,6 +433,9 @@ func (e *engine) seedByGlobalProperty(rule model.SourceRule) {
 	for _, fn := range e.ix.IR.Functions {
 		for _, v := range fn.Values {
 			if v.Kind != ir.ValueProperty || !matchesPath(v.Path, rule.Paths) {
+				continue
+			}
+			if rule.ExactPath && !exactlyOneOf(v.Path, rule.Paths) {
 				continue
 			}
 			base := e.ix.ValueByID[v.Base]
@@ -1111,6 +1136,12 @@ func (e *engine) buildFinding(c *ir.Call, ch model.Channel, p model.Policy, arg 
 	// A value that became a FIELD of something is not the caller's object being handed
 	// over whole. `update({ name: req.body.name })` names the field it writes.
 	if ch.RequiresUnenclosed && enclosed(path) {
+		return Finding{}, false
+	}
+
+	// And a value READ OUT of a structure is not the structure. One environment variable
+	// published on purpose is not the environment.
+	if p.RequiresUnprojected && projected(path) {
 		return Finding{}, false
 	}
 
