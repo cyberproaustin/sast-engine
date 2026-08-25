@@ -61,6 +61,12 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 				if !carrying.Values[w.From] {
 					continue
 				}
+				// A field read out of something the classification reached is not the
+				// classified thing. A server-side lookup handed a request once does not
+				// make its answer the caller's.
+				if rule.RequiresUnprojected && carrying.Projected[w.From] {
+					continue
+				}
 				out = append(out, finding(ix, fn, w, rule, carrying.Origin[w.From]))
 			}
 		}
@@ -74,7 +80,7 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 func reachedFromEntry(ix *ir.Index, fn *ir.Function) bool {
 	seen := map[string]bool{fn.ID: true}
 	frontier := []*ir.Function{fn}
-	for depth := 0; depth < 3 && len(frontier) > 0; depth++ {
+	for depth := 0; depth < 2 && len(frontier) > 0; depth++ {
 		var next []*ir.Function
 		for _, f := range frontier {
 			if _, ok := ix.EntryByFunc[f.ID]; ok {

@@ -304,6 +304,15 @@ lands on the template line rather than on the handler that rendered it. `capabil
 prints `templates=`, because "no findings in the view layer" and "the view layer was not
 opened" are different results.
 
+**The largest remaining imprecision, named.** Interprocedural taint here is
+*context-insensitive*: when a tainted value is returned from a function, every call site of
+that function gets a tainted result, not only the one that passed it. On a large
+application this is how a request value ends up "reaching" a JSON path parser four frames
+below the handler. It is the source of most of the engine's remaining false positives, and
+the reason several rules ask not only whether a value is classified but whether it is the
+classified thing ITSELF — a password's own length rather than the length of something a
+password was once involved in producing.
+
 **What it does not do.** A dozen data classes and several dozen channels; two frameworks,
 two languages. The remaining code surface is the set of **matching strategies** — how a value
 acquires a class, and how a call site is recognized as a channel. Those are still Go, and

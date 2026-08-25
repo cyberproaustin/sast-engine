@@ -31,6 +31,16 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 		return nil
 	}
 	ix := ir.NewIndex(d)
+	// Which call produced which value, for a rule that asks what a compared value was
+	// computed FROM.
+	resultOf := make(map[string]*ir.Call)
+	for _, fn := range d.Functions {
+		for _, c := range fn.Calls {
+			if c.ResultID != "" {
+				resultOf[c.ResultID] = c
+			}
+		}
+	}
 
 	var out []taint.Finding
 	for _, fn := range d.Functions {
@@ -71,6 +81,10 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 				if rule.OtherBelow != nil && !numberBelow(ix.ValueByID[other], *rule.OtherBelow) {
 					continue
 				}
+				// A threshold, not a presence test.
+				if rule.OtherAtLeast != nil && numberBelow(ix.ValueByID[other], *rule.OtherAtLeast) {
+					continue
+				}
 				if rule.OtherIsText && !isText(ix.ValueByID[other]) {
 					continue
 				}
@@ -78,6 +92,21 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 				// credential.
 				if rule.RequiresUnprojected && carrying.Projected[side] {
 					continue
+				}
+				// A particular derivation of the classified value, named by the property
+				// leaf or by the function that produced it -- and taken of the classified
+				// value ITSELF rather than of anything the program later computed from
+				// it. A password's length is the password's; the length of a path that a
+				// password was once involved in producing is not.
+				if len(rule.SideVia) > 0 {
+					src, ok := derivedVia(ix, resultOf, ix.ValueByID[side], rule.SideVia)
+					// The value it was taken OF must be the classified thing rather than
+					// something read out of it: `password.length` where `password` is the
+					// field the caller sent, not `parts.length` where `parts` is what a
+					// library made of it four frames later.
+					if !ok || !carrying.Values[src] || carrying.Projected[src] {
+						continue
+					}
 				}
 				// Two values the same caller just sent, compared against each other:
 				// a confirmation field, not a secret check.
@@ -113,6 +142,42 @@ func numberBelow(v *ir.Value, threshold int) bool {
 	}
 	n, err := strconv.Atoi(strings.TrimSpace(v.Literal))
 	return err == nil && n < threshold
+}
+
+// derivedVia reports whether a value is a named derivation of something else: a property
+// read whose leaf is one of these, or the result of calling one of them.
+//
+// `password.length` and `len(password)` are the same question asked in two languages, and
+// the whole of what a rule about a password's LENGTH is entitled to look at.
+func derivedVia(ix *ir.Index, resultOf map[string]*ir.Call, v *ir.Value, names []string) (string, bool) {
+	if v == nil {
+		return "", false
+	}
+	if v.Kind == ir.ValueProperty && matchesName(v.Path, names) {
+		return v.Base, true
+	}
+	if c := resultOf[v.ID]; c != nil && matchesName(c.Callee.Symbol, names) {
+		for _, a := range c.Args {
+			if a.Index == 0 {
+				return a.ValueID, true
+			}
+		}
+	}
+	return "", false
+}
+
+func matchesName(dotted string, names []string) bool {
+	leaf := dotted
+	if i := strings.LastIndex(leaf, "."); i >= 0 {
+		leaf = leaf[i+1:]
+	}
+	leaf = strings.ToLower(leaf)
+	for _, want := range names {
+		if leaf == strings.ToLower(want) {
+			return true
+		}
+	}
+	return false
 }
 
 // isText reports whether a value is a STRING written into the source. A number is

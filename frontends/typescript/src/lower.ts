@@ -117,13 +117,73 @@ function makeFunctionResolver(
     return found.length === 1 ? found[0] : undefined;
   };
 
+  /**
+   * Which ARGUMENT a wrapper hands the request to, when the function it returns does
+   * nothing but call one of the wrapper's own parameters.
+   *
+   * `utils.asyncHandler(h)` returns `(req, res, next) => h(req, res, next).catch(next)`.
+   * Resolving the call to the function it returns is correct and useless: the handler is
+   * `h`, and the arrow is a two-line adaptor that every route in the application shares.
+   * Juice Shop wraps sixty-three routes this way, and all sixty-three were enumerated as
+   * one function in `lib/utils.ts` -- a surface that looked complete while pointing at
+   * the same two lines over and over, and a dataflow that started nowhere near the
+   * handler.
+   *
+   * The test is structural rather than a list of wrapper names: the returned function
+   * calls a PARAMETER of the function that returned it, so the real handler is whatever
+   * was passed in that position. `catchAsync`, `wrap` and `expressAsyncHandler` are the
+   * same shape under other names, and a list of names would have missed the next one.
+   */
+  const forwardedParamIndex = (factory: FuncMeta, produced: FuncMeta): number | undefined => {
+    const decl = factory.node as ts.FunctionLikeDeclaration | undefined;
+    const inner = produced.node as ts.FunctionLikeDeclaration | undefined;
+    if (!decl?.parameters || !inner?.body) return undefined;
+
+    const paramIndex = new Map<ts.Symbol, number>();
+    decl.parameters.forEach((param, i) => {
+      if (!ts.isIdentifier(param.name)) return;
+      const sym = checker.getSymbolAtLocation(param.name);
+      if (sym) paramIndex.set(sym, i);
+    });
+    if (paramIndex.size === 0) return undefined;
+
+    let found: number | undefined;
+    let count = 0;
+    const scan = (n: ts.Node): void => {
+      if (ts.isCallExpression(n)) {
+        const callee = ts.isPropertyAccessExpression(n.expression) ? n.expression.expression : n.expression;
+        if (ts.isIdentifier(callee)) {
+          const sym = checker.getSymbolAtLocation(callee);
+          const at = sym ? paramIndex.get(sym) : undefined;
+          if (at !== undefined) {
+            count++;
+            found = at;
+          }
+        }
+      }
+      ts.forEachChild(n, scan);
+    };
+    scan(inner.body);
+    // Exactly one, for the same reason a factory returning several functions resolves to
+    // none: a wrapper that calls two of its parameters is doing something this cannot
+    // describe, and picking one would be a guess.
+    return count === 1 ? found : undefined;
+  };
+
   const resolve: FunctionResolver = (node) => {
     const direct = funcByNode.get(node);
     if (direct) return direct;
 
     // A handler produced by calling a factory.
     if (ts.isCallExpression(node)) {
-      const produced = returnedFunction(resolve(node.expression));
+      const factory = resolve(node.expression);
+      const produced = returnedFunction(factory);
+      if (produced && factory) {
+        const at = forwardedParamIndex(factory, produced);
+        const passed = at === undefined ? undefined : node.arguments[at];
+        const wrapped = passed ? resolve(passed) : undefined;
+        if (wrapped) return wrapped;
+      }
       if (produced) return produced;
     }
 
