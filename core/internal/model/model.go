@@ -3382,6 +3382,49 @@ func builtinCallShapes() []CallShape {
 			Rationale:    "the fourth argument to pbkdf2_hmac() is the iteration count",
 		},
 		{
+			// A salt written into the source is the same salt for every password in the
+			// database, which is what a salt exists to prevent: one precomputed table
+			// then works against all of them at once.
+			ID: "predictable-salt", Symbol: "crypto.pbkdf2", ArgIndex: 1, AnyLiteral: true,
+			CWE:       "CWE-760",
+			Finding:   "Password hashed with a salt written into the source",
+			Reason:    "a salt that is the same for every password is not doing the one thing a salt does, which is to make a precomputed table useless",
+			Rationale: "the second argument to pbkdf2() is the salt",
+		},
+		{
+			ID: "predictable-salt", Symbol: "crypto.pbkdf2Sync", ArgIndex: 1, AnyLiteral: true,
+			CWE:       "CWE-760",
+			Finding:   "Password hashed with a salt written into the source",
+			Reason:    "a salt that is the same for every password is not doing the one thing a salt does, which is to make a precomputed table useless",
+			Rationale: "the second argument to pbkdf2Sync() is the salt",
+		},
+		{
+			ID: "predictable-salt", Symbol: "hashlib.pbkdf2_hmac", ArgIndex: 2, AnyLiteral: true,
+			CWE:       "CWE-760",
+			Finding:   "Password hashed with a salt written into the source",
+			Reason:    "a salt that is the same for every password is not doing the one thing a salt does, which is to make a precomputed table useless",
+			Rationale: "the third argument to pbkdf2_hmac() is the salt",
+		},
+		{
+			// Turning off the header that stops the page being framed. Clickjacking is
+			// the caller's page wrapping yours and collecting the clicks.
+			ID: "frames-allowed", AnyCall: true, Keyword: "xFrameOptions",
+			Disallowed: []string{"false"},
+			CWE:        "CWE-1021",
+			Finding:    "Framing protection switched off",
+			Reason:     "without a frame restriction another site can load this page invisibly over its own and collect the clicks meant for it",
+			Rationale:  "the frame-options header is disabled in the call",
+		},
+		{
+			ID: "frames-allowed", AnyCall: true, Keyword: "frameguard",
+			Disallowed: []string{"false"},
+			CWE:        "CWE-1021",
+			Finding:    "Framing protection switched off",
+			Reason:     "without a frame restriction another site can load this page invisibly over its own and collect the clicks meant for it",
+			Rationale:  "the frame-options header is disabled in the call",
+		},
+
+		{
 			// An initialisation vector must be unpredictable and must not repeat. Written
 			// into the source it is both predictable and reused on every single message,
 			// which for CBC leaks whether two plaintexts start alike and for CTR is

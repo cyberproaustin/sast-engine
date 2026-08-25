@@ -253,6 +253,18 @@ var claims = map[string]Claim{
 	"CWE-501": {State: Partial, Reason: "a caller-asserted AUTHORITY written into the session, which everything downstream reads back as state the server established. Deliberately not caller input generally: sessions legitimately hold a return URL, a pending registration or a theme, and nodebb does exactly that twice. What must not cross is a claim about what the caller is allowed to do. Only the session is described as a destination, because the engine has no way to know where an application draws its other boundaries",
 		By: []string{"untrusted-into-session"}},
 
+	"CWE-760": {State: Partial, Reason: "a salt written into the source, which is the same salt for every password in the database -- the one thing a salt exists to prevent, because a single precomputed table then works against all of them. A salt read from a column or generated per password is not a literal and is not matched",
+		By: []string{"predictable-salt"}},
+	"CWE-1021": {State: Partial, Reason: "framing protection switched off by name in the call. Only an explicit disable: an application that never sets the header at all is not reported, because absence would have to be judged program-wide and the engine cannot see middleware it has no model for",
+		By: []string{"frames-allowed"}},
+
+	// Three weaknesses this engine finds and reports under a SIBLING'"'"'s number. Recorded as
+	// not built rather than claimed, because a coverage map is read by someone looking
+	// for findings carrying that identity, and none ever will.
+	"CWE-337": {State: NotBuilt, Reason: "a predictable seed. The rule that finds a seed written into the call reports it as CWE-336, the same-seed sibling, and the same line is this weakness under a different name -- claiming both would put two numbers on one finding or double every one"},
+	"CWE-256": {State: NotBuilt, Reason: "a password stored in plaintext. The credential-to-file rule finds exactly this and reports it as CWE-312, which is the broader identity for the same line; a separate password-only classification would report it twice"},
+	"CWE-523": {State: NotBuilt, Reason: "credentials sent without transport protection. The cleartext-transmission rule finds exactly this and reports it as CWE-319, which is the same line under the identity that names the scheme rather than the payload"},
+
 	// Cookie attributes. Two of the three are claimed for an explicit downgrade AND for
 	// an omission; Secure is claimed only for the downgrade, because the correct idiom
 	// makes it conditional on the environment and a rule demanding a literal would report
