@@ -14,6 +14,7 @@ package expectation
 import (
 	"fmt"
 	"sort"
+	"strings"
 
 	"github.com/cyberproaustin/sast-engine/core/internal/ir"
 	"github.com/cyberproaustin/sast-engine/core/internal/model"
@@ -40,6 +41,43 @@ func weaknessFor(controlKind string) string {
 	default:
 		return "CWE-284"
 	}
+}
+
+// weaknessAt narrows the identity by WHERE the control is missing.
+//
+// A missing throttle is unbounded resource consumption in general and something sharper on
+// an authentication endpoint: unlimited attempts against a login is how a password gets
+// guessed, and the remedy is the same shape but the urgency is not. The path is the only
+// evidence available at this point and it is used to narrow an identity rather than to
+// make a finding, so the worst it does is report the general number where the specific one
+// applied.
+func weaknessAt(controlKind, path string) string {
+	if controlKind != "rate-limit" || !looksLikeAuthentication(path) {
+		return weaknessFor(controlKind)
+	}
+	return "CWE-307"
+}
+
+// looksLikeAuthentication reports whether a route path is one where credentials are
+// presented. Deliberately a short list of segments rather than anything clever: these are
+// the words applications actually use, and a longer list would start guessing.
+func looksLikeAuthentication(path string) bool {
+	lower := strings.ToLower(path)
+	for _, seg := range []string{"login", "signin", "sign-in", "authenticate", "session", "token", "password/reset", "otp", "mfa", "2fa"} {
+		if strings.Contains(lower, seg) {
+			return true
+		}
+	}
+	return false
+}
+
+// entryPath is the route an entry point serves, or its label when the framework gave it
+// none.
+func entryPath(e surface.EntryFacts) string {
+	if e.Path != "" {
+		return e.Path
+	}
+	return e.Label()
 }
 
 // Origins.
@@ -156,7 +194,7 @@ func Analyze(d *ir.IR, s surface.Surface, m model.Model, p *policy.Policy, t Thr
 				}
 				res.Findings = append(res.Findings, Finding{
 					Class:  "Declared control missing",
-					CWE:    weaknessFor(kind),
+					CWE:    weaknessAt(kind, entryPath(e)),
 					Origin: OriginDeclared,
 					// A team that stated this expectation gets it enforced.
 					Gates: true,
@@ -226,7 +264,7 @@ func (r *Result) appendInferred(s surface.Surface, t Thresholds, exempt map[stri
 				}
 				r.Findings = append(r.Findings, Finding{
 					Class:          "Inconsistent access control",
-					CWE:            weaknessFor(sig.kind),
+					CWE:            weaknessAt(sig.kind, entryPath(e)),
 					Origin:         OriginInferred,
 					Gates:          false,
 					Message:        fmt.Sprintf("%s is not applied here, but is applied by most comparable entry points", sig.name),

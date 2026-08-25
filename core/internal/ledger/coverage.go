@@ -282,6 +282,11 @@ var claims = map[string]Claim{
 	"CWE-257": {State: Partial, Reason: "a password passed to a reversible cipher. Encryption is not hashing -- it is recoverable by design, which is what a stored password must never be. The named encryption APIs only; a cipher assembled through an object is not matched",
 		By: []string{"credential-encrypted"}},
 
+	"CWE-524": {State: Partial, Reason: "a credential the caller sent written to a cache, which outlives the request that filled it and is usually shared -- another process, another host, a service somebody else runs. Matched on the cache-shaped method names with a non-builtin receiver, so a language container is excluded and a store nobody named is a stated miss",
+		By: []string{"credential-cached"}},
+	"CWE-307": {State: Partial, Reason: "a missing throttle on an entry point whose PATH says credentials are presented there -- login, signin, token, otp. Unlimited attempts against a login is how a password gets guessed, so the general missing-throttle finding is narrowed to this identity where the path says so. Inferred from the population like every convention finding, so it informs rather than gates, and the path list is short on purpose: a longer one would start guessing",
+		By: []string{"expectations"}},
+
 	// Cookie attributes. Two of the three are claimed for an explicit downgrade AND for
 	// an omission; Secure is claimed only for the downgrade, because the correct idiom
 	// makes it conditional on the environment and a rule demanding a literal would report
