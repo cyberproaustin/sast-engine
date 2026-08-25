@@ -1,3 +1,4 @@
+const fs = require("fs");
 const express = require("express");
 const axios = require("axios");
 
@@ -61,6 +62,20 @@ app.post("/audit", async (req, res) => {
   // out what happened, and a caller who can put a line break in it writes entries of
   // their own -- with whatever timestamp, level and actor they choose.
   console.log("user " + req.body.email + " signed in");
+  res.json({ ok: true });
+});
+
+app.post("/import", async (req, res) => {
+  // POSITIVE. On disk it outlives the request, the process and usually the incident: it
+  // is in the backup, in the image, and in whatever the log shipper picks up next.
+  fs.writeFileSync("/tmp/last-import.json", JSON.stringify({ key: req.body.apiKey }));
+  res.json({ ok: true });
+});
+
+app.post("/import-safe", async (req, res) => {
+  // NEGATIVE. Nothing secret is written: the file records what happened, not what it
+  // was given.
+  fs.writeFileSync("/tmp/last-import.json", JSON.stringify({ at: Date.now() }));
   res.json({ ok: true });
 });
 

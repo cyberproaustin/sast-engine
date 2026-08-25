@@ -1,8 +1,22 @@
 {
   "corpus": "express-dynamic-load",
-  "description": "Two weaknesses that are about WHICH code or WHICH keys, rather than about text being interpreted. The module loader requires a whole value for the same reason a request destination does: `require('./handlers/' + name)` fixes the directory in the literal and leaves the caller a leaf name, which is what every plugin loader ever written looks like. The deep merge is mass assignment with a sharper edge, because merge walks nested keys and `__proto__` is one.",
+  "description": "Two weaknesses that are about WHICH code or WHICH keys, rather than about text being interpreted. The module loader requires a whole value for the same reason a request destination does: `require('./handlers/' + name)` is what every plugin loader ever written looks like, and reporting them all would make the rule unusable. That is a trade rather than a safety argument -- a leaf containing `../` escapes the directory -- and the fixture says so. The deep merge is mass assignment with a sharper edge, because merge walks nested keys and `__proto__` is one.",
   "expected": [
-    {"cwe": "CWE-470", "sinkFile": "app.js", "sinkLine": 9, "sourceLabel": "req.body.module", "confidence": "high", "note": "the caller names the module and the runtime runs it"},
-    {"cwe": "CWE-1321", "sinkFile": "app.js", "sinkLine": 24, "sourceLabel": "req.body", "confidence": "high", "note": "the caller's whole object is merged key by nested key into a shared object"}
+    {
+      "cwe": "CWE-470",
+      "sinkFile": "app.js",
+      "sinkLine": 9,
+      "sourceLabel": "req.body.module",
+      "confidence": "high",
+      "note": "the caller names the module and the runtime runs it"
+    },
+    {
+      "cwe": "CWE-1321",
+      "sinkFile": "app.js",
+      "sinkLine": 27,
+      "sourceLabel": "req.body",
+      "confidence": "high",
+      "note": "the caller's whole object is merged key by nested key into a shared object"
+    }
   ]
 }

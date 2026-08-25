@@ -1179,6 +1179,41 @@ func Builtin() Model {
 				Rationale: "the second argument to set() is the header value",
 			},
 
+			// What gets WRITTEN to a file. Named by symbol rather than by the `write`
+			// method, because `res.write` is a response body and putting both under one
+			// method name would report a credential in a response as a credential on
+			// disk.
+			{
+				ID: "file-contents", Visibility: "internal", Context: "storage",
+				Symbol: "fs.writeFile", ReceiverIsEntryParam: -1, ArgIndex: []int{1},
+				Rationale: "the second argument is what gets written to the file",
+			},
+			{
+				ID: "file-contents", Visibility: "internal", Context: "storage",
+				Symbol: "fs.writeFileSync", ReceiverIsEntryParam: -1, ArgIndex: []int{1},
+				Rationale: "the second argument is what gets written to the file",
+			},
+			{
+				ID: "file-contents", Visibility: "internal", Context: "storage",
+				Symbol: "fs.appendFile", ReceiverIsEntryParam: -1, ArgIndex: []int{1},
+				Rationale: "the second argument is what gets written to the file",
+			},
+			{
+				ID: "file-contents", Visibility: "internal", Context: "storage",
+				Symbol: "fs.appendFileSync", ReceiverIsEntryParam: -1, ArgIndex: []int{1},
+				Rationale: "the second argument is what gets written to the file",
+			},
+			{
+				ID: "file-contents", Visibility: "internal", Context: "storage",
+				Symbol: "fs/promises.writeFile", ReceiverIsEntryParam: -1, ArgIndex: []int{1},
+				Rationale: "the second argument is what gets written to the file",
+			},
+			{
+				ID: "file-contents", Visibility: "internal", Context: "storage",
+				Symbol: "fs/promises.appendFile", ReceiverIsEntryParam: -1, ArgIndex: []int{1},
+				Rationale: "the second argument is what gets written to the file",
+			},
+
 			// Where the interpreter loads modules FROM. Putting a caller-controlled
 			// directory at the front of it means the next import takes whatever is in
 			// that directory, under whatever name it expects.
@@ -2155,6 +2190,19 @@ func Builtin() Model {
 				Reason:        "a value a caller must not be able to guess cannot come from a generator built for speed, because its output is reproducible from a few samples",
 				Finding:       "Guessable value used where unpredictability is required",
 				CWE:           "CWE-338",
+			},
+			{
+				// On disk it outlives the process, the request and usually the incident:
+				// it is in the backup, in the image, and in whatever the log shipper picks
+				// up next.
+				ID:                  "credential-stored-cleartext",
+				Class:               "caller-credential",
+				DeniedContext:       []string{"storage"},
+				RequiresUnprojected: true,
+				Requires:            Requirements{Interprocedural: true},
+				Reason:              "a credential written to a file outlives the request that carried it and ends up in backups and images nobody thinks of as holding secrets",
+				Finding:             "Credential written to a file in the clear",
+				CWE:                 "CWE-312",
 			},
 			{
 				// A cookie is storage on a machine the application does not control. A

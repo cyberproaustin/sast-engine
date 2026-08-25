@@ -17,8 +17,10 @@ def find():
 
 @app.route("/find-bound")
 def find_bound():
-    # NEGATIVE. The caller's value is what is being searched FOR, not part of the filter
-    # the application wrote.
+    # NEGATIVE, and a STATED MISS rather than a safe line. The third argument IS the
+    # filter, so handing the caller's text over whole gives them the whole filter, which
+    # is worse than interpolating into one. The composition requirement is what keeps
+    # the rule precise on the common shape, and this is what it costs.
     return str(DIRECTORY.search_s("dc=example", ldap.SCOPE_SUBTREE, request.args["name"]))
 
 

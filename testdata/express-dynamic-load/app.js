@@ -11,9 +11,12 @@ app.post("/plugin", (req, res) => {
 });
 
 app.post("/handler", (req, res) => {
-  // NEGATIVE. The directory is fixed in the literal, so the caller chooses a leaf name
-  // inside it and cannot reach anywhere else. Every plugin loader ever written looks
-  // like this, and reporting it would make the rule unusable.
+  // NEGATIVE, and a STATED MISS rather than a safe line. The whole-value requirement
+  // means this is not reported, because a fixed base with a variable leaf is what every
+  // plugin loader ever written looks like and reporting them all would make the rule
+  // unusable. But a leaf containing `../` escapes the directory, so this is not safe --
+  // it is a case the rule declines to judge, and saying otherwise would be a comment
+  // that lies about the code beneath it.
   const handler = require("./handlers/" + req.body.name);
   res.json({ ok: typeof handler });
 });
