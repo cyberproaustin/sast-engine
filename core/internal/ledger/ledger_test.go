@@ -148,6 +148,9 @@ func TestClaimsAndRulesNameEachOther(t *testing.T) {
 	for _, st := range m.Stores {
 		known[st.ID] = true
 	}
+	for _, l := range m.Literals {
+		known[l.ID] = true
+	}
 
 	claimed := map[string]bool{}
 	for _, e := range ledger.All() {

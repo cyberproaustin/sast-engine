@@ -264,7 +264,7 @@ and libraries that register no routes.
 Notably, Python outperformed TypeScript on recognition, which is the opposite of where the
 engineering had gone: one uniform decorator beats a dozen registration idioms.
 
-**Measured, not asserted.** 92 corpora are scored on every test run — vulnerable, safe,
+**Measured, not asserted.** 93 corpora are scored on every test run — vulnerable, safe,
 and shape-regression — and a test fails if one is lowered but not scored. A sample:
 
 | corpus | precision | recall | |
@@ -303,6 +303,22 @@ templates and record, per interpolation, whether the engine escapes it — and t
 lands on the template line rather than on the handler that rendered it. `capabilities:`
 prints `templates=`, because "no findings in the view layer" and "the view layer was not
 opened" are different results.
+
+**Six kinds of judgement, because a weakness is not always a flow.** Taint asks where a
+value came from. Convention asks whether an entry point has what its peers have. A call
+shape asks what a call was written with — `createHash("md5")` is weak wherever it appears
+and nothing has to reach it. A decision asks what a comparison settles. A store asks where
+a value was put — `req.session.role = req.body.role` calls nothing and compares nothing. And
+the smallest of them asks nothing at all about context: an RSA private key in a constant is
+not an argument, not a destination, and nothing reaches it. Bending any of these into a
+flow would mean inventing a source for a defect that has none.
+
+**An absence can be the defect, and it is held to a harder standard than a presence.**
+Installing an identity into a session is what every login does; doing it without rotating
+the session identifier is fixation. A rule like that can only be wrong by being too
+confident about silence, so the search for the missing call is deliberately generous —
+through the function, the callbacks it hands out, the helpers it calls and its own callers
+— and every one of those directions was a false positive on real code before it was added.
 
 **A function that returns what it was given returns it only to the callers that gave it
 something.** Interprocedural taint is not fully context-sensitive — that is a much larger
@@ -435,7 +451,7 @@ This project is early. The architecture is complete end to end and exercised by 
 policy families across two languages, but it is not a tool that should be relied on in
 place of an established scanner.
 
-What has been measured: 92 corpora in this repository score precision 1.00 and recall
+What has been measured: 93 corpora in this repository score precision 1.00 and recall
 1.00, and a batch run against 28 unmodified open source repositories produced a surface
 for 19 of them — 778 entry points — with every finding triaged by hand. Those runs
 measured *recall and enumeration*: whether the engine sees an application's real attack

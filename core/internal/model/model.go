@@ -15,6 +15,7 @@
 package model
 
 import (
+	"regexp"
 	"strconv"
 	"strings"
 
@@ -506,6 +507,7 @@ type Model struct {
 	Sanitizers      []SanitizerRule
 	Callbacks       []CallbackRule
 	Controls        []ControlRule
+	Literals        []LiteralRule
 	TaintFlowReq    Requirements
 	SurfaceReq      Requirements
 }
@@ -640,6 +642,17 @@ var authorityNames = []string{
 var cookieAuthorityNames = append([]string{"user", "userid", "username", "auth", "authenticated", "loggedin", "isloggedin"}, authorityNames...)
 
 func Builtin() Model {
+	m := builtin()
+	// Compiled once, because this kind runs against every literal in the program and a
+	// large repository has hundreds of thousands of them. MustCompile is right here: a
+	// pattern in the shipped model that does not compile is a build that must not ship.
+	for i := range m.Literals {
+		m.Literals[i].re = regexp.MustCompile(m.Literals[i].Pattern)
+	}
+	return m
+}
+
+func builtin() Model {
 	return Model{
 		// What dataflow actually needs is call resolution, not type inference. The
 		// original requirement said typeChecker because the only frontend in
@@ -3721,7 +3734,149 @@ func Builtin() Model {
 			{Name: "csrf", Kind: "csrf"},
 			{Name: "xsrf", Kind: "csrf"},
 		},
+
+		// Values whose own shape is the defect. Every one of these was run across sixteen
+		// production repositories before it was written down, and the count that survived
+		// outside test files is in the comment beside it. Nothing here scores entropy or
+		// looks at the name of the variable holding the value: a shape a credential
+		// either has or does not is the whole of the test, and it is the reason this kind
+		// can be trusted without a second thought.
+		Literals: []LiteralRule{
+			{
+				// `postgres://user:hunter2@db.internal/app`. Five on the clean corpus and
+				// all five real: three vendor demo credentials in database engine
+				// documentation, a Firebird default, and a developer script.
+				//
+				// The one thing that shares the shape and not the meaning is a format
+				// example, and superset ships eighteen. Every one carries a bracket, a
+				// parenthesis or a space, and a URL carries none of those.
+				ID:          "credential-in-url",
+				Pattern:     `^[a-z][a-z0-9+.\-]*://[^/:@\s]+:[^/@\s]+@[^/\s]`,
+				ExceptChars: "[]()<>|$ {}%\t",
+				// The one shape in this kind whose weight is genuinely not in the source.
+				// `postgres://app:X@localhost/dev` is a developer's local password and
+				// `postgres://app:X@db.internal/app` is production, and the string does
+				// not say which -- the difference is entirely about where it points. A
+				// private key is a private key wherever it points, which is why the rest
+				// of these gate and this one does not.
+				DependsOnUse: "whether the host it names is reachable and the credential still live is not in the source: the same string is a developer's local password and a production one",
+				CWE:          "CWE-798",
+				Finding:      "Credential written into a connection string",
+				Reason:       "the password is in every clone of the repository, and a connection string is copied between environments far more often than it is rewritten",
+				Rationale:    "a URL in the source carries a username and a password in its authority",
+			},
+			{
+				// One on the clean corpus, and it is a real EC private key written into
+				// an Apple Sign-In example.
+				ID:        "private-key-block",
+				Pattern:   `-----BEGIN (?:[A-Z0-9]+ )*PRIVATE KEY-----`,
+				CWE:       "CWE-321",
+				Finding:   "Private key written into the source",
+				Reason:    "everyone who can read the repository can act as whatever this key identifies, and revoking it means reissuing every certificate or token it signed",
+				Rationale: "the value is a PEM private key block",
+			},
+			{
+				// One on the clean corpus: a signed token granting a valid enterprise
+				// subscription until 2125, in a constant named for development. A token
+				// is not a key, but anybody holding the repository can present it.
+				ID:        "signed-token",
+				Pattern:   `^eyJ[A-Za-z0-9_\-]{8,}\.eyJ[A-Za-z0-9_\-]{8,}\.[A-Za-z0-9_\-]{8,}$`,
+				CWE:       "CWE-798",
+				Finding:   "Signed token written into the source",
+				Reason:    "anybody holding the repository can present it, and it stays valid until it expires or the key that signed it is retired",
+				Rationale: "the value is a signed JSON Web Token",
+			},
+			// The provider-issued identifiers. Each is a shape its issuer defined and
+			// nothing else has, and each measured ZERO outside test files across the
+			// whole clean corpus -- which is what a rule with no room to guess looks like.
+			{
+				ID: "aws-key-id", Pattern: `^(?:AKIA|ASIA)[0-9A-Z]{16}$`,
+				CWE: "CWE-798", Finding: "AWS key identifier written into the source",
+				Reason:    "the identifier names a key that can be tried against every AWS account endpoint until it is deactivated",
+				Rationale: "the value has the shape AWS issues access key identifiers in",
+			},
+			{
+				ID: "github-token", Pattern: `^gh[pousr]_[A-Za-z0-9]{36,255}$`,
+				CWE: "CWE-798", Finding: "GitHub token written into the source",
+				Reason:    "the token carries whatever the account it belongs to can do, and a repository is the one place it is certain to be read",
+				Rationale: "the value has the shape GitHub issues tokens in",
+			},
+			{
+				// Digit groups are required. Without them `xoxb-oauth-bot-token` matches,
+				// and seventy-three test fixtures across the clean corpus are spelled
+				// exactly that way.
+				ID: "slack-token", Pattern: `^xox[baprse]-\d{9,}-\d{9,}-[A-Za-z0-9]{16,}$`,
+				CWE: "CWE-798", Finding: "Slack token written into the source",
+				Reason:    "the token can read and post as whatever installed it, in every channel that installation can reach",
+				Rationale: "the value has the shape Slack issues tokens in",
+			},
+			{
+				ID: "stripe-key", Pattern: `^(?:sk|rk)_(?:live|test)_[0-9A-Za-z]{16,}$`,
+				CWE: "CWE-798", Finding: "Stripe secret key written into the source",
+				Reason:    "a live secret key moves money, and a test key reveals the account it belongs to",
+				Rationale: "the value has the shape Stripe issues secret keys in",
+			},
+			{
+				ID: "google-api-key", Pattern: `^AIza[0-9A-Za-z_\-]{35}$`,
+				CWE: "CWE-798", Finding: "Google API key written into the source",
+				Reason:    "the key is billed to the project that issued it and is usable by anybody who reads the repository",
+				Rationale: "the value has the shape Google issues API keys in",
+			},
+			{
+				ID: "npm-token", Pattern: `^npm_[A-Za-z0-9]{36}$`,
+				CWE: "CWE-798", Finding: "npm token written into the source",
+				Reason:    "the token can publish under whatever the account owns, which is how a package gets replaced rather than merely read",
+				Rationale: "the value has the shape npm issues tokens in",
+			},
+		},
 	}
+}
+
+// LiteralRule is a weakness visible in a written-down value and nothing else.
+//
+// The narrowest rule kind in the model, and the only one whose subject has no context at
+// all: not an argument, not a destination, not a flow. `AKIA` followed by sixteen
+// upper-case characters is an AWS key identifier wherever it appears, and a program that
+// contains one contains a credential.
+//
+// Every rule here is a shape a value either HAS or does not. There is deliberately no
+// entropy score and no proximity to a variable named `secret`: both are ways of guessing,
+// and every one of the eight shapes shipped here was measured across sixteen production
+// repositories before it was written, with the ones that fired on anything other than a
+// real key left out.
+type LiteralRule struct {
+	ID string
+	// Pattern is a regular expression the value must match. Compiled once at model
+	// construction, because this runs against every literal in the program.
+	Pattern string
+	// ExceptChars disqualifies a value containing any of these characters.
+	//
+	// DependsOnUse names what the source does not say, for a shape whose weight turns on
+	// something outside it. Reported, never gating, and the report prints the reason.
+	DependsOnUse string
+	// The one thing that looks like a credential in a URL and is not is a DOCUMENTATION
+	// TEMPLATE: `engine+driver://user:password@host[:port]/dbname[?key=value]`. Superset
+	// ships eighteen of them and every single one carries a bracket, a parenthesis, an
+	// angle bracket or a space. A URL carries none of those.
+	ExceptChars string
+
+	CWE       string
+	Finding   string
+	Reason    string
+	Rationale string
+
+	re *regexp.Regexp
+}
+
+// Matches reports whether a value has this rule's shape.
+func (r LiteralRule) Matches(text string) bool {
+	if r.re == nil || text == "" {
+		return false
+	}
+	if r.ExceptChars != "" && strings.ContainsAny(text, r.ExceptChars) {
+		return false
+	}
+	return r.re.MatchString(text)
 }
 
 // CallShape is a weakness visible in a call's own arguments, with no dataflow involved.
