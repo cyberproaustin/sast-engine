@@ -1253,6 +1253,10 @@ func (e *engine) buildFinding(c *ir.Call, ch model.Channel, p model.Policy, arg 
 	//
 	// The cost is stated rather than hidden: a handler that passes an entire caller-
 	// supplied string as the whole query is not composition and is not reported here.
+	// The judgement may ask for composition the channel does not.
+	if p.RequiresComposition && !composedIntoSinkArgument(path) {
+		return Finding{}, false
+	}
 	if ch.RequiresComposition && !composedIntoSinkArgument(path) {
 		return Finding{}, false
 	}

@@ -222,6 +222,19 @@ var claims = map[string]Claim{
 	"CWE-350": {State: Partial, Reason: "a branch decided on the result of a reverse DNS lookup, which returns whatever the owner of the address block published in the PTR record -- not evidence of who they are. The named lookup functions only",
 		By: []string{"reverse-dns-decides-access"}},
 
+	"CWE-117": {State: Partial, Reason: "untrusted data COMPOSED into a log line, where a line break lets the caller write entries of their own with whatever timestamp, level and actor they choose. Composition is required and is what makes the rule usable: a value logged whole is a field, and there are 11,164 log call sites across the clean corpus. Structured loggers that encode their fields are not modelled, so those report too",
+		By: []string{"untrusted-to-log-line"}},
+
+	// A written-down IV is a weak IV whatever the mode, so the rule that finds one is
+	// this weakness and CWE-329 is the CBC-specific spelling of it. Asserted here and
+	// separately below, because both are real identities for the same line.
+	"CWE-1204": {
+		State:    Partial,
+		Reason:   "an initialisation vector written into the source, which is predictable by construction and reused on every message",
+		By:       []string{"predictable-iv"},
+		Subsumes: true,
+	},
+
 	// Cookie attributes. Two of the three are claimed for an explicit downgrade AND for
 	// an omission; Secure is claimed only for the downgrade, because the correct idiom
 	// makes it conditional on the environment and a rule demanding a literal would report

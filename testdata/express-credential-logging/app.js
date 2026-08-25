@@ -56,4 +56,12 @@ async function mintToken(email) {
   return `t-${email}-${Date.now()}`;
 }
 
+app.post("/audit", async (req, res) => {
+  // POSITIVE, and a different weakness: a log is a record somebody reads later to work
+  // out what happened, and a caller who can put a line break in it writes entries of
+  // their own -- with whatever timestamp, level and actor they choose.
+  console.log("user " + req.body.email + " signed in");
+  res.json({ ok: true });
+});
+
 module.exports = app;
