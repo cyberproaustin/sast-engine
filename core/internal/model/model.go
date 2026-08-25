@@ -942,6 +942,39 @@ func Builtin() Model {
 				Rationale: "unparse() builds a CSV a spreadsheet will later interpret",
 			},
 
+			// The BODY of an outbound request whose destination is written into the call
+			// as a plaintext URL. The qualifier is the whole rule: `https://` is not a
+			// finding and does not contain `http://`, so the same channel says nothing
+			// about the overwhelming majority of outbound calls.
+			{
+				ID: "plaintext-outbound-body", Visibility: "thirdparty", Context: "plaintext-url",
+				Symbol: "axios.post", ReceiverIsEntryParam: -1, ArgIndex: []int{1},
+				Qualifiers: []ArgCondition{{ArgIndex: 0, AnyOf: []string{"http://"}, Substring: true}},
+				CWE:        "CWE-319",
+				Rationale:  "the destination is written into the call as a plaintext URL",
+			},
+			{
+				ID: "plaintext-outbound-body", Visibility: "thirdparty", Context: "plaintext-url",
+				Symbol: "axios.put", ReceiverIsEntryParam: -1, ArgIndex: []int{1},
+				Qualifiers: []ArgCondition{{ArgIndex: 0, AnyOf: []string{"http://"}, Substring: true}},
+				CWE:        "CWE-319",
+				Rationale:  "the destination is written into the call as a plaintext URL",
+			},
+			{
+				ID: "plaintext-outbound-body", Visibility: "thirdparty", Context: "plaintext-url",
+				Symbol: "requests.post", ReceiverIsEntryParam: -1, ArgIndex: []int{1, -1},
+				Qualifiers: []ArgCondition{{ArgIndex: 0, AnyOf: []string{"http://"}, Substring: true}},
+				CWE:        "CWE-319",
+				Rationale:  "the destination is written into the call as a plaintext URL",
+			},
+			{
+				ID: "plaintext-outbound-body", Visibility: "thirdparty", Context: "plaintext-url",
+				Symbol: "requests.put", ReceiverIsEntryParam: -1, ArgIndex: []int{1, -1},
+				Qualifiers: []ArgCondition{{ArgIndex: 0, AnyOf: []string{"http://"}, Substring: true}},
+				CWE:        "CWE-319",
+				Rationale:  "the destination is written into the call as a plaintext URL",
+			},
+
 			// Where an operator can read it later. A log is not a secret store: it is
 			// copied to aggregators, shipped to vendors, and kept long after the thing it
 			// describes is gone.
@@ -1755,12 +1788,28 @@ func Builtin() Model {
 				CWE:           "CWE-22",
 			},
 			{
+				// Anyone on the path reads it: the network, a proxy, whatever terminates
+				// the connection. Distinct from writing it to a log, and distinct from the
+				// destination being untrusted -- the destination here is one the
+				// application chose and wrote down, and the problem is the scheme.
+				ID:            "credential-in-cleartext",
+				Class:         "caller-credential",
+				DeniedContext: []string{"plaintext-url"},
+				Requires:      Requirements{Interprocedural: true},
+				Reason:        "a credential sent over plain HTTP is readable by anyone on the path between here and the destination",
+				Finding:       "Credential sent over an unencrypted connection",
+				CWE:           "CWE-319",
+			},
+			{
 				// A password in a log is a password in every aggregator, vendor and backup
 				// the log reaches, long after the request it belonged to is gone. Its own
 				// judgement because its own remedy: do not write it down.
-				ID:               "credential-recorded",
-				Class:            "caller-credential",
-				DeniedVisibility: []string{"operator", "public", "thirdparty"},
+				ID:    "credential-recorded",
+				Class: "caller-credential",
+				// Logs only. A credential reaching a response or a third party is a real
+				// judgement and a DIFFERENT one, with its own remedy and its own identity,
+				// and folding them in here would put the wrong number on them.
+				DeniedVisibility: []string{"operator"},
 				Requires:         Requirements{Interprocedural: true},
 				// A credential is the VALUE, not a field of something you fetched with
 				// it. etherpad takes a token out of the URL, looks a record up with it,
