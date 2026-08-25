@@ -600,6 +600,15 @@ func (m Model) ClassifyControl(name string) string {
 // Field names that ARE a claim of authority rather than merely mentioning one. Compared
 // exactly, ignoring case and separators: containment reads `adminEmail` as a privilege,
 // and a setup form is not a security decision.
+// Facts about a person that cannot be reissued. Deliberately specific: `passport` alone
+// is the authentication library in two of the three places these names appear across the
+// clean corpus, and a list that matched it would report a login flow as an identity leak.
+var personalNames = []string{
+	"ssn", "socialsecurity", "socialsecuritynumber", "nationalid", "nationalidnumber",
+	"passportnumber", "taxid", "taxidnumber", "driverslicense", "driverslicensenumber",
+	"dateofbirth", "birthdate", "medicalrecord", "medicalrecordnumber", "diagnosis",
+}
+
 var authorityNames = []string{
 	"role", "roles", "admin", "isadmin", "isstaff", "issuperuser", "superuser",
 	"permission", "permissions", "privilege", "privileges", "scope", "scopes",
@@ -834,6 +843,36 @@ func Builtin() Model {
 					{Match: MatchCallResult, Symbol: "secrets.token_bytes", ArgBelow: atLeast(16)},
 					{Match: MatchCallResult, Symbol: "secrets.token_hex", ArgBelow: atLeast(16)},
 					{Match: MatchCallResult, Symbol: "secrets.token_urlsafe", ArgBelow: atLeast(16)},
+				},
+			},
+			{
+				// Facts about a PERSON that are not secrets and are not replaceable. A
+				// password can be changed after it leaks; a national identity number, a
+				// date of birth and a medical record cannot, which is why they are their
+				// own classification rather than more credentials.
+				//
+				// The vocabulary is short and specific on purpose. Measured across the
+				// clean corpus these names appear three times in 28 production
+				// repositories, and two of those three are Passport, the authentication
+				// library -- which is exactly why `passport` alone is not on this list
+				// and `passport_number` is.
+				Class: "personal-information",
+				Label: "a fact about a person that cannot be reissued",
+				Rules: []SourceRule{
+					{
+						Match:      MatchEntryParamProperty,
+						Framework:  "express",
+						EntryKind:  "http-route",
+						ParamIndex: 0,
+						Paths:      []string{"body", "query", "params"},
+						LeafEquals: personalNames,
+					},
+					{
+						Match:      MatchGlobalProperty,
+						Symbol:     "flask.request",
+						Paths:      []string{"form", "json", "args", "values"},
+						LeafEquals: personalNames,
+					},
 				},
 			},
 			{
@@ -1727,6 +1766,53 @@ func Builtin() Model {
 				Rationale: "written to a log",
 			},
 
+			// `logging.getLogger(__name__)` is how Python logging is actually written, and
+			// a channel that only knew the module-level functions was blind to nearly all
+			// of it. The method name alone says nothing -- every object has an `error` --
+			// so what makes it a log is that the receiver came out of getLogger.
+			{
+				ID: "log", Visibility: "operator", Method: "info", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, 2},
+				ReceiverFrom: []string{"getLogger", "getChild"},
+				Context:      "log-line",
+				Rationale:    "written to a log",
+			},
+			{
+				ID: "log", Visibility: "operator", Method: "warning", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, 2},
+				ReceiverFrom: []string{"getLogger", "getChild"},
+				Context:      "log-line",
+				Rationale:    "written to a log",
+			},
+			{
+				ID: "log", Visibility: "operator", Method: "warn", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, 2},
+				ReceiverFrom: []string{"getLogger", "getChild"},
+				Context:      "log-line",
+				Rationale:    "written to a log",
+			},
+			{
+				ID: "log", Visibility: "operator", Method: "error", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, 2},
+				ReceiverFrom: []string{"getLogger", "getChild"},
+				Context:      "log-line",
+				Rationale:    "written to a log",
+			},
+			{
+				ID: "log", Visibility: "operator", Method: "debug", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, 2},
+				ReceiverFrom: []string{"getLogger", "getChild"},
+				Context:      "log-line",
+				Rationale:    "written to a log",
+			},
+			{
+				ID: "log", Visibility: "operator", Method: "exception", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, 2},
+				ReceiverFrom: []string{"getLogger", "getChild"},
+				Context:      "log-line",
+				Rationale:    "written to a log",
+			},
+			{
+				ID: "log", Visibility: "operator", Method: "critical", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, 2},
+				ReceiverFrom: []string{"getLogger", "getChild"},
+				Context:      "log-line",
+				Rationale:    "written to a log",
+			},
+
 			// An LDAP filter is a small query language, and `*` in the wrong place turns
 			// "this user with this password" into "any user".
 			{
@@ -2363,13 +2449,56 @@ func Builtin() Model {
 				Symbol: "flask.jsonify", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
 				Rationale: "returned to whoever called the endpoint",
 			},
+			// Added as a DESCRIPTION of a channel, not as a rule for a defect.
+			// Every policy that denies a class reaching "thirdparty" now covers
+			// outbound HTTP without being touched.
+			//
+			// Mutually exclusive with the plaintext channel above, and deliberately so:
+			// the two describe the same argument of the same call, and a policy that asks
+			// about VISIBILITY rather than context matches both -- which reported every
+			// outbound leak twice. The scheme decides which one speaks, the same way an
+			// expiry decides which cookie channel speaks.
 			{
-				// Added as a DESCRIPTION of a channel, not as a rule for a defect.
-				// Every policy that denies a class reaching "thirdparty" now covers
-				// outbound HTTP without being touched.
 				ID: "outbound-http", Visibility: "thirdparty",
 				Symbol: "axios.post", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1},
-				Rationale: "leaves this trust boundary for a system we do not control",
+				Qualifiers: []ArgCondition{{ArgIndex: 0, Substring: true, NoneOf: []string{"http://"}}},
+				Rationale:  "leaves this trust boundary for a system we do not control",
+			},
+			{
+				ID: "outbound-http", Visibility: "thirdparty",
+				Symbol: "axios.put", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1},
+				Qualifiers: []ArgCondition{{ArgIndex: 0, Substring: true, NoneOf: []string{"http://"}}},
+				Rationale:  "leaves this trust boundary for a system we do not control",
+			},
+			{
+				ID: "outbound-http", Visibility: "thirdparty",
+				Symbol: "axios.patch", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1},
+				Qualifiers: []ArgCondition{{ArgIndex: 0, Substring: true, NoneOf: []string{"http://"}}},
+				Rationale:  "leaves this trust boundary for a system we do not control",
+			},
+			{
+				ID: "outbound-http", Visibility: "thirdparty",
+				Symbol: "requests.post", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, -1},
+				Qualifiers: []ArgCondition{{ArgIndex: 0, Substring: true, NoneOf: []string{"http://"}}},
+				Rationale:  "leaves this trust boundary for a system we do not control",
+			},
+			{
+				ID: "outbound-http", Visibility: "thirdparty",
+				Symbol: "requests.put", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, -1},
+				Qualifiers: []ArgCondition{{ArgIndex: 0, Substring: true, NoneOf: []string{"http://"}}},
+				Rationale:  "leaves this trust boundary for a system we do not control",
+			},
+			{
+				ID: "outbound-http", Visibility: "thirdparty",
+				Symbol: "requests.patch", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, -1},
+				Qualifiers: []ArgCondition{{ArgIndex: 0, Substring: true, NoneOf: []string{"http://"}}},
+				Rationale:  "leaves this trust boundary for a system we do not control",
+			},
+			{
+				ID: "outbound-http", Visibility: "thirdparty",
+				Symbol: "httpx.post", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, -1},
+				Qualifiers: []ArgCondition{{ArgIndex: 0, Substring: true, NoneOf: []string{"http://"}}},
+				Rationale:  "leaves this trust boundary for a system we do not control",
 			},
 		},
 
@@ -2600,6 +2729,30 @@ func Builtin() Model {
 				Reason:        "a value under 128 bits can be searched, and the generator being a good one does not help when there is not enough of it",
 				Finding:       "Too few random bits where unpredictability is required",
 				CWE:           "CWE-331",
+			},
+			{
+				// Written where operators, log shippers and whoever else reads the logs
+				// can see it. Distinct from a credential in a log by what it costs: a
+				// password gets rotated and an identity number does not.
+				ID:                  "personal-information-logged",
+				Class:               "personal-information",
+				DeniedContext:       []string{"log-line"},
+				RequiresUnprojected: true,
+				Requires:            Requirements{Interprocedural: true},
+				Reason:              "a fact like this cannot be reissued after it leaks, and a log is copied to more places than anyone tracks",
+				Finding:             "Personal information written to a log",
+				CWE:                 "CWE-359",
+			},
+			{
+				// Handed to somebody else's service.
+				ID:                  "personal-information-sent",
+				Class:               "personal-information",
+				DeniedVisibility:    []string{"thirdparty"},
+				RequiresUnprojected: true,
+				Requires:            Requirements{Interprocedural: true},
+				Reason:              "a fact like this cannot be reissued after it leaks, and where it goes after leaving this process is not this process's decision any more",
+				Finding:             "Personal information sent outside this system",
+				CWE:                 "CWE-359",
 			},
 			{
 				// The clock reaching somewhere unguessability is the whole point. A token
@@ -4443,6 +4596,16 @@ type DecisionRule struct {
 	// including them would be reaching.
 	Ops []string
 
+	// OtherBelow requires the OTHER side of the comparison to be a number written in the
+	// source and smaller than this.
+	//
+	// A password's length is the case. `len(password) < 6` and `len(password) > 72` are
+	// the same shape and opposite judgements -- one is a policy that permits a weak
+	// password, the other is a library's maximum -- and the number is the only thing that
+	// tells them apart. A threshold computed at runtime is not a number written in the
+	// source and is not matched.
+	OtherBelow *int
+
 	CWE       string
 	Finding   string
 	Reason    string
@@ -4458,6 +4621,21 @@ func builtinDecisions() []DecisionRule {
 			Finding:   "Security decision made on the caller's own claim",
 			Reason:    "a field the caller sent is a statement the caller made about themselves, and a branch that trusts it lets them choose which branch runs",
 			Rationale: "the comparison decides on a value that arrived in the request",
+		},
+		{
+			// A password policy that permits a short password. What makes this decidable
+			// at all is that the length is being compared to a number the source
+			// contains: eight characters is where every published guidance starts, and a
+			// check that admits fewer is a check that admits a password worth guessing.
+			//
+			// Only ordering comparisons, and only against a small number. `len(password)
+			// > 72` is bcrypt's maximum and the same shape read the other way.
+			ID: "weak-password-policy", Class: "caller-credential",
+			Ops: []string{"<", "<=", ">", ">=", "Lt", "LtE", "Gt", "GtE"}, OtherBelow: atLeast(8),
+			CWE:       "CWE-521",
+			Finding:   "Password policy admits a password shorter than eight characters",
+			Reason:    "a password this short can be guessed offline in minutes once the hashes leak, and the length the policy admits is the length people will use",
+			Rationale: "the caller's password is measured against a number written in the source",
 		},
 		{
 			// The Referer says where a request came from only in the sense that it says
@@ -4509,6 +4687,12 @@ type StoreRule struct {
 	// NotPath excludes keys another rule already claims, so two rules can describe the
 	// same destination at different granularities without reporting one line twice.
 	NotPath []string
+	// NotInto is the same exclusion on the DESTINATION rather than the key.
+	//
+	// `req.session.role = req.body.role` is a privilege set from the request AND a
+	// caller's claim laundered across a trust boundary. Both readings are true and the
+	// line is one line, so the narrower rule keeps it and the broader one stands aside.
+	NotInto []string
 
 	CWE       string
 	Finding   string
@@ -4532,6 +4716,26 @@ func builtinStores() []StoreRule {
 			Finding:   "Caller's data written into the session",
 			Reason:    "a session is read back as state the server established, so putting the caller's own data there launders it across the trust boundary and everything downstream believes it",
 			Rationale: "the value written into the session came from the request",
+		},
+		{
+			// A field the server owns, set from a field the caller sent. The classic is
+			// the caller deciding their own role, and it is the same weakness whatever
+			// the record is called -- so this rule names the FIELD and says nothing about
+			// the object holding it.
+			//
+			// Distinct from mass assignment, which is the caller supplying keys nobody
+			// enumerated. Here the application enumerated one, and picked the wrong one.
+			ID: "caller-sets-own-privilege", Class: "caller-asserted-authority",
+			Path: authorityNames,
+			// A session is the trust-boundary rule's subject and it reports the same
+			// line under CWE-501, which says the sharper thing about it: what makes a
+			// session dangerous is that everything downstream reads it back as
+			// established, not merely that a privilege was written.
+			NotInto:   []string{"session"},
+			CWE:       "CWE-472",
+			Finding:   "A privilege field set from the request",
+			Reason:    "the value written decides what this account may do, and it arrived in a request the account holder wrote",
+			Rationale: "a field naming a privilege was assigned from data the caller sent",
 		},
 		{
 			// PATH decides where the next program comes from. A caller who can prepend to

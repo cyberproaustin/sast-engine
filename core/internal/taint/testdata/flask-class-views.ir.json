@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.10.0",
+  "irVersion": "0.11.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -40,7 +40,8 @@
             "file": "app.py",
             "line": 1,
             "column": 1
-          }
+          },
+          "literal": "Flask registers routes in more ways than one decorator.\n\nThe model knew `@app.route` and nothing else, and enumerated ZERO entry points of a\n1,012-function Flask forum while the frontend declared Flask support. A capability that is\ndeclared and absent is worse than one that was never claimed: the declaration says the\nengine can see this, the surface says there is nothing there, and the report says clean.\n\nTwo shapes, both core Flask. A MethodView subclass is dispatched by verb, so `get` handles\nGET whatever the registration looks like. And `add_url_rule` registers a plain function\nwith no decorator anywhere.\n"
         },
         {
           "id": "app.py#<module>:0$v1",
@@ -131,7 +132,8 @@
             "file": "app.py",
             "line": 30,
             "column": 12
-          }
+          },
+          "literal": "ok"
         }
       ],
       "flows": [],
@@ -198,7 +200,8 @@
             "file": "app.py",
             "line": 34,
             "column": 21
-          }
+          },
+          "literal": "/search"
         },
         {
           "id": "app.py#register:33$v2",
@@ -207,7 +210,8 @@
             "file": "app.py",
             "line": 34,
             "column": 57
-          }
+          },
+          "literal": "search"
         },
         {
           "id": "app.py#register:33$v3",
@@ -236,7 +240,8 @@
             "file": "app.py",
             "line": 35,
             "column": 21
-          }
+          },
+          "literal": "/report"
         },
         {
           "id": "app.py#register:33$v6",
@@ -245,7 +250,8 @@
             "file": "app.py",
             "line": 35,
             "column": 32
-          }
+          },
+          "literal": "report"
         },
         {
           "id": "app.py#register:33$v7",
@@ -420,7 +426,8 @@
             "file": "app.py",
             "line": 22,
             "column": 33
-          }
+          },
+          "literal": "locate "
         },
         {
           "id": "app.py#get:20$v3",
@@ -463,7 +470,8 @@
             "file": "app.py",
             "line": 22,
             "column": 70
-          }
+          },
+          "literal": "true"
         },
         {
           "id": "app.py#get:20$v7",
@@ -492,7 +500,8 @@
             "file": "app.py",
             "line": 23,
             "column": 16
-          }
+          },
+          "literal": "ok"
         }
       ],
       "flows": [
@@ -635,7 +644,8 @@
             "file": "app.py",
             "line": 26,
             "column": 16
-          }
+          },
+          "literal": "ok"
         }
       ],
       "flows": [],

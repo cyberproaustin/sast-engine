@@ -13,6 +13,8 @@ package decision
 
 import (
 	"fmt"
+	"strconv"
+	"strings"
 
 	"github.com/cyberproaustin/sast-engine/core/internal/ir"
 	"github.com/cyberproaustin/sast-engine/core/internal/model"
@@ -44,13 +46,18 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 				// Either side. `role === "admin"` and `"admin" === role` are the same
 				// decision, and which way round it was written is not evidence of
 				// anything.
-				side := ""
+				side, other := "", ""
 				switch {
 				case carrying.Values[cmp.Left]:
-					side = cmp.Left
+					side, other = cmp.Left, cmp.Right
 				case carrying.Values[cmp.Right]:
-					side = cmp.Right
+					side, other = cmp.Right, cmp.Left
 				default:
+					continue
+				}
+				// A rule about a THRESHOLD needs the threshold, and a comparison against
+				// something computed at runtime has none to read.
+				if rule.OtherBelow != nil && !numberBelow(ix.ValueByID[other], *rule.OtherBelow) {
 					continue
 				}
 				out = append(out, finding(ix, fn, cmp, rule, carrying.Origin[side]))
@@ -58,6 +65,17 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 		}
 	}
 	return out
+}
+
+// numberBelow reports whether a value is a number written into the source and smaller
+// than a threshold. Anything else -- a name, a call, a value the frontend could not read
+// -- is not a number written into the source.
+func numberBelow(v *ir.Value, threshold int) bool {
+	if v == nil || v.Kind != ir.ValueLiteral || v.Literal == "" {
+		return false
+	}
+	n, err := strconv.Atoi(strings.TrimSpace(v.Literal))
+	return err == nil && n < threshold
 }
 
 // operatorMatches reports whether this rule cares about the operator used. A rule that

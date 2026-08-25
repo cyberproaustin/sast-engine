@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.10.0",
+  "irVersion": "0.11.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -40,7 +40,8 @@
             "file": "app.py",
             "line": 1,
             "column": 1
-          }
+          },
+          "literal": "`update` names a dict operation and a record operation with the same three words.\n\nA channel described by method name alone made every `payload.update(request.form)` in a\nPython codebase a record selector, and asking who owns an entry in a local dict is not a\nquestion with an answer. This frontend has no type checker, so it answers from what the\nauthor wrote down \u2014 an annotation, a literal, `**kwargs` \u2014 and stays silent otherwise.\n\nSilence is not \"not a container\": the last handler here reaches `.update` on something\nthis frontend cannot type, and the flow is still reported. It simply cannot be certain\nenough to gate.\n"
         },
         {
           "id": "app.py#<module>:0$v1",
@@ -754,7 +755,8 @@
             "file": "app.py",
             "line": 54,
             "column": 12
-          }
+          },
+          "literal": ""
         }
       ],
       "flows": [

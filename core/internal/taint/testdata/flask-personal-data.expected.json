@@ -1,0 +1,30 @@
+{
+  "corpus": "flask-personal-data",
+  "description": "Facts about a person that cannot be reissued, and a privilege field the caller filled in. The vocabulary for the first is short on purpose: measured across 28 production repositories these names appear three times, two of which are Passport the authentication library, so the bare word is not on the list.",
+  "expected": [
+    {
+      "cwe": "CWE-359",
+      "sinkFile": "app.py",
+      "sinkLine": 14,
+      "sourceLabel": "flask.request.form.ssn",
+      "confidence": "medium",
+      "note": "medium because the logger came from getLogger and the method call resolves as probable"
+    },
+    {
+      "cwe": "CWE-359",
+      "sinkFile": "app.py",
+      "sinkLine": 15,
+      "sourceLabel": "flask.request.form.date_of_birth",
+      "confidence": "high",
+      "note": "sent in the body of a request to somebody else's service"
+    },
+    {
+      "cwe": "CWE-472",
+      "sinkFile": "app.py",
+      "sinkLine": 19,
+      "sourceLabel": "flask.request.form.is_admin",
+      "confidence": "high",
+      "note": "is_admin and isAdmin are one name; the assignment from False below is silent"
+    }
+  ]
+}

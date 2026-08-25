@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.10.0",
+  "irVersion": "0.11.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -40,7 +40,8 @@
             "file": "app.py",
             "line": 1,
             "column": 1
-          }
+          },
+          "literal": "A connection that does not verify its peer authenticates nobody.\n\nTransport encryption without certificate validation protects against a passive listener\nand against nothing else: anyone able to answer for the address can read and rewrite the\ntraffic. The keyword says so outright, which is what makes this decidable without any\ndataflow at all.\n\nEvery keyword argument is checked, not the first one found. Reading whichever came out of\nthe map first made a call with two keywords report or not report depending on the run, and\na scanner that answers differently on identical input is worse than one that answers\nwrongly: the wrong answer can at least be investigated.\n"
         }
       ],
       "flows": [],
@@ -95,7 +96,8 @@
             "file": "app.py",
             "line": 17,
             "column": 37
-          }
+          },
+          "literal": "false"
         },
         {
           "id": "app.py#fetch_insecure:16$v2",
@@ -217,7 +219,8 @@
             "file": "app.py",
             "line": 22,
             "column": 38
-          }
+          },
+          "literal": "5"
         },
         {
           "id": "app.py#fetch_insecure_with_neighbours:20$v2",
@@ -236,7 +239,8 @@
             "file": "app.py",
             "line": 22,
             "column": 60
-          }
+          },
+          "literal": "json"
         },
         {
           "id": "app.py#fetch_insecure_with_neighbours:20$v4",
@@ -245,7 +249,8 @@
             "file": "app.py",
             "line": 22,
             "column": 76
-          }
+          },
+          "literal": "false"
         },
         {
           "id": "app.py#fetch_insecure_with_neighbours:20$v5",
@@ -388,7 +393,8 @@
             "file": "app.py",
             "line": 26,
             "column": 38
-          }
+          },
+          "literal": "5"
         },
         {
           "id": "app.py#fetch:25$v2",
@@ -525,7 +531,8 @@
             "file": "app.py",
             "line": 30,
             "column": 49
-          }
+          },
+          "literal": "false"
         },
         {
           "id": "app.py#post_insecure:29$v3",

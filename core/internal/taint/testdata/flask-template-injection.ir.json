@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.10.0",
+  "irVersion": "0.11.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -186,7 +186,8 @@
             "file": "app.py",
             "line": 12,
             "column": 35
-          }
+          },
+          "literal": "<h1>Hello "
         },
         {
           "id": "app.py#hello:7$v7",
@@ -195,7 +196,8 @@
             "file": "app.py",
             "line": 12,
             "column": 57
-          }
+          },
+          "literal": "</h1>"
         },
         {
           "id": "app.py#hello:7$v8",
@@ -353,7 +355,8 @@
             "file": "app.py",
             "line": 19,
             "column": 28
-          }
+          },
+          "literal": "hello.html"
         },
         {
           "id": "app.py#hello_safe:16$v1",
@@ -549,7 +552,8 @@
             "file": "app.py",
             "line": 27,
             "column": 35
-          }
+          },
+          "literal": "<h1>Not found: "
         },
         {
           "id": "app.py#not_found:23$v5",
@@ -580,7 +584,8 @@
             "file": "app.py",
             "line": 27,
             "column": 69
-          }
+          },
+          "literal": "</h1>"
         },
         {
           "id": "app.py#not_found:23$v8",
@@ -599,7 +604,8 @@
             "file": "app.py",
             "line": 27,
             "column": 79
-          }
+          },
+          "literal": "404"
         }
       ],
       "flows": [
@@ -747,7 +753,8 @@
             "file": "app.py",
             "line": 33,
             "column": 35
-          }
+          },
+          "literal": "<h1>Hello, world</h1>"
         },
         {
           "id": "app.py#greeting:31$v1",

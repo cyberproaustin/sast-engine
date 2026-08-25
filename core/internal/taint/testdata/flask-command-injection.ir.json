@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.10.0",
+  "irVersion": "0.11.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -126,7 +126,8 @@
             "file": "app.py",
             "line": 12,
             "column": 29
-          }
+          },
+          "literal": "host"
         },
         {
           "id": "app.py#ping:9$v1",
@@ -547,7 +548,8 @@
             "file": "app.py",
             "line": 26,
             "column": 21
-          }
+          },
+          "literal": "localhost"
         },
         {
           "id": "app.py#status:25$v1",
@@ -653,7 +655,8 @@
             "file": "app.py",
             "line": 30,
             "column": 24
-          }
+          },
+          "literal": "driver: relation \"orders\" does not exist"
         },
         {
           "id": "app.py#load_order:29$v2",

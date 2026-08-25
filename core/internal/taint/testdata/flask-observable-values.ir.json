@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.10.0",
+  "irVersion": "0.11.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -122,7 +122,8 @@
             "file": "app.py",
             "line": 16,
             "column": 30
-          }
+          },
+          "literal": "ok"
         },
         {
           "id": "app.py#session:13$v1",
@@ -151,7 +152,8 @@
             "file": "app.py",
             "line": 17,
             "column": 25
-          }
+          },
+          "literal": "session"
         },
         {
           "id": "app.py#session:13$v4",
@@ -190,7 +192,8 @@
             "file": "app.py",
             "line": 17,
             "column": 64
-          }
+          },
+          "literal": "true"
         },
         {
           "id": "app.py#session:13$v8",
@@ -199,7 +202,8 @@
             "file": "app.py",
             "line": 17,
             "column": 77
-          }
+          },
+          "literal": "true"
         },
         {
           "id": "app.py#session:13$v9",
@@ -208,7 +212,8 @@
             "file": "app.py",
             "line": 17,
             "column": 92
-          }
+          },
+          "literal": "Lax"
         },
         {
           "id": "app.py#session:13$v10",
@@ -601,7 +606,8 @@
             "file": "app.py",
             "line": 33,
             "column": 30
-          }
+          },
+          "literal": "ok"
         },
         {
           "id": "app.py#nonce:30$v1",
@@ -630,7 +636,8 @@
             "file": "app.py",
             "line": 34,
             "column": 25
-          }
+          },
+          "literal": "sid"
         },
         {
           "id": "app.py#nonce:30$v4",
@@ -639,7 +646,8 @@
             "file": "app.py",
             "line": 34,
             "column": 50
-          }
+          },
+          "literal": "8"
         },
         {
           "id": "app.py#nonce:30$v5",
@@ -668,7 +676,8 @@
             "file": "app.py",
             "line": 34,
             "column": 63
-          }
+          },
+          "literal": "true"
         },
         {
           "id": "app.py#nonce:30$v8",
@@ -677,7 +686,8 @@
             "file": "app.py",
             "line": 34,
             "column": 76
-          }
+          },
+          "literal": "true"
         },
         {
           "id": "app.py#nonce:30$v9",
@@ -686,7 +696,8 @@
             "file": "app.py",
             "line": 34,
             "column": 91
-          }
+          },
+          "literal": "Lax"
         },
         {
           "id": "app.py#nonce:30$v10",
@@ -886,7 +897,8 @@
             "file": "app.py",
             "line": 41,
             "column": 12
-          }
+          },
+          "literal": "upload-"
         },
         {
           "id": "app.py#tempname:39$v3",
@@ -895,7 +907,8 @@
             "file": "app.py",
             "line": 41,
             "column": 42
-          }
+          },
+          "literal": "8"
         },
         {
           "id": "app.py#tempname:39$v4",
@@ -924,7 +937,8 @@
             "file": "app.py",
             "line": 41,
             "column": 47
-          }
+          },
+          "literal": ".bin"
         }
       ],
       "flows": [
@@ -1047,7 +1061,8 @@
             "file": "app.py",
             "line": 47,
             "column": 34
-          }
+          },
+          "literal": "32"
         },
         {
           "id": "app.py#token:45$v1",
@@ -1238,7 +1253,8 @@
             "file": "app.py",
             "line": 59,
             "column": 32
-          }
+          },
+          "literal": "/"
         },
         {
           "id": "app.py#files:57$v2",

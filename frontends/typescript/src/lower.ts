@@ -945,7 +945,7 @@ function lowerFunction(
     }
 
     if (ts.isStringLiteralLike(expr) || ts.isNumericLiteral(expr)) {
-      return newValue("literal", locOf(sf, expr));
+      return newValue("literal", locOf(sf, expr), { literal: expr.text });
     }
 
     return undefined;

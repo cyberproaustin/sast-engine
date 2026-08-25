@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.10.0",
+  "irVersion": "0.11.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -60,7 +60,8 @@
             "file": "app.py",
             "line": 8,
             "column": 14
-          }
+          },
+          "literal": "/srv/uploads"
         },
         {
           "id": "app.py#<module>:0$v3",
@@ -269,7 +270,8 @@
             "file": "app.py",
             "line": 18,
             "column": 12
-          }
+          },
+          "literal": "ok"
         }
       ],
       "flows": [
@@ -373,6 +375,10 @@
             "resolution": "probable"
           },
           "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#<module>:0$v3"
+            },
             {
               "index": 1,
               "valueId": "app.py#upload:12$v6"
@@ -559,7 +565,8 @@
             "file": "app.py",
             "line": 26,
             "column": 12
-          }
+          },
+          "literal": "ok"
         }
       ],
       "flows": [
@@ -628,6 +635,10 @@
             "resolution": "probable"
           },
           "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#<module>:0$v3"
+            },
             {
               "index": 1,
               "valueId": "app.py#upload_raw:22$v4"
@@ -800,7 +811,8 @@
             "file": "app.py",
             "line": 34,
             "column": 57
-          }
+          },
+          "literal": ".png"
         },
         {
           "id": "app.py#upload_generated:30$v9",
@@ -861,7 +873,8 @@
             "file": "app.py",
             "line": 36,
             "column": 12
-          }
+          },
+          "literal": "ok"
         }
       ],
       "flows": [
@@ -996,6 +1009,10 @@
             "resolution": "probable"
           },
           "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#<module>:0$v3"
+            },
             {
               "index": 1,
               "valueId": "app.py#upload_generated:30$v4"
@@ -1158,7 +1175,8 @@
             "file": "app.py",
             "line": 46,
             "column": 12
-          }
+          },
+          "literal": "ok"
         }
       ],
       "flows": [

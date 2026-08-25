@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.10.0",
+  "irVersion": "0.11.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -60,7 +60,8 @@
             "file": "app.py",
             "line": 6,
             "column": 29
-          }
+          },
+          "literal": "ldap://directory.internal"
         },
         {
           "id": "app.py#<module>:0$v3",
@@ -99,7 +100,8 @@
             "file": "app.py",
             "line": 7,
             "column": 19
-          }
+          },
+          "literal": "people.xml"
         },
         {
           "id": "app.py#<module>:0$v7",
@@ -324,7 +326,8 @@
             "file": "app.py",
             "line": 15,
             "column": 35
-          }
+          },
+          "literal": "dc=example"
         },
         {
           "id": "app.py#find:11$v5",
@@ -365,7 +368,8 @@
             "file": "app.py",
             "line": 15,
             "column": 69
-          }
+          },
+          "literal": "(uid=%s)"
         },
         {
           "id": "app.py#find:11$v9",
@@ -486,7 +490,8 @@
           },
           "enumeratedOptions": [
             -1
-          ]
+          ],
+          "receiverValueId": "app.py#<module>:0$v5"
         },
         {
           "id": "app.py#find:11$c1",
@@ -560,7 +565,8 @@
             "file": "app.py",
             "line": 24,
             "column": 35
-          }
+          },
+          "literal": "dc=example"
         },
         {
           "id": "app.py#find_bound:19$v1",
@@ -707,7 +713,8 @@
           },
           "enumeratedOptions": [
             -1
-          ]
+          ],
+          "receiverValueId": "app.py#<module>:0$v5"
         },
         {
           "id": "app.py#find_bound:19$c1",
@@ -845,7 +852,8 @@
             "file": "app.py",
             "line": 32,
             "column": 26
-          }
+          },
+          "literal": "//person[name='"
         },
         {
           "id": "app.py#lookup:28$v7",
@@ -854,7 +862,8 @@
             "file": "app.py",
             "line": 32,
             "column": 53
-          }
+          },
+          "literal": "']"
         },
         {
           "id": "app.py#lookup:28$v8",
@@ -974,7 +983,8 @@
           "argCount": 1,
           "enumeratedOptions": [
             -1
-          ]
+          ],
+          "receiverValueId": "app.py#<module>:0$v9"
         },
         {
           "id": "app.py#lookup:28$c1",
@@ -1048,7 +1058,8 @@
             "file": "app.py",
             "line": 38,
             "column": 26
-          }
+          },
+          "literal": "//person"
         },
         {
           "id": "app.py#lookup_fixed:36$v1",
@@ -1100,7 +1111,8 @@
           },
           "enumeratedOptions": [
             -1
-          ]
+          ],
+          "receiverValueId": "app.py#<module>:0$v9"
         },
         {
           "id": "app.py#lookup_fixed:36$c1",

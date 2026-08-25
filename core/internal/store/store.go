@@ -13,6 +13,7 @@ package store
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/cyberproaustin/sast-engine/core/internal/ir"
 	"github.com/cyberproaustin/sast-engine/core/internal/model"
@@ -34,6 +35,9 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 			}
 			for _, rule := range m.Stores {
 				if !intoMatches(ix, w, rule) {
+					continue
+				}
+				if len(rule.NotInto) > 0 && intoMatches(ix, w, model.StoreRule{Into: rule.NotInto}) {
 					continue
 				}
 				if len(rule.Path) > 0 && !pathMatches(w.Path, rule.Path) {
@@ -68,6 +72,13 @@ func intoMatches(ix *ir.Index, w ir.Write, rule model.StoreRule) bool {
 	if i := lastDot(name); i >= 0 {
 		name = name[i+1:]
 	}
+	// A rule that names no destination is about the FIELD rather than the object holding
+	// it. `user.role = req.body.role` and `account.isAdmin = req.body.isAdmin` are the
+	// same weakness written on two different records, and enumerating what a record can
+	// be called would be a list that is wrong the moment somebody names one differently.
+	if len(rule.Into) == 0 {
+		return true
+	}
 	for _, want := range rule.Into {
 		if name == want {
 			return true
@@ -79,9 +90,19 @@ func intoMatches(ix *ir.Index, w ir.Write, rule model.StoreRule) bool {
 // pathMatches narrows to particular keys written into a destination. The environment
 // holds a hundred harmless variables and a few that decide where the next program comes
 // from.
+//
+// Compared on the LAST segment and ignoring separators, so `is_admin`, `isAdmin` and
+// `user.isAdmin` are one name. The source rules already read field names this way, and a
+// rule that read them differently on the way in and on the way out would be two rules
+// wearing one name.
 func pathMatches(path string, want []string) bool {
+	leaf := path
+	if i := lastDot(leaf); i >= 0 {
+		leaf = leaf[i+1:]
+	}
+	bare := strings.NewReplacer("_", "", "-", "").Replace(strings.ToLower(leaf))
 	for _, w := range want {
-		if path == w {
+		if path == w || bare == strings.ToLower(w) {
 			return true
 		}
 	}

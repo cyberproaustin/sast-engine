@@ -16,7 +16,7 @@ import re
 import os
 from typing import Any
 
-IR_VERSION = "0.10.0"
+IR_VERSION = "0.11.0"
 FRONTEND_VERSION = "0.1.0"
 
 FUNCTION_NODES = (ast.FunctionDef, ast.AsyncFunctionDef)
@@ -45,6 +45,21 @@ def is_test_module(module: str) -> bool:
 
 def module_id(root: str, path: str) -> str:
     return os.path.relpath(path, root).replace(os.sep, "/")
+
+
+def constant_text(value: Any) -> str | None:
+    """The text of a constant, for the kinds a rule can read.
+
+    Booleans before numbers: in Python `True` IS an int, and rendering it as `1` would
+    make a comparison against a flag look like a comparison against a threshold.
+    """
+    if isinstance(value, bool):
+        return "true" if value else "false"
+    if isinstance(value, (int, float)):
+        return repr(value)
+    if isinstance(value, str):
+        return value
+    return None
 
 
 def loc_of(module: str, node: ast.AST) -> dict:
@@ -80,6 +95,11 @@ class ModuleLowerer:
                 for member in node.body:
                     if isinstance(member, FUNCTION_NODES):
                         self.class_of[id(member)] = node.name
+        # Names bound at module level, so a function can resolve one it did not define.
+        # `log = logging.getLogger(__name__)` at the top of a file and `log.info(...)`
+        # inside a handler are the same object, and without this link the second is a
+        # method call on nothing -- which is most of Python logging.
+        self.module_scope: dict[str, str] = {}
         self._collect_imports()
 
     def _collect_imports(self) -> None:
@@ -425,6 +445,8 @@ class FunctionLowerer:
                 if isinstance(target, ast.Name):
                     vid = self.new_value("local", target, name=target.id)
                     self.scope[target.id] = vid
+                    if self.is_module:
+                        self.mod.module_scope[target.id] = vid
                     self.add_flow(src, vid, "assign", node)
                     self.note_local_type(target, None, node.value)
             return
@@ -520,6 +542,11 @@ class FunctionLowerer:
         if isinstance(node, ast.Name):
             if node.id in self.scope:
                 return self.scope[node.id]
+            # A name this function never bound, bound at module level. Values are
+            # identified globally, so referring to one from another function is
+            # ordinary.
+            if not self.is_module and node.id in self.mod.module_scope:
+                return self.mod.module_scope[node.id]
             symbol = self.mod.imports.get(node.id)
             if symbol:
                 # A framework-bound global (flask.request) is a value like any
@@ -641,7 +668,7 @@ class FunctionLowerer:
             return vid
 
         if isinstance(node, ast.Constant):
-            return self.new_value("literal", node)
+            return self.new_value("literal", node, literal=constant_text(node.value))
 
         return None
 

@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.10.0",
+  "irVersion": "0.11.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -70,7 +70,8 @@
             "file": "app.py",
             "line": 5,
             "column": 25
-          }
+          },
+          "literal": "true"
         },
         {
           "id": "app.py#<module>:0$v4",
@@ -79,7 +80,8 @@
             "file": "app.py",
             "line": 5,
             "column": 41
-          }
+          },
+          "literal": "true"
         },
         {
           "id": "app.py#<module>:0$v5",
@@ -88,7 +90,8 @@
             "file": "app.py",
             "line": 5,
             "column": 59
-          }
+          },
+          "literal": "Lax"
         },
         {
           "id": "app.py#<module>:0$v6",
@@ -288,7 +291,8 @@
             "file": "app.py",
             "line": 19,
             "column": 23
-          }
+          },
+          "literal": "ok"
         },
         {
           "id": "app.py#login:17$v1",
@@ -317,7 +321,8 @@
             "file": "app.py",
             "line": 20,
             "column": 18
-          }
+          },
+          "literal": "session"
         },
         {
           "id": "app.py#login:17$v4",
@@ -541,7 +546,8 @@
             "file": "app.py",
             "line": 27,
             "column": 23
-          }
+          },
+          "literal": "ok"
         },
         {
           "id": "app.py#login_explicit:25$v1",
@@ -570,7 +576,8 @@
             "file": "app.py",
             "line": 28,
             "column": 18
-          }
+          },
+          "literal": "jwt"
         },
         {
           "id": "app.py#login_explicit:25$v4",
@@ -623,7 +630,8 @@
             "file": "app.py",
             "line": 28,
             "column": 71
-          }
+          },
+          "literal": "false"
         },
         {
           "id": "app.py#login_explicit:25$v9",
@@ -808,7 +816,8 @@
             "file": "app.py",
             "line": 35,
             "column": 23
-          }
+          },
+          "literal": "ok"
         },
         {
           "id": "app.py#login_crosssite:33$v1",
@@ -837,7 +846,8 @@
             "file": "app.py",
             "line": 36,
             "column": 18
-          }
+          },
+          "literal": "refresh_token"
         },
         {
           "id": "app.py#login_crosssite:33$v4",
@@ -890,7 +900,8 @@
             "file": "app.py",
             "line": 36,
             "column": 81
-          }
+          },
+          "literal": "true"
         },
         {
           "id": "app.py#login_crosssite:33$v9",
@@ -899,7 +910,8 @@
             "file": "app.py",
             "line": 36,
             "column": 96
-          }
+          },
+          "literal": "None"
         },
         {
           "id": "app.py#login_crosssite:33$v10",
@@ -1089,7 +1101,8 @@
             "file": "app.py",
             "line": 44,
             "column": 23
-          }
+          },
+          "literal": "ok"
         },
         {
           "id": "app.py#login_spread:41$v1",
@@ -1118,7 +1131,8 @@
             "file": "app.py",
             "line": 45,
             "column": 18
-          }
+          },
+          "literal": "session"
         },
         {
           "id": "app.py#login_spread:41$v4",
@@ -1281,6 +1295,10 @@
             {
               "index": 1,
               "valueId": "app.py#login_spread:41$v7"
+            },
+            {
+              "index": 2,
+              "valueId": "app.py#<module>:0$v6"
             }
           ],
           "resultValueId": "app.py#login_spread:41$v8",
@@ -1339,7 +1357,8 @@
             "file": "app.py",
             "line": 52,
             "column": 23
-          }
+          },
+          "literal": "ok"
         },
         {
           "id": "app.py#login_correct:50$v1",
@@ -1368,7 +1387,8 @@
             "file": "app.py",
             "line": 53,
             "column": 18
-          }
+          },
+          "literal": "session"
         },
         {
           "id": "app.py#login_correct:50$v4",
@@ -1421,7 +1441,8 @@
             "file": "app.py",
             "line": 53,
             "column": 75
-          }
+          },
+          "literal": "true"
         },
         {
           "id": "app.py#login_correct:50$v9",
@@ -1430,7 +1451,8 @@
             "file": "app.py",
             "line": 53,
             "column": 88
-          }
+          },
+          "literal": "true"
         },
         {
           "id": "app.py#login_correct:50$v10",
@@ -1439,7 +1461,8 @@
             "file": "app.py",
             "line": 53,
             "column": 103
-          }
+          },
+          "literal": "Lax"
         },
         {
           "id": "app.py#login_correct:50$v11",
@@ -1634,7 +1657,8 @@
             "file": "app.py",
             "line": 60,
             "column": 23
-          }
+          },
+          "literal": "ok"
         },
         {
           "id": "app.py#csrf:58$v1",
@@ -1663,7 +1687,8 @@
             "file": "app.py",
             "line": 61,
             "column": 18
-          }
+          },
+          "literal": "csrf_token"
         },
         {
           "id": "app.py#csrf:58$v4",
