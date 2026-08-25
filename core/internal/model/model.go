@@ -1854,6 +1854,57 @@ func Builtin() Model {
 				Rationale:    "written to a log",
 			},
 
+			// An allow-list checked with a PARTIAL match. `origin.startsWith("https://
+			// example.com")` accepts `https://example.com.attacker.net`, and
+			// `origin.endsWith("example.com")` accepts `https://notexample.com` -- the
+			// list is right and the comparison is too generous, which is the harder half
+			// to see because the allowed values look correct.
+			//
+			// The receiver is what is being checked, so the dataflow answers it: this
+			// matches only where the string being matched is one the caller sent.
+			{
+				ID: "partial-match", Visibility: "internal", Context: "partial-match",
+				Method: "startsWith", ReceiverIsEntryParam: -1,
+				RequiresUntrustedReceiver: true,
+				CWE:                       "CWE-183",
+				Rationale:                 "a prefix match accepts anything that CONTINUES the allowed value",
+			},
+			{
+				ID: "partial-match", Visibility: "internal", Context: "partial-match",
+				Method: "endsWith", ReceiverIsEntryParam: -1,
+				RequiresUntrustedReceiver: true,
+				CWE:                       "CWE-183",
+				Rationale:                 "a suffix match accepts anything that PRECEDES the allowed value",
+			},
+			{
+				ID: "partial-match", Visibility: "internal", Context: "partial-match",
+				Method: "includes", ReceiverIsEntryParam: -1,
+				RequiresUntrustedReceiver: true,
+				CWE:                       "CWE-183",
+				Rationale:                 "a containment match accepts the allowed value anywhere in a longer one",
+			},
+			{
+				ID: "partial-match", Visibility: "internal", Context: "partial-match",
+				Method: "indexOf", ReceiverIsEntryParam: -1,
+				RequiresUntrustedReceiver: true,
+				CWE:                       "CWE-183",
+				Rationale:                 "a containment match accepts the allowed value anywhere in a longer one",
+			},
+			{
+				ID: "partial-match", Visibility: "internal", Context: "partial-match",
+				Method: "startswith", ReceiverIsEntryParam: -1,
+				RequiresUntrustedReceiver: true,
+				CWE:                       "CWE-183",
+				Rationale:                 "a prefix match accepts anything that CONTINUES the allowed value",
+			},
+			{
+				ID: "partial-match", Visibility: "internal", Context: "partial-match",
+				Method: "endswith", ReceiverIsEntryParam: -1,
+				RequiresUntrustedReceiver: true,
+				CWE:                       "CWE-183",
+				Rationale:                 "a suffix match accepts anything that PRECEDES the allowed value",
+			},
+
 			// An LDAP filter is a small query language, and `*` in the wrong place turns
 			// "this user with this password" into "any user".
 			{
@@ -2843,6 +2894,21 @@ func Builtin() Model {
 				Reason:              "a fact like this cannot be reissued after it leaks, and where it goes after leaving this process is not this process's decision any more",
 				Finding:             "Personal information sent outside this system",
 				CWE:                 "CWE-359",
+			},
+			{
+				// An origin or a referrer checked against an allow-list by prefix, suffix
+				// or containment. The list is right and the comparison is too generous:
+				// a prefix match accepts anything that continues the allowed value and a
+				// suffix match accepts anything that precedes it, so
+				// `https://example.com.attacker.net` and `https://notexample.com` both
+				// pass a check that looks correct.
+				ID:            "permissive-origin-match",
+				Class:         "referer",
+				DeniedContext: []string{"partial-match"},
+				Requires:      Requirements{Interprocedural: true},
+				Reason:        "a prefix or suffix match on an origin accepts every value that extends the allowed one, so an attacker registers a name that continues it and passes a check nobody reads as broken",
+				Finding:       "Origin checked against an allow-list by partial match",
+				CWE:           "CWE-183",
 			},
 			{
 				// The clock reaching somewhere unguessability is the whole point. A token
