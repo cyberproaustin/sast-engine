@@ -768,17 +768,25 @@ function lowerFunction(
       segments.unshift(cur.name.text);
       cur = cur.expression;
     }
-    if (!ts.isIdentifier(cur)) return undefined;
-
-    const sym = checker.getSymbolAtLocation(cur);
-    let baseId = sym ? bySymbol.get(sym) : undefined;
-    if (!baseId) {
-      // A name with no local binding and no import is a GLOBAL, and some globals hold
-      // things worth tracking: `process.env` is where a process keeps every secret it
-      // was started with. Created only as the base of a property access, because that
-      // is the only shape a rule describes a global in -- lowering every unresolved
-      // identifier would fill the IR with `console` and `JSON` for nothing.
-      baseId = globalBase(cur);
+    let baseId: string | undefined;
+    if (ts.isIdentifier(cur)) {
+      const sym = checker.getSymbolAtLocation(cur);
+      baseId = sym ? bySymbol.get(sym) ?? fileScope.get(sym) : undefined;
+      if (!baseId) {
+        // A name with no local binding and no import is a GLOBAL, and some globals hold
+        // things worth tracking: `process.env` is where a process keeps every secret it
+        // was started with. Created only as the base of a property access, because that
+        // is the only shape a rule describes a global in -- lowering every unresolved
+        // identifier would fill the IR with `console` and `JSON` for nothing.
+        baseId = globalBase(cur);
+      }
+    } else {
+      // A chain that does not bottom out at a NAME. `url.parse(req.url, true).query` is
+      // the shape that made this worth fixing: the base is a call, the walk stopped, and
+      // the whole read was dropped -- along with the request it started from. The same
+      // applies to `JSON.parse(body).id` and `rows[0].email`, which is most of how real
+      // code gets at the value it is about to use.
+      baseId = lowerExpr(cur);
     }
     if (!baseId) return undefined;
 
