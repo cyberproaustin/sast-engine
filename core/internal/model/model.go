@@ -760,6 +760,64 @@ func Builtin() Model {
 				Rationale: "assign() copies every key of the caller's object onto the target",
 			},
 
+			// Choosing WHICH code runs, rather than writing code for it to run. Nothing is
+			// interpreted here: the caller names a module or a class and the runtime goes
+			// and loads it, which reaches every path the process can read and every
+			// side effect that loading has.
+			{
+				ID: "module-loader", Visibility: "internal", Context: "code",
+				Symbol: "require", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiresWholeValue: true,
+				CWE:                "CWE-470",
+				Rationale:          "require() loads and runs whatever module this names",
+			},
+			{
+				ID: "module-loader", Visibility: "internal", Context: "code",
+				Symbol: "importlib.import_module", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiresWholeValue: true,
+				CWE:                "CWE-470",
+				Rationale:          "import_module() imports and runs whatever module this names",
+			},
+			{
+				ID: "module-loader", Visibility: "internal", Context: "code",
+				Symbol: "builtins.__import__", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiresWholeValue: true,
+				CWE:                "CWE-470",
+				Rationale:          "__import__() imports and runs whatever module this names",
+			},
+
+			// Merging a caller's object into another one is mass assignment with a
+			// sharper edge: these functions walk nested keys, so `__proto__` in the
+			// caller's object reaches the prototype every other object inherits from.
+			{
+				ID: "deep-merge", Visibility: "internal", Context: "record-fields",
+				Symbol: "lodash.merge", ReceiverIsEntryParam: -1, ArgIndex: []int{1, 2, 3},
+				TargetArg: arg(0), RequiresUnenclosed: true,
+				CWE:       "CWE-1321",
+				Rationale: "merge() walks nested keys, so a __proto__ key in the source reaches the prototype",
+			},
+			{
+				ID: "deep-merge", Visibility: "internal", Context: "record-fields",
+				Symbol: "lodash.merge.default", ReceiverIsEntryParam: -1, ArgIndex: []int{1, 2, 3},
+				TargetArg: arg(0), RequiresUnenclosed: true,
+				CWE:       "CWE-1321",
+				Rationale: "merge() walks nested keys, so a __proto__ key in the source reaches the prototype",
+			},
+			{
+				ID: "deep-merge", Visibility: "internal", Context: "record-fields",
+				Symbol: "lodash.defaultsDeep", ReceiverIsEntryParam: -1, ArgIndex: []int{1, 2, 3},
+				TargetArg: arg(0), RequiresUnenclosed: true,
+				CWE:       "CWE-1321",
+				Rationale: "defaultsDeep() walks nested keys, so a __proto__ key in the source reaches the prototype",
+			},
+			{
+				ID: "deep-merge", Visibility: "internal", Context: "record-fields",
+				Symbol: "deepmerge", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1},
+				RequiresUnenclosed: true,
+				CWE:                "CWE-1321",
+				Rationale:          "deepmerge() walks nested keys, so a __proto__ key in the source reaches the prototype",
+			},
+
 			// An XML parser that has been told to resolve entities will fetch and inline
 			// whatever a document names, which is how a document becomes a file read on
 			// the server. The option is the whole difference: libxmljs without `noent`
