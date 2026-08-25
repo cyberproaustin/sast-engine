@@ -24,7 +24,7 @@
   ],
   "functions": [
     {
-      "id": "app.py#<module>:0",
+      "id": "app.py#<module>:0:0",
       "name": "<module>",
       "module": "app.py",
       "loc": {
@@ -35,7 +35,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#<module>:0$v0",
+          "id": "app.py#<module>:0:0$v0",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -45,7 +45,7 @@
           "literal": "Python's own interpreters, reached from a request.\n\nEvery channel here was described in the model from the beginning and none of them had\never matched, because the frontend emitted the bare name `eval` while the rule named\n`builtins.eval`. A name that is neither defined in the file nor imported is the\nlanguage's own, and saying so is what connects the two.\n"
         },
         {
-          "id": "app.py#<module>:0$v1",
+          "id": "app.py#<module>:0:0$v1",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -55,7 +55,7 @@
           "name": "flask.Flask"
         },
         {
-          "id": "app.py#<module>:0$v2",
+          "id": "app.py#<module>:0:0$v2",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -67,8 +67,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#<module>:0$v1",
-          "to": "app.py#<module>:0$v2",
+          "from": "app.py#<module>:0:0$v1",
+          "to": "app.py#<module>:0:0$v2",
           "kind": "assign",
           "loc": {
             "file": "app.py",
@@ -79,7 +79,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#<module>:0$c0",
+          "id": "app.py#<module>:0:0$c0",
           "loc": {
             "file": "app.py",
             "line": 12,
@@ -91,8 +91,8 @@
             "resolution": "resolved"
           },
           "args": [],
-          "resultValueId": "app.py#<module>:0$v1",
-          "block": "app.py#<module>:0$b0",
+          "resultValueId": "app.py#<module>:0:0$v1",
+          "block": "app.py#<module>:0:0$b0",
           "argCount": 1,
           "enumeratedOptions": [
             -1
@@ -102,10 +102,10 @@
       "returns": [],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#<module>:0$b0",
+      "entryBlock": "app.py#<module>:0:0$b0",
       "blocks": [
         {
-          "id": "app.py#<module>:0$b0",
+          "id": "app.py#<module>:0:0$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -116,7 +116,7 @@
       ]
     },
     {
-      "id": "app.py#calc:16",
+      "id": "app.py#calc:16:1",
       "name": "calc",
       "module": "app.py",
       "loc": {
@@ -127,7 +127,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#calc:16$v0",
+          "id": "app.py#calc:16:1$v0",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -137,19 +137,19 @@
           "name": "flask.request"
         },
         {
-          "id": "app.py#calc:16$v1",
+          "id": "app.py#calc:16:1$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
             "line": 19,
             "column": 21
           },
-          "base": "app.py#calc:16$v0",
+          "base": "app.py#calc:16:1$v0",
           "path": "args",
           "name": "args"
         },
         {
-          "id": "app.py#calc:16$v2",
+          "id": "app.py#calc:16:1$v2",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -157,11 +157,11 @@
             "column": 21
           },
           "name": "expr",
-          "base": "app.py#calc:16$v1",
+          "base": "app.py#calc:16:1$v1",
           "path": "args.expr"
         },
         {
-          "id": "app.py#calc:16$v3",
+          "id": "app.py#calc:16:1$v3",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -171,7 +171,7 @@
           "name": "builtins.eval"
         },
         {
-          "id": "app.py#calc:16$v4",
+          "id": "app.py#calc:16:1$v4",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -183,8 +183,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#calc:16$v0",
-          "to": "app.py#calc:16$v1",
+          "from": "app.py#calc:16:1$v0",
+          "to": "app.py#calc:16:1$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -193,8 +193,8 @@
           }
         },
         {
-          "from": "app.py#calc:16$v1",
-          "to": "app.py#calc:16$v2",
+          "from": "app.py#calc:16:1$v1",
+          "to": "app.py#calc:16:1$v2",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -205,7 +205,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#calc:16$c0",
+          "id": "app.py#calc:16:1$c0",
           "loc": {
             "file": "app.py",
             "line": 19,
@@ -219,18 +219,18 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#calc:16$v2"
+              "valueId": "app.py#calc:16:1$v2"
             }
           ],
-          "resultValueId": "app.py#calc:16$v3",
-          "block": "app.py#calc:16$b0",
+          "resultValueId": "app.py#calc:16:1$v3",
+          "block": "app.py#calc:16:1$b0",
           "argCount": 1,
           "enumeratedOptions": [
             -1
           ]
         },
         {
-          "id": "app.py#calc:16$c1",
+          "id": "app.py#calc:16:1$c1",
           "loc": {
             "file": "app.py",
             "line": 19,
@@ -244,11 +244,11 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#calc:16$v3"
+              "valueId": "app.py#calc:16:1$v3"
             }
           ],
-          "resultValueId": "app.py#calc:16$v4",
-          "block": "app.py#calc:16$b0",
+          "resultValueId": "app.py#calc:16:1$v4",
+          "block": "app.py#calc:16:1$b0",
           "argCount": 1,
           "enumeratedOptions": [
             -1
@@ -256,14 +256,14 @@
         }
       ],
       "returns": [
-        "app.py#calc:16$v4"
+        "app.py#calc:16:1$v4"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#calc:16$b0",
+      "entryBlock": "app.py#calc:16:1$b0",
       "blocks": [
         {
-          "id": "app.py#calc:16$b0",
+          "id": "app.py#calc:16:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -273,7 +273,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#calc:16$b1",
+          "id": "app.py#calc:16:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -284,7 +284,7 @@
       ]
     },
     {
-      "id": "app.py#run:23",
+      "id": "app.py#run:23:1",
       "name": "run",
       "module": "app.py",
       "loc": {
@@ -295,7 +295,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#run:23$v0",
+          "id": "app.py#run:23:1$v0",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -305,19 +305,19 @@
           "name": "flask.request"
         },
         {
-          "id": "app.py#run:23$v1",
+          "id": "app.py#run:23:1$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
             "line": 25,
             "column": 10
           },
-          "base": "app.py#run:23$v0",
+          "base": "app.py#run:23:1$v0",
           "path": "args",
           "name": "args"
         },
         {
-          "id": "app.py#run:23$v2",
+          "id": "app.py#run:23:1$v2",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -325,11 +325,11 @@
             "column": 10
           },
           "name": "code",
-          "base": "app.py#run:23$v1",
+          "base": "app.py#run:23:1$v1",
           "path": "args.code"
         },
         {
-          "id": "app.py#run:23$v3",
+          "id": "app.py#run:23:1$v3",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -339,7 +339,7 @@
           "name": "builtins.exec"
         },
         {
-          "id": "app.py#run:23$v4",
+          "id": "app.py#run:23:1$v4",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -351,8 +351,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#run:23$v0",
-          "to": "app.py#run:23$v1",
+          "from": "app.py#run:23:1$v0",
+          "to": "app.py#run:23:1$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -361,8 +361,8 @@
           }
         },
         {
-          "from": "app.py#run:23$v1",
-          "to": "app.py#run:23$v2",
+          "from": "app.py#run:23:1$v1",
+          "to": "app.py#run:23:1$v2",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -373,7 +373,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#run:23$c0",
+          "id": "app.py#run:23:1$c0",
           "loc": {
             "file": "app.py",
             "line": 25,
@@ -387,11 +387,11 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#run:23$v2"
+              "valueId": "app.py#run:23:1$v2"
             }
           ],
-          "resultValueId": "app.py#run:23$v3",
-          "block": "app.py#run:23$b0",
+          "resultValueId": "app.py#run:23:1$v3",
+          "block": "app.py#run:23:1$b0",
           "argCount": 1,
           "enumeratedOptions": [
             -1
@@ -399,14 +399,14 @@
         }
       ],
       "returns": [
-        "app.py#run:23$v4"
+        "app.py#run:23:1$v4"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#run:23$b0",
+      "entryBlock": "app.py#run:23:1$b0",
       "blocks": [
         {
-          "id": "app.py#run:23$b0",
+          "id": "app.py#run:23:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -416,7 +416,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#run:23$b1",
+          "id": "app.py#run:23:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -427,7 +427,7 @@
       ]
     },
     {
-      "id": "app.py#load:30",
+      "id": "app.py#load:30:1",
       "name": "load",
       "module": "app.py",
       "loc": {
@@ -438,7 +438,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#load:30$v0",
+          "id": "app.py#load:30:1$v0",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -448,19 +448,19 @@
           "name": "flask.request"
         },
         {
-          "id": "app.py#load:30$v1",
+          "id": "app.py#load:30:1$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
             "line": 33,
             "column": 16
           },
-          "base": "app.py#load:30$v0",
+          "base": "app.py#load:30:1$v0",
           "path": "args",
           "name": "args"
         },
         {
-          "id": "app.py#load:30$v2",
+          "id": "app.py#load:30:1$v2",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -468,11 +468,11 @@
             "column": 16
           },
           "name": "module",
-          "base": "app.py#load:30$v1",
+          "base": "app.py#load:30:1$v1",
           "path": "args.module"
         },
         {
-          "id": "app.py#load:30$v3",
+          "id": "app.py#load:30:1$v3",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -482,7 +482,7 @@
           "name": "builtins.__import__"
         },
         {
-          "id": "app.py#load:30$v4",
+          "id": "app.py#load:30:1$v4",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -494,8 +494,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#load:30$v0",
-          "to": "app.py#load:30$v1",
+          "from": "app.py#load:30:1$v0",
+          "to": "app.py#load:30:1$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -504,8 +504,8 @@
           }
         },
         {
-          "from": "app.py#load:30$v1",
-          "to": "app.py#load:30$v2",
+          "from": "app.py#load:30:1$v1",
+          "to": "app.py#load:30:1$v2",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -516,7 +516,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#load:30$c0",
+          "id": "app.py#load:30:1$c0",
           "loc": {
             "file": "app.py",
             "line": 33,
@@ -530,11 +530,11 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#load:30$v2"
+              "valueId": "app.py#load:30:1$v2"
             }
           ],
-          "resultValueId": "app.py#load:30$v3",
-          "block": "app.py#load:30$b0",
+          "resultValueId": "app.py#load:30:1$v3",
+          "block": "app.py#load:30:1$b0",
           "argCount": 1,
           "enumeratedOptions": [
             -1
@@ -542,14 +542,14 @@
         }
       ],
       "returns": [
-        "app.py#load:30$v4"
+        "app.py#load:30:1$v4"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#load:30$b0",
+      "entryBlock": "app.py#load:30:1$b0",
       "blocks": [
         {
-          "id": "app.py#load:30$b0",
+          "id": "app.py#load:30:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -559,7 +559,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#load:30$b1",
+          "id": "app.py#load:30:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -570,7 +570,7 @@
       ]
     },
     {
-      "id": "app.py#safe_calc:38",
+      "id": "app.py#safe_calc:38:1",
       "name": "safe_calc",
       "module": "app.py",
       "loc": {
@@ -581,7 +581,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#safe_calc:38$v0",
+          "id": "app.py#safe_calc:38:1$v0",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -591,7 +591,7 @@
           "literal": "2 + 2"
         },
         {
-          "id": "app.py#safe_calc:38$v1",
+          "id": "app.py#safe_calc:38:1$v1",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -601,7 +601,7 @@
           "name": "builtins.eval"
         },
         {
-          "id": "app.py#safe_calc:38$v2",
+          "id": "app.py#safe_calc:38:1$v2",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -614,7 +614,7 @@
       "flows": [],
       "calls": [
         {
-          "id": "app.py#safe_calc:38$c0",
+          "id": "app.py#safe_calc:38:1$c0",
           "loc": {
             "file": "app.py",
             "line": 40,
@@ -628,11 +628,11 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#safe_calc:38$v0"
+              "valueId": "app.py#safe_calc:38:1$v0"
             }
           ],
-          "resultValueId": "app.py#safe_calc:38$v1",
-          "block": "app.py#safe_calc:38$b0",
+          "resultValueId": "app.py#safe_calc:38:1$v1",
+          "block": "app.py#safe_calc:38:1$b0",
           "argCount": 1,
           "argLiterals": {
             "0": "2 + 2"
@@ -642,7 +642,7 @@
           ]
         },
         {
-          "id": "app.py#safe_calc:38$c1",
+          "id": "app.py#safe_calc:38:1$c1",
           "loc": {
             "file": "app.py",
             "line": 40,
@@ -656,11 +656,11 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#safe_calc:38$v1"
+              "valueId": "app.py#safe_calc:38:1$v1"
             }
           ],
-          "resultValueId": "app.py#safe_calc:38$v2",
-          "block": "app.py#safe_calc:38$b0",
+          "resultValueId": "app.py#safe_calc:38:1$v2",
+          "block": "app.py#safe_calc:38:1$b0",
           "argCount": 1,
           "enumeratedOptions": [
             -1
@@ -668,14 +668,14 @@
         }
       ],
       "returns": [
-        "app.py#safe_calc:38$v2"
+        "app.py#safe_calc:38:1$v2"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#safe_calc:38$b0",
+      "entryBlock": "app.py#safe_calc:38:1$b0",
       "blocks": [
         {
-          "id": "app.py#safe_calc:38$b0",
+          "id": "app.py#safe_calc:38:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -685,7 +685,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#safe_calc:38$b1",
+          "id": "app.py#safe_calc:38:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -696,7 +696,7 @@
       ]
     },
     {
-      "id": "app.py#lookup:44",
+      "id": "app.py#lookup:44:1",
       "name": "lookup",
       "module": "app.py",
       "loc": {
@@ -707,7 +707,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#lookup:44$v0",
+          "id": "app.py#lookup:44:1$v0",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -717,7 +717,7 @@
           "literal": "/opt/app/data"
         },
         {
-          "id": "app.py#lookup:44$v1",
+          "id": "app.py#lookup:44:1$v1",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -727,7 +727,7 @@
           "literal": "index.txt"
         },
         {
-          "id": "app.py#lookup:44$v2",
+          "id": "app.py#lookup:44:1$v2",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -737,19 +737,19 @@
           "name": "os"
         },
         {
-          "id": "app.py#lookup:44$v3",
+          "id": "app.py#lookup:44:1$v3",
           "kind": "property",
           "loc": {
             "file": "app.py",
             "line": 47,
             "column": 15
           },
-          "base": "app.py#lookup:44$v2",
+          "base": "app.py#lookup:44:1$v2",
           "path": "path",
           "name": "path"
         },
         {
-          "id": "app.py#lookup:44$v4",
+          "id": "app.py#lookup:44:1$v4",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -759,7 +759,7 @@
           "name": "os.path.join"
         },
         {
-          "id": "app.py#lookup:44$v5",
+          "id": "app.py#lookup:44:1$v5",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -769,7 +769,7 @@
           "name": "builtins.open"
         },
         {
-          "id": "app.py#lookup:44$v6",
+          "id": "app.py#lookup:44:1$v6",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -779,7 +779,7 @@
           "name": "fh"
         },
         {
-          "id": "app.py#lookup:44$v7",
+          "id": "app.py#lookup:44:1$v7",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -791,8 +791,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#lookup:44$v2",
-          "to": "app.py#lookup:44$v3",
+          "from": "app.py#lookup:44:1$v2",
+          "to": "app.py#lookup:44:1$v3",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -801,8 +801,8 @@
           }
         },
         {
-          "from": "app.py#lookup:44$v5",
-          "to": "app.py#lookup:44$v6",
+          "from": "app.py#lookup:44:1$v5",
+          "to": "app.py#lookup:44:1$v6",
           "kind": "assign",
           "loc": {
             "file": "app.py",
@@ -813,7 +813,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#lookup:44$c0",
+          "id": "app.py#lookup:44:1$c0",
           "loc": {
             "file": "app.py",
             "line": 47,
@@ -827,15 +827,15 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#lookup:44$v0"
+              "valueId": "app.py#lookup:44:1$v0"
             },
             {
               "index": 1,
-              "valueId": "app.py#lookup:44$v1"
+              "valueId": "app.py#lookup:44:1$v1"
             }
           ],
-          "resultValueId": "app.py#lookup:44$v4",
-          "block": "app.py#lookup:44$b0",
+          "resultValueId": "app.py#lookup:44:1$v4",
+          "block": "app.py#lookup:44:1$b0",
           "method": "join",
           "argCount": 2,
           "argLiterals": {
@@ -845,10 +845,10 @@
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#lookup:44$v3"
+          "receiverValueId": "app.py#lookup:44:1$v3"
         },
         {
-          "id": "app.py#lookup:44$c1",
+          "id": "app.py#lookup:44:1$c1",
           "loc": {
             "file": "app.py",
             "line": 47,
@@ -862,18 +862,18 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#lookup:44$v4"
+              "valueId": "app.py#lookup:44:1$v4"
             }
           ],
-          "resultValueId": "app.py#lookup:44$v5",
-          "block": "app.py#lookup:44$b0",
+          "resultValueId": "app.py#lookup:44:1$v5",
+          "block": "app.py#lookup:44:1$b0",
           "argCount": 1,
           "enumeratedOptions": [
             -1
           ]
         },
         {
-          "id": "app.py#lookup:44$c2",
+          "id": "app.py#lookup:44:1$c2",
           "loc": {
             "file": "app.py",
             "line": 48,
@@ -885,24 +885,24 @@
             "resolution": "probable"
           },
           "args": [],
-          "resultValueId": "app.py#lookup:44$v7",
-          "block": "app.py#lookup:44$b0",
+          "resultValueId": "app.py#lookup:44:1$v7",
+          "block": "app.py#lookup:44:1$b0",
           "method": "read",
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#lookup:44$v6"
+          "receiverValueId": "app.py#lookup:44:1$v6"
         }
       ],
       "returns": [
-        "app.py#lookup:44$v7"
+        "app.py#lookup:44:1$v7"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#lookup:44$b0",
+      "entryBlock": "app.py#lookup:44:1$b0",
       "blocks": [
         {
-          "id": "app.py#lookup:44$b0",
+          "id": "app.py#lookup:44:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -912,7 +912,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#lookup:44$b1",
+          "id": "app.py#lookup:44:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -925,7 +925,7 @@
   ],
   "entryPoints": [
     {
-      "functionId": "app.py#calc:16",
+      "functionId": "app.py#calc:16:1",
       "kind": "http-route",
       "framework": "flask",
       "detail": {
@@ -934,7 +934,7 @@
       }
     },
     {
-      "functionId": "app.py#run:23",
+      "functionId": "app.py#run:23:1",
       "kind": "http-route",
       "framework": "flask",
       "detail": {
@@ -943,7 +943,7 @@
       }
     },
     {
-      "functionId": "app.py#load:30",
+      "functionId": "app.py#load:30:1",
       "kind": "http-route",
       "framework": "flask",
       "detail": {
@@ -952,7 +952,7 @@
       }
     },
     {
-      "functionId": "app.py#safe_calc:38",
+      "functionId": "app.py#safe_calc:38:1",
       "kind": "http-route",
       "framework": "flask",
       "detail": {
@@ -961,7 +961,7 @@
       }
     },
     {
-      "functionId": "app.py#lookup:44",
+      "functionId": "app.py#lookup:44:1",
       "kind": "http-route",
       "framework": "flask",
       "detail": {

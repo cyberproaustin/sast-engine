@@ -24,7 +24,7 @@
   ],
   "functions": [
     {
-      "id": "app.py#<module>:0",
+      "id": "app.py#<module>:0:0",
       "name": "<module>",
       "module": "app.py",
       "loc": {
@@ -35,7 +35,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#<module>:0$v0",
+          "id": "app.py#<module>:0:0$v0",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -45,7 +45,7 @@
           "name": "flask.Flask"
         },
         {
-          "id": "app.py#<module>:0$v1",
+          "id": "app.py#<module>:0:0$v1",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -57,8 +57,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#<module>:0$v0",
-          "to": "app.py#<module>:0$v1",
+          "from": "app.py#<module>:0:0$v0",
+          "to": "app.py#<module>:0:0$v1",
           "kind": "assign",
           "loc": {
             "file": "app.py",
@@ -69,7 +69,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#<module>:0$c0",
+          "id": "app.py#<module>:0:0$c0",
           "loc": {
             "file": "app.py",
             "line": 3,
@@ -81,8 +81,8 @@
             "resolution": "resolved"
           },
           "args": [],
-          "resultValueId": "app.py#<module>:0$v0",
-          "block": "app.py#<module>:0$b0",
+          "resultValueId": "app.py#<module>:0:0$v0",
+          "block": "app.py#<module>:0:0$b0",
           "argCount": 1,
           "enumeratedOptions": [
             -1
@@ -92,10 +92,10 @@
       "returns": [],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#<module>:0$b0",
+      "entryBlock": "app.py#<module>:0:0$b0",
       "blocks": [
         {
-          "id": "app.py#<module>:0$b0",
+          "id": "app.py#<module>:0:0$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -106,7 +106,7 @@
       ]
     },
     {
-      "id": "app.py#hello:7",
+      "id": "app.py#hello:7:1",
       "name": "hello",
       "module": "app.py",
       "loc": {
@@ -117,7 +117,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#hello:7$v0",
+          "id": "app.py#hello:7:1$v0",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -127,19 +127,19 @@
           "name": "flask.request"
         },
         {
-          "id": "app.py#hello:7$v1",
+          "id": "app.py#hello:7:1$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
             "line": 11,
             "column": 12
           },
-          "base": "app.py#hello:7$v0",
+          "base": "app.py#hello:7:1$v0",
           "path": "args",
           "name": "args"
         },
         {
-          "id": "app.py#hello:7$v2",
+          "id": "app.py#hello:7:1$v2",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -147,11 +147,11 @@
             "column": 12
           },
           "name": "name",
-          "base": "app.py#hello:7$v1",
+          "base": "app.py#hello:7:1$v1",
           "path": "args.name"
         },
         {
-          "id": "app.py#hello:7$v3",
+          "id": "app.py#hello:7:1$v3",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -161,7 +161,7 @@
           "name": "name"
         },
         {
-          "id": "app.py#hello:7$v4",
+          "id": "app.py#hello:7:1$v4",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -171,7 +171,7 @@
           "name": "concat"
         },
         {
-          "id": "app.py#hello:7$v5",
+          "id": "app.py#hello:7:1$v5",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -181,7 +181,7 @@
           "name": "concat"
         },
         {
-          "id": "app.py#hello:7$v6",
+          "id": "app.py#hello:7:1$v6",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -191,7 +191,7 @@
           "literal": "<h1>Hello "
         },
         {
-          "id": "app.py#hello:7$v7",
+          "id": "app.py#hello:7:1$v7",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -201,7 +201,7 @@
           "literal": "</h1>"
         },
         {
-          "id": "app.py#hello:7$v8",
+          "id": "app.py#hello:7:1$v8",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -213,8 +213,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#hello:7$v0",
-          "to": "app.py#hello:7$v1",
+          "from": "app.py#hello:7:1$v0",
+          "to": "app.py#hello:7:1$v1",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -223,8 +223,8 @@
           }
         },
         {
-          "from": "app.py#hello:7$v1",
-          "to": "app.py#hello:7$v2",
+          "from": "app.py#hello:7:1$v1",
+          "to": "app.py#hello:7:1$v2",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -233,8 +233,8 @@
           }
         },
         {
-          "from": "app.py#hello:7$v2",
-          "to": "app.py#hello:7$v3",
+          "from": "app.py#hello:7:1$v2",
+          "to": "app.py#hello:7:1$v3",
           "kind": "assign",
           "loc": {
             "file": "app.py",
@@ -243,8 +243,8 @@
           }
         },
         {
-          "from": "app.py#hello:7$v6",
-          "to": "app.py#hello:7$v5",
+          "from": "app.py#hello:7:1$v6",
+          "to": "app.py#hello:7:1$v5",
           "kind": "binary",
           "loc": {
             "file": "app.py",
@@ -253,8 +253,8 @@
           }
         },
         {
-          "from": "app.py#hello:7$v3",
-          "to": "app.py#hello:7$v5",
+          "from": "app.py#hello:7:1$v3",
+          "to": "app.py#hello:7:1$v5",
           "kind": "binary",
           "loc": {
             "file": "app.py",
@@ -263,8 +263,8 @@
           }
         },
         {
-          "from": "app.py#hello:7$v5",
-          "to": "app.py#hello:7$v4",
+          "from": "app.py#hello:7:1$v5",
+          "to": "app.py#hello:7:1$v4",
           "kind": "binary",
           "loc": {
             "file": "app.py",
@@ -273,8 +273,8 @@
           }
         },
         {
-          "from": "app.py#hello:7$v7",
-          "to": "app.py#hello:7$v4",
+          "from": "app.py#hello:7:1$v7",
+          "to": "app.py#hello:7:1$v4",
           "kind": "binary",
           "loc": {
             "file": "app.py",
@@ -285,7 +285,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#hello:7$c0",
+          "id": "app.py#hello:7:1$c0",
           "loc": {
             "file": "app.py",
             "line": 12,
@@ -299,11 +299,11 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#hello:7$v4"
+              "valueId": "app.py#hello:7:1$v4"
             }
           ],
-          "resultValueId": "app.py#hello:7$v8",
-          "block": "app.py#hello:7$b0",
+          "resultValueId": "app.py#hello:7:1$v8",
+          "block": "app.py#hello:7:1$b0",
           "argCount": 1,
           "enumeratedOptions": [
             -1
@@ -311,14 +311,14 @@
         }
       ],
       "returns": [
-        "app.py#hello:7$v8"
+        "app.py#hello:7:1$v8"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#hello:7$b0",
+      "entryBlock": "app.py#hello:7:1$b0",
       "blocks": [
         {
-          "id": "app.py#hello:7$b0",
+          "id": "app.py#hello:7:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -328,7 +328,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#hello:7$b1",
+          "id": "app.py#hello:7:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -339,7 +339,7 @@
       ]
     },
     {
-      "id": "app.py#hello_safe:16",
+      "id": "app.py#hello_safe:16:1",
       "name": "hello_safe",
       "module": "app.py",
       "loc": {
@@ -350,7 +350,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#hello_safe:16$v0",
+          "id": "app.py#hello_safe:16:1$v0",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -360,7 +360,7 @@
           "literal": "hello.html"
         },
         {
-          "id": "app.py#hello_safe:16$v1",
+          "id": "app.py#hello_safe:16:1$v1",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -370,19 +370,19 @@
           "name": "flask.request"
         },
         {
-          "id": "app.py#hello_safe:16$v2",
+          "id": "app.py#hello_safe:16:1$v2",
           "kind": "property",
           "loc": {
             "file": "app.py",
             "line": 19,
             "column": 47
           },
-          "base": "app.py#hello_safe:16$v1",
+          "base": "app.py#hello_safe:16:1$v1",
           "path": "args",
           "name": "args"
         },
         {
-          "id": "app.py#hello_safe:16$v3",
+          "id": "app.py#hello_safe:16:1$v3",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -390,11 +390,11 @@
             "column": 47
           },
           "name": "name",
-          "base": "app.py#hello_safe:16$v2",
+          "base": "app.py#hello_safe:16:1$v2",
           "path": "args.name"
         },
         {
-          "id": "app.py#hello_safe:16$v4",
+          "id": "app.py#hello_safe:16:1$v4",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -404,7 +404,7 @@
           "name": "flask.render_template"
         },
         {
-          "id": "app.py#hello_safe:16$v5",
+          "id": "app.py#hello_safe:16:1$v5",
           "kind": "call-result",
           "loc": {
             "file": "templates/hello.html",
@@ -416,8 +416,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#hello_safe:16$v1",
-          "to": "app.py#hello_safe:16$v2",
+          "from": "app.py#hello_safe:16:1$v1",
+          "to": "app.py#hello_safe:16:1$v2",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -426,8 +426,8 @@
           }
         },
         {
-          "from": "app.py#hello_safe:16$v2",
-          "to": "app.py#hello_safe:16$v3",
+          "from": "app.py#hello_safe:16:1$v2",
+          "to": "app.py#hello_safe:16:1$v3",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -438,7 +438,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#hello_safe:16$c0",
+          "id": "app.py#hello_safe:16:1$c0",
           "loc": {
             "file": "app.py",
             "line": 19,
@@ -452,15 +452,15 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#hello_safe:16$v0"
+              "valueId": "app.py#hello_safe:16:1$v0"
             },
             {
               "index": 1,
-              "valueId": "app.py#hello_safe:16$v3"
+              "valueId": "app.py#hello_safe:16:1$v3"
             }
           ],
-          "resultValueId": "app.py#hello_safe:16$v4",
-          "block": "app.py#hello_safe:16$b0",
+          "resultValueId": "app.py#hello_safe:16:1$v4",
+          "block": "app.py#hello_safe:16:1$b0",
           "argCount": 2,
           "argLiterals": {
             "0": "hello.html",
@@ -471,7 +471,7 @@
           ]
         },
         {
-          "id": "app.py#hello_safe:16$c1",
+          "id": "app.py#hello_safe:16:1$c1",
           "loc": {
             "file": "templates/hello.html",
             "line": 1,
@@ -485,23 +485,23 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#hello_safe:16$v3"
+              "valueId": "app.py#hello_safe:16:1$v3"
             }
           ],
           "argCount": 1,
-          "resultValueId": "app.py#hello_safe:16$v5",
-          "block": "app.py#hello_safe:16$b0"
+          "resultValueId": "app.py#hello_safe:16:1$v5",
+          "block": "app.py#hello_safe:16:1$b0"
         }
       ],
       "returns": [
-        "app.py#hello_safe:16$v4"
+        "app.py#hello_safe:16:1$v4"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#hello_safe:16$b0",
+      "entryBlock": "app.py#hello_safe:16:1$b0",
       "blocks": [
         {
-          "id": "app.py#hello_safe:16$b0",
+          "id": "app.py#hello_safe:16:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -511,7 +511,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#hello_safe:16$b1",
+          "id": "app.py#hello_safe:16:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -522,7 +522,7 @@
       ]
     },
     {
-      "id": "app.py#not_found:23",
+      "id": "app.py#not_found:23:1",
       "name": "not_found",
       "module": "app.py",
       "loc": {
@@ -534,12 +534,12 @@
         {
           "index": 0,
           "name": "e",
-          "valueId": "app.py#not_found:23$v0"
+          "valueId": "app.py#not_found:23:1$v0"
         }
       ],
       "values": [
         {
-          "id": "app.py#not_found:23$v0",
+          "id": "app.py#not_found:23:1$v0",
           "kind": "param",
           "loc": {
             "file": "app.py",
@@ -549,7 +549,7 @@
           "name": "e"
         },
         {
-          "id": "app.py#not_found:23$v1",
+          "id": "app.py#not_found:23:1$v1",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -559,7 +559,7 @@
           "name": "[sequence]"
         },
         {
-          "id": "app.py#not_found:23$v2",
+          "id": "app.py#not_found:23:1$v2",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -569,7 +569,7 @@
           "name": "concat"
         },
         {
-          "id": "app.py#not_found:23$v3",
+          "id": "app.py#not_found:23:1$v3",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -579,7 +579,7 @@
           "name": "concat"
         },
         {
-          "id": "app.py#not_found:23$v4",
+          "id": "app.py#not_found:23:1$v4",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -589,7 +589,7 @@
           "literal": "<h1>Not found: "
         },
         {
-          "id": "app.py#not_found:23$v5",
+          "id": "app.py#not_found:23:1$v5",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -599,19 +599,19 @@
           "name": "flask.request"
         },
         {
-          "id": "app.py#not_found:23$v6",
+          "id": "app.py#not_found:23:1$v6",
           "kind": "property",
           "loc": {
             "file": "app.py",
             "line": 27,
             "column": 55
           },
-          "base": "app.py#not_found:23$v5",
+          "base": "app.py#not_found:23:1$v5",
           "path": "url",
           "name": "url"
         },
         {
-          "id": "app.py#not_found:23$v7",
+          "id": "app.py#not_found:23:1$v7",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -621,7 +621,7 @@
           "literal": "</h1>"
         },
         {
-          "id": "app.py#not_found:23$v8",
+          "id": "app.py#not_found:23:1$v8",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -631,7 +631,7 @@
           "name": "flask.render_template_string"
         },
         {
-          "id": "app.py#not_found:23$v9",
+          "id": "app.py#not_found:23:1$v9",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -643,8 +643,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#not_found:23$v4",
-          "to": "app.py#not_found:23$v3",
+          "from": "app.py#not_found:23:1$v4",
+          "to": "app.py#not_found:23:1$v3",
           "kind": "binary",
           "loc": {
             "file": "app.py",
@@ -653,8 +653,8 @@
           }
         },
         {
-          "from": "app.py#not_found:23$v5",
-          "to": "app.py#not_found:23$v6",
+          "from": "app.py#not_found:23:1$v5",
+          "to": "app.py#not_found:23:1$v6",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -663,8 +663,8 @@
           }
         },
         {
-          "from": "app.py#not_found:23$v6",
-          "to": "app.py#not_found:23$v3",
+          "from": "app.py#not_found:23:1$v6",
+          "to": "app.py#not_found:23:1$v3",
           "kind": "binary",
           "loc": {
             "file": "app.py",
@@ -673,8 +673,8 @@
           }
         },
         {
-          "from": "app.py#not_found:23$v3",
-          "to": "app.py#not_found:23$v2",
+          "from": "app.py#not_found:23:1$v3",
+          "to": "app.py#not_found:23:1$v2",
           "kind": "binary",
           "loc": {
             "file": "app.py",
@@ -683,8 +683,8 @@
           }
         },
         {
-          "from": "app.py#not_found:23$v7",
-          "to": "app.py#not_found:23$v2",
+          "from": "app.py#not_found:23:1$v7",
+          "to": "app.py#not_found:23:1$v2",
           "kind": "binary",
           "loc": {
             "file": "app.py",
@@ -693,8 +693,8 @@
           }
         },
         {
-          "from": "app.py#not_found:23$v8",
-          "to": "app.py#not_found:23$v1",
+          "from": "app.py#not_found:23:1$v8",
+          "to": "app.py#not_found:23:1$v1",
           "kind": "enclose",
           "loc": {
             "file": "app.py",
@@ -703,8 +703,8 @@
           }
         },
         {
-          "from": "app.py#not_found:23$v9",
-          "to": "app.py#not_found:23$v1",
+          "from": "app.py#not_found:23:1$v9",
+          "to": "app.py#not_found:23:1$v1",
           "kind": "enclose",
           "loc": {
             "file": "app.py",
@@ -715,7 +715,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#not_found:23$c0",
+          "id": "app.py#not_found:23:1$c0",
           "loc": {
             "file": "app.py",
             "line": 27,
@@ -729,11 +729,11 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#not_found:23$v2"
+              "valueId": "app.py#not_found:23:1$v2"
             }
           ],
-          "resultValueId": "app.py#not_found:23$v8",
-          "block": "app.py#not_found:23$b0",
+          "resultValueId": "app.py#not_found:23:1$v8",
+          "block": "app.py#not_found:23:1$b0",
           "argCount": 1,
           "enumeratedOptions": [
             -1
@@ -741,14 +741,14 @@
         }
       ],
       "returns": [
-        "app.py#not_found:23$v1"
+        "app.py#not_found:23:1$v1"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#not_found:23$b0",
+      "entryBlock": "app.py#not_found:23:1$b0",
       "blocks": [
         {
-          "id": "app.py#not_found:23$b0",
+          "id": "app.py#not_found:23:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -758,7 +758,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#not_found:23$b1",
+          "id": "app.py#not_found:23:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -769,7 +769,7 @@
       ]
     },
     {
-      "id": "app.py#greeting:31",
+      "id": "app.py#greeting:31:1",
       "name": "greeting",
       "module": "app.py",
       "loc": {
@@ -780,7 +780,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#greeting:31$v0",
+          "id": "app.py#greeting:31:1$v0",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -790,7 +790,7 @@
           "literal": "<h1>Hello, world</h1>"
         },
         {
-          "id": "app.py#greeting:31$v1",
+          "id": "app.py#greeting:31:1$v1",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -803,7 +803,7 @@
       "flows": [],
       "calls": [
         {
-          "id": "app.py#greeting:31$c0",
+          "id": "app.py#greeting:31:1$c0",
           "loc": {
             "file": "app.py",
             "line": 33,
@@ -817,11 +817,11 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#greeting:31$v0"
+              "valueId": "app.py#greeting:31:1$v0"
             }
           ],
-          "resultValueId": "app.py#greeting:31$v1",
-          "block": "app.py#greeting:31$b0",
+          "resultValueId": "app.py#greeting:31:1$v1",
+          "block": "app.py#greeting:31:1$b0",
           "argCount": 1,
           "argLiterals": {
             "0": "<h1>Hello, world</h1>"
@@ -832,14 +832,14 @@
         }
       ],
       "returns": [
-        "app.py#greeting:31$v1"
+        "app.py#greeting:31:1$v1"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#greeting:31$b0",
+      "entryBlock": "app.py#greeting:31:1$b0",
       "blocks": [
         {
-          "id": "app.py#greeting:31$b0",
+          "id": "app.py#greeting:31:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -849,7 +849,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#greeting:31$b1",
+          "id": "app.py#greeting:31:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -862,7 +862,7 @@
   ],
   "entryPoints": [
     {
-      "functionId": "app.py#hello:7",
+      "functionId": "app.py#hello:7:1",
       "kind": "http-route",
       "framework": "flask",
       "detail": {
@@ -871,7 +871,7 @@
       }
     },
     {
-      "functionId": "app.py#hello_safe:16",
+      "functionId": "app.py#hello_safe:16:1",
       "kind": "http-route",
       "framework": "flask",
       "detail": {
@@ -880,7 +880,7 @@
       }
     },
     {
-      "functionId": "app.py#not_found:23",
+      "functionId": "app.py#not_found:23:1",
       "kind": "http-route",
       "framework": "flask",
       "detail": {
@@ -889,7 +889,7 @@
       }
     },
     {
-      "functionId": "app.py#greeting:31",
+      "functionId": "app.py#greeting:31:1",
       "kind": "http-route",
       "framework": "flask",
       "detail": {

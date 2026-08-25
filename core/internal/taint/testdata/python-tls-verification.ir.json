@@ -24,7 +24,7 @@
   ],
   "functions": [
     {
-      "id": "app.py#<module>:0",
+      "id": "app.py#<module>:0:0",
       "name": "<module>",
       "module": "app.py",
       "loc": {
@@ -35,7 +35,7 @@
       "params": [],
       "values": [
         {
-          "id": "app.py#<module>:0$v0",
+          "id": "app.py#<module>:0:0$v0",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -50,10 +50,10 @@
       "returns": [],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#<module>:0$b0",
+      "entryBlock": "app.py#<module>:0:0$b0",
       "blocks": [
         {
-          "id": "app.py#<module>:0$b0",
+          "id": "app.py#<module>:0:0$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -64,7 +64,7 @@
       ]
     },
     {
-      "id": "app.py#fetch_insecure:16",
+      "id": "app.py#fetch_insecure:16:1",
       "name": "fetch_insecure",
       "module": "app.py",
       "loc": {
@@ -76,12 +76,12 @@
         {
           "index": 0,
           "name": "url",
-          "valueId": "app.py#fetch_insecure:16$v0"
+          "valueId": "app.py#fetch_insecure:16:1$v0"
         }
       ],
       "values": [
         {
-          "id": "app.py#fetch_insecure:16$v0",
+          "id": "app.py#fetch_insecure:16:1$v0",
           "kind": "param",
           "loc": {
             "file": "app.py",
@@ -91,7 +91,7 @@
           "name": "url"
         },
         {
-          "id": "app.py#fetch_insecure:16$v1",
+          "id": "app.py#fetch_insecure:16:1$v1",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -101,7 +101,7 @@
           "literal": "false"
         },
         {
-          "id": "app.py#fetch_insecure:16$v2",
+          "id": "app.py#fetch_insecure:16:1$v2",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -111,7 +111,7 @@
           "name": "requests"
         },
         {
-          "id": "app.py#fetch_insecure:16$v3",
+          "id": "app.py#fetch_insecure:16:1$v3",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -124,7 +124,7 @@
       "flows": [],
       "calls": [
         {
-          "id": "app.py#fetch_insecure:16$c0",
+          "id": "app.py#fetch_insecure:16:1$c0",
           "loc": {
             "file": "app.py",
             "line": 17,
@@ -138,15 +138,15 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#fetch_insecure:16$v0"
+              "valueId": "app.py#fetch_insecure:16:1$v0"
             },
             {
               "index": 1,
-              "valueId": "app.py#fetch_insecure:16$v1"
+              "valueId": "app.py#fetch_insecure:16:1$v1"
             }
           ],
-          "resultValueId": "app.py#fetch_insecure:16$v3",
-          "block": "app.py#fetch_insecure:16$b0",
+          "resultValueId": "app.py#fetch_insecure:16:1$v3",
+          "block": "app.py#fetch_insecure:16:1$b0",
           "method": "get",
           "argCount": 2,
           "argLiterals": {
@@ -155,18 +155,18 @@
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#fetch_insecure:16$v2"
+          "receiverValueId": "app.py#fetch_insecure:16:1$v2"
         }
       ],
       "returns": [
-        "app.py#fetch_insecure:16$v3"
+        "app.py#fetch_insecure:16:1$v3"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#fetch_insecure:16$b0",
+      "entryBlock": "app.py#fetch_insecure:16:1$b0",
       "blocks": [
         {
-          "id": "app.py#fetch_insecure:16$b0",
+          "id": "app.py#fetch_insecure:16:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -176,7 +176,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#fetch_insecure:16$b1",
+          "id": "app.py#fetch_insecure:16:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -187,7 +187,7 @@
       ]
     },
     {
-      "id": "app.py#fetch_insecure_with_neighbours:20",
+      "id": "app.py#fetch_insecure_with_neighbours:20:1",
       "name": "fetch_insecure_with_neighbours",
       "module": "app.py",
       "loc": {
@@ -199,12 +199,12 @@
         {
           "index": 0,
           "name": "url",
-          "valueId": "app.py#fetch_insecure_with_neighbours:20$v0"
+          "valueId": "app.py#fetch_insecure_with_neighbours:20:1$v0"
         }
       ],
       "values": [
         {
-          "id": "app.py#fetch_insecure_with_neighbours:20$v0",
+          "id": "app.py#fetch_insecure_with_neighbours:20:1$v0",
           "kind": "param",
           "loc": {
             "file": "app.py",
@@ -214,7 +214,7 @@
           "name": "url"
         },
         {
-          "id": "app.py#fetch_insecure_with_neighbours:20$v1",
+          "id": "app.py#fetch_insecure_with_neighbours:20:1$v1",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -224,7 +224,7 @@
           "literal": "5"
         },
         {
-          "id": "app.py#fetch_insecure_with_neighbours:20$v2",
+          "id": "app.py#fetch_insecure_with_neighbours:20:1$v2",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -234,7 +234,7 @@
           "name": "{dict}"
         },
         {
-          "id": "app.py#fetch_insecure_with_neighbours:20$v3",
+          "id": "app.py#fetch_insecure_with_neighbours:20:1$v3",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -244,7 +244,7 @@
           "literal": "json"
         },
         {
-          "id": "app.py#fetch_insecure_with_neighbours:20$v4",
+          "id": "app.py#fetch_insecure_with_neighbours:20:1$v4",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -254,7 +254,7 @@
           "literal": "false"
         },
         {
-          "id": "app.py#fetch_insecure_with_neighbours:20$v5",
+          "id": "app.py#fetch_insecure_with_neighbours:20:1$v5",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -264,7 +264,7 @@
           "name": "requests"
         },
         {
-          "id": "app.py#fetch_insecure_with_neighbours:20$v6",
+          "id": "app.py#fetch_insecure_with_neighbours:20:1$v6",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -276,8 +276,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#fetch_insecure_with_neighbours:20$v3",
-          "to": "app.py#fetch_insecure_with_neighbours:20$v2",
+          "from": "app.py#fetch_insecure_with_neighbours:20:1$v3",
+          "to": "app.py#fetch_insecure_with_neighbours:20:1$v2",
           "kind": "enclose",
           "loc": {
             "file": "app.py",
@@ -288,7 +288,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#fetch_insecure_with_neighbours:20$c0",
+          "id": "app.py#fetch_insecure_with_neighbours:20:1$c0",
           "loc": {
             "file": "app.py",
             "line": 22,
@@ -302,23 +302,23 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#fetch_insecure_with_neighbours:20$v0"
+              "valueId": "app.py#fetch_insecure_with_neighbours:20:1$v0"
             },
             {
               "index": 1,
-              "valueId": "app.py#fetch_insecure_with_neighbours:20$v1"
+              "valueId": "app.py#fetch_insecure_with_neighbours:20:1$v1"
             },
             {
               "index": 1,
-              "valueId": "app.py#fetch_insecure_with_neighbours:20$v2"
+              "valueId": "app.py#fetch_insecure_with_neighbours:20:1$v2"
             },
             {
               "index": 1,
-              "valueId": "app.py#fetch_insecure_with_neighbours:20$v4"
+              "valueId": "app.py#fetch_insecure_with_neighbours:20:1$v4"
             }
           ],
-          "resultValueId": "app.py#fetch_insecure_with_neighbours:20$v6",
-          "block": "app.py#fetch_insecure_with_neighbours:20$b0",
+          "resultValueId": "app.py#fetch_insecure_with_neighbours:20:1$v6",
+          "block": "app.py#fetch_insecure_with_neighbours:20:1$b0",
           "method": "get",
           "argCount": 4,
           "argLiterals": {
@@ -330,18 +330,18 @@
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#fetch_insecure_with_neighbours:20$v5"
+          "receiverValueId": "app.py#fetch_insecure_with_neighbours:20:1$v5"
         }
       ],
       "returns": [
-        "app.py#fetch_insecure_with_neighbours:20$v6"
+        "app.py#fetch_insecure_with_neighbours:20:1$v6"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#fetch_insecure_with_neighbours:20$b0",
+      "entryBlock": "app.py#fetch_insecure_with_neighbours:20:1$b0",
       "blocks": [
         {
-          "id": "app.py#fetch_insecure_with_neighbours:20$b0",
+          "id": "app.py#fetch_insecure_with_neighbours:20:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -351,7 +351,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#fetch_insecure_with_neighbours:20$b1",
+          "id": "app.py#fetch_insecure_with_neighbours:20:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -362,7 +362,7 @@
       ]
     },
     {
-      "id": "app.py#fetch:25",
+      "id": "app.py#fetch:25:1",
       "name": "fetch",
       "module": "app.py",
       "loc": {
@@ -374,12 +374,12 @@
         {
           "index": 0,
           "name": "url",
-          "valueId": "app.py#fetch:25$v0"
+          "valueId": "app.py#fetch:25:1$v0"
         }
       ],
       "values": [
         {
-          "id": "app.py#fetch:25$v0",
+          "id": "app.py#fetch:25:1$v0",
           "kind": "param",
           "loc": {
             "file": "app.py",
@@ -389,7 +389,7 @@
           "name": "url"
         },
         {
-          "id": "app.py#fetch:25$v1",
+          "id": "app.py#fetch:25:1$v1",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -399,7 +399,7 @@
           "literal": "5"
         },
         {
-          "id": "app.py#fetch:25$v2",
+          "id": "app.py#fetch:25:1$v2",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -409,7 +409,7 @@
           "name": "requests"
         },
         {
-          "id": "app.py#fetch:25$v3",
+          "id": "app.py#fetch:25:1$v3",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -422,7 +422,7 @@
       "flows": [],
       "calls": [
         {
-          "id": "app.py#fetch:25$c0",
+          "id": "app.py#fetch:25:1$c0",
           "loc": {
             "file": "app.py",
             "line": 26,
@@ -436,15 +436,15 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#fetch:25$v0"
+              "valueId": "app.py#fetch:25:1$v0"
             },
             {
               "index": 1,
-              "valueId": "app.py#fetch:25$v1"
+              "valueId": "app.py#fetch:25:1$v1"
             }
           ],
-          "resultValueId": "app.py#fetch:25$v3",
-          "block": "app.py#fetch:25$b0",
+          "resultValueId": "app.py#fetch:25:1$v3",
+          "block": "app.py#fetch:25:1$b0",
           "method": "get",
           "argCount": 2,
           "argLiterals": {
@@ -453,18 +453,18 @@
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#fetch:25$v2"
+          "receiverValueId": "app.py#fetch:25:1$v2"
         }
       ],
       "returns": [
-        "app.py#fetch:25$v3"
+        "app.py#fetch:25:1$v3"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#fetch:25$b0",
+      "entryBlock": "app.py#fetch:25:1$b0",
       "blocks": [
         {
-          "id": "app.py#fetch:25$b0",
+          "id": "app.py#fetch:25:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -474,7 +474,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#fetch:25$b1",
+          "id": "app.py#fetch:25:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -485,7 +485,7 @@
       ]
     },
     {
-      "id": "app.py#post_insecure:29",
+      "id": "app.py#post_insecure:29:1",
       "name": "post_insecure",
       "module": "app.py",
       "loc": {
@@ -497,17 +497,17 @@
         {
           "index": 0,
           "name": "url",
-          "valueId": "app.py#post_insecure:29$v0"
+          "valueId": "app.py#post_insecure:29:1$v0"
         },
         {
           "index": 1,
           "name": "body",
-          "valueId": "app.py#post_insecure:29$v1"
+          "valueId": "app.py#post_insecure:29:1$v1"
         }
       ],
       "values": [
         {
-          "id": "app.py#post_insecure:29$v0",
+          "id": "app.py#post_insecure:29:1$v0",
           "kind": "param",
           "loc": {
             "file": "app.py",
@@ -517,7 +517,7 @@
           "name": "url"
         },
         {
-          "id": "app.py#post_insecure:29$v1",
+          "id": "app.py#post_insecure:29:1$v1",
           "kind": "param",
           "loc": {
             "file": "app.py",
@@ -527,7 +527,7 @@
           "name": "body"
         },
         {
-          "id": "app.py#post_insecure:29$v2",
+          "id": "app.py#post_insecure:29:1$v2",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -537,7 +537,7 @@
           "literal": "false"
         },
         {
-          "id": "app.py#post_insecure:29$v3",
+          "id": "app.py#post_insecure:29:1$v3",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -547,7 +547,7 @@
           "name": "requests"
         },
         {
-          "id": "app.py#post_insecure:29$v4",
+          "id": "app.py#post_insecure:29:1$v4",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -560,7 +560,7 @@
       "flows": [],
       "calls": [
         {
-          "id": "app.py#post_insecure:29$c0",
+          "id": "app.py#post_insecure:29:1$c0",
           "loc": {
             "file": "app.py",
             "line": 30,
@@ -574,19 +574,19 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#post_insecure:29$v0"
+              "valueId": "app.py#post_insecure:29:1$v0"
             },
             {
               "index": 1,
-              "valueId": "app.py#post_insecure:29$v1"
+              "valueId": "app.py#post_insecure:29:1$v1"
             },
             {
               "index": 1,
-              "valueId": "app.py#post_insecure:29$v2"
+              "valueId": "app.py#post_insecure:29:1$v2"
             }
           ],
-          "resultValueId": "app.py#post_insecure:29$v4",
-          "block": "app.py#post_insecure:29$b0",
+          "resultValueId": "app.py#post_insecure:29:1$v4",
+          "block": "app.py#post_insecure:29:1$b0",
           "method": "post",
           "argCount": 3,
           "argLiterals": {
@@ -596,18 +596,18 @@
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#post_insecure:29$v3"
+          "receiverValueId": "app.py#post_insecure:29:1$v3"
         }
       ],
       "returns": [
-        "app.py#post_insecure:29$v4"
+        "app.py#post_insecure:29:1$v4"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#post_insecure:29$b0",
+      "entryBlock": "app.py#post_insecure:29:1$b0",
       "blocks": [
         {
-          "id": "app.py#post_insecure:29$b0",
+          "id": "app.py#post_insecure:29:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -617,7 +617,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#post_insecure:29$b1",
+          "id": "app.py#post_insecure:29:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -628,7 +628,7 @@
       ]
     },
     {
-      "id": "app.py#fetch_nested:33",
+      "id": "app.py#fetch_nested:33:1",
       "name": "fetch_nested",
       "module": "app.py",
       "loc": {
@@ -640,17 +640,17 @@
         {
           "index": 0,
           "name": "url",
-          "valueId": "app.py#fetch_nested:33$v0"
+          "valueId": "app.py#fetch_nested:33:1$v0"
         },
         {
           "index": 1,
           "name": "session",
-          "valueId": "app.py#fetch_nested:33$v1"
+          "valueId": "app.py#fetch_nested:33:1$v1"
         }
       ],
       "values": [
         {
-          "id": "app.py#fetch_nested:33$v0",
+          "id": "app.py#fetch_nested:33:1$v0",
           "kind": "param",
           "loc": {
             "file": "app.py",
@@ -660,7 +660,7 @@
           "name": "url"
         },
         {
-          "id": "app.py#fetch_nested:33$v1",
+          "id": "app.py#fetch_nested:33:1$v1",
           "kind": "param",
           "loc": {
             "file": "app.py",
@@ -670,7 +670,7 @@
           "name": "session"
         },
         {
-          "id": "app.py#fetch_nested:33$v2",
+          "id": "app.py#fetch_nested:33:1$v2",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -680,7 +680,7 @@
           "literal": "GET"
         },
         {
-          "id": "app.py#fetch_nested:33$v3",
+          "id": "app.py#fetch_nested:33:1$v3",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -690,7 +690,7 @@
           "name": "{dict}"
         },
         {
-          "id": "app.py#fetch_nested:33$v4",
+          "id": "app.py#fetch_nested:33:1$v4",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -700,7 +700,7 @@
           "literal": "false"
         },
         {
-          "id": "app.py#fetch_nested:33$v5",
+          "id": "app.py#fetch_nested:33:1$v5",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -710,7 +710,7 @@
           "literal": "false"
         },
         {
-          "id": "app.py#fetch_nested:33$v6",
+          "id": "app.py#fetch_nested:33:1$v6",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -722,8 +722,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#fetch_nested:33$v4",
-          "to": "app.py#fetch_nested:33$v3",
+          "from": "app.py#fetch_nested:33:1$v4",
+          "to": "app.py#fetch_nested:33:1$v3",
           "kind": "enclose",
           "loc": {
             "file": "app.py",
@@ -732,8 +732,8 @@
           }
         },
         {
-          "from": "app.py#fetch_nested:33$v5",
-          "to": "app.py#fetch_nested:33$v3",
+          "from": "app.py#fetch_nested:33:1$v5",
+          "to": "app.py#fetch_nested:33:1$v3",
           "kind": "enclose",
           "loc": {
             "file": "app.py",
@@ -744,7 +744,7 @@
       ],
       "calls": [
         {
-          "id": "app.py#fetch_nested:33$c0",
+          "id": "app.py#fetch_nested:33:1$c0",
           "loc": {
             "file": "app.py",
             "line": 42,
@@ -758,19 +758,19 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#fetch_nested:33$v2"
+              "valueId": "app.py#fetch_nested:33:1$v2"
             },
             {
               "index": 1,
-              "valueId": "app.py#fetch_nested:33$v0"
+              "valueId": "app.py#fetch_nested:33:1$v0"
             },
             {
               "index": 2,
-              "valueId": "app.py#fetch_nested:33$v3"
+              "valueId": "app.py#fetch_nested:33:1$v3"
             }
           ],
-          "resultValueId": "app.py#fetch_nested:33$v6",
-          "block": "app.py#fetch_nested:33$b0",
+          "resultValueId": "app.py#fetch_nested:33:1$v6",
+          "block": "app.py#fetch_nested:33:1$b0",
           "method": "request",
           "argCount": 3,
           "argLiterals": {
@@ -782,18 +782,18 @@
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#fetch_nested:33$v1"
+          "receiverValueId": "app.py#fetch_nested:33:1$v1"
         }
       ],
       "returns": [
-        "app.py#fetch_nested:33$v6"
+        "app.py#fetch_nested:33:1$v6"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#fetch_nested:33$b0",
+      "entryBlock": "app.py#fetch_nested:33:1$b0",
       "blocks": [
         {
-          "id": "app.py#fetch_nested:33$b0",
+          "id": "app.py#fetch_nested:33:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
@@ -803,7 +803,7 @@
           "terminator": "return"
         },
         {
-          "id": "app.py#fetch_nested:33$b1",
+          "id": "app.py#fetch_nested:33:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",

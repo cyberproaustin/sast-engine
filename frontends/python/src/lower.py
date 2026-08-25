@@ -321,7 +321,11 @@ class FunctionLowerer:
         self.is_module = isinstance(node, ast.Module)
         self.name = "<module>" if self.is_module else getattr(node, "name", "<lambda>")
         lineno = 0 if self.is_module else node.lineno
-        self.id = f"{mod.module}#{self.name}:{lineno}"
+        col = 0 if self.is_module else getattr(node, "col_offset", 0) + 1
+        # The COLUMN is part of the identity, not decoration: two lambdas on one line
+        # collide without it, and a colliding id means one function's body is attributed
+        # to the other.
+        self.id = f"{mod.module}#{self.name}:{lineno}:{col}"
         self.enclosing_class = mod.class_of.get(id(node))
         self.values: list[dict] = []
         self.flows: list[dict] = []
@@ -700,7 +704,12 @@ class FunctionLowerer:
         # meant the call was never in the IR at all: no rule could see an operation the
         # program plainly performs.
         if isinstance(node, ast.UnaryOp):
-            self.expr(node.operand)
+            inner = self.expr(node.operand)
+            # `not x` produces a boolean unrelated to what it was given. `+x` and `-x`
+            # are numeric and the MAGNITUDE survives, which is the part a rule about a
+            # bound or a seed cares about.
+            if isinstance(node.op, (ast.UAdd, ast.USub)):
+                return inner
             return None
 
         if isinstance(node, ast.Compare):
@@ -764,26 +773,36 @@ class FunctionLowerer:
         # request.json]` was falling through, so a list built out of a caller's data was
         # related to nothing -- and building a list out of a request body is what a bulk
         # endpoint does.
-        if isinstance(node, (ast.ListComp, ast.SetComp, ast.GeneratorExp)):
-            vid = self.new_value("local", node, name="[comprehension]")
+        if isinstance(node, (ast.ListComp, ast.SetComp, ast.GeneratorExp, ast.DictComp)):
+            name = "{comprehension}" if isinstance(node, ast.DictComp) else "[comprehension]"
+            vid = self.new_value("local", node, name=name)
+            # A comprehension has its OWN scope in Python 3. Binding its variable in the
+            # enclosing one and leaving it there would make `x = request.args["cmd"]; [x
+            # for x in ["safe"]]; os.system(x)` resolve the last `x` to the loop variable
+            # and lose the injection, which is the opposite of what the language does.
+            shadowed = {}
             for gen in node.generators:
                 src = self.expr(gen.iter)
                 if isinstance(gen.target, ast.Name):
-                    tid = self.new_value("local", gen.target, name=gen.target.id)
-                    self.scope[gen.target.id] = tid
+                    key = gen.target.id
+                    if key not in shadowed:
+                        shadowed[key] = self.scope.get(key)
+                    tid = self.new_value("local", gen.target, name=key)
+                    self.scope[key] = tid
                     self.add_flow(src, tid, "property", node)
-            self.add_flow(self.expr(node.elt), vid, "enclose", node)
-            return vid
-
-        if isinstance(node, ast.DictComp):
-            vid = self.new_value("local", node, name="{comprehension}")
-            for gen in node.generators:
-                src = self.expr(gen.iter)
-                if isinstance(gen.target, ast.Name):
-                    tid = self.new_value("local", gen.target, name=gen.target.id)
-                    self.scope[gen.target.id] = tid
-                    self.add_flow(src, tid, "property", node)
-            self.add_flow(self.expr(node.value), vid, "enclose", node)
+                # The filters are part of the comprehension and hold calls of their own.
+                for test in gen.ifs:
+                    self.expr(test)
+            if isinstance(node, ast.DictComp):
+                self.add_flow(self.expr(node.key), vid, "enclose", node)
+                self.add_flow(self.expr(node.value), vid, "enclose", node)
+            else:
+                self.add_flow(self.expr(node.elt), vid, "enclose", node)
+            for key, previous in shadowed.items():
+                if previous is None:
+                    self.scope.pop(key, None)
+                else:
+                    self.scope[key] = previous
             return vid
 
         if isinstance(node, ast.Starred):
@@ -1153,7 +1172,7 @@ def lower_program(root: str, files: list[str]) -> dict:
         dotted = mid[:-3].replace("/", ".") if mid.endswith(".py") else mid
         for node in tree.body:
             if isinstance(node, FUNCTION_NODES):
-                fid = f"{mid}#{node.name}:{node.lineno}"
+                fid = f"{mid}#{node.name}:{node.lineno}:{node.col_offset + 1}"
                 defs[f"{mid}:{node.name}"] = fid
                 defs[f"import:{dotted}.{node.name}"] = fid
             # Methods, keyed by their class. Registering only module-level functions
@@ -1166,7 +1185,7 @@ def lower_program(root: str, files: list[str]) -> dict:
                 for member in node.body:
                     if isinstance(member, FUNCTION_NODES):
                         defs[f"{mid}:{node.name}.{member.name}"] = (
-                            f"{mid}#{member.name}:{member.lineno}"
+                            f"{mid}#{member.name}:{member.lineno}:{member.col_offset + 1}"
                         )
 
     templates = index_templates(root)

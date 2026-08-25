@@ -5,7 +5,7 @@
     {
       "cwe": "CWE-918",
       "sinkFile": "app.ts",
-      "sinkLine": 23,
+      "sinkLine": 25,
       "sourceLabel": "req.query.url",
       "confidence": "high",
       "note": "node-fetch, the most common HTTP client in this ecosystem"
@@ -13,7 +13,7 @@
     {
       "cwe": "CWE-918",
       "sinkFile": "app.ts",
-      "sinkLine": 29,
+      "sinkLine": 31,
       "sourceLabel": "req.query.url",
       "confidence": "high",
       "note": "the runtime's own client"
@@ -21,7 +21,7 @@
     {
       "cwe": "CWE-95",
       "sinkFile": "app.ts",
-      "sinkLine": 35,
+      "sinkLine": 37,
       "sourceLabel": "req.body.code",
       "confidence": "high",
       "note": "a separate vm context is not a sandbox: it runs with the host's globals one prototype away"
@@ -29,7 +29,7 @@
     {
       "cwe": "CWE-22",
       "sinkFile": "app.ts",
-      "sinkLine": 41,
+      "sinkLine": 43,
       "sourceLabel": "req.body.path",
       "confidence": "high",
       "note": "the caller chooses which file grows"
@@ -37,7 +37,7 @@
     {
       "cwe": "CWE-1336",
       "sinkFile": "app.ts",
-      "sinkLine": 46,
+      "sinkLine": 48,
       "sourceLabel": "req.body.template",
       "confidence": "high",
       "note": "a template compiled from a caller's text is a caller's program"
@@ -45,7 +45,7 @@
     {
       "cwe": "CWE-79",
       "sinkFile": "app.ts",
-      "sinkLine": 46,
+      "sinkLine": 48,
       "sourceLabel": "req.body.template",
       "confidence": "medium",
       "note": "and the same line read a second time: whatever the template produced is written into the page"
@@ -53,7 +53,7 @@
     {
       "cwe": "CWE-1336",
       "sinkFile": "app.ts",
-      "sinkLine": 51,
+      "sinkLine": 53,
       "sourceLabel": "req.body.template",
       "confidence": "high",
       "note": "the same weakness at a second engine"
@@ -61,10 +61,42 @@
     {
       "cwe": "CWE-79",
       "sinkFile": "app.ts",
-      "sinkLine": 51,
+      "sinkLine": 53,
       "sourceLabel": "req.body.template",
       "confidence": "medium",
       "note": "and the same second reading"
+    },
+    {
+      "cwe": "CWE-95",
+      "sinkFile": "app.ts",
+      "sinkLine": 68,
+      "sourceLabel": "req.body.expr",
+      "confidence": "high",
+      "note": "an expression evaluator is an interpreter: mathjs looks like arithmetic and reaches the host through function definitions and property access"
+    },
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "app.ts",
+      "sinkLine": 75,
+      "sourceLabel": "req.query.note",
+      "confidence": "high",
+      "note": "the framework's escaping turned off by name -- Angular offers exactly one way out and spells it so nobody uses it by accident"
+    },
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "app.ts",
+      "sinkLine": 75,
+      "sourceLabel": "req.query.note",
+      "confidence": "medium",
+      "note": "and the response body it is written into, read separately"
+    },
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "app.ts",
+      "sinkLine": 83,
+      "sourceLabel": "req.query.note",
+      "confidence": "high",
+      "note": "an assignment that needs no call at all: writing to innerHTML IS the parse, which is why a rule watching calls could not see it"
     }
   ]
 }

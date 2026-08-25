@@ -110,11 +110,15 @@ function engineFor(fileName: string, moduleId: string): string | undefined {
 /**
  * An access path this frontend is willing to say it understands.
  *
- * `user.name`, `user["name"]` and `items[0].name` are reads of a field. `helper(user)` and
- * `a ? b : c` are not paths, and pretending they were would attach a finding to a value
- * nobody can point at. Anything that is not this shape is skipped.
+ * `user.name`, `user["name"]`, `items[0].name` and `items[i].name` are reads of a field.
+ * `helper(user)` and `a ? b : c` are not paths, and pretending they were would attach a
+ * finding to a value nobody can point at. Anything that is not this shape is skipped.
+ *
+ * A VARIABLE index counts for the same reason a numeric one does. `<%- rows[i].name %>`
+ * inside a loop is the shape every table in every application has, and refusing it meant
+ * refusing the most common place an unescaped interpolation appears.
  */
-const PATH_ONLY = /^[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*|\[["'][^"'\]]+["']\]|\[\d+\])*$/;
+const PATH_ONLY = /^[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*|\[["'][^"'\]]+["']\]|\[\d+\]|\[[A-Za-z_$][\w$]*\])*$/;
 
 /** Values that are not reads of anything a render call supplied. */
 const NOT_A_READ = new Set(["null", "undefined", "true", "false", "none", "this"]);
@@ -174,7 +178,10 @@ function normalizePath(expr: string, piped = false): string | undefined {
   // the second way. A numeric index is dropped rather than kept: this engine is not
   // field-sensitive about array elements, and `items[0].name` and `items[3].name` are the
   // same read as far as any rule here is concerned.
-  return text.replace(/\[["']([^"'\]]+)["']\]/g, ".$1").replace(/\[\d+\]/g, "");
+  return text
+    .replace(/\[["']([^"'\]]+)["']\]/g, ".$1")
+    .replace(/\[\d+\]/g, "")
+    .replace(/\[[A-Za-z_$][\w$]*\]/g, "");
 }
 
 /** Line and column of an offset, 1-based, for locations a reader can click. */

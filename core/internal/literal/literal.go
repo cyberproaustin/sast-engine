@@ -43,6 +43,14 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 				continue
 			}
 			text := strings.TrimSpace(v.Literal)
+			// A regular expression is lowered as a literal because a rule needs its
+			// text, and it is not a value the program HOLDS -- it is a description of
+			// values it will recognise. `const marker = /-----BEGIN PRIVATE KEY-----/`
+			// finds a key; it is not one, and reporting it would gate a build over a
+			// scanner's own detector.
+			if isRegexLiteral(text) {
+				continue
+			}
 			for _, rule := range m.Literals {
 				if !rule.Matches(text) {
 					continue
@@ -90,6 +98,25 @@ func finding(ix *ir.Index, fn *ir.Function, v *ir.Value, rule model.LiteralRule,
 		EntryAnchored: true,
 		EntryPoint:    enclosing(ix, fn),
 	}
+}
+
+// isRegexLiteral reports whether this is a JavaScript regular expression literal rather
+// than a value. `/x/`, `/x/gi` -- slash-delimited, with only flag letters after the last
+// slash.
+func isRegexLiteral(text string) bool {
+	if len(text) < 2 || text[0] != '/' {
+		return false
+	}
+	end := strings.LastIndexByte(text, '/')
+	if end == 0 {
+		return false
+	}
+	for _, c := range text[end+1:] {
+		if !strings.ContainsRune("dgimsuvy", c) {
+			return false
+		}
+	}
+	return true
 }
 
 // elide keeps a finding readable and keeps the secret out of the report. Enough of the

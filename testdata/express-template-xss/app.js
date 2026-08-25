@@ -8,7 +8,7 @@ app.get("/search", (req, res) => {
   // The handler is not where this is decided. It hands two named values to a view, and
   // the VIEW decides which of them is escaped -- which is why reading only this file
   // reads the half where nothing happens.
-  res.render("products", { query: req.query.q, count: 3 });
+  res.render("products", { query: req.query.q, count: 3, rows: req.query.rows });
 });
 
 app.get("/profile", (req, res) => {
