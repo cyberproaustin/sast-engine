@@ -45,10 +45,42 @@ type Hop struct {
 
 // composedIntoText reports whether the value was built into a larger piece of text on
 // its way to the sink, rather than passed along whole.
+// composedIntoText reports whether this data was EVER built into text on its way here.
+//
+// Used by the channels that require a whole value. `axios.get(BASE + "/users/" + id)`
+// fixes the host in the literal and leaves the caller a path segment, and that remains
+// true however many functions the composed string is passed through afterwards -- so the
+// question is about the whole history, and this looks at all of it.
 func composedIntoText(path []Hop) bool {
 	for _, h := range path {
 		if h.Kind == "template" || h.Kind == "binary" {
 			return true
+		}
+	}
+	return false
+}
+
+// composedIntoSinkArgument reports whether the value HANDED TO THIS SINK is text the
+// caller's data was built into.
+//
+// A different question from the one above, and the difference is the whole point.
+// Scanned backwards from the sink and stopped at the first argument-passing boundary:
+// once the composed text is handed to another function, whatever comes back is no longer
+// that text. novu builds a Redis cache key out of a token eleven hops from the sink,
+// reads the cache with it, parses the result, and passes a field of that through four
+// more functions into a CQRS bus's `execute()` -- and the engine called it a SQL
+// statement, because a template literal appeared somewhere in the history.
+//
+// Returns are deliberately NOT a boundary. Building a statement in a helper and returning
+// it is ordinary, and stopping there would miss `db.query(buildQuery(req.query.name))`,
+// which is a real injection in the shape real code writes it.
+func composedIntoSinkArgument(path []Hop) bool {
+	for i := len(path) - 1; i >= 0; i-- {
+		switch path[i].Kind {
+		case "template", "binary":
+			return true
+		case "call":
+			return false
 		}
 	}
 	return false
@@ -467,6 +499,7 @@ func (e *engine) propagate() {
 				e.markTainted(site.ResultID, edge{
 					from:       id,
 					desc:       fmt.Sprintf("returned from %s()", fn.Name),
+					kind:       "return",
 					loc:        site.Loc,
 					resolution: site.Callee.Resolution,
 				})
@@ -495,6 +528,7 @@ func (e *engine) throughCall(argValueID string, c *ir.Call) {
 			e.markTainted(param.ValueID, edge{
 				from:       argValueID,
 				desc:       fmt.Sprintf("passed as argument %d to %s()", a.Index, callee.Name),
+				kind:       "call",
 				loc:        c.Loc,
 				resolution: c.Callee.Resolution,
 			})
@@ -1015,7 +1049,7 @@ func (e *engine) buildFinding(c *ir.Call, ch model.Channel, p model.Policy, arg 
 	//
 	// The cost is stated rather than hidden: a handler that passes an entire caller-
 	// supplied string as the whole query is not composition and is not reported here.
-	if ch.RequiresComposition && !composedIntoText(path) {
+	if ch.RequiresComposition && !composedIntoSinkArgument(path) {
 		return Finding{}, false
 	}
 	// A destination is chosen, not built. Untrusted data composed into it usually leaves
