@@ -173,6 +173,10 @@ type Arg struct {
 	FunctionID string `json:"functionId,omitempty"`
 }
 
+// UnknownLiteral marks an option whose key was read and whose value was not written
+// down. See Call.ArgLiterals.
+const UnknownLiteral = "?"
+
 // Call is one call site. The calls of every function together form the call graph.
 type Call struct {
 	ID     string `json:"id"`
@@ -207,6 +211,15 @@ type Call struct {
 	// builtin": an analysis must not become confident because a frontend went quiet.
 	ReceiverType       string `json:"receiverType,omitempty"`
 	ReceiverTypeOrigin string `json:"receiverTypeOrigin,omitempty"`
+
+	// UnknownLiteral is the value an option carries when its KEY was read but its value
+	// was not written down: `{ password: req.body.password }` sets the option and says
+	// nothing about what it is set to. An absence rule needs to see the key; a value
+	// rule must never treat this as a value.
+	//
+	// Named here rather than spelled in three places, because the two frontends and the
+	// core all have to agree about it.
+	// (see EnumeratedOptions below for how a key set is known to be complete)
 
 	// ArgCount is how many arguments were WRITTEN at the call site.
 	//

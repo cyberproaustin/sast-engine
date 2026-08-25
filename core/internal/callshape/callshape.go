@@ -97,6 +97,28 @@ func match(c *ir.Call, shape model.CallShape) (string, bool) {
 	if shape.Always {
 		return callName(c), true
 	}
+	// A named option rather than a position.
+	if shape.Keyword != "" {
+		want := strings.ToLower(shape.Keyword)
+		for i, lit := range c.ArgLiterals {
+			if i >= 0 {
+				continue
+			}
+			key, value, cut := strings.Cut(lit, "=")
+			if !cut || strings.ToLower(key) != want {
+				continue
+			}
+			// The key was read and the value was not written down. An absence rule wants
+			// to know the option is set; a rule about its VALUE has nothing to look at.
+			if value == ir.UnknownLiteral {
+				continue
+			}
+			if shape.Matches(value) {
+				return lit, true
+			}
+		}
+		return "", false
+	}
 	if shape.ArgIndex >= 0 {
 		lit, ok := c.ArgLiterals[shape.ArgIndex]
 		if ok && shape.Matches(lit) {

@@ -56,6 +56,8 @@ var corpora = []string{
 	"express-dynamic-load",
 	"express-environment-exposure",
 	"express-credential-logging",
+	"express-secrets-and-randomness",
+	"flask-secrets-and-randomness",
 	"flask-xxe",
 	"flask-unsafe-files",
 	"flask-csv-injection",
