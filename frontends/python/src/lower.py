@@ -898,7 +898,9 @@ class FunctionLowerer:
             call["receiverValueId"] = receiver
         self.calls.append(call)
 
-        if (callee.get("symbol") or "").endswith("render_template"):
+        # Exactly `render_template`. `render_template_string` takes the template SOURCE
+        # rather than a name, and is a different weakness with its own rule (CWE-1336).
+        if (callee.get("symbol") or "").rsplit(".", 1)[-1] == "render_template":
             self.lower_rendered_template(node, by_keyword)
         return result
 
