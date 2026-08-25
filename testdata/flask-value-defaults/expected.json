@@ -1,0 +1,8 @@
+{
+  "corpus": "flask-value-defaults",
+  "description": "The same gap the TypeScript frontend had, on the other language: `or` carried no value, so the most common way Python writes a default dropped taint at the last hop before the sink. The walrus is here because it binds and carries at once. The parameterized route is the negative that matters -- the value still passes through a default, and it reaches an argument the statement does not interpret, so it is not a finding.",
+  "expected": [
+    {"cwe": "CWE-89", "sinkFile": "app.py", "sinkLine": 14, "sourceLabel": "flask.request.args", "confidence": "low", "note": "interpolated into the statement after passing through `or`; low because the cursor receiver does not resolve in this frontend"},
+    {"cwe": "CWE-89", "sinkFile": "app.py", "sinkLine": 22, "sourceLabel": "flask.request.args", "confidence": "low", "note": "same, bound by a walrus"}
+  ]
+}

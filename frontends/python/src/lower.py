@@ -558,6 +558,27 @@ class FunctionLowerer:
                 self.add_flow(self.expr(element), vid, "assign", node)
             return vid
 
+        # `request.args.get("next") or "/"` is how Python writes a default, and the
+        # value that survives it is the caller's whenever one was sent. The flow kind is
+        # "assign" rather than "binary" on purpose: choosing between two values is not
+        # composing text out of them, and calling it composition would make
+        # `execute(request.args["q"] or "")` look like a built statement.
+        if isinstance(node, ast.BoolOp):
+            vid = self.new_value("local", node, name="either")
+            for value in node.values:
+                self.add_flow(self.expr(value), vid, "assign", node)
+            return vid
+
+        # The walrus binds and carries at the same time.
+        if isinstance(node, ast.NamedExpr):
+            src = self.expr(node.value)
+            if isinstance(node.target, ast.Name):
+                vid = self.new_value("local", node.target, name=node.target.id)
+                self.scope[node.target.id] = vid
+                self.add_flow(src, vid, "assign", node)
+                return vid
+            return src
+
         if isinstance(node, ast.IfExp):
             vid = self.new_value("local", node, name="conditional")
             self.add_flow(self.expr(node.body), vid, "assign", node)

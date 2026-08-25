@@ -18,7 +18,7 @@ var claims = map[string]Claim{
 		[]string{"untrusted-to-interpreter"}},
 	"CWE-95": {Asserted, "untrusted data reaching a language evaluator: eval, Function, Python exec",
 		[]string{"untrusted-to-interpreter"}},
-	"CWE-89": {Partial, "untrusted data COMPOSED into the statement argument of a described SQL API; a parameterized call cannot match because the channel names only the interpreted argument",
+	"CWE-89": {Partial, "untrusted data COMPOSED into the statement argument of a described SQL API, where composed means composed into the value THIS sink receives rather than anywhere in its history. A parameterized call cannot match, because the channel names only the interpreted argument. Known imprecision: `execute` is also what a CQRS bus and a SQLAlchemy Session are called on, and neither takes a statement string -- telling them apart needs the receiver's type, which one frontend supplies patchily and the other not at all, so those report at reduced confidence rather than being excluded",
 		[]string{"untrusted-to-interpreter"}},
 	"CWE-79": {Partial, "untrusted data reaching a response body parsed as markup, with context-wrong encoders recorded as insufficient; escaping decided inside a template file is out of reach because templates are not lowered",
 		[]string{"untrusted-to-interpreter"}},

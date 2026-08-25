@@ -49,6 +49,7 @@ var corpora = []string{
 	"express-template-injection",
 	"flask-template-injection",
 	"express-factory-handler",
+	"flask-value-defaults",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {
