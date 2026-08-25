@@ -12,6 +12,7 @@ import (
 	"github.com/cyberproaustin/sast-engine/core/internal/decision"
 	"github.com/cyberproaustin/sast-engine/core/internal/expectation"
 	"github.com/cyberproaustin/sast-engine/core/internal/ir"
+	"github.com/cyberproaustin/sast-engine/core/internal/literal"
 	"github.com/cyberproaustin/sast-engine/core/internal/model"
 	"github.com/cyberproaustin/sast-engine/core/internal/policy"
 	"github.com/cyberproaustin/sast-engine/core/internal/store"
@@ -95,6 +96,7 @@ func Run(d *ir.IR, m model.Model, p *policy.Policy) Result {
 	t.Findings = append(t.Findings, callshape.Analyze(d, m)...)
 	t.Findings = append(t.Findings, decision.Analyze(d, m, t.ByClass)...)
 	t.Findings = append(t.Findings, store.Analyze(d, m, t.ByClass)...)
+	t.Findings = append(t.Findings, literal.Analyze(d, m)...)
 	t.Findings = collapseIdenticalFindings(t.Findings)
 
 	return Result{
