@@ -473,6 +473,16 @@ function lowerFunction(
         return { type: symbol.getName(), origin: "builtin" };
       }
     }
+
+    // A MODULE is not a thing with records in it. `sdk.navigation.update(id, body)`
+    // calls a function out of an imported module, and `order.update(...)` operates on
+    // an object; the two are the same syntax and nothing else in common. The checker
+    // types a namespace import as the module's own path, which is how they are told
+    // apart -- and without telling them apart, budibase's entire SDK layer read as a
+    // store of shared records and asked who owned each of them.
+    if (symbol.flags & (ts.SymbolFlags.ValueModule | ts.SymbolFlags.NamespaceModule)) {
+      return { type: symbol.getName(), origin: "module" };
+    }
     return { type: symbol.getName() };
   };
 
