@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.9.1",
+  "irVersion": "0.10.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -90,6 +90,7 @@
       ],
       "returns": [],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "app.py#<module>:0$b0",
       "blocks": [
         {
@@ -411,6 +412,7 @@
         "app.py#export:10$v12"
       ],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "app.py#export:10$b0",
       "blocks": [
         {
@@ -698,6 +700,7 @@
         "app.py#export_fixed:20$v10"
       ],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "app.py#export_fixed:20$b0",
       "blocks": [
         {

@@ -16,6 +16,7 @@ import type {
   Call,
   Callee,
   Comparison,
+  Write,
   Flow,
   FunctionIR,
   IRDoc,
@@ -460,6 +461,7 @@ function lowerFunction(
   const flows: Flow[] = [];
   const calls: Call[] = [];
   const comparisons: Comparison[] = [];
+  const writes: Write[] = [];
   const blocks: Block[] = [];
   const returns: string[] = [];
   const params: Param[] = [];
@@ -1087,6 +1089,38 @@ function lowerFunction(
       current = newBlock(n);
       return;
     }
+    // An assignment INTO something: `session.user = x`, `config["debug"] = y`. Only
+    // assignments to a plain name were lowered, so writing into a property recorded
+    // nothing -- and putting caller data into a session is a weakness whose entire shape
+    // is the write.
+    if (
+      ts.isExpressionStatement(n) &&
+      ts.isBinaryExpression(n.expression) &&
+      n.expression.operatorToken.kind === ts.SyntaxKind.EqualsToken
+    ) {
+      const target = n.expression.left;
+      const from = lowerExpr(n.expression.right);
+      if (ts.isPropertyAccessExpression(target)) {
+        writes.push({
+          loc: locOf(sf, n),
+          base: lowerExpr(target.expression),
+          path: target.name.text,
+          from,
+        });
+        return;
+      }
+      if (ts.isElementAccessExpression(target)) {
+        const key = target.argumentExpression;
+        writes.push({
+          loc: locOf(sf, n),
+          base: lowerExpr(target.expression),
+          path: ts.isStringLiteralLike(key) ? key.text : undefined,
+          from,
+        });
+        return;
+      }
+    }
+
     if (ts.isExpressionStatement(n)) {
       lowerExpr(n.expression);
       return;
@@ -1138,6 +1172,7 @@ function lowerFunction(
     calls,
     returns,
     comparisons,
+    writes: writes.length ? writes : undefined,
     entryBlock,
     blocks,
   };
@@ -1227,6 +1262,7 @@ export function relativizeLocations(doc: IRDoc, rootDir: string): IRDoc {
     for (const f of fn.flows) rel(f.loc);
     for (const c of fn.calls) rel(c.loc);
     for (const c of fn.comparisons ?? []) rel(c.loc);
+    for (const w of fn.writes ?? []) rel(w.loc);
     for (const b of fn.blocks ?? []) rel(b.loc);
   }
 

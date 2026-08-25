@@ -12,7 +12,7 @@ could not be expressed without it. Nothing is added in anticipation.
 
 ```jsonc
 {
-  "irVersion": "0.9.1",
+  "irVersion": "0.10.0",
   "frontend": { "name": "typescript", "version": "0.1.0", "capabilities": { ... } },
   "modules":     [ ... ],
   "functions":   [ ... ],
@@ -188,6 +188,25 @@ added because an analysis demonstrably needed it rather than in anticipation:
 Together they let the core express one rule — *taint on a receiver reaches the callback's
 parameter* — that covers promise continuations and every higher-order collection method,
 without the core knowing that JavaScript exists.
+
+### Writes (added in 0.10.0)
+
+```jsonc
+{ "loc": {...}, "base": "...$v3", "path": "role", "from": "...$v2" }
+```
+
+An assignment INTO something: `session["user"] = x`, `config.debug = y`. Assignments to a
+plain NAME were lowered from the beginning and assignments to a property or a subscript
+were not, so putting caller data into a session recorded nothing at all — a weakness whose
+entire shape is the write was not merely undetected but unexpressible.
+
+`base` is the value being written into, `path` is the property name or the subscript key
+when it was written as a literal, and `from` is the value written.
+
+Deliberately NOT fed into taint propagation. Whether a value read back out of an object
+should carry what was written into it is a field-sensitivity question this project measured
+once and found worth nothing, and answering it as a side effect of recording the write
+would be deciding it by accident.
 
 ### Comparisons (added in 0.4.0)
 

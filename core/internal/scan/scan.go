@@ -14,6 +14,7 @@ import (
 	"github.com/cyberproaustin/sast-engine/core/internal/ir"
 	"github.com/cyberproaustin/sast-engine/core/internal/model"
 	"github.com/cyberproaustin/sast-engine/core/internal/policy"
+	"github.com/cyberproaustin/sast-engine/core/internal/store"
 	"github.com/cyberproaustin/sast-engine/core/internal/surface"
 	"github.com/cyberproaustin/sast-engine/core/internal/taint"
 )
@@ -93,6 +94,7 @@ func Run(d *ir.IR, m model.Model, p *policy.Policy) Result {
 	// though the analysis that produced them is a different one.
 	t.Findings = append(t.Findings, callshape.Analyze(d, m)...)
 	t.Findings = append(t.Findings, decision.Analyze(d, m, t.ByClass)...)
+	t.Findings = append(t.Findings, store.Analyze(d, m, t.ByClass)...)
 
 	return Result{
 		IR:          d,

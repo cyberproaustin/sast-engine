@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.9.1",
+  "irVersion": "0.10.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -248,6 +248,7 @@
       ],
       "returns": [],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "app.py#<module>:0$b0",
       "blocks": [
         {
@@ -516,6 +517,7 @@
         "app.py#find:11$v10"
       ],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "app.py#find:11$b0",
       "blocks": [
         {
@@ -735,6 +737,7 @@
         "app.py#find_bound:19$v7"
       ],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "app.py#find_bound:19$b0",
       "blocks": [
         {
@@ -1000,6 +1003,7 @@
         "app.py#lookup:28$v9"
       ],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "app.py#lookup:28$b0",
       "blocks": [
         {
@@ -1125,6 +1129,7 @@
         "app.py#lookup_fixed:36$v2"
       ],
       "comparisons": [],
+      "writes": [],
       "entryBlock": "app.py#lookup_fixed:36$b0",
       "blocks": [
         {
