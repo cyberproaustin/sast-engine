@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.9.0",
+  "irVersion": "0.9.1",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -86,6 +86,7 @@
           "args": [],
           "resultValueId": "app.py#<module>:0$v0",
           "block": "app.py#<module>:0$b0",
+          "argCount": 1,
           "enumeratedOptions": [
             -1
           ]
@@ -223,6 +224,7 @@
           "resultValueId": "app.py#ping:9$v3",
           "block": "app.py#ping:9$b0",
           "method": "get",
+          "argCount": 1,
           "argLiterals": {
             "0": "host"
           },
@@ -251,6 +253,7 @@
           ],
           "resultValueId": "app.py#ping:9$v5",
           "block": "app.py#ping:9$b0",
+          "argCount": 1,
           "enumeratedOptions": [
             -1
           ]
@@ -404,6 +407,7 @@
           ],
           "resultValueId": "app.py#get_order:17$v1",
           "block": "app.py#get_order:17$b0",
+          "argCount": 1,
           "enumeratedOptions": [
             -1
           ]
@@ -428,6 +432,7 @@
           ],
           "resultValueId": "app.py#get_order:17$v2",
           "block": "app.py#get_order:17$b0",
+          "argCount": 1,
           "enumeratedOptions": [
             -1
           ]
@@ -452,6 +457,7 @@
           ],
           "resultValueId": "app.py#get_order:17$v5",
           "block": "app.py#get_order:17$b1",
+          "argCount": 1,
           "enumeratedOptions": [
             -1
           ]
@@ -476,6 +482,7 @@
           ],
           "resultValueId": "app.py#get_order:17$v6",
           "block": "app.py#get_order:17$b1",
+          "argCount": 1,
           "enumeratedOptions": [
             -1
           ]
@@ -572,6 +579,7 @@
           ],
           "resultValueId": "app.py#status:25$v1",
           "block": "app.py#status:25$b0",
+          "argCount": 1,
           "argLiterals": {
             "0": "localhost"
           },
@@ -676,6 +684,7 @@
           ],
           "resultValueId": "app.py#load_order:29$v2",
           "block": "app.py#load_order:29$b0",
+          "argCount": 1,
           "argLiterals": {
             "0": "driver: relation \"orders\" does not exist"
           },
@@ -849,6 +858,7 @@
           "resultValueId": "helpers.py#run_ping:4$v4",
           "block": "helpers.py#run_ping:4$b0",
           "method": "system",
+          "argCount": 1,
           "enumeratedOptions": [
             -1
           ],

@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.9.0",
+  "irVersion": "0.9.1",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -131,6 +131,7 @@
           "args": [],
           "resultValueId": "app.py#<module>:0$v0",
           "block": "app.py#<module>:0$b0",
+          "argCount": 1,
           "enumeratedOptions": [
             -1
           ]
@@ -156,6 +157,7 @@
           "resultValueId": "app.py#<module>:0$v4",
           "block": "app.py#<module>:0$b0",
           "method": "connect",
+          "argCount": 1,
           "argLiterals": {
             "0": ":memory:"
           },
@@ -394,6 +396,7 @@
           "resultValueId": "app.py#search:10$v4",
           "block": "app.py#search:10$b0",
           "method": "get",
+          "argCount": 1,
           "argLiterals": {
             "0": "q"
           },
@@ -442,6 +445,7 @@
           "resultValueId": "app.py#search:10$v10",
           "block": "app.py#search:10$b0",
           "method": "execute",
+          "argCount": 1,
           "enumeratedOptions": [
             -1
           ],
@@ -669,6 +673,7 @@
           "resultValueId": "app.py#walrus:19$v3",
           "block": "app.py#walrus:19$b0",
           "method": "get",
+          "argCount": 1,
           "argLiterals": {
             "0": "q"
           },
@@ -717,6 +722,7 @@
           "resultValueId": "app.py#walrus:19$v10",
           "block": "app.py#walrus:19$b1",
           "method": "execute",
+          "argCount": 1,
           "enumeratedOptions": [
             -1
           ],
@@ -977,6 +983,7 @@
           "resultValueId": "app.py#fixed:27$v7",
           "block": "app.py#fixed:27$b0",
           "method": "execute",
+          "argCount": 1,
           "enumeratedOptions": [
             -1
           ],
@@ -1214,6 +1221,7 @@
           "resultValueId": "app.py#parameterized:35$v4",
           "block": "app.py#parameterized:35$b0",
           "method": "get",
+          "argCount": 1,
           "argLiterals": {
             "0": "q"
           },
@@ -1266,6 +1274,7 @@
           "resultValueId": "app.py#parameterized:35$v10",
           "block": "app.py#parameterized:35$b0",
           "method": "execute",
+          "argCount": 2,
           "argLiterals": {
             "0": "SELECT * FROM items WHERE name = ?"
           },

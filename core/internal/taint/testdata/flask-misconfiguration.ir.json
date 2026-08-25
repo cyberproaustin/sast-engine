@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.9.0",
+  "irVersion": "0.9.1",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -138,6 +138,7 @@
           "args": [],
           "resultValueId": "app.py#<module>:0$v0",
           "block": "app.py#<module>:0$b0",
+          "argCount": 1,
           "enumeratedOptions": [
             -1
           ]
@@ -171,6 +172,7 @@
           "resultValueId": "app.py#<module>:0$v7",
           "block": "app.py#<module>:0$b1",
           "method": "run",
+          "argCount": 3,
           "argLiterals": {
             "-1": "host=0.0.0.0",
             "-2": "port=8080",
@@ -341,6 +343,7 @@
           "resultValueId": "app.py#upstream:8$v3",
           "block": "app.py#upstream:8$b0",
           "method": "get",
+          "argCount": 2,
           "argLiterals": {
             "0": "https://api.example.com/status",
             "-1": "verify=false"
@@ -498,6 +501,7 @@
           "resultValueId": "app.py#upstream_strict:15$v3",
           "block": "app.py#upstream_strict:15$b0",
           "method": "get",
+          "argCount": 2,
           "argLiterals": {
             "0": "https://api.example.com/status",
             "-1": "timeout=5"

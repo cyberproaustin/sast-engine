@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.9.0",
+  "irVersion": "0.9.1",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -91,6 +91,7 @@
           "args": [],
           "resultValueId": "app.py#<module>:0$v1",
           "block": "app.py#<module>:0$b0",
+          "argCount": 1,
           "enumeratedOptions": [
             -1
           ]
@@ -219,6 +220,7 @@
           "resultValueId": "app.py#log_request:18$v4",
           "block": "app.py#log_request:18$b0",
           "method": "update",
+          "argCount": 1,
           "enumeratedOptions": [
             -1
           ],
@@ -381,6 +383,7 @@
           "resultValueId": "app.py#search:26$v4",
           "block": "app.py#search:26$b0",
           "method": "update",
+          "argCount": 1,
           "enumeratedOptions": [
             -1
           ],
@@ -546,6 +549,7 @@
           "resultValueId": "app.py#cache_key:34$v4",
           "block": "app.py#cache_key:34$b0",
           "method": "update",
+          "argCount": 1,
           "enumeratedOptions": [
             -1
           ],
@@ -811,6 +815,7 @@
           "resultValueId": "app.py#touch_record:50$v4",
           "block": "app.py#touch_record:50$b0",
           "method": "update",
+          "argCount": 1,
           "enumeratedOptions": [
             -1
           ],

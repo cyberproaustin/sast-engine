@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.9.0",
+  "irVersion": "0.9.1",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -91,6 +91,7 @@
           "args": [],
           "resultValueId": "app.py#<module>:0$v1",
           "block": "app.py#<module>:0$b0",
+          "argCount": 1,
           "enumeratedOptions": [
             -1
           ]
@@ -278,6 +279,7 @@
           "resultValueId": "app.py#register:33$v3",
           "block": "app.py#register:33$b0",
           "method": "as_view",
+          "argCount": 1,
           "argLiterals": {
             "0": "search"
           },
@@ -310,6 +312,7 @@
           "resultValueId": "app.py#register:33$v4",
           "block": "app.py#register:33$b0",
           "method": "add_url_rule",
+          "argCount": 2,
           "argLiterals": {
             "0": "/search",
             "-1": "view_func=?"
@@ -344,6 +347,7 @@
           "resultValueId": "app.py#register:33$v7",
           "block": "app.py#register:33$b0",
           "method": "add_url_rule",
+          "argCount": 3,
           "argLiterals": {
             "0": "/report",
             "1": "report"
@@ -555,6 +559,7 @@
           "resultValueId": "app.py#get:20$v8",
           "block": "app.py#get:20$b0",
           "method": "check_output",
+          "argCount": 2,
           "argLiterals": {
             "-1": "shell=true"
           },

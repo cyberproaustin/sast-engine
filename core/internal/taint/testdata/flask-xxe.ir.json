@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.9.0",
+  "irVersion": "0.9.1",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -82,6 +82,7 @@
           "args": [],
           "resultValueId": "app.py#<module>:0$v0",
           "block": "app.py#<module>:0$b0",
+          "argCount": 1,
           "enumeratedOptions": [
             -1
           ]
@@ -230,6 +231,7 @@
           "resultValueId": "app.py#import_xml:8$v3",
           "block": "app.py#import_xml:8$b0",
           "method": "fromstring",
+          "argCount": 1,
           "enumeratedOptions": [
             -1
           ],
@@ -255,6 +257,7 @@
           ],
           "resultValueId": "app.py#import_xml:8$v5",
           "block": "app.py#import_xml:8$b0",
+          "argCount": 1,
           "enumeratedOptions": [
             -1
           ]
@@ -279,6 +282,7 @@
           ],
           "resultValueId": "app.py#import_xml:8$v6",
           "block": "app.py#import_xml:8$b0",
+          "argCount": 1,
           "enumeratedOptions": [
             -1
           ]
@@ -416,6 +420,7 @@
           "resultValueId": "app.py#import_fixed:16$v2",
           "block": "app.py#import_fixed:16$b0",
           "method": "fromstring",
+          "argCount": 1,
           "enumeratedOptions": [
             -1
           ],
@@ -441,6 +446,7 @@
           ],
           "resultValueId": "app.py#import_fixed:16$v4",
           "block": "app.py#import_fixed:16$b0",
+          "argCount": 1,
           "enumeratedOptions": [
             -1
           ]
@@ -465,6 +471,7 @@
           ],
           "resultValueId": "app.py#import_fixed:16$v5",
           "block": "app.py#import_fixed:16$b0",
+          "argCount": 1,
           "enumeratedOptions": [
             -1
           ]

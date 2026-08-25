@@ -145,6 +145,16 @@ type Channel struct {
 	// same argument, opposite meanings, and the difference is one argument to the left.
 	TargetArg *int
 
+	// RequiresArgs is the number of arguments the call must actually have.
+	//
+	// A caller-supplied format string with nothing to format is harmless: the whole
+	// weakness is that a format walks the objects it is HANDED, and `template.format()`
+	// is handed none. It also does the work of a type the Python frontend cannot supply
+	// -- superset builds a SQLScript and calls its own `.format()` with no arguments,
+	// which is the same method name on a receiver the caller influenced and is not a
+	// format string at all.
+	RequiresArgs int
+
 	// RequiresUnenclosed marks a channel where the danger is handing over the caller's
 	// object WHOLE.
 	//
@@ -818,6 +828,29 @@ func Builtin() Model {
 				Rationale:          "deepmerge() walks nested keys, so a __proto__ key in the source reaches the prototype",
 			},
 
+			// A FORMAT STRING the caller supplied. `"Hello {}".format(name)` is safe: the
+			// caller's data is an argument. `name.format(x)` is not, because Python's
+			// format language walks attributes and indexes, and
+			// `{0.__class__.__init__.__globals__}` reaches module globals and whatever
+			// they hold.
+			//
+			// The two are the same method with the operands swapped, and the RECEIVER is
+			// what tells them apart -- the same question the upload channel asks.
+			{
+				ID: "format-string", Visibility: "internal", Context: "format",
+				Method: "format", ReceiverIsEntryParam: -1, RequiresUntrustedReceiver: true,
+				RequiresArgs: 1,
+				CWE:          "CWE-134",
+				Rationale:    "format() is called ON caller-supplied text, so the caller wrote the format",
+			},
+			{
+				ID: "format-string", Visibility: "internal", Context: "format",
+				Method: "format_map", ReceiverIsEntryParam: -1, RequiresUntrustedReceiver: true,
+				RequiresArgs: 1,
+				CWE:          "CWE-134",
+				Rationale:    "format_map() is called ON caller-supplied text, so the caller wrote the format",
+			},
+
 			// An XML parser that has been told to resolve entities will fetch and inline
 			// whatever a document names, which is how a document becomes a file read on
 			// the server. The option is the whole difference: libxmljs without `noent`
@@ -1482,6 +1515,18 @@ func Builtin() Model {
 				CWE:           "CWE-915",
 			},
 			{
+				// Nothing is executed and nothing is stored: the caller writes the FORMAT,
+				// and Python's format language is expressive enough to walk from any
+				// object it is given to module globals.
+				ID:            "untrusted-as-format-string",
+				Class:         "untrusted-input",
+				DeniedContext: []string{"format"},
+				Requires:      Requirements{Interprocedural: true},
+				Reason:        "a caller must not supply the format itself, because a format is a small language that can read whatever the objects it is handed can reach",
+				Finding:       "Caller supplies the format string",
+				CWE:           "CWE-134",
+			},
+			{
 				// An external entity reference is not deserialization and not injection: the
 				// document names a resource and the parser goes and gets it. Its own
 				// policy, because its own remedy -- turn entity resolution off.
@@ -1791,6 +1836,25 @@ type CallShape struct {
 	// says nothing about a value computed at runtime, and says nothing loudly rather
 	// than guessing.
 	Disallowed []string
+	// Always matches on the SYMBOL alone, for a call that is a defect by existing.
+	//
+	// `tempfile.mktemp()` returns a name and does not create the file, so anything can
+	// win the race to create it first; there are no arguments to inspect and no way to
+	// call it safely. A shape that must look at an argument cannot express that at all.
+	Always bool
+
+	// MaskedBits matches when the argument is a number with these bits set.
+	//
+	// A file mode is the case: what makes 0o777 wrong is not the number but the
+	// world-writable bit inside it, and 0o666, 0o707 and 0o1777 are wrong for exactly the
+	// same reason. Enumerating them would be a list that is wrong the moment somebody
+	// picks a mode nobody thought of; testing the bit is the actual rule.
+	//
+	// Parsed base-aware, because the frontends hand this over differently: TypeScript
+	// records the numeric literal as written (`0o777`) and Python records what it
+	// evaluated to (`511`), and both are the same mode.
+	MaskedBits *int
+
 	// BelowValue matches when the argument is a NUMBER written in the call and smaller
 	// than this. A work factor is the case that needs it: `bcrypt.hash(pw, 4)` is wrong
 	// for a reason no list of forbidden strings can express, and the answer is a
@@ -1862,6 +1926,13 @@ type CallShape struct {
 
 // Matches reports whether a literal argument value is one this shape forbids.
 func (c CallShape) Matches(literal string) bool {
+	if c.Always {
+		return true
+	}
+	if c.MaskedBits != nil {
+		n, err := strconv.ParseInt(strings.TrimSpace(literal), 0, 64)
+		return err == nil && n&int64(*c.MaskedBits) != 0
+	}
 	if c.BelowValue != nil {
 		n, err := strconv.Atoi(strings.TrimSpace(literal))
 		return err == nil && n < *c.BelowValue
@@ -1901,6 +1972,63 @@ func builtinCallShapes() []CallShape {
 	}
 
 	return []CallShape{
+		// --- files and permissions --------------------------------------------------
+		{
+			// mktemp returns a NAME and does not create the file, so between the name
+			// being chosen and the program opening it, anything else can create it first
+			// -- as a symlink to somewhere the program can write and the attacker cannot.
+			// Python's own documentation says not to use it. There is no safe way to call
+			// it, which is why this matches the call itself.
+			ID: "insecure-temp-file", Symbol: "tempfile.mktemp", Always: true,
+			CWE:       "CWE-378",
+			Finding:   "Temporary file created by name rather than by handle",
+			Reason:    "mktemp() hands back a name without creating anything, so another process can win the race and put its own file, or a symlink, there first",
+			Rationale: "mktemp() is documented as unsafe and superseded by mkstemp() and NamedTemporaryFile()",
+		},
+		{
+			// The mode is wrong because of a BIT, not because of a number.
+			ID: "world-writable", Symbol: "os.chmod", ArgIndex: 1, MaskedBits: atLeast(0o002),
+			CWE:       "CWE-276",
+			Finding:   "File left writable by everyone",
+			Reason:    "a mode that grants write to others lets any account on the host change the file, which for anything the application later reads or executes is a way in",
+			Rationale: "the second argument to chmod() is the mode",
+		},
+		{
+			ID: "world-writable", Symbol: "os.fchmod", ArgIndex: 1, MaskedBits: atLeast(0o002),
+			CWE:       "CWE-276",
+			Finding:   "File left writable by everyone",
+			Reason:    "a mode that grants write to others lets any account on the host change the file, which for anything the application later reads or executes is a way in",
+			Rationale: "the second argument to fchmod() is the mode",
+		},
+		{
+			ID: "world-writable", Symbol: "fs.chmod", ArgIndex: 1, MaskedBits: atLeast(0o002),
+			CWE:       "CWE-276",
+			Finding:   "File left writable by everyone",
+			Reason:    "a mode that grants write to others lets any account on the host change the file, which for anything the application later reads or executes is a way in",
+			Rationale: "the second argument to chmod() is the mode",
+		},
+		{
+			ID: "world-writable", Symbol: "fs.chmodSync", ArgIndex: 1, MaskedBits: atLeast(0o002),
+			CWE:       "CWE-276",
+			Finding:   "File left writable by everyone",
+			Reason:    "a mode that grants write to others lets any account on the host change the file, which for anything the application later reads or executes is a way in",
+			Rationale: "the second argument to chmodSync() is the mode",
+		},
+		{
+			ID: "world-writable", Symbol: "os.mkdir", ArgIndex: 1, MaskedBits: atLeast(0o002),
+			CWE:       "CWE-276",
+			Finding:   "Directory left writable by everyone",
+			Reason:    "a directory anyone may write to lets any account on the host add, replace or remove what the application will later read",
+			Rationale: "the second argument to mkdir() is the mode",
+		},
+		{
+			ID: "world-writable", Symbol: "os.makedirs", ArgIndex: 1, MaskedBits: atLeast(0o002),
+			CWE:       "CWE-276",
+			Finding:   "Directory left writable by everyone",
+			Reason:    "a directory anyone may write to lets any account on the host add, replace or remove what the application will later read",
+			Rationale: "the second argument to makedirs() is the mode",
+		},
+
 		// --- key derivation and IVs -------------------------------------------------
 		// A work factor is wrong for a reason no list of forbidden strings can express,
 		// so these are thresholds. The numbers are the floors below which the parameter
