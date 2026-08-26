@@ -171,11 +171,16 @@ export interface MiddlewareRef {
   loc: Loc;
 }
 
+/** Who can cause an entry point to run. Absent is read as "remote". */
+export type Trust = "remote" | "operator" | "internal";
+
 export interface EntryPoint {
   functionId: string;
   kind: string;
   framework?: string;
   detail?: Record<string, string>;
+  /** Who can trigger it. Unset means remote, which is what every route is. */
+  trust?: Trust;
   /** Where the route is registered. */
   loc?: Loc;
   /** The chain applied before the handler runs; where cross-cutting controls live. */

@@ -7519,6 +7519,28 @@ type GuardRule struct {
 	Accumulates []string
 	Detaches    []string
 
+	// The third shape, and the only one that judges a line against its SIBLING rather
+	// than against the graph beneath it.
+	//
+	//	if mode not in ('navigate', 'cors'):
+	//	    return flask.redirect(url_for('index'))    # this branch refuses
+	//	if site not in ('same-origin', 'none'):
+	//	    flask.redirect(url_for('index'))           # and this one builds the same
+	//	                                               # refusal and drops it
+	//
+	// Constructs names the calls that BUILD a response instead of sending one. The
+	// distinction is the whole rule: `res.status(403).json(...)` has already answered the
+	// request by the time it returns, so discarding what it hands back costs nothing,
+	// while `flask.redirect(...)` is a constructor -- it writes nothing, touches nothing,
+	// and a caller who does not return it has written a line that does not exist.
+	//
+	// Naming those calls is not enough on its own, because a constructor called for
+	// effect might simply be dead code somebody left behind. What makes this a weakness
+	// is the sibling: the SAME construction, in the SAME function, returned. The program
+	// has said in its own code what this branch was supposed to do, which is the only
+	// ground the engine ever has for saying a line is missing.
+	Constructs []string
+
 	CWE       string
 	Finding   string
 	Reason    string
@@ -7649,6 +7671,29 @@ func builtinGuards() []GuardRule {
 			Reason:  "the refusal is written inside a callback the source will call again, and nothing removes the callback or stops the source, so the next chunk is appended to the very buffer the limit was about",
 			Rationale: "a refusal inside a listener registered for a repeating event, in a callback that appends to a collection it did not create, " +
 				"with nothing on any path detaching the listener or stopping what feeds it",
+		},
+		{
+			// A refusal the program constructed and then let fall on the floor, judged
+			// against the branch beside it that returns the identical construction.
+			//
+			// The list is response CONSTRUCTORS and nothing else. Every one of these
+			// builds an object and does not send it, so its result is the only thing it
+			// produces -- which is what makes discarding it a line that does nothing at
+			// all, rather than a matter of style. `res.redirect()` and `self.redirect()`
+			// are deliberately absent for the same reason the rejection rule above
+			// excludes a redirect: those SEND, and whether the caller kept what they
+			// handed back says nothing about anything.
+			ID: "rejection-built-and-discarded",
+			Constructs: []string{
+				"redirect", "make_response", "jsonify", "json_response",
+				"HttpResponseRedirect", "HttpResponseForbidden", "HttpResponseBadRequest",
+				"HttpResponseNotFound", "HttpResponseNotAllowed", "HttpResponseGone",
+				"JsonResponse",
+			},
+			CWE:       "CWE-698",
+			Finding:   "The handler builds a refusal and drops it",
+			Reason:    "the branch beside this one returns the very same construction, and this one leaves it on the floor -- so the check runs, decides against the request, and the request proceeds",
+			Rationale: "a response constructor whose result is used nowhere, where another call to the same constructor in the same function is returned",
 		},
 	}
 }
