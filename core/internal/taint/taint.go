@@ -723,8 +723,19 @@ func (e *engine) seedByCallResult(rule model.SourceRule) {
 			if rule.ArgBelow != nil && !belowLiteral(c.ArgLiterals[rule.ArgBelowIndex], *rule.ArgBelow) {
 				continue
 			}
+			// A string the call was WRITTEN with, deciding which class the result
+			// belongs to. `createHash("md5")` says what it is; `createHash(algorithm)`
+			// does not, and is not guessed at.
+			label := rule.Symbol + "()"
+			if len(rule.ArgOneOf) > 0 {
+				written, ok := c.ArgLiterals[0]
+				if !ok || !writtenOneOf(written, rule.ArgOneOf) {
+					continue
+				}
+				label = fmt.Sprintf("%s(%q)", rule.Symbol, strings.TrimSpace(written))
+			}
 			entry, anchored := enclosingEntry(e.ix, fn)
-			sd := seed{label: rule.Symbol + "()", entryPoint: entry, anchored: anchored}
+			sd := seed{label: label, entryPoint: entry, anchored: anchored}
 			if ep, ok := entryOf(e.ix, fn); ok {
 				sd.unresolvedInputs, sd.loc = ep.UnresolvedParams, ep.Loc
 				sd.identityInjected = injectsIdentity(e.ix, ep)
@@ -734,12 +745,24 @@ func (e *engine) seedByCallResult(rule model.SourceRule) {
 			}
 			e.seeds[c.ResultID] = sd
 			e.markTainted(c.ResultID, edge{
-				desc:       fmt.Sprintf("source: %s() (%s)", rule.Symbol, e.class.Label),
+				desc:       fmt.Sprintf("source: %s (%s)", label, e.class.Label),
 				loc:        c.Loc,
 				resolution: c.Callee.Resolution,
 			})
 		}
 	}
+}
+
+// writtenOneOf reports whether a literal argument is one of a set of strings, compared
+// without regard to case. An argument that was not written down is not one of anything.
+func writtenOneOf(literal string, want []string) bool {
+	literal = strings.TrimSpace(literal)
+	for _, w := range want {
+		if strings.EqualFold(literal, w) {
+			return true
+		}
+	}
+	return false
 }
 
 // belowLiteral reports whether a literal was a number smaller than a threshold. An

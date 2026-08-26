@@ -101,6 +101,22 @@ type SourceRule struct {
 	// unguessability is the point, so the length is recorded HERE and judged there.
 	ArgBelow      *int
 	ArgBelowIndex int
+
+	// ArgOneOf narrows a call-result source to calls WRITTEN with one of these strings
+	// in argument zero, compared without regard to case.
+	//
+	// Which algorithm a digest is comes from the same place the length of a random value
+	// does: it is written in the call, and a library that takes the algorithm as a string
+	// is the only one where reading it is possible at all. `createHash("md5")` and
+	// `createHash(algorithm)` are the same symbol and only the first says anything -- an
+	// algorithm chosen at runtime is not matched and is not guessed at, which is the line
+	// every literal-reading rule in this model draws.
+	//
+	// This exists because the class of a value can depend on a literal at its origin, and
+	// before it did, a classification could only be all-or-nothing about a symbol. The
+	// alternative was one classification per algorithm name, which is a list of rules
+	// where the model already has a list of strings.
+	ArgOneOf []string
 }
 
 // Classification assigns a data class to values by where they come from. What makes a
@@ -459,6 +475,19 @@ type SanitizerRule struct {
 	Method      string
 	AfterSymbol []string
 
+	// Except names classifications this transform does NOT end, checked before Classes.
+	//
+	// A transform cannot clear the class it CREATES. `createHash("md5").digest()` ends
+	// "this is a password" and "this is caller input" -- a digest is not what was
+	// digested -- and in the same call it begins "this is a digest from a broken
+	// algorithm". Without this the weak-digest class was sanitized by the very call that
+	// produced it, and every judgement about where the digest went went quiet.
+	//
+	// Stated as an exception rather than by listing the classes the transform does clear,
+	// because the list would be wrong at the next classification somebody adds and would
+	// be wrong SILENTLY: a one-way transform genuinely does end everything else.
+	Except []string
+
 	// Classes narrows a transform to the classifications it actually ends. Empty means
 	// every one.
 	//
@@ -717,6 +746,15 @@ var authorityNames = []string{
 
 // A cookie carrying any of these is being asked to establish who the caller is.
 var cookieAuthorityNames = append([]string{"user", "userid", "username", "auth", "authenticated", "loggedin", "isloggedin"}, authorityNames...)
+
+// The algorithms for which producing two inputs with the same digest is a published
+// result rather than a research direction. Named where a library takes the algorithm as
+// a string; the libraries that name it in the function instead are matched by symbol.
+//
+// `sha` is Node's spelling of SHA-0, which was withdrawn. `ripemd` is RIPEMD-128,
+// which the same attacks reach; RIPEMD-160 is not on this list and is not matched,
+// because the comparison is exact.
+var weakDigest = []string{"md5", "sha1", "md4", "md2", "ripemd", "sha"}
 
 func Builtin() Model {
 	m := builtin()
@@ -1032,6 +1070,43 @@ func builtin() Model {
 					{Match: MatchCallResult, Symbol: "dns/promises.reverse"},
 					{Match: MatchCallResult, Symbol: "socket.gethostbyaddr"},
 					{Match: MatchCallResult, Symbol: "socket.getfqdn"},
+				},
+			},
+			{
+				// A digest from an algorithm anybody can find collisions in. What makes
+				// it a weakness is not the call: measured across ten production
+				// repositories the call-shape rule that named the ALGORITHM produced 42
+				// findings, and an independent reader judged 39 of them worthless -- a
+				// rate-limit bucket key, a Wikimedia directory path, an ETag, an
+				// exported helper nothing calls, and twenty-six request signatures that
+				// a remote site's own protocol demands in MD5 and nothing about this
+				// program's security turns on.
+				//
+				// The three that were worth reporting have one thing in common and it is
+				// not the algorithm: the program ESTABLISHES something by the digest. It
+				// compares a computed digest against a recorded one, or it tests
+				// membership in a list of digests, and a second input that hashes the
+				// same defeats the check.
+				//
+				// So the algorithm is classified here and judged where the digest lands,
+				// exactly as a fast random number is: the same call is a cache key in one
+				// file and a signature check in the next, and only the second place knows
+				// which. A digest that merely leaves the process -- into a URL, a
+				// filename, an outbound parameter -- decides nothing here, whoever else
+				// reads it.
+				Class: "weak-digest",
+				Label: "a digest from an algorithm that is broken against collision",
+				Rules: []SourceRule{
+					{Match: MatchCallResult, Symbol: "hashlib.md5"},
+					{Match: MatchCallResult, Symbol: "hashlib.sha1"},
+					{Match: MatchCallResult, Symbol: "hashlib.new", ArgOneOf: weakDigest},
+					{Match: MatchCallResult, Symbol: "crypto.createHash", ArgOneOf: weakDigest},
+					// HMAC is deliberately absent. What makes an HMAC sound is the key
+					// and the construction rather than the hash's collision resistance,
+					// and HMAC-MD5 has no practical forgery -- so a rule about digests
+					// broken against collision has nothing to say about it, and the
+					// old shape's answer there was the algorithm's name and nothing
+					// more. Stated rather than left to be noticed.
 				},
 			},
 			{
@@ -2199,6 +2274,42 @@ func builtin() Model {
 				RequiresWholeValue: true,
 				CWE:                "CWE-759",
 				Rationale:          "the object being updated came out of createHash, which takes an algorithm and no salt",
+			},
+
+			// A call whose whole purpose is to establish that two values are the same
+			// one. Whatever is handed to it is being TRUSTED: the program has no other
+			// evidence and this answer decides.
+			//
+			// The context is what the destination does with the value rather than what
+			// it parses, which is the same reading `unsalted-digest` and `prng-seed`
+			// already take. It is deliberately not "comparison": an ordinary `==` is a
+			// comparison and is read from the IR's comparison list, where the class of
+			// each side is already known. These are the calls a careful program uses
+			// INSTEAD of the operator, and a rule that only watched the operator would
+			// go quiet exactly where the author was being careful.
+			{
+				ID: "digest-verification", Visibility: "internal", Context: "proof",
+				Symbol: "hmac.compare_digest", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1},
+				CWE:       "CWE-328",
+				Rationale: "compare_digest exists to decide whether two digests are the same, and the answer is the whole evidence",
+			},
+			{
+				ID: "digest-verification", Visibility: "internal", Context: "proof",
+				Symbol: "secrets.compare_digest", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1},
+				CWE:       "CWE-328",
+				Rationale: "compare_digest exists to decide whether two digests are the same, and the answer is the whole evidence",
+			},
+			{
+				ID: "digest-verification", Visibility: "internal", Context: "proof",
+				Symbol: "crypto.timingSafeEqual", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1},
+				CWE:       "CWE-328",
+				Rationale: "timingSafeEqual exists to decide whether two digests are the same, and the answer is the whole evidence",
+			},
+			{
+				ID: "digest-verification", Visibility: "internal", Context: "proof",
+				Symbol: "django.utils.crypto.constant_time_compare", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1},
+				CWE:       "CWE-328",
+				Rationale: "constant_time_compare exists to decide whether two values are the same, and the answer is the whole evidence",
 			},
 
 			// Turning a password into something REVERSIBLE. Encoding is not hiding and
@@ -3824,6 +3935,26 @@ func builtin() Model {
 				CWE:           "CWE-331",
 			},
 			{
+				// The judgement the algorithm's name could never make. A digest is only
+				// as good as what is asked of it: standing in for the thing it was
+				// computed from is the one job that needs collision resistance, and a
+				// verification call is the program saying in its own code that this is
+				// the job.
+				//
+				// The mirror image is the whole point and is not an omission: a digest
+				// that goes out in a URL, into a filename or into a cache key is not
+				// being trusted by this program, whatever the remote end does with it.
+				// Twenty-six of yt-dlp's twenty-seven are exactly that -- a signature the
+				// site's protocol demands -- and this policy is silent about every one.
+				ID:            "weak-digest-verified",
+				Class:         "weak-digest",
+				DeniedContext: []string{"proof"},
+				Requires:      Requirements{Interprocedural: true},
+				Reason:        "the value being verified is a digest from an algorithm anybody can find collisions in, so a second input passes this check as readily as the right one and the check establishes nothing",
+				Finding:       "Broken digest trusted as proof",
+				CWE:           "CWE-328",
+			},
+			{
 				// Written where operators, log shippers and whoever else reads the logs
 				// can see it. Distinct from a credential in a log by what it costs: a
 				// password gets rotated and an identity number does not.
@@ -5031,8 +5162,6 @@ func (c CallShape) Matches(literal string) bool {
 func at(i int) *int { return &i }
 
 func builtinCallShapes() []CallShape {
-	weakHash := []string{"md5", "sha1", "md4", "md2", "ripemd", "sha"}
-
 	// What a cookie CARRIES decides whether its attributes matter. A session token must
 	// never be readable by script; a theme preference is written to be read by script,
 	// and there is nothing to fix about it. The name in argument zero is the only
@@ -6148,57 +6277,13 @@ func builtinCallShapes() []CallShape {
 			Rationale:    "samesite is set to None",
 		},
 
-		{
-			// The direct form, which is how Python actually writes it. The named-algorithm
-			// rules below cover `hashlib.new("md5")` and `crypto.createHash("md5")`, and
-			// for a long time they were the only ones -- so `hashlib.md5(x)`, the spelling
-			// in every Python tutorial ever written, was not reported at all. The
-			// algorithm is named just as plainly; it is the function rather than a string.
-			//
-			// Measured across the clean corpus: 15 md5 and 2 sha1, every one of them a
-			// cache key or an ETag, which is exactly why this carries the same
-			// DependsOnUse the named form does.
-			ID: "weak-hash", Symbol: "hashlib.md5", Always: true,
-			DependsOnUse: "whether a broken digest matters depends on what it is used for, which this call does not carry: the same call builds a cache key, a filename, and a Gravatar URL",
-			CWE:          "CWE-328",
-			Finding:      "Weak hash algorithm",
-			Reason:       "the algorithm is broken against collision, so a digest does not establish what it is used to establish",
-			Rationale:    "md5() names the algorithm as the function itself",
-		},
-		{
-			ID: "weak-hash", Symbol: "hashlib.sha1", Always: true,
-			DependsOnUse: "whether a broken digest matters depends on what it is used for, which this call does not carry: the same call builds a cache key, a filename, and a Gravatar URL",
-			CWE:          "CWE-328",
-			Finding:      "Weak hash algorithm",
-			Reason:       "the algorithm is broken against collision, so a digest does not establish what it is used to establish",
-			Rationale:    "sha1() names the algorithm as the function itself",
-		},
-		{
-			ID: "weak-hash", Symbol: "crypto.createHash", ArgIndex: 0, Disallowed: weakHash,
-			DependsOnUse: "whether a broken digest matters depends on what it is used for, which this call does not carry: the same call builds a cache key, a filename, and a Gravatar URL",
-			CWE:          "CWE-328",
-			Finding:      "Weak hash algorithm",
-			Reason:       "the algorithm is broken against collision, so a digest does not establish what it is used to establish",
-			Rationale:    "createHash() is given the algorithm by name",
-		},
-		{
-			ID: "weak-hash", Symbol: "crypto.createHmac", ArgIndex: 0, Disallowed: []string{"md5", "md4", "md2"},
-			DependsOnUse: "whether a broken digest matters depends on what it is used for, which this call does not carry",
-			CWE:          "CWE-328",
-			Finding:      "Weak hash algorithm",
-			Reason:       "the algorithm is broken against collision, so a digest does not establish what it is used to establish",
-			// HMAC-SHA1 is not currently considered broken, so it is deliberately absent
-			// from this list while being present for a bare hash.
-			Rationale: "createHmac() is given the algorithm by name",
-		},
-		{
-			ID: "weak-hash", Symbol: "hashlib.new", ArgIndex: 0, Disallowed: weakHash,
-			DependsOnUse: "whether a broken digest matters depends on what it is used for, which this call does not carry: the same call builds a cache key, a filename, and a Gravatar URL",
-			CWE:          "CWE-328",
-			Finding:      "Weak hash algorithm",
-			Reason:       "the algorithm is broken against collision, so a digest does not establish what it is used to establish",
-			Rationale:    "hashlib.new() is given the algorithm by name",
-		},
+		// The weak-hash rules that stood here matched the ALGORITHM NAME and said in their
+		// own text that they could not tell what the digest was for. They are now a
+		// classification (`weak-digest`) judged where the digest lands: at a comparison, at
+		// a verification call, or in the field a password is checked against. The
+		// measurement that moved them is in the loop issue -- 42 findings across ten
+		// repositories, 39 of them worthless -- and the reason they could not stay here is
+		// that a call shape sees one line and the question is about a second one.
 		// A SESSION store's own cookie, configured where the store is made rather than
 		// where a cookie is set. The attributes are the same three and mean the same
 		// things; what changes is that they are written one level down inside a `cookie`
@@ -6678,6 +6763,33 @@ func builtinDecisions() []DecisionRule {
 			Rationale:           "a value the caller sent as a credential is compared with the language's equality operator",
 		},
 		{
+			// A digest from a broken algorithm, tested against something. This is where a
+			// weak hash stops being a fact about a call and becomes a weakness: the
+			// comparison is the program stating that the digest STANDS IN for what it was
+			// computed from, and collision resistance is precisely what makes that
+			// substitution sound.
+			//
+			// Equality only, and that is a measured line rather than a cautious one.
+			// Membership -- `digest in blacklist` -- is the same judgement written with a
+			// different operator and would catch searxng's onion filter, which an
+			// independent reader called the one true finding in its repository. It is
+			// also, character for character, how a program asks whether a cache already
+			// holds a key, and the corpus contains both. Equality is unambiguous;
+			// membership is not, so the miss is stated here rather than paid for at every
+			// cache in the corpus.
+			//
+			// The other side may be anything, a literal included: a digest compared
+			// against one written into the source is a recorded checksum, which is the
+			// clearest case there is.
+			ID: "weak-digest-compared", Class: "weak-digest",
+			Ops:                 []string{"==", "===", "!=", "!==", "Eq", "NotEq"},
+			RequiresUnprojected: true,
+			CWE:                 "CWE-328",
+			Finding:             "Broken digest compared as proof",
+			Reason:              "the comparison decides that two things are the same because their digests are, and this algorithm is broken against collision -- so a second input passes the check as readily as the right one",
+			Rationale:           "a digest from a broken algorithm is what the comparison decides on",
+		},
+		{
 			// The Referer says where a request came from only in the sense that it says
 			// whatever the sender wrote there. A browser sends it, a script omits it, and
 			// anything at all can forge it.
@@ -6976,6 +7088,27 @@ func builtinStores() []StoreRule {
 			Finding:    "Secret written into the source",
 			Reason:     "a key in the source is in every clone of the repository and stays in its history after it is changed",
 			Rationale:  "a configuration key that holds a secret is assigned a value written in the call",
+		},
+		{
+			// A digest from a broken algorithm written into the field a login will later
+			// be checked against. The comparison happens in another request and usually in
+			// another function, so the flow that would show it is not there to follow --
+			// but the write says the whole thing on its own: this digest is what the
+			// account's password now IS, and anything hashing to it is that password.
+			//
+			// Named by the FIELD and silent about the object holding it, for the reason
+			// the privilege rule is: enumerating what a user record can be called is a
+			// list that is wrong at the first application that names one differently.
+			ID: "weak-digest-as-credential", Class: "weak-digest",
+			PathContains: []string{"password", "passwd", "pwhash", "pwd"},
+			// A reset URL, a password POLICY and a confirmation field all carry the word
+			// and none of them is a stored verifier.
+			PathExcept:          []string{"policy", "url", "link", "reset", "confirm", "repeat", "csrf", "xsrf", "hint", "expire", "changed", "last"},
+			RequiresUnprojected: true,
+			CWE:                 "CWE-328",
+			Finding:             "Broken digest stored as a password verifier",
+			Reason:              "the stored digest is what a later login is checked against, and an algorithm broken against collision lets a value that is not the password satisfy that check",
+			Rationale:           "a digest from a broken algorithm is written into the field a password is verified against",
 		},
 		{
 			// PATH decides where the next program comes from. A caller who can prepend to
