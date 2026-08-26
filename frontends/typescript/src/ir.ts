@@ -1,7 +1,7 @@
 // Program IR — the wire contract with the core (docs/IR.md, ADR-001).
 // Types only. This file must stay a mirror of the spec, not of the TypeScript AST.
 
-export const IR_VERSION = "0.12.0";
+export const IR_VERSION = "0.13.0";
 
 export interface Loc {
   file: string;
@@ -59,6 +59,13 @@ export interface Flow {
   /** "enclose" = the value became a PART of a structure rather than becoming it. */
   kind: "assign" | "property" | "template" | "binary" | "return" | "enclose";
   loc: Loc;
+  /**
+   * The basic block this edge runs in. Left UNSET wherever the block graph does not
+   * express when the edge runs -- inside a loop, whose back edge is not emitted, or
+   * inside a `switch`, whose arms are lowered straight-line. The core reads an absent
+   * block as "position unknown" and keeps the flow.
+   */
+  block?: string;
 }
 
 export type Resolution = "resolved" | "probable" | "dynamic-unresolved";

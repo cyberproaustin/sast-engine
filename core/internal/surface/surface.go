@@ -121,8 +121,22 @@ func (c Completeness) Suspect(entries int) bool {
 	if entries == 0 {
 		return true
 	}
-	// Otherwise: more code reads request data than the surface can account for.
-	return c.UnreachedInputFunctions > entries
+	// Otherwise: what SHARE of the code that reads request data does the surface fail to
+	// account for.
+	//
+	// This used to compare the unreached count against the number of entry points, which
+	// is backwards: it made enumerating MORE routes lower the bar for calling the run
+	// complete. jupyterhub proved it. At 9 entry points the engine said INCOMPLETE and
+	// refused to report any requirement satisfied; at 114 -- the same application, a
+	// surface an adjudicator verified had grown twelvefold and was still missing whole
+	// families -- the count slipped under the threshold and the engine went quiet and
+	// reported six requirements satisfied. The gate switched off because the surface got
+	// bigger, not because it got complete.
+	//
+	// A ratio cannot do that. Half is the line: if most of the code that reads what a
+	// caller sent cannot be reached from anything enumerated, the enumeration does not
+	// describe the program, and how many routes happen to be in it is beside the point.
+	return c.UnreachedInputFunctions*2 > c.InputFunctions
 }
 
 // Groups returns entry points bucketed by comparison population, in stable order.
