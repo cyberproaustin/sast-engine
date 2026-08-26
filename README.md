@@ -276,6 +276,7 @@ and shape-regression — and a test fails if one is lowered but not scored. A sa
 | `express-error-leak` | 1.00 | 1.00 | error detail to response; logging and non-response `.json()` clean |
 | `express-webhook-leak` | 1.00 | 1.00 | generalization: unenumerated defect class, channel description only |
 | `express-idor` | 1.00 | 1.00 | missing ownership; comparison and actor-scoped query clean |
+| `unowned-record-access` | 1.00 | 1.00 | authorization scoped to another key; six checked shapes clean |
 | `flask-command-injection` | 1.00 | 1.00 | generalization: second language, same policies |
 
 On the real RealWorld API the ownership analysis reported three findings, none of them true
@@ -289,6 +290,31 @@ the operation — real services check in the handler and operate in a private he
 false positives that caused are gone. The looser heuristic ("a call carrying actor identity
 is presumed to enforce") stays confined to the function performing the operation, because
 widening it cleared genuine defects.
+
+**And a presumption is not a relation.** That heuristic answers "was there a check" and the
+question worth asking is "what was the check about". A permission service takes the caller,
+a permission, and a *scope*:
+
+```js
+const { projectId, strategyId } = req.body;                     // two keys, both the caller's
+if (!(await access.hasPermission(req.user, PERM, projectId))) { // authorized for THIS one
+  res.status(403).send();
+  return;
+}
+await this.removeFromStrategy(strategyId, ...);                 // wrote to THAT one
+```
+
+A sixth analysis kind states the relation the presumption stood in for: when an *enforced*
+check — a branch control can leave the handler from — is scoped to one key and a store write
+it admits is keyed by a different one, something has to tie them, and a lookup carrying both
+keys, a comparison between them, a comparison against the actor, or a selection carrying
+both all count. Existence does not: `featureExists(id)` proves the row is there and mentions
+the authorized key not at all. Neither does a key the caller supplied being used as the
+scope. Where the two identifiers sit *in the call* decides which of two readings applies —
+`delete({where: {id, projectId}})` is scoped by its own selection and reports nothing, while
+`update({where: {id}, data: {teamId}})` writes a second record's identifier into the row it
+checked. Over ten production repositories it produced two findings and both were true;
+`testdata/unowned-record-access/` holds the three shapes it reports and the six it does not.
 
 The clean corpus is the denominator. Every route in it is safe for a reason a naive taint
 engine gets wrong, and it is verified by negative control: disabling the `shell-quote`

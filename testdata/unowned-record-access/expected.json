@@ -1,0 +1,38 @@
+{
+  "corpus": "unowned-record-access",
+  "description": "Authorization that happened, and was about something else. Every handler here calls a real permission service and hands it the caller's identity, so the ownership policy's presumption -- `a helper receiving actor identity is presumed to enforce` -- is satisfied by all nine, and it was: this whole corpus read as clean before the relation was stated. What separates the three findings from the six clean routes is not whether a check ran but WHICH KEY it named. Three shapes are asserted, and each was a true finding on a production repository: the write reaches a record the check never mentioned (unleash's segment controller); a check sits between them and proves only that the row EXISTS, which every row does; and the row being written is the authorized one while a field being set names a different record, which is how a record gets re-parented onto something nobody checked (umami's report endpoint). The six clean routes are the shapes that make the rule usable rather than noisy -- the write keyed by the authorized key itself, a lookup carrying both keys, a comparison against the actor, a selection that carries both keys and needs no check above it, a permission that names no record at all, and a route with no identity anywhere. That last one produces a finding from the OTHER rule and the corpus asserts it, because a fixture that hid it would be asserting the absence of something that is there.",
+  "expected": [
+    {
+      "cwe": "CWE-639",
+      "sinkFile": "app.ts",
+      "sinkLine": 48,
+      "sourceLabel": "body.strategyId",
+      "confidence": "medium",
+      "note": "authorized against the project in the route, keyed by a strategy id out of the body, and nothing asks whether that strategy is in that project"
+    },
+    {
+      "cwe": "CWE-639",
+      "sinkFile": "app.ts",
+      "sinkLine": 73,
+      "sourceLabel": "body.featureId",
+      "confidence": "medium",
+      "note": "existence is not authorization: featureExists answers whether the row is there, which it always is, and mentions the authorized key not at all"
+    },
+    {
+      "cwe": "CWE-639",
+      "sinkFile": "app.ts",
+      "sinkLine": 91,
+      "sourceLabel": "body.organisationId",
+      "confidence": "medium",
+      "note": "the row being written IS the authorized one and the field being set names a different record; the depth the two identifiers sit at in the call is what tells this from a selection scoped by both keys"
+    },
+    {
+      "cwe": "CWE-639",
+      "sinkFile": "app.ts",
+      "sinkLine": 194,
+      "sourceLabel": "req.body",
+      "confidence": "high",
+      "note": "a different rule on a different route, and both are true: no identity reaches this handler at all, so there is no scope to compare against and the missing-ownership rule is the one with something to say"
+    }
+  ]
+}

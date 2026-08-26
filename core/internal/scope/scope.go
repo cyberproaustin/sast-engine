@@ -152,7 +152,7 @@ func judge(ix *ir.Index, fn *ir.Function, ep *ir.EntryPoint, rule model.ScopeRul
 			// anything -- the row being updated is the one that was checked and the
 			// field being set names a second one, which is precisely how a record gets
 			// re-parented onto something nobody checked.
-			if carriesScope(op, carries, scope, k.enclosed) {
+			if carriesScope(op, carries, scope, k.container) {
 				continue
 			}
 			if related(g, fn, carries, k.id, scope, gates, op, rule, keys) {
@@ -163,7 +163,7 @@ func judge(ix *ir.Index, fn *ir.Function, ep *ir.EntryPoint, rule model.ScopeRul
 			}
 			reported[k.id] = true
 			out = append(out, finding(ix, fn, ep, rule, keys, k, scope, gate, op,
-				carriesScope(op, carries, scope, !k.enclosed)))
+				anyScope(op, carries, scope)))
 			break
 		}
 	}
@@ -206,10 +206,24 @@ func actorCompared(g *cfg.Graph, fn *ir.Function, identity taint.Classified, op 
 
 // carriesScope reports whether the operation was also handed one of the keys the checks
 // were about, at the given depth.
-func carriesScope(op *ir.Call, carries map[string]map[string]bool, scope map[string]bool, enclosed bool) bool {
+func carriesScope(op *ir.Call, carries map[string]map[string]string, scope map[string]bool, container string) bool {
 	for _, a := range op.Args {
-		for k, wasEnclosed := range carries[a.ValueID] {
-			if scope[k] && wasEnclosed == enclosed {
+		for k, was := range carries[a.ValueID] {
+			if scope[k] && was == container {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// anyScope reports whether the operation was handed one of the authorized keys at all,
+// wherever in the call it sits. That is what separates a write that REACHES another
+// record from one that WRITES another record's identifier into the row it checked.
+func anyScope(op *ir.Call, carries map[string]map[string]string, scope map[string]bool) bool {
+	for _, a := range op.Args {
+		for k := range carries[a.ValueID] {
+			if scope[k] {
 				return true
 			}
 		}
@@ -401,29 +415,28 @@ func carriesIdentity(c *ir.Call, identity taint.Classified) bool {
 	return false
 }
 
-// carriedKey is one key an operation was handed, and how it arrived.
+// carriedKey is one key an operation was handed, and where in the call it sits.
 type carriedKey struct {
 	id string
-	// enclosed marks a key that became a FIELD of the value being written rather than
-	// standing as an argument of its own.
-	enclosed bool
+	// container is the value the key was first enclosed into on its way to the call, or
+	// empty when it arrived as an argument of its own. `{where: {id}, data: {teamId}}`
+	// puts the two identifiers in different containers, which is the difference between
+	// choosing the row and setting a field on it.
+	container string
 }
 
 // unscoped returns the keys this operation carries that no check asked about, in a
 // stable order.
-func unscoped(op *ir.Call, carries map[string]map[string]bool, scope map[string]bool) []carriedKey {
+func unscoped(op *ir.Call, carries map[string]map[string]string, scope map[string]bool) []carriedKey {
 	seen := map[string]bool{}
 	var out []carriedKey
 	for _, a := range op.Args {
-		for k, enclosed := range carries[a.ValueID] {
-			if scope[k] {
+		for k, container := range carries[a.ValueID] {
+			if scope[k] || seen[k] {
 				continue
 			}
-			if was, ok := seen[k]; ok && (!was || was == enclosed) {
-				continue
-			}
-			seen[k] = enclosed
-			out = append(out, carriedKey{id: k, enclosed: enclosed})
+			seen[k] = true
+			out = append(out, carriedKey{id: k, container: container})
 		}
 	}
 	sort.Slice(out, func(i, j int) bool { return out[i].id < out[j].id })
@@ -446,7 +459,7 @@ func unscoped(op *ir.Call, carries map[string]map[string]bool, scope map[string]
 // Both shapes must happen BEFORE the operation. A call after it cannot have gated it, and
 // without that requirement the response itself qualifies: `json(result)` is handed what
 // the write returned, and what the write returned was computed from both keys.
-func related(g *cfg.Graph, fn *ir.Function, carries map[string]map[string]bool, key string,
+func related(g *cfg.Graph, fn *ir.Function, carries map[string]map[string]string, key string,
 	scope map[string]bool, gates []*ir.Call, op *ir.Call, rule model.ScopeRule,
 	keys map[string]requestKey) bool {
 
