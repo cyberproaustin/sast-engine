@@ -704,7 +704,7 @@ class ModuleLowerer:
         name = func.attr if isinstance(func, ast.Attribute) else getattr(func, "id", "")
         if name == "getenv" and len(node.args) > 1:
             return self.path_text(node.args[1], seen)
-        return unresolved_path(name or ast.unparse(func))
+        return unresolved_path(ast.unparse(func))
 
     def lower(self, django: list[dict], registered: set[str]) -> None:
         """Lowers this module, given what the whole program's URLconfs registered.

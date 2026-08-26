@@ -10,6 +10,7 @@
 import ts from "typescript";
 import type { EntryPoint, MiddlewareRef } from "./ir.ts";
 import type { FuncRef, ResolveFunction } from "./express.ts";
+import { collectStringBindings, pathText } from "./routepath.ts";
 
 const ROUTE_DECORATORS = new Map<string, string>([
   ["Get", "GET"],
@@ -92,6 +93,25 @@ function firstStringArg(dec: ts.Decorator): string | undefined {
   return arg && ts.isStringLiteralLike(arg) ? arg.text : undefined;
 }
 
+/**
+ * The path a decorator states, resolved through the file's own constants.
+ *
+ * `@Controller(ROUTE_PREFIX)` is a controller mounted under a prefix, and reading only
+ * string literals dropped that prefix silently -- so every route on such a controller
+ * claimed an address it does not answer at. What still cannot be read is marked
+ * unresolved and named rather than left blank.
+ */
+function decoratorPath(dec: ts.Decorator, consts: Map<string, ts.Expression>): string | undefined {
+  if (!ts.isCallExpression(dec.expression)) return undefined;
+  const arg = dec.expression.arguments[0];
+  if (!arg) return undefined;
+  if (ts.isStringLiteralLike(arg)) return arg.text;
+  // An options object (`@Controller({ path: "x" })`) and an array of paths are shapes
+  // this does not read; neither is a name that can be looked up, so neither is claimed.
+  if (ts.isObjectLiteralExpression(arg) || ts.isArrayLiteralExpression(arg)) return undefined;
+  return pathText(arg, consts);
+}
+
 /** `@UseGuards(AuthGuard, RolesGuard)` — the controls on a Nest entry point. */
 /**
  * A decorator that is not routing and not parameter binding is a CONTROL.
@@ -162,6 +182,8 @@ export function detectNestRoutes(
   definedInTree: Set<string>,
 ): EntryPoint[] {
   const entryPoints: EntryPoint[] = [];
+  // Names bound in this file, so a controller prefix written as a constant resolves.
+  const consts = collectStringBindings(sf);
 
   const visit = (node: ts.Node): void => {
     if (ts.isClassDeclaration(node)) {
@@ -188,7 +210,7 @@ export function detectNestRoutes(
         return n.endsWith("Controller") || n.endsWith("Resolver");
       });
       if (controller) {
-        const prefix = firstStringArg(controller) ?? "";
+        const prefix = decoratorPath(controller, consts) ?? "";
         // Class-level guards apply to every route on the controller.
         const classGuards = guardsFrom(node, "app", locOf);
 
@@ -212,7 +234,7 @@ export function detectNestRoutes(
                 // does not apply.
                 path: GRAPHQL_DECORATORS.has(name)
                   ? firstStringArg(dec) ?? member.name.getText()
-                  : joinPath(prefix, firstStringArg(dec) ?? ""),
+                  : joinPath(prefix, decoratorPath(dec, consts) ?? ""),
                 module: locOf(member).file,
               },
               loc: locOf(member),

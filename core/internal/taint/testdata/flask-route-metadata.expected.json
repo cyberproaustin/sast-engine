@@ -1,0 +1,22 @@
+{
+  "corpus": "flask-route-metadata",
+  "description": "A route enumerated with the wrong verb, the wrong framework or the wrong path is not a smaller version of the truth -- it is a false statement about the surface, and every question asked against it inherits the error. Flask defaults to GET only when `methods=` is ABSENT, and that default was being applied even where the argument was present, so five POST-capable routes of a search engine were all recorded GET-only; a GET-only label makes a whole class of body-based bypasses unaskable, because nobody asks what a POST body reaches when the surface says no POST exists. Both findings here arrive in a request BODY, through a verb the surface used to deny. The rest of the corpus is the other three halves of the same defect: the framework belongs to the decorator's RECEIVER rather than to the file (`@router.get` on a FastAPI APIRouter is fastapi, in a directory where everything else is Flask), a router or blueprint constructed under a prefix serves its routes below that prefix, and a prefix that genuinely cannot be read is marked unresolved and NAMED -- never printed as `*`, which claims the route matches everything. The negative is `@mock.patch(\"app.subprocess\")`: `patch` is an HTTP verb and also the most widely used decorator in Python testing, and a surface that invents entry points is worse than one that misses them.",
+  "expected": [
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "app.py",
+      "sinkLine": 38,
+      "sourceLabel": "flask.request.form",
+      "confidence": "medium",
+      "note": "reachable only through the POST that `methods=['GET', 'POST']` declares; while that decorator lowered to GET alone, the body this reads was a place the surface said the route never looked"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "app.py",
+      "sinkLine": 56,
+      "sourceLabel": "flask.request.form.directory",
+      "confidence": "high",
+      "note": "POST /admin/purge -- a tuple declares verbs as a list does, and the blueprint's own url_prefix is the first half of the address"
+    }
+  ]
+}
