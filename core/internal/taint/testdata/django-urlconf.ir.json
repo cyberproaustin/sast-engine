@@ -1,0 +1,5253 @@
+{
+  "irVersion": "0.12.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi",
+        "django"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "admin.py",
+      "path": "admin.py"
+    },
+    {
+      "id": "api/__init__.py",
+      "path": "api/__init__.py"
+    },
+    {
+      "id": "api/urls.py",
+      "path": "api/urls.py"
+    },
+    {
+      "id": "api/views.py",
+      "path": "api/views.py"
+    },
+    {
+      "id": "front/__init__.py",
+      "path": "front/__init__.py"
+    },
+    {
+      "id": "front/models.py",
+      "path": "front/models.py"
+    },
+    {
+      "id": "front/signals.py",
+      "path": "front/signals.py"
+    },
+    {
+      "id": "front/views.py",
+      "path": "front/views.py"
+    },
+    {
+      "id": "tests/test_urls.py",
+      "path": "tests/test_urls.py",
+      "isTest": true
+    },
+    {
+      "id": "urls.py",
+      "path": "urls.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "admin.py#<module>:0:0",
+      "name": "<module>",
+      "module": "admin.py",
+      "loc": {
+        "file": "admin.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "admin.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "admin.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "Three registrations that are not routes.\n\nEach wears the shape a route registration wears -- the word `register`, a class the program\ndefines, a string -- and none of them serves anything. What separates a route from the rest\nis that a route always names a PATH and points at something that answers a request.\n"
+        },
+        {
+          "id": "admin.py#<module>:0:0$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "admin.py",
+            "line": 15,
+            "column": 13
+          },
+          "literal": "[A-Fa-f0-9]{40}"
+        },
+        {
+          "id": "admin.py#<module>:0:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "admin.py",
+            "line": 15,
+            "column": 5
+          },
+          "name": "regex"
+        },
+        {
+          "id": "admin.py#<module>:0:0$v3",
+          "kind": "local",
+          "loc": {
+            "file": "admin.py",
+            "line": 22,
+            "column": 20
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "admin.py#<module>:0:0$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "admin.py",
+            "line": 22,
+            "column": 21
+          },
+          "literal": "code"
+        },
+        {
+          "id": "admin.py#<module>:0:0$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "admin.py",
+            "line": 22,
+            "column": 29
+          },
+          "literal": "name"
+        },
+        {
+          "id": "admin.py#<module>:0:0$v6",
+          "kind": "local",
+          "loc": {
+            "file": "admin.py",
+            "line": 22,
+            "column": 5
+          },
+          "name": "list_display"
+        },
+        {
+          "id": "admin.py#<module>:0:0$v7",
+          "kind": "global",
+          "loc": {
+            "file": "admin.py",
+            "line": 30,
+            "column": 21
+          },
+          "name": "front.models.Check"
+        },
+        {
+          "id": "admin.py#<module>:0:0$v8",
+          "kind": "global",
+          "loc": {
+            "file": "admin.py",
+            "line": 30,
+            "column": 1
+          },
+          "name": "django.contrib.admin"
+        },
+        {
+          "id": "admin.py#<module>:0:0$v9",
+          "kind": "property",
+          "loc": {
+            "file": "admin.py",
+            "line": 30,
+            "column": 1
+          },
+          "base": "admin.py#<module>:0:0$v8",
+          "path": "site",
+          "name": "site"
+        },
+        {
+          "id": "admin.py#<module>:0:0$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "admin.py",
+            "line": 30,
+            "column": 1
+          },
+          "name": "django.contrib.admin.site.register"
+        },
+        {
+          "id": "admin.py#<module>:0:0$v11",
+          "kind": "literal",
+          "loc": {
+            "file": "admin.py",
+            "line": 34,
+            "column": 18
+          },
+          "literal": "check-saved"
+        },
+        {
+          "id": "admin.py#<module>:0:0$v12",
+          "kind": "global",
+          "loc": {
+            "file": "admin.py",
+            "line": 34,
+            "column": 33
+          },
+          "name": "front.views"
+        },
+        {
+          "id": "admin.py#<module>:0:0$v13",
+          "kind": "property",
+          "loc": {
+            "file": "admin.py",
+            "line": 34,
+            "column": 33
+          },
+          "base": "admin.py#<module>:0:0$v12",
+          "path": "index",
+          "name": "index"
+        },
+        {
+          "id": "admin.py#<module>:0:0$v14",
+          "kind": "global",
+          "loc": {
+            "file": "admin.py",
+            "line": 34,
+            "column": 1
+          },
+          "name": "front.signals"
+        },
+        {
+          "id": "admin.py#<module>:0:0$v15",
+          "kind": "call-result",
+          "loc": {
+            "file": "admin.py",
+            "line": 34,
+            "column": 1
+          },
+          "name": "local"
+        },
+        {
+          "id": "admin.py#<module>:0:0$v16",
+          "kind": "literal",
+          "loc": {
+            "file": "admin.py",
+            "line": 38,
+            "column": 35
+          },
+          "literal": "sha1"
+        },
+        {
+          "id": "admin.py#<module>:0:0$v17",
+          "kind": "call-result",
+          "loc": {
+            "file": "admin.py",
+            "line": 38,
+            "column": 1
+          },
+          "name": "django.urls.register_converter"
+        }
+      ],
+      "flows": [
+        {
+          "from": "admin.py#<module>:0:0$v1",
+          "to": "admin.py#<module>:0:0$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "admin.py",
+            "line": 15,
+            "column": 5
+          }
+        },
+        {
+          "from": "admin.py#<module>:0:0$v4",
+          "to": "admin.py#<module>:0:0$v3",
+          "kind": "enclose",
+          "loc": {
+            "file": "admin.py",
+            "line": 22,
+            "column": 20
+          }
+        },
+        {
+          "from": "admin.py#<module>:0:0$v5",
+          "to": "admin.py#<module>:0:0$v3",
+          "kind": "enclose",
+          "loc": {
+            "file": "admin.py",
+            "line": 22,
+            "column": 20
+          }
+        },
+        {
+          "from": "admin.py#<module>:0:0$v3",
+          "to": "admin.py#<module>:0:0$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "admin.py",
+            "line": 22,
+            "column": 5
+          }
+        },
+        {
+          "from": "admin.py#<module>:0:0$v8",
+          "to": "admin.py#<module>:0:0$v9",
+          "kind": "property",
+          "loc": {
+            "file": "admin.py",
+            "line": 30,
+            "column": 1
+          }
+        },
+        {
+          "from": "admin.py#<module>:0:0$v12",
+          "to": "admin.py#<module>:0:0$v13",
+          "kind": "property",
+          "loc": {
+            "file": "admin.py",
+            "line": 34,
+            "column": 33
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "admin.py#<module>:0:0$c0",
+          "loc": {
+            "file": "admin.py",
+            "line": 30,
+            "column": 1
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.contrib.admin.site.register",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "admin.py#<module>:0:0$v7"
+            }
+          ],
+          "resultValueId": "admin.py#<module>:0:0$v10",
+          "block": "admin.py#<module>:0:0$b0",
+          "method": "register",
+          "argCount": 2,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "admin.py#<module>:0:0$v9"
+        },
+        {
+          "id": "admin.py#<module>:0:0$c1",
+          "loc": {
+            "file": "admin.py",
+            "line": 34,
+            "column": 1
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "front/signals.py#register:6:1",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "admin.py#<module>:0:0$v11"
+            },
+            {
+              "index": 1,
+              "valueId": "admin.py#<module>:0:0$v13"
+            }
+          ],
+          "resultValueId": "admin.py#<module>:0:0$v15",
+          "block": "admin.py#<module>:0:0$b0",
+          "method": "register",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "check-saved"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "admin.py#<module>:0:0$v14"
+        },
+        {
+          "id": "admin.py#<module>:0:0$c2",
+          "loc": {
+            "file": "admin.py",
+            "line": 38,
+            "column": 1
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.register_converter",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 1,
+              "valueId": "admin.py#<module>:0:0$v16"
+            }
+          ],
+          "resultValueId": "admin.py#<module>:0:0$v17",
+          "block": "admin.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "1": "sha1"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "admin.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "admin.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "admin.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "admin.py#to_python:17:5",
+      "name": "to_python",
+      "module": "admin.py",
+      "loc": {
+        "file": "admin.py",
+        "line": 17,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "admin.py#to_python:17:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "value",
+          "valueId": "admin.py#to_python:17:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "admin.py#to_python:17:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "admin.py",
+            "line": 17,
+            "column": 19
+          },
+          "name": "self"
+        },
+        {
+          "id": "admin.py#to_python:17:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "admin.py",
+            "line": 17,
+            "column": 25
+          },
+          "name": "value"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [
+        "admin.py#to_python:17:5$v1"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "admin.py#to_python:17:5$b0",
+      "blocks": [
+        {
+          "id": "admin.py#to_python:17:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "admin.py",
+            "line": 17,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "admin.py#to_python:17:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "admin.py",
+            "line": 18,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "admin.py#get_queryset:24:5",
+      "name": "get_queryset",
+      "module": "admin.py",
+      "loc": {
+        "file": "admin.py",
+        "line": 24,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "admin.py#get_queryset:24:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "request",
+          "valueId": "admin.py#get_queryset:24:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "admin.py#get_queryset:24:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "admin.py",
+            "line": 24,
+            "column": 22
+          },
+          "name": "self"
+        },
+        {
+          "id": "admin.py#get_queryset:24:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "admin.py",
+            "line": 24,
+            "column": 28
+          },
+          "name": "request"
+        },
+        {
+          "id": "admin.py#get_queryset:24:5$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "admin.py",
+            "line": 25,
+            "column": 16
+          },
+          "name": "super"
+        },
+        {
+          "id": "admin.py#get_queryset:24:5$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "admin.py",
+            "line": 25,
+            "column": 16
+          },
+          "name": "unresolved"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "admin.py#get_queryset:24:5$c0",
+          "loc": {
+            "file": "admin.py",
+            "line": 25,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "super",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "admin.py#get_queryset:24:5$v2",
+          "block": "admin.py#get_queryset:24:5$b0",
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "admin.py#get_queryset:24:5$c1",
+          "loc": {
+            "file": "admin.py",
+            "line": 25,
+            "column": 16
+          },
+          "callee": {
+            "kind": "unresolved",
+            "resolution": "dynamic-unresolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "admin.py#get_queryset:24:5$v1"
+            }
+          ],
+          "resultValueId": "admin.py#get_queryset:24:5$v3",
+          "block": "admin.py#get_queryset:24:5$b0",
+          "method": "get_queryset",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "admin.py#get_queryset:24:5$v2"
+        }
+      ],
+      "returns": [
+        "admin.py#get_queryset:24:5$v3"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "admin.py#get_queryset:24:5$b0",
+      "blocks": [
+        {
+          "id": "admin.py#get_queryset:24:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "admin.py",
+            "line": 24,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "admin.py#get_queryset:24:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "admin.py",
+            "line": 25,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "api/__init__.py#<module>:0:0",
+      "name": "<module>",
+      "module": "api/__init__.py",
+      "loc": {
+        "file": "api/__init__.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "api/__init__.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "api/__init__.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "api/__init__.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "api/urls.py#<module>:0:0",
+      "name": "<module>",
+      "module": "api/urls.py",
+      "loc": {
+        "file": "api/urls.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "api/urls.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "api/urls.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "An included URLconf.\n\nEvery route here is served under the prefix the ROOT file gives it, and this file carries\nno trace of that prefix. That is why the composition is a program-wide pass and not\nsomething a module can work out on its own.\n"
+        },
+        {
+          "id": "api/urls.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "api/urls.py",
+            "line": 11,
+            "column": 15
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "api/urls.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "api/urls.py",
+            "line": 12,
+            "column": 10
+          },
+          "literal": "checks/"
+        },
+        {
+          "id": "api/urls.py#<module>:0:0$v3",
+          "kind": "global",
+          "loc": {
+            "file": "api/urls.py",
+            "line": 12,
+            "column": 21
+          },
+          "name": "api.views"
+        },
+        {
+          "id": "api/urls.py#<module>:0:0$v4",
+          "kind": "property",
+          "loc": {
+            "file": "api/urls.py",
+            "line": 12,
+            "column": 21
+          },
+          "base": "api/urls.py#<module>:0:0$v3",
+          "path": "checks",
+          "name": "checks"
+        },
+        {
+          "id": "api/urls.py#<module>:0:0$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "api/urls.py",
+            "line": 12,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "api/urls.py#<module>:0:0$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "api/urls.py",
+            "line": 13,
+            "column": 10
+          },
+          "literal": "checks/<uuid:code>/flips/"
+        },
+        {
+          "id": "api/urls.py#<module>:0:0$v7",
+          "kind": "property",
+          "loc": {
+            "file": "api/urls.py",
+            "line": 13,
+            "column": 39
+          },
+          "base": "api/urls.py#<module>:0:0$v3",
+          "path": "flips",
+          "name": "flips"
+        },
+        {
+          "id": "api/urls.py#<module>:0:0$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "api/urls.py",
+            "line": 13,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "api/urls.py#<module>:0:0$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "api/urls.py",
+            "line": 16,
+            "column": 13
+          },
+          "literal": "^ping/(?P<code>[\\w-]+)/(?P<n>\\d+)$"
+        },
+        {
+          "id": "api/urls.py#<module>:0:0$v10",
+          "kind": "property",
+          "loc": {
+            "file": "api/urls.py",
+            "line": 16,
+            "column": 52
+          },
+          "base": "api/urls.py#<module>:0:0$v3",
+          "path": "ping",
+          "name": "ping"
+        },
+        {
+          "id": "api/urls.py#<module>:0:0$v11",
+          "kind": "call-result",
+          "loc": {
+            "file": "api/urls.py",
+            "line": 16,
+            "column": 5
+          },
+          "name": "django.urls.re_path"
+        },
+        {
+          "id": "api/urls.py#<module>:0:0$v12",
+          "kind": "local",
+          "loc": {
+            "file": "api/urls.py",
+            "line": 11,
+            "column": 1
+          },
+          "name": "urlpatterns"
+        }
+      ],
+      "flows": [
+        {
+          "from": "api/urls.py#<module>:0:0$v3",
+          "to": "api/urls.py#<module>:0:0$v4",
+          "kind": "property",
+          "loc": {
+            "file": "api/urls.py",
+            "line": 12,
+            "column": 21
+          }
+        },
+        {
+          "from": "api/urls.py#<module>:0:0$v5",
+          "to": "api/urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "api/urls.py",
+            "line": 11,
+            "column": 15
+          }
+        },
+        {
+          "from": "api/urls.py#<module>:0:0$v3",
+          "to": "api/urls.py#<module>:0:0$v7",
+          "kind": "property",
+          "loc": {
+            "file": "api/urls.py",
+            "line": 13,
+            "column": 39
+          }
+        },
+        {
+          "from": "api/urls.py#<module>:0:0$v8",
+          "to": "api/urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "api/urls.py",
+            "line": 11,
+            "column": 15
+          }
+        },
+        {
+          "from": "api/urls.py#<module>:0:0$v3",
+          "to": "api/urls.py#<module>:0:0$v10",
+          "kind": "property",
+          "loc": {
+            "file": "api/urls.py",
+            "line": 16,
+            "column": 52
+          }
+        },
+        {
+          "from": "api/urls.py#<module>:0:0$v11",
+          "to": "api/urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "api/urls.py",
+            "line": 11,
+            "column": 15
+          }
+        },
+        {
+          "from": "api/urls.py#<module>:0:0$v1",
+          "to": "api/urls.py#<module>:0:0$v12",
+          "kind": "assign",
+          "loc": {
+            "file": "api/urls.py",
+            "line": 11,
+            "column": 1
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "api/urls.py#<module>:0:0$c0",
+          "loc": {
+            "file": "api/urls.py",
+            "line": 12,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "api/urls.py#<module>:0:0$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "api/urls.py#<module>:0:0$v4"
+            }
+          ],
+          "resultValueId": "api/urls.py#<module>:0:0$v5",
+          "block": "api/urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "checks/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "api/urls.py#<module>:0:0$c1",
+          "loc": {
+            "file": "api/urls.py",
+            "line": 13,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "api/urls.py#<module>:0:0$v6"
+            },
+            {
+              "index": 1,
+              "valueId": "api/urls.py#<module>:0:0$v7"
+            }
+          ],
+          "resultValueId": "api/urls.py#<module>:0:0$v8",
+          "block": "api/urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "checks/<uuid:code>/flips/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "api/urls.py#<module>:0:0$c2",
+          "loc": {
+            "file": "api/urls.py",
+            "line": 16,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.re_path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "api/urls.py#<module>:0:0$v9"
+            },
+            {
+              "index": 1,
+              "valueId": "api/urls.py#<module>:0:0$v10"
+            }
+          ],
+          "resultValueId": "api/urls.py#<module>:0:0$v11",
+          "block": "api/urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "^ping/(?P<code>[\\w-]+)/(?P<n>\\d+)$"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "api/urls.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "api/urls.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "api/urls.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "api/views.py#<module>:0:0",
+      "name": "<module>",
+      "module": "api/views.py",
+      "loc": {
+        "file": "api/views.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "api/views.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "api/views.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "Handlers of the URLconf that is mounted from somewhere else."
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "api/views.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "api/views.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "api/views.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "api/views.py#checks:7:1",
+      "name": "checks",
+      "module": "api/views.py",
+      "loc": {
+        "file": "api/views.py",
+        "line": 7,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "api/views.py#checks:7:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "api/views.py#checks:7:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "api/views.py",
+            "line": 7,
+            "column": 12
+          },
+          "name": "request"
+        },
+        {
+          "id": "api/views.py#checks:7:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "api/views.py",
+            "line": 9,
+            "column": 25
+          },
+          "literal": "[]"
+        },
+        {
+          "id": "api/views.py#checks:7:1$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "api/views.py",
+            "line": 9,
+            "column": 12
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "api/views.py#checks:7:1$c0",
+          "loc": {
+            "file": "api/views.py",
+            "line": 9,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "api/views.py#checks:7:1$v1"
+            }
+          ],
+          "resultValueId": "api/views.py#checks:7:1$v2",
+          "block": "api/views.py#checks:7:1$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "[]"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "api/views.py#checks:7:1$v2"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "api/views.py#checks:7:1$b0",
+      "blocks": [
+        {
+          "id": "api/views.py#checks:7:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "api/views.py",
+            "line": 7,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "api/views.py#checks:7:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "api/views.py",
+            "line": 9,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "api/views.py#flips:12:1",
+      "name": "flips",
+      "module": "api/views.py",
+      "loc": {
+        "file": "api/views.py",
+        "line": 12,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "api/views.py#flips:12:1$v0"
+        },
+        {
+          "index": 1,
+          "name": "code",
+          "valueId": "api/views.py#flips:12:1$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "api/views.py#flips:12:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "api/views.py",
+            "line": 12,
+            "column": 11
+          },
+          "name": "request"
+        },
+        {
+          "id": "api/views.py#flips:12:1$v1",
+          "kind": "param",
+          "loc": {
+            "file": "api/views.py",
+            "line": 12,
+            "column": 20
+          },
+          "name": "code"
+        },
+        {
+          "id": "api/views.py#flips:12:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "api/views.py",
+            "line": 15,
+            "column": 13
+          },
+          "base": "api/views.py#flips:12:1$v0",
+          "path": "GET",
+          "name": "GET"
+        },
+        {
+          "id": "api/views.py#flips:12:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "api/views.py",
+            "line": 15,
+            "column": 13
+          },
+          "name": "since",
+          "base": "api/views.py#flips:12:1$v2",
+          "path": "GET.since"
+        },
+        {
+          "id": "api/views.py#flips:12:1$v4",
+          "kind": "local",
+          "loc": {
+            "file": "api/views.py",
+            "line": 15,
+            "column": 5
+          },
+          "name": "since"
+        },
+        {
+          "id": "api/views.py#flips:12:1$v5",
+          "kind": "local",
+          "loc": {
+            "file": "api/views.py",
+            "line": 16,
+            "column": 49
+          },
+          "name": "concat"
+        },
+        {
+          "id": "api/views.py#flips:12:1$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "api/views.py",
+            "line": 16,
+            "column": 49
+          },
+          "literal": "hcctl flips --since "
+        },
+        {
+          "id": "api/views.py#flips:12:1$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "api/views.py",
+            "line": 16,
+            "column": 87
+          },
+          "literal": "true"
+        },
+        {
+          "id": "api/views.py#flips:12:1$v8",
+          "kind": "global",
+          "loc": {
+            "file": "api/views.py",
+            "line": 16,
+            "column": 25
+          },
+          "name": "subprocess"
+        },
+        {
+          "id": "api/views.py#flips:12:1$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "api/views.py",
+            "line": 16,
+            "column": 25
+          },
+          "name": "subprocess.check_output"
+        },
+        {
+          "id": "api/views.py#flips:12:1$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "api/views.py",
+            "line": 16,
+            "column": 12
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "api/views.py#flips:12:1$v0",
+          "to": "api/views.py#flips:12:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "api/views.py",
+            "line": 15,
+            "column": 13
+          }
+        },
+        {
+          "from": "api/views.py#flips:12:1$v2",
+          "to": "api/views.py#flips:12:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "api/views.py",
+            "line": 15,
+            "column": 13
+          }
+        },
+        {
+          "from": "api/views.py#flips:12:1$v3",
+          "to": "api/views.py#flips:12:1$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "api/views.py",
+            "line": 15,
+            "column": 5
+          }
+        },
+        {
+          "from": "api/views.py#flips:12:1$v6",
+          "to": "api/views.py#flips:12:1$v5",
+          "kind": "binary",
+          "loc": {
+            "file": "api/views.py",
+            "line": 16,
+            "column": 49
+          }
+        },
+        {
+          "from": "api/views.py#flips:12:1$v4",
+          "to": "api/views.py#flips:12:1$v5",
+          "kind": "binary",
+          "loc": {
+            "file": "api/views.py",
+            "line": 16,
+            "column": 49
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "api/views.py#flips:12:1$c0",
+          "loc": {
+            "file": "api/views.py",
+            "line": 16,
+            "column": 25
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "subprocess.check_output",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "api/views.py#flips:12:1$v5"
+            },
+            {
+              "index": 1,
+              "valueId": "api/views.py#flips:12:1$v7"
+            }
+          ],
+          "resultValueId": "api/views.py#flips:12:1$v9",
+          "block": "api/views.py#flips:12:1$b0",
+          "method": "check_output",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "shell=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "api/views.py#flips:12:1$v8"
+        },
+        {
+          "id": "api/views.py#flips:12:1$c1",
+          "loc": {
+            "file": "api/views.py",
+            "line": 16,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "api/views.py#flips:12:1$v9"
+            }
+          ],
+          "resultValueId": "api/views.py#flips:12:1$v10",
+          "block": "api/views.py#flips:12:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "api/views.py#flips:12:1$v10"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "api/views.py#flips:12:1$b0",
+      "blocks": [
+        {
+          "id": "api/views.py#flips:12:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "api/views.py",
+            "line": 12,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "api/views.py#flips:12:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "api/views.py",
+            "line": 16,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "api/views.py#ping:19:1",
+      "name": "ping",
+      "module": "api/views.py",
+      "loc": {
+        "file": "api/views.py",
+        "line": 19,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "api/views.py#ping:19:1$v0"
+        },
+        {
+          "index": 1,
+          "name": "code",
+          "valueId": "api/views.py#ping:19:1$v1"
+        },
+        {
+          "index": 2,
+          "name": "n",
+          "valueId": "api/views.py#ping:19:1$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "api/views.py#ping:19:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "api/views.py",
+            "line": 19,
+            "column": 10
+          },
+          "name": "request"
+        },
+        {
+          "id": "api/views.py#ping:19:1$v1",
+          "kind": "param",
+          "loc": {
+            "file": "api/views.py",
+            "line": 19,
+            "column": 19
+          },
+          "name": "code"
+        },
+        {
+          "id": "api/views.py#ping:19:1$v2",
+          "kind": "param",
+          "loc": {
+            "file": "api/views.py",
+            "line": 19,
+            "column": 25
+          },
+          "name": "n"
+        },
+        {
+          "id": "api/views.py#ping:19:1$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "api/views.py",
+            "line": 21,
+            "column": 12
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "api/views.py#ping:19:1$c0",
+          "loc": {
+            "file": "api/views.py",
+            "line": 21,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "api/views.py#ping:19:1$v1"
+            }
+          ],
+          "resultValueId": "api/views.py#ping:19:1$v3",
+          "block": "api/views.py#ping:19:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "api/views.py#ping:19:1$v3"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "api/views.py#ping:19:1$b0",
+      "blocks": [
+        {
+          "id": "api/views.py#ping:19:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "api/views.py",
+            "line": 19,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "api/views.py#ping:19:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "api/views.py",
+            "line": 21,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "front/__init__.py#<module>:0:0",
+      "name": "<module>",
+      "module": "front/__init__.py",
+      "loc": {
+        "file": "front/__init__.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "front/__init__.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "front/__init__.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "front/__init__.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "front/models.py#<module>:0:0",
+      "name": "<module>",
+      "module": "front/models.py",
+      "loc": {
+        "file": "front/models.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "front/models.py#<module>:0:0$v0",
+          "kind": "global",
+          "loc": {
+            "file": "front/models.py",
+            "line": 5,
+            "column": 12
+          },
+          "name": "django.db.models"
+        },
+        {
+          "id": "front/models.py#<module>:0:0$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "front/models.py",
+            "line": 5,
+            "column": 12
+          },
+          "name": "django.db.models.UUIDField"
+        },
+        {
+          "id": "front/models.py#<module>:0:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "front/models.py",
+            "line": 5,
+            "column": 5
+          },
+          "name": "code"
+        },
+        {
+          "id": "front/models.py#<module>:0:0$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "front/models.py",
+            "line": 6,
+            "column": 40
+          },
+          "literal": "100"
+        },
+        {
+          "id": "front/models.py#<module>:0:0$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "front/models.py",
+            "line": 6,
+            "column": 12
+          },
+          "name": "django.db.models.CharField"
+        },
+        {
+          "id": "front/models.py#<module>:0:0$v5",
+          "kind": "local",
+          "loc": {
+            "file": "front/models.py",
+            "line": 6,
+            "column": 5
+          },
+          "name": "name"
+        }
+      ],
+      "flows": [
+        {
+          "from": "front/models.py#<module>:0:0$v1",
+          "to": "front/models.py#<module>:0:0$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "front/models.py",
+            "line": 5,
+            "column": 5
+          }
+        },
+        {
+          "from": "front/models.py#<module>:0:0$v4",
+          "to": "front/models.py#<module>:0:0$v5",
+          "kind": "assign",
+          "loc": {
+            "file": "front/models.py",
+            "line": 6,
+            "column": 5
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "front/models.py#<module>:0:0$c0",
+          "loc": {
+            "file": "front/models.py",
+            "line": 5,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.db.models.UUIDField",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "front/models.py#<module>:0:0$v1",
+          "block": "front/models.py#<module>:0:0$b0",
+          "method": "UUIDField",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "front/models.py#<module>:0:0$v0"
+        },
+        {
+          "id": "front/models.py#<module>:0:0$c1",
+          "loc": {
+            "file": "front/models.py",
+            "line": 6,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.db.models.CharField",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "front/models.py#<module>:0:0$v3"
+            }
+          ],
+          "resultValueId": "front/models.py#<module>:0:0$v4",
+          "block": "front/models.py#<module>:0:0$b0",
+          "method": "CharField",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "max_length=100"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "front/models.py#<module>:0:0$v0"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "front/models.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "front/models.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "front/models.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "front/signals.py#<module>:0:0",
+      "name": "<module>",
+      "module": "front/signals.py",
+      "loc": {
+        "file": "front/signals.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "front/signals.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "front/signals.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "Not a router. The point of the negative in admin.py: `register` is an ordinary word."
+        },
+        {
+          "id": "front/signals.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "front/signals.py",
+            "line": 3,
+            "column": 13
+          },
+          "name": "{dict}"
+        },
+        {
+          "id": "front/signals.py#<module>:0:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "front/signals.py",
+            "line": 3,
+            "column": 1
+          },
+          "name": "_handlers"
+        }
+      ],
+      "flows": [
+        {
+          "from": "front/signals.py#<module>:0:0$v1",
+          "to": "front/signals.py#<module>:0:0$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "front/signals.py",
+            "line": 3,
+            "column": 1
+          }
+        }
+      ],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "front/signals.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "front/signals.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "front/signals.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "front/signals.py#register:6:1",
+      "name": "register",
+      "module": "front/signals.py",
+      "loc": {
+        "file": "front/signals.py",
+        "line": 6,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "name",
+          "valueId": "front/signals.py#register:6:1$v0"
+        },
+        {
+          "index": 1,
+          "name": "handler",
+          "valueId": "front/signals.py#register:6:1$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "front/signals.py#register:6:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "front/signals.py",
+            "line": 6,
+            "column": 14
+          },
+          "name": "name"
+        },
+        {
+          "id": "front/signals.py#register:6:1$v1",
+          "kind": "param",
+          "loc": {
+            "file": "front/signals.py",
+            "line": 6,
+            "column": 20
+          },
+          "name": "handler"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "front/signals.py",
+            "line": 7,
+            "column": 5
+          },
+          "base": "front/signals.py#<module>:0:0$v2",
+          "from": "front/signals.py#register:6:1$v1"
+        }
+      ],
+      "entryBlock": "front/signals.py#register:6:1$b0",
+      "blocks": [
+        {
+          "id": "front/signals.py#register:6:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "front/signals.py",
+            "line": 6,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "front/views.py#<module>:0:0",
+      "name": "<module>",
+      "module": "front/views.py",
+      "loc": {
+        "file": "front/views.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "front/views.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The handlers a URLconf reaches, holding no evidence at all of how they are reached.\n\nA Django view has no decorator and no path in it. The file that registers it is the only\nplace either exists, so a handler here is either enumerated from the URLconf or it is not\nin the surface -- and everything it does is unreachable either way.\n"
+        },
+        {
+          "id": "front/views.py#<module>:0:0$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 41,
+            "column": 5
+          },
+          "literal": "Django dispatches a class-based view by verb: `get` answers GET, `post` answers\n    POST, and one `as_view()` in the URLconf stands for both."
+        },
+        {
+          "id": "front/views.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 58,
+            "column": 5
+          },
+          "literal": "A viewset is registered by CLASS on a router, which expands it into the standard\n    six routes. Nothing in the class says where any of them are."
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "front/views.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "front/views.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "front/views.py#index:17:1",
+      "name": "index",
+      "module": "front/views.py",
+      "loc": {
+        "file": "front/views.py",
+        "line": 17,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "front/views.py#index:17:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "front/views.py#index:17:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "front/views.py",
+            "line": 17,
+            "column": 11
+          },
+          "name": "request"
+        },
+        {
+          "id": "front/views.py#index:17:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 19,
+            "column": 41
+          },
+          "literal": "sort"
+        },
+        {
+          "id": "front/views.py#index:17:1$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 19,
+            "column": 49
+          },
+          "literal": "name"
+        },
+        {
+          "id": "front/views.py#index:17:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 19,
+            "column": 25
+          },
+          "base": "front/views.py#index:17:1$v0",
+          "path": "GET",
+          "name": "GET"
+        },
+        {
+          "id": "front/views.py#index:17:1$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "front/views.py",
+            "line": 19,
+            "column": 25
+          },
+          "name": "request.GET.get"
+        },
+        {
+          "id": "front/views.py#index:17:1$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "front/views.py",
+            "line": 19,
+            "column": 12
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "front/views.py#index:17:1$v0",
+          "to": "front/views.py#index:17:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 19,
+            "column": 25
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "front/views.py#index:17:1$c0",
+          "loc": {
+            "file": "front/views.py",
+            "line": 19,
+            "column": 25
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "request.GET.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "front/views.py#index:17:1$v1"
+            },
+            {
+              "index": 1,
+              "valueId": "front/views.py#index:17:1$v2"
+            }
+          ],
+          "resultValueId": "front/views.py#index:17:1$v4",
+          "block": "front/views.py#index:17:1$b0",
+          "method": "get",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "sort",
+            "1": "name"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "front/views.py#index:17:1$v3"
+        },
+        {
+          "id": "front/views.py#index:17:1$c1",
+          "loc": {
+            "file": "front/views.py",
+            "line": 19,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "front/views.py#index:17:1$v4"
+            }
+          ],
+          "resultValueId": "front/views.py#index:17:1$v5",
+          "block": "front/views.py#index:17:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "front/views.py#index:17:1$v5"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "front/views.py#index:17:1$b0",
+      "blocks": [
+        {
+          "id": "front/views.py#index:17:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 17,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "front/views.py#index:17:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 19,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "front/views.py#check_log:22:1",
+      "name": "check_log",
+      "module": "front/views.py",
+      "loc": {
+        "file": "front/views.py",
+        "line": 22,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "front/views.py#check_log:22:1$v0"
+        },
+        {
+          "index": 1,
+          "name": "code",
+          "valueId": "front/views.py#check_log:22:1$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "front/views.py#check_log:22:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "front/views.py",
+            "line": 22,
+            "column": 15
+          },
+          "name": "request"
+        },
+        {
+          "id": "front/views.py#check_log:22:1$v1",
+          "kind": "param",
+          "loc": {
+            "file": "front/views.py",
+            "line": 22,
+            "column": 24
+          },
+          "name": "code"
+        },
+        {
+          "id": "front/views.py#check_log:22:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 25,
+            "column": 12
+          },
+          "base": "front/views.py#check_log:22:1$v0",
+          "path": "GET",
+          "name": "GET"
+        },
+        {
+          "id": "front/views.py#check_log:22:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 25,
+            "column": 12
+          },
+          "name": "tail",
+          "base": "front/views.py#check_log:22:1$v2",
+          "path": "GET.tail"
+        },
+        {
+          "id": "front/views.py#check_log:22:1$v4",
+          "kind": "local",
+          "loc": {
+            "file": "front/views.py",
+            "line": 25,
+            "column": 5
+          },
+          "name": "tail"
+        },
+        {
+          "id": "front/views.py#check_log:22:1$v5",
+          "kind": "local",
+          "loc": {
+            "file": "front/views.py",
+            "line": 26,
+            "column": 35
+          },
+          "name": "concat"
+        },
+        {
+          "id": "front/views.py#check_log:22:1$v6",
+          "kind": "local",
+          "loc": {
+            "file": "front/views.py",
+            "line": 26,
+            "column": 35
+          },
+          "name": "concat"
+        },
+        {
+          "id": "front/views.py#check_log:22:1$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 26,
+            "column": 35
+          },
+          "literal": "tail -n "
+        },
+        {
+          "id": "front/views.py#check_log:22:1$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 26,
+            "column": 55
+          },
+          "literal": " /var/log/checks.log"
+        },
+        {
+          "id": "front/views.py#check_log:22:1$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 26,
+            "column": 85
+          },
+          "literal": "true"
+        },
+        {
+          "id": "front/views.py#check_log:22:1$v10",
+          "kind": "global",
+          "loc": {
+            "file": "front/views.py",
+            "line": 26,
+            "column": 11
+          },
+          "name": "subprocess"
+        },
+        {
+          "id": "front/views.py#check_log:22:1$v11",
+          "kind": "call-result",
+          "loc": {
+            "file": "front/views.py",
+            "line": 26,
+            "column": 11
+          },
+          "name": "subprocess.check_output"
+        },
+        {
+          "id": "front/views.py#check_log:22:1$v12",
+          "kind": "local",
+          "loc": {
+            "file": "front/views.py",
+            "line": 26,
+            "column": 5
+          },
+          "name": "out"
+        },
+        {
+          "id": "front/views.py#check_log:22:1$v13",
+          "kind": "call-result",
+          "loc": {
+            "file": "front/views.py",
+            "line": 27,
+            "column": 12
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "front/views.py#check_log:22:1$v0",
+          "to": "front/views.py#check_log:22:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 25,
+            "column": 12
+          }
+        },
+        {
+          "from": "front/views.py#check_log:22:1$v2",
+          "to": "front/views.py#check_log:22:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 25,
+            "column": 12
+          }
+        },
+        {
+          "from": "front/views.py#check_log:22:1$v3",
+          "to": "front/views.py#check_log:22:1$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "front/views.py",
+            "line": 25,
+            "column": 5
+          }
+        },
+        {
+          "from": "front/views.py#check_log:22:1$v7",
+          "to": "front/views.py#check_log:22:1$v6",
+          "kind": "binary",
+          "loc": {
+            "file": "front/views.py",
+            "line": 26,
+            "column": 35
+          }
+        },
+        {
+          "from": "front/views.py#check_log:22:1$v4",
+          "to": "front/views.py#check_log:22:1$v6",
+          "kind": "binary",
+          "loc": {
+            "file": "front/views.py",
+            "line": 26,
+            "column": 35
+          }
+        },
+        {
+          "from": "front/views.py#check_log:22:1$v6",
+          "to": "front/views.py#check_log:22:1$v5",
+          "kind": "binary",
+          "loc": {
+            "file": "front/views.py",
+            "line": 26,
+            "column": 35
+          }
+        },
+        {
+          "from": "front/views.py#check_log:22:1$v8",
+          "to": "front/views.py#check_log:22:1$v5",
+          "kind": "binary",
+          "loc": {
+            "file": "front/views.py",
+            "line": 26,
+            "column": 35
+          }
+        },
+        {
+          "from": "front/views.py#check_log:22:1$v11",
+          "to": "front/views.py#check_log:22:1$v12",
+          "kind": "assign",
+          "loc": {
+            "file": "front/views.py",
+            "line": 26,
+            "column": 5
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "front/views.py#check_log:22:1$c0",
+          "loc": {
+            "file": "front/views.py",
+            "line": 26,
+            "column": 11
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "subprocess.check_output",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "front/views.py#check_log:22:1$v5"
+            },
+            {
+              "index": 1,
+              "valueId": "front/views.py#check_log:22:1$v9"
+            }
+          ],
+          "resultValueId": "front/views.py#check_log:22:1$v11",
+          "block": "front/views.py#check_log:22:1$b0",
+          "method": "check_output",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "shell=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "front/views.py#check_log:22:1$v10"
+        },
+        {
+          "id": "front/views.py#check_log:22:1$c1",
+          "loc": {
+            "file": "front/views.py",
+            "line": 27,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "front/views.py#check_log:22:1$v12"
+            }
+          ],
+          "resultValueId": "front/views.py#check_log:22:1$v13",
+          "block": "front/views.py#check_log:22:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "front/views.py#check_log:22:1$v13"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "front/views.py#check_log:22:1$b0",
+      "blocks": [
+        {
+          "id": "front/views.py#check_log:22:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 22,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "front/views.py#check_log:22:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 27,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "front/views.py#check_ping:30:1",
+      "name": "check_ping",
+      "module": "front/views.py",
+      "loc": {
+        "file": "front/views.py",
+        "line": 30,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "front/views.py#check_ping:30:1$v0"
+        },
+        {
+          "index": 1,
+          "name": "code",
+          "valueId": "front/views.py#check_ping:30:1$v1"
+        },
+        {
+          "index": 2,
+          "name": "n",
+          "valueId": "front/views.py#check_ping:30:1$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "front/views.py#check_ping:30:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "front/views.py",
+            "line": 30,
+            "column": 16
+          },
+          "name": "request"
+        },
+        {
+          "id": "front/views.py#check_ping:30:1$v1",
+          "kind": "param",
+          "loc": {
+            "file": "front/views.py",
+            "line": 30,
+            "column": 25
+          },
+          "name": "code"
+        },
+        {
+          "id": "front/views.py#check_ping:30:1$v2",
+          "kind": "param",
+          "loc": {
+            "file": "front/views.py",
+            "line": 30,
+            "column": 31
+          },
+          "name": "n"
+        },
+        {
+          "id": "front/views.py#check_ping:30:1$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "front/views.py",
+            "line": 32,
+            "column": 25
+          },
+          "name": "str"
+        },
+        {
+          "id": "front/views.py#check_ping:30:1$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "front/views.py",
+            "line": 32,
+            "column": 12
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "front/views.py#check_ping:30:1$c0",
+          "loc": {
+            "file": "front/views.py",
+            "line": 32,
+            "column": 25
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "str",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "front/views.py#check_ping:30:1$v2"
+            }
+          ],
+          "resultValueId": "front/views.py#check_ping:30:1$v3",
+          "block": "front/views.py#check_ping:30:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "front/views.py#check_ping:30:1$c1",
+          "loc": {
+            "file": "front/views.py",
+            "line": 32,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "front/views.py#check_ping:30:1$v3"
+            }
+          ],
+          "resultValueId": "front/views.py#check_ping:30:1$v4",
+          "block": "front/views.py#check_ping:30:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "front/views.py#check_ping:30:1$v4"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "front/views.py#check_ping:30:1$b0",
+      "blocks": [
+        {
+          "id": "front/views.py#check_ping:30:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 30,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "front/views.py#check_ping:30:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 32,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "front/views.py#badge:35:1",
+      "name": "badge",
+      "module": "front/views.py",
+      "loc": {
+        "file": "front/views.py",
+        "line": 35,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "front/views.py#badge:35:1$v0"
+        },
+        {
+          "index": 1,
+          "name": "slug",
+          "valueId": "front/views.py#badge:35:1$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "front/views.py#badge:35:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "front/views.py",
+            "line": 35,
+            "column": 11
+          },
+          "name": "request"
+        },
+        {
+          "id": "front/views.py#badge:35:1$v1",
+          "kind": "param",
+          "loc": {
+            "file": "front/views.py",
+            "line": 35,
+            "column": 20
+          },
+          "name": "slug"
+        },
+        {
+          "id": "front/views.py#badge:35:1$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "front/views.py",
+            "line": 37,
+            "column": 12
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "front/views.py#badge:35:1$c0",
+          "loc": {
+            "file": "front/views.py",
+            "line": 37,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "front/views.py#badge:35:1$v1"
+            }
+          ],
+          "resultValueId": "front/views.py#badge:35:1$v2",
+          "block": "front/views.py#badge:35:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "front/views.py#badge:35:1$v2"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "front/views.py#badge:35:1$b0",
+      "blocks": [
+        {
+          "id": "front/views.py#badge:35:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 35,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "front/views.py#badge:35:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 37,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "front/views.py#get:44:5",
+      "name": "get",
+      "module": "front/views.py",
+      "loc": {
+        "file": "front/views.py",
+        "line": 44,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "front/views.py#get:44:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "request",
+          "valueId": "front/views.py#get:44:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "code",
+          "valueId": "front/views.py#get:44:5$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "front/views.py#get:44:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "front/views.py",
+            "line": 44,
+            "column": 13
+          },
+          "name": "self"
+        },
+        {
+          "id": "front/views.py#get:44:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "front/views.py",
+            "line": 44,
+            "column": 19
+          },
+          "name": "request"
+        },
+        {
+          "id": "front/views.py#get:44:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "front/views.py",
+            "line": 44,
+            "column": 28
+          },
+          "name": "code"
+        },
+        {
+          "id": "front/views.py#get:44:5$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "front/views.py",
+            "line": 46,
+            "column": 16
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "front/views.py#get:44:5$c0",
+          "loc": {
+            "file": "front/views.py",
+            "line": 46,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "front/views.py#get:44:5$v2"
+            }
+          ],
+          "resultValueId": "front/views.py#get:44:5$v3",
+          "block": "front/views.py#get:44:5$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "front/views.py#get:44:5$v3"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "front/views.py#get:44:5$b0",
+      "blocks": [
+        {
+          "id": "front/views.py#get:44:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 44,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "front/views.py#get:44:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 46,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "front/views.py#post:48:5",
+      "name": "post",
+      "module": "front/views.py",
+      "loc": {
+        "file": "front/views.py",
+        "line": 48,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "front/views.py#post:48:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "request",
+          "valueId": "front/views.py#post:48:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "code",
+          "valueId": "front/views.py#post:48:5$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "front/views.py#post:48:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "front/views.py",
+            "line": 48,
+            "column": 14
+          },
+          "name": "self"
+        },
+        {
+          "id": "front/views.py#post:48:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "front/views.py",
+            "line": 48,
+            "column": 20
+          },
+          "name": "request"
+        },
+        {
+          "id": "front/views.py#post:48:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "front/views.py",
+            "line": 48,
+            "column": 29
+          },
+          "name": "code"
+        },
+        {
+          "id": "front/views.py#post:48:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 51,
+            "column": 16
+          },
+          "base": "front/views.py#post:48:5$v1",
+          "path": "POST",
+          "name": "POST"
+        },
+        {
+          "id": "front/views.py#post:48:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 51,
+            "column": 16
+          },
+          "name": "name",
+          "base": "front/views.py#post:48:5$v3",
+          "path": "POST.name"
+        },
+        {
+          "id": "front/views.py#post:48:5$v5",
+          "kind": "local",
+          "loc": {
+            "file": "front/views.py",
+            "line": 51,
+            "column": 9
+          },
+          "name": "name"
+        },
+        {
+          "id": "front/views.py#post:48:5$v6",
+          "kind": "global",
+          "loc": {
+            "file": "front/views.py",
+            "line": 52,
+            "column": 14
+          },
+          "name": "django.db.connection"
+        },
+        {
+          "id": "front/views.py#post:48:5$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "front/views.py",
+            "line": 52,
+            "column": 14
+          },
+          "name": "django.db.connection.cursor"
+        },
+        {
+          "id": "front/views.py#post:48:5$v8",
+          "kind": "local",
+          "loc": {
+            "file": "front/views.py",
+            "line": 52,
+            "column": 9
+          },
+          "name": "cur"
+        },
+        {
+          "id": "front/views.py#post:48:5$v9",
+          "kind": "local",
+          "loc": {
+            "file": "front/views.py",
+            "line": 53,
+            "column": 25
+          },
+          "name": "concat"
+        },
+        {
+          "id": "front/views.py#post:48:5$v10",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 53,
+            "column": 25
+          },
+          "literal": "UPDATE checks SET name = '%s' WHERE code = '%s'"
+        },
+        {
+          "id": "front/views.py#post:48:5$v11",
+          "kind": "local",
+          "loc": {
+            "file": "front/views.py",
+            "line": 53,
+            "column": 77
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "front/views.py#post:48:5$v12",
+          "kind": "call-result",
+          "loc": {
+            "file": "front/views.py",
+            "line": 53,
+            "column": 13
+          },
+          "name": "cur.execute"
+        },
+        {
+          "id": "front/views.py#post:48:5$v13",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 54,
+            "column": 29
+          },
+          "literal": "ok"
+        },
+        {
+          "id": "front/views.py#post:48:5$v14",
+          "kind": "call-result",
+          "loc": {
+            "file": "front/views.py",
+            "line": 54,
+            "column": 16
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "front/views.py#post:48:5$v1",
+          "to": "front/views.py#post:48:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 51,
+            "column": 16
+          }
+        },
+        {
+          "from": "front/views.py#post:48:5$v3",
+          "to": "front/views.py#post:48:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 51,
+            "column": 16
+          }
+        },
+        {
+          "from": "front/views.py#post:48:5$v4",
+          "to": "front/views.py#post:48:5$v5",
+          "kind": "assign",
+          "loc": {
+            "file": "front/views.py",
+            "line": 51,
+            "column": 9
+          }
+        },
+        {
+          "from": "front/views.py#post:48:5$v7",
+          "to": "front/views.py#post:48:5$v8",
+          "kind": "assign",
+          "loc": {
+            "file": "front/views.py",
+            "line": 52,
+            "column": 9
+          }
+        },
+        {
+          "from": "front/views.py#post:48:5$v10",
+          "to": "front/views.py#post:48:5$v9",
+          "kind": "binary",
+          "loc": {
+            "file": "front/views.py",
+            "line": 53,
+            "column": 25
+          }
+        },
+        {
+          "from": "front/views.py#post:48:5$v5",
+          "to": "front/views.py#post:48:5$v11",
+          "kind": "enclose",
+          "loc": {
+            "file": "front/views.py",
+            "line": 53,
+            "column": 77
+          }
+        },
+        {
+          "from": "front/views.py#post:48:5$v2",
+          "to": "front/views.py#post:48:5$v11",
+          "kind": "enclose",
+          "loc": {
+            "file": "front/views.py",
+            "line": 53,
+            "column": 77
+          }
+        },
+        {
+          "from": "front/views.py#post:48:5$v11",
+          "to": "front/views.py#post:48:5$v9",
+          "kind": "binary",
+          "loc": {
+            "file": "front/views.py",
+            "line": 53,
+            "column": 25
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "front/views.py#post:48:5$c0",
+          "loc": {
+            "file": "front/views.py",
+            "line": 52,
+            "column": 14
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.db.connection.cursor",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "front/views.py#post:48:5$v7",
+          "block": "front/views.py#post:48:5$b0",
+          "method": "cursor",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "front/views.py#post:48:5$v6"
+        },
+        {
+          "id": "front/views.py#post:48:5$c1",
+          "loc": {
+            "file": "front/views.py",
+            "line": 53,
+            "column": 13
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cur.execute",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "front/views.py#post:48:5$v9"
+            }
+          ],
+          "resultValueId": "front/views.py#post:48:5$v12",
+          "block": "front/views.py#post:48:5$b0",
+          "method": "execute",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "front/views.py#post:48:5$v8"
+        },
+        {
+          "id": "front/views.py#post:48:5$c2",
+          "loc": {
+            "file": "front/views.py",
+            "line": 54,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "front/views.py#post:48:5$v13"
+            }
+          ],
+          "resultValueId": "front/views.py#post:48:5$v14",
+          "block": "front/views.py#post:48:5$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "ok"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "front/views.py#post:48:5$v14"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "front/views.py#post:48:5$b0",
+      "blocks": [
+        {
+          "id": "front/views.py#post:48:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 48,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "front/views.py#post:48:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 54,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "front/views.py#get_queryset:61:5",
+      "name": "get_queryset",
+      "module": "front/views.py",
+      "loc": {
+        "file": "front/views.py",
+        "line": 61,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "front/views.py#get_queryset:61:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "front/views.py#get_queryset:61:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "front/views.py",
+            "line": 61,
+            "column": 22
+          },
+          "name": "self"
+        },
+        {
+          "id": "front/views.py#get_queryset:61:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 64,
+            "column": 43
+          },
+          "base": "front/views.py#get_queryset:61:5$v0",
+          "path": "request.user",
+          "name": "request.user"
+        },
+        {
+          "id": "front/views.py#get_queryset:61:5$v2",
+          "kind": "global",
+          "loc": {
+            "file": "front/views.py",
+            "line": 64,
+            "column": 16
+          },
+          "name": "front.models.Check"
+        },
+        {
+          "id": "front/views.py#get_queryset:61:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 64,
+            "column": 16
+          },
+          "base": "front/views.py#get_queryset:61:5$v2",
+          "path": "objects",
+          "name": "objects"
+        },
+        {
+          "id": "front/views.py#get_queryset:61:5$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "front/views.py",
+            "line": 64,
+            "column": 16
+          },
+          "name": "front.models.Check.objects.filter"
+        }
+      ],
+      "flows": [
+        {
+          "from": "front/views.py#get_queryset:61:5$v0",
+          "to": "front/views.py#get_queryset:61:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 64,
+            "column": 43
+          }
+        },
+        {
+          "from": "front/views.py#get_queryset:61:5$v2",
+          "to": "front/views.py#get_queryset:61:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 64,
+            "column": 16
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "front/views.py#get_queryset:61:5$c0",
+          "loc": {
+            "file": "front/views.py",
+            "line": 64,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "front.models.Check.objects.filter",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "front/views.py#get_queryset:61:5$v1"
+            }
+          ],
+          "resultValueId": "front/views.py#get_queryset:61:5$v4",
+          "block": "front/views.py#get_queryset:61:5$b0",
+          "method": "filter",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "owner=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "front/views.py#get_queryset:61:5$v3"
+        }
+      ],
+      "returns": [
+        "front/views.py#get_queryset:61:5$v4"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "front/views.py#get_queryset:61:5$b0",
+      "blocks": [
+        {
+          "id": "front/views.py#get_queryset:61:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 61,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "front/views.py#get_queryset:61:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 64,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "front/views.py#list:66:5",
+      "name": "list",
+      "module": "front/views.py",
+      "loc": {
+        "file": "front/views.py",
+        "line": 66,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "front/views.py#list:66:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "request",
+          "valueId": "front/views.py#list:66:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "front/views.py#list:66:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "front/views.py",
+            "line": 66,
+            "column": 14
+          },
+          "name": "self"
+        },
+        {
+          "id": "front/views.py#list:66:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "front/views.py",
+            "line": 66,
+            "column": 20
+          },
+          "name": "request"
+        },
+        {
+          "id": "front/views.py#list:66:5$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 68,
+            "column": 29
+          },
+          "literal": "[]"
+        },
+        {
+          "id": "front/views.py#list:66:5$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "front/views.py",
+            "line": 68,
+            "column": 16
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "front/views.py#list:66:5$c0",
+          "loc": {
+            "file": "front/views.py",
+            "line": 68,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "front/views.py#list:66:5$v2"
+            }
+          ],
+          "resultValueId": "front/views.py#list:66:5$v3",
+          "block": "front/views.py#list:66:5$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "[]"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "front/views.py#list:66:5$v3"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "front/views.py#list:66:5$b0",
+      "blocks": [
+        {
+          "id": "front/views.py#list:66:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 66,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "front/views.py#list:66:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 68,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "front/views.py#create:70:5",
+      "name": "create",
+      "module": "front/views.py",
+      "loc": {
+        "file": "front/views.py",
+        "line": 70,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "front/views.py#create:70:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "request",
+          "valueId": "front/views.py#create:70:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "front/views.py#create:70:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "front/views.py",
+            "line": 70,
+            "column": 16
+          },
+          "name": "self"
+        },
+        {
+          "id": "front/views.py#create:70:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "front/views.py",
+            "line": 70,
+            "column": 22
+          },
+          "name": "request"
+        },
+        {
+          "id": "front/views.py#create:70:5$v2",
+          "kind": "global",
+          "loc": {
+            "file": "front/views.py",
+            "line": 73,
+            "column": 14
+          },
+          "name": "django.db.connection"
+        },
+        {
+          "id": "front/views.py#create:70:5$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "front/views.py",
+            "line": 73,
+            "column": 14
+          },
+          "name": "django.db.connection.cursor"
+        },
+        {
+          "id": "front/views.py#create:70:5$v4",
+          "kind": "local",
+          "loc": {
+            "file": "front/views.py",
+            "line": 73,
+            "column": 9
+          },
+          "name": "cur"
+        },
+        {
+          "id": "front/views.py#create:70:5$v5",
+          "kind": "local",
+          "loc": {
+            "file": "front/views.py",
+            "line": 74,
+            "column": 25
+          },
+          "name": "concat"
+        },
+        {
+          "id": "front/views.py#create:70:5$v6",
+          "kind": "local",
+          "loc": {
+            "file": "front/views.py",
+            "line": 74,
+            "column": 25
+          },
+          "name": "concat"
+        },
+        {
+          "id": "front/views.py#create:70:5$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 74,
+            "column": 25
+          },
+          "literal": "INSERT INTO checks (name) VALUES ('"
+        },
+        {
+          "id": "front/views.py#create:70:5$v8",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 74,
+            "column": 65
+          },
+          "base": "front/views.py#create:70:5$v1",
+          "path": "POST",
+          "name": "POST"
+        },
+        {
+          "id": "front/views.py#create:70:5$v9",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 74,
+            "column": 65
+          },
+          "name": "name",
+          "base": "front/views.py#create:70:5$v8",
+          "path": "POST.name"
+        },
+        {
+          "id": "front/views.py#create:70:5$v10",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 74,
+            "column": 88
+          },
+          "literal": "')"
+        },
+        {
+          "id": "front/views.py#create:70:5$v11",
+          "kind": "call-result",
+          "loc": {
+            "file": "front/views.py",
+            "line": 74,
+            "column": 13
+          },
+          "name": "cur.execute"
+        },
+        {
+          "id": "front/views.py#create:70:5$v12",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 75,
+            "column": 29
+          },
+          "literal": "ok"
+        },
+        {
+          "id": "front/views.py#create:70:5$v13",
+          "kind": "call-result",
+          "loc": {
+            "file": "front/views.py",
+            "line": 75,
+            "column": 16
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "front/views.py#create:70:5$v3",
+          "to": "front/views.py#create:70:5$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "front/views.py",
+            "line": 73,
+            "column": 9
+          }
+        },
+        {
+          "from": "front/views.py#create:70:5$v7",
+          "to": "front/views.py#create:70:5$v6",
+          "kind": "binary",
+          "loc": {
+            "file": "front/views.py",
+            "line": 74,
+            "column": 25
+          }
+        },
+        {
+          "from": "front/views.py#create:70:5$v1",
+          "to": "front/views.py#create:70:5$v8",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 74,
+            "column": 65
+          }
+        },
+        {
+          "from": "front/views.py#create:70:5$v8",
+          "to": "front/views.py#create:70:5$v9",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 74,
+            "column": 65
+          }
+        },
+        {
+          "from": "front/views.py#create:70:5$v9",
+          "to": "front/views.py#create:70:5$v6",
+          "kind": "binary",
+          "loc": {
+            "file": "front/views.py",
+            "line": 74,
+            "column": 25
+          }
+        },
+        {
+          "from": "front/views.py#create:70:5$v6",
+          "to": "front/views.py#create:70:5$v5",
+          "kind": "binary",
+          "loc": {
+            "file": "front/views.py",
+            "line": 74,
+            "column": 25
+          }
+        },
+        {
+          "from": "front/views.py#create:70:5$v10",
+          "to": "front/views.py#create:70:5$v5",
+          "kind": "binary",
+          "loc": {
+            "file": "front/views.py",
+            "line": 74,
+            "column": 25
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "front/views.py#create:70:5$c0",
+          "loc": {
+            "file": "front/views.py",
+            "line": 73,
+            "column": 14
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.db.connection.cursor",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "front/views.py#create:70:5$v3",
+          "block": "front/views.py#create:70:5$b0",
+          "method": "cursor",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "front/views.py#create:70:5$v2"
+        },
+        {
+          "id": "front/views.py#create:70:5$c1",
+          "loc": {
+            "file": "front/views.py",
+            "line": 74,
+            "column": 13
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cur.execute",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "front/views.py#create:70:5$v5"
+            }
+          ],
+          "resultValueId": "front/views.py#create:70:5$v11",
+          "block": "front/views.py#create:70:5$b0",
+          "method": "execute",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "front/views.py#create:70:5$v4"
+        },
+        {
+          "id": "front/views.py#create:70:5$c2",
+          "loc": {
+            "file": "front/views.py",
+            "line": 75,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "front/views.py#create:70:5$v12"
+            }
+          ],
+          "resultValueId": "front/views.py#create:70:5$v13",
+          "block": "front/views.py#create:70:5$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "ok"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "front/views.py#create:70:5$v13"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "front/views.py#create:70:5$b0",
+      "blocks": [
+        {
+          "id": "front/views.py#create:70:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 70,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "front/views.py#create:70:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 75,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "tests/test_urls.py#<module>:0:0",
+      "name": "<module>",
+      "module": "tests/test_urls.py",
+      "loc": {
+        "file": "tests/test_urls.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "tests/test_urls.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "tests/test_urls.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "NEGATIVE. A test's URLconf is not the application's attack surface.\n\n`override_settings(ROOT_URLCONF=...)` is how a Django test mounts a handler of its own,\nand a route that exists only in a test does not exist in the program that is deployed.\n"
+        },
+        {
+          "id": "tests/test_urls.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "tests/test_urls.py",
+            "line": 10,
+            "column": 15
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "tests/test_urls.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "tests/test_urls.py",
+            "line": 11,
+            "column": 10
+          },
+          "literal": "test-only/"
+        },
+        {
+          "id": "tests/test_urls.py#<module>:0:0$v3",
+          "kind": "global",
+          "loc": {
+            "file": "tests/test_urls.py",
+            "line": 11,
+            "column": 24
+          },
+          "name": "front.views"
+        },
+        {
+          "id": "tests/test_urls.py#<module>:0:0$v4",
+          "kind": "property",
+          "loc": {
+            "file": "tests/test_urls.py",
+            "line": 11,
+            "column": 24
+          },
+          "base": "tests/test_urls.py#<module>:0:0$v3",
+          "path": "check_log",
+          "name": "check_log"
+        },
+        {
+          "id": "tests/test_urls.py#<module>:0:0$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "tests/test_urls.py",
+            "line": 11,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "tests/test_urls.py#<module>:0:0$v6",
+          "kind": "local",
+          "loc": {
+            "file": "tests/test_urls.py",
+            "line": 10,
+            "column": 1
+          },
+          "name": "urlpatterns"
+        }
+      ],
+      "flows": [
+        {
+          "from": "tests/test_urls.py#<module>:0:0$v3",
+          "to": "tests/test_urls.py#<module>:0:0$v4",
+          "kind": "property",
+          "loc": {
+            "file": "tests/test_urls.py",
+            "line": 11,
+            "column": 24
+          }
+        },
+        {
+          "from": "tests/test_urls.py#<module>:0:0$v5",
+          "to": "tests/test_urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "tests/test_urls.py",
+            "line": 10,
+            "column": 15
+          }
+        },
+        {
+          "from": "tests/test_urls.py#<module>:0:0$v1",
+          "to": "tests/test_urls.py#<module>:0:0$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "tests/test_urls.py",
+            "line": 10,
+            "column": 1
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "tests/test_urls.py#<module>:0:0$c0",
+          "loc": {
+            "file": "tests/test_urls.py",
+            "line": 11,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "tests/test_urls.py#<module>:0:0$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "tests/test_urls.py#<module>:0:0$v4"
+            }
+          ],
+          "resultValueId": "tests/test_urls.py#<module>:0:0$v5",
+          "block": "tests/test_urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "test-only/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "tests/test_urls.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "tests/test_urls.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "tests/test_urls.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "urls.py#<module>:0:0",
+      "name": "<module>",
+      "module": "urls.py",
+      "loc": {
+        "file": "urls.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "urls.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "Django registers a route by CALL, inside a list, in a file the handler knows nothing\nabout.\n\nA frontend that knew Flask, FastAPI and aiohttp enumerated ZERO entry points of a\n3,395-function Django application whose source holds 178 registrations -- and a surface\nwith no entry points reads exactly like a surface with nothing to say. Everything inside\nthose handlers was invisible, and every finding the engine did produce about that\napplication came from a rule that needs no entry point at all.\n\nEvery shape below is one that applications actually write: a function view, a class\ndispatched by verb, a URLconf mounted from another module under a prefix, a list mounted\nunder a prefix in this same file, a path converter, a regex with a named group, and a\nrouter that turns one line into six routes.\n"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v1",
+          "kind": "global",
+          "loc": {
+            "file": "urls.py",
+            "line": 21,
+            "column": 10
+          },
+          "name": "rest_framework.routers"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 21,
+            "column": 10
+          },
+          "name": "rest_framework.routers.DefaultRouter"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v3",
+          "kind": "local",
+          "loc": {
+            "file": "urls.py",
+            "line": 21,
+            "column": 1
+          },
+          "name": "router"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 24,
+            "column": 17
+          },
+          "literal": "checks"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v5",
+          "kind": "global",
+          "loc": {
+            "file": "urls.py",
+            "line": 24,
+            "column": 27
+          },
+          "name": "front.views"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v6",
+          "kind": "property",
+          "loc": {
+            "file": "urls.py",
+            "line": 24,
+            "column": 27
+          },
+          "base": "urls.py#<module>:0:0$v5",
+          "path": "CheckViewSet",
+          "name": "CheckViewSet"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 24,
+            "column": 1
+          },
+          "name": "router.register"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v8",
+          "kind": "local",
+          "loc": {
+            "file": "urls.py",
+            "line": 29,
+            "column": 15
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 30,
+            "column": 10
+          },
+          "literal": "log/"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v10",
+          "kind": "property",
+          "loc": {
+            "file": "urls.py",
+            "line": 30,
+            "column": 18
+          },
+          "base": "urls.py#<module>:0:0$v5",
+          "path": "check_log",
+          "name": "check_log"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v11",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 30,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v12",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 31,
+            "column": 10
+          },
+          "literal": "ping/<int:n>/"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v13",
+          "kind": "property",
+          "loc": {
+            "file": "urls.py",
+            "line": 31,
+            "column": 27
+          },
+          "base": "urls.py#<module>:0:0$v5",
+          "path": "check_ping",
+          "name": "check_ping"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v14",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 31,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v15",
+          "kind": "local",
+          "loc": {
+            "file": "urls.py",
+            "line": 29,
+            "column": 1
+          },
+          "name": "detail_urls"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v16",
+          "kind": "local",
+          "loc": {
+            "file": "urls.py",
+            "line": 34,
+            "column": 15
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v17",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 35,
+            "column": 10
+          },
+          "literal": ""
+        },
+        {
+          "id": "urls.py#<module>:0:0$v18",
+          "kind": "property",
+          "loc": {
+            "file": "urls.py",
+            "line": 35,
+            "column": 14
+          },
+          "base": "urls.py#<module>:0:0$v5",
+          "path": "index",
+          "name": "index"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v19",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 35,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v20",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 36,
+            "column": 10
+          },
+          "literal": "checks/<uuid:code>/"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v21",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 36,
+            "column": 33
+          },
+          "name": "django.urls.include"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v22",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 36,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v23",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 39,
+            "column": 10
+          },
+          "literal": "checks/<uuid:code>/edit/"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v24",
+          "kind": "property",
+          "loc": {
+            "file": "urls.py",
+            "line": 39,
+            "column": 38
+          },
+          "base": "urls.py#<module>:0:0$v5",
+          "path": "CheckEdit",
+          "name": "CheckEdit"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v25",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 39,
+            "column": 38
+          },
+          "name": "front.views.CheckEdit.as_view"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v26",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 39,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v27",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 40,
+            "column": 13
+          },
+          "literal": "^badge/(?P<slug>[\\w-]+)/$"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v28",
+          "kind": "property",
+          "loc": {
+            "file": "urls.py",
+            "line": 40,
+            "column": 43
+          },
+          "base": "urls.py#<module>:0:0$v5",
+          "path": "badge",
+          "name": "badge"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v29",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 40,
+            "column": 5
+          },
+          "name": "django.urls.re_path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v30",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 41,
+            "column": 10
+          },
+          "literal": "api/v3/"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v31",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 41,
+            "column": 29
+          },
+          "literal": "api.urls"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v32",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 41,
+            "column": 21
+          },
+          "name": "django.urls.include"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v33",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 41,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v34",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 42,
+            "column": 10
+          },
+          "literal": "api/"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v35",
+          "kind": "property",
+          "loc": {
+            "file": "urls.py",
+            "line": 42,
+            "column": 26
+          },
+          "base": "urls.py#<module>:0:0$v3",
+          "path": "urls",
+          "name": "urls"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v36",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 42,
+            "column": 18
+          },
+          "name": "django.urls.include"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v37",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 42,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v38",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 47,
+            "column": 9
+          },
+          "literal": "^legacy/$"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v39",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 47,
+            "column": 23
+          },
+          "literal": "front.views.legacy"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v40",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 47,
+            "column": 5
+          },
+          "name": "django.conf.urls.url"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v41",
+          "kind": "local",
+          "loc": {
+            "file": "urls.py",
+            "line": 34,
+            "column": 1
+          },
+          "name": "urlpatterns"
+        }
+      ],
+      "flows": [
+        {
+          "from": "urls.py#<module>:0:0$v2",
+          "to": "urls.py#<module>:0:0$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "urls.py",
+            "line": 21,
+            "column": 1
+          }
+        },
+        {
+          "from": "urls.py#<module>:0:0$v5",
+          "to": "urls.py#<module>:0:0$v6",
+          "kind": "property",
+          "loc": {
+            "file": "urls.py",
+            "line": 24,
+            "column": 27
+          }
+        },
+        {
+          "from": "urls.py#<module>:0:0$v5",
+          "to": "urls.py#<module>:0:0$v10",
+          "kind": "property",
+          "loc": {
+            "file": "urls.py",
+            "line": 30,
+            "column": 18
+          }
+        },
+        {
+          "from": "urls.py#<module>:0:0$v11",
+          "to": "urls.py#<module>:0:0$v8",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 29,
+            "column": 15
+          }
+        },
+        {
+          "from": "urls.py#<module>:0:0$v5",
+          "to": "urls.py#<module>:0:0$v13",
+          "kind": "property",
+          "loc": {
+            "file": "urls.py",
+            "line": 31,
+            "column": 27
+          }
+        },
+        {
+          "from": "urls.py#<module>:0:0$v14",
+          "to": "urls.py#<module>:0:0$v8",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 29,
+            "column": 15
+          }
+        },
+        {
+          "from": "urls.py#<module>:0:0$v8",
+          "to": "urls.py#<module>:0:0$v15",
+          "kind": "assign",
+          "loc": {
+            "file": "urls.py",
+            "line": 29,
+            "column": 1
+          }
+        },
+        {
+          "from": "urls.py#<module>:0:0$v5",
+          "to": "urls.py#<module>:0:0$v18",
+          "kind": "property",
+          "loc": {
+            "file": "urls.py",
+            "line": 35,
+            "column": 14
+          }
+        },
+        {
+          "from": "urls.py#<module>:0:0$v19",
+          "to": "urls.py#<module>:0:0$v16",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 34,
+            "column": 15
+          }
+        },
+        {
+          "from": "urls.py#<module>:0:0$v22",
+          "to": "urls.py#<module>:0:0$v16",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 34,
+            "column": 15
+          }
+        },
+        {
+          "from": "urls.py#<module>:0:0$v5",
+          "to": "urls.py#<module>:0:0$v24",
+          "kind": "property",
+          "loc": {
+            "file": "urls.py",
+            "line": 39,
+            "column": 38
+          }
+        },
+        {
+          "from": "urls.py#<module>:0:0$v26",
+          "to": "urls.py#<module>:0:0$v16",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 34,
+            "column": 15
+          }
+        },
+        {
+          "from": "urls.py#<module>:0:0$v5",
+          "to": "urls.py#<module>:0:0$v28",
+          "kind": "property",
+          "loc": {
+            "file": "urls.py",
+            "line": 40,
+            "column": 43
+          }
+        },
+        {
+          "from": "urls.py#<module>:0:0$v29",
+          "to": "urls.py#<module>:0:0$v16",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 34,
+            "column": 15
+          }
+        },
+        {
+          "from": "urls.py#<module>:0:0$v33",
+          "to": "urls.py#<module>:0:0$v16",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 34,
+            "column": 15
+          }
+        },
+        {
+          "from": "urls.py#<module>:0:0$v3",
+          "to": "urls.py#<module>:0:0$v35",
+          "kind": "property",
+          "loc": {
+            "file": "urls.py",
+            "line": 42,
+            "column": 26
+          }
+        },
+        {
+          "from": "urls.py#<module>:0:0$v37",
+          "to": "urls.py#<module>:0:0$v16",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 34,
+            "column": 15
+          }
+        },
+        {
+          "from": "urls.py#<module>:0:0$v40",
+          "to": "urls.py#<module>:0:0$v16",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 34,
+            "column": 15
+          }
+        },
+        {
+          "from": "urls.py#<module>:0:0$v16",
+          "to": "urls.py#<module>:0:0$v41",
+          "kind": "assign",
+          "loc": {
+            "file": "urls.py",
+            "line": 34,
+            "column": 1
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "urls.py#<module>:0:0$c0",
+          "loc": {
+            "file": "urls.py",
+            "line": 21,
+            "column": 10
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "rest_framework.routers.DefaultRouter",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "urls.py#<module>:0:0$v2",
+          "block": "urls.py#<module>:0:0$b0",
+          "method": "DefaultRouter",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "urls.py#<module>:0:0$v1"
+        },
+        {
+          "id": "urls.py#<module>:0:0$c1",
+          "loc": {
+            "file": "urls.py",
+            "line": 24,
+            "column": 1
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "router.register",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v4"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v6"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v7",
+          "block": "urls.py#<module>:0:0$b0",
+          "method": "register",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "checks"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "urls.py#<module>:0:0$v3"
+        },
+        {
+          "id": "urls.py#<module>:0:0$c2",
+          "loc": {
+            "file": "urls.py",
+            "line": 30,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v9"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v10"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v11",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "log/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c3",
+          "loc": {
+            "file": "urls.py",
+            "line": 31,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v12"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v13"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v14",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "ping/<int:n>/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c4",
+          "loc": {
+            "file": "urls.py",
+            "line": 35,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v17"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v18"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v19",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": ""
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c5",
+          "loc": {
+            "file": "urls.py",
+            "line": 36,
+            "column": 33
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.include",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v15"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v21",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c6",
+          "loc": {
+            "file": "urls.py",
+            "line": 36,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v20"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v21"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v22",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "checks/<uuid:code>/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c7",
+          "loc": {
+            "file": "urls.py",
+            "line": 39,
+            "column": 38
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "front.views.CheckEdit.as_view",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "urls.py#<module>:0:0$v25",
+          "block": "urls.py#<module>:0:0$b0",
+          "method": "as_view",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "urls.py#<module>:0:0$v24"
+        },
+        {
+          "id": "urls.py#<module>:0:0$c8",
+          "loc": {
+            "file": "urls.py",
+            "line": 39,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v23"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v25"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v26",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "checks/<uuid:code>/edit/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c9",
+          "loc": {
+            "file": "urls.py",
+            "line": 40,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.re_path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v27"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v28"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v29",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "^badge/(?P<slug>[\\w-]+)/$"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c10",
+          "loc": {
+            "file": "urls.py",
+            "line": 41,
+            "column": 21
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.include",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v31"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v32",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "api.urls"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c11",
+          "loc": {
+            "file": "urls.py",
+            "line": 41,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v30"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v32"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v33",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "api/v3/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c12",
+          "loc": {
+            "file": "urls.py",
+            "line": 42,
+            "column": 18
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.include",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v35"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v36",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c13",
+          "loc": {
+            "file": "urls.py",
+            "line": 42,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v34"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v36"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v37",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "api/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c14",
+          "loc": {
+            "file": "urls.py",
+            "line": 47,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.conf.urls.url",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v38"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v39"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v40",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "^legacy/$",
+            "1": "front.views.legacy"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "urls.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "urls.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "urls.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "api/views.py#checks:7:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/api/v3/checks/"
+      }
+    },
+    {
+      "functionId": "api/views.py#flips:12:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/api/v3/checks/:code/flips/"
+      }
+    },
+    {
+      "functionId": "api/views.py#ping:19:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/api/v3/ping/:code/:n"
+      }
+    },
+    {
+      "functionId": "front/views.py#check_log:22:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/checks/:code/log/"
+      }
+    },
+    {
+      "functionId": "front/views.py#check_ping:30:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/checks/:code/ping/:n/"
+      }
+    },
+    {
+      "functionId": "front/views.py#index:17:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/"
+      }
+    },
+    {
+      "functionId": "front/views.py#get:44:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "GET",
+        "path": "/checks/:code/edit/"
+      }
+    },
+    {
+      "functionId": "front/views.py#post:48:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "POST",
+        "path": "/checks/:code/edit/"
+      }
+    },
+    {
+      "functionId": "front/views.py#badge:35:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/badge/:slug/"
+      }
+    },
+    {
+      "functionId": "front/views.py#list:66:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "GET",
+        "path": "/api/checks/"
+      }
+    },
+    {
+      "functionId": "front/views.py#create:70:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "POST",
+        "path": "/api/checks/"
+      }
+    },
+    {
+      "functionId": "front/views.py#get_queryset:61:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "GET",
+        "path": "/api/checks/:pk/"
+      }
+    },
+    {
+      "functionId": "front/views.py#get_queryset:61:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "PUT",
+        "path": "/api/checks/:pk/"
+      }
+    },
+    {
+      "functionId": "front/views.py#get_queryset:61:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "PATCH",
+        "path": "/api/checks/:pk/"
+      }
+    },
+    {
+      "functionId": "front/views.py#get_queryset:61:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "DELETE",
+        "path": "/api/checks/:pk/"
+      }
+    }
+  ]
+}

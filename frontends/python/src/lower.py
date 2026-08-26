@@ -52,6 +52,46 @@ PYTHON_BUILTINS = frozenset({
 BUILTIN_CONTAINERS = frozenset({"dict", "list", "set", "frozenset", "bytearray", "tuple", "Counter", "defaultdict", "OrderedDict"})
 
 
+# --- Django URLconf ---------------------------------------------------------
+#
+# Django registers a route by CALL, inside a list, in a file the handler knows nothing
+# about. Recognised by SHAPE and never by file name: `urls.py` is a convention and an
+# application is free to put a URLconf anywhere, so the registration itself is the only
+# thing that can identify one.
+
+# `path` and `re_path` from `django.urls`, plus the `url` of `django.conf.urls`, which is
+# what every application written before Django 2.0 still spells its routes with.
+DJANGO_REGISTRARS = frozenset({"path", "re_path", "url"})
+
+# `<int:pk>`, `<slug:name>` and the bare `<pk>` are one parameter written three ways.
+# `:pk` is the spelling every other framework model in this engine emits, so a Django
+# route and an Express route can be read by the same eye.
+DJANGO_CONVERTER = re.compile(r"<(?:[^<>:]+:)?([^<>:]+)>")
+
+# The verb a class-based view answers by naming a method after it. Django dispatches
+# `get` to GET exactly as Flask does, so one `as_view()` in a URLconf stands for as many
+# routes as the class has verbs -- and the class is where they are, not the URLconf.
+DJANGO_VERB_METHODS = ("get", "post", "put", "patch", "delete", "head", "options")
+
+# What a class exposes to a request when it names no method after a verb or an action. A
+# TemplateView subclass defines `get_context_data` and nothing else and answers every GET
+# all the same; pointing the route at the hook is the difference between a handler that is
+# in the surface and a class that is nowhere in it (ADR-009).
+DJANGO_HOOKS = ("dispatch", "get_context_data", "form_valid", "get_queryset", "get_object",
+                "perform_create")
+
+# What `router.register("checks", CheckViewSet)` becomes. One line of a Django REST
+# Framework router is six routes, and the viewset carries a method for each of them.
+DRF_ROUTES = (
+    ("GET", "/", "list"),
+    ("POST", "/", "create"),
+    ("GET", "/<pk>/", "retrieve"),
+    ("PUT", "/<pk>/", "update"),
+    ("PATCH", "/<pk>/", "partial_update"),
+    ("DELETE", "/<pk>/", "destroy"),
+)
+
+
 # Python test-file conventions.
 TEST_PATH = re.compile(r"(^|/)(tests?|testing|e2e)/|(^|/)test_[^/]*\.py$|_test\.py$|(^|/)conftest\.py$")
 
@@ -102,17 +142,148 @@ def loc_of(module: str, node: ast.AST) -> dict:
     }
 
 
+def dotted_module(module: str) -> str:
+    """The name an importer writes for a module id."""
+    return module[:-3].replace("/", ".") if module.endswith(".py") else module
+
+
+def django_route_text(node: ast.AST) -> str | None:
+    """The literal part of a route, which is all of it except where a setting is in it.
+
+    A root URLconf that mounts everything under `f"{prefix}admin/"` writes the prefix as an
+    f-string over a setting no frontend without an evaluator will ever read. The STATIC
+    text is still the route for every deployment that leaves the setting at its default,
+    so it is kept: the cost is a prefix that may be wrong, and the alternative was the
+    route not existing at all (ADR-009).
+    """
+    if isinstance(node, ast.Constant):
+        return _django_unanchored(node.value) if isinstance(node.value, str) else None
+    if isinstance(node, ast.JoinedStr):
+        return _django_unanchored("".join(
+            part.value for part in node.values
+            if isinstance(part, ast.Constant) and isinstance(part.value, str)))
+    return None
+
+
+def _django_unanchored(route: str) -> str:
+    """A regex route without its anchors, which are position rather than path.
+
+    Stripped from each FRAGMENT rather than from the finished path: a mounted URLconf
+    anchors its own patterns, and `api/v3/` composed with `^ping/$` puts the caret in the
+    middle of the path where nothing would ever remove it.
+    """
+    if route.startswith("^"):
+        route = route[1:]
+    if route.endswith("$"):
+        route = route[:-1]
+    return route
+
+
+def django_included(node: ast.AST) -> ast.AST | None:
+    """The URLconf an `include(...)` names, or None when this is not one.
+
+    `include("hc.api.urls")`, `include(check_urls)`, `include(router.urls)` and
+    `include((patterns, "app"))` are one registration wearing four different clothes.
+    """
+    if not isinstance(node, ast.Call):
+        return None
+    name = node.func.id if isinstance(node.func, ast.Name) else getattr(node.func, "attr", "")
+    if name != "include" or not node.args:
+        return None
+    first = node.args[0]
+    if isinstance(first, ast.Tuple) and first.elts:
+        # `include((patterns, "app_namespace"))`. A namespace names the route and is not
+        # part of its path.
+        return first.elts[0]
+    return first
+
+
+def django_local_name(node: ast.AST | None) -> str | None:
+    """The name of a URLconf defined in this same file, out of what `include` was given."""
+    if isinstance(node, ast.Name):
+        return node.id
+    # `include(router.urls)` -- a DRF router is a list of routes wearing a property.
+    if isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name):
+        return node.value.id
+    return None
+
+
+def django_route_path(route: str) -> str:
+    """A Django route written as the path the rest of the engine reads.
+
+    `<int:pk>` and `(?P<pk>[0-9]+)` are the same parameter written for the two registrars,
+    and both become `:pk`. The rest of a pattern is left exactly as it was written, because
+    rewriting a regex into a path is guesswork and a path that is wrong is worse than one
+    that is ugly.
+    """
+    route = _django_named_groups(route)
+    route = DJANGO_CONVERTER.sub(r":\1", route)
+    # Django routes are written without a leading slash: the mount point supplies it.
+    return "/" + route.lstrip("/")
+
+
+def _django_named_groups(pattern: str) -> str:
+    """`(?P<code>[\\w-]+)` -> `:code`, by matching the group's own parentheses.
+
+    Counted rather than matched with a regex of our own: a named group holds parentheses
+    of its own routinely -- `(?P<code>(a|b))` -- and a non-greedy match ends the parameter
+    in the middle of it, which puts regex punctuation into the middle of a path.
+    """
+    out: list[str] = []
+    i = 0
+    while i < len(pattern):
+        if not pattern.startswith("(?P<", i):
+            out.append(pattern[i])
+            i += 1
+            continue
+        close = pattern.find(">", i)
+        if close < 0:
+            out.append(pattern[i])
+            i += 1
+            continue
+        out.append(f":{pattern[i + 4:close]}")
+        depth, i = 1, close + 1
+        while i < len(pattern) and depth:
+            if pattern[i] == "\\":
+                i += 1
+            elif pattern[i] == "(":
+                depth += 1
+            elif pattern[i] == ")":
+                depth -= 1
+            i += 1
+    return "".join(out)
+
+
+def django_entry_point(function_id: str, method: str, path: str) -> dict:
+    return {
+        "functionId": function_id,
+        "kind": "http-route",
+        "framework": "django",
+        "detail": {"method": method, "path": path},
+    }
+
+
 class ModuleLowerer:
     """Lowers one module. Imports and module-level defs are resolved by name."""
 
     def __init__(self, root: str, path: str, tree: ast.Module, defs: dict[str, str],
-                 templates: dict | None = None, resource_paths: dict[str, str] | None = None):
+                 templates: dict | None = None, resource_paths: dict[str, str] | None = None,
+                 django_prefixes: dict[str, str] | None = None,
+                 class_members: dict[str, dict[str, str]] | None = None):
         self.module = module_id(root, path)
         # Every view under the root, read once for the whole program.
         self.templates = templates or {}
         self.tree = tree
         self.global_defs = defs
         self.imports: dict[str, str] = {}
+        # Every method of every class in the program, by the name a registration would
+        # write for the class. A class-based view is registered by CLASS and answers by
+        # METHOD, so the registration names one thing and the entry points are another.
+        self.class_members = class_members or {}
+        # Where another module mounted this one. Django gives a whole URLconf its prefix
+        # from a file that URLconf never mentions, so this is the only way the routes
+        # below can learn the path they are actually served at.
+        self.django_prefix = (django_prefixes or {}).get(dotted_module(self.module), "")
         self.functions: list[dict] = []
         self.entry_points: list[dict] = []
         # Which class each method belongs to, so `self.x()` has something to resolve
@@ -161,12 +332,31 @@ class ModuleLowerer:
             if isinstance(node, ast.Import):
                 for alias in node.names:
                     self.imports[alias.asname or alias.name] = alias.name
-            elif isinstance(node, ast.ImportFrom) and node.module:
+            elif isinstance(node, ast.ImportFrom):
+                # A RELATIVE import resolves against this module's own package, and that
+                # package is knowable: it is the module's own path with the last segment
+                # dropped once per leading dot. Skipping these left `from . import views`
+                # binding nothing at all -- which is how Django's own tutorial writes a
+                # URLconf, so every route in such a file pointed at a name that resolved
+                # to nothing, and every call through one stopped at the import.
+                module = node.module or ""
+                if node.level:
+                    package = dotted_module(self.module).split(".")[:-node.level]
+                    module = ".".join([*package, module] if module else package)
+                if not module:
+                    continue
                 for alias in node.names:
                     local = alias.asname or alias.name
-                    self.imports[local] = f"{node.module}.{alias.name}"
+                    self.imports[local] = f"{module}.{alias.name}"
 
-    def lower(self) -> None:
+    def lower(self, django: list[dict], registered: set[str]) -> None:
+        """Lowers this module, given what the whole program's URLconfs registered.
+
+        `django` is this module's own Django routes and `registered` is every handler any
+        URLconf in the program reached. Both are resolved before this runs because a
+        URLconf registers classes that are defined in OTHER files, and the file that
+        defines one has to know that it was registered.
+        """
         # Where a class-based view is registered, so its methods can carry a real path
         # rather than the class name. Collected first because the registration usually
         # sits below the class it points at.
@@ -184,7 +374,7 @@ class ModuleLowerer:
                 found = self.entry_points_for(node, fn["id"])
                 if not found:
                     single = self.class_view_entry_point(node, fn["id"], view_paths)
-                    if single:
+                    if single and single["functionId"] not in registered:
                         found = [single]
                 # A test file's routes are not the application's attack surface: a test
                 # client is CALLED exactly as a router is REGISTERED, and a route that
@@ -195,6 +385,7 @@ class ModuleLowerer:
         if not is_test_module(self.module):
             self.entry_points.extend(self._url_rule_entry_points())
             self.entry_points.extend(self._router_entry_points())
+            self.entry_points.extend(django)
         self._collect_resource_paths()
 
     # --- Flask class-based views and add_url_rule ------------------------------
@@ -405,6 +596,190 @@ class ModuleLowerer:
             # `Handlers.index` on a class defined here.
             return self.global_defs.get(f"{self.module}:{node.value.id}.{node.attr}")
         return None
+
+    # --- Django URLconf ---------------------------------------------------
+    #
+    # A frontend that knew Flask, FastAPI and aiohttp enumerated ZERO entry points of a
+    # 3,395-function Django application whose source holds 178 route registrations. The
+    # largest Python web framework was not modelled at all, and nothing downstream is
+    # reachable from a surface that is empty: every finding the engine produced about that
+    # application came from a rule that needs no entry point (ADR-009).
+
+    def django_entry_points(self) -> list[dict]:
+        """`path("checks/<uuid:code>/", views.details)`, and everything it mounts."""
+        owners = self._django_list_owners()
+        mounts = self._django_mounts(owners)
+
+        out: list[dict] = []
+        for node in ast.walk(self.tree):
+            if not isinstance(node, ast.Call) or not isinstance(node.func, ast.Name):
+                continue
+            if node.func.id not in DJANGO_REGISTRARS or len(node.args) < 2:
+                continue
+            route = django_route_text(node.args[0])
+            if route is None:
+                continue
+            view = node.args[1]
+            # An `include(...)` has no handler of its own: the routes it mounts are
+            # registered where they are DEFINED, and they pick this prefix up there.
+            if django_included(view) is not None:
+                continue
+            for prefix in self._django_prefixes_of(owners.get(id(node)), mounts):
+                out.extend(self._django_handlers_of(view, django_route_path(prefix + route)))
+        return out + self._drf_router_entry_points(mounts)
+
+    def _django_handlers_of(self, view: ast.AST, path: str) -> list[dict]:
+        """The functions one registration reaches, and the verb each of them answers."""
+        if (isinstance(view, ast.Call) and isinstance(view.func, ast.Attribute)
+                and view.func.attr == "as_view"):
+            members = self._django_class_members(view.func.value)
+            found = [django_entry_point(members[verb], verb.upper(), path)
+                     for verb in DJANGO_VERB_METHODS if verb in members]
+            if found:
+                return found
+            hook = self._django_hook(members)
+            return [django_entry_point(hook, "ANY", path)] if hook else []
+
+        target = self._function_reference(view)
+        # ANY, because a URLconf says nothing about the verb: Django calls the function for
+        # every one of them and the function decides for itself, usually by reading
+        # `request.method`. Naming a verb here would be inventing one.
+        return [django_entry_point(target, "ANY", path)] if target else []
+
+    def _django_class_members(self, node: ast.AST) -> dict[str, str]:
+        """The methods of the class a registration names, wherever it is defined.
+
+        The two spellings `_function_reference` resolves, for the same reason: a URLconf
+        reaches a view either through a module it imported (`views.Detail`) or through the
+        class itself (`from hc.front.views import Detail`).
+        """
+        if isinstance(node, ast.Name):
+            imported = self.imports.get(node.id)
+            key = f"import:{imported}" if imported else f"{self.module}:{node.id}"
+            return self.class_members.get(key, {})
+        if isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name):
+            module = self.imports.get(node.value.id)
+            if module:
+                return self.class_members.get(f"import:{module}.{node.attr}", {})
+        return {}
+
+    @staticmethod
+    def _django_hook(members: dict[str, str], action: str | None = None) -> str | None:
+        """The method a request reaches on a class, when the class names one at all."""
+        if action and action in members:
+            return members[action]
+        for name in DJANGO_HOOKS:
+            if name in members:
+                return members[name]
+        return None
+
+    def _django_list_owners(self) -> dict[int, str]:
+        """Which module-level name each registration was written under.
+
+        `urlpatterns` is only the outermost list. An application routinely writes
+        `check_urls = [path("log/", views.log)]` and mounts it under a prefix elsewhere in
+        the same file, so the list a registration sits IN is what decides the prefix it
+        carries -- reading only `urlpatterns` gives every one of those routes the path of
+        the file's root instead.
+        """
+        owners: dict[int, str] = {}
+        for stmt in self.tree.body:
+            if (isinstance(stmt, ast.Assign) and len(stmt.targets) == 1
+                    and isinstance(stmt.targets[0], ast.Name)):
+                name = stmt.targets[0].id
+            elif isinstance(stmt, ast.AugAssign) and isinstance(stmt.target, ast.Name):
+                # `urlpatterns += [...]`, which is how a route behind a setting is added.
+                name = stmt.target.id
+            else:
+                continue
+            for node in ast.walk(stmt):
+                if (isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
+                        and node.func.id in DJANGO_REGISTRARS):
+                    owners.setdefault(id(node), name)
+        return owners
+
+    def _django_mounts(self, owners: dict[int, str]) -> dict[str, list[tuple[str, str | None]]]:
+        """Local name -> every route it is mounted at, and the list each mount is in.
+
+        `path("checks/<uuid:code>/", include(check_urls))` mounts a list from this file and
+        `path("api/", include(router.urls))` mounts a router the same way. Kept as a chain
+        rather than as a resolved prefix because the mounting call is routinely written
+        above the list it mounts, and a walk cannot depend on the order.
+
+        A list mounted MORE THAN ONCE is served at every one of its mounts, and versioned
+        APIs are written exactly that way -- one application mounts a single list of fifteen
+        routes at `api/v1/`, `api/v2/` and `api/v3/`, and keeping only the first mount left
+        two thirds of a public API out of the surface.
+        """
+        mounts: dict[str, list[tuple[str, str | None]]] = {}
+        for node in ast.walk(self.tree):
+            if not isinstance(node, ast.Call) or not isinstance(node.func, ast.Name):
+                continue
+            if node.func.id not in DJANGO_REGISTRARS or len(node.args) < 2:
+                continue
+            local = django_local_name(django_included(node.args[1]))
+            if local is None:
+                continue
+            mounts.setdefault(local, []).append(
+                (django_route_text(node.args[0]) or "", owners.get(id(node))))
+        return mounts
+
+    def _django_prefixes_of(self, name: str | None,
+                            mounts: dict[str, list[tuple[str, str | None]]]) -> list[str]:
+        """Every path a registration is mounted under, from this file and the program.
+
+        A mount that cannot be resolved contributes the empty string rather than dropping
+        the route. One application's root URLconf mounts every module of it at a path
+        computed from a setting, and this frontend has no evaluator and will never read
+        one -- a route at a slightly wrong path is worth a great deal more than a route the
+        surface does not contain (ADR-009).
+
+        Bounded, because this is a walk over data: a list that mounts itself terminates on
+        the names already seen, and the cap is what stops a URLconf built out of many
+        cross-mounted lists from turning one registration into thousands of paths.
+        """
+        found: list[str] = []
+        pending = [(name, "", frozenset())]
+        while pending and len(found) < 16:
+            name, suffix, seen = pending.pop()
+            if name not in mounts or name in seen:
+                if suffix not in found:
+                    found.append(suffix)
+                continue
+            for route, parent in mounts[name]:
+                pending.append((parent, route + suffix, seen | {name}))
+        return [self.django_prefix + prefix for prefix in found]
+
+    def _drf_router_entry_points(self,
+                                 mounts: dict[str, list[tuple[str, str | None]]]) -> list[dict]:
+        """`router.register("checks", CheckViewSet)` -- six routes written as one line.
+
+        The prefix has to be a STRING and the class has to be one the program defines with
+        something that answers a request: `admin.site.register(Check, CheckAdmin)` and
+        `signals.register("check-saved", handler)` are the same word and neither is a
+        route, while the registration that IS one always names its path.
+        """
+        out: list[dict] = []
+        for node in ast.walk(self.tree):
+            if not isinstance(node, ast.Call) or not isinstance(node.func, ast.Attribute):
+                continue
+            if node.func.attr != "register" or len(node.args) < 2:
+                continue
+            prefix = django_route_text(node.args[0])
+            if prefix is None:
+                continue
+            members = self._django_class_members(node.args[1])
+            if not members:
+                continue
+            router = node.func.value.id if isinstance(node.func.value, ast.Name) else None
+            for mount in self._django_prefixes_of(router, mounts):
+                base = mount + prefix.rstrip("/")
+                for method, suffix, action in DRF_ROUTES:
+                    target = self._django_hook(members, action)
+                    if target:
+                        out.append(django_entry_point(target, method,
+                                                      django_route_path(base + suffix)))
+        return out
 
     # --- Flask framework model -------------------------------------------
     #
@@ -1360,13 +1735,16 @@ def lower_program(root: str, files: list[str]) -> dict:
     # the path. A route attributed to the wrong file is still a route, and the alternative
     # was 27 of redash's ~150 routes.
     resource_paths: dict[str, str] = {}
+    # Django registers a class-based view by CLASS and dispatches into it by METHOD, so
+    # the registration names one thing and the entry points behind it are another.
+    class_members: dict[str, dict[str, str]] = {}
 
     for path in files:
         with open(path, "r", encoding="utf-8") as handle:
             tree = ast.parse(handle.read(), filename=path)
         trees.append((path, tree))
         mid = module_id(root, path)
-        dotted = mid[:-3].replace("/", ".") if mid.endswith(".py") else mid
+        dotted = dotted_module(mid)
         for node in tree.body:
             if isinstance(node, FUNCTION_NODES):
                 fid = f"{mid}#{node.name}:{node.lineno}:{node.col_offset + 1}"
@@ -1379,6 +1757,7 @@ def lower_program(root: str, files: list[str]) -> dict:
             # taint stops there, and a finding cannot be traced back to the entry point
             # that reaches it.
             elif isinstance(node, ast.ClassDef):
+                members: dict[str, str] = {}
                 for member in node.body:
                     if isinstance(member, FUNCTION_NODES):
                         fid = f"{mid}#{member.name}:{member.lineno}:{member.col_offset + 1}"
@@ -1387,6 +1766,13 @@ def lower_program(root: str, files: list[str]) -> dict:
                         # in another file resolves to the method rather than stopping at
                         # the class.
                         defs[f"import:{dotted}.{node.name}.{member.name}"] = fid
+                        members[member.name] = fid
+                # Keyed by the class rather than by the method, because that is what a
+                # URLconf names: `path("x/", Detail.as_view())` says nothing about which
+                # verbs exist, and the class is the only place that does.
+                if members:
+                    class_members[f"{mid}:{node.name}"] = members
+                    class_members[f"import:{dotted}.{node.name}"] = members
 
     # Registrations are program-wide: `api.add_org_resource(AlertResource, "/api/alerts")`
     # sits in one file and the class it names is defined in another. Collected in a pass
@@ -1414,12 +1800,50 @@ def lower_program(root: str, files: list[str]) -> dict:
                 if isinstance(path_arg.value, str):
                     resource_paths.setdefault(target.id, path_arg.value)
 
+    # Django gives a whole URLconf its prefix from a file that URLconf never mentions:
+    # `path("api/v3/", include("hc.api.urls"))` is the only place the routes in that module
+    # learn where they are mounted. Program-wide for the same reason resource paths are --
+    # the registration and the routes it renames are never in the same file.
+    #
+    # One level of it. A module mounted under a module that is itself mounted somewhere
+    # keeps only the nearer prefix, because composing the two means resolving a chain
+    # across files and applications do not write that chain (ADR-003: state the limit
+    # rather than let it show up as a route that is missing).
+    django_prefixes: dict[str, str] = {}
+    for path, tree in trees:
+        # A test URLconf mounts the real one wherever the test wants it, and where a test
+        # wants it is not where the application serves it.
+        if is_test_module(module_id(root, path)):
+            continue
+        for node in ast.walk(tree):
+            if not isinstance(node, ast.Call) or not isinstance(node.func, ast.Name):
+                continue
+            if node.func.id not in DJANGO_REGISTRARS or len(node.args) < 2:
+                continue
+            included = django_included(node.args[1])
+            route = django_route_text(node.args[0])
+            if route is None or not isinstance(included, ast.Constant):
+                continue
+            if isinstance(included.value, str):
+                django_prefixes.setdefault(included.value, route)
+
     templates = index_templates(root)
 
+    lowerers = [ModuleLowerer(root, path, tree, defs, templates, resource_paths,
+                              django_prefixes, class_members) for path, tree in trees]
+
+    # Django's URLconfs, resolved across the program before any module is lowered. A
+    # URLconf registers classes that live in other files, and Django's own `View` is one of
+    # the bases whose subclasses this frontend already enumerates by verb -- so a module
+    # that does not know its class was registered enumerates it a SECOND time, with the
+    # class name standing in for the path the registration plainly carries.
+    django = {lw.module: [] if is_test_module(lw.module) else lw.django_entry_points()
+              for lw in lowerers}
+    registered = {entry["functionId"] for entries in django.values() for entry in entries}
+
     modules, functions, entry_points = [], [], []
-    for path, tree in trees:
-        lowerer = ModuleLowerer(root, path, tree, defs, templates, resource_paths)
-        lowerer.lower()
+    for lowerer in lowerers:
+        lowerer.lower(django[lowerer.module], registered)
         modules.append({"id": lowerer.module, "path": lowerer.module,
                         **({"isTest": True} if is_test_module(lowerer.module) else {})})
         functions.extend(lowerer.functions)
@@ -1442,7 +1866,7 @@ def lower_program(root: str, files: list[str]) -> dict:
                 # Named for what the matcher actually recognizes. The decorator shape
                 # also matches FastAPI and Flask-AppBuilder; claiming only "flask"
                 # overstated one and understated the others.
-                "frameworkModels": ["flask", "flask-appbuilder", "fastapi"],
+                "frameworkModels": ["flask", "flask-appbuilder", "fastapi", "django"],
             },
         },
         "modules": modules,

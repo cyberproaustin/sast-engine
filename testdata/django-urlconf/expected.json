@@ -1,0 +1,38 @@
+{
+  "corpus": "django-urlconf",
+  "description": "Django registers a route by CALL, inside a list, in a file the handler knows nothing about -- and a frontend that modelled Flask, FastAPI and aiohttp enumerated ZERO entry points of a 3,395-function Django application whose source holds 178 registrations. A surface with no entry points reads exactly like a surface with nothing to say: nothing downstream is reachable, and every finding that application produced came from a rule that needs no entry point at all. Every finding here is reachable only through a registration, and each one is a different way of writing one: a function view in a list mounted under a prefix in the same file, a class dispatched by verb through as_view(), a URLconf mounted from another module by include(), and a viewset a router expands into six routes. The negatives are the shapes that look like registrations and are not -- Django's pre-2.0 string view, which names no function this program contains; the admin registry and a signal registry, which are the word `register` with no path and no viewset behind it; and a converter, which is what a route's `<sha1:key>` is made OF. A test module's URLconf is a negative for the same reason a test client is: a route that exists only in a test does not exist in the program that is deployed.",
+  "expected": [
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "api/views.py",
+      "sinkLine": 16,
+      "sourceLabel": "request.GET",
+      "confidence": "high",
+      "note": "in a URLconf mounted from another file under `api/v3/`; this module carries no trace of the prefix, so composing it is a program-wide pass"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "front/views.py",
+      "sinkLine": 26,
+      "sourceLabel": "request.GET",
+      "confidence": "high",
+      "note": "registered in a list mounted under `checks/<uuid:code>/` in the same file, which is where the converter is too"
+    },
+    {
+      "cwe": "CWE-89",
+      "sinkFile": "front/views.py",
+      "sinkLine": 53,
+      "sourceLabel": "request.POST",
+      "confidence": "medium",
+      "note": "a class-based view answers POST in `post`, and the request is its SECOND parameter because `self` is the first"
+    },
+    {
+      "cwe": "CWE-89",
+      "sinkFile": "front/views.py",
+      "sinkLine": 74,
+      "sourceLabel": "request.POST",
+      "confidence": "medium",
+      "note": "one `router.register` line expands into six routes, and this is the POST on the list path"
+    }
+  ]
+}

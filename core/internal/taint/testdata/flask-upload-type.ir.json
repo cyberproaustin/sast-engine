@@ -12,7 +12,8 @@
       "frameworkModels": [
         "flask",
         "flask-appbuilder",
-        "fastapi"
+        "fastapi",
+        "django"
       ]
     }
   },
