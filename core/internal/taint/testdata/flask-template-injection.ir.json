@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.12.0",
+  "irVersion": "0.13.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -66,7 +66,8 @@
             "file": "app.py",
             "line": 3,
             "column": 1
-          }
+          },
+          "block": "app.py#<module>:0:0$b0"
         }
       ],
       "calls": [
@@ -222,7 +223,8 @@
             "file": "app.py",
             "line": 11,
             "column": 12
-          }
+          },
+          "block": "app.py#hello:7:1$b0"
         },
         {
           "from": "app.py#hello:7:1$v1",
@@ -232,7 +234,8 @@
             "file": "app.py",
             "line": 11,
             "column": 12
-          }
+          },
+          "block": "app.py#hello:7:1$b0"
         },
         {
           "from": "app.py#hello:7:1$v2",
@@ -242,7 +245,8 @@
             "file": "app.py",
             "line": 11,
             "column": 5
-          }
+          },
+          "block": "app.py#hello:7:1$b0"
         },
         {
           "from": "app.py#hello:7:1$v6",
@@ -252,7 +256,8 @@
             "file": "app.py",
             "line": 12,
             "column": 35
-          }
+          },
+          "block": "app.py#hello:7:1$b0"
         },
         {
           "from": "app.py#hello:7:1$v3",
@@ -262,7 +267,8 @@
             "file": "app.py",
             "line": 12,
             "column": 35
-          }
+          },
+          "block": "app.py#hello:7:1$b0"
         },
         {
           "from": "app.py#hello:7:1$v5",
@@ -272,7 +278,8 @@
             "file": "app.py",
             "line": 12,
             "column": 35
-          }
+          },
+          "block": "app.py#hello:7:1$b0"
         },
         {
           "from": "app.py#hello:7:1$v7",
@@ -282,7 +289,8 @@
             "file": "app.py",
             "line": 12,
             "column": 35
-          }
+          },
+          "block": "app.py#hello:7:1$b0"
         }
       ],
       "calls": [
@@ -425,7 +433,8 @@
             "file": "app.py",
             "line": 19,
             "column": 47
-          }
+          },
+          "block": "app.py#hello_safe:16:1$b0"
         },
         {
           "from": "app.py#hello_safe:16:1$v2",
@@ -435,7 +444,8 @@
             "file": "app.py",
             "line": 19,
             "column": 47
-          }
+          },
+          "block": "app.py#hello_safe:16:1$b0"
         }
       ],
       "calls": [
@@ -652,7 +662,8 @@
             "file": "app.py",
             "line": 27,
             "column": 35
-          }
+          },
+          "block": "app.py#not_found:23:1$b0"
         },
         {
           "from": "app.py#not_found:23:1$v5",
@@ -662,7 +673,8 @@
             "file": "app.py",
             "line": 27,
             "column": 55
-          }
+          },
+          "block": "app.py#not_found:23:1$b0"
         },
         {
           "from": "app.py#not_found:23:1$v6",
@@ -672,7 +684,8 @@
             "file": "app.py",
             "line": 27,
             "column": 35
-          }
+          },
+          "block": "app.py#not_found:23:1$b0"
         },
         {
           "from": "app.py#not_found:23:1$v3",
@@ -682,7 +695,8 @@
             "file": "app.py",
             "line": 27,
             "column": 35
-          }
+          },
+          "block": "app.py#not_found:23:1$b0"
         },
         {
           "from": "app.py#not_found:23:1$v7",
@@ -692,7 +706,8 @@
             "file": "app.py",
             "line": 27,
             "column": 35
-          }
+          },
+          "block": "app.py#not_found:23:1$b0"
         },
         {
           "from": "app.py#not_found:23:1$v8",
@@ -702,7 +717,8 @@
             "file": "app.py",
             "line": 27,
             "column": 12
-          }
+          },
+          "block": "app.py#not_found:23:1$b0"
         },
         {
           "from": "app.py#not_found:23:1$v9",
@@ -712,7 +728,8 @@
             "file": "app.py",
             "line": 27,
             "column": 12
-          }
+          },
+          "block": "app.py#not_found:23:1$b0"
         }
       ],
       "calls": [

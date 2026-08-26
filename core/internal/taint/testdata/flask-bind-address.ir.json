@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.12.0",
+  "irVersion": "0.13.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -66,7 +66,8 @@
             "file": "app.py",
             "line": 5,
             "column": 1
-          }
+          },
+          "block": "app.py#<module>:0:0$b0"
         }
       ],
       "calls": [
@@ -426,7 +427,8 @@
             "file": "app.py",
             "line": 30,
             "column": 18
-          }
+          },
+          "block": "app.py#serve_configured:26:1$b0"
         },
         {
           "from": "app.py#serve_configured:26:1$v1",
@@ -436,7 +438,8 @@
             "file": "app.py",
             "line": 30,
             "column": 18
-          }
+          },
+          "block": "app.py#serve_configured:26:1$b0"
         }
       ],
       "calls": [

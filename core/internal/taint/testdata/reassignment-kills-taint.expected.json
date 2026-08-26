@@ -1,0 +1,30 @@
+{
+  "corpus": "reassignment-kills-taint",
+  "description": "A variable that is REDEFINED used to keep the taint of every value it ever held. The frontend lowers a reassignment as a merge -- one value with two edges into it -- so by the time the core saw `let event = req.body` followed six lines later by `event = stripe.webhooks.constructEvent(...)`, the fact that the second assignment replaced the first was already gone, and the engine reported a log fifty lines further down as caller-controlled with a path back to line 46. This corpus draws the boundary of the fix from both sides, because the fix is only worth having if it is exact: a definition kills an earlier one for a use ONLY where it provably dominates that use and provably cannot be followed by the one it killed. The three POSITIVES are the cases where that does not hold and the caller's value is still live. `/api/notes` is the control, a single definition with nothing in between, which must be untouched by any of this. `/api/notes/filtered` reassigns inside an `if`, so the caller decides whether the replacement happens and a path to the query avoids it -- an unavoidable definition is the whole premise, and a conditional one is not that. `/api/notes/sorted` reassigns inside a loop body, which runs zero times when the collection is empty; neither frontend emits the back edge that would make that visible, so neither frontend states a block for a flow lowered inside a loop, and the analysis keeps the flow rather than reasoning from a position nobody vouched for -- the taint survives because the engine cannot prove it does not, which is the direction a security tool has to fail in. The two NEGATIVES are ordinary defensive code, and both were reported before this change. `/api/webhooks/stripe` is linkwarden's webhook, character for character in shape: the unsigned body lives in `event` for ten lines and leaves through the verification-failure response, the constructed event replaces it unconditionally, and the log reads the constructed one. `/api/comments` is `let x = req.body.x; x = escape(x)`, where BOTH definitions are live and which one is live WHERE is the entire question -- the read on the escaping line is the unescaped value and the read on the line after it is the escaped one, and offering the first witness for the second read is what made every guarded handler look unguarded.",
+  "expected": [
+    {
+      "cwe": "CWE-89",
+      "sinkFile": "app.ts",
+      "sinkLine": 28,
+      "sourceLabel": "req.query.order",
+      "confidence": "medium",
+      "note": "the control: one definition, one use, no reassignment anywhere. Reported before the reaching-definition analysis existed and reported identically after it"
+    },
+    {
+      "cwe": "CWE-89",
+      "sinkFile": "app.ts",
+      "sinkLine": 40,
+      "sourceLabel": "req.query.where",
+      "confidence": "medium",
+      "note": "reassigned inside an `if`, so the replacement is not unavoidable: the else path carries the caller's value straight to the query. A definition that only sometimes runs kills nothing"
+    },
+    {
+      "cwe": "CWE-89",
+      "sinkFile": "app.ts",
+      "sinkLine": 53,
+      "sourceLabel": "req.query.sort",
+      "confidence": "medium",
+      "note": "reassigned inside a loop body, which is not entered when the collection is empty. The block graph has no back edge to say so, so the frontend states no block for the flow and the core keeps it -- an absent position is a refusal and never a licence to drop a flow"
+    }
+  ]
+}

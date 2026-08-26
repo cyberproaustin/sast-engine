@@ -16,6 +16,7 @@ import (
 	"strings"
 
 	"github.com/cyberproaustin/sast-engine/core/internal/ir"
+	"github.com/cyberproaustin/sast-engine/core/internal/literal"
 	"github.com/cyberproaustin/sast-engine/core/internal/model"
 	"github.com/cyberproaustin/sast-engine/core/internal/taint"
 )
@@ -83,6 +84,14 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 				// literal is the defect, and a value read from the environment is not one.
 				if rule.FromLiteral {
 					v := ix.ValueByID[w.From]
+					// The same bar the literal analysis applies, for the same reason
+					// and in the same place: a fixture is not a leak, and a REAL key
+					// committed to a test is. `cookie_secret = "abc123"` inside
+					// jupyterhub/tests is somebody making a test pass.
+					if v != nil && v.Kind == ir.ValueLiteral && ix.InTestModule(w.Loc) &&
+						literal.IsPlaceholder(strings.TrimSpace(v.Literal)) {
+						continue
+					}
 					if v == nil || v.Kind != ir.ValueLiteral || !meaningfulSecret(v.Literal) {
 						continue
 					}

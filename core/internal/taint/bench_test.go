@@ -122,6 +122,7 @@ var corpora = []string{
 	"django-urlconf",
 	"next-pages-router",
 	"tornado-urlspec",
+	"reassignment-kills-taint",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {
