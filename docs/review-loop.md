@@ -331,6 +331,60 @@ batch 3 gets more of it.
 
 Ten repositories, then stop and fix. Ten more. Ten times.
 
+### The completion rule
+
+**A batch is not finished when the ten repositories have been read. It is finished when
+every defect they exposed has been closed.** Reading is the cheap half. The loop exists to
+make the engine better, and a defect that is recorded and not fixed has cost us the reading
+and bought nothing.
+
+A defect may be closed exactly two ways:
+
+1. **Fixed**, with a fixture extracted from the real code that exposed it, failing before and
+   passing after.
+2. **Measured and withdrawn**, with the numbers written down. Not "this looks hard to
+   integrate", not "this needs a new strategy", not "this would probably be noisy" -- an
+   actual count, on the clean corpus, showing the fix costs more than it buys. CWE-1024 is
+   the example to follow: it was built, measured, found to fire only on a spelling the
+   engine deliberately does not treat as text, and withdrawn with that reason recorded.
+
+**"Open pending measurement" is not a terminal state.** It is a task. If the fix needs a
+measurement first, the measurement is part of the work, not an alternative to it. Deferring
+on an unmeasured guess is how thirty-one defects sat open after the first batch while six got
+fixed, and that is the failure this rule exists to prevent.
+
+Difficulty is not a reason to decline. A weakness the engine cannot currently state is
+precisely the interesting case: it means either a rule is missing, a seeding strategy is
+missing, or the IR does not carry a fact it needs. All three are buildable, and all three are
+the point.
+
+### What we are converging on
+
+The two readers should agree. When an independent security review finds something and the
+engine does not, that gap is the work; when the engine finds something the review would not
+have, that is the engine earning its place. Convergence in both directions is the target, and
+the numbers to watch across batches are:
+
+- **the share of the review's true findings the engine also produced** -- 25% after batch 1
+- **precision on what the engine reports** -- 20% after batch 1
+- **enumerated surface against registrations counted in source** -- 39% after batch 1
+
+None of those is acceptable and all three are measurable, which is the only reason to state
+them.
+
+### The cost curve is deliberate
+
+**Batch 1 should be the most expensive thing this project ever does, and it was not expensive
+enough.** The first ten repositories exposed three entire framework conventions the engine
+could not see and a source-seeding gap that made an exactly-enumerated surface completely
+inert. Closing all of that is a large amount of work, and doing it now is what makes batch 2
+cheaper.
+
+Expect the curve: batch 1 the longest by far, batch 2 meaningfully less, and by the last ten
+repositories a batch should surface little the engine has not already learned. If batch 40 is
+still producing framework-shaped surprises, the loop is not compounding and something about
+the selection or the fixing is wrong.
+
 ### During a batch
 
 Repositories run as a rolling pipeline, three in flight. Lowering holds an exclusive lock
@@ -343,25 +397,25 @@ scanned by two different engines, and the batch would measure nothing.
 ### At the boundary
 
 1. Read `loop-issues.md`, grouped by recurrence count. Six repositories hitting one gap
-   outranks one repository hitting six.
+   outranks one repository hitting six. Recurrence sets the ORDER, never the cut: everything
+   gets done.
 2. Fix in that order. Every fix lands with the fixture extracted from the real code that
-   exposed it, failing before and passing after.
-3. **The regression gate.** All four must hold or the fix is withdrawn and the reason is
-   recorded:
+   exposed it.
+3. **The regression gate.** All four must hold:
    - every fixture corpus still at precision 1.00
-   - the 28-repository clean corpus gating count does not increase
+   - the clean corpus gating count does not increase
    - the vulnerable corpus gating count does not decrease
    - `go build ./...`, `go test ./...`, and `gofmt -l .` all clean
-4. Re-measure both corpora, update the coverage ledger and the README.
-5. Commit and push.
-6. Report to you: what was found, what was fixed, what was declined and why it was declined,
+4. **Re-run the batch's repositories against the fixed engine, and re-adjudicate anything
+   whose findings or surface moved.** A fix is not verified by the fixture alone. The
+   repository that exposed the defect is the test that matters, and a surface that grew by a
+   hundred entry points is a different program to judge.
+5. Re-measure both corpora, update the coverage ledger and the README.
+6. Commit and push.
+7. **Confirm every defect from the batch is closed.** If any remains open, the batch is not
+   finished and the next ten do not start.
+8. Report: what was found, what was fixed, what was measured and withdrawn with its numbers,
    which reports went to maintainers and what came back.
-
-A fix that cannot pass the gate is not applied. It goes into the ledger as measured and
-withdrawn, the way CWE-1024 did. Not every gap is worth what closing it costs, and the
-record of that decision is worth as much as the fix would have been.
-
----
 
 ## What the loop cannot do
 
