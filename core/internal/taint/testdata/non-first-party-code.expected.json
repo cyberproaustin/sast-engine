@@ -1,0 +1,14 @@
+{
+  "corpus": "non-first-party-code",
+  "description": "The same true written credential appears in application, example, vendored, and generated modules. All eight remain findings: provenance changes rank, never analysis coverage. Five routes belong to examples or checked-in packages and stay visible outside the application's three-entry surface. The two server/modules cases require a licence boundary or an explicit upstream-source marker; the path segment alone decides nothing. A nested package manifest is vendored because the root does not declare it as a workspace, while the structurally identical declared workspace remains application code.",
+  "expected": [
+    {"cwe":"CWE-798","sinkFile":"app.ts","sinkLine":4,"sourceLabel":"\"AKIAIOSFODNN7EXAMPLE\"","confidence":"high","note":"hand-written application code remains gating"},
+    {"cwe":"CWE-798","sinkFile":"examples/demo.ts","sinkLine":4,"sourceLabel":"\"AKIAIOSFODNN7EXAMPLE\"","confidence":"high","note":"example code remains reported below application code"},
+    {"cwe":"CWE-798","sinkFile":"vendor/library.ts","sinkLine":4,"sourceLabel":"\"AKIAIOSFODNN7EXAMPLE\"","confidence":"high","note":"a conventional vendor path is still analyzed"},
+    {"cwe":"CWE-798","sinkFile":"server/modules/licensed/index.ts","sinkLine":4,"sourceLabel":"\"AKIAIOSFODNN7EXAMPLE\"","confidence":"high","note":"the nested licence boundary establishes the checked-in package"},
+    {"cwe":"CWE-798","sinkFile":"server/modules/modified/index.ts","sinkLine":5,"sourceLabel":"\"AKIAIOSFODNN7EXAMPLE\"","confidence":"high","note":"an explicit upstream-source marker establishes the modified package"},
+    {"cwe":"CWE-798","sinkFile":"nested-package/index.ts","sinkLine":4,"sourceLabel":"\"AKIAIOSFODNN7EXAMPLE\"","confidence":"high","note":"a nested non-workspace package is vendored"},
+    {"cwe":"CWE-798","sinkFile":"packages/application/index.ts","sinkLine":4,"sourceLabel":"\"AKIAIOSFODNN7EXAMPLE\"","confidence":"high","note":"the root declares this nested package as application workspace code"},
+    {"cwe":"CWE-798","sinkFile":"generated/table.ts","sinkLine":5,"sourceLabel":"\"AKIAIOSFODNN7EXAMPLE\"","confidence":"high","note":"generated code remains analyzed and reported"}
+  ]
+}

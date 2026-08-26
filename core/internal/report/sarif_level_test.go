@@ -3,6 +3,7 @@ package report
 import (
 	"testing"
 
+	"github.com/cyberproaustin/sast-engine/core/internal/ir"
 	"github.com/cyberproaustin/sast-engine/core/internal/taint"
 )
 
@@ -36,6 +37,14 @@ func TestLevelReflectsJudgementNotConfidence(t *testing.T) {
 		{"test module outranks everything else",
 			taint.Finding{Confidence: taint.High, EntryAnchored: true, InTestModule: true, DependsOnUse: "x"},
 			"note", "the strongest reason to discount it is the one worth publishing"},
+
+		{"vendored module",
+			taint.Finding{Confidence: taint.High, EntryAnchored: true, Provenance: ir.Vendored},
+			"note", "a true weakness in an upstream copy is worth listing below application code"},
+
+		{"generated module",
+			taint.Finding{Confidence: taint.High, EntryAnchored: true, Provenance: ir.Generated},
+			"note", "a generated table remains a fact without ranking as hand-written code"},
 
 		{"medium confidence", taint.Finding{Confidence: taint.Medium, EntryAnchored: true}, "warning",
 			"an inferred expectation never gates (ADR-010)"},

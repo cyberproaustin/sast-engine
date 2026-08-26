@@ -131,6 +131,7 @@ var corpora = []string{
 	"unbounded-resource",
 	"express-route-metadata",
 	"flask-route-metadata",
+	"non-first-party-code",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {

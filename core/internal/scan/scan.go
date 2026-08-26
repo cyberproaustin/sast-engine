@@ -63,6 +63,7 @@ func (r Result) Gates(f taint.Finding) bool {
 	return f.EntryAnchored &&
 		f.DependsOnUse == "" &&
 		!f.InTestModule &&
+		f.Provenance == "" &&
 		f.Confidence.Gating() &&
 		r.IsNew(f) &&
 		r.InScope(f)
@@ -101,6 +102,10 @@ func Run(d *ir.IR, m model.Model, p *policy.Policy) Result {
 	t.Findings = append(t.Findings, literal.Analyze(d, m)...)
 	t.Findings = append(t.Findings, guard.Analyze(d, m)...)
 	t.Findings = append(t.Findings, scope.Analyze(d, m, t.ByClass)...)
+	ix := ir.NewIndex(d)
+	for i := range t.Findings {
+		t.Findings[i].Provenance = ix.ProvenanceOf(t.Findings[i].SinkLoc)
+	}
 	t.Findings = collapseIdenticalFindings(t.Findings)
 
 	return Result{
