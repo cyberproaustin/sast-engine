@@ -49,7 +49,7 @@ func (c Confidence) Gating() bool { return c == High }
 // Deliberately not folded into scan.Result.Gates: a finding that a baseline already knows
 // is still an error, because a baseline is a record and not a suppression (ADR-014).
 func (f Finding) Actionable() bool {
-	return f.EntryAnchored && f.DependsOnUse == "" && !f.InTestModule && f.Confidence.Gating()
+	return f.EntryAnchored && f.DependsOnUse == "" && !f.InTestModule && f.Provenance == "" && f.Confidence.Gating()
 }
 
 // Hop is one step of the evidence path.
@@ -226,6 +226,10 @@ type Finding struct {
 	// run in production. Reported, never gating: a key written into a test is in the
 	// history exactly as the reason says and is still not a production credential.
 	InTestModule bool
+	// Provenance marks a true statement about code the repository did not hand-write as
+	// lower-ranked than the same statement about application code. It remains reported:
+	// vendored protocol compatibility and a generated credential table are still facts.
+	Provenance ir.Provenance
 	// DependsOnUse is why this finding never gates, or empty when it may.
 	//
 	// A single field rather than a flag per excuse, because the list grows: a weak hash

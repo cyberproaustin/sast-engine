@@ -12,13 +12,20 @@ could not be expressed without it. Nothing is added in anticipation.
 
 ```jsonc
 {
-  "irVersion": "0.14.0",
+  "irVersion": "0.15.0",
   "frontend": { "name": "typescript", "version": "0.1.0", "capabilities": { ... } },
   "modules":     [ ... ],
   "functions":   [ ... ],
   "entryPoints": [ ... ]
 }
 ```
+
+### Modules
+
+`isTest` records an ecosystem test convention. `provenance` records why a module is not
+ordinary hand-written application source: `vendored`, `example`, or `generated`. Both are
+facts supplied by the frontend; reporting and surface analysis decide what those facts are
+worth. The files remain in the IR.
 
 ### `frontend.capabilities`
 

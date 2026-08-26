@@ -66,7 +66,21 @@ type Module struct {
 	// production credential: 23 of 23 hardcoded-secret findings across sixteen
 	// repositories were test fixtures, every one of them gating.
 	IsTest bool `json:"isTest,omitempty"`
+	// Provenance records why this module is not hand-written application code. The
+	// frontend owns the classification because package/workspace conventions and
+	// generated-source shapes are language and ecosystem facts; the core owns what the
+	// distinction means to a finding and to the enumerated surface.
+	Provenance Provenance `json:"provenance,omitempty"`
 }
+
+// Provenance is where a module came from when it is not ordinary first-party source.
+type Provenance string
+
+const (
+	Vendored  Provenance = "vendored"
+	Example   Provenance = "example"
+	Generated Provenance = "generated"
+)
 
 // Loc is a source position. Line and Column are 1-based.
 type Loc struct {
@@ -428,9 +442,18 @@ func (m MiddlewareRef) Ref() string {
 // input and sits outside this set is code the engine believes nothing can call, which is
 // either dead or evidence that a route was never enumerated.
 func (ix *Index) ReachableFromEntries() map[string]bool {
+	ids := make([]string, 0, len(ix.EntryByFunc))
+	for id := range ix.EntryByFunc {
+		ids = append(ids, id)
+	}
+	return ix.ReachableFrom(ids)
+}
+
+// ReachableFrom returns every function reachable from the supplied roots.
+func (ix *Index) ReachableFrom(roots []string) map[string]bool {
 	seen := make(map[string]bool, len(ix.FuncByID))
 	var queue []string
-	for id := range ix.EntryByFunc {
+	for _, id := range roots {
 		if !seen[id] {
 			seen[id] = true
 			queue = append(queue, id)
@@ -514,30 +537,49 @@ type Index struct {
 
 	// TestModule marks modules the frontend identified as tests.
 	TestModule map[string]bool
+	// ModuleProvenance records the frontend's origin classification under both module
+	// identity spellings, just as TestModule does.
+	ModuleProvenance map[string]Provenance
 }
 
 // InTestModule reports whether a location sits in a module that does not run in
 // production.
 func (ix *Index) InTestModule(loc Loc) bool { return ix.TestModule[loc.File] }
 
+// ProvenanceOf returns the origin classification of the module containing loc.
+func (ix *Index) ProvenanceOf(loc Loc) Provenance { return ix.ModuleProvenance[loc.File] }
+
+// InApplicationSurface reports whether a module belongs in the application's own
+// attack-surface population. Generated application code may implement the deployed
+// surface; examples and checked-in dependencies do not.
+func (ix *Index) InApplicationSurface(loc Loc) bool {
+	p := ix.ProvenanceOf(loc)
+	return !ix.InTestModule(loc) && p != Vendored && p != Example
+}
+
 // NewIndex builds lookup tables over an IR. It does not mutate the IR.
 func NewIndex(d *IR) *Index {
 	ix := &Index{
-		IR:           d,
-		FuncByID:     make(map[string]*Function, len(d.Functions)),
-		ValueByID:    make(map[string]*Value),
-		CallByID:     make(map[string]*Call),
-		OwnerOfValue: make(map[string]*Function),
-		OwnerOfCall:  make(map[string]*Function),
-		FlowsFrom:    make(map[string][]Flow),
-		EntryByFunc:  make(map[string]*EntryPoint, len(d.EntryPoints)),
-		CallSitesOf:  make(map[string][]*Call),
-		TestModule:   make(map[string]bool),
+		IR:               d,
+		FuncByID:         make(map[string]*Function, len(d.Functions)),
+		ValueByID:        make(map[string]*Value),
+		CallByID:         make(map[string]*Call),
+		OwnerOfValue:     make(map[string]*Function),
+		OwnerOfCall:      make(map[string]*Function),
+		FlowsFrom:        make(map[string][]Flow),
+		EntryByFunc:      make(map[string]*EntryPoint, len(d.EntryPoints)),
+		CallSitesOf:      make(map[string][]*Call),
+		TestModule:       make(map[string]bool),
+		ModuleProvenance: make(map[string]Provenance),
 	}
 	for _, m := range d.Modules {
 		if m.IsTest {
 			ix.TestModule[m.Path] = true
 			ix.TestModule[m.ID] = true
+		}
+		if m.Provenance != "" {
+			ix.ModuleProvenance[m.Path] = m.Provenance
+			ix.ModuleProvenance[m.ID] = m.Provenance
 		}
 	}
 	for _, fn := range d.Functions {

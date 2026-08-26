@@ -9,6 +9,7 @@ import (
 	"github.com/cyberproaustin/sast-engine/core/internal/expectation"
 	"github.com/cyberproaustin/sast-engine/core/internal/ir"
 	"github.com/cyberproaustin/sast-engine/core/internal/scan"
+	"github.com/cyberproaustin/sast-engine/core/internal/surface"
 	"github.com/cyberproaustin/sast-engine/core/internal/taint"
 )
 
@@ -126,7 +127,8 @@ func SARIF(w io.Writer, scanRes scan.Result, toolVersion string) error {
 			"missingCapabilities": res.MissingCapabilities,
 			// The enumerated surface travels with the results (ADR-009), so a
 			// consumer can see what was examined and not only what was found.
-			"surface": surfaceProps(scanRes),
+			"surface":               surfaceProps(scanRes),
+			"nonApplicationSurface": entryProps(scanRes.Surface.NonApplicationEntries),
 			// The coverage map travels with the results, so a consumer can see what
 			// was NOT claimed as well as what was (ADR-007).
 			"coverage": coverageProps(assertion.Evaluate(scanRes)),
@@ -168,6 +170,7 @@ func SARIF(w io.Writer, scanRes scan.Result, toolVersion string) error {
 				"sinkContext": f.SinkContext,
 				"owaspTop10":  assertion.Top10For(f.CWE),
 				"sanitizers":  sanitizerProps(f),
+				"provenance":  f.Provenance,
 			},
 		})
 	}
@@ -229,8 +232,12 @@ func coverageProps(rep assertion.Report) map[string]any {
 }
 
 func surfaceProps(r scan.Result) []map[string]any {
-	out := make([]map[string]any, 0, len(r.Surface.Entries))
-	for _, e := range r.Surface.Entries {
+	return entryProps(r.Surface.Entries)
+}
+
+func entryProps(entries []surface.EntryFacts) []map[string]any {
+	out := make([]map[string]any, 0, len(entries))
+	for _, e := range entries {
 		controls := make([]string, 0, len(e.Controls))
 		for _, c := range e.Controls {
 			controls = append(controls, c.Name)
@@ -240,6 +247,7 @@ func surfaceProps(r scan.Result) []map[string]any {
 			"kind":       e.EntryPoint.Kind,
 			"group":      e.Group,
 			"controls":   controls,
+			"provenance": e.Provenance,
 		})
 	}
 	return out
@@ -370,7 +378,7 @@ func sanitizerProps(f taint.Finding) []map[string]any {
 // how a real credential in a test would have been lost among them.
 func levelFor(f taint.Finding) string {
 	switch {
-	case f.InTestModule:
+	case f.InTestModule || f.Provenance != "":
 		return "note"
 	case f.Actionable():
 		return "error"
