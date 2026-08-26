@@ -578,6 +578,7 @@ type Model struct {
 	Callbacks       []CallbackRule
 	Controls        []ControlRule
 	Literals        []LiteralRule
+	Guards          []GuardRule
 	TaintFlowReq    Requirements
 	SurfaceReq      Requirements
 }
@@ -777,6 +778,24 @@ func builtin() Model {
 					// covered `request.json` and the call was a different shape entirely,
 					// so the most common way to read a JSON request in this framework
 					// produced values related to nothing.
+					{
+						// aiohttp hands the request to the handler as a parameter, the
+						// way Express does, rather than as a module global the way Flask
+						// does. Same judgement, different plumbing (ADR-004).
+						Match:      MatchEntryParamProperty,
+						Framework:  "aiohttp",
+						EntryKind:  "http-route",
+						ParamIndex: 0,
+						Paths: []string{"query", "match_info", "rel_url", "headers", "cookies",
+							"query_string", "path", "path_qs", "url", "host", "remote", "raw_path"},
+					},
+					// The METHOD forms of an aiohttp body, which is the only way to read
+					// one: it is a coroutine, so there is no property to reach for.
+					{Match: MatchCallResult, Symbol: "request.post"},
+					{Match: MatchCallResult, Symbol: "request.json"},
+					{Match: MatchCallResult, Symbol: "request.text"},
+					{Match: MatchCallResult, Symbol: "request.read"},
+					{Match: MatchCallResult, Symbol: "request.multipart"},
 					{Match: MatchCallResult, Symbol: "flask.request.get_json"},
 					{Match: MatchCallResult, Symbol: "flask.request.get_data"},
 					{Match: MatchCallResult, Symbol: "request.get_json"},
@@ -1283,6 +1302,72 @@ func builtin() Model {
 				PatternArg: at(0),
 				CWE:        "CWE-1333",
 				Rationale:  "the pattern this is matched against has a quantified group with a quantifier inside it",
+			},
+			// A glob pattern is a small language, and these APIs interpret it themselves.
+			// A caller who writes `**/*` walks the whole tree from wherever the program
+			// started; one who writes a character class reads names it was never offered.
+			// Choosing a PATTERN and choosing a PATH are not the same weakness, which is
+			// why they are reported apart.
+			{
+				ID: "glob-pattern", Visibility: "internal", Context: "glob",
+				Symbol: "glob.glob", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-155",
+				Rationale: "glob() interprets its argument as a wildcard pattern",
+			},
+			{
+				ID: "glob-pattern", Visibility: "internal", Context: "glob",
+				Symbol: "glob.iglob", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-155",
+				Rationale: "iglob() interprets its argument as a wildcard pattern",
+			},
+			{
+				ID: "glob-pattern", Visibility: "internal", Context: "glob",
+				Symbol: "pathlib.Path.glob", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-155",
+				Rationale: "glob() interprets its argument as a wildcard pattern",
+			},
+			{
+				ID: "glob-pattern", Visibility: "internal", Context: "glob",
+				Symbol: "glob.default", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-155",
+				Rationale: "glob() interprets its argument as a wildcard pattern",
+			},
+			{
+				ID: "glob-pattern", Visibility: "internal", Context: "glob",
+				Symbol: "fast-glob.default", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-155",
+				Rationale: "glob() interprets its argument as a wildcard pattern",
+			},
+			// XML a caller's text was BUILT INTO. Not a protocol the engine models: the
+			// composition is the evidence, exactly as it is for SQL, and the language
+			// ships the escaper that says so.
+			{
+				ID: "xml-document", Visibility: "internal", Context: "xml-composed",
+				Symbol: "lxml.etree.fromstring", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiresComposition: true,
+				CWE:                 "CWE-91",
+				Rationale:           "the first argument is parsed as an XML document",
+			},
+			{
+				ID: "xml-document", Visibility: "internal", Context: "xml-composed",
+				Symbol: "xml.etree.ElementTree.fromstring", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiresComposition: true,
+				CWE:                 "CWE-91",
+				Rationale:           "the first argument is parsed as an XML document",
+			},
+			{
+				ID: "xml-document", Visibility: "internal", Context: "xml-composed",
+				Symbol: "libxmljs.parseXmlString", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiresComposition: true,
+				CWE:                 "CWE-91",
+				Rationale:           "the first argument is parsed as an XML document",
+			},
+			{
+				ID: "xml-document", Visibility: "internal", Context: "xml-composed",
+				Symbol: "xml2js.parseString", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiresComposition: true,
+				CWE:                 "CWE-91",
+				Rationale:           "the first argument is parsed as an XML document",
 			},
 			{
 				ID: "outbound-destination", Visibility: "internal", Context: "url",
@@ -3406,6 +3491,7 @@ func builtin() Model {
 		CallShapes: builtinCallShapes(),
 		Decisions:  builtinDecisions(),
 		Stores:     builtinStores(),
+		Guards:     builtinGuards(),
 
 		Policies: []Policy{
 			{
@@ -3439,6 +3525,29 @@ func builtin() Model {
 				Reason:        "the pattern can be made to backtrack exponentially, so a long string a caller chooses stops the process without touching it",
 				Finding:       "Untrusted input is matched against a pattern that can be made to churn",
 				CWE:           "CWE-1333",
+			},
+			{
+				ID:            "untrusted-to-glob",
+				Class:         "untrusted-input",
+				DeniedContext: []string{"glob"},
+				Reason:        "the argument is interpreted as a wildcard pattern, so a caller who writes one chooses which files the program walks rather than which file it opens",
+				Finding:       "Untrusted input is interpreted as a file pattern",
+				CWE:           "CWE-155",
+			},
+			{
+				// Composed INTO the document, which is what separates this from parsing a
+				// document a caller sent. The second is ordinary and is judged by what the
+				// parser is configured to do; this is the caller writing XML syntax.
+				ID:    "untrusted-into-xml",
+				Class: "untrusted-input",
+				// A context of its own, and it has to be. The parser channels already use
+				// "xml" for the OTHER question -- a document the caller sent, judged by
+				// what the parser was asked to resolve -- and sharing the name paired this
+				// policy with those channels and reported one call twice.
+				DeniedContext: []string{"xml-composed"},
+				Reason:        "the caller's text is built into the document rather than carried by it, so a caller who writes a tag gets a tag",
+				Finding:       "Untrusted input is built into an XML document",
+				CWE:           "CWE-91",
 			},
 			{
 				ID:            "untrusted-to-regex",
@@ -3922,6 +4031,21 @@ func builtin() Model {
 				Contexts:           []string{"redirect", "url", "path"},
 				Note:               "resolves a named endpoint to a URL; caller data becomes query parameters of a destination the application chose",
 				RequiresLiteralArg: arg(0),
+			},
+			{
+				Symbol:   "glob.escape",
+				Contexts: []string{"glob"},
+				Note:     "escapes the wildcard characters, so what is left names one file",
+			},
+			{
+				Symbol:   "xml.sax.saxutils.escape",
+				Contexts: []string{"xml-composed"},
+				Note:     "replaces the characters that would start a tag or an entity",
+			},
+			{
+				Symbol:   "saxutils.escape",
+				Contexts: []string{"xml-composed"},
+				Note:     "replaces the characters that would start a tag or an entity",
 			},
 			{
 				// A NUMBER cannot carry syntax. Not a line break, not a quote, not a path
@@ -4620,6 +4744,15 @@ type CallShape struct {
 	// library asks for it, which is a name rather than an index -- and the same name in
 	// every library that asks for one.
 	Keyword string
+
+	// ReceiverFromCall narrows a method-name shape by WHAT MADE THE RECEIVER, following
+	// plain assignments back to the call that produced it.
+	//
+	// `extractall` is a method on two different classes. A tar member can be a symbolic
+	// link and a zip member cannot, and only tarfile has the parameter that decides what
+	// a member may be -- so a rule about the missing parameter must know which archive it
+	// is looking at, and the name of the variable will not say.
+	ReceiverFromCall []string
 
 	// Always matches on the SYMBOL alone, for a call that is a defect by existing.
 	//
@@ -5493,6 +5626,29 @@ func builtinCallShapes() []CallShape {
 			Rationale: "the options argument to sign() enumerates its keys and expiresIn is not among them",
 		},
 		{
+			// A tar member can be a SYMLINK, and extracting one writes through it to
+			// wherever it points. The `..` member is the traversal everybody knows about
+			// and is claimed under CWE-22; this is the other half, and the same one
+			// parameter settles both. Python added `filter=` for exactly this reason and
+			// is making `filter="data"` the default, which is as clear a statement as a
+			// language ever makes that the old call was wrong.
+			//
+			// An ABSENCE rule, so it speaks only where the keywords were enumerated: a
+			// call whose options came from somewhere else is unknowable and is passed
+			// over in silence. Zipfile is deliberately not here -- it has no such
+			// parameter, and its members are already judged by where the archive came
+			// from.
+			// OptionsArg -1: a Python call keeps its options in its KEYWORDS, and the
+			// frontend marks that group enumerated whenever no `**kwargs` hides a key.
+			ID: "unfiltered-extraction", Method: "extractall",
+			ReceiverFromCall: []string{"tarfile.open", "tarfile.TarFile", "TarFile"},
+			RequiredKeyword:  "filter", OptionsArg: -1,
+			CWE:       "CWE-59",
+			Finding:   "Archive extracted without a member filter",
+			Reason:    "a member of a tar archive can be a symbolic link, and extracting one writes through it to wherever it points -- outside the directory the program chose",
+			Rationale: "extractall() is called without the filter that decides what a member may be",
+		},
+		{
 			// Flask counts SECONDS. Same keyword, different unit, which is why the
 			// threshold lives on the rule rather than on the name.
 			ID: "long-lived-session", Method: "set_cookie", Keyword: "max_age", AboveValue: atMost(2592000),
@@ -6160,6 +6316,25 @@ func builtinCallShapes() []CallShape {
 			Rationale:  "run() is passed debug=True",
 		},
 		{
+			// aiohttp's `Application(debug=True)`, which is the same decision at a second
+			// framework: the debug middleware answers a failed request with the traceback
+			// and the local variables of every frame.
+			ID: "debug-mode-enabled", Symbol: "aiohttp.web.Application", ArgIndex: -1,
+			Disallowed: []string{"debug=true"},
+			CWE:        "CWE-489",
+			Finding:    "Debug mode enabled",
+			Reason:     "debug mode answers a failed request with the traceback and the local variables of every frame, which describes the system to whoever provoked the failure",
+			Rationale:  "Application() is constructed with debug=True",
+		},
+		{
+			ID: "debug-mode-enabled", Symbol: "web.Application", ArgIndex: -1,
+			Disallowed: []string{"debug=true"},
+			CWE:        "CWE-489",
+			Finding:    "Debug mode enabled",
+			Reason:     "debug mode answers a failed request with the traceback and the local variables of every frame, which describes the system to whoever provoked the failure",
+			Rationale:  "Application() is constructed with debug=True",
+		},
+		{
 			// The dangerous part is the COMBINATION. Credentialed cross-origin requests
 			// are ordinary; what makes them exploitable is an origin the server reflects
 			// or wildcards, which lets any site on the internet make them as the victim.
@@ -6483,6 +6658,48 @@ type StoreRule struct {
 	Finding   string
 	Reason    string
 	Rationale string
+}
+
+// GuardRule is a weakness in the SHAPE OF THE GRAPH rather than in a call, a value or a
+// comparison: a rejection the program wrote and then walked past.
+//
+// It needs no declared expectation, which is the whole reason it is worth having. The
+// program has already said in its own code that this request should not proceed; the only
+// question left is whether it does.
+type GuardRule struct {
+	ID string
+	// RejectMethod names the calls that write a refusal into the response, and
+	// RejectStatus the leading digits of a status that IS one. `res.status(400)` refuses;
+	// `res.status(201)` is the happy path and says nothing about anything.
+	//
+	// A redirect is deliberately absent. `res.redirect(next)` after a successful login is
+	// the same call as `res.redirect("/login")` after a failed one, and one production
+	// repository writes eight of the first kind in a single function.
+	RejectMethod []string
+	RejectStatus []string
+	// Raises names calls that end the request by throwing. Flask's `abort` is the one
+	// that matters; the rest are found by looking at the function rather than the name.
+	Raises []string
+
+	CWE       string
+	Finding   string
+	Reason    string
+	Rationale string
+}
+
+func builtinGuards() []GuardRule {
+	return []GuardRule{
+		{
+			ID:           "rejection-without-return",
+			RejectMethod: []string{"status", "sendStatus", "status_code"},
+			RejectStatus: []string{"4", "5"},
+			Raises:       []string{"abort", "fail"},
+			CWE:          "CWE-698",
+			Finding:      "The handler refuses the request and carries on",
+			Reason:       "the program has already decided this request should not proceed, and the operation it was refusing runs anyway -- so the refusal is a status code and nothing more",
+			Rationale:    "an error status is written into the response and work that follows it is unavoidable",
+		},
+	}
 }
 
 func builtinStores() []StoreRule {

@@ -1,0 +1,14 @@
+{
+  "corpus": "express-rejection-continues",
+  "description": "A rejection the program wrote and then walked past. Nothing here is a dangerous call: the status is the right status and the creation is the right creation, and what is wrong is that both of them run. This is the one judgement in the engine that needs no declared expectation, because the program has already said in its own code that the request should not proceed. Five negatives, and four of them are shapes that look identical to the positive: the same branch with a return, the same branch with an else, a helper that always throws, a catch handler that runs instead of the rest, and a 2xx status that is not a rejection at all.",
+  "expected": [
+    {
+      "cwe": "CWE-698",
+      "sinkFile": "app.js",
+      "sinkLine": 19,
+      "sourceLabel": "create",
+      "confidence": "high",
+      "note": "the refusal is at the sink and the work that survives it is the source -- which is the right way round for this judgement, because the finding is the RELATION between them and neither line is wrong on its own"
+    }
+  ]
+}

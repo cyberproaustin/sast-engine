@@ -58,6 +58,9 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 				if !targets(shape, c) {
 					continue
 				}
+				if len(shape.ReceiverFromCall) > 0 && !receiverMadeBy(d, c, shape.ReceiverFromCall) {
+					continue
+				}
 				if shape.ArgFromModuleScope != nil {
 					if !boundAtModuleScope(ix, c, *shape.ArgFromModuleScope) {
 						continue
@@ -87,6 +90,50 @@ func keyIs(key, want string) bool {
 		key = key[i+1:]
 	}
 	return key == want
+}
+
+// receiverMadeBy reports whether the object a method was called on came out of one of
+// these calls, following plain assignments back so that a handle stored in a variable
+// still answers the question.
+//
+//	with tarfile.open(path) as tar:
+//	    tar.extractall(dest)      // the receiver is `tar`, and `tar` is a tarfile
+func receiverMadeBy(d *ir.IR, c *ir.Call, symbols []string) bool {
+	byResult := map[string]*ir.Call{}
+	assigned := map[string]string{}
+	for _, fn := range d.Functions {
+		for _, call := range fn.Calls {
+			if call.ResultID != "" {
+				byResult[call.ResultID] = call
+			}
+		}
+		for _, f := range fn.Flows {
+			if f.Kind == "assign" && f.From != "" && f.To != "" {
+				assigned[f.To] = f.From
+			}
+		}
+	}
+	id := c.ReceiverID
+	for hops := 0; hops < 8 && id != ""; hops++ {
+		if made := byResult[id]; made != nil {
+			name := made.Callee.Symbol
+			for _, want := range symbols {
+				if strings.EqualFold(name, want) || strings.EqualFold(lastDot(name), lastDot(want)) {
+					return true
+				}
+			}
+			return false
+		}
+		id = assigned[id]
+	}
+	return false
+}
+
+func lastDot(s string) string {
+	if i := strings.LastIndexByte(s, '.'); i >= 0 {
+		return s[i+1:]
+	}
+	return s
 }
 
 // boundAtModuleScope reports whether an argument resolves to a value the module owns --

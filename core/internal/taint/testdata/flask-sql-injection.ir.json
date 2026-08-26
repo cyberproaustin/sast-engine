@@ -1334,7 +1334,7 @@
             "line": 55,
             "column": 12
           },
-          "name": "mailer.execute"
+          "name": "local"
         }
       ],
       "flows": [
@@ -1388,8 +1388,8 @@
             "column": 12
           },
           "callee": {
-            "kind": "external",
-            "symbol": "mailer.execute",
+            "kind": "local",
+            "functionId": "mailer.py#execute:4:1",
             "resolution": "resolved"
           },
           "args": [
