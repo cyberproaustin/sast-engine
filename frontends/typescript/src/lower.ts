@@ -29,6 +29,7 @@ import type {
   ValueKind,
 } from "./ir.ts";
 import { detectExpressRoutes } from "./express.ts";
+import { detectDescribedRoutes, detectFileRoutes, detectHelperRoutes } from "./fileroutes.ts";
 import type { ImportRef } from "./express.ts";
 import {
   definedParamDecorators,
@@ -58,6 +59,9 @@ const SELECTION_OPERATORS = new Set<ts.SyntaxKind>([
   ts.SyntaxKind.QuestionQuestionToken,
   ts.SyntaxKind.AmpersandAmpersandToken,
 ]);
+
+/** Values the language provides under a name, with nothing written down. */
+const LANGUAGE_VALUES = new Set(["NaN", "Infinity", "undefined"]);
 
 interface FuncMeta {
   id: string;
@@ -385,6 +389,9 @@ export function lowerProgram(opts: LowerOptions): IRDoc {
     if (!isTestModule(moduleId)) {
       entryPoints.push(...detectExpressRoutes(sf, imports, resolveFunction, (n) => locOf(sf, n)));
       entryPoints.push(...detectNestRoutes(sf, resolveFunction, (n) => locOf(sf, n), definedDecorators));
+      entryPoints.push(...detectFileRoutes(sf, moduleId, resolveFunction, (n) => locOf(sf, n)));
+      entryPoints.push(...detectHelperRoutes(sf, resolveFunction, (n) => locOf(sf, n)));
+      entryPoints.push(...detectDescribedRoutes(sf, resolveFunction, (n) => locOf(sf, n)));
     }
   }
 
@@ -824,30 +831,39 @@ function lowerFunction(
 
   const resolveCallee = (call: ts.CallExpression | ts.NewExpression): Callee => {
     const expr = call.expression;
+    // What it was WRITTEN as, whatever it resolves to. An unresolved call used to carry
+    // no identity at all, so no rule could say anything about one -- and `next(err)` in
+    // an Express handler resolves to nothing, because `next` is a parameter.
+    const written = ts.isIdentifier(expr)
+      ? expr.text
+      : ts.isPropertyAccessExpression(expr)
+        ? expr.name.text
+        : undefined;
+    const named = (c: Callee): Callee => (written ? { ...c, name: written } : c);
 
     if (ts.isIdentifier(expr)) {
       const local = localTarget(expr);
-      if (local) return { kind: "local", functionId: local, resolution: "resolved" };
+      if (local) return named({ kind: "local", functionId: local, resolution: "resolved" });
 
       const imported = imports.get(expr.text);
       if (imported && imported.export !== "*") {
-        return {
+        return named({
           kind: "external",
           symbol: `${imported.module}.${imported.export}`,
           resolution: "resolved",
-        };
+        });
       }
       if (isLibDeclared(expr)) {
-        return { kind: "external", symbol: expr.text, resolution: "resolved" };
+        return named({ kind: "external", symbol: expr.text, resolution: "resolved" });
       }
       // `require` is CommonJS's own, and a project without @types/node on the path gives
       // the checker nothing to resolve it against -- which is most fixtures and plenty of
       // real repositories. A local binding of that name was already returned above, so
       // reaching here means the global.
       if (expr.text === "require") {
-        return { kind: "external", symbol: "require", resolution: "resolved" };
+        return named({ kind: "external", symbol: "require", resolution: "resolved" });
       }
-      return { kind: "unresolved", resolution: "dynamic-unresolved" };
+      return named({ kind: "unresolved", resolution: "dynamic-unresolved" });
     }
 
     if (ts.isPropertyAccessExpression(expr)) {
@@ -864,7 +880,7 @@ function lowerFunction(
       // so `import serialize from "node-serialize"` still falls through to the import
       // branch below and still resolves to `node-serialize.unserialize`.
       const inTree = localTarget(expr.name);
-      if (inTree) return { kind: "local", functionId: inTree, resolution: "resolved" };
+      if (inTree) return named({ kind: "local", functionId: inTree, resolution: "resolved" });
       if (ts.isIdentifier(root)) {
         const imported = imports.get(root.text);
         // A namespace import and a default import both name a module, and a property
@@ -877,22 +893,22 @@ function lowerFunction(
         // module name: `import axios from "axios"` produces `axios.get` either way, and
         // only agrees by coincidence. `import ax from "axios"` did not.
         if (imported && (imported.export === "*" || imported.export === "default")) {
-          return {
+          return named({
             kind: "external",
             symbol: `${imported.module}.${expr.name.text}`,
             resolution: "resolved",
-          };
+          });
         }
       }
       const symbol = `${root.getText(sf)}.${expr.name.text}`;
-      return {
+      return named({
         kind: "external",
         symbol,
         resolution: isLibDeclared(expr.name) ? "resolved" : "probable",
-      };
+      });
     }
 
-    return { kind: "unresolved", resolution: "dynamic-unresolved" };
+    return named({ kind: "unresolved", resolution: "dynamic-unresolved" });
   };
 
   // `req.auth?.user!.id` is one property chain, but the non-null assertion is a
@@ -1037,7 +1053,17 @@ function lowerFunction(
       // An implicit global has no symbol to be keyed by, which is exactly why it needs
       // the name-keyed table: `output = {...}` in one function and `output` in another
       // are the same variable and the checker has nothing to say about it.
-      return bound ?? fileGlobals.get(expr.text);
+      if (bound) return bound;
+      const global = fileGlobals.get(expr.text);
+      if (global) return global;
+      // A name the LANGUAGE provides. `NaN`, `Infinity` and `undefined` are values with
+      // nothing written down and nothing to bind to, so they lowered to nothing at all --
+      // and a rule that wants to say `x === NaN` is a branch that never runs had no value
+      // to point at. `session.user_id = undefined` was invisible for the same reason.
+      if (LANGUAGE_VALUES.has(expr.text)) {
+        return newValue("local", locOf(sf, expr), { name: expr.text });
+      }
+      return undefined;
     }
 
     if (ts.isPropertyAccessExpression(expr)) return lowerProperty(expr);

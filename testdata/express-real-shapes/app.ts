@@ -62,3 +62,23 @@ app.get("/when", (req: any, res: any) => {
 function formatter(when: string) {
   return { format: (_shape: string) => when };
 }
+
+// POSITIVE. Every comparison with NaN is false, the inequality included, because NaN is
+// not equal to itself. A branch that tests for one is a branch that never runs -- and in
+// a check, a branch that never runs is not a check.
+app.get("/score", (req: any, res: any) => {
+  const score = Number(req.query.score);
+  if (score === NaN) {
+    return res.status(400).json({ error: "not a number" });
+  }
+  res.json({ score });
+});
+
+// NEGATIVE, and the way to write it: the language ships a test that works.
+app.get("/score-checked", (req: any, res: any) => {
+  const score = Number(req.query.score);
+  if (Number.isNaN(score)) {
+    return res.status(400).json({ error: "not a number" });
+  }
+  res.json({ score });
+});

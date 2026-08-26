@@ -440,7 +440,7 @@ The same honesty runs one level deeper. The engine carries the **whole published
 catalogue** and states, for every entry in it, what this build claims and why:
 
 ```
-  asserts 99 of 314 weaknesses a rule could be written for (31.5%)
+  asserts 101 of 314 weaknesses a rule could be written for (32.2%)
   and 33 more are subsumed: a rule above them catches them, because
   what distinguishes them is a detail the analysis never looks at
 ```

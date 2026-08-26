@@ -119,14 +119,42 @@ func rejects(c *ir.Call, rule model.GuardRule) bool {
 }
 
 // endsRequest reports whether a call does not come back.
+//
+// `next(err)` is the case that is not obvious. Passing an error to the continuation HANDS
+// THE REQUEST OFF: the error middleware answers it, and nothing after this line decides
+// anything. `next()` with no argument is the opposite -- it carries on down the chain --
+// and one deliberately vulnerable application contains both, four lines apart. The
+// argument is the whole difference and there is nothing else to read.
 func endsRequest(c *ir.Call, stops map[string]bool, m model.Model) bool {
 	if c.Callee.FunctionID != "" && stops[c.Callee.FunctionID] {
+		return true
+	}
+	if isDelegation(c) {
 		return true
 	}
 	for _, rule := range m.Guards {
 		if matchesName(lastSegment(c.Callee.Symbol), c.Method, rule.Raises) {
 			return true
 		}
+	}
+	return false
+}
+
+// isDelegation reports whether a call hands the request to somebody else to answer.
+func isDelegation(c *ir.Call) bool {
+	name := lastSegment(c.Callee.Symbol)
+	if name == "" {
+		name = c.Method
+	}
+	if name == "" {
+		// An unresolved call, which is what `next` is: a parameter of the handler, so
+		// there is nothing for the frontend to resolve it to. The NAME is still written
+		// down, and here it is the whole of the evidence.
+		name = c.Callee.Name
+	}
+	switch strings.ToLower(name) {
+	case "next", "reject", "done", "fail":
+		return len(c.Args) > 0
 	}
 	return false
 }

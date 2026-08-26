@@ -68,6 +68,8 @@ export interface Callee {
   functionId?: string;
   symbol?: string;
   resolution: Resolution;
+  /** What the call was WRITTEN as, independently of what it resolved to. */
+  name?: string;
 }
 
 export interface Arg {

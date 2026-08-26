@@ -1,6 +1,6 @@
 {
   "corpus": "express-real-shapes",
-  "description": "Shapes taken from real Express codebases. Every one of these silently dropped taint or hid a control until the engine was run against code nobody wrote for it. Fixture-only testing never surfaced any of them. Also contains reflected XSS: the same caller-supplied value comes back out in a text/html response body. One source, two sinks, two weaknesses, one policy.",
+  "description": "Shapes taken from real Express codebases. Every one of these silently dropped taint or hid a control until the engine was run against code nobody wrote for it. Fixture-only testing never surfaced any of them. Also contains reflected XSS: the same caller-supplied value comes back out in a text/html response body. One source, two sinks, two weaknesses, one policy. The last pair is a comparison that cannot succeed: NaN equals nothing, itself included.",
   "expected": [
     {
       "cwe": "CWE-78",
@@ -41,6 +41,14 @@
       "sourceLabel": "req.body.target",
       "confidence": "medium",
       "note": "the lookup result is echoed into a text/html body"
+    },
+    {
+      "cwe": "CWE-1077",
+      "sinkFile": "app.ts",
+      "sinkLine": 71,
+      "sourceLabel": "",
+      "confidence": "high",
+      "note": "a branch that cannot be taken. NaN is not equal to itself, so the inequality is false too -- and in a check, a branch that never runs is not a check. The negative below is the test the language ships"
     }
   ]
 }

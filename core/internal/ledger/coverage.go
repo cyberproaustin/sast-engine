@@ -336,6 +336,12 @@ var claims = map[string]Claim{
 		By: []string{"untrusted-to-glob"}},
 	"CWE-91": {State: Asserted, Reason: "caller data BUILT INTO an XML document rather than carried by one. The composition is the whole evidence and it is the same evidence SQL injection rests on: a caller who is concatenated into the syntax can write the syntax. Parsing a document a caller SENT is a different question entirely, judged by what the parser is configured to do and claimed under CWE-611. `xml.sax.saxutils.escape` is recorded as clearing it",
 		By: []string{"untrusted-into-xml"}},
+	"CWE-253": {State: Partial, Reason: "a verification result read as a STATUS CODE. `crypto.verify(...) === 0` is how a C programmer checks a return value, and in these languages the call answers true or false -- so the check inverts and a signature that failed reads as one that passed. Only the named verification calls, and only against a small number written in the source. The broader weakness is not built and the reason stands: both runtimes signal failure by RAISING rather than by returning a code, so a status nobody looked at is not how errors travel here",
+		By: []string{"boolean-compared-to-number"}},
+	// BUILT AND WITHDRAWN, which is why the reason is this specific.
+	"CWE-1024": {State: NotBuilt, Reason: "a comparison between values that cannot be equal. The decidable form is a call the language guarantees a boolean from compared with something that is not one -- `Array.isArray(x) === \"true\"` -- and a rule for it was written and withdrawn, because the only realistic spelling compares against the STRING \"true\", and the engine deliberately does not treat \"true\", \"false\" or \"null\" as text: an identity check against one of those is a flag test, which is a different rule that would break if this one were accommodated. Every other form needs both operands typed, which neither frontend can do -- the Python one has no inference at all"},
+	"CWE-1077": {State: Asserted, Reason: "a comparison with NaN, which is false however it is written -- the inequality included, because NaN is not equal to itself either. A branch that tests for one is a branch that never runs, and in a check that is not a check. Matched on the NAME rather than on a literal, because the language provides the value and there is nothing written down to read. Only the equality operators: an ordering comparison with NaN is also false and is far more often a deliberate sort guard",
+		By: []string{"compared-to-nan"}},
 	"CWE-183": {State: Partial, Reason: "an origin or a referrer checked against an allow-list by prefix, suffix or containment rather than by equality. The list is right and the comparison is too generous, which is the harder half to see: a prefix match accepts https://example.com.attacker.net and a suffix match accepts https://notexample.com, and both pass a check that reads as correct. Deliberately scoped to the ORIGIN class rather than to caller data in general, and the difference was measured: a partial match on any untrusted value whose result the function RETURNS -- which is what a validation predicate looks like -- occurs 1332 times across twenty-eight production repositories against 61 on the vulnerable corpus, and most of them are `find` and `endsWith` on file names and node types. What separates a bypass from a filter is whether the boolean GATES the operation, and this engine does not model guards. Only where the string being matched is one the caller SENT, which the dataflow already answers; an allow-list checked against something else is not this weakness. Clean corpus: zero",
 		By: []string{"permissive-origin-match"}},
 	"CWE-208": {State: Partial, Reason: "a value the caller sent as a credential compared with the language's equality operator. Neither language promises constant-time comparison and neither implementation delivers it, so the time taken says how much of the guess was right. The other side must be a RUNTIME value: comparing a token to a literal is a presence check, a flag test, or a hardcoded credential, and the last of those is CWE-798. The correct fix is a constant-time compare, which is a call and leaves no comparison to match, so a fixed program is silent. Two further conditions came from measuring: a field read OFF something the credential produced is not the credential (`session.tenantId` is a tenant id), and two values the same caller just sent compared against each other are a confirmation field rather than a secret check. Clean corpus: two findings, both real",
@@ -484,8 +490,7 @@ var groupedReasons = []struct {
 	},
 	{
 		reason: "a numeric-representation defect. JavaScript has one number type and Python has arbitrary-precision integers, so wraparound does not occur in either. What IS real -- JavaScript losing precision above 2^53, a float compared for equality -- turns on the MAGNITUDE of values the source does not contain",
-		ids: []string{"CWE-190", "CWE-191", "CWE-192", "CWE-193", "CWE-197", "CWE-369",
-			"CWE-681", "CWE-1024", "CWE-1077", "CWE-1335", "CWE-1339"},
+		ids:    []string{"CWE-190", "CWE-191", "CWE-192", "CWE-193", "CWE-197", "CWE-369", "CWE-681", "CWE-1335", "CWE-1339"},
 	},
 	{
 		reason: "a maintainability property rather than a weakness. This engine reports defects an attacker can reach, and a long file, a complex function, a redundant branch or a dead assignment is none of those. A linter measures these well and this is not one",
@@ -521,7 +526,7 @@ var groupedReasons = []struct {
 	},
 	{
 		reason: "an unchecked or misread return value. Both runtimes signal failure by raising rather than by returning a code, so the shape this weakness describes -- a status nobody looked at -- is not how errors travel here. A discarded promise is the real local form of it and is a correctness question rather than a security one",
-		ids:    []string{"CWE-252", "CWE-253"},
+		ids:    []string{"CWE-252"},
 	},
 	{
 		reason: "a TRUSTED module-level variable initialised from outside. The caller's data reaching process-wide state is claimed under CWE-488; what this number adds is the judgement that the variable was one the program later trusts, and the source does not say which module-level variables those are",

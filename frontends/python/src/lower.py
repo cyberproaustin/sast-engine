@@ -258,9 +258,19 @@ class ModuleLowerer:
         cls = self.class_of.get(id(node))
         if cls is None or cls not in self.view_classes:
             return None
-        method = getattr(node, "name", "")
-        if method.upper() not in HTTP_METHODS:
-            return None
+        name = getattr(node, "name", "")
+        method = name.upper()
+        if method not in HTTP_METHODS:
+            # A framework that dispatches through ONE method names it rather than the
+            # verb: indico's request handlers answer in `_process`, and `_process_GET`
+            # and `_process_POST` where they differ. The class is already known to be a
+            # view -- something registered it -- so there is nothing to be wrong about
+            # here except which verb to print.
+            lowered = name.lower().lstrip("_")
+            base, _, suffix = lowered.partition("_")
+            if base not in ("process", "handle", "dispatch"):
+                return None
+            method = suffix.upper() if suffix.upper() in HTTP_METHODS else "ANY"
         return {
             "functionId": function_id,
             "kind": "http-route",

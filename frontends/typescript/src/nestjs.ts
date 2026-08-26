@@ -23,6 +23,26 @@ const ROUTE_DECORATORS = new Map<string, string>([
 ]);
 
 /**
+ * GraphQL operations, which are entry points by exactly the same argument HTTP routes are.
+ *
+ * A mutation is reachable by anyone who can reach the schema, takes arguments the caller
+ * writes, and runs the resolver's body -- there is nothing about it that makes it less of
+ * a surface than a POST. Two applications in the clean corpus are built this way and
+ * between them declare 829 operations; the engine enumerated the handful of HTTP routes
+ * beside them and said nothing about the rest.
+ *
+ * A field resolver counts too. It runs with whatever the parent query selected, and a
+ * caller chooses the selection.
+ */
+const GRAPHQL_DECORATORS = new Map<string, string>([
+  ["Query", "QUERY"],
+  ["Mutation", "MUTATION"],
+  ["Subscription", "SUBSCRIPTION"],
+  ["ResolveField", "FIELD"],
+  ["ResolveReference", "FIELD"],
+]);
+
+/**
  * Parameter decorators the framework itself defines. Their meaning is known whether or
  * not their definitions are in the scanned tree, so their absence is not an unknown.
  */
@@ -156,7 +176,17 @@ export function detectNestRoutes(
       // Safe in the direction it can be wrong: a class this matches that is not a
       // controller becomes an entry point nobody can reach, which the surface prints for
       // a reader to see. The opposite mistake is silence about an entire API.
-      const controller = decoratorsOf(node).find((d) => (decoratorName(d) ?? "").endsWith("Controller"));
+      // `@Resolver` is the GraphQL spelling of the same declaration: a class whose
+      // methods answer requests. It ends in neither "Controller" nor anything the list
+      // above knew, so an entire API was invisible in two applications.
+      // Matched by SUFFIX for the same reason `Controller` is: an application wraps the
+      // framework's decorator in one of its own and the name changes. `@MetadataResolver`
+      // is `@Resolver` with a filter and a guard attached, and requiring the exact word
+      // left 583 operations of one application unenumerated.
+      const controller = decoratorsOf(node).find((d) => {
+        const n = decoratorName(d) ?? "";
+        return n.endsWith("Controller") || n.endsWith("Resolver");
+      });
       if (controller) {
         const prefix = firstStringArg(controller) ?? "";
         // Class-level guards apply to every route on the controller.
@@ -165,7 +195,8 @@ export function detectNestRoutes(
         for (const member of node.members) {
           if (!ts.isMethodDeclaration(member)) continue;
           for (const dec of decoratorsOf(member)) {
-            const method = ROUTE_DECORATORS.get(decoratorName(dec) ?? "");
+            const name = decoratorName(dec) ?? "";
+            const method = ROUTE_DECORATORS.get(name) ?? GRAPHQL_DECORATORS.get(name);
             if (!method) continue;
 
             const handler: FuncRef | undefined = resolveFunction(member);
@@ -176,7 +207,12 @@ export function detectNestRoutes(
               framework: "nestjs",
               detail: {
                 method,
-                path: joinPath(prefix, firstStringArg(dec) ?? ""),
+                // A GraphQL operation has a NAME rather than a path, and the name is
+                // what a caller writes to reach it. The class prefix is a URL idea and
+                // does not apply.
+                path: GRAPHQL_DECORATORS.has(name)
+                  ? firstStringArg(dec) ?? member.name.getText()
+                  : joinPath(prefix, firstStringArg(dec) ?? ""),
                 module: locOf(member).file,
               },
               loc: locOf(member),

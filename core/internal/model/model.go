@@ -6417,6 +6417,24 @@ type DecisionRule struct {
 	// OtherIsText requires the other side to be a string written into the source.
 	OtherIsText bool
 
+	// SideFrom requires the compared side to be the RESULT of one of these calls, for a
+	// rule that has no classification to find a side by.
+	//
+	// `Array.isArray(x) === "true"` and `crypto.verify(...) === 0` are both comparisons
+	// whose answer is known before the program runs: the call returns a boolean and the
+	// other side is not one, so the test can never succeed. The symbol is what fixes the
+	// type -- no inference is involved and none is available.
+	SideFrom []string
+
+	// OtherNamed requires the other side to BE one of these names.
+	//
+	// `x === NaN` is the case, and it is a comparison whose answer is known without
+	// running it: every comparison with NaN is false, including the inequality, so a
+	// branch that tests for one is a branch that never runs. A check that never runs is
+	// not a check. The value has no literal to match on -- it is a name the language
+	// provides -- so neither OtherIsText nor a literal test can reach it.
+	OtherNamed []string
+
 	// RequiresUnprojected forbids the judgement for a value read OUT of a structure the
 	// classification reached.
 	//
@@ -6499,6 +6517,33 @@ func builtinDecisions() []DecisionRule {
 			//
 			// No classification: the defect is in the comparison itself, whatever is
 			// being compared.
+			// A boolean read as a STATUS CODE. `crypto.verify(...) === 0` is how a C
+			// programmer checks a return value, and in these languages the call answers
+			// true or false -- so the check inverts, and a signature that failed to
+			// verify reads as one that passed.
+			ID:         "boolean-compared-to-number",
+			Ops:        []string{"===", "!==", "==", "!="},
+			SideFrom:   []string{"crypto.verify", "crypto.timingSafeEqual", "hmac.compare_digest", "secrets.compare_digest", "bcrypt.compareSync"},
+			OtherBelow: atMost(2),
+			CWE:        "CWE-253",
+			Finding:    "Verification result compared as a status code",
+			Reason:     "the call answers true or false rather than returning a code, so comparing it with a number tests something the call never says -- and a signature that failed can read as one that passed",
+			Rationale:  "one side is a call that returns a boolean and the other is a small number written in the source",
+		},
+		{
+			// Every comparison with NaN is false, the inequality included, so a branch
+			// that tests for one is a branch that never runs -- and in a check, a branch
+			// that never runs is not a check. Nothing has to reach this and no
+			// classification is involved: the comparison is wrong as written.
+			ID:         "compared-to-nan",
+			Ops:        []string{"==", "===", "!=", "!=="},
+			OtherNamed: []string{"NaN", "Number.NaN", "math.nan", "numpy.nan", "np.nan"},
+			CWE:        "CWE-1077",
+			Finding:    "Comparison with a value that equals nothing",
+			Reason:     "every comparison with NaN is false, so this branch never runs however the value arrives -- and a test that cannot succeed is not a test",
+			Rationale:  "the other side of the comparison is the not-a-number value itself",
+		},
+		{
 			ID: "identity-compared-to-text", Ops: []string{"Is", "IsNot"}, OtherIsText: true,
 			CWE:       "CWE-597",
 			Finding:   "String compared by identity rather than by value",
