@@ -1,3 +1,4 @@
+import tarfile
 import zipfile
 
 from flask import Flask, request
@@ -48,4 +49,23 @@ def import_by_hand_bundled():
         for name in archive.namelist():
             with open("/tmp/extensions/" + name, "wb") as out:
                 out.write(archive.read(name))
+    return "ok"
+
+
+@app.route("/import-tar", methods=["POST"])
+def import_tar():
+    # POSITIVE, and a different half of the same weakness. A tar member can be a SYMBOLIC
+    # LINK, and extracting one writes through it to wherever it points. The `..` member is
+    # the traversal everybody knows about and is reported separately; one parameter
+    # settles both, and Python is making it the default because the old call was wrong.
+    with tarfile.open(request.files["bundle"]) as tar:
+        tar.extractall("/tmp/extensions")
+    return "ok"
+
+
+@app.route("/import-tar-filtered", methods=["POST"])
+def import_tar_filtered():
+    # NEGATIVE, and the fix: one keyword.
+    with tarfile.open(request.files["bundle"]) as tar:
+        tar.extractall("/tmp/extensions", filter="data")
     return "ok"

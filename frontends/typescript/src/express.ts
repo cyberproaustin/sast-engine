@@ -19,6 +19,9 @@ function requiresExpress(expr: ts.Expression): boolean {
   );
 }
 
+/** Packages whose default export is a router factory. */
+const ROUTER_MODULES = new Set(["koa-router", "@koa/router", "express-promise-router", "router"]);
+
 const ROUTE_METHODS = new Set([
   "get",
   "post",
@@ -57,10 +60,18 @@ export function detectExpressRoutes(
   const expressNames = new Set<string>();
   const routerNames = new Set<string>();
   for (const [local, ref] of imports) {
-    if (ref.module !== "express") continue;
+    // Koa's router is the same shape from a different package, and it is what several
+    // large applications are built on. `import Router from "koa-router"` then `new
+    // Router()` registers routes exactly as Express does -- and named ones besides,
+    // where the first argument is a route NAME rather than a path.
+    const isRouterModule = ROUTER_MODULES.has(ref.module) || /(^|[/@-])router$/.test(ref.module);
+    if (ref.module !== "express" && !isRouterModule) continue;
     expressNames.add(local);
-    // `const { Router } = require("express")` binds the factory directly.
-    if (ref.export === "Router") routerNames.add(local);
+    // `const { Router } = require("express")` binds the factory directly, and a default
+    // import from a router package is the factory itself.
+    if (ref.export === "Router" || (isRouterModule && ref.export === "default")) {
+      routerNames.add(local);
+    }
   }
   // No early exit on an empty binding set: `require("express").Router()` names
   // express inline and produces no import binding at all, which is how a good deal
@@ -84,7 +95,12 @@ export function detectExpressRoutes(
     if (ts.isCallExpression(node) && ts.isPropertyAccessExpression(node.expression)) {
       const target = node.expression.expression;
       const method = node.expression.name.text;
-      if (ts.isIdentifier(target) && appNames.has(target.text)) {
+      // A CHAIN registers several routes on one receiver: `router.post(a, h1).post(b,
+      // h2).get(c, h3)`. Every call after the first has a CallExpression for a receiver,
+      // so requiring an identifier found the first route of each chain and lost the rest
+      // -- 83 of one application's 287.
+      const root = chainRoot(target);
+      if (root && appNames.has(root.text)) {
         if (method === "use") {
           appMiddleware.push(...middlewareFrom(node, "app", resolveFunction, locOf));
         } else if (ROUTE_METHODS.has(method)) {
@@ -116,7 +132,10 @@ function collectAppBindings(
       ts.isVariableDeclaration(node) &&
       ts.isIdentifier(node.name) &&
       node.initializer &&
-      ts.isCallExpression(node.initializer) &&
+      // `new Router()` as well as `Router()`. Koa's router is constructed and Express's
+      // is called, and looking only for the call left every Koa application's routes
+      // unenumerated.
+      (ts.isCallExpression(node.initializer) || ts.isNewExpression(node.initializer)) &&
       isExpressFactory(node.initializer.expression, expressNames, routerNames)
     ) {
       bindings.add(node.name.text);
@@ -141,9 +160,17 @@ function collectRouterShapes(sf: ts.SourceFile): Set<string> {
       node.arguments.length >= 2
     ) {
       const first = node.arguments[0];
+      const last = node.arguments[node.arguments.length - 1];
       // A path literal is what distinguishes a route registration from `map.get(k)`
-      // or `cache.delete(k)`.
-      if (ts.isStringLiteralLike(first) && first.text.startsWith("/")) {
+      // or `cache.delete(k)` -- and it is not enough on its own. A test client is
+      // called the same way: `server.post("/api/x", { body })` has a path literal and
+      // two arguments, and admitting the name on that evidence turned 228 routes into
+      // 1475 in one repository. Nearly every one of them was a request in a test.
+      //
+      // A registration ENDS IN A HANDLER. This is inference rather than a binding the
+      // frontend watched being created, so it is held to the stricter standard: the
+      // last argument must be something that could be a function.
+      if (ts.isStringLiteralLike(first) && first.text.startsWith("/") && couldBeHandler(last)) {
         out.add(node.expression.expression.text);
       }
     }
@@ -152,6 +179,36 @@ function collectRouterShapes(sf: ts.SourceFile): Set<string> {
   visit(sf);
 
   return out;
+}
+
+/** The identifier a call chain is rooted at: `router` in `router.post(...).get(...)`. */
+function chainRoot(expr: ts.Expression): ts.Identifier | undefined {
+  let cur: ts.Expression = expr;
+  for (let hops = 0; hops < 16; hops++) {
+    if (ts.isIdentifier(cur)) return cur;
+    if (ts.isCallExpression(cur)) {
+      cur = cur.expression;
+      continue;
+    }
+    if (ts.isPropertyAccessExpression(cur)) {
+      cur = cur.expression;
+      continue;
+    }
+    return undefined;
+  }
+  return undefined;
+}
+
+/** A function, or a name that might hold one. Not an object, array or literal. */
+function couldBeHandler(node: ts.Expression | undefined): boolean {
+  if (!node) return false;
+  return (
+    ts.isArrowFunction(node) ||
+    ts.isFunctionExpression(node) ||
+    ts.isIdentifier(node) ||
+    ts.isPropertyAccessExpression(node) ||
+    ts.isCallExpression(node)
+  );
 }
 
 function isExpressFactory(
@@ -224,8 +281,16 @@ function routesFrom(
   let start = 0;
 
   if (args.length > 0 && ts.isStringLiteralLike(args[0])) {
+    // Koa allows a route NAME in front of the path: `router.post("thing.create",
+    // middleware, handler)`. The name is what the application calls the route and is
+    // the only identifier it has, so it stands in for the path -- which is what ADR-009
+    // asks for when the engine knows least.
     routePath = args[0].text;
     start = 1;
+    if (args.length > 1 && ts.isStringLiteralLike(args[1]) && args[1].text.startsWith("/")) {
+      routePath = args[1].text;
+      start = 2;
+    }
   }
 
   // The LAST function argument is the handler; everything before it is middleware

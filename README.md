@@ -264,7 +264,7 @@ and libraries that register no routes.
 Notably, Python outperformed TypeScript on recognition, which is the opposite of where the
 engineering had gone: one uniform decorator beats a dozen registration idioms.
 
-**Measured, not asserted.** 101 corpora are scored on every test run — vulnerable, safe,
+**Measured, not asserted.** 104 corpora are scored on every test run — vulnerable, safe,
 and shape-regression — and a test fails if one is lowered but not scored. A sample:
 
 | corpus | precision | recall | |
@@ -440,7 +440,7 @@ The same honesty runs one level deeper. The engine carries the **whole published
 catalogue** and states, for every entry in it, what this build claims and why:
 
 ```
-  asserts 95 of 313 weaknesses a rule could be written for (30.4%)
+  asserts 99 of 314 weaknesses a rule could be written for (31.5%)
   and 33 more are subsumed: a rule above them catches them, because
   what distinguishes them is a detail the analysis never looks at
 ```
@@ -480,7 +480,7 @@ This project is early. The architecture is complete end to end and exercised by 
 policy families across two languages, but it is not a tool that should be relied on in
 place of an established scanner.
 
-What has been measured: 101 corpora in this repository score precision 1.00 and recall
+What has been measured: 104 corpora in this repository score precision 1.00 and recall
 1.00, and a batch run against 28 unmodified open source repositories produced a surface
 for 19 of them — 778 entry points — with every finding triaged by hand. Those runs
 measured *recall and enumeration*: whether the engine sees an application's real attack

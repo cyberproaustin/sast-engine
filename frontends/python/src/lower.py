@@ -31,7 +31,14 @@ FUNCTION_NODES = (ast.FunctionDef, ast.AsyncFunctionDef)
 HTTP_METHODS = frozenset({"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"})
 
 # Base classes whose subclasses Flask dispatches by HTTP verb.
-VIEW_BASES = frozenset({"MethodView", "View"})
+# Every base class whose subclass answers a request by the verb its methods are named
+# after. Flask's own two, plus the Resource of Flask-RESTX, Flask-RESTful and
+# Flask-AppBuilder -- which three of the applications in the clean corpus are built on,
+# and whose routes were invisible because the base class was not on this list.
+VIEW_BASES = frozenset({
+    "MethodView", "View", "Resource", "ModelRestApi", "BaseApi", "ModelView",
+    "HTTPMethodView",
+})
 
 # The builtins a rule in this project has anything to say about. Deliberately a short
 # list rather than everything in the module: a name is only qualified as a builtin when
@@ -99,7 +106,7 @@ class ModuleLowerer:
     """Lowers one module. Imports and module-level defs are resolved by name."""
 
     def __init__(self, root: str, path: str, tree: ast.Module, defs: dict[str, str],
-                 templates: dict | None = None):
+                 templates: dict | None = None, resource_paths: dict[str, str] | None = None):
         self.module = module_id(root, path)
         # Every view under the root, read once for the whole program.
         self.templates = templates or {}
@@ -114,12 +121,31 @@ class ModuleLowerer:
         self.class_of: dict[int, str] = {}
         # Classes Flask dispatches by HTTP verb, by their declared base.
         self.view_classes: set[str] = set()
+        # Paths from registrations anywhere in the program, so a class registered in one
+        # file learns its path even though it is defined in another.
+        self.decorated_view_paths: dict[str, str] = dict(resource_paths or {})
         for node in ast.walk(tree):
             if isinstance(node, ast.ClassDef):
+                # Registered somewhere in the program, which proves it is a view whatever
+                # it inherits from -- and applications routinely define their own base.
+                if node.name in self.decorated_view_paths:
+                    self.view_classes.add(node.name)
                 for base in node.bases:
                     name = base.id if isinstance(base, ast.Name) else getattr(base, "attr", "")
                     if name in VIEW_BASES:
                         self.view_classes.add(node.name)
+                # `@namespace.route("/things")` on a class is how Flask-RESTX and
+                # Flask-RESTful give a Resource its path, and it is a registration as
+                # much as `add_url_rule` is. The path is right there on the decorator.
+                for dec in node.decorator_list:
+                    if not isinstance(dec, ast.Call) or not isinstance(dec.func, ast.Attribute):
+                        continue
+                    if dec.func.attr != "route" or not dec.args:
+                        continue
+                    first = dec.args[0]
+                    if isinstance(first, ast.Constant) and isinstance(first.value, str):
+                        self.view_classes.add(node.name)
+                        self.decorated_view_paths[node.name] = first.value
                 for member in node.body:
                     if isinstance(member, FUNCTION_NODES):
                         self.class_of[id(member)] = node.name
@@ -152,13 +178,24 @@ class ModuleLowerer:
             if isinstance(node, FUNCTION_NODES):
                 fn = FunctionLowerer(self, node).lower()
                 self.functions.append(fn)
-                entry = self.entry_point_for(node, fn["id"])
-                if entry is None:
-                    entry = self.class_view_entry_point(node, fn["id"], view_paths)
-                if entry:
-                    self.entry_points.append(entry)
+                # EVERY route decorator, not the first. FastAPI applications stack them
+                # -- `@router.get("/x")` and `@router.get("/x/")` on one handler -- and
+                # returning at the first match lost the rest.
+                found = self.entry_points_for(node, fn["id"])
+                if not found:
+                    single = self.class_view_entry_point(node, fn["id"], view_paths)
+                    if single:
+                        found = [single]
+                # A test file's routes are not the application's attack surface: a test
+                # client is CALLED exactly as a router is REGISTERED, and a route that
+                # exists only in a test does not exist in the program that is deployed.
+                if not is_test_module(self.module):
+                    self.entry_points.extend(found)
 
-        self.entry_points.extend(self._url_rule_entry_points())
+        if not is_test_module(self.module):
+            self.entry_points.extend(self._url_rule_entry_points())
+            self.entry_points.extend(self._router_entry_points())
+        self._collect_resource_paths()
 
     # --- Flask class-based views and add_url_rule ------------------------------
     #
@@ -228,8 +265,31 @@ class ModuleLowerer:
             "functionId": function_id,
             "kind": "http-route",
             "framework": "flask",
-            "detail": {"method": method.upper(), "path": view_paths.get(cls, cls)},
+            "detail": {
+                "method": method.upper(),
+                "path": self.decorated_view_paths.get(cls) or view_paths.get(cls, cls),
+            },
         }
+
+    def _collect_resource_paths(self) -> None:
+        """`api.add_resource(ThingResource, "/things")` -- the path for a class.
+
+        Flask-RESTful and its variants register a Resource by CALL rather than by
+        decorator, and the class already answers by verb. Only the PATH was missing, so
+        the routes were enumerated with the class name standing in for it -- which is
+        honest and much less useful than the path the registration plainly carries.
+        """
+        for node in ast.walk(self.tree):
+            if not isinstance(node, ast.Call) or not isinstance(node.func, ast.Attribute):
+                continue
+            if not node.func.attr.startswith("add_") or "resource" not in node.func.attr:
+                continue
+            if len(node.args) < 2 or not isinstance(node.args[0], ast.Name):
+                continue
+            path = node.args[1]
+            if isinstance(path, ast.Constant) and isinstance(path.value, str):
+                self.view_classes.add(node.args[0].id)
+                self.decorated_view_paths.setdefault(node.args[0].id, path.value)
 
     def _url_rule_entry_points(self) -> list[dict]:
         """`add_url_rule("/path", view_func=some_function)` pointing at a plain function."""
@@ -266,16 +326,94 @@ class ModuleLowerer:
             })
         return out
 
+    # --- aiohttp framework model -----------------------------------------
+    #
+    # aiohttp registers by CALL rather than by decorator, which is why a frontend that
+    # knew only decorators and `add_url_rule` enumerated zero routes of an entire
+    # application -- and the report still looked complete, because a surface with no
+    # entry points reads exactly like a surface with nothing to say. Everything inside
+    # those handlers, a SQL injection among it, was invisible.
+    _VERB_METHODS = {
+        "add_get": "GET", "add_post": "POST", "add_put": "PUT", "add_patch": "PATCH",
+        "add_delete": "DELETE", "add_head": "HEAD", "add_view": "ANY",
+        "get": "GET", "post": "POST", "put": "PUT", "patch": "PATCH", "delete": "DELETE",
+        "head": "HEAD", "view": "ANY", "route": "ANY",
+    }
+
+    def _router_entry_points(self) -> list[dict]:
+        """`app.router.add_route("GET", "/x", views.x)` and the per-verb spellings."""
+        out = []
+        for node in ast.walk(self.tree):
+            if not isinstance(node, ast.Call) or not isinstance(node.func, ast.Attribute):
+                continue
+            attr = node.func.attr
+
+            if attr == "add_route":
+                # add_route(method, path, handler)
+                if len(node.args) < 3:
+                    continue
+                method = self._constant(node.args[0]) or "ANY"
+                path = self._constant(node.args[1]) or "*"
+                handler = node.args[2]
+            elif attr in self._VERB_METHODS:
+                # add_get(path, handler) and web.get(path, handler). A bare `get` or
+                # `post` is only a route when it is given a FUNCTION -- `session.get(key)`
+                # and `requests.get(url)` are the same two words and are not routes, which
+                # is why the handler has to resolve before anything is recorded.
+                if len(node.args) < 2:
+                    continue
+                method = self._VERB_METHODS[attr]
+                path = self._constant(node.args[0]) or "*"
+                handler = node.args[1]
+            else:
+                continue
+
+            target = self._function_reference(handler)
+            if not target:
+                continue
+            out.append({
+                "functionId": target,
+                "kind": "http-route",
+                "framework": "aiohttp",
+                "detail": {"method": method, "path": path},
+            })
+        return out
+
+    @staticmethod
+    def _constant(node: ast.AST) -> str | None:
+        return str(node.value) if isinstance(node, ast.Constant) else None
+
+    def _function_reference(self, node: ast.AST) -> str | None:
+        """The function a route registration POINTS AT, named or imported."""
+        if isinstance(node, ast.Name):
+            return self.global_defs.get(f"{self.module}:{node.id}")
+        if isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name):
+            # `views.index`, where `views` is a module this file imported.
+            module = self.imports.get(node.value.id)
+            if module:
+                return self.global_defs.get(f"import:{module}.{node.attr}")
+            # `Handlers.index` on a class defined here.
+            return self.global_defs.get(f"{self.module}:{node.value.id}.{node.attr}")
+        return None
+
     # --- Flask framework model -------------------------------------------
     #
     # Isolated here for the same reason the Express model is isolated in the
     # TypeScript frontend (ADR-004): framework knowledge is data about a
     # framework, not a property of the language.
 
-    def entry_point_for(self, node: ast.AST, function_id: str) -> dict | None:
+    def entry_points_for(self, node: ast.AST, function_id: str) -> list[dict]:
+        out = []
         for dec in getattr(node, "decorator_list", []):
+            entry = self._entry_point_for_decorator(dec, function_id)
+            if entry:
+                out.append(entry)
+        return out
+
+    def _entry_point_for_decorator(self, dec: ast.AST, function_id: str) -> dict | None:
+        if True:
             if not isinstance(dec, ast.Call):
-                continue
+                return None
 
             # `@app.route(...)`, `@router.get(...)` — bound to an object.
             if isinstance(dec.func, ast.Attribute):
@@ -285,10 +423,18 @@ class ModuleLowerer:
             # several other view frameworks register. Requiring an attribute made
             # every such route invisible.
             elif isinstance(dec.func, ast.Name):
+                # A BARE name is a route only for the frameworks that register that way.
+                # Accepting every verb here read `@patch("module.thing")` -- unittest's
+                # mock decorator -- as an HTTP route, and one application reported 1338
+                # routes where it has about 1025. A surface that invents entry points is
+                # worse than one that misses them: it is the primary output, and every
+                # judgement rests on it (ADR-009).
                 attr = dec.func.id
-                framework = "flask-appbuilder" if attr == "expose" else "flask"
+                if attr != "expose":
+                    return None
+                framework = "flask-appbuilder"
             else:
-                continue
+                return None
 
             # An error handler is reached by making a request that fails, which is
             # something any caller can do on purpose. It reads the request object like
@@ -304,11 +450,16 @@ class ModuleLowerer:
                 }
 
             if attr not in ("route", "expose", "get", "post", "put", "patch", "delete"):
-                continue
+                return None
 
             path = "*"
             if dec.args and isinstance(dec.args[0], ast.Constant):
                 path = str(dec.args[0].value)
+            # A verb decorator whose first argument is not a PATH is not a route.
+            # `@mock.patch("sqli.dao.user.User")` and `@pytest.mark.parametrize(...)` are
+            # written the same way and mean something else entirely.
+            if attr not in ("route", "expose") and not path.startswith("/"):
+                return None
 
             methods = ["GET"] if attr in ("route", "expose") else [attr.upper()]
             for kw in dec.keywords:
@@ -745,6 +896,10 @@ class FunctionLowerer:
         if isinstance(node, ast.Dict):
             vid = self.new_value("local", node, name="{dict}")
             for key, value in zip(node.keys, node.values):
+                # A dict's keys are not reliably configuration names -- a lookup table
+                # from a setting to its group has the same shape and its keys are data.
+                # Python's configuration is written as assignment (`app.config["X"] =`),
+                # which is already recorded, so nothing is lost by declining this here.
                 # `{**request.json}` is not an enclosure. A double-star has no key, and
                 # every key the value HAD is still a key here -- which is exactly what a
                 # rule asking "did this arrive whole" wants to know. Calling it an
@@ -1115,6 +1270,15 @@ class FunctionLowerer:
 
             root = self.mod.imports.get(func.value.id)
             if root:
+                # An imported CLASS's method, which is how a data-access layer is
+                # written: `from sqli.dao.student import Student` and then
+                # `Student.create(conn, name)`. Resolving only module-level functions
+                # left every such call external, so a tainted argument tainted the
+                # RESULT instead of entering the method -- and a SQL injection two files
+                # away was invisible.
+                target = self.mod.global_defs.get(f"import:{root}.{func.attr}")
+                if target:
+                    return {"kind": "local", "functionId": target, "resolution": "resolved"}
                 return {
                     "kind": "external",
                     "symbol": f"{root}.{func.attr}",
@@ -1177,6 +1341,16 @@ def lower_program(root: str, files: list[str]) -> dict:
     defs: dict[str, str] = {}
 
     # Pass 1: module-level function declarations, so calls resolve across files.
+    # Registrations are program-wide: `api.add_org_resource(AlertResource, "/api/alerts")`
+    # sits in one file and the class it names is defined in another. Collected here, in
+    # the pass that already reads every file, so a module can learn that a class of its
+    # own is a view without the registering module telling it directly.
+    #
+    # By NAME, which is loose and is stated: two classes sharing one name would both take
+    # the path. A route attributed to the wrong file is still a route, and the alternative
+    # was 27 of redash's ~150 routes.
+    resource_paths: dict[str, str] = {}
+
     for path in files:
         with open(path, "r", encoding="utf-8") as handle:
             tree = ast.parse(handle.read(), filename=path)
@@ -1191,21 +1365,50 @@ def lower_program(root: str, files: list[str]) -> dict:
             # Methods, keyed by their class. Registering only module-level functions
             # left `self.helper()` unresolvable, and in a framework whose views are
             # classes that is most of the call graph: 3-5% of calls resolved against
-            # 20% for the TypeScript frontend. Every unresolved edge costs twice —
+            # 20% for the TypeScript frontend. Every unresolved edge costs twice --
             # taint stops there, and a finding cannot be traced back to the entry point
             # that reaches it.
             elif isinstance(node, ast.ClassDef):
                 for member in node.body:
                     if isinstance(member, FUNCTION_NODES):
-                        defs[f"{mid}:{node.name}.{member.name}"] = (
-                            f"{mid}#{member.name}:{member.lineno}:{member.col_offset + 1}"
-                        )
+                        fid = f"{mid}#{member.name}:{member.lineno}:{member.col_offset + 1}"
+                        defs[f"{mid}:{node.name}.{member.name}"] = fid
+                        # And by the name an importer would use, so `Student.create(...)`
+                        # in another file resolves to the method rather than stopping at
+                        # the class.
+                        defs[f"import:{dotted}.{node.name}.{member.name}"] = fid
+
+    # Registrations are program-wide: `api.add_org_resource(AlertResource, "/api/alerts")`
+    # sits in one file and the class it names is defined in another. Collected in a pass
+    # of its own so a module can learn that a class of its own is a view without the
+    # registering module telling it directly.
+    #
+    # By NAME, which is loose and is stated: two classes sharing one name would both take
+    # the path. A route attributed to the wrong file is still a route, and the alternative
+    # was 27 of one application's roughly 150 routes.
+    for _, tree in trees:
+        for node in ast.walk(tree):
+            if not isinstance(node, ast.Call) or not isinstance(node.func, ast.Attribute):
+                continue
+            attr = node.func.attr
+            if attr.startswith("add_") and "resource" in attr and len(node.args) >= 2:
+                # add_resource(SomeResource, "/path")
+                target, path_arg = node.args[0], node.args[1]
+            elif attr == "add_url_rule" and len(node.args) >= 3:
+                # Flask's own signature puts the path first and the class third, and the
+                # class is routinely imported.
+                target, path_arg = node.args[2], node.args[0]
+            else:
+                continue
+            if isinstance(target, ast.Name) and isinstance(path_arg, ast.Constant):
+                if isinstance(path_arg.value, str):
+                    resource_paths.setdefault(target.id, path_arg.value)
 
     templates = index_templates(root)
 
     modules, functions, entry_points = [], [], []
     for path, tree in trees:
-        lowerer = ModuleLowerer(root, path, tree, defs, templates)
+        lowerer = ModuleLowerer(root, path, tree, defs, templates, resource_paths)
         lowerer.lower()
         modules.append({"id": lowerer.module, "path": lowerer.module,
                         **({"isTest": True} if is_test_module(lowerer.module) else {})})

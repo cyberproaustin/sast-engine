@@ -1,0 +1,22 @@
+{
+  "corpus": "aiohttp-routes",
+  "description": "A framework that registers routes by call rather than by decorator. The frontend enumerated zero entry points of an entire application, and a surface with no entry points reads exactly like a surface with nothing to say -- so everything inside those handlers was invisible. Three things had to exist together: the registration idiom, the request body read as a coroutine METHOD rather than as a property, and a call to an imported class method, which is how a data-access layer is written.",
+  "expected": [
+    {
+      "cwe": "CWE-89",
+      "sinkFile": "sqli/dao.py",
+      "sinkLine": 9,
+      "sourceLabel": "request.post()",
+      "confidence": "medium",
+      "note": "two files from the handler, behind a class the caller imported. Three things had to exist together for this: the registration idiom, the body read as a coroutine method rather than as a property, and the imported class method resolving"
+    },
+    {
+      "cwe": "CWE-489",
+      "sinkFile": "app.py",
+      "sinkLine": 22,
+      "sourceLabel": "\"debug=true\"",
+      "confidence": "high",
+      "note": "a second framework making the decision Flask makes"
+    }
+  ]
+}

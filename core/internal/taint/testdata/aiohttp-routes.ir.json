@@ -1,0 +1,1328 @@
+{
+  "irVersion": "0.12.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "app.py",
+      "path": "app.py"
+    },
+    {
+      "id": "sqli/__init__.py",
+      "path": "sqli/__init__.py"
+    },
+    {
+      "id": "sqli/dao.py",
+      "path": "sqli/dao.py"
+    },
+    {
+      "id": "sqli/views.py",
+      "path": "sqli/views.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "app.py#<module>:0:0",
+      "name": "<module>",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "aiohttp registers a route by CALL, not by decorator.\n\nA frontend that knew only decorators and `add_url_rule` enumerated ZERO routes of an\nentire application -- and the report still looked complete, because a surface with no\nentry points reads exactly like a surface with nothing to say. Everything inside those\nhandlers was invisible, a SQL injection among it.\n"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "app.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#setup_routes:13:1",
+      "name": "setup_routes",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 13,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "app",
+          "valueId": "app.py#setup_routes:13:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#setup_routes:13:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 13,
+            "column": 18
+          },
+          "name": "app"
+        },
+        {
+          "id": "app.py#setup_routes:13:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 26
+          },
+          "literal": "GET"
+        },
+        {
+          "id": "app.py#setup_routes:13:1$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 33
+          },
+          "literal": "/students/"
+        },
+        {
+          "id": "app.py#setup_routes:13:1$v3",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 47
+          },
+          "name": "sqli.views"
+        },
+        {
+          "id": "app.py#setup_routes:13:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 47
+          },
+          "base": "app.py#setup_routes:13:1$v3",
+          "path": "students",
+          "name": "students"
+        },
+        {
+          "id": "app.py#setup_routes:13:1$v5",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 5
+          },
+          "base": "app.py#setup_routes:13:1$v0",
+          "path": "router",
+          "name": "router"
+        },
+        {
+          "id": "app.py#setup_routes:13:1$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 5
+          },
+          "name": "app.router.add_route"
+        },
+        {
+          "id": "app.py#setup_routes:13:1$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 25
+          },
+          "literal": "/students/new"
+        },
+        {
+          "id": "app.py#setup_routes:13:1$v8",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 42
+          },
+          "base": "app.py#setup_routes:13:1$v3",
+          "path": "create_student",
+          "name": "create_student"
+        },
+        {
+          "id": "app.py#setup_routes:13:1$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 5
+          },
+          "name": "app.router.add_post"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#setup_routes:13:1$v3",
+          "to": "app.py#setup_routes:13:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 47
+          }
+        },
+        {
+          "from": "app.py#setup_routes:13:1$v0",
+          "to": "app.py#setup_routes:13:1$v5",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 5
+          }
+        },
+        {
+          "from": "app.py#setup_routes:13:1$v3",
+          "to": "app.py#setup_routes:13:1$v8",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 42
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#setup_routes:13:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "app.router.add_route",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#setup_routes:13:1$v1"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#setup_routes:13:1$v2"
+            },
+            {
+              "index": 2,
+              "valueId": "app.py#setup_routes:13:1$v4"
+            }
+          ],
+          "resultValueId": "app.py#setup_routes:13:1$v6",
+          "block": "app.py#setup_routes:13:1$b0",
+          "method": "add_route",
+          "argCount": 3,
+          "argLiterals": {
+            "0": "GET",
+            "1": "/students/"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#setup_routes:13:1$v5"
+        },
+        {
+          "id": "app.py#setup_routes:13:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "app.router.add_post",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#setup_routes:13:1$v7"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#setup_routes:13:1$v8"
+            }
+          ],
+          "resultValueId": "app.py#setup_routes:13:1$v9",
+          "block": "app.py#setup_routes:13:1$b0",
+          "method": "add_post",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "/students/new"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#setup_routes:13:1$v5"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#setup_routes:13:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#setup_routes:13:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 13,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#build:18:1",
+      "name": "build",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 18,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#build:18:1$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 33
+          },
+          "literal": "true"
+        },
+        {
+          "id": "app.py#build:18:1$v1",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 11
+          },
+          "name": "aiohttp.web"
+        },
+        {
+          "id": "app.py#build:18:1$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 11
+          },
+          "name": "aiohttp.web.Application"
+        },
+        {
+          "id": "app.py#build:18:1$v3",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 5
+          },
+          "name": "app"
+        },
+        {
+          "id": "app.py#build:18:1$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 5
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#build:18:1$v2",
+          "to": "app.py#build:18:1$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 5
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#build:18:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 11
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "aiohttp.web.Application",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#build:18:1$v0"
+            }
+          ],
+          "resultValueId": "app.py#build:18:1$v2",
+          "block": "app.py#build:18:1$b0",
+          "method": "Application",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "debug=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#build:18:1$v1"
+        },
+        {
+          "id": "app.py#build:18:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 5
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "app.py#setup_routes:13:1",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#build:18:1$v3"
+            }
+          ],
+          "resultValueId": "app.py#build:18:1$v4",
+          "block": "app.py#build:18:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "app.py#build:18:1$v3"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#build:18:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#build:18:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 18,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#build:18:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 24,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "sqli/__init__.py#<module>:0:0",
+      "name": "<module>",
+      "module": "sqli/__init__.py",
+      "loc": {
+        "file": "sqli/__init__.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "sqli/__init__.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "sqli/__init__.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "sqli/__init__.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "sqli/dao.py#<module>:0:0",
+      "name": "<module>",
+      "module": "sqli/dao.py",
+      "loc": {
+        "file": "sqli/dao.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "sqli/dao.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "sqli/dao.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "sqli/dao.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "sqli/dao.py#create:3:5",
+      "name": "create",
+      "module": "sqli/dao.py",
+      "loc": {
+        "file": "sqli/dao.py",
+        "line": 3,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "conn",
+          "valueId": "sqli/dao.py#create:3:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "name",
+          "valueId": "sqli/dao.py#create:3:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "sqli/dao.py#create:3:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "sqli/dao.py",
+            "line": 3,
+            "column": 22
+          },
+          "name": "conn"
+        },
+        {
+          "id": "sqli/dao.py#create:3:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "sqli/dao.py",
+            "line": 3,
+            "column": 28
+          },
+          "name": "name"
+        },
+        {
+          "id": "sqli/dao.py#create:3:5$v2",
+          "kind": "local",
+          "loc": {
+            "file": "sqli/dao.py",
+            "line": 7,
+            "column": 13
+          },
+          "name": "concat"
+        },
+        {
+          "id": "sqli/dao.py#create:3:5$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "sqli/dao.py",
+            "line": 7,
+            "column": 13
+          },
+          "literal": "INSERT INTO students (name) VALUES ('%(name)s')"
+        },
+        {
+          "id": "sqli/dao.py#create:3:5$v4",
+          "kind": "local",
+          "loc": {
+            "file": "sqli/dao.py",
+            "line": 7,
+            "column": 65
+          },
+          "name": "{dict}"
+        },
+        {
+          "id": "sqli/dao.py#create:3:5$v5",
+          "kind": "local",
+          "loc": {
+            "file": "sqli/dao.py",
+            "line": 7,
+            "column": 9
+          },
+          "name": "q"
+        },
+        {
+          "id": "sqli/dao.py#create:3:5$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "sqli/dao.py",
+            "line": 8,
+            "column": 20
+          },
+          "name": "conn.cursor"
+        },
+        {
+          "id": "sqli/dao.py#create:3:5$v7",
+          "kind": "local",
+          "loc": {
+            "file": "sqli/dao.py",
+            "line": 8,
+            "column": 9
+          },
+          "name": "cur"
+        },
+        {
+          "id": "sqli/dao.py#create:3:5$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "sqli/dao.py",
+            "line": 9,
+            "column": 19
+          },
+          "name": "cur.execute"
+        }
+      ],
+      "flows": [
+        {
+          "from": "sqli/dao.py#create:3:5$v3",
+          "to": "sqli/dao.py#create:3:5$v2",
+          "kind": "binary",
+          "loc": {
+            "file": "sqli/dao.py",
+            "line": 7,
+            "column": 13
+          }
+        },
+        {
+          "from": "sqli/dao.py#create:3:5$v1",
+          "to": "sqli/dao.py#create:3:5$v4",
+          "kind": "enclose",
+          "loc": {
+            "file": "sqli/dao.py",
+            "line": 7,
+            "column": 65
+          }
+        },
+        {
+          "from": "sqli/dao.py#create:3:5$v4",
+          "to": "sqli/dao.py#create:3:5$v2",
+          "kind": "binary",
+          "loc": {
+            "file": "sqli/dao.py",
+            "line": 7,
+            "column": 13
+          }
+        },
+        {
+          "from": "sqli/dao.py#create:3:5$v2",
+          "to": "sqli/dao.py#create:3:5$v5",
+          "kind": "assign",
+          "loc": {
+            "file": "sqli/dao.py",
+            "line": 7,
+            "column": 9
+          }
+        },
+        {
+          "from": "sqli/dao.py#create:3:5$v6",
+          "to": "sqli/dao.py#create:3:5$v7",
+          "kind": "assign",
+          "loc": {
+            "file": "sqli/dao.py",
+            "line": 8,
+            "column": 9
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "sqli/dao.py#create:3:5$c0",
+          "loc": {
+            "file": "sqli/dao.py",
+            "line": 8,
+            "column": 20
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "conn.cursor",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "sqli/dao.py#create:3:5$v6",
+          "block": "sqli/dao.py#create:3:5$b0",
+          "method": "cursor",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "sqli/dao.py#create:3:5$v0"
+        },
+        {
+          "id": "sqli/dao.py#create:3:5$c1",
+          "loc": {
+            "file": "sqli/dao.py",
+            "line": 9,
+            "column": 19
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cur.execute",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "sqli/dao.py#create:3:5$v5"
+            }
+          ],
+          "resultValueId": "sqli/dao.py#create:3:5$v8",
+          "block": "sqli/dao.py#create:3:5$b0",
+          "method": "execute",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "sqli/dao.py#create:3:5$v7"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "sqli/dao.py#create:3:5$b0",
+      "blocks": [
+        {
+          "id": "sqli/dao.py#create:3:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "sqli/dao.py",
+            "line": 3,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "sqli/views.py#<module>:0:0",
+      "name": "<module>",
+      "module": "sqli/views.py",
+      "loc": {
+        "file": "sqli/views.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "sqli/views.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "sqli/views.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "sqli/views.py#students:6:1",
+      "name": "students",
+      "module": "sqli/views.py",
+      "loc": {
+        "file": "sqli/views.py",
+        "line": 6,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "sqli/views.py#students:6:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "sqli/views.py#students:6:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 6,
+            "column": 20
+          },
+          "name": "request"
+        },
+        {
+          "id": "sqli/views.py#students:6:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 8,
+            "column": 52
+          },
+          "literal": "sort"
+        },
+        {
+          "id": "sqli/views.py#students:6:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 8,
+            "column": 34
+          },
+          "base": "sqli/views.py#students:6:1$v0",
+          "path": "query",
+          "name": "query"
+        },
+        {
+          "id": "sqli/views.py#students:6:1$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 8,
+            "column": 34
+          },
+          "name": "request.query.get"
+        },
+        {
+          "id": "sqli/views.py#students:6:1$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 8,
+            "column": 30
+          },
+          "name": "str"
+        },
+        {
+          "id": "sqli/views.py#students:6:1$v5",
+          "kind": "global",
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 8,
+            "column": 12
+          },
+          "name": "aiohttp.web"
+        },
+        {
+          "id": "sqli/views.py#students:6:1$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 8,
+            "column": 12
+          },
+          "name": "aiohttp.web.Response"
+        }
+      ],
+      "flows": [
+        {
+          "from": "sqli/views.py#students:6:1$v0",
+          "to": "sqli/views.py#students:6:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 8,
+            "column": 34
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "sqli/views.py#students:6:1$c0",
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 8,
+            "column": 34
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "request.query.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "sqli/views.py#students:6:1$v1"
+            }
+          ],
+          "resultValueId": "sqli/views.py#students:6:1$v3",
+          "block": "sqli/views.py#students:6:1$b0",
+          "method": "get",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "sort"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "sqli/views.py#students:6:1$v2"
+        },
+        {
+          "id": "sqli/views.py#students:6:1$c1",
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 8,
+            "column": 30
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "str",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "sqli/views.py#students:6:1$v3"
+            }
+          ],
+          "resultValueId": "sqli/views.py#students:6:1$v4",
+          "block": "sqli/views.py#students:6:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "sqli/views.py#students:6:1$c2",
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 8,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "aiohttp.web.Response",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "sqli/views.py#students:6:1$v4"
+            }
+          ],
+          "resultValueId": "sqli/views.py#students:6:1$v6",
+          "block": "sqli/views.py#students:6:1$b0",
+          "method": "Response",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "text=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "sqli/views.py#students:6:1$v5"
+        }
+      ],
+      "returns": [
+        "sqli/views.py#students:6:1$v6"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "sqli/views.py#students:6:1$b0",
+      "blocks": [
+        {
+          "id": "sqli/views.py#students:6:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 6,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "sqli/views.py#students:6:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 8,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "sqli/views.py#create_student:11:1",
+      "name": "create_student",
+      "module": "sqli/views.py",
+      "loc": {
+        "file": "sqli/views.py",
+        "line": 11,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "sqli/views.py#create_student:11:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "sqli/views.py#create_student:11:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 11,
+            "column": 26
+          },
+          "name": "request"
+        },
+        {
+          "id": "sqli/views.py#create_student:11:1$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 15,
+            "column": 18
+          },
+          "name": "request.post"
+        },
+        {
+          "id": "sqli/views.py#create_student:11:1$v2",
+          "kind": "local",
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 15,
+            "column": 5
+          },
+          "name": "data"
+        },
+        {
+          "id": "sqli/views.py#create_student:11:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 16,
+            "column": 26
+          },
+          "base": "sqli/views.py#create_student:11:1$v0",
+          "path": "app",
+          "name": "app"
+        },
+        {
+          "id": "sqli/views.py#create_student:11:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 16,
+            "column": 26
+          },
+          "name": "db",
+          "base": "sqli/views.py#create_student:11:1$v3",
+          "path": "app.db"
+        },
+        {
+          "id": "sqli/views.py#create_student:11:1$v5",
+          "kind": "property",
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 16,
+            "column": 45
+          },
+          "name": "name",
+          "base": "sqli/views.py#create_student:11:1$v2",
+          "path": "name"
+        },
+        {
+          "id": "sqli/views.py#create_student:11:1$v6",
+          "kind": "global",
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 16,
+            "column": 11
+          },
+          "name": "sqli.dao.Student"
+        },
+        {
+          "id": "sqli/views.py#create_student:11:1$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 16,
+            "column": 11
+          },
+          "name": "local"
+        },
+        {
+          "id": "sqli/views.py#create_student:11:1$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 17,
+            "column": 30
+          },
+          "literal": "ok"
+        },
+        {
+          "id": "sqli/views.py#create_student:11:1$v9",
+          "kind": "global",
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 17,
+            "column": 12
+          },
+          "name": "aiohttp.web"
+        },
+        {
+          "id": "sqli/views.py#create_student:11:1$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 17,
+            "column": 12
+          },
+          "name": "aiohttp.web.Response"
+        }
+      ],
+      "flows": [
+        {
+          "from": "sqli/views.py#create_student:11:1$v1",
+          "to": "sqli/views.py#create_student:11:1$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 15,
+            "column": 5
+          }
+        },
+        {
+          "from": "sqli/views.py#create_student:11:1$v0",
+          "to": "sqli/views.py#create_student:11:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 16,
+            "column": 26
+          }
+        },
+        {
+          "from": "sqli/views.py#create_student:11:1$v3",
+          "to": "sqli/views.py#create_student:11:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 16,
+            "column": 26
+          }
+        },
+        {
+          "from": "sqli/views.py#create_student:11:1$v2",
+          "to": "sqli/views.py#create_student:11:1$v5",
+          "kind": "property",
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 16,
+            "column": 45
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "sqli/views.py#create_student:11:1$c0",
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 15,
+            "column": 18
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "request.post",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "sqli/views.py#create_student:11:1$v1",
+          "block": "sqli/views.py#create_student:11:1$b0",
+          "method": "post",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "sqli/views.py#create_student:11:1$v0"
+        },
+        {
+          "id": "sqli/views.py#create_student:11:1$c1",
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 16,
+            "column": 11
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "sqli/dao.py#create:3:5",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "sqli/views.py#create_student:11:1$v4"
+            },
+            {
+              "index": 1,
+              "valueId": "sqli/views.py#create_student:11:1$v5"
+            }
+          ],
+          "resultValueId": "sqli/views.py#create_student:11:1$v7",
+          "block": "sqli/views.py#create_student:11:1$b0",
+          "method": "create",
+          "argCount": 2,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "sqli/views.py#create_student:11:1$v6"
+        },
+        {
+          "id": "sqli/views.py#create_student:11:1$c2",
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 17,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "aiohttp.web.Response",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "sqli/views.py#create_student:11:1$v8"
+            }
+          ],
+          "resultValueId": "sqli/views.py#create_student:11:1$v10",
+          "block": "sqli/views.py#create_student:11:1$b0",
+          "method": "Response",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "text=ok"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "sqli/views.py#create_student:11:1$v9"
+        }
+      ],
+      "returns": [
+        "sqli/views.py#create_student:11:1$v10"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "sqli/views.py#create_student:11:1$b0",
+      "blocks": [
+        {
+          "id": "sqli/views.py#create_student:11:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 11,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "sqli/views.py#create_student:11:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "sqli/views.py",
+            "line": 17,
+            "column": 5
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "sqli/views.py#students:6:1",
+      "kind": "http-route",
+      "framework": "aiohttp",
+      "detail": {
+        "method": "GET",
+        "path": "/students/"
+      }
+    },
+    {
+      "functionId": "sqli/views.py#create_student:11:1",
+      "kind": "http-route",
+      "framework": "aiohttp",
+      "detail": {
+        "method": "POST",
+        "path": "/students/new"
+      }
+    }
+  ]
+}

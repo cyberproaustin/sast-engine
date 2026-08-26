@@ -1,0 +1,22 @@
+{
+  "corpus": "flask-pattern-and-xml",
+  "description": "Two small languages a caller must not be allowed to write. Neither is a path and neither is a protocol: a glob pattern chooses which files a program walks rather than which file it opens, and text built into an XML document is the caller writing syntax -- the same evidence SQL injection rests on, at a different interpreter. Three negatives: each language ships the escaper that proves the point, and a document the caller SENT is a different question judged by what the parser was asked to resolve.",
+  "expected": [
+    {
+      "cwe": "CWE-155",
+      "sinkFile": "app.py",
+      "sinkLine": 21,
+      "sourceLabel": "flask.request.args.pattern",
+      "confidence": "high",
+      "note": "choosing a PATTERN is not choosing a path, which is why the two are reported apart"
+    },
+    {
+      "cwe": "CWE-91",
+      "sinkFile": "app.py",
+      "sinkLine": 35,
+      "sourceLabel": "flask.request.form.body",
+      "confidence": "high",
+      "note": "built INTO the document rather than carried by it -- the same evidence SQL injection rests on, at a different interpreter"
+    }
+  ]
+}

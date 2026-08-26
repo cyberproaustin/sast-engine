@@ -374,8 +374,18 @@ export function lowerProgram(opts: LowerOptions): IRDoc {
         lowerFunction(node as ts.SignatureDeclaration, meta, sf, checker, imports, resolveFunction, identity, templates, fileScope, fileGlobals),
       );
     }
-    entryPoints.push(...detectExpressRoutes(sf, imports, resolveFunction, (n) => locOf(sf, n)));
-    entryPoints.push(...detectNestRoutes(sf, resolveFunction, (n) => locOf(sf, n), definedDecorators));
+    // A test file's HTTP calls are not the application's attack surface. A supertest
+    // client is CALLED exactly as a router is REGISTERED -- `server.post("/api/x", {...})`
+    // -- and one repository contributed 1194 of its 1227 entry points that way, every one
+    // a request in a test rather than a route a caller can reach.
+    //
+    // ADR-009 says a route that exists must appear. A route registered only in a test
+    // does not exist in the program that gets deployed, which is the program this
+    // enumerates.
+    if (!isTestModule(moduleId)) {
+      entryPoints.push(...detectExpressRoutes(sf, imports, resolveFunction, (n) => locOf(sf, n)));
+      entryPoints.push(...detectNestRoutes(sf, resolveFunction, (n) => locOf(sf, n), definedDecorators));
+    }
   }
 
   return {
@@ -805,6 +815,13 @@ function lowerFunction(
     return undefined;
   };
 
+  /** Whether the checker says a call's signature returns `never`. */
+  const returnsNever = (call: ts.CallExpression): boolean => {
+    const signature = checker.getResolvedSignature(call);
+    if (!signature) return false;
+    return (checker.getReturnTypeOfSignature(signature).flags & ts.TypeFlags.Never) !== 0;
+  };
+
   const resolveCallee = (call: ts.CallExpression | ts.NewExpression): Callee => {
     const expr = call.expression;
 
@@ -1204,6 +1221,24 @@ function lowerFunction(
     if (ts.isObjectLiteralExpression(expr)) {
       const loc = locOf(sf, expr);
       const id = newValue("local", loc, { name: "{object}" });
+      // An object literal written AT A CALL is that call's options, and the call-shape
+      // rules already read them from the call. Recording its properties as writes too
+      // reported one line twice under two numbers -- `mysql.createConnection({password:
+      // "hunter2"})` is a password in a connection, which is what the call shape says.
+      //
+      // An object literal bound to a NAME is configuration, and nothing else reads it.
+      // Recorded ONLY for the module's exports, and the number is why. An object
+      // literal's keys are not always configuration names: `{members_public_key: "core",
+      // admin_session_secret: "core", ...}` is a lookup table from a setting to its
+      // group, and reading its keys as names put 1463 findings into a corpus that had
+      // 136. `module.exports = { cookieSecret: "..." }` is the one shape where the keys
+      // ARE the program's own configuration, and it is the shape a recall audit named.
+      const isModuleConfig =
+        expr.parent &&
+        ts.isBinaryExpression(expr.parent) &&
+        expr.parent.operatorToken.kind === ts.SyntaxKind.EqualsToken &&
+        expr.parent.right === expr &&
+        /^(module\.exports|exports)$/.test(expr.parent.left.getText(sf));
       // Every form that carries a value in. `{ slug }` and `{ ...base }` are how
       // real code builds query objects; handling only `key: value` loses the taint
       // at the last hop before the sink.
@@ -1222,8 +1257,26 @@ function lowerFunction(
         if (ts.isPropertyAssignment(prop)) {
           const from = lowerExpr(prop.initializer);
           addFlow(from, id, "enclose", loc);
-          if (from && ts.isIdentifier(prop.name)) fields.set(prop.name.text, from);
-          else if (from && ts.isStringLiteralLike(prop.name)) fields.set(prop.name.text, from);
+          const key = ts.isIdentifier(prop.name) || ts.isStringLiteralLike(prop.name)
+            ? prop.name.text
+            : undefined;
+          if (from && key !== undefined) fields.set(key, from);
+          // A property given a LITERAL is a value written down under a name, which is
+          // the same fact as `config.secret = "..."` and was recorded for one and not
+          // the other. `module.exports = { cookieSecret: "..." }` is how a JavaScript
+          // application writes its configuration, and a rule that watches writes could
+          // not see it at all.
+          //
+          // Only literals. Recording every property of every object literal would
+          // multiply the IR for the sake of a question no rule asks.
+          if (
+            isModuleConfig &&
+            from &&
+            key !== undefined &&
+            literalOf(prop.initializer) !== undefined
+          ) {
+            writes.push({ loc: locOf(sf, prop), base: id, path: key, from });
+          }
         } else if (ts.isShorthandPropertyAssignment(prop)) {
           // For `{ slug }` the identifier resolves to the PROPERTY symbol, not the
           // local it reads. The checker has a dedicated accessor for the value.
@@ -1422,6 +1475,46 @@ function lowerFunction(
     }
     // A catch binding is where internal error detail enters the program. Without a
     // value for it, the most common information-exposure flow has no source.
+    // A CATCH is a different path, not the next statement.
+    //
+    // Lowering try/catch as straight-line code put the catch handler's calls into a block
+    // that unavoidably follows the try body -- so `try { ...; res.sendStatus(401) } catch
+    // (e) { next(e) }` looked like a rejection the handler carried on past. It is not: the
+    // catch runs instead of the rest, not after it.
+    //
+    // The finally block is the one part that IS unavoidable, and it is linked from both.
+    if (ts.isTryStatement(n)) {
+      const tryBlock = newBlock(n.tryBlock);
+      link(current, tryBlock);
+      current = tryBlock;
+      walk(n.tryBlock);
+      const tryEnd = current;
+
+      let catchEnd: string | undefined;
+      if (n.catchClause) {
+        const catchBlock = newBlock(n.catchClause);
+        // From the START of the try: an exception can be raised anywhere inside it.
+        link(tryBlock, catchBlock);
+        current = catchBlock;
+        walk(n.catchClause);
+        catchEnd = current;
+      }
+
+      const after = newBlock(n);
+      if (n.finallyBlock) {
+        const finallyBlock = newBlock(n.finallyBlock);
+        link(tryEnd, finallyBlock);
+        if (catchEnd) link(catchEnd, finallyBlock);
+        current = finallyBlock;
+        walk(n.finallyBlock);
+        link(current, after);
+      } else {
+        link(tryEnd, after);
+        if (catchEnd) link(catchEnd, after);
+      }
+      current = after;
+      return;
+    }
     if (ts.isCatchClause(n)) {
       const decl = n.variableDeclaration;
       if (decl && ts.isIdentifier(decl.name)) {
@@ -1472,6 +1565,24 @@ function lowerFunction(
       return;
     }
     if (ts.isThrowStatement(n)) {
+      lowerExpr(n.expression);
+      terminate(current, "throw");
+      current = newBlock(n);
+      return;
+    }
+    // A call the LANGUAGE says does not return. `never` is TypeScript's own statement of
+    // exactly the fact a control-flow question needs: `NcError.forbidden(msg): never`
+    // throws, so nothing after it runs -- and a graph that did not know went on to report
+    // fifty-one rejections in one repository as though the handler continued past them.
+    //
+    // Read from the checker rather than from a list of names, because that is the whole
+    // point of having one: the frontend answers what the language knows, and the core
+    // asks what the answer means (ADR-001).
+    if (
+      ts.isExpressionStatement(n) &&
+      ts.isCallExpression(n.expression) &&
+      returnsNever(n.expression)
+    ) {
       lowerExpr(n.expression);
       terminate(current, "throw");
       current = newBlock(n);
@@ -1598,6 +1709,11 @@ function lowerFunction(
       calls,
       returns,
       comparisons,
+      // Writes too. They were computed here and then dropped on the way out, which is
+      // the worst place to drop them: this branch exists BECAUSE a module's top level is
+      // where configuration lives, and `module.exports = { cookieSecret: "..." }` is a
+      // write and nothing else.
+      writes: writes.length ? writes : undefined,
       entryBlock,
       blocks,
     };

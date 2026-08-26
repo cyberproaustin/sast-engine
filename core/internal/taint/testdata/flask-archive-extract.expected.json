@@ -1,22 +1,46 @@
 {
   "corpus": "flask-archive-extract",
-  "description": "An archive the caller supplied, unpacked. The path traversal is inside the file rather than in the call, so what decides it is what the archive IS -- a question the dataflow has already answered, because the handle came out of ZipFile() on caller data. Writing this fixture also found that `with` statements were not lowered at all: the context expression is not a statement, so the walk went past the call into its children and never lowered it. The second pair is the same weakness written out by hand: a program that walks the entries itself instead of calling extractall does the traversal one entry at a time, and it is reached the same way -- a loop variable carries what the collection carried.",
+  "description": "An archive the caller supplied, unpacked. The path traversal is inside the file rather than in the call, so what decides it is what the archive IS -- a question the dataflow has already answered, because the handle came out of ZipFile() on caller data. Writing this fixture also found that `with` statements were not lowered at all: the context expression is not a statement, so the walk went past the call into its children and never lowered it. The second pair is the same weakness written out by hand: a program that walks the entries itself instead of calling extractall does the traversal one entry at a time, and it is reached the same way -- a loop variable carries what the collection carried. The tar pair adds the half that is not traversal at all: a member can be a symbolic link, which one keyword decides and which zipfile has no equivalent for.",
   "expected": [
     {
       "cwe": "CWE-22",
       "sinkFile": "app.py",
-      "sinkLine": 16,
+      "sinkLine": 17,
       "sourceLabel": "flask.request.files.bundle",
       "confidence": "medium",
-      "note": "medium because the extractall receiver is untyped; the bundled archive below is silent"
+      "note": "the tar form of the same traversal, reported for where the member lands"
     },
     {
       "cwe": "CWE-22",
       "sinkFile": "app.py",
-      "sinkLine": 38,
+      "sinkLine": 39,
       "sourceLabel": "flask.request.files.bundle",
       "confidence": "medium",
-      "note": "the same weakness done by hand, one entry at a time. The loop variable carries what the collection carried, and the collection came out of opening an archive the caller sent"
+      "note": "the tar form of the same traversal, reported for where the member lands"
+    },
+    {
+      "cwe": "CWE-22",
+      "sinkFile": "app.py",
+      "sinkLine": 62,
+      "sourceLabel": "flask.request.files.bundle",
+      "confidence": "medium",
+      "note": "the tar form of the same traversal, reported for where the member lands"
+    },
+    {
+      "cwe": "CWE-22",
+      "sinkFile": "app.py",
+      "sinkLine": 70,
+      "sourceLabel": "flask.request.files.bundle",
+      "confidence": "medium",
+      "note": "the tar form of the same traversal, reported for where the member lands"
+    },
+    {
+      "cwe": "CWE-59",
+      "sinkFile": "app.py",
+      "sinkLine": 62,
+      "sourceLabel": "\"no filter\"",
+      "confidence": "high",
+      "note": "the OTHER half of the same weakness, and it needs no untrusted source at all: a tar member can be a symbolic link, and extracting one writes through it to wherever it points. Zipfile is deliberately not matched -- it has no such parameter"
     }
   ]
 }
