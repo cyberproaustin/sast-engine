@@ -56,6 +56,10 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 		}
 
 		for _, rule := range m.Guards {
+			if len(rule.Constructs) > 0 {
+				out = append(out, discardedConstruction(ix, fn, rule)...)
+				continue
+			}
 			for _, c := range fn.Calls {
 				if len(rule.Repeats) > 0 {
 					out = append(out, repeatingCallback(ix, fn, c, rule)...)
@@ -130,6 +134,119 @@ func repeatingCallback(ix *ir.Index, fn *ir.Function, c *ir.Call, rule model.Gua
 		out = append(out, repeatFinding(ix, fn, cb, c, r, rule))
 	}
 	return out
+}
+
+// discardedConstruction reports a response the program built and then let fall, where a
+// branch beside it returns the identical construction.
+//
+// The comparison is what makes this sayable. A rule that reported every constructor whose
+// result goes nowhere would be reporting dead code, and an engine has no standing to say
+// which line of dead code was MEANT to matter. Here it does not have to guess: the same
+// call, in the same function, is returned somewhere else, so the program itself has
+// written down what this branch was supposed to end with.
+//
+// Nothing about a status, a name or a keyword is read. Two calls to one constructor,
+// one kept and one dropped, is the whole of the evidence.
+func discardedConstruction(ix *ir.Index, fn *ir.Function, rule model.GuardRule) []taint.Finding {
+	var built []*ir.Call
+	for _, c := range fn.Calls {
+		if c.ResultID != "" && matchesName(lastSegment(c.Callee.Symbol), c.Method, rule.Constructs) {
+			built = append(built, c)
+		}
+	}
+	if len(built) < 2 {
+		return nil
+	}
+	used := consumedValues(fn)
+	// The branch that keeps what it built, per constructor. Two constructors used
+	// differently in one function say nothing about each other -- a `jsonify` that is
+	// returned is not evidence about a `redirect` that is not -- so the sibling has to be
+	// a call to the SAME one.
+	kept := map[string]*ir.Call{}
+	for _, c := range built {
+		if used[c.ResultID] {
+			name := strings.ToLower(lastSegment(c.Callee.Symbol))
+			if _, seen := kept[name]; !seen {
+				kept[name] = c
+			}
+		}
+	}
+
+	var out []taint.Finding
+	for _, c := range built {
+		if used[c.ResultID] {
+			continue
+		}
+		sibling, ok := kept[strings.ToLower(lastSegment(c.Callee.Symbol))]
+		if !ok {
+			continue
+		}
+		out = append(out, discardFinding(ix, fn, c, sibling, rule))
+	}
+	return out
+}
+
+// consumedValues is every value the function does something with. A value absent from it
+// was produced and then referred to by nothing at all, which in a language without
+// destructors is the same as not having been produced.
+//
+// Written as a census of the whole function rather than as a walk from the value, because
+// the question is negative: to say a result is used NOWHERE, nowhere is what has to be
+// looked at.
+func consumedValues(fn *ir.Function) map[string]bool {
+	used := make(map[string]bool, len(fn.Values))
+	for _, id := range fn.Returns {
+		used[id] = true
+	}
+	for _, c := range fn.Calls {
+		used[c.ReceiverID] = true
+		for _, a := range c.Args {
+			used[a.ValueID] = true
+		}
+	}
+	for _, f := range fn.Flows {
+		used[f.From], used[f.To] = true, true
+	}
+	for _, cmp := range fn.Comparisons {
+		used[cmp.Left], used[cmp.Right] = true, true
+	}
+	for _, w := range fn.Writes {
+		used[w.From], used[w.Base] = true, true
+	}
+	// A property read off a value is a use of the value it was read off.
+	for _, v := range fn.Values {
+		if v.Base != "" {
+			used[v.Base] = true
+		}
+	}
+	delete(used, "")
+	return used
+}
+
+func discardFinding(ix *ir.Index, fn *ir.Function, dropped, kept *ir.Call, rule model.GuardRule) taint.Finding {
+	name := callName(ix, dropped)
+	return taint.Finding{
+		Analysis:     rule.ID,
+		DataClass:    "control-flow",
+		ChannelID:    rule.ID,
+		Class:        rule.Finding,
+		CWE:          rule.CWE,
+		Message:      rule.Reason,
+		SinkLoc:      dropped.Loc,
+		SinkSymbol:   name,
+		SinkFunction: fn.Name,
+		SinkRational: rule.Rationale,
+		SourceLabel:  name,
+		SourceLoc:    kept.Loc,
+		InTestModule: ix.InTestModule(dropped.Loc),
+		Path: []taint.Hop{
+			{Loc: kept.Loc, Description: fmt.Sprintf("%s() is built and returned here, which is the shape this program uses to refuse", name), Resolution: ir.Resolved},
+			{Loc: dropped.Loc, Description: fmt.Sprintf("%s() is built here and used by nothing, so the branch falls through", name), Resolution: ir.Resolved},
+		},
+		Confidence:    taint.High,
+		EntryAnchored: true,
+		EntryPoint:    entryAbove(ix, parents(ix), fn),
+	}
 }
 
 // namesEvent reports whether a registration named one of these events. The name is the

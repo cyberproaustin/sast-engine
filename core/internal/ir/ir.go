@@ -82,6 +82,33 @@ const (
 	Generated Provenance = "generated"
 )
 
+// Trust is who can cause an entry point to run.
+//
+// The surface stopped being all one kind the moment anything but an HTTP route was
+// enumerated. A cron job, a management command and a process start are all code that
+// runs with the application's privileges, and none of them is an anonymous request:
+// saying so is the difference between "a stranger can do this to you" and "whoever
+// already has a shell here can". Ranking them together would be a lie in one direction
+// or the other, so the frontend states which it is and the core decides what it means —
+// the same division Provenance and IsTest already draw.
+//
+// Deliberately about WHO CAN TRIGGER the code, not about what the code reads. What a
+// scheduled job reads is answered by the source rules that seed it, and a job reading a
+// store an HTTP request wrote into carries the REQUEST's trust, because that is where
+// the value came from.
+type Trust string
+
+const (
+	// Remote: anything that can reach the service. An HTTP route.
+	Remote Trust = "remote"
+	// Operator: someone who can already run a command on the host or start the
+	// process. A management command's arguments and a process's configuration.
+	Operator Trust = "operator"
+	// Internal: nothing outside the process triggers it at all. A timer fires it, or
+	// an in-process bus delivers to it.
+	Internal Trust = "internal"
+)
+
 // Loc is a source position. Line and Column are 1-based.
 type Loc struct {
 	File   string `json:"file"`
@@ -393,6 +420,10 @@ type EntryPoint struct {
 	Kind       string            `json:"kind"`
 	Framework  string            `json:"framework,omitempty"`
 	Detail     map[string]string `json:"detail,omitempty"`
+	// Trust is who can cause this entry point to run. Absent means REMOTE, which is
+	// the conservative reading and the one every entry point had before there was
+	// anything else: a frontend that says nothing must not make the core quieter.
+	Trust Trust `json:"trust,omitempty"`
 	// Loc is where the entry point is REGISTERED. A route exists at a place even
 	// when its handler cannot be resolved, and reporting 0:0 for those makes the
 	// surface unusable exactly where it is already weakest.
@@ -412,6 +443,14 @@ type EntryPoint struct {
 	// concludes none is consulted, and reports every scoped query as unowned. Naming
 	// what it could not resolve turns that from a wrong answer into a fixable one.
 	UnresolvedParams []string `json:"unresolvedParams,omitempty"`
+}
+
+// TrustLevel is who can reach this entry point, reading an unstated trust as Remote.
+func (e EntryPoint) TrustLevel() Trust {
+	if e.Trust == "" {
+		return Remote
+	}
+	return e.Trust
 }
 
 // MiddlewareRef is one element of an entry point's chain. Scope distinguishes a
