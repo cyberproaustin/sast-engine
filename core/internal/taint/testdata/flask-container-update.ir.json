@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.12.0",
+  "irVersion": "0.13.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -76,7 +76,8 @@
             "file": "app.py",
             "line": 14,
             "column": 1
-          }
+          },
+          "block": "app.py#<module>:0:0$b0"
         }
       ],
       "calls": [
@@ -190,7 +191,8 @@
             "file": "app.py",
             "line": 20,
             "column": 5
-          }
+          },
+          "block": "app.py#log_request:18:1$b0"
         },
         {
           "from": "app.py#log_request:18:1$v2",
@@ -200,7 +202,8 @@
             "file": "app.py",
             "line": 21,
             "column": 20
-          }
+          },
+          "block": "app.py#log_request:18:1$b0"
         }
       ],
       "calls": [
@@ -335,7 +338,8 @@
             "file": "app.py",
             "line": 28,
             "column": 5
-          }
+          },
+          "block": "app.py#search:26:1$b0"
         },
         {
           "from": "app.py#search:26:1$v2",
@@ -345,7 +349,8 @@
             "file": "app.py",
             "line": 29,
             "column": 20
-          }
+          },
+          "block": "app.py#search:26:1$b0"
         }
       ],
       "calls": [
@@ -499,7 +504,8 @@
             "file": "app.py",
             "line": 36,
             "column": 5
-          }
+          },
+          "block": "app.py#cache_key:34:1$b0"
         },
         {
           "from": "app.py#cache_key:34:1$v2",
@@ -509,7 +515,8 @@
             "file": "app.py",
             "line": 37,
             "column": 16
-          }
+          },
+          "block": "app.py#cache_key:34:1$b0"
         }
       ],
       "calls": [
@@ -646,7 +653,8 @@
             "file": "app.py",
             "line": 46,
             "column": 19
-          }
+          },
+          "block": "app.py#whoami:42:1$b0"
         },
         {
           "from": "app.py#whoami:42:1$v2",
@@ -656,7 +664,8 @@
             "file": "app.py",
             "line": 46,
             "column": 12
-          }
+          },
+          "block": "app.py#whoami:42:1$b0"
         }
       ],
       "calls": [],
@@ -771,7 +780,8 @@
             "file": "app.py",
             "line": 52,
             "column": 5
-          }
+          },
+          "block": "app.py#touch_record:50:1$b0"
         },
         {
           "from": "app.py#touch_record:50:1$v2",
@@ -781,7 +791,8 @@
             "file": "app.py",
             "line": 53,
             "column": 18
-          }
+          },
+          "block": "app.py#touch_record:50:1$b0"
         }
       ],
       "calls": [

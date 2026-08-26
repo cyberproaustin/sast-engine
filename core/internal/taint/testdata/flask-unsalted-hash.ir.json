@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.12.0",
+  "irVersion": "0.13.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -86,7 +86,8 @@
             "file": "app.py",
             "line": 5,
             "column": 1
-          }
+          },
+          "block": "app.py#<module>:0:0$b0"
         },
         {
           "from": "app.py#<module>:0:0$v2",
@@ -96,7 +97,8 @@
             "file": "app.py",
             "line": 6,
             "column": 1
-          }
+          },
+          "block": "app.py#<module>:0:0$b0"
         }
       ],
       "calls": [
@@ -242,7 +244,8 @@
             "file": "app.py",
             "line": 13,
             "column": 29
-          }
+          },
+          "block": "app.py#register:10:1$b0"
         },
         {
           "from": "app.py#register:10:1$v1",
@@ -252,7 +255,8 @@
             "file": "app.py",
             "line": 13,
             "column": 29
-          }
+          },
+          "block": "app.py#register:10:1$b0"
         },
         {
           "from": "app.py#register:10:1$v6",
@@ -262,7 +266,8 @@
             "file": "app.py",
             "line": 13,
             "column": 5
-          }
+          },
+          "block": "app.py#register:10:1$b0"
         }
       ],
       "calls": [
@@ -477,7 +482,8 @@
             "file": "app.py",
             "line": 24,
             "column": 14
-          }
+          },
+          "block": "app.py#register_salted:18:1$b0"
         },
         {
           "from": "app.py#register_salted:18:1$v1",
@@ -487,7 +493,8 @@
             "file": "app.py",
             "line": 24,
             "column": 23
-          }
+          },
+          "block": "app.py#register_salted:18:1$b0"
         },
         {
           "from": "app.py#register_salted:18:1$v2",
@@ -497,7 +504,8 @@
             "file": "app.py",
             "line": 24,
             "column": 23
-          }
+          },
+          "block": "app.py#register_salted:18:1$b0"
         },
         {
           "from": "app.py#register_salted:18:1$v3",
@@ -507,7 +515,8 @@
             "file": "app.py",
             "line": 24,
             "column": 14
-          }
+          },
+          "block": "app.py#register_salted:18:1$b0"
         },
         {
           "from": "app.py#register_salted:18:1$v0",
@@ -517,7 +526,8 @@
             "file": "app.py",
             "line": 24,
             "column": 5
-          }
+          },
+          "block": "app.py#register_salted:18:1$b0"
         }
       ],
       "calls": [
@@ -755,7 +765,8 @@
             "file": "app.py",
             "line": 33,
             "column": 19
-          }
+          },
+          "block": "app.py#register_kdf:29:1$b0"
         },
         {
           "from": "app.py#register_kdf:29:1$v2",
@@ -765,7 +776,8 @@
             "file": "app.py",
             "line": 33,
             "column": 19
-          }
+          },
+          "block": "app.py#register_kdf:29:1$b0"
         },
         {
           "from": "app.py#register_kdf:29:1$v2",
@@ -775,7 +787,8 @@
             "file": "app.py",
             "line": 33,
             "column": 54
-          }
+          },
+          "block": "app.py#register_kdf:29:1$b0"
         }
       ],
       "calls": [
@@ -1006,7 +1019,8 @@
             "file": "app.py",
             "line": 41,
             "column": 27
-          }
+          },
+          "block": "app.py#etag:38:1$b0"
         },
         {
           "from": "app.py#etag:38:1$v1",
@@ -1016,7 +1030,8 @@
             "file": "app.py",
             "line": 41,
             "column": 27
-          }
+          },
+          "block": "app.py#etag:38:1$b0"
         }
       ],
       "calls": [

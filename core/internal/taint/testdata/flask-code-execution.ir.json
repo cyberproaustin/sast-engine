@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.12.0",
+  "irVersion": "0.13.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -76,7 +76,8 @@
             "file": "app.py",
             "line": 12,
             "column": 1
-          }
+          },
+          "block": "app.py#<module>:0:0$b0"
         }
       ],
       "calls": [
@@ -192,7 +193,8 @@
             "file": "app.py",
             "line": 19,
             "column": 21
-          }
+          },
+          "block": "app.py#calc:16:1$b0"
         },
         {
           "from": "app.py#calc:16:1$v1",
@@ -202,7 +204,8 @@
             "file": "app.py",
             "line": 19,
             "column": 21
-          }
+          },
+          "block": "app.py#calc:16:1$b0"
         }
       ],
       "calls": [
@@ -360,7 +363,8 @@
             "file": "app.py",
             "line": 25,
             "column": 10
-          }
+          },
+          "block": "app.py#run:23:1$b0"
         },
         {
           "from": "app.py#run:23:1$v1",
@@ -370,7 +374,8 @@
             "file": "app.py",
             "line": 25,
             "column": 10
-          }
+          },
+          "block": "app.py#run:23:1$b0"
         }
       ],
       "calls": [
@@ -503,7 +508,8 @@
             "file": "app.py",
             "line": 33,
             "column": 16
-          }
+          },
+          "block": "app.py#load:30:1$b0"
         },
         {
           "from": "app.py#load:30:1$v1",
@@ -513,7 +519,8 @@
             "file": "app.py",
             "line": 33,
             "column": 16
-          }
+          },
+          "block": "app.py#load:30:1$b0"
         }
       ],
       "calls": [
@@ -800,7 +807,8 @@
             "file": "app.py",
             "line": 47,
             "column": 15
-          }
+          },
+          "block": "app.py#lookup:44:1$b0"
         },
         {
           "from": "app.py#lookup:44:1$v5",
@@ -810,7 +818,8 @@
             "file": "app.py",
             "line": 47,
             "column": 5
-          }
+          },
+          "block": "app.py#lookup:44:1$b0"
         }
       ],
       "calls": [

@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.12.0",
+  "irVersion": "0.13.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -66,7 +66,8 @@
             "file": "app.py",
             "line": 6,
             "column": 1
-          }
+          },
+          "block": "app.py#<module>:0:0$b0"
         }
       ],
       "calls": [
@@ -262,7 +263,8 @@
             "file": "app.py",
             "line": 13,
             "column": 5
-          }
+          },
+          "block": "app.py#export:10:1$b0"
         },
         {
           "from": "app.py#export:10:1$v4",
@@ -272,7 +274,8 @@
             "file": "app.py",
             "line": 14,
             "column": 5
-          }
+          },
+          "block": "app.py#export:10:1$b0"
         },
         {
           "from": "app.py#export:10:1$v7",
@@ -282,7 +285,8 @@
             "file": "app.py",
             "line": 15,
             "column": 21
-          }
+          },
+          "block": "app.py#export:10:1$b0"
         },
         {
           "from": "app.py#export:10:1$v8",
@@ -292,7 +296,8 @@
             "file": "app.py",
             "line": 15,
             "column": 30
-          }
+          },
+          "block": "app.py#export:10:1$b0"
         },
         {
           "from": "app.py#export:10:1$v9",
@@ -302,7 +307,8 @@
             "file": "app.py",
             "line": 15,
             "column": 30
-          }
+          },
+          "block": "app.py#export:10:1$b0"
         },
         {
           "from": "app.py#export:10:1$v10",
@@ -312,7 +318,8 @@
             "file": "app.py",
             "line": 15,
             "column": 21
-          }
+          },
+          "block": "app.py#export:10:1$b0"
         }
       ],
       "calls": [
@@ -572,7 +579,8 @@
             "file": "app.py",
             "line": 22,
             "column": 5
-          }
+          },
+          "block": "app.py#export_fixed:20:1$b0"
         },
         {
           "from": "app.py#export_fixed:20:1$v4",
@@ -582,7 +590,8 @@
             "file": "app.py",
             "line": 23,
             "column": 5
-          }
+          },
+          "block": "app.py#export_fixed:20:1$b0"
         },
         {
           "from": "app.py#export_fixed:20:1$v7",
@@ -592,7 +601,8 @@
             "file": "app.py",
             "line": 24,
             "column": 21
-          }
+          },
+          "block": "app.py#export_fixed:20:1$b0"
         },
         {
           "from": "app.py#export_fixed:20:1$v8",
@@ -602,7 +612,8 @@
             "file": "app.py",
             "line": 24,
             "column": 21
-          }
+          },
+          "block": "app.py#export_fixed:20:1$b0"
         }
       ],
       "calls": [

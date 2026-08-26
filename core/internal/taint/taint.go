@@ -17,6 +17,7 @@ import (
 	"github.com/cyberproaustin/sast-engine/core/internal/cfg"
 	"github.com/cyberproaustin/sast-engine/core/internal/ir"
 	"github.com/cyberproaustin/sast-engine/core/internal/model"
+	"github.com/cyberproaustin/sast-engine/core/internal/reachdef"
 )
 
 // Confidence is how well the engine resolved the path it is reporting.
@@ -392,6 +393,14 @@ func Analyze(d *ir.IR, m model.Model) Result {
 		return Result{Applicable: false, MissingCapabilities: missing}
 	}
 
+	// A variable assigned twice arrives as one value with two edges into it, and a use
+	// after the second assignment must not be told about the first. Splitting happens
+	// here rather than in `scan` because it is a refinement of THIS analysis: every
+	// other analysis keeps reading the program the frontend produced, and the version
+	// values introduced here are folded back onto the originals before the result
+	// leaves (see internal/reachdef).
+	d, versionOf := reachdef.Split(d)
+
 	ix := ir.NewIndex(d)
 	res := Result{Applicable: true}
 
@@ -467,7 +476,33 @@ func Analyze(d *ir.IR, m model.Model) Result {
 		for id := range e.seeds {
 			seeds[id] = true
 		}
-		res.ByClass[name] = Classified{Values: e.tainted, Origin: origins, Projected: proj, Seeds: seeds}
+
+		// Every consumer outside this package speaks in the names the frontend produced,
+		// so a tainted version answers to the value it was split out of. This can only
+		// ADD names, never remove one: the original keeps all of its definitions, so it
+		// carries whatever it carried before the split.
+		values := make(map[string]bool, len(e.tainted))
+		fold := func(dst map[string]bool, src map[string]bool) {
+			for id := range src {
+				dst[id] = true
+				if orig, ok := versionOf[id]; ok {
+					dst[orig] = true
+				}
+			}
+		}
+		fold(values, e.tainted)
+		folded := make(map[string]bool, len(proj))
+		fold(folded, proj)
+		foldedSeeds := make(map[string]bool, len(seeds))
+		fold(foldedSeeds, seeds)
+		for id, o := range origins {
+			if orig, ok := versionOf[id]; ok {
+				if _, taken := origins[orig]; !taken {
+					origins[orig] = o
+				}
+			}
+		}
+		res.ByClass[name] = Classified{Values: values, Origin: origins, Projected: folded, Seeds: foldedSeeds}
 	}
 
 	seen := map[string]bool{}

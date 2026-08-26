@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.12.0",
+  "irVersion": "0.13.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -66,7 +66,8 @@
             "file": "app.py",
             "line": 6,
             "column": 1
-          }
+          },
+          "block": "app.py#<module>:0:0$b0"
         }
       ],
       "calls": [
@@ -222,7 +223,8 @@
             "file": "app.py",
             "line": 16,
             "column": 26
-          }
+          },
+          "block": "app.py#import_extension:10:1$b0"
         },
         {
           "from": "app.py#import_extension:10:1$v1",
@@ -232,7 +234,8 @@
             "file": "app.py",
             "line": 16,
             "column": 26
-          }
+          },
+          "block": "app.py#import_extension:10:1$b0"
         },
         {
           "from": "app.py#import_extension:10:1$v4",
@@ -242,7 +245,8 @@
             "file": "app.py",
             "line": 16,
             "column": 5
-          }
+          },
+          "block": "app.py#import_extension:10:1$b0"
         }
       ],
       "calls": [
@@ -423,7 +427,8 @@
             "file": "app.py",
             "line": 25,
             "column": 5
-          }
+          },
+          "block": "app.py#import_bundled:22:1$b0"
         }
       ],
       "calls": [
@@ -701,7 +706,8 @@
             "file": "app.py",
             "line": 37,
             "column": 26
-          }
+          },
+          "block": "app.py#import_by_hand:31:1$b0"
         },
         {
           "from": "app.py#import_by_hand:31:1$v1",
@@ -711,7 +717,8 @@
             "file": "app.py",
             "line": 37,
             "column": 26
-          }
+          },
+          "block": "app.py#import_by_hand:31:1$b0"
         },
         {
           "from": "app.py#import_by_hand:31:1$v4",
@@ -721,7 +728,8 @@
             "file": "app.py",
             "line": 37,
             "column": 5
-          }
+          },
+          "block": "app.py#import_by_hand:31:1$b0"
         },
         {
           "from": "app.py#import_by_hand:31:1$v6",
@@ -1089,7 +1097,8 @@
             "file": "app.py",
             "line": 48,
             "column": 5
-          }
+          },
+          "block": "app.py#import_by_hand_bundled:45:1$b0"
         },
         {
           "from": "app.py#import_by_hand_bundled:45:1$v4",
@@ -1414,7 +1423,8 @@
             "file": "app.py",
             "line": 61,
             "column": 23
-          }
+          },
+          "block": "app.py#import_tar:56:1$b0"
         },
         {
           "from": "app.py#import_tar:56:1$v1",
@@ -1424,7 +1434,8 @@
             "file": "app.py",
             "line": 61,
             "column": 23
-          }
+          },
+          "block": "app.py#import_tar:56:1$b0"
         },
         {
           "from": "app.py#import_tar:56:1$v4",
@@ -1434,7 +1445,8 @@
             "file": "app.py",
             "line": 61,
             "column": 5
-          }
+          },
+          "block": "app.py#import_tar:56:1$b0"
         }
       ],
       "calls": [
@@ -1649,7 +1661,8 @@
             "file": "app.py",
             "line": 69,
             "column": 23
-          }
+          },
+          "block": "app.py#import_tar_filtered:67:1$b0"
         },
         {
           "from": "app.py#import_tar_filtered:67:1$v1",
@@ -1659,7 +1672,8 @@
             "file": "app.py",
             "line": 69,
             "column": 23
-          }
+          },
+          "block": "app.py#import_tar_filtered:67:1$b0"
         },
         {
           "from": "app.py#import_tar_filtered:67:1$v4",
@@ -1669,7 +1683,8 @@
             "file": "app.py",
             "line": 69,
             "column": 5
-          }
+          },
+          "block": "app.py#import_tar_filtered:67:1$b0"
         }
       ],
       "calls": [
