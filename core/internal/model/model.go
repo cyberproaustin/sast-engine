@@ -1187,6 +1187,42 @@ func builtin() Model {
 				CWE:        "CWE-1333",
 				Rationale:  "the pattern this is run against has a quantified group with a quantifier inside it",
 			},
+			// JavaScript's spelling, which reverses the operands: the SUBJECT is the
+			// receiver and the pattern is the argument. `req.body.value.match(/(a+)+/)`
+			// is the ordinary way to write this in the language and the model described
+			// only the other direction, so the most common shape was invisible.
+			{
+				ID: "regex-subject", Visibility: "internal", Context: "regex-subject",
+				Method: "match", ReceiverIsEntryParam: -1, RequiresUntrustedReceiver: true,
+				Language:   "typescript",
+				PatternArg: at(0),
+				CWE:        "CWE-1333",
+				Rationale:  "the pattern this string is matched against has a quantified group with a quantifier inside it",
+			},
+			{
+				ID: "regex-subject", Visibility: "internal", Context: "regex-subject",
+				Method: "matchAll", ReceiverIsEntryParam: -1, RequiresUntrustedReceiver: true,
+				Language:   "typescript",
+				PatternArg: at(0),
+				CWE:        "CWE-1333",
+				Rationale:  "the pattern this string is matched against has a quantified group with a quantifier inside it",
+			},
+			{
+				ID: "regex-subject", Visibility: "internal", Context: "regex-subject",
+				Method: "search", ReceiverIsEntryParam: -1, RequiresUntrustedReceiver: true,
+				Language:   "typescript",
+				PatternArg: at(0),
+				CWE:        "CWE-1333",
+				Rationale:  "the pattern this string is searched with has a quantified group with a quantifier inside it",
+			},
+			{
+				ID: "regex-subject", Visibility: "internal", Context: "regex-subject",
+				Method: "replace", ReceiverIsEntryParam: -1, RequiresUntrustedReceiver: true,
+				Language:   "typescript",
+				PatternArg: at(0),
+				CWE:        "CWE-1333",
+				Rationale:  "the pattern this string is rewritten with has a quantified group with a quantifier inside it",
+			},
 			// The compiled form, which is how Python is normally written: `PATTERN =
 			// re.compile(...)` at module scope and `PATTERN.match(value)` in the handler.
 			// The pattern is the receiver and it is a call result, so finding it means

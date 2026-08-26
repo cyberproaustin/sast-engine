@@ -58,6 +58,20 @@ def module_id(root: str, path: str) -> str:
     return os.path.relpath(path, root).replace(os.sep, "/")
 
 
+def _bound_names(target: ast.AST) -> list[ast.Name]:
+    """Every name a binding target binds, however deeply it nests."""
+    if isinstance(target, ast.Name):
+        return [target]
+    if isinstance(target, (ast.Tuple, ast.List)):
+        out: list[ast.Name] = []
+        for element in target.elts:
+            out.extend(_bound_names(element))
+        return out
+    if isinstance(target, ast.Starred):
+        return _bound_names(target.value)
+    return []
+
+
 def constant_text(value: Any) -> str | None:
     """The text of a constant, for the kinds a rule can read.
 
@@ -514,10 +528,9 @@ class FunctionLowerer:
         # it goes -- an element comes OUT of the collection, and it comes out whole.
         if isinstance(node, (ast.For, ast.AsyncFor)):
             src = self.expr(node.iter)
-            targets = node.target.elts if isinstance(node.target, ast.Tuple) else [node.target]
-            for target in targets:
-                if not isinstance(target, ast.Name):
-                    continue
+            # Destructuring nests: `for [name, [path, mode]] in request.json` binds three
+            # names, and reading only the immediate children found one of them.
+            for target in _bound_names(node.target):
                 vid = self.new_value("local", target, name=target.id)
                 self.scope[target.id] = vid
                 if self.is_module:
