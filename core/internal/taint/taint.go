@@ -361,7 +361,23 @@ type engine struct {
 	// is where the literal halves of a concatenation are.
 	flowsInto map[string][]string
 	returns   map[string][]string // function ID -> returned value IDs
-	queue     []string
+	// recordFields marks a value as a RECORD HANDLE and names the columns of it that
+	// carry the class: the answer a store gave, before any field has been read out of it.
+	//
+	// A row is not a value. It holds columns a caller filled in and columns the store
+	// wrote for itself, and the read that answers with it says nothing about which is
+	// which. Treating the whole row as the caller's is how the first version of the
+	// second-order rule reached 2179 values in a 57k-line repository -- more than the
+	// first-order class it derives from -- and produced exactly one finding, which was a
+	// file path built out of an auto-increment `collection.id`.
+	//
+	// So a handle propagates only under a name (an assignment, a return, a parameter)
+	// and becomes an ordinary classified value only where a column the program WRITES
+	// there is read off it. Everything else a row can be handed to -- a template, a
+	// serializer, an enclosing object -- stops, because none of those is reading a
+	// column and the row is not text.
+	recordFields map[string][]string
+	queue        []string
 }
 
 type seed struct {
@@ -428,10 +444,14 @@ func Analyze(d *ir.IR, m model.Model) Result {
 			assignedFrom: make(map[string]string),
 			flowsInto:    make(map[string][]string),
 			returns:      make(map[string][]string),
+			recordFields: make(map[string][]string),
 		}
 		e.programInjects = programInjectsIdentity(ix)
 		e.build()
-		e.seedSources()
+		// The classifications already propagated, for the one strategy that reads
+		// another class's answer: a store read carries what was WRITTEN there. Model
+		// order is the declaration of that dependency and the loop is what honours it.
+		e.seedSources(engines)
 		e.propagate()
 		engines[class.Class] = e
 		order = append(order, class.Class)
@@ -604,7 +624,13 @@ func lastSegment(symbol string) string {
 
 // seedSources marks the origins this flow cares about. Which strategy a rule uses is
 // explicit, so adding an origin is a data change rather than an engine change.
-func (e *engine) seedSources() {
+//
+// `prior` holds the classifications already propagated, in the order the model declares
+// them. One strategy needs it: a value read back out of a store carries what was WRITTEN
+// there, and what was written is another classification's answer. The dependency is a
+// straight line rather than a cycle -- a store read cannot be its own writer, because the
+// writer must be a value some entry point supplied.
+func (e *engine) seedSources(prior map[string]*engine) {
 	for _, rule := range e.class.Rules {
 		switch rule.Match {
 		case model.MatchValueKind:
@@ -615,10 +641,171 @@ func (e *engine) seedSources() {
 			e.seedByCallResult(rule)
 		case model.MatchEntryCallProperty:
 			e.seedByEntryCallProperty(rule)
+		case model.MatchStoreRead:
+			e.seedByStoreRead(rule, prior)
 		default:
 			e.seedByEntryParamProperty(rule)
 		}
 	}
+}
+
+// storeWrite is one place an entry point put a caller's value into a named column of a
+// named store.
+type storeWrite struct {
+	entryPoint string
+	method     string
+	path       string
+	loc        ir.Loc
+	fields     []string
+}
+
+// seedByStoreRead marks what a lookup ANSWERED WITH, for a store some entry point writes
+// another classification into.
+//
+// This is the second half of modelling a store, and it is the half with teeth. The first
+// half is a refusal -- a read does not answer with the key it was handed -- and costs
+// nothing. This one says that a value written to a database by one request and read back
+// by another is still the first caller's, which is true and is also the single most
+// noise-prone claim in static analysis: connect every write to every read and everything
+// in a program is tainted by everything else.
+//
+// Four things keep it from being that, and all four are required together.
+//
+// The store must be NAMED. `usersRepository.findOneBy` and `prisma.client.user.create`
+// both spell out which table they touch, and a write to one table does not reach a read
+// of another. A store whose identity the spelling does not carry -- a `Map` the frontend
+// could only type -- connects to nothing at all, because "some cache" is not an identity.
+//
+// The COLUMN must be named too, on both sides. This is the constraint that decides
+// whether the rule is usable: without it, a route that writes a display name connects to
+// a read of the primary key beside it, and an auto-increment integer becomes something a
+// caller chose. Measured: the version without it reached 2179 values in linkwarden --
+// more than the 1914 the first-order class it derives from reached -- and produced one
+// finding, on a file path built out of `collection.id`.
+//
+// The write must be REACHABLE from an enumerated entry point. Seed data loaded at
+// startup, a migration, and a test fixture all write rows; none of them is a caller.
+//
+// And the read must be somewhere the write is not. A handler that writes a row and reads
+// it back is doing intra-request work the first-order analysis already follows, and
+// reporting it here would be reporting the same flow twice under a scarier name.
+func (e *engine) seedByStoreRead(rule model.SourceRule, prior map[string]*engine) {
+	writer := prior[rule.WrittenClass]
+	if writer == nil || !writer.hasSeeds() {
+		return
+	}
+
+	written := map[string]storeWrite{}
+	for _, fn := range e.ix.IR.Functions {
+		for _, c := range fn.Calls {
+			w, ok := e.m.StoreWriteAt(c.Callee.Symbol, c.Method, c.ReceiverType)
+			if !ok || w.Medium != rule.Medium {
+				continue
+			}
+			name := w.StoreName(c.Callee.Symbol, c.Method)
+			if name == "" {
+				continue
+			}
+			// The columns this write NAMES. A spread can hide others, which costs
+			// recall and not precision: a column the frontend did see is one the
+			// program writes there, whatever else the call may also carry.
+			fields := w.WrittenFields(c.ArgLiterals)
+			if len(fields) == 0 {
+				continue
+			}
+			if !writer.callCarries(c, w.ValueArg) {
+				continue
+			}
+			entry, anchored := enclosingEntry(e.ix, fn)
+			if !anchored {
+				continue
+			}
+			prev, seen := written[name]
+			if !seen {
+				site := storeWrite{entryPoint: entry, loc: c.Loc, fields: fields}
+				if ep, ok := e.ix.EntryByFunc[fn.ID]; ok {
+					site.method, site.path = ep.Detail["method"], ep.Detail["path"]
+				}
+				written[name] = site
+				continue
+			}
+			for _, f := range fields {
+				if !contains(prev.fields, f) {
+					prev.fields = append(prev.fields, f)
+				}
+			}
+			written[name] = prev
+		}
+	}
+	if len(written) == 0 {
+		return
+	}
+
+	for _, fn := range e.ix.IR.Functions {
+		for _, c := range fn.Calls {
+			if c.ResultID == "" {
+				continue
+			}
+			r, ok := e.m.StoreReadAt(c.Callee.Symbol, c.Method, c.ReceiverType)
+			if !ok || r.Medium != rule.Medium {
+				continue
+			}
+			name := r.StoreName(c.Callee.Symbol, c.Method)
+			if name == "" {
+				continue
+			}
+			w, ok := written[name]
+			if !ok {
+				continue
+			}
+			entry, anchored := enclosingEntry(e.ix, fn)
+			if entry == w.entryPoint {
+				continue
+			}
+			label := fmt.Sprintf("the %s store, written by %s", name, describeWriter(w))
+			sd := seed{label: label, entryPoint: entry, anchored: anchored, loc: c.Loc}
+			if ep, ok := EntryOf(e.ix, fn); ok {
+				sd.unresolvedInputs = ep.UnresolvedParams
+				sd.identityInjected = injectsIdentity(e.ix, ep)
+			}
+			if ep, ok := e.ix.EntryByFunc[fn.ID]; ok {
+				sd.method, sd.path = ep.Detail["method"], ep.Detail["path"]
+			}
+			e.seeds[c.ResultID] = sd
+			e.recordFields[c.ResultID] = w.fields
+			e.markTainted(c.ResultID, edge{
+				desc:       fmt.Sprintf("source: %s (%s)", label, e.class.Label),
+				loc:        c.Loc,
+				resolution: c.Callee.Resolution,
+			})
+		}
+	}
+}
+
+// describeWriter names the entry point that put the value there, which is the half of a
+// second-order finding a reader cannot reconstruct from the sink.
+func describeWriter(w storeWrite) string {
+	if w.method != "" || w.path != "" {
+		return strings.TrimSpace(w.method + " " + w.path)
+	}
+	if w.entryPoint != "" {
+		return w.entryPoint
+	}
+	return w.loc.String()
+}
+
+// callCarries reports whether this call was handed a classified value in the argument a
+// store rule names, or in any argument when it names none.
+func (e *engine) callCarries(c *ir.Call, index int) bool {
+	for _, a := range c.Args {
+		if a.ValueID == "" || !e.tainted[a.ValueID] {
+			continue
+		}
+		if index < 0 || a.Index == index {
+			return true
+		}
+	}
+	return false
 }
 
 // seedByEntryCallProperty marks a property read off the result of a call the handler
@@ -946,6 +1133,10 @@ func (e *engine) propagate() {
 		e.queue = e.queue[1:]
 
 		for _, f := range e.ix.FlowsFrom[id] {
+			carry, stillRecord := e.recordHopCarries(id, f)
+			if !carry {
+				continue
+			}
 			e.markTainted(f.To, edge{
 				from:       id,
 				kind:       f.Kind,
@@ -953,14 +1144,21 @@ func (e *engine) propagate() {
 				loc:        f.Loc,
 				resolution: ir.Resolved,
 			})
+			if stillRecord {
+				e.carriesRecord(id, f.To)
+			}
 		}
 
 		for _, c := range e.argUses[id] {
 			e.throughCall(id, c)
 		}
 
-		for _, c := range e.receiverUses[id] {
-			e.throughReceiver(id, c)
+		// A method called ON a row does not answer with a column of it. `row.toJSON()`
+		// and `row.toString()` are the shapes, and neither is a caller reading a field.
+		if !e.hasRecord(id) {
+			for _, c := range e.receiverUses[id] {
+				e.throughReceiver(id, c)
+			}
 		}
 
 		if fn := e.ix.OwnerOfValue[id]; fn != nil && contains(e.returns[fn.ID], id) {
@@ -986,6 +1184,7 @@ func (e *engine) propagate() {
 				if fromParam && !e.callSitePassesTaint(site) {
 					continue
 				}
+				e.carriesRecord(id, site.ResultID)
 				e.markTainted(site.ResultID, edge{
 					from:       id,
 					desc:       fmt.Sprintf("returned from %s()", fn.Name),
@@ -996,6 +1195,36 @@ func (e *engine) propagate() {
 			}
 		}
 	}
+}
+
+// recordHopCarries decides what a RECORD HANDLE may flow along.
+//
+// Two answers only. A hop that renames the row -- an assignment, a return -- carries the
+// handle. A hop that READS A COLUMN carries the class itself, and only for a column the
+// program writes into that store from a request; every other column of the row is the
+// store's own answer and is not the caller's. Everything else stops: a row interpolated
+// into a template is not text a caller wrote, and a row enclosed in a response object is
+// not a field of it.
+func (e *engine) recordHopCarries(from string, f ir.Flow) (carry bool, stillRecord bool) {
+	fields := e.recordFields[from]
+	if len(fields) == 0 {
+		return true, false
+	}
+	switch f.Kind {
+	case "assign", "return":
+		return true, true
+	case "property":
+		v := e.ix.ValueByID[f.To]
+		if v == nil {
+			return false, false
+		}
+		leaf := v.Path
+		if i := strings.LastIndex(leaf, "."); i >= 0 {
+			leaf = leaf[i+1:]
+		}
+		return contains(fields, model.NormalizeFieldName(leaf)), false
+	}
+	return false, false
 }
 
 // taintEnteredViaParam reports whether this value's taint came in through one of the
@@ -1055,6 +1284,7 @@ func (e *engine) throughCall(argValueID string, c *ir.Call) {
 			if !ok {
 				continue
 			}
+			e.carriesRecord(argValueID, param.ValueID)
 			e.markTainted(param.ValueID, edge{
 				from: argValueID,
 				desc: fmt.Sprintf("passed as argument %d to %s()", a.Index, callee.Name),
@@ -1074,6 +1304,25 @@ func (e *engine) throughCall(argValueID string, c *ir.Call) {
 			// sanitizer actually helps is decided at the sink, where the required
 			// context is known.
 			if c.ResultID == "" {
+				continue
+			}
+			// Unless the call is a READ FROM A STORE, in which case the argument is
+			// the key and the result is whatever was filed under it. A lookup answers
+			// with what was WRITTEN, and what was written is a separate question with a
+			// separate provenance -- one this engine now asks separately.
+			//
+			// Without this, taint flowed from the key a lookup was given into the value
+			// it returned, so anything a caller could NAME became something a caller
+			// had WRITTEN. Three of misskey's false positives rested on this one step,
+			// including a 49-hop path from an ActivityPub queue processor onto raw SQL
+			// where the SQL is genuinely raw and the taint is not there at all.
+			if _, ok := e.m.StoreReadAt(c.Callee.Symbol, c.Method, c.ReceiverType); ok {
+				continue
+			}
+			// A ROW handed to a call the frontend could not read does not come back out
+			// of it as a caller's value. `JSON.stringify(row)` and `escape(row)` are the
+			// two shapes, and the second is the fix.
+			if e.hasRecord(argValueID) {
 				continue
 			}
 			e.markTainted(c.ResultID, edge{
@@ -1997,6 +2246,17 @@ func (e *engine) markTainted(id string, ed edge) {
 	e.viaTransform[id] = via
 	e.queue = append(e.queue, id)
 }
+
+// carriesRecord passes a record handle along a hop that only RENAMES it -- an assignment,
+// a return, a parameter binding. The row is the same row under another name, and nothing
+// has been read out of it yet.
+func (e *engine) carriesRecord(from, to string) {
+	if fields := e.recordFields[from]; len(fields) > 0 && !e.hasRecord(to) {
+		e.recordFields[to] = fields
+	}
+}
+
+func (e *engine) hasRecord(id string) bool { return len(e.recordFields[id]) > 0 }
 
 // isTransform reports whether a symbol is one the model has anything to say about as a
 // sanitizer. Deliberately not "does it clear this context" -- the context belongs to the

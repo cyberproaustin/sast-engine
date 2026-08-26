@@ -50,6 +50,14 @@ const (
 	// SHAPE — a property of a result, in a handler, off a call that was handed the
 	// handler's request.
 	MatchEntryCallProperty = "entry-call-property"
+	// MatchStoreRead: the result of a read from a store that some entry point writes
+	// data of another class into.
+	//
+	// The only seeding strategy whose evidence is a PAIR of call sites in different
+	// requests rather than one expression. It is the deliberate opposite of every rule
+	// above it: those say where a value entered THIS request, and this one says a value
+	// entered an EARLIER one and came back.
+	MatchStoreRead = "store-read"
 )
 
 // SourceRule locates values of a class by their origin.
@@ -127,6 +135,17 @@ type SourceRule struct {
 	// alternative was one classification per algorithm name, which is a list of rules
 	// where the model already has a list of strings.
 	ArgOneOf []string
+
+	// MatchStoreRead
+	//
+	// WrittenClass is the classification that must have been WRITTEN into the store for
+	// a read out of it to carry this one. It is the whole of what keeps second-order
+	// taint from being universal: a store nobody puts caller data into answers with
+	// nothing a caller wrote, however many times it is read.
+	WrittenClass string
+	// Medium narrows the rule to one kind of store, so that the noise of each can be
+	// measured -- and withdrawn -- separately.
+	Medium string
 }
 
 // Classification assigns a data class to values by where they come from. What makes a
@@ -617,16 +636,19 @@ type Model struct {
 	CallShapes      []CallShape
 	Decisions       []DecisionRule
 	Stores          []StoreRule
-	Policies        []Policy
-	Sanitizers      []SanitizerRule
-	Callbacks       []CallbackRule
-	Controls        []ControlRule
-	Literals        []LiteralRule
-	ClientRole      ClientRoleRule
-	Guards          []GuardRule
-	Scopes          []ScopeRule
-	TaintFlowReq    Requirements
-	SurfaceReq      Requirements
+	// Persistence is where values are PUT and where they come BACK -- a store, modelled
+	// as a place rather than as a call that happens to be traversed.
+	Persistence  []StoreAccess
+	Policies     []Policy
+	Sanitizers   []SanitizerRule
+	Callbacks    []CallbackRule
+	Controls     []ControlRule
+	Literals     []LiteralRule
+	ClientRole   ClientRoleRule
+	Guards       []GuardRule
+	Scopes       []ScopeRule
+	TaintFlowReq Requirements
+	SurfaceReq   Requirements
 }
 
 // ChannelsMatching returns channels a call site could be. Receiver narrowing is
@@ -929,6 +951,33 @@ func builtin() Model {
 					{Match: MatchCallResult, Symbol: "flask.request.get_data"},
 					{Match: MatchCallResult, Symbol: "request.get_json"},
 					{Match: MatchCallResult, Symbol: "request.get_data"},
+				},
+			},
+			{
+				// A caller's data on its way back OUT of a store, which is the only
+				// classification here whose origin is in a different request from its
+				// sink. Taint is intra-request; a value written to a database by one
+				// caller and read back by another arrives looking like something the
+				// server established, and the four most serious findings an independent
+				// review produced across ten repositories were all that shape.
+				//
+				// It is declared AFTER untrusted-input on purpose: the strategy reads
+				// what that classification concluded, and model order is where the
+				// dependency is written down.
+				//
+				// Only the ORM medium is claimed. Session and browser storage are
+				// modelled as stores -- a read out of either answers with what was
+				// written, which is what stops a lookup key from poisoning the value it
+				// returned -- and neither is claimed as a second-order SOURCE, because a
+				// session is one caller's own data coming back to that same caller and
+				// `localStorage` never leaves the browser it was written in. Second-order
+				// taint is worth having only where the value crosses between principals.
+				Class: "second-order-input",
+				Label: "data a caller stored in an earlier request",
+				Rules: []SourceRule{
+					{
+						Match: MatchStoreRead, WrittenClass: "untrusted-input", Medium: "orm",
+					},
 				},
 			},
 			{
@@ -3789,6 +3838,9 @@ func builtin() Model {
 		Stores:     builtinStores(),
 		Guards:     builtinGuards(),
 		Scopes:     builtinScopes(),
+		// Not a judgement at all: where the program's values are KEPT, so that a lookup
+		// answers with what was stored rather than with what it was asked for.
+		Persistence: builtinPersistence(),
 		// Not a rule and not a defect: the vocabulary the value-shape rules decide a
 		// literal's ROLE in, so that a key this program hands to somebody else's service
 		// to say which client it is stops being reported as this program's secret.
@@ -3801,6 +3853,22 @@ func builtin() Model {
 				DeniedContext: []string{"shell", "exec-path", "sql", "html", "code", "template", "ldap", "xpath"},
 				Reason:        "a caller must not be able to choose what an interpreter executes",
 				Finding:       "Untrusted input reaches an interpreter",
+				CWE:           "CWE-78",
+			},
+			{
+				// The same judgement one request later. A stored value reaching an
+				// interpreter is the classic stored injection -- stored XSS is this
+				// policy at an HTML channel -- and the reason it needs its own policy
+				// rather than a second class on the first one is that the DENIED SET is
+				// narrower. A first-order caller value in a log line is worth saying; a
+				// stored one is a row the application wrote about itself, and the noise
+				// of saying so everywhere would swamp the four findings this exists for.
+				// Only the destinations that INTERPRET what they are given are claimed.
+				ID:            "stored-to-interpreter",
+				Class:         "second-order-input",
+				DeniedContext: []string{"shell", "exec-path", "sql", "html", "code", "template", "ldap", "xpath"},
+				Reason:        "a value one caller stored is read back by another request and interpreted there, so the store is the delivery mechanism rather than the request that arrives with it",
+				Finding:       "Stored input reaches an interpreter",
 				CWE:           "CWE-78",
 			},
 			{
@@ -7797,6 +7865,415 @@ func builtinStores() []StoreRule {
 			Finding:   "Caller's data written into the environment",
 			Reason:    "the environment is inherited by every process this one starts and is where libraries look for their own configuration, so a caller who can write to it reconfigures things that never read the request",
 			Rationale: "the value written into the environment came from the request",
+		},
+	}
+}
+
+// --- a store as a place values come from ----------------------------------
+
+// StoreAccess is one end of a PERSISTENT STORE: a call that puts a value into one, or a
+// call that takes a value back out.
+//
+// The engine had no notion of a store at all, and the same missing fact was producing two
+// opposite defects. A read was assumed to return whatever it was HANDED, so
+// `cache.get(id)` answered with the caller's identifier rather than with the cached row,
+// and taint flowed from the key a lookup was given into the value it returned -- three of
+// one repository's false positives rested on that single step, one of them a 49-hop path
+// onto genuinely raw SQL where the SQL was real and the taint was not. From the other
+// side, a value a request WROTE to a database arrived at a later request looking clean,
+// because taint is intra-request and nothing carried the fact across.
+//
+// Both are the same sentence: a read answers with what was WRITTEN, and what was written
+// is a separate question with a separate provenance. Saying that once fixes the
+// over-approximation and makes the under-approximation expressible.
+//
+// The proof that this is one fact rather than two is a finding that disappeared on its
+// own: misskey's `OAuth2ProviderService.ts:726` went quiet the moment
+// `grantCodeCache.get(code)` resolved to a real function, because a resolved getter is
+// visibly returning the stored value instead of its argument. Where the callee resolves
+// the engine was already right; where it did not, it assumed the worst.
+type StoreAccess struct {
+	ID string
+	// Medium is what KIND of store this is -- "orm", "key-value", "session",
+	// "browser-storage". It is not the store's identity: two caches are two stores of
+	// one medium, and connecting a write to a read requires the identity as well.
+	Medium string
+	// Direction is "read" or "write".
+	Direction string
+
+	// Method matches the call's method name, which is how a store is reached in every
+	// library either frontend has seen: the receiver is the store and the method is the
+	// verb.
+	Method []string
+	// Symbol matches the whole rendered callee, for the few reads written as a free
+	// function rather than as a method. Django's `get_object_or_404(Model, pk=...)` is
+	// one, and there is no receiver in it to recognise.
+	Symbol []string
+
+	// MethodAlone says the method NAME is evidence enough, without anything being known
+	// about the receiver.
+	//
+	// True only where the name belongs to one library's data-access API and to nothing
+	// else a program is likely to write: `findOneBy`, `findUnique`, `getItem`. It is
+	// false for `get` and `find`, which are the two most overloaded method names in both
+	// languages -- `fastify.get` registers a route, `axios.get` makes a request,
+	// `Array.prototype.find` searches a list the program built a line earlier, and
+	// treating any of those as a store would be worse than the defect this replaces.
+	MethodAlone bool
+
+	// ReceiverType names the types whose values ARE stores, as the frontend's checker
+	// reports them. This is the seam doing its job: whether `x.get(id)` reaches a Map or
+	// a route table is a question about the LANGUAGE, and only the frontend can answer
+	// it (ADR-001).
+	ReceiverType []string
+	// ReceiverWord matches a WORD in how the receiver was SPELLED, for the ordinary case
+	// where the frontend could not type it -- 55% of method receivers in the largest
+	// repository measured. `this.usersRepository.findOneBy` and `this.cache.get` say what
+	// they are in the name; `fastify.get` and `res.headers.get` do not.
+	ReceiverWord []string
+	// SymbolContains matches a marker anywhere in the rendered callee. Django spells its
+	// manager into every query -- `Check.objects.get`, `Channel.objects.filter` -- and
+	// that marker is both the evidence and the place the model's name is read from.
+	SymbolContains []string
+
+	// NamedBefore says the store's own NAME is the symbol segment immediately before the
+	// text it holds, so that a write and a read can be required to name the SAME table
+	// rather than merely to be a write and a read.
+	//
+	// Second-order taint is the most noise-prone thing in static analysis: connect every
+	// write to every read and everything is tainted by everything. A named store is the
+	// whole of what keeps it from being that.
+	NamedBefore string
+
+	// ValueArg is the argument holding the value being written, for a write. A read has
+	// no value argument: everything a read is handed is criteria.
+	ValueArg int
+}
+
+// storeCriteriaOptions are the option groups that say WHICH ROW rather than what is in
+// it. A key under one of these is a filter the caller was matched against, not a column
+// the caller filled in.
+var storeCriteriaOptions = []string{
+	"where", "select", "include", "orderby", "skip", "take", "cursor",
+	"distinct", "by", "omit", "having", "filter", "criteria",
+}
+
+// storeWrapperOptions are the group names libraries wrap the written columns in. The
+// group is not itself a column, and where the frontend could see only the group -- a
+// shorthand `create({ data })` whose fields were assembled elsewhere -- the honest answer
+// is that this write names no field at all.
+var storeWrapperOptions = []string{
+	"data", "values", "set", "attributes", "fields", "doc", "defaults", "payload",
+}
+
+// WrittenFields reads the COLUMN NAMES a write names, out of the option keys the
+// frontend recorded at the call.
+//
+// This is what makes a store connection narrow enough to be worth having. "Some route
+// writes this table" connects a write of `name` to a read of `id`, and the primary key
+// an auto-increment column produced is not something a caller chose -- the first version
+// of this rule said it was, and the one finding it produced across ten repositories was
+// a file path built out of exactly that. Naming the column on both sides is the
+// difference between a claim about a table and a claim about a value.
+//
+// A key written with a LITERAL is excluded, which is the same judgement every other
+// literal-reading rule in this model makes: `{ status: "active" }` is the program
+// deciding, and no caller reaches the field it decided.
+func (s StoreAccess) WrittenFields(literals map[int]string) []string {
+	type entry struct{ path, value string }
+	var entries []entry
+	group := map[string]bool{}
+	for idx, text := range literals {
+		// Negative indices are where both frontends keep option keys: an object
+		// literal's properties in TypeScript, keyword arguments in Python.
+		if idx >= 0 {
+			continue
+		}
+		eq := strings.LastIndex(text, "=")
+		if eq < 0 {
+			continue
+		}
+		entries = append(entries, entry{text[:eq], text[eq+1:]})
+		if i := strings.Index(text[:eq], "."); i > 0 {
+			group[strings.ToLower(text[:i])] = true
+		}
+	}
+	seen := map[string]bool{}
+	var out []string
+	for _, e := range entries {
+		if e.value != ir.UnknownLiteral {
+			continue
+		}
+		head, leaf := strings.ToLower(e.path), e.path
+		nested := false
+		if i := strings.Index(e.path, "."); i > 0 {
+			head, leaf, nested = strings.ToLower(e.path[:i]), e.path[i+1:], true
+			if j := strings.LastIndex(leaf, "."); j >= 0 {
+				leaf = leaf[j+1:]
+			}
+		}
+		if namedIn(storeCriteriaOptions, head) {
+			continue
+		}
+		if !nested && (group[head] || namedIn(storeWrapperOptions, head)) {
+			continue
+		}
+		leaf = NormalizeFieldName(leaf)
+		if leaf == "" || seen[leaf] {
+			continue
+		}
+		seen[leaf] = true
+		out = append(out, leaf)
+	}
+	return out
+}
+
+// NormalizeFieldName folds the spellings one column is written in: a schema declares
+// `created_at` and an ORM exposes `createdAt`.
+func NormalizeFieldName(name string) string {
+	return strings.ToLower(strings.ReplaceAll(name, "_", ""))
+}
+
+// StoreReadAt returns the store rule this call reads through, when it reads through one.
+//
+// Receiver facts are passed in rather than looked up, the same way ChannelsMatching takes
+// them: the engine is the only side that knows what a receiver resolved to.
+func (m Model) StoreReadAt(symbol, method, receiverType string) (StoreAccess, bool) {
+	return m.storeAccessAt("read", symbol, method, receiverType)
+}
+
+// StoreWriteAt returns the store rule this call writes through, when it writes through one.
+func (m Model) StoreWriteAt(symbol, method, receiverType string) (StoreAccess, bool) {
+	return m.storeAccessAt("write", symbol, method, receiverType)
+}
+
+func (m Model) storeAccessAt(direction, symbol, method, receiverType string) (StoreAccess, bool) {
+	for _, s := range m.Persistence {
+		if s.Direction != direction {
+			continue
+		}
+		if s.Matches(symbol, method, receiverType) {
+			return s, true
+		}
+	}
+	return StoreAccess{}, false
+}
+
+// Matches reports whether this call reaches the store this rule describes.
+func (s StoreAccess) Matches(symbol, method, receiverType string) bool {
+	if namedIn(s.Symbol, symbol) {
+		return true
+	}
+	if method == "" || !namedIn(s.Method, method) {
+		return false
+	}
+	if s.MethodAlone {
+		return true
+	}
+	for _, t := range s.ReceiverType {
+		if receiverType == t {
+			return true
+		}
+	}
+	for _, marker := range s.SymbolContains {
+		if strings.Contains(symbol, marker) {
+			return true
+		}
+	}
+	if word := receiverSpelling(symbol, method); word != "" {
+		for _, w := range s.ReceiverWord {
+			if strings.Contains(word, w) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// StoreName reads the store's own identity out of the callee spelling, or returns empty
+// when the spelling does not carry one.
+//
+// `this.usersRepository.findOneBy` names the users table, `prisma.client.website.create`
+// names the website model, and `Check.objects.get` names Check. A `Map` reached through a
+// receiver the frontend could only type names nothing, and a rule that needs the identity
+// declines rather than connecting two stores that merely share a medium.
+func (s StoreAccess) StoreName(symbol, method string) string {
+	if s.NamedBefore == "" {
+		return ""
+	}
+	rest := symbol
+	if strings.HasSuffix(rest, "."+method) {
+		rest = rest[:len(rest)-len(method)-1]
+	}
+	if s.NamedBefore != "." {
+		i := strings.LastIndex(rest, s.NamedBefore)
+		if i < 0 {
+			return ""
+		}
+		rest = rest[:i]
+	}
+	if i := strings.LastIndex(rest, "."); i >= 0 {
+		rest = rest[i+1:]
+	}
+	return normalizeStoreName(rest)
+}
+
+// normalizeStoreName folds the spellings one table is written in. TypeORM injects
+// `usersRepository`, Prisma exposes `user`, and Django declares `User`: all three name one
+// table, and a connection that required them to match character for character would
+// connect nothing.
+func normalizeStoreName(name string) string {
+	n := strings.ToLower(name)
+	n = strings.TrimPrefix(n, "this.")
+	for _, suffix := range []string{"repository", "repo", "model", "table", "s"} {
+		if len(n) > len(suffix) && strings.HasSuffix(n, suffix) {
+			n = n[:len(n)-len(suffix)]
+			break
+		}
+	}
+	return n
+}
+
+// namedIn reports membership of a rule's name list.
+func namedIn(list []string, want string) bool {
+	for _, s := range list {
+		if s == want {
+			return true
+		}
+	}
+	return false
+}
+
+// receiverSpelling returns the last segment of how the receiver was written, lowercased.
+func receiverSpelling(symbol, method string) string {
+	rest := symbol
+	if strings.HasSuffix(rest, "."+method) {
+		rest = rest[:len(rest)-len(method)-1]
+	}
+	if rest == "" || rest == symbol {
+		return ""
+	}
+	if i := strings.LastIndex(rest, "."); i >= 0 {
+		rest = rest[i+1:]
+	}
+	return strings.ToLower(rest)
+}
+
+func builtinPersistence() []StoreAccess {
+	return []StoreAccess{
+		// --- reads: a lookup answers with what was stored ---------------------
+		{
+			// The data-access names that belong to one library's API and to nothing a
+			// program is likely to write for itself. Each of these is safe on its name
+			// alone, which matters because the receiver is untyped at more than half the
+			// method calls in a large TypeScript repository and at all of them in Python.
+			ID: "orm-read-by-name", Medium: "orm", Direction: "read",
+			Method: []string{
+				"findOne", "findOneBy", "findOneOrFail", "findOneByOrFail", "findBy",
+				"findAndCount", "findAndCountBy", "findOneById",
+				"findUnique", "findUniqueOrThrow", "findFirst", "findFirstOrThrow", "findMany",
+				"findAll", "findByPk", "findById",
+				"getOne", "getMany", "getRawOne", "getRawMany", "getOneOrFail",
+			},
+			MethodAlone: true,
+			NamedBefore: ".",
+		},
+		{
+			// Django writes its manager into every query, so the marker that says this is
+			// a table read is the same segment that says WHICH table.
+			ID: "orm-read-django", Medium: "orm", Direction: "read",
+			Method: []string{
+				"get", "filter", "exclude", "first", "last", "latest", "earliest", "all",
+				"values", "values_list", "in_bulk", "only", "defer", "order_by", "distinct",
+				"select_related", "prefetch_related", "annotate", "aget", "afirst",
+			},
+			SymbolContains: []string{".objects."},
+			NamedBefore:    ".objects.",
+		},
+		{
+			// The two shortcuts that ARE a query with a rejection attached. There is no
+			// receiver in either to recognise, so they are named whole.
+			ID: "orm-read-shortcut", Medium: "orm", Direction: "read",
+			Symbol: []string{
+				"django.shortcuts.get_object_or_404", "django.shortcuts.get_list_or_404",
+				"get_object_or_404", "get_list_or_404",
+			},
+		},
+		{
+			// A container reached by key. `get` is the most overloaded method name in
+			// either language -- it registers a route, makes an HTTP request, reads a
+			// header and searches a form -- so it is never matched on the name: either
+			// the frontend typed the receiver as a container, or the receiver says in its
+			// own spelling what it is.
+			ID: "key-value-read", Medium: "key-value", Direction: "read",
+			Method: []string{"get", "peek", "mget", "hget", "hgetall", "fetch", "lookup", "retrieve"},
+			ReceiverType: []string{
+				"Map", "WeakMap", "Cache", "Redis", "IORedis",
+				"MemoryKVCache", "MemorySingleCache", "QuantumKVCache",
+				"RedisKVCache", "RedisSingleCache",
+			},
+			ReceiverWord: []string{"cache", "store", "registry", "redis", "memo", "keyv", "lru"},
+			NamedBefore:  ".",
+		},
+		{
+			// Browser storage. `getItem` is unambiguous and `localStorage` is typed
+			// `Storage` by the checker, so both halves agree.
+			ID: "browser-storage-read", Medium: "browser-storage", Direction: "read",
+			Method: []string{"getItem", "key"}, ReceiverType: []string{"Storage"},
+			MethodAlone: true, NamedBefore: ".",
+		},
+		{
+			// A session read, spelled through the request that carries it. Deliberately
+			// NOT matched on the word `session` alone: `requests.Session().get(url)` is an
+			// outbound HTTP call written with the same two words, and treating it as a
+			// store would silence server-side request forgery.
+			ID: "session-read", Medium: "session", Direction: "read",
+			Method: []string{"get", "pop", "setdefault"},
+			SymbolContains: []string{
+				"request.session.", "req.session.", "ctx.session.", "context.session.",
+			},
+			NamedBefore: ".",
+		},
+
+		// --- writes: where a value ENTERS a store -----------------------------
+		{
+			ID: "orm-write-by-name", Medium: "orm", Direction: "write",
+			Method: []string{
+				"create", "createMany", "insert", "upsert", "bulkCreate",
+				"insertOne", "insertMany", "updateOne", "updateMany", "replaceOne",
+				"findOneAndUpdate", "findOneAndReplace",
+			},
+			MethodAlone: true, NamedBefore: ".", ValueArg: -1,
+		},
+		{
+			ID: "orm-write-django", Medium: "orm", Direction: "write",
+			Method:         []string{"create", "bulk_create", "get_or_create", "update_or_create", "update", "acreate"},
+			SymbolContains: []string{".objects."},
+			NamedBefore:    ".objects.", ValueArg: -1,
+		},
+		{
+			ID: "browser-storage-write", Medium: "browser-storage", Direction: "write",
+			Method: []string{"setItem"}, ReceiverType: []string{"Storage"},
+			MethodAlone: true, NamedBefore: ".", ValueArg: 1,
+		},
+		{
+			ID: "key-value-write", Medium: "key-value", Direction: "write",
+			Method: []string{"set", "put", "hset", "mset", "add"},
+			ReceiverType: []string{
+				"Map", "WeakMap", "Cache", "Redis", "IORedis",
+				"MemoryKVCache", "MemorySingleCache", "QuantumKVCache",
+				"RedisKVCache", "RedisSingleCache",
+			},
+			ReceiverWord: []string{"cache", "store", "registry", "redis", "memo", "keyv", "lru"},
+			NamedBefore:  ".", ValueArg: 1,
+		},
+		{
+			ID: "session-write", Medium: "session", Direction: "write",
+			Method: []string{"set", "update"},
+			SymbolContains: []string{
+				"request.session.", "req.session.", "ctx.session.", "context.session.",
+			},
+			NamedBefore: ".", ValueArg: 1,
 		},
 	}
 }
