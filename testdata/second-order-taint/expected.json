@@ -1,0 +1,14 @@
+{
+  "corpus": "second-order-taint",
+  "description": "A store modelled as a place values come from, which is one fact answering two opposite defects. From one side a read was assumed to answer with whatever it was HANDED, so taint flowed from the key a lookup was given into the value it returned and anything a caller could NAME became something a caller had WRITTEN; six false positives across two production repositories rested on that single step, one of them a 49-hop path onto genuinely raw SQL. From the other side a value written to a database by one request arrived at a later one looking like something the server established. The one finding here needs both halves at once: `GET /notes/:id` is silent about the identifier in its path, which only SELECTS the row, and reports `note.body`, which `POST /notes` wrote into that column of that table. What keeps the second half usable is that a row is not a value -- it holds columns a caller filled in and columns the store wrote for itself, and the connection names the COLUMN on both sides, read off the option keys the write was written with. Five silences say what that buys: a lookup key reaching SQL through a cache and again through an ORM, a column of a written table that only ever holds a literal, the auto-increment primary key of a table a caller does write to, and a write and a read of different tables. Without the column on both sides the third and fourth of those are findings, and the version that had only the table reached 2179 values in one 57k-line repository -- more than the first-order class it derives from -- for one finding, which was false.",
+  "expected": [
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "app.ts",
+      "sinkLine": 53,
+      "sourceLabel": "the note store, written by POST /notes",
+      "confidence": "medium",
+      "note": "stored cross-site scripting, and the route that delivers it is not the route that carries the payload. Medium because the store is an ambient declaration and every hop through it is probable rather than resolved, which is what a real ORM client is; the judgement itself is not in doubt"
+    }
+  ]
+}
