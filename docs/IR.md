@@ -12,7 +12,7 @@ could not be expressed without it. Nothing is added in anticipation.
 
 ```jsonc
 {
-  "irVersion": "0.11.0",
+  "irVersion": "0.13.0",
   "frontend": { "name": "typescript", "version": "0.1.0", "capabilities": { ... } },
   "modules":     [ ... ],
   "functions":   [ ... ],
@@ -94,11 +94,26 @@ comparison against a flag look like a comparison against a threshold.
 A directed intraprocedural dataflow edge. The core propagates taint along these.
 
 ```jsonc
-{ "from": "...$v2", "to": "...$v3", "kind": "assign", "loc": {...} }
+{ "from": "...$v2", "to": "...$v3", "kind": "assign", "loc": {...}, "block": "...$b1" }
 ```
 
 `kind` is descriptive only (`assign`, `property`, `template`, `binary`, `return`) and is
 used to render evidence. It does not change propagation in v0.
+
+#### `block` (added in 0.13.0)
+
+The basic block this edge occurs in. Added because a variable that is REDEFINED reaches
+the core as one value with two edges into it -- a merge -- and a merge cannot say that
+one definition replaced the other. linkwarden's Stripe webhook writes `let event =
+req.body`, replaces it ten lines later with the verified event, and logs the verified
+one; without a block on each edge the core reported the log as caller-controlled with a
+path back to a value that had stopped existing.
+
+**An absent `block` is a refusal, never a default.** A frontend must leave it unset
+wherever the block graph does not express when the edge runs: inside a loop body, whose
+back edge neither frontend emits, and inside a `switch`, whose arms are lowered
+straight-line. The core reads an absent block as "position unknown" and keeps the flow,
+which is the only safe direction -- a dropped flow is a missed weakness (ADR-003).
 
 ### Calls
 
@@ -265,7 +280,7 @@ relating happen.
 ]
 ```
 
-Calls and comparisons carry a `block`. A block with no successors is an exit.
+Calls, comparisons and flows carry a `block`. A block with no successors is an exit.
 
 Added because a security question could not be answered without it: **does a check
 decide anything?** Two handlers can compare the same values with the same operator in
