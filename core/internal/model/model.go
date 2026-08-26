@@ -757,6 +757,39 @@ func builtin() Model {
 							// constantly when building links back to itself.
 							"url", "originalUrl", "path", "hostname"},
 					},
+					// A route that is a FILE. Next.js App Router, Remix, Nuxt and Medusa
+					// all register a handler by putting it at a known path and exporting
+					// it, and the frontend enumerates all four -- but nothing here spoke
+					// for them, so every one of those routes seeded no source at all.
+					//
+					// That is worse than not finding the routes, because it does not look
+					// like a gap. umami enumerated 168 of 168 entry points, verified file
+					// by file by an independent reader, and produced zero dataflow
+					// findings from them: the surface was exact and completely inert.
+					//
+					// The App Router handler takes a Request, so the caller's input is
+					// reached through `nextUrl`, `headers`, `cookies` and the body
+					// methods. `params` is the second parameter, not a property, and is
+					// covered by the route-parameter rule rather than here.
+					{
+						Match:      MatchEntryParamProperty,
+						Framework:  "file-route",
+						EntryKind:  "http-route",
+						ParamIndex: 0,
+						Paths: []string{"nextUrl", "url", "headers", "cookies", "body",
+							"searchParams", "params", "query"},
+					},
+					// The Pages Router request is Express's request wearing a different
+					// type: `req.query`, `req.body`, `req.headers`, `req.cookies`. Same
+					// shape, different framework label, because the two conventions live in
+					// the same tree and one file cannot be both.
+					{
+						Match:      MatchEntryParamProperty,
+						Framework:  "next-pages",
+						EntryKind:  "http-route",
+						ParamIndex: 0,
+						Paths:      []string{"query", "body", "headers", "cookies", "url", "socket"},
+					},
 					{
 						// Frameworks that inject request data straight into a
 						// handler parameter (NestJS @Param/@Body/@Query).
