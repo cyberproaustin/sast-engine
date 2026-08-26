@@ -766,6 +766,10 @@ function lowerFunction(
     if (from && to) flows.push({ from, to, kind, loc, block: unmodelled === 0 ? current : undefined });
   };
 
+  // Where a write sits in the block graph, on the same terms as a flow: a loop body and
+  // a switch arm are positions the graph does not express, so the frontend states none.
+  const writeBlock = (): string | undefined => (unmodelled === 0 ? current : undefined);
+
   const bind = (name: ts.Identifier, valueId: string): void => {
     const sym = checker.getSymbolAtLocation(name);
     if (!sym) return;
@@ -1408,7 +1412,7 @@ function lowerFunction(
             key !== undefined &&
             literalOf(prop.initializer) !== undefined
           ) {
-            writes.push({ loc: locOf(sf, prop), base: id, path: key, from });
+            writes.push({ loc: locOf(sf, prop), base: id, path: key, from, block: writeBlock() });
           }
         } else if (ts.isShorthandPropertyAssignment(prop)) {
           // For `{ slug }` the identifier resolves to the PROPERTY symbol, not the
@@ -1773,16 +1777,24 @@ function lowerFunction(
           base: lowerExpr(target.expression),
           path: target.name.text,
           from,
+          block: writeBlock(),
         });
         return;
       }
       if (ts.isElementAccessExpression(target)) {
         const key = target.argumentExpression;
+        const literalKey = ts.isStringLiteralLike(key);
+        // A COMPUTED key is recorded as a value, because how many entries a container
+        // can come to hold is decided by how many distinct keys reach it -- and a key
+        // the caller chose has no ceiling. A literal key is a property name spelled
+        // differently and belongs in `path` where every other fixed name goes.
         writes.push({
           loc: locOf(sf, n),
           base: lowerExpr(target.expression),
-          path: ts.isStringLiteralLike(key) ? key.text : undefined,
+          path: literalKey ? key.text : undefined,
+          key: literalKey ? undefined : lowerExpr(key),
           from,
+          block: writeBlock(),
         });
         return;
       }
@@ -1796,6 +1808,7 @@ function lowerFunction(
           base: bySymbol.get(checker.getSymbolAtLocation(target)!),
           path: target.text,
           from,
+          block: writeBlock(),
           scope: "process",
         });
         lowerExpr(n.expression);
@@ -1816,7 +1829,7 @@ function lowerFunction(
         }
         bind(target, id);
         addFlow(from, id, "assign", locOf(sf, n));
-        writes.push({ loc: locOf(sf, n), base: id, path: target.text, from, scope: "process" });
+        writes.push({ loc: locOf(sf, n), base: id, path: target.text, from, block: writeBlock(), scope: "process" });
         return;
       }
       // A plain name declared in THIS function and assigned again. `var cart = null;`

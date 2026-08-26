@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.13.0",
+  "irVersion": "0.14.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -1380,7 +1380,8 @@
           },
           "base": "app.py#__init__:50:5$v0",
           "path": "title",
-          "from": "app.py#__init__:50:5$v1"
+          "from": "app.py#__init__:50:5$v1",
+          "block": "app.py#__init__:50:5$b0"
         }
       ],
       "entryBlock": "app.py#__init__:50:5$b0",

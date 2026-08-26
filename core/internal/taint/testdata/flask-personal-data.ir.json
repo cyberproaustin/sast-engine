@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.13.0",
+  "irVersion": "0.14.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -557,7 +557,8 @@
           },
           "base": "app.py#enroll:12:1$v12",
           "path": "is_admin",
-          "from": "app.py#enroll:12:1$v13"
+          "from": "app.py#enroll:12:1$v13",
+          "block": "app.py#enroll:12:1$b0"
         }
       ],
       "entryBlock": "app.py#enroll:12:1$b0",
@@ -837,7 +838,8 @@
           },
           "base": "app.py#enroll_safe:24:1$v8",
           "path": "is_admin",
-          "from": "app.py#enroll_safe:24:1$v9"
+          "from": "app.py#enroll_safe:24:1$v9",
+          "block": "app.py#enroll_safe:24:1$b0"
         }
       ],
       "entryBlock": "app.py#enroll_safe:24:1$b0",

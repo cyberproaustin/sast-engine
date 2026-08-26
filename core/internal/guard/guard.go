@@ -57,6 +57,10 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 
 		for _, rule := range m.Guards {
 			for _, c := range fn.Calls {
+				if len(rule.Repeats) > 0 {
+					out = append(out, repeatingCallback(ix, fn, c, rule)...)
+					continue
+				}
 				if c.Block == "" || terminal[c.Block] || !rejects(c, rule) {
 					continue
 				}
@@ -69,6 +73,159 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 		}
 	}
 	return out
+}
+
+// repeatingCallback reports a refusal written inside a listener the source will call
+// again.
+//
+// The rejection rule above asks whether work FOLLOWS a refusal. This asks the same thing
+// about a callback: not what runs after the refusal, but whether the thing that produced
+// the input will be asked for more -- and inside a listener the answer is yes by
+// construction, because a `return` ends this invocation and detaches nothing.
+//
+// Four facts have to hold together and each one removes a population of ordinary code.
+// The event has to be one that happens more than once, because `end` and `error` happen
+// once and need no detaching. The callback has to APPEND to something it did not create,
+// because a callback that keeps nothing costs nothing to run again. There has to be a
+// refusal in it, which is the program saying in its own code that this input should stop.
+// And nothing may detach the listener or stop the source anywhere near it, which is the
+// thing that would have made the refusal real.
+func repeatingCallback(ix *ir.Index, fn *ir.Function, c *ir.Call, rule model.GuardRule) []taint.Finding {
+	if !matchesName(lastSegment(c.Callee.Symbol), c.Method, rule.Attaches) {
+		return nil
+	}
+	if !namesEvent(c, rule.Repeats) {
+		return nil
+	}
+	cb := callbackOf(ix, c)
+	if cb == nil {
+		return nil
+	}
+	// Said here rather than left to be filtered downstream, where it would still be
+	// counted: a fixture that reads a stream is not an attack surface.
+	if ix.InTestModule(c.Loc) {
+		return nil
+	}
+	// A collection the callback did not make. `chunks.push(chunk)` on an array bound in
+	// the enclosing scope is what makes running this again cost memory; the same call on
+	// a local made in the callback costs nothing that outlasts the invocation.
+	if !accumulatesOutward(ix, cb, rule) {
+		return nil
+	}
+	// Generous in both directions on purpose: a rule reporting the ABSENCE of a call has
+	// to be quiet whenever there is any reason to be, so a detach written in the callback,
+	// in any of the OTHER listeners registered beside it, or in the function that
+	// registered them all, counts.
+	if detaches(ix, fn, rule) || detaches(ix, cb, rule) {
+		return nil
+	}
+	var out []taint.Finding
+	for _, r := range cb.Calls {
+		// Matched on what the call was WRITTEN as, because the promise executor's
+		// `reject` is a parameter and resolves to nothing at all. A symbol is a claim
+		// about what a name refers to; here the name is the whole evidence.
+		if !matchesName(lastSegment(r.Callee.Name), r.Method, rule.Refuses) {
+			continue
+		}
+		out = append(out, repeatFinding(ix, fn, cb, c, r, rule))
+	}
+	return out
+}
+
+// namesEvent reports whether a registration named one of these events. The name is the
+// only thing that says whether a callback is called again, and it is written at the call.
+func namesEvent(c *ir.Call, events []string) bool {
+	lit, ok := c.ArgLiterals[0]
+	if !ok {
+		return false
+	}
+	for _, want := range events {
+		if strings.EqualFold(strings.TrimSpace(lit), want) {
+			return true
+		}
+	}
+	return false
+}
+
+// callbackOf is the function a registration was handed.
+func callbackOf(ix *ir.Index, c *ir.Call) *ir.Function {
+	for _, a := range c.Args {
+		if a.FunctionID != "" {
+			return ix.FuncByID[a.FunctionID]
+		}
+	}
+	return nil
+}
+
+// accumulatesOutward reports whether the callback adds to a collection that outlasts the
+// invocation -- one whose binding belongs to some other function.
+func accumulatesOutward(ix *ir.Index, cb *ir.Function, rule model.GuardRule) bool {
+	for _, c := range cb.Calls {
+		if !matchesName(lastSegment(c.Callee.Symbol), c.Method, rule.Accumulates) {
+			continue
+		}
+		if c.ReceiverID == "" {
+			continue
+		}
+		if owner := ix.OwnerOfValue[c.ReceiverID]; owner != nil && owner.ID != cb.ID {
+			return true
+		}
+	}
+	return false
+}
+
+// detaches reports whether a function anywhere in it removes the listener or stops what
+// feeds it.
+func detaches(ix *ir.Index, fn *ir.Function, rule model.GuardRule) bool {
+	for _, c := range fn.Calls {
+		if matchesName(lastSegment(c.Callee.Symbol), c.Method, rule.Detaches) ||
+			matchesName(lastSegment(c.Callee.Name), c.Method, rule.Detaches) {
+			return true
+		}
+		// The listeners registered beside this one are lowered as separate functions, and
+		// a `destroy` in the error handler is a destroy.
+		if cb := callbackOf(ix, c); cb != nil && cb.ID != fn.ID {
+			for _, inner := range cb.Calls {
+				if matchesName(lastSegment(inner.Callee.Symbol), inner.Method, rule.Detaches) ||
+					matchesName(lastSegment(inner.Callee.Name), inner.Method, rule.Detaches) {
+					return true
+				}
+			}
+		}
+	}
+	return false
+}
+
+func repeatFinding(ix *ir.Index, fn *ir.Function, cb *ir.Function, attach, refuse *ir.Call,
+	rule model.GuardRule) taint.Finding {
+	event := attach.ArgLiterals[0]
+	name := callName(ix, refuse)
+	if name == "the work it was refusing" && refuse.Callee.Name != "" {
+		name = refuse.Callee.Name
+	}
+	return taint.Finding{
+		Analysis:     rule.ID,
+		DataClass:    "control-flow",
+		ChannelID:    rule.ID,
+		Class:        rule.Finding,
+		CWE:          rule.CWE,
+		Message:      rule.Reason,
+		SinkLoc:      refuse.Loc,
+		SinkSymbol:   name,
+		SinkFunction: cb.Name,
+		SinkRational: rule.Rationale,
+		SourceLabel:  event,
+		SourceLoc:    attach.Loc,
+		InTestModule: ix.InTestModule(refuse.Loc),
+		Path: []taint.Hop{
+			{Loc: attach.Loc, Description: fmt.Sprintf("a callback is registered for %q, which happens again", event), Resolution: ir.Resolved},
+			{Loc: refuse.Loc, Description: fmt.Sprintf("%s() refuses, and nothing detaches the callback or stops the source", name), Resolution: ir.Resolved},
+		},
+		Confidence:    taint.High,
+		EntryAnchored: true,
+		EntryPoint:    entryAbove(ix, parents(ix), fn),
+		SinkArgIndex:  -1,
+	}
 }
 
 // workAfter reports whether anything UNAVOIDABLE after this block still calls something,
@@ -241,6 +398,51 @@ func callName(ix *ir.Index, c *ir.Call) string {
 		return fn.Name
 	}
 	return "the work it was refusing"
+}
+
+// parents is every function that names this one -- by calling it, or by handing it to
+// something else as an argument. A promise executor is reached the second way and no
+// other, so a call graph alone loses the entry point above it entirely.
+func parents(ix *ir.Index) map[string][]*ir.Function {
+	out := make(map[string][]*ir.Function)
+	for _, fn := range ix.IR.Functions {
+		for _, c := range fn.Calls {
+			if c.Callee.FunctionID != "" {
+				out[c.Callee.FunctionID] = append(out[c.Callee.FunctionID], fn)
+			}
+			for _, a := range c.Args {
+				if a.FunctionID != "" {
+					out[a.FunctionID] = append(out[a.FunctionID], fn)
+				}
+			}
+		}
+	}
+	return out
+}
+
+// entryAbove is the entry point a function runs under, found by ascending a few hops.
+//
+// Bounded for the same reason the store analysis bounds its own ascent: past a few calls
+// the answer stops being evidence that this line runs per-request and starts being
+// evidence that the program is connected.
+func entryAbove(ix *ir.Index, up map[string][]*ir.Function, fn *ir.Function) string {
+	seen := map[string]bool{}
+	frontier := []*ir.Function{fn}
+	for depth := 0; depth < 4 && len(frontier) > 0; depth++ {
+		var next []*ir.Function
+		for _, f := range frontier {
+			if seen[f.ID] {
+				continue
+			}
+			seen[f.ID] = true
+			if name := enclosing(ix, f); name != "" {
+				return name
+			}
+			next = append(next, up[f.ID]...)
+		}
+		frontier = next
+	}
+	return ""
 }
 
 func enclosing(ix *ir.Index, fn *ir.Function) string {

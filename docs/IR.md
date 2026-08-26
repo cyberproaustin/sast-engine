@@ -12,7 +12,7 @@ could not be expressed without it. Nothing is added in anticipation.
 
 ```jsonc
 {
-  "irVersion": "0.13.0",
+  "irVersion": "0.14.0",
   "frontend": { "name": "typescript", "version": "0.1.0", "capabilities": { ... } },
   "modules":     [ ... ],
   "functions":   [ ... ],
@@ -229,8 +229,9 @@ without the core knowing that JavaScript exists.
 ### Writes (added in 0.10.0)
 
 ```jsonc
-{ "loc": {...}, "base": "...$v3", "path": "role", "from": "...$v2" }
+{ "loc": {...}, "base": "...$v3", "path": "role", "from": "...$v2", "block": "...$b1" }
 { "loc": {...}, "base": "...$v1", "path": "currentUser", "from": "...$v2", "scope": "process" }
+{ "loc": {...}, "base": "...$v4", "key": "...$v0", "from": "...$v6" }
 ```
 
 An assignment INTO something: `session["user"] = x`, `config.debug = y`. Assignments to a
@@ -250,6 +251,31 @@ rule of the language rather than a property of the destination: Python needs the
 declared `global` and JavaScript needs it bound in an enclosing scope, and the identical
 statement without either makes a local and touches nothing. That is why the core cannot
 work it out and why the seam is the right place for the answer (ADR-001).
+
+#### `key` (added in 0.14.0)
+
+The value the entry was filed UNDER, for a subscript whose key was computed rather than
+written down. `path` already carried a key written as a literal, because a literal key is
+a property name spelled differently; the two are never both set.
+
+Added because a write records what was PUT somewhere and the destination's growth is
+decided by what it was put under: a container gains one entry per distinct key, and a key
+the caller chose has no ceiling the program set. uptime-kuma's
+`UptimeCalculator.list[monitorID] = new UptimeCalculator()` arrived with the entry in
+`from`, the map in `base`, and the identifier deciding how many maps there can be nowhere
+at all.
+
+#### `block` (added in 0.14.0)
+
+The basic block the write occurs in, on exactly the terms a flow carries one. A question
+about what a CHECK settled before the write cannot be answered from a line number: two
+writes on the same line of two programs sit in different places in the graph, and only one
+of them is downstream of a rejection.
+
+**An absent `block` is a refusal, never a default**, and for the same reason it is on a
+flow: a write inside a loop body or a switch arm is at a position the block graph does not
+express. A judgement that needs the position is not made there rather than being made on a
+guess (ADR-003).
 
 Deliberately NOT fed into taint propagation. Whether a value read back out of an object
 should carry what was written into it is a field-sensitivity question this project measured

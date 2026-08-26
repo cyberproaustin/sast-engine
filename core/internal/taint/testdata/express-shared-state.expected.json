@@ -1,6 +1,6 @@
 {
   "corpus": "express-shared-state",
-  "description": "One request's data left where the next request finds it. The discriminator is a language rule rather than a name: an assignment to a name declared inside the handler is a local and touches nothing, and a module-level CONTAINER keyed by something is a cache, where what the next request reads is what it asked for.",
+  "description": "One request's data left where the next request finds it, and beside it the other half of the same statement. The discriminator for the first is a language rule rather than a name: an assignment to a name declared inside the handler is a local and touches nothing. The second reads the CONTAINER write the first stands aside from, and asks what it was filed UNDER rather than what was filed: the key is the caller's, the map outlives the request, and nothing here measures it against anything.",
   "expected": [
     {
       "cwe": "CWE-488",
@@ -9,6 +9,14 @@
       "sourceLabel": "req.body.email",
       "confidence": "high",
       "note": "the identical statement fifteen lines down declares the name locally and is silent"
+    },
+    {
+      "cwe": "CWE-770",
+      "sinkFile": "app.js",
+      "sinkLine": 21,
+      "sourceLabel": "req.body.email",
+      "confidence": "high",
+      "note": "the same line the shared-state rule stands aside from: a module-level container gains one entry per address anybody sends, and no comparison in this program bounds it"
     }
   ]
 }

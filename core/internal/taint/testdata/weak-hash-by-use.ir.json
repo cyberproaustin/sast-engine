@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.13.0",
+  "irVersion": "0.14.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -2106,7 +2106,9 @@
             "column": 5
           },
           "base": "app.py#<module>:0:0$v8",
-          "from": "app.py#report:81:1$v14"
+          "key": "app.py#report:81:1$v9",
+          "from": "app.py#report:81:1$v14",
+          "block": "app.py#report:81:1$b3"
         }
       ],
       "entryBlock": "app.py#report:81:1$b0",
@@ -2809,7 +2811,9 @@
             "line": 116,
             "column": 5
           },
-          "base": "app.py#<module>:0:0$v8"
+          "base": "app.py#<module>:0:0$v8",
+          "key": "app.py#authorize:113:1$v0",
+          "block": "app.py#authorize:113:1$b0"
         }
       ],
       "entryBlock": "app.py#authorize:113:1$b0",
@@ -3220,7 +3224,8 @@
           },
           "base": "store.py#set_password:16:1$v4",
           "path": "password_hash",
-          "from": "store.py#set_password:16:1$v9"
+          "from": "store.py#set_password:16:1$v9",
+          "block": "store.py#set_password:16:1$b0"
         }
       ],
       "entryBlock": "store.py#set_password:16:1$b0",
@@ -3613,7 +3618,8 @@
           },
           "base": "store.py#__init__:11:5$v0",
           "path": "name",
-          "from": "store.py#__init__:11:5$v1"
+          "from": "store.py#__init__:11:5$v1",
+          "block": "store.py#__init__:11:5$b0"
         },
         {
           "loc": {
@@ -3623,7 +3629,8 @@
           },
           "base": "store.py#__init__:11:5$v0",
           "path": "password_hash",
-          "from": "store.py#__init__:11:5$v2"
+          "from": "store.py#__init__:11:5$v2",
+          "block": "store.py#__init__:11:5$b0"
         }
       ],
       "entryBlock": "store.py#__init__:11:5$b0",
