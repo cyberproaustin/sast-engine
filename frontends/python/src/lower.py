@@ -92,6 +92,31 @@ DRF_ROUTES = (
 )
 
 
+# --- Tornado URLSpec --------------------------------------------------------
+#
+# Tornado does not register a route with a CALL. A module declares a module-level list of
+# TUPLES and the application collects those lists, so a tuple in a list is the whole
+# registration -- and a frontend that looks for calls sees nothing at all. JupyterHub
+# enumerated 9 entry points against 62 real handler registrations, and every one of the 9
+# came out of its `examples/` directory: zero of the application that ships.
+
+# The two spellings of the same tuple. `tornado.web.url(pattern, Handler)` and
+# `URLSpec(pattern, Handler)` build the object the tuple is shorthand FOR, and an
+# application mixes the two inside one table.
+TORNADO_REGISTRARS = frozenset({"url", "URLSpec"})
+
+# A Tornado handler answers in a method named after the verb, exactly as a Django
+# class-based view does. One tuple is therefore as many entry points as the class has
+# verbs, and the class is where they are -- never the table.
+TORNADO_VERB_METHODS = ("get", "post", "put", "patch", "delete", "head", "options")
+
+# What a handler exposes to a request when it names no verb at all. `prepare` runs ahead
+# of every verb whatever it is, and a WebSocket handler answers in `open` and `on_message`
+# and has no verb to be named after -- pointing the route at one of those is the difference
+# between a handler that is in the surface and a class that is nowhere in it (ADR-009).
+TORNADO_HOOKS = ("prepare", "on_message", "open")
+
+
 # Python test-file conventions.
 TEST_PATH = re.compile(r"(^|/)(tests?|testing|e2e)/|(^|/)test_[^/]*\.py$|_test\.py$|(^|/)conftest\.py$")
 
@@ -157,20 +182,23 @@ def django_route_text(node: ast.AST) -> str | None:
     route not existing at all (ADR-009).
     """
     if isinstance(node, ast.Constant):
-        return _django_unanchored(node.value) if isinstance(node.value, str) else None
+        return _unanchored(node.value) if isinstance(node.value, str) else None
     if isinstance(node, ast.JoinedStr):
-        return _django_unanchored("".join(
+        return _unanchored("".join(
             part.value for part in node.values
             if isinstance(part, ast.Constant) and isinstance(part.value, str)))
     return None
 
 
-def _django_unanchored(route: str) -> str:
+def _unanchored(route: str) -> str:
     """A regex route without its anchors, which are position rather than path.
 
     Stripped from each FRAGMENT rather than from the finished path: a mounted URLconf
     anchors its own patterns, and `api/v3/` composed with `^ping/$` puts the caret in the
     middle of the path where nothing would ever remove it.
+
+    Shared with the Tornado model below rather than written twice: `re_path(r"^ping/$")`
+    and a URLSpec's `r"/health$"` are one regex written for two registrars.
     """
     if route.startswith("^"):
         route = route[1:]
@@ -216,13 +244,13 @@ def django_route_path(route: str) -> str:
     rewriting a regex into a path is guesswork and a path that is wrong is worse than one
     that is ugly.
     """
-    route = _django_named_groups(route)
+    route = _named_groups(route)
     route = DJANGO_CONVERTER.sub(r":\1", route)
     # Django routes are written without a leading slash: the mount point supplies it.
     return "/" + route.lstrip("/")
 
 
-def _django_named_groups(pattern: str) -> str:
+def _named_groups(pattern: str) -> str:
     """`(?P<code>[\\w-]+)` -> `:code`, by matching the group's own parentheses.
 
     Counted rather than matched with a regex of our own: a named group holds parentheses
@@ -263,13 +291,92 @@ def django_entry_point(function_id: str, method: str, path: str) -> dict:
     }
 
 
+def tornado_route_path(pattern: str) -> str:
+    """A Tornado URL regex written as the path the rest of the engine reads.
+
+    A Tornado pattern is a regex and nothing else, so both kinds of capture in it are a
+    parameter: a named group is the name Tornado passes as a keyword argument, and an
+    unnamed one is a positional argument whose only name is where it sits. `:name` is the
+    spelling every other framework model in this engine emits, so a Tornado route and an
+    Express route can be read by the same eye.
+    """
+    pattern = _tornado_unnamed_groups(_named_groups(_unanchored(pattern)))
+    # Tornado patterns are matched against the request path, which always begins with a
+    # slash. A table's own patterns carry it; a table an application mounts under a prefix
+    # -- JupyterHub serves every one of its handlers under `/hub` -- writes the empty
+    # pattern for the mount point itself.
+    return "/" + pattern.lstrip("/")
+
+
+def tornado_pattern_text(node: ast.AST) -> str | None:
+    """The pattern of a registration, when this literal is one at all.
+
+    The leading slash is the whole test. A two-element tuple of a string and a class is an
+    extremely common record -- a choices list, a dispatch table, a registry of exporters --
+    and what separates the one that is a route is that its first element is a PATH.
+    Without that test, a table of `("draft", DraftState)` reads as a route table, and a
+    surface that invents entry points is worse than one that misses them (ADR-009).
+    """
+    if not isinstance(node, ast.Constant) or not isinstance(node.value, str):
+        return None
+    unanchored = _unanchored(node.value)
+    return node.value if unanchored == "" or unanchored.startswith("/") else None
+
+
+def _tornado_unnamed_groups(pattern: str) -> str:
+    """`([^/]+)` -> `:arg1`, numbered by position, by matching the group's own parentheses.
+
+    Counted rather than matched with a regex of our own, for the reason `_named_groups`
+    counts: a capture holds parentheses of its own routinely -- `/error/((\\d+)|x)` -- and
+    a non-greedy match ends the parameter in the middle of one, which puts regex
+    punctuation into the middle of a path.
+
+    A `(?...)` group captures nothing and is left exactly as it was written: Tornado passes
+    the verb method one argument per CAPTURE, so a non-capturing group is not a parameter
+    and numbering it would shift every parameter after it.
+    """
+    out: list[str] = []
+    index, i = 0, 0
+    while i < len(pattern):
+        if pattern[i] == "\\":
+            out.append(pattern[i:i + 2])
+            i += 2
+            continue
+        if pattern[i] != "(" or pattern.startswith("(?", i):
+            out.append(pattern[i])
+            i += 1
+            continue
+        index += 1
+        out.append(f":arg{index}")
+        depth, i = 1, i + 1
+        while i < len(pattern) and depth:
+            if pattern[i] == "\\":
+                i += 1
+            elif pattern[i] == "(":
+                depth += 1
+            elif pattern[i] == ")":
+                depth -= 1
+            i += 1
+    return "".join(out)
+
+
+def tornado_entry_point(function_id: str, method: str, path: str) -> dict:
+    return {
+        "functionId": function_id,
+        "kind": "http-route",
+        "framework": "tornado",
+        "detail": {"method": method, "path": path},
+    }
+
+
 class ModuleLowerer:
     """Lowers one module. Imports and module-level defs are resolved by name."""
 
     def __init__(self, root: str, path: str, tree: ast.Module, defs: dict[str, str],
                  templates: dict | None = None, resource_paths: dict[str, str] | None = None,
                  django_prefixes: dict[str, str] | None = None,
-                 class_members: dict[str, dict[str, str]] | None = None):
+                 class_members: dict[str, dict[str, str]] | None = None,
+                 base_members: dict[str, dict[str, str]] | None = None):
         self.module = module_id(root, path)
         # Every view under the root, read once for the whole program.
         self.templates = templates or {}
@@ -280,6 +387,11 @@ class ModuleLowerer:
         # write for the class. A class-based view is registered by CLASS and answers by
         # METHOD, so the registration names one thing and the entry points are another.
         self.class_members = class_members or {}
+        # What a class INHERITS, one level up and resolved across the program. A registered
+        # Tornado handler is free to define no verb of its own -- the subclass carries the
+        # model and the permission scope and the base carries `get` and `post` -- and
+        # without this such a registration reaches a class with nothing in it.
+        self.base_members = base_members or {}
         # Where another module mounted this one. Django gives a whole URLconf its prefix
         # from a file that URLconf never mentions, so this is the only way the routes
         # below can learn the path they are actually served at.
@@ -385,6 +497,7 @@ class ModuleLowerer:
         if not is_test_module(self.module):
             self.entry_points.extend(self._url_rule_entry_points())
             self.entry_points.extend(self._router_entry_points())
+            self.entry_points.extend(self.tornado_entry_points())
             self.entry_points.extend(django)
         self._collect_resource_paths()
 
@@ -646,22 +759,33 @@ class ModuleLowerer:
         # `request.method`. Naming a verb here would be inventing one.
         return [django_entry_point(target, "ANY", path)] if target else []
 
-    def _django_class_members(self, node: ast.AST) -> dict[str, str]:
-        """The methods of the class a registration names, wherever it is defined.
+    def _class_key(self, node: ast.AST) -> str | None:
+        """The name a class is known by program-wide, out of how a registration wrote it.
 
-        The two spellings `_function_reference` resolves, for the same reason: a URLconf
-        reaches a view either through a module it imported (`views.Detail`) or through the
-        class itself (`from hc.front.views import Detail`).
+        The two spellings `_function_reference` resolves, for the same reason: a
+        registration reaches a class either through a module it imported (`views.Detail`)
+        or through the class itself (`from hc.front.views import Detail`).
         """
         if isinstance(node, ast.Name):
             imported = self.imports.get(node.id)
-            key = f"import:{imported}" if imported else f"{self.module}:{node.id}"
-            return self.class_members.get(key, {})
-        if isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name):
-            module = self.imports.get(node.value.id)
-            if module:
-                return self.class_members.get(f"import:{module}.{node.attr}", {})
-        return {}
+            return f"import:{imported}" if imported else f"{self.module}:{node.id}"
+        # A chain of any depth, because a registration reaches for one: JupyterHub's
+        # catch-all is written `apihandlers.base.API404`, on a package it imported rather
+        # than on the module the class is in, and stopping at one attribute left that
+        # route -- and every route written the same way -- out of the surface.
+        if isinstance(node, ast.Attribute):
+            parts: list[str] = []
+            cur: ast.AST = node
+            while isinstance(cur, ast.Attribute):
+                parts.append(cur.attr)
+                cur = cur.value
+            root = self.imports.get(cur.id) if isinstance(cur, ast.Name) else None
+            return ".".join([f"import:{root}", *reversed(parts)]) if root else None
+        return None
+
+    def _django_class_members(self, node: ast.AST) -> dict[str, str]:
+        """The methods of the class a registration names, wherever it is defined."""
+        return self.class_members.get(self._class_key(node) or "", {})
 
     @staticmethod
     def _django_hook(members: dict[str, str], action: str | None = None) -> str | None:
@@ -780,6 +904,90 @@ class ModuleLowerer:
                         out.append(django_entry_point(target, method,
                                                       django_route_path(base + suffix)))
         return out
+
+    # --- Tornado URLSpec --------------------------------------------------
+    #
+    # Every other registration this frontend knows is a CALL. Tornado's is a tuple in a
+    # list, which is not a call and not a decorator and has no name of its own, and a
+    # frontend built out of call shapes had nothing to match: JupyterHub enumerated 9
+    # entry points against 62 real handler registrations, and all 9 of them came from its
+    # `examples/` directory rather than from the application (ADR-009).
+
+    def tornado_entry_points(self) -> list[dict]:
+        """`(r"/api/users/([^/]+)", UserAPIHandler)`, and the call spellings of it."""
+        out: list[dict] = []
+        for node in ast.walk(self.tree):
+            spec = self._tornado_spec(node)
+            if spec is None:
+                continue
+            pattern, handler = spec
+            out.extend(self._tornado_handlers_of(handler, tornado_route_path(pattern)))
+        return out
+
+    def _tornado_spec(self, node: ast.AST) -> tuple[str, ast.AST] | None:
+        """The `(pattern, HandlerClass)` of one registration, however it is written.
+
+        Matched by SHAPE and never by the name of the list it sits in: `default_handlers`
+        is a convention of Tornado's own documentation and an application is free to build
+        its table anywhere -- JupyterHub appends `(r"/logo", LogoHandler, {...})` to a
+        local variable inside the method that assembles the application, which is a
+        registration exactly as much as the module-level lists are.
+        """
+        if isinstance(node, ast.Tuple):
+            # A third element is the dict of arguments Tornado constructs the handler
+            # with, and there is never a fourth. A longer tuple is some other kind of
+            # record that happens to begin with a string.
+            if not 2 <= len(node.elts) <= 3:
+                return None
+            if len(node.elts) == 3 and not isinstance(node.elts[2], ast.Dict):
+                return None
+            parts: list[ast.AST] = node.elts
+        elif isinstance(node, ast.Call):
+            name = (node.func.id if isinstance(node.func, ast.Name)
+                    else getattr(node.func, "attr", ""))
+            if name not in TORNADO_REGISTRARS or len(node.args) < 2:
+                return None
+            parts = node.args
+        else:
+            return None
+        pattern = tornado_pattern_text(parts[0])
+        return (pattern, parts[1]) if pattern is not None else None
+
+    def _tornado_handlers_of(self, handler: ast.AST, path: str) -> list[dict]:
+        """The methods one registration reaches, and the verb each of them answers.
+
+        Own methods before inherited ones, because that is Python's own resolution order:
+        a subclass that names `post` answers POST there and nowhere else.
+        """
+        members = self._django_class_members(handler)
+        # A registered handler is free to define no verb at all and answer entirely in a
+        # BASE class in another module. JupyterHub's `/api/(.*)` catch-all is exactly that:
+        # `API404` is an empty subclass, and the only method a request there ever reaches
+        # is the `options` of the `APIHandler` it extends -- so a lookup that stopped at
+        # the class the registration NAMES found nothing to point at.
+        #
+        # Resolved one level and by the base's own NAME, which is the same looseness the
+        # rest of this file's cross-file lookups carry and is stated rather than hidden
+        # (ADR-003).
+        inherited = self.base_members.get(self._class_key(handler) or "", {})
+        if not members and not inherited:
+            return []
+        for source in (members, inherited):
+            found = [tornado_entry_point(source[verb], verb.upper(), path)
+                     for verb in TORNADO_VERB_METHODS if verb in source]
+            if found:
+                return found
+        for source in (members, inherited):
+            for hook in TORNADO_HOOKS:
+                if hook in source:
+                    return [tornado_entry_point(source[hook], "ANY", path)]
+        # The base is in a package this program does not contain -- Tornado's own
+        # RequestHandler, or a mixin from a library -- and the route is real all the same.
+        # The class's first method stands in for the verb: an entry point at a slightly
+        # imprecise function is worth far more than one that does not exist, and dropping
+        # the route would put the whole class outside the surface (ADR-009).
+        first = next(iter(members.values()), None) or next(iter(inherited.values()))
+        return [tornado_entry_point(first, "ANY", path)]
 
     # --- Flask framework model -------------------------------------------
     #
@@ -1738,6 +1946,11 @@ def lower_program(root: str, files: list[str]) -> dict:
     # Django registers a class-based view by CLASS and dispatches into it by METHOD, so
     # the registration names one thing and the entry points behind it are another.
     class_members: dict[str, dict[str, str]] = {}
+    # What each class declares it is, and what every class name in the program holds. A
+    # registered Tornado handler is free to define no verb at all and answer entirely in
+    # its base, so a registration that stops at the class it names reaches nothing.
+    class_bases: dict[str, list[str]] = {}
+    members_by_name: dict[str, dict[str, str]] = {}
 
     for path in files:
         with open(path, "r", encoding="utf-8") as handle:
@@ -1773,6 +1986,15 @@ def lower_program(root: str, files: list[str]) -> dict:
                 if members:
                     class_members[f"{mid}:{node.name}"] = members
                     class_members[f"import:{dotted}.{node.name}"] = members
+                    members_by_name.setdefault(node.name, members)
+                # `class UserAPIHandler(APIHandler)` -- the base as it is WRITTEN, whether
+                # that is a bare name or `web.RequestHandler`. Recorded for every class
+                # and not only the ones with methods, because a class that adds nothing to
+                # its base is exactly the case this exists for.
+                bases = [base.id if isinstance(base, ast.Name) else getattr(base, "attr", "")
+                         for base in node.bases]
+                class_bases[f"{mid}:{node.name}"] = bases
+                class_bases[f"import:{dotted}.{node.name}"] = bases
 
     # Registrations are program-wide: `api.add_org_resource(AlertResource, "/api/alerts")`
     # sits in one file and the class it names is defined in another. Collected in a pass
@@ -1827,10 +2049,29 @@ def lower_program(root: str, files: list[str]) -> dict:
             if isinstance(included.value, str):
                 django_prefixes.setdefault(included.value, route)
 
+    # What each class inherits, one level up. Resolved after every file has been read
+    # because a base is routinely defined in a module that comes later in the walk, and by
+    # NAME for the reason the registration lookups above are -- resolving `APIHandler` to
+    # the module it was imported from means reading the import table of the file that
+    # declared the subclass, and that file is not the one asking. Bases are merged in
+    # reverse so the leftmost wins, which is the order Python resolves them in.
+    #
+    # ONE level. A base's own base is not followed, because each level costs a name
+    # collision's worth of precision and the second level is not where applications put
+    # their verbs (ADR-003: state the limit rather than let it show up as a missing route).
+    base_members: dict[str, dict[str, str]] = {}
+    for key, bases in class_bases.items():
+        inherited: dict[str, str] = {}
+        for base in reversed(bases):
+            inherited.update(members_by_name.get(base, {}))
+        if inherited:
+            base_members[key] = inherited
+
     templates = index_templates(root)
 
     lowerers = [ModuleLowerer(root, path, tree, defs, templates, resource_paths,
-                              django_prefixes, class_members) for path, tree in trees]
+                              django_prefixes, class_members, base_members)
+                for path, tree in trees]
 
     # Django's URLconfs, resolved across the program before any module is lowered. A
     # URLconf registers classes that live in other files, and Django's own `View` is one of
@@ -1866,7 +2107,8 @@ def lower_program(root: str, files: list[str]) -> dict:
                 # Named for what the matcher actually recognizes. The decorator shape
                 # also matches FastAPI and Flask-AppBuilder; claiming only "flask"
                 # overstated one and understated the others.
-                "frameworkModels": ["flask", "flask-appbuilder", "fastapi", "django"],
+                "frameworkModels": ["flask", "flask-appbuilder", "fastapi", "django",
+                                    "tornado"],
             },
         },
         "modules": modules,

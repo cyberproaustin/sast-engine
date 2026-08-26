@@ -817,6 +817,19 @@ func builtin() Model {
 						Paths: []string{"GET", "POST", "FILES", "COOKIES", "META", "body", "headers",
 							"path", "path_info", "get_full_path"},
 					},
+					// Tornado hangs the request off the HANDLER rather than passing it in.
+					// A verb method's first parameter is `self` and the caller's data is
+					// one hop further along, at `self.request` -- so the judgement is the
+					// same one every framework above makes and only the plumbing differs
+					// (ADR-004). Everything on that object is caller-supplied: the body,
+					// the parsed arguments, the URI and the host it was addressed to.
+					{
+						Match:      MatchEntryParamProperty,
+						Framework:  "tornado",
+						EntryKind:  "http-route",
+						ParamIndex: 0,
+						Paths:      []string{"request", "path_args", "path_kwargs"},
+					},
 					// The METHOD forms of an aiohttp body, which is the only way to read
 					// one: it is a coroutine, so there is no property to reach for.
 					{Match: MatchCallResult, Symbol: "request.post"},

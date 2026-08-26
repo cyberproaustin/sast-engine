@@ -1,0 +1,3629 @@
+{
+  "irVersion": "0.12.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi",
+        "django",
+        "tornado"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "app.py",
+      "path": "app.py"
+    },
+    {
+      "id": "exporters.py",
+      "path": "exporters.py"
+    },
+    {
+      "id": "handlers/__init__.py",
+      "path": "handlers/__init__.py"
+    },
+    {
+      "id": "handlers/api.py",
+      "path": "handlers/api.py"
+    },
+    {
+      "id": "handlers/base.py",
+      "path": "handlers/base.py"
+    },
+    {
+      "id": "handlers/pages.py",
+      "path": "handlers/pages.py"
+    },
+    {
+      "id": "tests/test_pages.py",
+      "path": "tests/test_pages.py",
+      "isTest": true
+    }
+  ],
+  "functions": [
+    {
+      "id": "app.py#<module>:0:0",
+      "name": "<module>",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "Tornado does not register a route with a CALL.\n\nA module declares a module-level list of TUPLES and the application collects those lists,\nso the whole registration is a tuple sitting in a list -- not a call, not a decorator, and\nwith no name of its own for a frontend built out of call shapes to match. One real\napplication enumerated 9 entry points against 62 handler registrations, and all 9 of them\ncame out of its `examples/` directory rather than the application that ships.\n\nThis file holds the two shapes that are NOT tuples in a table: the call spelling Tornado\nprovides for building the same object outright, and the three-element form whose third\nelement is the dict the handler is constructed with.\n"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "app.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#make_app:20:1",
+      "name": "make_app",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 20,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#make_app:20:1$v0",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 16
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "app.py#make_app:20:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 24,
+            "column": 13
+          },
+          "literal": "/search"
+        },
+        {
+          "id": "app.py#make_app:20:1$v2",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 24,
+            "column": 25
+          },
+          "name": "handlers.pages.SearchHandler"
+        },
+        {
+          "id": "app.py#make_app:20:1$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 24,
+            "column": 9
+          },
+          "name": "tornado.web.url"
+        },
+        {
+          "id": "app.py#make_app:20:1$v4",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 9
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "app.py#make_app:20:1$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 10
+          },
+          "literal": "/logs/([^/]+)"
+        },
+        {
+          "id": "app.py#make_app:20:1$v6",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 28
+          },
+          "name": "handlers.pages.LogHandler"
+        },
+        {
+          "id": "app.py#make_app:20:1$v7",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 40
+          },
+          "name": "{dict}"
+        },
+        {
+          "id": "app.py#make_app:20:1$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 49
+          },
+          "literal": "/var/log"
+        },
+        {
+          "id": "app.py#make_app:20:1$v9",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 5
+          },
+          "name": "handlers"
+        },
+        {
+          "id": "app.py#make_app:20:1$v10",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 21
+          },
+          "name": "handlers.pages"
+        },
+        {
+          "id": "app.py#make_app:20:1$v11",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 21
+          },
+          "base": "app.py#make_app:20:1$v10",
+          "path": "default_handlers",
+          "name": "default_handlers"
+        },
+        {
+          "id": "app.py#make_app:20:1$v12",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 5
+          },
+          "name": "handlers.extend"
+        },
+        {
+          "id": "app.py#make_app:20:1$v13",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 21
+          },
+          "name": "handlers.api"
+        },
+        {
+          "id": "app.py#make_app:20:1$v14",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 21
+          },
+          "base": "app.py#make_app:20:1$v13",
+          "path": "default_handlers",
+          "name": "default_handlers"
+        },
+        {
+          "id": "app.py#make_app:20:1$v15",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 5
+          },
+          "name": "handlers.extend"
+        },
+        {
+          "id": "app.py#make_app:20:1$v16",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 32,
+            "column": 12
+          },
+          "name": "tornado.web"
+        },
+        {
+          "id": "app.py#make_app:20:1$v17",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 32,
+            "column": 12
+          },
+          "name": "tornado.web.Application"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#make_app:20:1$v3",
+          "to": "app.py#make_app:20:1$v0",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 16
+          }
+        },
+        {
+          "from": "app.py#make_app:20:1$v5",
+          "to": "app.py#make_app:20:1$v4",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 9
+          }
+        },
+        {
+          "from": "app.py#make_app:20:1$v6",
+          "to": "app.py#make_app:20:1$v4",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 9
+          }
+        },
+        {
+          "from": "app.py#make_app:20:1$v8",
+          "to": "app.py#make_app:20:1$v7",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 40
+          }
+        },
+        {
+          "from": "app.py#make_app:20:1$v7",
+          "to": "app.py#make_app:20:1$v4",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 9
+          }
+        },
+        {
+          "from": "app.py#make_app:20:1$v4",
+          "to": "app.py#make_app:20:1$v0",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 16
+          }
+        },
+        {
+          "from": "app.py#make_app:20:1$v0",
+          "to": "app.py#make_app:20:1$v9",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 5
+          }
+        },
+        {
+          "from": "app.py#make_app:20:1$v10",
+          "to": "app.py#make_app:20:1$v11",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 21
+          }
+        },
+        {
+          "from": "app.py#make_app:20:1$v13",
+          "to": "app.py#make_app:20:1$v14",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 21
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#make_app:20:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 24,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "tornado.web.url",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#make_app:20:1$v1"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#make_app:20:1$v2"
+            }
+          ],
+          "resultValueId": "app.py#make_app:20:1$v3",
+          "block": "app.py#make_app:20:1$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "/search"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#make_app:20:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "handlers.extend",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#make_app:20:1$v11"
+            }
+          ],
+          "resultValueId": "app.py#make_app:20:1$v12",
+          "block": "app.py#make_app:20:1$b0",
+          "method": "extend",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverType": "list",
+          "receiverTypeOrigin": "builtin",
+          "receiverValueId": "app.py#make_app:20:1$v9"
+        },
+        {
+          "id": "app.py#make_app:20:1$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "handlers.extend",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#make_app:20:1$v14"
+            }
+          ],
+          "resultValueId": "app.py#make_app:20:1$v15",
+          "block": "app.py#make_app:20:1$b0",
+          "method": "extend",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverType": "list",
+          "receiverTypeOrigin": "builtin",
+          "receiverValueId": "app.py#make_app:20:1$v9"
+        },
+        {
+          "id": "app.py#make_app:20:1$c3",
+          "loc": {
+            "file": "app.py",
+            "line": 32,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "tornado.web.Application",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#make_app:20:1$v9"
+            }
+          ],
+          "resultValueId": "app.py#make_app:20:1$v17",
+          "block": "app.py#make_app:20:1$b0",
+          "method": "Application",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#make_app:20:1$v16"
+        }
+      ],
+      "returns": [
+        "app.py#make_app:20:1$v17"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#make_app:20:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#make_app:20:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#make_app:20:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 32,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "exporters.py#<module>:0:0",
+      "name": "<module>",
+      "module": "exporters.py",
+      "loc": {
+        "file": "exporters.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "exporters.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "exporters.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "NEGATIVE. A module-level list of two-element tuples, each one a string and a class this\nprogram defines, and not one of them is a route.\n\nA pair of a name and a class is one of the most common records in any codebase -- a\nchoices list, a dispatch table, a registry of renderers -- and it is written in exactly\nthe same characters a route table is. What separates the table that IS one is that its\nfirst element is a PATH: Tornado matches a pattern against the request path, which always\nbegins with a slash.\n"
+        },
+        {
+          "id": "exporters.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "exporters.py",
+            "line": 22,
+            "column": 13
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "exporters.py#<module>:0:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "exporters.py",
+            "line": 23,
+            "column": 5
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "exporters.py#<module>:0:0$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "exporters.py",
+            "line": 23,
+            "column": 6
+          },
+          "literal": "text/csv"
+        },
+        {
+          "id": "exporters.py#<module>:0:0$v4",
+          "kind": "local",
+          "loc": {
+            "file": "exporters.py",
+            "line": 24,
+            "column": 5
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "exporters.py#<module>:0:0$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "exporters.py",
+            "line": 24,
+            "column": 6
+          },
+          "literal": "application/json"
+        },
+        {
+          "id": "exporters.py#<module>:0:0$v6",
+          "kind": "local",
+          "loc": {
+            "file": "exporters.py",
+            "line": 22,
+            "column": 1
+          },
+          "name": "EXPORTERS"
+        }
+      ],
+      "flows": [
+        {
+          "from": "exporters.py#<module>:0:0$v3",
+          "to": "exporters.py#<module>:0:0$v2",
+          "kind": "enclose",
+          "loc": {
+            "file": "exporters.py",
+            "line": 23,
+            "column": 5
+          }
+        },
+        {
+          "from": "exporters.py#<module>:0:0$v2",
+          "to": "exporters.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "exporters.py",
+            "line": 22,
+            "column": 13
+          }
+        },
+        {
+          "from": "exporters.py#<module>:0:0$v5",
+          "to": "exporters.py#<module>:0:0$v4",
+          "kind": "enclose",
+          "loc": {
+            "file": "exporters.py",
+            "line": 24,
+            "column": 5
+          }
+        },
+        {
+          "from": "exporters.py#<module>:0:0$v4",
+          "to": "exporters.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "exporters.py",
+            "line": 22,
+            "column": 13
+          }
+        },
+        {
+          "from": "exporters.py#<module>:0:0$v1",
+          "to": "exporters.py#<module>:0:0$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "exporters.py",
+            "line": 22,
+            "column": 1
+          }
+        }
+      ],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "exporters.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "exporters.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "exporters.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "exporters.py#render:13:5",
+      "name": "render",
+      "module": "exporters.py",
+      "loc": {
+        "file": "exporters.py",
+        "line": 13,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "exporters.py#render:13:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "rows",
+          "valueId": "exporters.py#render:13:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "exporters.py#render:13:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "exporters.py",
+            "line": 13,
+            "column": 16
+          },
+          "name": "self"
+        },
+        {
+          "id": "exporters.py#render:13:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "exporters.py",
+            "line": 13,
+            "column": 22
+          },
+          "name": "rows"
+        },
+        {
+          "id": "exporters.py#render:13:5$v2",
+          "kind": "local",
+          "loc": {
+            "file": "exporters.py",
+            "line": 14,
+            "column": 25
+          },
+          "name": "[comprehension]"
+        },
+        {
+          "id": "exporters.py#render:13:5$v3",
+          "kind": "local",
+          "loc": {
+            "file": "exporters.py",
+            "line": 14,
+            "column": 44
+          },
+          "name": "row"
+        },
+        {
+          "id": "exporters.py#render:13:5$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "exporters.py",
+            "line": 14,
+            "column": 26
+          },
+          "literal": ","
+        },
+        {
+          "id": "exporters.py#render:13:5$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "exporters.py",
+            "line": 14,
+            "column": 26
+          },
+          "name": "unresolved"
+        },
+        {
+          "id": "exporters.py#render:13:5$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "exporters.py",
+            "line": 14,
+            "column": 16
+          },
+          "literal": "\n"
+        },
+        {
+          "id": "exporters.py#render:13:5$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "exporters.py",
+            "line": 14,
+            "column": 16
+          },
+          "name": "unresolved"
+        }
+      ],
+      "flows": [
+        {
+          "from": "exporters.py#render:13:5$v1",
+          "to": "exporters.py#render:13:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "exporters.py",
+            "line": 14,
+            "column": 25
+          }
+        },
+        {
+          "from": "exporters.py#render:13:5$v5",
+          "to": "exporters.py#render:13:5$v2",
+          "kind": "enclose",
+          "loc": {
+            "file": "exporters.py",
+            "line": 14,
+            "column": 25
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "exporters.py#render:13:5$c0",
+          "loc": {
+            "file": "exporters.py",
+            "line": 14,
+            "column": 26
+          },
+          "callee": {
+            "kind": "unresolved",
+            "resolution": "dynamic-unresolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "exporters.py#render:13:5$v3"
+            }
+          ],
+          "resultValueId": "exporters.py#render:13:5$v5",
+          "block": "exporters.py#render:13:5$b0",
+          "method": "join",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "exporters.py#render:13:5$v4"
+        },
+        {
+          "id": "exporters.py#render:13:5$c1",
+          "loc": {
+            "file": "exporters.py",
+            "line": 14,
+            "column": 16
+          },
+          "callee": {
+            "kind": "unresolved",
+            "resolution": "dynamic-unresolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "exporters.py#render:13:5$v2"
+            }
+          ],
+          "resultValueId": "exporters.py#render:13:5$v7",
+          "block": "exporters.py#render:13:5$b0",
+          "method": "join",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "exporters.py#render:13:5$v6"
+        }
+      ],
+      "returns": [
+        "exporters.py#render:13:5$v7"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "exporters.py#render:13:5$b0",
+      "blocks": [
+        {
+          "id": "exporters.py#render:13:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "exporters.py",
+            "line": 13,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "exporters.py#render:13:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "exporters.py",
+            "line": 14,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "exporters.py#render:18:5",
+      "name": "render",
+      "module": "exporters.py",
+      "loc": {
+        "file": "exporters.py",
+        "line": 18,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "exporters.py#render:18:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "rows",
+          "valueId": "exporters.py#render:18:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "exporters.py#render:18:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "exporters.py",
+            "line": 18,
+            "column": 16
+          },
+          "name": "self"
+        },
+        {
+          "id": "exporters.py#render:18:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "exporters.py",
+            "line": 18,
+            "column": 22
+          },
+          "name": "rows"
+        },
+        {
+          "id": "exporters.py#render:18:5$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "exporters.py",
+            "line": 19,
+            "column": 16
+          },
+          "name": "str"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "exporters.py#render:18:5$c0",
+          "loc": {
+            "file": "exporters.py",
+            "line": 19,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "str",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "exporters.py#render:18:5$v1"
+            }
+          ],
+          "resultValueId": "exporters.py#render:18:5$v2",
+          "block": "exporters.py#render:18:5$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "exporters.py#render:18:5$v2"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "exporters.py#render:18:5$b0",
+      "blocks": [
+        {
+          "id": "exporters.py#render:18:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "exporters.py",
+            "line": 18,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "exporters.py#render:18:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "exporters.py",
+            "line": 19,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "handlers/__init__.py#<module>:0:0",
+      "name": "<module>",
+      "module": "handlers/__init__.py",
+      "loc": {
+        "file": "handlers/__init__.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "handlers/__init__.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "handlers/__init__.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "handlers/__init__.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "handlers/api.py#<module>:0:0",
+      "name": "<module>",
+      "module": "handlers/api.py",
+      "loc": {
+        "file": "handlers/api.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "handlers/api.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "A table of registered handlers, not one of which names a verb.\n\nThis is the shape that makes inheritance load-bearing rather than a nicety: every class\nhere is a real route, and the method a request actually reaches is in another file.\n"
+        },
+        {
+          "id": "handlers/api.py#<module>:0:0$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 10,
+            "column": 5
+          },
+          "literal": "A subclass that adds a permission scope and nothing else."
+        },
+        {
+          "id": "handlers/api.py#<module>:0:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 12,
+            "column": 23
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "handlers/api.py#<module>:0:0$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 12,
+            "column": 24
+          },
+          "literal": "admin:users"
+        },
+        {
+          "id": "handlers/api.py#<module>:0:0$v4",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 12,
+            "column": 5
+          },
+          "name": "required_scopes"
+        },
+        {
+          "id": "handlers/api.py#<module>:0:0$v5",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 16,
+            "column": 23
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "handlers/api.py#<module>:0:0$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 16,
+            "column": 24
+          },
+          "literal": "admin:groups"
+        },
+        {
+          "id": "handlers/api.py#<module>:0:0$v7",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 16,
+            "column": 5
+          },
+          "name": "required_scopes"
+        },
+        {
+          "id": "handlers/api.py#<module>:0:0$v8",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 19,
+            "column": 20
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "handlers/api.py#<module>:0:0$v9",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 22,
+            "column": 5
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "handlers/api.py#<module>:0:0$v10",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 22,
+            "column": 6
+          },
+          "literal": "/api/users/(?P<name>[\\w-]+)"
+        },
+        {
+          "id": "handlers/api.py#<module>:0:0$v11",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 23,
+            "column": 5
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "handlers/api.py#<module>:0:0$v12",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 23,
+            "column": 6
+          },
+          "literal": "/api/groups/(?P<name>[\\w-]+)"
+        },
+        {
+          "id": "handlers/api.py#<module>:0:0$v13",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 19,
+            "column": 1
+          },
+          "name": "default_handlers"
+        }
+      ],
+      "flows": [
+        {
+          "from": "handlers/api.py#<module>:0:0$v3",
+          "to": "handlers/api.py#<module>:0:0$v2",
+          "kind": "enclose",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 12,
+            "column": 23
+          }
+        },
+        {
+          "from": "handlers/api.py#<module>:0:0$v2",
+          "to": "handlers/api.py#<module>:0:0$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 12,
+            "column": 5
+          }
+        },
+        {
+          "from": "handlers/api.py#<module>:0:0$v6",
+          "to": "handlers/api.py#<module>:0:0$v5",
+          "kind": "enclose",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 16,
+            "column": 23
+          }
+        },
+        {
+          "from": "handlers/api.py#<module>:0:0$v5",
+          "to": "handlers/api.py#<module>:0:0$v7",
+          "kind": "assign",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 16,
+            "column": 5
+          }
+        },
+        {
+          "from": "handlers/api.py#<module>:0:0$v10",
+          "to": "handlers/api.py#<module>:0:0$v9",
+          "kind": "enclose",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 22,
+            "column": 5
+          }
+        },
+        {
+          "from": "handlers/api.py#<module>:0:0$v9",
+          "to": "handlers/api.py#<module>:0:0$v8",
+          "kind": "enclose",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 19,
+            "column": 20
+          }
+        },
+        {
+          "from": "handlers/api.py#<module>:0:0$v12",
+          "to": "handlers/api.py#<module>:0:0$v11",
+          "kind": "enclose",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 23,
+            "column": 5
+          }
+        },
+        {
+          "from": "handlers/api.py#<module>:0:0$v11",
+          "to": "handlers/api.py#<module>:0:0$v8",
+          "kind": "enclose",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 19,
+            "column": 20
+          }
+        },
+        {
+          "from": "handlers/api.py#<module>:0:0$v8",
+          "to": "handlers/api.py#<module>:0:0$v13",
+          "kind": "assign",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 19,
+            "column": 1
+          }
+        }
+      ],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "handlers/api.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "handlers/api.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "handlers/base.py#<module>:0:0",
+      "name": "<module>",
+      "module": "handlers/base.py",
+      "loc": {
+        "file": "handlers/base.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "handlers/base.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The base class a whole file of registered handlers answers in.\n\nA Tornado handler very often names no verb of its own: the subclass carries the model and\nthe permission check, and the base carries `get` and `post`. A registration that stops at\nthe class it names reaches nothing at all -- and in a large application that is most of\nthe handlers, because the shape exists precisely so the verbs are written once.\n"
+        },
+        {
+          "id": "handlers/base.py#<module>:0:0$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 13,
+            "column": 22
+          },
+          "literal": "hub.db"
+        },
+        {
+          "id": "handlers/base.py#<module>:0:0$v2",
+          "kind": "global",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 13,
+            "column": 6
+          },
+          "name": "sqlite3"
+        },
+        {
+          "id": "handlers/base.py#<module>:0:0$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 13,
+            "column": 6
+          },
+          "name": "sqlite3.connect"
+        },
+        {
+          "id": "handlers/base.py#<module>:0:0$v4",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 13,
+            "column": 1
+          },
+          "name": "DB"
+        },
+        {
+          "id": "handlers/base.py#<module>:0:0$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 17,
+            "column": 5
+          },
+          "literal": "Registered nowhere. Every route that reaches this is a route to a SUBCLASS."
+        }
+      ],
+      "flows": [
+        {
+          "from": "handlers/base.py#<module>:0:0$v3",
+          "to": "handlers/base.py#<module>:0:0$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 13,
+            "column": 1
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "handlers/base.py#<module>:0:0$c0",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 13,
+            "column": 6
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "sqlite3.connect",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "handlers/base.py#<module>:0:0$v1"
+            }
+          ],
+          "resultValueId": "handlers/base.py#<module>:0:0$v3",
+          "block": "handlers/base.py#<module>:0:0$b0",
+          "method": "connect",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "hub.db"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "handlers/base.py#<module>:0:0$v2"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "handlers/base.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "handlers/base.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "handlers/base.py#get:19:5",
+      "name": "get",
+      "module": "handlers/base.py",
+      "loc": {
+        "file": "handlers/base.py",
+        "line": 19,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "handlers/base.py#get:19:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "handlers/base.py#get:19:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 19,
+            "column": 13
+          },
+          "name": "self"
+        },
+        {
+          "id": "handlers/base.py#get:19:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 21,
+            "column": 20
+          },
+          "base": "handlers/base.py#get:19:5$v0",
+          "path": "request.path",
+          "name": "request.path"
+        },
+        {
+          "id": "handlers/base.py#get:19:5$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 21,
+            "column": 9
+          },
+          "name": "self.write"
+        }
+      ],
+      "flows": [
+        {
+          "from": "handlers/base.py#get:19:5$v0",
+          "to": "handlers/base.py#get:19:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 21,
+            "column": 20
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "handlers/base.py#get:19:5$c0",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 21,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "self.write",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "handlers/base.py#get:19:5$v1"
+            }
+          ],
+          "resultValueId": "handlers/base.py#get:19:5$v2",
+          "block": "handlers/base.py#get:19:5$b0",
+          "method": "write",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "handlers/base.py#get:19:5$v0"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "handlers/base.py#get:19:5$b0",
+      "blocks": [
+        {
+          "id": "handlers/base.py#get:19:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 19,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "handlers/base.py#post:23:5",
+      "name": "post",
+      "module": "handlers/base.py",
+      "loc": {
+        "file": "handlers/base.py",
+        "line": 23,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "handlers/base.py#post:23:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "handlers/base.py#post:23:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 23,
+            "column": 14
+          },
+          "name": "self"
+        },
+        {
+          "id": "handlers/base.py#post:23:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 28,
+            "column": 27
+          },
+          "base": "handlers/base.py#post:23:5$v0",
+          "path": "request.body",
+          "name": "request.body"
+        },
+        {
+          "id": "handlers/base.py#post:23:5$v2",
+          "kind": "global",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 28,
+            "column": 16
+          },
+          "name": "json"
+        },
+        {
+          "id": "handlers/base.py#post:23:5$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 28,
+            "column": 16
+          },
+          "name": "json.loads"
+        },
+        {
+          "id": "handlers/base.py#post:23:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 28,
+            "column": 16
+          },
+          "name": "name",
+          "base": "handlers/base.py#post:23:5$v3",
+          "path": "name"
+        },
+        {
+          "id": "handlers/base.py#post:23:5$v5",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 28,
+            "column": 9
+          },
+          "name": "name"
+        },
+        {
+          "id": "handlers/base.py#post:23:5$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 29,
+            "column": 15
+          },
+          "name": "DB.cursor"
+        },
+        {
+          "id": "handlers/base.py#post:23:5$v7",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 29,
+            "column": 9
+          },
+          "name": "cur"
+        },
+        {
+          "id": "handlers/base.py#post:23:5$v8",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 30,
+            "column": 21
+          },
+          "name": "concat"
+        },
+        {
+          "id": "handlers/base.py#post:23:5$v9",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 30,
+            "column": 21
+          },
+          "name": "concat"
+        },
+        {
+          "id": "handlers/base.py#post:23:5$v10",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 30,
+            "column": 21
+          },
+          "literal": "INSERT INTO users (name) VALUES ('"
+        },
+        {
+          "id": "handlers/base.py#post:23:5$v11",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 30,
+            "column": 67
+          },
+          "literal": "')"
+        },
+        {
+          "id": "handlers/base.py#post:23:5$v12",
+          "kind": "call-result",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 30,
+            "column": 9
+          },
+          "name": "cur.execute"
+        },
+        {
+          "id": "handlers/base.py#post:23:5$v13",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 31,
+            "column": 20
+          },
+          "literal": "ok"
+        },
+        {
+          "id": "handlers/base.py#post:23:5$v14",
+          "kind": "call-result",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 31,
+            "column": 9
+          },
+          "name": "self.write"
+        }
+      ],
+      "flows": [
+        {
+          "from": "handlers/base.py#post:23:5$v0",
+          "to": "handlers/base.py#post:23:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 28,
+            "column": 27
+          }
+        },
+        {
+          "from": "handlers/base.py#post:23:5$v3",
+          "to": "handlers/base.py#post:23:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 28,
+            "column": 16
+          }
+        },
+        {
+          "from": "handlers/base.py#post:23:5$v4",
+          "to": "handlers/base.py#post:23:5$v5",
+          "kind": "assign",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 28,
+            "column": 9
+          }
+        },
+        {
+          "from": "handlers/base.py#post:23:5$v6",
+          "to": "handlers/base.py#post:23:5$v7",
+          "kind": "assign",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 29,
+            "column": 9
+          }
+        },
+        {
+          "from": "handlers/base.py#post:23:5$v10",
+          "to": "handlers/base.py#post:23:5$v9",
+          "kind": "binary",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 30,
+            "column": 21
+          }
+        },
+        {
+          "from": "handlers/base.py#post:23:5$v5",
+          "to": "handlers/base.py#post:23:5$v9",
+          "kind": "binary",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 30,
+            "column": 21
+          }
+        },
+        {
+          "from": "handlers/base.py#post:23:5$v9",
+          "to": "handlers/base.py#post:23:5$v8",
+          "kind": "binary",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 30,
+            "column": 21
+          }
+        },
+        {
+          "from": "handlers/base.py#post:23:5$v11",
+          "to": "handlers/base.py#post:23:5$v8",
+          "kind": "binary",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 30,
+            "column": 21
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "handlers/base.py#post:23:5$c0",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 28,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "json.loads",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "handlers/base.py#post:23:5$v1"
+            }
+          ],
+          "resultValueId": "handlers/base.py#post:23:5$v3",
+          "block": "handlers/base.py#post:23:5$b0",
+          "method": "loads",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "handlers/base.py#post:23:5$v2"
+        },
+        {
+          "id": "handlers/base.py#post:23:5$c1",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 29,
+            "column": 15
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "DB.cursor",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "handlers/base.py#post:23:5$v6",
+          "block": "handlers/base.py#post:23:5$b0",
+          "method": "cursor",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "handlers/base.py#<module>:0:0$v4"
+        },
+        {
+          "id": "handlers/base.py#post:23:5$c2",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 30,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cur.execute",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "handlers/base.py#post:23:5$v8"
+            }
+          ],
+          "resultValueId": "handlers/base.py#post:23:5$v12",
+          "block": "handlers/base.py#post:23:5$b0",
+          "method": "execute",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "handlers/base.py#post:23:5$v7"
+        },
+        {
+          "id": "handlers/base.py#post:23:5$c3",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 31,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "self.write",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "handlers/base.py#post:23:5$v13"
+            }
+          ],
+          "resultValueId": "handlers/base.py#post:23:5$v14",
+          "block": "handlers/base.py#post:23:5$b0",
+          "method": "write",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "ok"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "handlers/base.py#post:23:5$v0"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "handlers/base.py#post:23:5$b0",
+      "blocks": [
+        {
+          "id": "handlers/base.py#post:23:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 23,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "handlers/pages.py#<module>:0:0",
+      "name": "<module>",
+      "module": "handlers/pages.py",
+      "loc": {
+        "file": "handlers/pages.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "handlers/pages.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "Handlers, and the module-level tuple table that is Tornado's whole route idiom.\n\nThe name `default_handlers` is a convention of the framework's own documentation and\nnothing more -- an application is free to build its table anywhere and call it anything --\nso what identifies one is the SHAPE: a pattern that is a path, and a class that answers a\nrequest. Nothing here holds any trace of where it is served.\n"
+        },
+        {
+          "id": "handlers/pages.py#<module>:0:0$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 17,
+            "column": 5
+          },
+          "literal": "One registration, two entry points. Tornado dispatches GET to `get` and POST to\n    `post`, and the registration says nothing about either."
+        },
+        {
+          "id": "handlers/pages.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 51,
+            "column": 5
+          },
+          "literal": "No verb at all. A handler that answers every request the same way writes `prepare`,\n    which runs ahead of whichever verb arrived, and a WebSocket handler answers in `open`\n    and `on_message` and has no verb to be named after."
+        },
+        {
+          "id": "handlers/pages.py#<module>:0:0$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 60,
+            "column": 5
+          },
+          "literal": "No verb and no request hook either. The base that has them is Tornado's own, which\n    this program does not contain, so there is nothing left to resolve."
+        },
+        {
+          "id": "handlers/pages.py#<module>:0:0$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 68,
+            "column": 5
+          },
+          "literal": "Registered only by the test module, which is why nothing below reaches this."
+        },
+        {
+          "id": "handlers/pages.py#<module>:0:0$v5",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 75,
+            "column": 20
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "handlers/pages.py#<module>:0:0$v6",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 76,
+            "column": 5
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "handlers/pages.py#<module>:0:0$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 76,
+            "column": 6
+          },
+          "literal": "/badge/(?P<slug>[\\w-]+)"
+        },
+        {
+          "id": "handlers/pages.py#<module>:0:0$v8",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 77,
+            "column": 5
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "handlers/pages.py#<module>:0:0$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 77,
+            "column": 6
+          },
+          "literal": "/health$"
+        },
+        {
+          "id": "handlers/pages.py#<module>:0:0$v10",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 78,
+            "column": 5
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "handlers/pages.py#<module>:0:0$v11",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 78,
+            "column": 6
+          },
+          "literal": "/metrics$"
+        },
+        {
+          "id": "handlers/pages.py#<module>:0:0$v12",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 75,
+            "column": 1
+          },
+          "name": "default_handlers"
+        }
+      ],
+      "flows": [
+        {
+          "from": "handlers/pages.py#<module>:0:0$v7",
+          "to": "handlers/pages.py#<module>:0:0$v6",
+          "kind": "enclose",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 76,
+            "column": 5
+          }
+        },
+        {
+          "from": "handlers/pages.py#<module>:0:0$v6",
+          "to": "handlers/pages.py#<module>:0:0$v5",
+          "kind": "enclose",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 75,
+            "column": 20
+          }
+        },
+        {
+          "from": "handlers/pages.py#<module>:0:0$v9",
+          "to": "handlers/pages.py#<module>:0:0$v8",
+          "kind": "enclose",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 77,
+            "column": 5
+          }
+        },
+        {
+          "from": "handlers/pages.py#<module>:0:0$v8",
+          "to": "handlers/pages.py#<module>:0:0$v5",
+          "kind": "enclose",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 75,
+            "column": 20
+          }
+        },
+        {
+          "from": "handlers/pages.py#<module>:0:0$v11",
+          "to": "handlers/pages.py#<module>:0:0$v10",
+          "kind": "enclose",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 78,
+            "column": 5
+          }
+        },
+        {
+          "from": "handlers/pages.py#<module>:0:0$v10",
+          "to": "handlers/pages.py#<module>:0:0$v5",
+          "kind": "enclose",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 75,
+            "column": 20
+          }
+        },
+        {
+          "from": "handlers/pages.py#<module>:0:0$v5",
+          "to": "handlers/pages.py#<module>:0:0$v12",
+          "kind": "assign",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 75,
+            "column": 1
+          }
+        }
+      ],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "handlers/pages.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "handlers/pages.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "handlers/pages.py#get:20:5",
+      "name": "get",
+      "module": "handlers/pages.py",
+      "loc": {
+        "file": "handlers/pages.py",
+        "line": 20,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "handlers/pages.py#get:20:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "handlers/pages.py#get:20:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 20,
+            "column": 13
+          },
+          "name": "self"
+        },
+        {
+          "id": "handlers/pages.py#get:20:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 22,
+            "column": 20
+          },
+          "base": "handlers/pages.py#get:20:5$v0",
+          "path": "request.uri",
+          "name": "request.uri"
+        },
+        {
+          "id": "handlers/pages.py#get:20:5$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 22,
+            "column": 9
+          },
+          "name": "self.write"
+        }
+      ],
+      "flows": [
+        {
+          "from": "handlers/pages.py#get:20:5$v0",
+          "to": "handlers/pages.py#get:20:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 22,
+            "column": 20
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "handlers/pages.py#get:20:5$c0",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 22,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "self.write",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "handlers/pages.py#get:20:5$v1"
+            }
+          ],
+          "resultValueId": "handlers/pages.py#get:20:5$v2",
+          "block": "handlers/pages.py#get:20:5$b0",
+          "method": "write",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "handlers/pages.py#get:20:5$v0"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "handlers/pages.py#get:20:5$b0",
+      "blocks": [
+        {
+          "id": "handlers/pages.py#get:20:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 20,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "handlers/pages.py#post:24:5",
+      "name": "post",
+      "module": "handlers/pages.py",
+      "loc": {
+        "file": "handlers/pages.py",
+        "line": 24,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "handlers/pages.py#post:24:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "handlers/pages.py#post:24:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 24,
+            "column": 14
+          },
+          "name": "self"
+        },
+        {
+          "id": "handlers/pages.py#post:24:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 28,
+            "column": 27
+          },
+          "base": "handlers/pages.py#post:24:5$v0",
+          "path": "request.body",
+          "name": "request.body"
+        },
+        {
+          "id": "handlers/pages.py#post:24:5$v2",
+          "kind": "global",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 28,
+            "column": 16
+          },
+          "name": "json"
+        },
+        {
+          "id": "handlers/pages.py#post:24:5$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 28,
+            "column": 16
+          },
+          "name": "json.loads"
+        },
+        {
+          "id": "handlers/pages.py#post:24:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 28,
+            "column": 16
+          },
+          "name": "term",
+          "base": "handlers/pages.py#post:24:5$v3",
+          "path": "term"
+        },
+        {
+          "id": "handlers/pages.py#post:24:5$v5",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 28,
+            "column": 9
+          },
+          "name": "term"
+        },
+        {
+          "id": "handlers/pages.py#post:24:5$v6",
+          "kind": "global",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 29,
+            "column": 15
+          },
+          "name": "handlers.base.DB"
+        },
+        {
+          "id": "handlers/pages.py#post:24:5$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 29,
+            "column": 15
+          },
+          "name": "handlers.base.DB.cursor"
+        },
+        {
+          "id": "handlers/pages.py#post:24:5$v8",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 29,
+            "column": 9
+          },
+          "name": "cur"
+        },
+        {
+          "id": "handlers/pages.py#post:24:5$v9",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 30,
+            "column": 21
+          },
+          "name": "concat"
+        },
+        {
+          "id": "handlers/pages.py#post:24:5$v10",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 30,
+            "column": 21
+          },
+          "name": "concat"
+        },
+        {
+          "id": "handlers/pages.py#post:24:5$v11",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 30,
+            "column": 21
+          },
+          "literal": "SELECT * FROM checks WHERE name LIKE '%"
+        },
+        {
+          "id": "handlers/pages.py#post:24:5$v12",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 30,
+            "column": 72
+          },
+          "literal": "%'"
+        },
+        {
+          "id": "handlers/pages.py#post:24:5$v13",
+          "kind": "call-result",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 30,
+            "column": 9
+          },
+          "name": "cur.execute"
+        },
+        {
+          "id": "handlers/pages.py#post:24:5$v14",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 31,
+            "column": 20
+          },
+          "literal": "ok"
+        },
+        {
+          "id": "handlers/pages.py#post:24:5$v15",
+          "kind": "call-result",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 31,
+            "column": 9
+          },
+          "name": "self.write"
+        }
+      ],
+      "flows": [
+        {
+          "from": "handlers/pages.py#post:24:5$v0",
+          "to": "handlers/pages.py#post:24:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 28,
+            "column": 27
+          }
+        },
+        {
+          "from": "handlers/pages.py#post:24:5$v3",
+          "to": "handlers/pages.py#post:24:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 28,
+            "column": 16
+          }
+        },
+        {
+          "from": "handlers/pages.py#post:24:5$v4",
+          "to": "handlers/pages.py#post:24:5$v5",
+          "kind": "assign",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 28,
+            "column": 9
+          }
+        },
+        {
+          "from": "handlers/pages.py#post:24:5$v7",
+          "to": "handlers/pages.py#post:24:5$v8",
+          "kind": "assign",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 29,
+            "column": 9
+          }
+        },
+        {
+          "from": "handlers/pages.py#post:24:5$v11",
+          "to": "handlers/pages.py#post:24:5$v10",
+          "kind": "binary",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 30,
+            "column": 21
+          }
+        },
+        {
+          "from": "handlers/pages.py#post:24:5$v5",
+          "to": "handlers/pages.py#post:24:5$v10",
+          "kind": "binary",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 30,
+            "column": 21
+          }
+        },
+        {
+          "from": "handlers/pages.py#post:24:5$v10",
+          "to": "handlers/pages.py#post:24:5$v9",
+          "kind": "binary",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 30,
+            "column": 21
+          }
+        },
+        {
+          "from": "handlers/pages.py#post:24:5$v12",
+          "to": "handlers/pages.py#post:24:5$v9",
+          "kind": "binary",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 30,
+            "column": 21
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "handlers/pages.py#post:24:5$c0",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 28,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "json.loads",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "handlers/pages.py#post:24:5$v1"
+            }
+          ],
+          "resultValueId": "handlers/pages.py#post:24:5$v3",
+          "block": "handlers/pages.py#post:24:5$b0",
+          "method": "loads",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "handlers/pages.py#post:24:5$v2"
+        },
+        {
+          "id": "handlers/pages.py#post:24:5$c1",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 29,
+            "column": 15
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "handlers.base.DB.cursor",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "handlers/pages.py#post:24:5$v7",
+          "block": "handlers/pages.py#post:24:5$b0",
+          "method": "cursor",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "handlers/pages.py#post:24:5$v6"
+        },
+        {
+          "id": "handlers/pages.py#post:24:5$c2",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 30,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cur.execute",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "handlers/pages.py#post:24:5$v9"
+            }
+          ],
+          "resultValueId": "handlers/pages.py#post:24:5$v13",
+          "block": "handlers/pages.py#post:24:5$b0",
+          "method": "execute",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "handlers/pages.py#post:24:5$v8"
+        },
+        {
+          "id": "handlers/pages.py#post:24:5$c3",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 31,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "self.write",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "handlers/pages.py#post:24:5$v14"
+            }
+          ],
+          "resultValueId": "handlers/pages.py#post:24:5$v15",
+          "block": "handlers/pages.py#post:24:5$b0",
+          "method": "write",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "ok"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "handlers/pages.py#post:24:5$v0"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "handlers/pages.py#post:24:5$b0",
+      "blocks": [
+        {
+          "id": "handlers/pages.py#post:24:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 24,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "handlers/pages.py#get:35:5",
+      "name": "get",
+      "module": "handlers/pages.py",
+      "loc": {
+        "file": "handlers/pages.py",
+        "line": 35,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "handlers/pages.py#get:35:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "name",
+          "valueId": "handlers/pages.py#get:35:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "handlers/pages.py#get:35:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 35,
+            "column": 13
+          },
+          "name": "self"
+        },
+        {
+          "id": "handlers/pages.py#get:35:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 35,
+            "column": 19
+          },
+          "name": "name"
+        },
+        {
+          "id": "handlers/pages.py#get:35:5$v2",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 39,
+            "column": 39
+          },
+          "name": "concat"
+        },
+        {
+          "id": "handlers/pages.py#get:35:5$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 39,
+            "column": 39
+          },
+          "literal": "tail -n 50 /var/log/"
+        },
+        {
+          "id": "handlers/pages.py#get:35:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 39,
+            "column": 64
+          },
+          "base": "handlers/pages.py#get:35:5$v0",
+          "path": "path_args",
+          "name": "path_args"
+        },
+        {
+          "id": "handlers/pages.py#get:35:5$v5",
+          "kind": "property",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 39,
+            "column": 64
+          },
+          "name": "[index]",
+          "base": "handlers/pages.py#get:35:5$v4"
+        },
+        {
+          "id": "handlers/pages.py#get:35:5$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 39,
+            "column": 89
+          },
+          "literal": "true"
+        },
+        {
+          "id": "handlers/pages.py#get:35:5$v7",
+          "kind": "global",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 39,
+            "column": 15
+          },
+          "name": "subprocess"
+        },
+        {
+          "id": "handlers/pages.py#get:35:5$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 39,
+            "column": 15
+          },
+          "name": "subprocess.check_output"
+        },
+        {
+          "id": "handlers/pages.py#get:35:5$v9",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 39,
+            "column": 9
+          },
+          "name": "out"
+        },
+        {
+          "id": "handlers/pages.py#get:35:5$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 40,
+            "column": 9
+          },
+          "name": "self.write"
+        }
+      ],
+      "flows": [
+        {
+          "from": "handlers/pages.py#get:35:5$v3",
+          "to": "handlers/pages.py#get:35:5$v2",
+          "kind": "binary",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 39,
+            "column": 39
+          }
+        },
+        {
+          "from": "handlers/pages.py#get:35:5$v0",
+          "to": "handlers/pages.py#get:35:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 39,
+            "column": 64
+          }
+        },
+        {
+          "from": "handlers/pages.py#get:35:5$v4",
+          "to": "handlers/pages.py#get:35:5$v5",
+          "kind": "property",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 39,
+            "column": 64
+          }
+        },
+        {
+          "from": "handlers/pages.py#get:35:5$v5",
+          "to": "handlers/pages.py#get:35:5$v2",
+          "kind": "binary",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 39,
+            "column": 39
+          }
+        },
+        {
+          "from": "handlers/pages.py#get:35:5$v8",
+          "to": "handlers/pages.py#get:35:5$v9",
+          "kind": "assign",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 39,
+            "column": 9
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "handlers/pages.py#get:35:5$c0",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 39,
+            "column": 15
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "subprocess.check_output",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "handlers/pages.py#get:35:5$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "handlers/pages.py#get:35:5$v6"
+            }
+          ],
+          "resultValueId": "handlers/pages.py#get:35:5$v8",
+          "block": "handlers/pages.py#get:35:5$b0",
+          "method": "check_output",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "shell=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "handlers/pages.py#get:35:5$v7"
+        },
+        {
+          "id": "handlers/pages.py#get:35:5$c1",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 40,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "self.write",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "handlers/pages.py#get:35:5$v9"
+            }
+          ],
+          "resultValueId": "handlers/pages.py#get:35:5$v10",
+          "block": "handlers/pages.py#get:35:5$b0",
+          "method": "write",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "handlers/pages.py#get:35:5$v0"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "handlers/pages.py#get:35:5$b0",
+      "blocks": [
+        {
+          "id": "handlers/pages.py#get:35:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 35,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "handlers/pages.py#get:44:5",
+      "name": "get",
+      "module": "handlers/pages.py",
+      "loc": {
+        "file": "handlers/pages.py",
+        "line": 44,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "handlers/pages.py#get:44:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "slug",
+          "valueId": "handlers/pages.py#get:44:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "handlers/pages.py#get:44:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 44,
+            "column": 13
+          },
+          "name": "self"
+        },
+        {
+          "id": "handlers/pages.py#get:44:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 44,
+            "column": 19
+          },
+          "name": "slug"
+        },
+        {
+          "id": "handlers/pages.py#get:44:5$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 47,
+            "column": 9
+          },
+          "name": "self.write"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "handlers/pages.py#get:44:5$c0",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 47,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "self.write",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "handlers/pages.py#get:44:5$v1"
+            }
+          ],
+          "resultValueId": "handlers/pages.py#get:44:5$v2",
+          "block": "handlers/pages.py#get:44:5$b0",
+          "method": "write",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "handlers/pages.py#get:44:5$v0"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "handlers/pages.py#get:44:5$b0",
+      "blocks": [
+        {
+          "id": "handlers/pages.py#get:44:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 44,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "handlers/pages.py#prepare:55:5",
+      "name": "prepare",
+      "module": "handlers/pages.py",
+      "loc": {
+        "file": "handlers/pages.py",
+        "line": 55,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "handlers/pages.py#prepare:55:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "handlers/pages.py#prepare:55:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 55,
+            "column": 17
+          },
+          "name": "self"
+        },
+        {
+          "id": "handlers/pages.py#prepare:55:5$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 56,
+            "column": 20
+          },
+          "literal": "ok"
+        },
+        {
+          "id": "handlers/pages.py#prepare:55:5$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 56,
+            "column": 9
+          },
+          "name": "self.write"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "handlers/pages.py#prepare:55:5$c0",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 56,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "self.write",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "handlers/pages.py#prepare:55:5$v1"
+            }
+          ],
+          "resultValueId": "handlers/pages.py#prepare:55:5$v2",
+          "block": "handlers/pages.py#prepare:55:5$b0",
+          "method": "write",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "ok"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "handlers/pages.py#prepare:55:5$v0"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "handlers/pages.py#prepare:55:5$b0",
+      "blocks": [
+        {
+          "id": "handlers/pages.py#prepare:55:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 55,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "handlers/pages.py#render_metrics:63:5",
+      "name": "render_metrics",
+      "module": "handlers/pages.py",
+      "loc": {
+        "file": "handlers/pages.py",
+        "line": 63,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "handlers/pages.py#render_metrics:63:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "handlers/pages.py#render_metrics:63:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 63,
+            "column": 24
+          },
+          "name": "self"
+        },
+        {
+          "id": "handlers/pages.py#render_metrics:63:5$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 64,
+            "column": 16
+          },
+          "literal": "hub_up 1"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [
+        "handlers/pages.py#render_metrics:63:5$v1"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "handlers/pages.py#render_metrics:63:5$b0",
+      "blocks": [
+        {
+          "id": "handlers/pages.py#render_metrics:63:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 63,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "handlers/pages.py#render_metrics:63:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 64,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "handlers/pages.py#post:70:5",
+      "name": "post",
+      "module": "handlers/pages.py",
+      "loc": {
+        "file": "handlers/pages.py",
+        "line": 70,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "handlers/pages.py#post:70:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "handlers/pages.py#post:70:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 70,
+            "column": 14
+          },
+          "name": "self"
+        },
+        {
+          "id": "handlers/pages.py#post:70:5$v1",
+          "kind": "global",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 71,
+            "column": 15
+          },
+          "name": "handlers.base.DB"
+        },
+        {
+          "id": "handlers/pages.py#post:70:5$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 71,
+            "column": 15
+          },
+          "name": "handlers.base.DB.cursor"
+        },
+        {
+          "id": "handlers/pages.py#post:70:5$v3",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 71,
+            "column": 9
+          },
+          "name": "cur"
+        },
+        {
+          "id": "handlers/pages.py#post:70:5$v4",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 72,
+            "column": 21
+          },
+          "name": "concat"
+        },
+        {
+          "id": "handlers/pages.py#post:70:5$v5",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 72,
+            "column": 21
+          },
+          "name": "concat"
+        },
+        {
+          "id": "handlers/pages.py#post:70:5$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 72,
+            "column": 21
+          },
+          "literal": "DELETE FROM checks WHERE name = '"
+        },
+        {
+          "id": "handlers/pages.py#post:70:5$v7",
+          "kind": "property",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 72,
+            "column": 59
+          },
+          "base": "handlers/pages.py#post:70:5$v0",
+          "path": "request.body",
+          "name": "request.body"
+        },
+        {
+          "id": "handlers/pages.py#post:70:5$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 72,
+            "column": 79
+          },
+          "literal": "'"
+        },
+        {
+          "id": "handlers/pages.py#post:70:5$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 72,
+            "column": 9
+          },
+          "name": "cur.execute"
+        }
+      ],
+      "flows": [
+        {
+          "from": "handlers/pages.py#post:70:5$v2",
+          "to": "handlers/pages.py#post:70:5$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 71,
+            "column": 9
+          }
+        },
+        {
+          "from": "handlers/pages.py#post:70:5$v6",
+          "to": "handlers/pages.py#post:70:5$v5",
+          "kind": "binary",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 72,
+            "column": 21
+          }
+        },
+        {
+          "from": "handlers/pages.py#post:70:5$v0",
+          "to": "handlers/pages.py#post:70:5$v7",
+          "kind": "property",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 72,
+            "column": 59
+          }
+        },
+        {
+          "from": "handlers/pages.py#post:70:5$v7",
+          "to": "handlers/pages.py#post:70:5$v5",
+          "kind": "binary",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 72,
+            "column": 21
+          }
+        },
+        {
+          "from": "handlers/pages.py#post:70:5$v5",
+          "to": "handlers/pages.py#post:70:5$v4",
+          "kind": "binary",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 72,
+            "column": 21
+          }
+        },
+        {
+          "from": "handlers/pages.py#post:70:5$v8",
+          "to": "handlers/pages.py#post:70:5$v4",
+          "kind": "binary",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 72,
+            "column": 21
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "handlers/pages.py#post:70:5$c0",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 71,
+            "column": 15
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "handlers.base.DB.cursor",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "handlers/pages.py#post:70:5$v2",
+          "block": "handlers/pages.py#post:70:5$b0",
+          "method": "cursor",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "handlers/pages.py#post:70:5$v1"
+        },
+        {
+          "id": "handlers/pages.py#post:70:5$c1",
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 72,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cur.execute",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "handlers/pages.py#post:70:5$v4"
+            }
+          ],
+          "resultValueId": "handlers/pages.py#post:70:5$v9",
+          "block": "handlers/pages.py#post:70:5$b0",
+          "method": "execute",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "handlers/pages.py#post:70:5$v3"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "handlers/pages.py#post:70:5$b0",
+      "blocks": [
+        {
+          "id": "handlers/pages.py#post:70:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "handlers/pages.py",
+            "line": 70,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "tests/test_pages.py#<module>:0:0",
+      "name": "<module>",
+      "module": "tests/test_pages.py",
+      "loc": {
+        "file": "tests/test_pages.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "tests/test_pages.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "tests/test_pages.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "NEGATIVE. A test's handler table is not the application's attack surface.\n\nA Tornado test builds an application of its own out of exactly the same tuples, and a\nroute that exists only in a test does not exist in the program that is deployed. The\nhandler this registers is defined in a file that is NOT a test and is registered nowhere\nelse, so if this table were read as a registration the injection inside it would be\nreported against production source.\n"
+        },
+        {
+          "id": "tests/test_pages.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "tests/test_pages.py",
+            "line": 11,
+            "column": 20
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "tests/test_pages.py#<module>:0:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "tests/test_pages.py",
+            "line": 12,
+            "column": 5
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "tests/test_pages.py#<module>:0:0$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "tests/test_pages.py",
+            "line": 12,
+            "column": 6
+          },
+          "literal": "/probe"
+        },
+        {
+          "id": "tests/test_pages.py#<module>:0:0$v4",
+          "kind": "global",
+          "loc": {
+            "file": "tests/test_pages.py",
+            "line": 12,
+            "column": 17
+          },
+          "name": "handlers.pages.ProbeHandler"
+        },
+        {
+          "id": "tests/test_pages.py#<module>:0:0$v5",
+          "kind": "local",
+          "loc": {
+            "file": "tests/test_pages.py",
+            "line": 11,
+            "column": 1
+          },
+          "name": "default_handlers"
+        }
+      ],
+      "flows": [
+        {
+          "from": "tests/test_pages.py#<module>:0:0$v3",
+          "to": "tests/test_pages.py#<module>:0:0$v2",
+          "kind": "enclose",
+          "loc": {
+            "file": "tests/test_pages.py",
+            "line": 12,
+            "column": 5
+          }
+        },
+        {
+          "from": "tests/test_pages.py#<module>:0:0$v4",
+          "to": "tests/test_pages.py#<module>:0:0$v2",
+          "kind": "enclose",
+          "loc": {
+            "file": "tests/test_pages.py",
+            "line": 12,
+            "column": 5
+          }
+        },
+        {
+          "from": "tests/test_pages.py#<module>:0:0$v2",
+          "to": "tests/test_pages.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "tests/test_pages.py",
+            "line": 11,
+            "column": 20
+          }
+        },
+        {
+          "from": "tests/test_pages.py#<module>:0:0$v1",
+          "to": "tests/test_pages.py#<module>:0:0$v5",
+          "kind": "assign",
+          "loc": {
+            "file": "tests/test_pages.py",
+            "line": 11,
+            "column": 1
+          }
+        }
+      ],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "tests/test_pages.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "tests/test_pages.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "tests/test_pages.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "handlers/pages.py#get:20:5",
+      "kind": "http-route",
+      "framework": "tornado",
+      "detail": {
+        "method": "GET",
+        "path": "/search"
+      }
+    },
+    {
+      "functionId": "handlers/pages.py#post:24:5",
+      "kind": "http-route",
+      "framework": "tornado",
+      "detail": {
+        "method": "POST",
+        "path": "/search"
+      }
+    },
+    {
+      "functionId": "handlers/pages.py#get:35:5",
+      "kind": "http-route",
+      "framework": "tornado",
+      "detail": {
+        "method": "GET",
+        "path": "/logs/:arg1"
+      }
+    },
+    {
+      "functionId": "handlers/base.py#get:19:5",
+      "kind": "http-route",
+      "framework": "tornado",
+      "detail": {
+        "method": "GET",
+        "path": "/api/users/:name"
+      }
+    },
+    {
+      "functionId": "handlers/base.py#post:23:5",
+      "kind": "http-route",
+      "framework": "tornado",
+      "detail": {
+        "method": "POST",
+        "path": "/api/users/:name"
+      }
+    },
+    {
+      "functionId": "handlers/base.py#get:19:5",
+      "kind": "http-route",
+      "framework": "tornado",
+      "detail": {
+        "method": "GET",
+        "path": "/api/groups/:name"
+      }
+    },
+    {
+      "functionId": "handlers/base.py#post:23:5",
+      "kind": "http-route",
+      "framework": "tornado",
+      "detail": {
+        "method": "POST",
+        "path": "/api/groups/:name"
+      }
+    },
+    {
+      "functionId": "handlers/pages.py#get:44:5",
+      "kind": "http-route",
+      "framework": "tornado",
+      "detail": {
+        "method": "GET",
+        "path": "/badge/:slug"
+      }
+    },
+    {
+      "functionId": "handlers/pages.py#prepare:55:5",
+      "kind": "http-route",
+      "framework": "tornado",
+      "detail": {
+        "method": "ANY",
+        "path": "/health"
+      }
+    },
+    {
+      "functionId": "handlers/pages.py#render_metrics:63:5",
+      "kind": "http-route",
+      "framework": "tornado",
+      "detail": {
+        "method": "ANY",
+        "path": "/metrics"
+      }
+    }
+  ]
+}

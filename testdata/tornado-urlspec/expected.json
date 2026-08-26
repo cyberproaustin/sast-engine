@@ -1,0 +1,30 @@
+{
+  "corpus": "tornado-urlspec",
+  "description": "Every other registration this engine models is a CALL. Tornado's is a TUPLE in a list -- a module declares one and the application collects it -- so there is no call to match, no decorator to read and no name to key on, and a frontend built out of call shapes had nothing at all: one real Tornado application enumerated 9 entry points against 62 handler registrations, and all 9 of them came from its `examples/` directory rather than from the application that ships. Every finding here is reachable only through a registration, and each is a different way of writing one: a tuple table, the `url(...)` call that builds the same object outright, and a three-element tuple whose third element is the dict the handler is constructed with. Two things beyond the tuple had to exist together for any of it to be reachable -- the verb expansion, because a Tornado handler answers in a method named after the verb and one registration is therefore as many entry points as the class has verbs, and one level of INHERITANCE, because a registered handler routinely names no verb of its own and every route in `handlers/api.py` answers in a base class in another file. The request is on the handler rather than in a parameter, which is why the source is `self.request` and not the first argument. The negatives are the shapes that look like registrations and are not: a list of two-element tuples of a string and a class, which is one of the most common records in any codebase and is separated from a route table only by the leading slash a request path always has, and a handler this program defines and only a TEST registers -- a route that exists only in a test does not exist in the program that is deployed, and the injection inside that handler is real source that must not be reported.",
+  "expected": [
+    {
+      "cwe": "CWE-89",
+      "sinkFile": "handlers/base.py",
+      "sinkLine": 30,
+      "sourceLabel": "self.request.body",
+      "confidence": "medium",
+      "note": "registered by a tuple naming a subclass that defines no verb at all; this method is in the surface only because the registration resolves one level up into the base"
+    },
+    {
+      "cwe": "CWE-89",
+      "sinkFile": "handlers/pages.py",
+      "sinkLine": 30,
+      "sourceLabel": "self.request.body",
+      "confidence": "medium",
+      "note": "registered by `url(...)` rather than by a tuple, and the class answers GET in `get` and POST in `post` -- one registration, two entry points, and only one of them a weakness"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "handlers/pages.py",
+      "sinkLine": 39,
+      "sourceLabel": "self.path_args",
+      "confidence": "high",
+      "note": "registered by a three-element tuple whose pattern captures a segment with no name; Tornado hands the positional captures to the verb method and puts them in `path_args`"
+    }
+  ]
+}
