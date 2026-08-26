@@ -83,3 +83,24 @@ func TestNamedGroupsAndDisjointAlternation(t *testing.T) {
 		t.Error(`(a|a)+ must be reported: both branches match the same character`)
 	}
 }
+
+// A real pattern from a production repository that the first two versions of the
+// anchoring test both reported. The marker is a dot, and there is optional whitespace in
+// front of it -- which changes nothing, because every repetition still has to see one.
+func TestOptionalPrefixDoesNotHideTheMarker(t *testing.T) {
+	for _, p := range []string{
+		`\{\{\s*\$json((?:\s*\.\s*[a-zA-Z_$][\w$]*)+)\s*\}\}`,
+		`(?:\s*,\s*[a-z]+)*`,
+		`(?:-?[0-9]+)+`, // an optional sign, then digits that repeat -- still a marker? no
+	}[:2] {
+		if model.CatastrophicPattern(p) {
+			t.Errorf("%s must not be reported: every repetition has to see its separator", p)
+		}
+	}
+	// And a body with nothing mandatory in it at all can blow up, optional prefix or not.
+	for _, p := range []string{`(\s*[a-z]*)+`, `^(\w+\s?)*$`} {
+		if !model.CatastrophicPattern(p) {
+			t.Errorf("%s must be reported: nothing in the body has to match exactly once", p)
+		}
+	}
+}

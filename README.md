@@ -373,6 +373,27 @@ knowledge is still compiled in rather than declarative. Taint analysis is
 context-insensitive, so a function's parameter carries the union of taint from all its call
 sites; this can over-report and will need call-site cloning.
 
+**What it misses, counted rather than guessed.** An independent reader was asked to read
+seven deliberately vulnerable applications and list every weakness the engine did not
+report, then group the misses by kind. The distribution is the most useful single picture
+of where the boundary sits:
+
+| What was missed | Misses | Why |
+| --- | --- | --- |
+| Broken access control and client-chosen identity | 13 | A guard is *present* or *absent* here; whether it **dominates** the operation needs a CFG the analysis does not build |
+| Credential and session design | 10 | The defect is an absence — no policy, no rotation, no flag — and an absence needs a stated expectation |
+| Interpreter and query sinks | 8 | Framework-specific evaluators the symbol lists do not name |
+| Unsafe HTML rendering | 8 | Escape bypasses, disabled autoescaping, and markdown renderers |
+| Hardcoded secrets | 7 | Values outside the shapes and destinations the rules recognise |
+| Sensitive or forgeable diagnostics | 7 | What reaches a log, and whether a line break in it matters |
+| CSRF and unsafe HTTP methods | 6 | Only decidable from the population, and the population has to have the control |
+| Unsafe parsers and file handling | 4 | Parser flags assembled from bit constants, and archive entry names |
+| Everything else | 6 | Redirect validation, check-then-use, library-specific denial of service |
+
+Two thirds of it is one thing said two ways: **the engine does not model guards**, and a
+great many weaknesses are "the check is there but does not stop anything" or "the check is
+not there at all". That is the next architectural piece, not a longer list of symbols.
+
 The architectural decisions this skeleton is built to honor are recorded in
 [docs/DESIGN-DECISIONS.md](docs/DESIGN-DECISIONS.md).
 

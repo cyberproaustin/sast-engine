@@ -1,14 +1,30 @@
 {
   "corpus": "express-redos",
-  "description": "The common direction of the regular-expression weakness: not a caller who writes the pattern, but a caller who feeds a long string to a pattern that backtracks. Two facts are needed at once and neither is a finding alone -- a quantified group with a quantifier inside it, and something a caller chose reaching it. The two negatives are each half: the same untrusted string against a linear pattern, and the dangerous pattern against a string nobody chose.",
+  "description": "The common direction of the regular-expression weakness: not a caller who writes the pattern, but a caller who feeds a long string to a pattern that backtracks. Two facts are needed at once and neither is a finding alone -- a quantified group with a quantifier inside it, and something a caller chose reaching it. The two negatives are each half: the same untrusted string against a linear pattern, and the dangerous pattern against a string nobody chose. Both spellings are here, because a language that reverses the operands writes the same weakness the other way round. The last route is not about patterns at all: it is a query built one statement at a time, which no part of the lowering handled.",
   "expected": [
     {
       "cwe": "CWE-1333",
       "sinkFile": "app.ts",
-      "sinkLine": 24,
+      "sinkLine": 25,
       "sourceLabel": "req.body.mail",
       "confidence": "high",
-      "note": "and written inside a negated condition, which is where validation lives and which the frontend used to walk straight past"
+      "note": "the pattern as the receiver, and written inside a negated condition -- which is where validation lives and which the frontend used to walk straight past"
+    },
+    {
+      "cwe": "CWE-1333",
+      "sinkFile": "app.ts",
+      "sinkLine": 45,
+      "sourceLabel": "req.body.value",
+      "confidence": "high",
+      "note": "the spelling the language actually uses: JavaScript reverses the operands, so the subject is the receiver and the pattern is the argument"
+    },
+    {
+      "cwe": "CWE-89",
+      "sinkFile": "app.ts",
+      "sinkLine": 61,
+      "sourceLabel": "req.body.title",
+      "confidence": "medium",
+      "note": "unrelated to patterns: `q += ...` is composition written as a statement, and it was handled by nothing -- not the expression lowering, which reads `+` and not `+=`, and not the assignment lowering, which reads `=`"
     }
   ]
 }

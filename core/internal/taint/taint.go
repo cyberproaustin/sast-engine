@@ -1511,7 +1511,9 @@ func (e *engine) patternAt(c *ir.Call, index int) string {
 			}
 		}
 	}
-	for hops := 0; hops < 8 && id != ""; hops++ {
+	seen := map[string]bool{}
+	for hops := 0; hops < 24 && id != "" && !seen[id]; hops++ {
+		seen[id] = true
 		if v := e.ix.ValueByID[id]; v != nil && v.Kind == ir.ValueLiteral {
 			return v.Literal
 		}

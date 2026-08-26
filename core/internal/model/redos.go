@@ -212,32 +212,116 @@ func anchored(body string) bool {
 		// is whether two branches can claim the same input.
 		return distinctSingleCharacters(body)
 	}
-	i := 0
-	switch body[0] {
-	case '\\':
-		i = 2
-	case '[':
-		end := strings.IndexByte(body, ']')
-		if end < 1 {
+	// Walk to the first atom that must match EXACTLY ONCE. An optional atom in front of
+	// it changes nothing: `(?:\s*\.\s*[a-z]+)+` still has to see a dot per repetition,
+	// and requiring the marker to be the very first thing reported that pattern -- which
+	// is a real one out of a production repository, and is linear.
+	for i := 0; i < len(body); {
+		width, ok := atomWidth(body, i)
+		if !ok {
 			return false
 		}
-		i = end + 1
-	case '(', '|', '^', '.':
-		// A group, an alternation, an anchor or "any character" says nothing about where
-		// one repetition ends.
-		return false
-	default:
-		i = 1
+		switch quantifierAt(body, i+width) {
+		case optional:
+			i += width + quantifierWidth(body, i+width)
+		case repeatable:
+			// Mandatory and repeatable, which is the ambiguity itself.
+			return false
+		default:
+			// Exactly once. Only a single character or class is a marker; a group says
+			// nothing about where one repetition ended.
+			return body[i] != '('
+		}
 	}
-	if i >= len(body) {
-		return true
+	return false
+}
+
+type quantifier int
+
+const (
+	once quantifier = iota
+	optional
+	repeatable
+)
+
+func quantifierAt(p string, i int) quantifier {
+	if i >= len(p) {
+		return once
 	}
-	// Quantified or optional, so it is not a marker after all.
-	switch body[i] {
-	case '?', '*', '+', '{':
-		return false
+	switch p[i] {
+	case '*', '?':
+		return optional
+	case '+':
+		return repeatable
+	case '{':
+		if unboundedBrace(p, i) {
+			return repeatable
+		}
 	}
-	return true
+	return once
+}
+
+func quantifierWidth(p string, i int) int {
+	if i >= len(p) {
+		return 0
+	}
+	switch p[i] {
+	case '*', '?', '+':
+		if i+1 < len(p) && (p[i+1] == '?' || p[i+1] == '+') {
+			return 2 // lazy or possessive
+		}
+		return 1
+	case '{':
+		if end := strings.IndexByte(p[i:], '}'); end >= 0 {
+			return end + 1
+		}
+	}
+	return 0
+}
+
+// atomWidth returns the length of the atom starting here: an escape, a character class, a
+// group, or one character.
+func atomWidth(p string, i int) (int, bool) {
+	if i >= len(p) {
+		return 0, false
+	}
+	switch p[i] {
+	case '\\':
+		if i+1 >= len(p) {
+			return 0, false
+		}
+		return 2, true
+	case '[':
+		for j := i + 1; j < len(p); j++ {
+			if p[j] == '\\' {
+				j++
+				continue
+			}
+			if p[j] == ']' {
+				return j - i + 1, true
+			}
+		}
+		return 0, false
+	case '(':
+		depth := 0
+		for j := i; j < len(p); j++ {
+			switch p[j] {
+			case '\\':
+				j++
+			case '(':
+				depth++
+			case ')':
+				depth--
+				if depth == 0 {
+					return j - i + 1, true
+				}
+			}
+		}
+		return 0, false
+	case ')', '|':
+		return 0, false
+	}
+	return 1, true
 }
 
 // repeats reports whether a quantifier that can match many times starts at this offset.

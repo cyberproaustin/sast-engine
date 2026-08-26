@@ -782,6 +782,29 @@ function lowerFunction(
     return false;
   };
 
+  /**
+   * The value of an argument written as a CONST somewhere above the call.
+   *
+   * `const ALGO = "md5"; crypto.createHash(ALGO)` names the algorithm exactly as plainly
+   * as writing it at the call, and every rule that reads a written argument saw nothing.
+   * Naming a constant is what a codebase does when the same value is used twice.
+   *
+   * `const` only. A `let` can be reassigned, and a rule that reads the initializer of a
+   * name the program is free to change is reading something that may not be there when
+   * the call runs.
+   */
+  const constantOf = (node: ts.Expression): string | undefined => {
+    if (!ts.isIdentifier(node)) return undefined;
+    const sym = checker.getSymbolAtLocation(node);
+    for (const decl of sym?.declarations ?? []) {
+      if (!ts.isVariableDeclaration(decl) || !decl.initializer) continue;
+      const list = decl.parent;
+      if (!ts.isVariableDeclarationList(list) || !(list.flags & ts.NodeFlags.Const)) continue;
+      return literalOf(decl.initializer);
+    }
+    return undefined;
+  };
+
   const resolveCallee = (call: ts.CallExpression | ts.NewExpression): Callee => {
     const expr = call.expression;
 
@@ -1286,7 +1309,7 @@ function lowerFunction(
       const valueId = lowerExpr(a);
       const fn = resolveFunction(a);
       if (valueId || fn) args.push({ index, valueId, functionId: fn?.id });
-      const lit = literalOf(a);
+      const lit = literalOf(a) ?? constantOf(a);
       if (lit !== undefined) {
         argLiterals[index] = lit;
         return;
@@ -1454,6 +1477,23 @@ function lowerFunction(
       current = newBlock(n);
       return;
     }
+    // `query += "..." + id` is composition written as a statement, and it was handled by
+    // nothing: not the expression lowering, which reads `+` and not `+=`, and not the
+    // assignment branch below, which reads `=`. A statement that builds a string one
+    // piece at a time is how a long query gets written, and the pieces went nowhere.
+    if (
+      ts.isExpressionStatement(n) &&
+      ts.isBinaryExpression(n.expression) &&
+      n.expression.operatorToken.kind === ts.SyntaxKind.PlusEqualsToken
+    ) {
+      const added = lowerExpr(n.expression.right);
+      const existing = lowerExpr(n.expression.left);
+      // The result is the two halves joined and it lands back under the same name, so
+      // the composition edge goes INTO the value the name already has.
+      if (existing) addFlow(added, existing, "binary", locOf(sf, n));
+      return;
+    }
+
     // An assignment INTO something: `session.user = x`, `config["debug"] = y`. Only
     // assignments to a plain name were lowered, so writing into a property recorded
     // nothing -- and putting caller data into a session is a weakness whose entire shape
