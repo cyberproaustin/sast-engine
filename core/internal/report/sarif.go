@@ -150,7 +150,7 @@ func SARIF(w io.Writer, scanRes scan.Result, toolVersion string) error {
 	for _, f := range res.Findings {
 		run.Results = append(run.Results, sarifResult{
 			RuleID:              f.CWE,
-			Level:               levelFor(f.Confidence),
+			Level:               levelFor(f),
 			Message:             sarifText{Text: fmt.Sprintf("%s: %s (source: %s)", f.Class, f.Message, f.SourceLabel)},
 			Locations:           []sarifLocation{locationOf(f.SinkLoc, "")},
 			CodeFlows:           []sarifCodeFlow{codeFlowOf(f)},
@@ -310,10 +310,26 @@ func sanitizerProps(f taint.Finding) []map[string]any {
 	return out
 }
 
-// levelFor maps analysis confidence — not severity — onto SARIF levels (ADR-005).
-func levelFor(c taint.Confidence) string {
-	if c.Gating() {
+// levelFor maps the engine's own judgement — not severity — onto SARIF levels (ADR-005).
+//
+// It used to read confidence alone, which measured badly: across ten repositories the
+// engine emitted 82 findings at level error whose own gating property was false, against
+// 41 that actually gated. Two thirds of the output arrived at the highest level available
+// for findings the engine had already decided not to fail a build on, and every consumer
+// of SARIF — a code scanning dashboard, a CI check, a maintainer — reads error as "act on
+// this".
+//
+// A finding in a test module drops the whole way to note. It is in the repository exactly
+// as its reason says, and it is still not a production defect; 34 of 59 hardcoded-secret
+// findings in that batch were test fixtures, and flattening that distinction into error is
+// how a real credential in a test would have been lost among them.
+func levelFor(f taint.Finding) string {
+	switch {
+	case f.InTestModule:
+		return "note"
+	case f.Actionable():
 		return "error"
+	default:
+		return "warning"
 	}
-	return "warning"
 }

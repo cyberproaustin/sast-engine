@@ -34,6 +34,23 @@ const (
 // Gating reports whether a finding at this confidence may fail a pipeline.
 func (c Confidence) Gating() bool { return c == High }
 
+// Actionable reports whether this finding would gate on its own merits, setting aside the
+// two questions that are about the RUN rather than about the finding: whether a baseline
+// already records it, and whether it touches the change under review.
+//
+// The distinction matters because SARIF's level is read by every consumer as "does this
+// matter", and until now it was computed from confidence alone. Confidence answers how
+// sure the analysis is; this answers whether the engine would stop a build. They are
+// different questions, and conflating them made the engine publish 82 findings at level
+// error across ten repositories while its own gating property said false -- two thirds of
+// its output overstating what it believed.
+//
+// Deliberately not folded into scan.Result.Gates: a finding that a baseline already knows
+// is still an error, because a baseline is a record and not a suppression (ADR-014).
+func (f Finding) Actionable() bool {
+	return f.EntryAnchored && f.DependsOnUse == "" && !f.InTestModule && f.Confidence.Gating()
+}
+
 // Hop is one step of the evidence path.
 type Hop struct {
 	Loc         ir.Loc
