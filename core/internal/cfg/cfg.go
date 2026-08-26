@@ -246,11 +246,12 @@ func (g *Graph) Reachable(b string) bool {
 // Reaches reports whether control can get from `from` to `to` along one or more edges.
 // A block reaches ITSELF only through a cycle, which is the question a loop asks.
 func (g *Graph) Reaches(from, to string) bool {
-	seen := make(map[string]bool, len(g.order))
-	queue := append([]string(nil), g.blocks[from].Successors...)
-	if _, ok := g.blocks[from]; !ok {
+	start, ok := g.blocks[from]
+	if !ok {
 		return false
 	}
+	seen := make(map[string]bool, len(g.order))
+	queue := append([]string(nil), start.Successors...)
 	for len(queue) > 0 {
 		id := queue[0]
 		queue = queue[1:]
