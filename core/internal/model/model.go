@@ -4062,6 +4062,38 @@ func builtin() Model {
 
 		Sanitizers: []SanitizerRule{
 			{
+				// A payload whose SIGNATURE was checked against a shared secret is not
+				// something the caller wrote. `constructEvent` recomputes an HMAC over the
+				// raw body with the endpoint secret and THROWS when it does not match, so
+				// everything past that line came from Stripe rather than from whoever made
+				// the request.
+				//
+				// Measured: linkwarden logs `eventType` from the constructed event, and
+				// the engine called it log injection. The unsigned body leaves through the
+				// verification-failure response several lines earlier and never reaches
+				// the log at all. Two of eight false positives in that repository were
+				// this exact shape, at two different payment providers.
+				//
+				// Scoped to untrusted-input and nothing else, for the reason the number
+				// conversions above are scoped: verification establishes WHO WROTE a
+				// value, and says nothing about whether the value is predictable or
+				// whether there is a secret inside it. A verified webhook carrying an API
+				// key is still carrying an API key.
+				Symbol:   "stripe.webhooks.constructEvent",
+				Contexts: []string{AnyContext},
+				Classes:  []string{"untrusted-input"},
+				Note:     "throws unless an HMAC over the raw body matches the endpoint secret, so the result was written by the sender and not by the caller",
+			},
+			{
+				// The same judgement, from the library a great many projects use for
+				// webhooks they did not write themselves. `verify` throws on a bad
+				// signature; there is no return value to check and no way past it.
+				Symbol:   "svix.Webhook.verify",
+				Contexts: []string{AnyContext},
+				Classes:  []string{"untrusted-input"},
+				Note:     "throws unless the signature matches the endpoint secret",
+			},
+			{
 				Symbol:   "path.basename",
 				Contexts: []string{"path"},
 				Note:     "reduces a path to its final segment, so no traversal survives it",
