@@ -17,6 +17,7 @@
 package assertion
 
 import (
+	"fmt"
 	"sort"
 
 	"github.com/cyberproaustin/sast-engine/core/internal/ledger"
@@ -223,19 +224,24 @@ func evaluateOne(req Requirement, res scan.Result, byCWE map[string]int, skipped
 		return Evaluated{Requirement: req, State: NotBuilt, Reason: req.Note}
 	}
 
-	// An assertion whose analysis did not run has not been satisfied — it has not been
-	// tested (ADR-003). Reporting it as passing is the failure this whole design
-	// exists to avoid.
-	if reason, ok := notEvaluated(req, res, skipped); ok {
-		return Evaluated{Requirement: req, State: NotEvaluated, Reason: reason}
-	}
-
+	// A requirement the engine actually caught being broken is VIOLATED, and no doubt
+	// about the surface changes that. Everything below casts doubt on SILENCE -- on the
+	// claim that nothing was found -- and a finding is not silence. Counting first is
+	// what keeps a real defect from being softened into "not evaluated" by the engine's
+	// own uncertainty about what else it might have missed.
 	count := 0
 	for _, cwe := range req.CWEs {
 		count += byCWE[cwe]
 	}
 	if count > 0 {
 		return Evaluated{Requirement: req, State: Violated, Findings: count, Reason: req.Note}
+	}
+
+	// An assertion whose analysis did not run has not been satisfied — it has not been
+	// tested (ADR-003). Reporting it as passing is the failure this whole design
+	// exists to avoid.
+	if reason, ok := notEvaluated(req, res, skipped); ok {
+		return Evaluated{Requirement: req, State: NotEvaluated, Reason: reason}
 	}
 	return Evaluated{Requirement: req, State: Satisfied, Reason: req.Note}
 }
@@ -249,6 +255,21 @@ func notEvaluated(req Requirement, res scan.Result, skipped map[string][]string)
 	// table must not then contradict it.
 	if len(res.Surface.Entries) == 0 {
 		return "no entry points were enumerated, so nothing was asserted over", true
+	}
+	// The same argument, one step weaker and far more dangerous, because this case does
+	// not look like blindness. A surface the engine ITSELF calls into question is not a
+	// surface anything can be asserted over, and the report already says so on the line
+	// above the coverage table -- it just used to contradict itself immediately after.
+	//
+	// Measured across ten unmodified repositories: jupyterhub printed "0 violated, 6
+	// satisfied" having enumerated nine entry points, every one of them from its
+	// examples directory and none of the sixty-two real ones. searxng printed six
+	// satisfied with 128 of its 130 input-reading functions unreached. A false positive
+	// wastes somebody's afternoon; this tells them their application is fine.
+	if res.Surface.Completeness.Suspect(len(res.Surface.Entries)) {
+		return fmt.Sprintf(
+			"the enumerated surface is incomplete: %d function(s) read caller-supplied input that no entry point reaches, against %d enumerated",
+			res.Surface.Completeness.UnreachedInputFunctions, len(res.Surface.Entries)), true
 	}
 
 	for _, by := range req.AssertedBy {
