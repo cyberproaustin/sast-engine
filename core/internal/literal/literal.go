@@ -35,6 +35,7 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 		return nil
 	}
 	ix := ir.NewIndex(d)
+	roles := newRoleFinder(ix, m)
 
 	var out []taint.Finding
 	for _, fn := range d.Functions {
@@ -68,6 +69,16 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 			for _, rule := range m.Literals {
 				if !rule.Matches(text) {
 					continue
+				}
+				// The question the shape cannot answer: does THIS program rely on the
+				// value being secret? A literal the program only ever hands to somebody
+				// else's service to say which client it is is that service's public
+				// configuration, and there is no door here that it opens. See role.go
+				// -- and note that a value with no visible role is still reported,
+				// because a key in a repository is in every clone of it whatever reads
+				// it.
+				if r, _ := roles.classify(fn, v, text); r == rolePresented {
+					break
 				}
 				out = append(out, finding(ix, fn, v, rule, text))
 				// One value is one finding. A private key that also parses as something

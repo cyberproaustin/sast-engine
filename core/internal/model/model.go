@@ -622,6 +622,7 @@ type Model struct {
 	Callbacks       []CallbackRule
 	Controls        []ControlRule
 	Literals        []LiteralRule
+	ClientRole      ClientRoleRule
 	Guards          []GuardRule
 	Scopes          []ScopeRule
 	TaintFlowReq    Requirements
@@ -3788,6 +3789,10 @@ func builtin() Model {
 		Stores:     builtinStores(),
 		Guards:     builtinGuards(),
 		Scopes:     builtinScopes(),
+		// Not a rule and not a defect: the vocabulary the value-shape rules decide a
+		// literal's ROLE in, so that a key this program hands to somebody else's service
+		// to say which client it is stops being reported as this program's secret.
+		ClientRole: builtinClientRole(),
 
 		Policies: []Policy{
 			{
@@ -4955,6 +4960,185 @@ func (r LiteralRule) Matches(text string) bool {
 		return false
 	}
 	return r.re.MatchString(text)
+}
+
+// ClientRoleRule is the vocabulary for one question about a written-down value: does THIS
+// program rely on it being secret?
+//
+// It is the same question the weak-digest rule asks, one level down. A digest matters
+// when the program TRUSTS it; a credential matters when the program's own security rests
+// on nobody else having it. Neither question is answered by what the value says.
+//
+// The measurement that forced it: 27 of the 56 false positives left across ten production
+// repositories were public client identifiers, all 27 in yt-dlp -- Firebase web API keys,
+// a Google Drive playback key, Adobe Primetime `software_statement` attestations. Every
+// one is a value the third-party site publishes in its own web client, and yt-dlp is a
+// CLIENT of every site it has an extractor for: there is no server in that program whose
+// door any of those keys opens.
+//
+// The fix is deliberately NOT a list of vendor prefixes. `AIzaSy` happens to be
+// recognisable and the next provider's will not be, and an unrestricted Google key can
+// genuinely be abused for billing -- the shape is not what makes a value public, the USE
+// is. So what is written down here is the shape of a USE:
+//
+//   - RequestParts name the places an outbound request keeps its parameters. A value the
+//     program files under one of them is being handed to somebody else's service.
+//   - Schemes recognise the moment the service is NAMED in the same breath: a call that
+//     carries an absolute URL written in the source is a call to that address.
+//   - SecretParts name the request parts whose own name says the value is the program
+//     proving who it is rather than saying which client it is. A `client_secret` posted
+//     to a token endpoint and a `client_id` posted to the same endpoint travel
+//     identically and are not the same thing, and the key they are filed under is the
+//     only place the program says which is which.
+//   - Carriers are calls that hand their argument onward unchanged. Without them the
+//     value stops at `json.dumps(...)` and the request two lines later is invisible.
+//
+// Everything here is matched on the option KEY the frontends already read, never on the
+// value. Nothing scores entropy and nothing looks at what a variable is called.
+type ClientRoleRule struct {
+	// RequestParts are the leading segments of an option path that make the option part
+	// of an outbound request: `query.key`, `headers.Referer`, `data.client_id`.
+	RequestParts []string
+	// SecretParts are the option names under which a value is the program's own
+	// credential rather than its name. Matched on the option's LEAF segment as a word,
+	// because `data.client_secret` and `headers.Authorization` are compound.
+	//
+	// `token` is in this list and is deliberately absent from the configuration-key list
+	// that the store rule uses, and the two are not in conflict: a configuration key
+	// holding the word token held a URL or a header name in every one of twenty-eight
+	// repositories, while a request PART named token holds the token.
+	SecretParts []string
+	// Schemes are the prefixes that make a literal an absolute URL, which is how the
+	// engine recognises that a call names the service it is talking to.
+	Schemes []string
+	// Carriers are calls that pass their argument along unchanged -- a serializer, an
+	// encoder, a string join. A value reaching one of these is still the same value.
+	Carriers []string
+	// Budget bounds the walk. A role is decided from a bounded neighbourhood of the
+	// literal or it is not decided at all: an unbounded search over a program with eight
+	// thousand functions would answer a different question on every repository.
+	Budget int
+}
+
+// IsRequestPart reports whether an option path's first segment is part of an outbound
+// request.
+func (r ClientRoleRule) IsRequestPart(path string) bool {
+	head, _, _ := strings.Cut(strings.ToLower(path), ".")
+	for _, p := range r.RequestParts {
+		if head == p {
+			return true
+		}
+	}
+	return false
+}
+
+// NamesASecret reports whether an option path's leaf says the value is the program's own
+// credential. Matched as a word inside the leaf, so `client_secret`, `X-Api-Signature`
+// and `apiSecret` all hold and `secretariat` does not.
+func (r ClientRoleRule) NamesASecret(path string) bool {
+	leaf := strings.ToLower(path)
+	if i := strings.LastIndex(leaf, "."); i >= 0 {
+		leaf = leaf[i+1:]
+	}
+	for _, w := range r.SecretParts {
+		if containsWord(leaf, w) {
+			return true
+		}
+	}
+	return false
+}
+
+// IsURL reports whether a literal names a service by address.
+func (r ClientRoleRule) IsURL(text string) bool {
+	low := strings.ToLower(strings.TrimSpace(text))
+	for _, s := range r.Schemes {
+		if strings.HasPrefix(low, s) {
+			return true
+		}
+	}
+	return false
+}
+
+// IsCarrier reports whether a call hands its argument onward unchanged.
+func (r ClientRoleRule) IsCarrier(symbol, method string) bool {
+	sym := strings.ToLower(symbol)
+	meth := strings.ToLower(method)
+	for _, c := range r.Carriers {
+		if meth == c {
+			return true
+		}
+		if sym == c || strings.HasSuffix(sym, "."+c) {
+			return true
+		}
+	}
+	return false
+}
+
+// containsWord reports whether want appears in s as a whole word, where a word is
+// bounded by anything that is not a letter or a digit.
+//
+// This is the test that separates `client_secret` from `secretariat` and, in the
+// configuration keys the store rule reads, `email_password_status` from `password`. A
+// substring match on a compound identifier is how a glyph table came to be reported as a
+// credential.
+func containsWord(s, want string) bool {
+	if want == "" {
+		return false
+	}
+	for i := 0; i+len(want) <= len(s); i++ {
+		if s[i:i+len(want)] != want {
+			continue
+		}
+		if i > 0 && isWordByte(s[i-1]) {
+			continue
+		}
+		if j := i + len(want); j < len(s) && isWordByte(s[j]) {
+			continue
+		}
+		return true
+	}
+	return false
+}
+
+func isWordByte(b byte) bool {
+	return b >= 'a' && b <= 'z' || b >= 'A' && b <= 'Z' || b >= '0' && b <= '9'
+}
+
+// builtinClientRole is the vocabulary the role judgement is made in. Every name here was
+// taken from a call the corpus actually writes, not from a library's documentation.
+func builtinClientRole() ClientRoleRule {
+	return ClientRoleRule{
+		// The option names the two frontends flatten for a request: `query=`, `params=`,
+		// `headers=`, `data=`, `json=`, `body=`, `form=`. A value filed under one of
+		// these is in the request, whoever the request is to.
+		RequestParts: []string{
+			"query", "params", "qs", "searchparams", "search_params",
+			"data", "json", "body", "form", "formdata", "form_data",
+			"headers", "header", "payload", "cookies", "fields",
+		},
+		// The request parts whose name says the value is this program's own credential.
+		// A Stripe secret key travels to Stripe exactly as a Firebase web key travels to
+		// Google; what separates them is that one goes in the Authorization and the
+		// other goes in the query, and the program says which.
+		SecretParts: []string{
+			"secret", "password", "passwd", "pwd", "signature", "sig", "private",
+			"privatekey", "auth", "authorization", "token", "credential", "credentials",
+			"apikey", "api_key", "accesskey", "access_key", "secretkey", "secret_key",
+		},
+		Schemes: []string{"http://", "https://", "ws://", "wss://"},
+		// A serializer, an encoder and the two spellings of a form body. Each of these
+		// returns its argument in a different container and nothing else.
+		Carriers: []string{
+			"json.dumps", "json.stringify", "encode", "decode", "str", "string",
+			"urlencode", "urlencode_postdata", "urlencode_plus", "quote", "quote_plus",
+			"b64encode", "b64decode", "join", "format", "strip", "lower", "upper",
+			"tostring", "buffer.from", "new urlsearchparams", "urlsearchparams",
+		},
+		// Four steps out from the literal. Measured: the deepest real chain in the
+		// corpus is a class constant, read in a method, handed to a helper, serialised,
+		// and posted -- and a fifth step buys nothing but reach into unrelated code.
+		Budget: 4,
+	}
 }
 
 // CallShape is a weakness visible in a call's own arguments, with no dataflow involved.
@@ -6959,6 +7143,36 @@ func builtinDecisions() []DecisionRule {
 			Finding:             "Secret compared in variable time",
 			Reason:              "the comparison stops at the first byte that differs, so how long it takes says how much of the guess was right, and enough guesses recover the whole value",
 			Rationale:           "a value the caller sent as a credential is compared with the language's equality operator",
+		},
+		{
+			// The other half of the rule above, and the reason that one requires a
+			// runtime value on the far side: "comparing a token to a literal is a
+			// presence check, a flag test, or a hardcoded credential, and the last of
+			// those has its own number." This is that number.
+			//
+			// It is the `compares against` half of the credential judgement -- does THIS
+			// program rely on the value being secret? -- and it is stated here rather
+			// than inside the value-shape rules because only a comparison says whose
+			// value is on the other side. A literal measured against something the
+			// program computed for itself is an expected result or a format marker. A
+			// literal measured against what a CALLER sent is the door, and the key to it
+			// is in every clone of the repository.
+			//
+			// Nothing about the literal's shape is examined and nothing needs to be: a
+			// four-character password admits a caller exactly as a forty-character one
+			// does. The empty string is excluded because `token == ""` asks whether
+			// anything arrived, and a value the same caller also sent is excluded
+			// because that is a confirmation field.
+			ID: "credential-admits-caller", Class: "caller-credential",
+			Ops:                 []string{"==", "===", "!=", "!==", "Eq", "NotEq"},
+			OtherIsText:         true,
+			OtherNotAbsent:      true,
+			OtherNotSameClass:   true,
+			RequiresUnprojected: true,
+			CWE:                 "CWE-798",
+			Finding:             "Caller admitted by a credential written into the source",
+			Reason:              "the value that decides whether this caller is let in is in every clone of the repository and stays in its history after it is changed, so nobody can revoke it without shipping a release",
+			Rationale:           "a credential the caller sent is compared against a string written into the source",
 		},
 		{
 			// A digest from a broken algorithm, tested against something. This is where a

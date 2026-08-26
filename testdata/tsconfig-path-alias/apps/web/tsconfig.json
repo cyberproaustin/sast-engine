@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "jsx": "preserve",
+    "allowJs": true,
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./generated/*", "./*"]
+    }
+  },
+  "include": ["**/*.ts", "**/*.tsx"]
+}

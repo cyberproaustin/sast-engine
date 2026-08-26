@@ -288,8 +288,153 @@ function typeRootsFor(rootDir: string): string[] {
   return roots;
 }
 
+// --- tsconfig path aliases ------------------------------------------------
+//
+// `@/lib/api/controllers/links/bulk/deleteLinksById` is neither a package nor a
+// relative path: it is a project's own alias, declared in its `tsconfig.json`, and `@/`
+// is what every Next.js application is scaffolded with. Compiler options that do not
+// carry the declaration resolve the specifier to nothing -- so the call lowers as
+// external, no argument reaches the callee's parameters, and an entire controller layer
+// is unreachable from the routes that call it. Two rules had already been narrowed to
+// work around exactly that: one could not see linkwarden's bulk endpoints at all, and
+// the other could not follow umami's `DOMAIN_REGEX` through `@/lib/constants`.
+//
+// The mapping belongs to a DIRECTORY rather than to a program. A monorepo has one
+// tsconfig per package, `@/` means `apps/web/*` in one of linkwarden's and nothing at
+// all in the next, and a single set of compiler options cannot say both. So the nearest
+// config at or above a file decides how THAT file's specifiers resolve, and a package
+// without a `paths` of its own gets no aliases rather than its neighbour's.
+//
+// The resolver is the compiler's own: `ts.resolveModuleName` given the parsed options.
+// Wildcards, multi-target arrays tried in order, extension probing, `index` files, the
+// `.js`-written-for-a-`.ts`-file substitution and bare non-wildcard mappings for a
+// workspace package are all behaviour it already has, and a second resolver written
+// here would only be a slightly different set of answers to the same question.
+// `ts.parseJsonConfigFileContent` reads the config, which is what follows an `extends`
+// chain and what records the base path a relative `paths` target is resolved against.
+
+/** A tsconfig's resolution options, with the cache that answers repeat lookups. */
+interface AliasProject {
+  options: ts.CompilerOptions;
+  cache: ts.ModuleResolutionCache;
+}
+
+/**
+ * `paths` and `baseUrl` as the compiler itself reads them, including through `extends`.
+ *
+ * Only `compilerOptions` is wanted, so `readDirectory` answers nothing: enumerating the
+ * files an `include` matches is the expensive half of parsing a config -- it globs the
+ * whole subtree -- and the frontend arrives with its own list of files.
+ *
+ * Errors are deliberately not fatal. `"extends": "expo/tsconfig.base"` in a tree with no
+ * node_modules installed is an error and the config still states its own `paths`, which
+ * is the part being read.
+ */
+function aliasOptionsOf(configPath: string): ts.CompilerOptions | undefined {
+  try {
+    const read = ts.readConfigFile(configPath, (p) => ts.sys.readFile(p));
+    if (!read.config) return undefined;
+    const host: ts.ParseConfigHost = {
+      useCaseSensitiveFileNames: ts.sys.useCaseSensitiveFileNames,
+      readDirectory: () => [],
+      fileExists: (p) => ts.sys.fileExists(p),
+      readFile: (p) => ts.sys.readFile(p),
+    };
+    const parsed = ts.parseJsonConfigFileContent(
+      read.config,
+      host,
+      path.dirname(configPath),
+      undefined,
+      configPath,
+    );
+    return parsed.options;
+  } catch {
+    // An unreadable or malformed config is a project that resolves as if it had none.
+    return undefined;
+  }
+}
+
+/**
+ * A compiler host that resolves each file's specifiers under the nearest tsconfig.
+ *
+ * Everything else about it is the host `ts.createProgram` would have built for itself.
+ */
+function aliasResolvingHost(rootDir: string, base: ts.CompilerOptions): ts.CompilerHost {
+  const host = ts.createCompilerHost(base);
+  const root = path.resolve(rootDir);
+  const canonical = (f: string): string => host.getCanonicalFileName(f);
+  const fallback = ts.createModuleResolutionCache(host.getCurrentDirectory(), canonical, base);
+
+  // Directory -> the project governing it, memoized. The walk up is done once per
+  // directory and answers for every file in it; without the memo this is one stat per
+  // ancestor per import in a program with hundreds of thousands of them.
+  const byDirectory = new Map<string, AliasProject | undefined>();
+
+  const projectAt = (configPath: string): AliasProject | undefined => {
+    const options = aliasOptionsOf(configPath);
+    // A config that declares neither is a config with nothing to add: resolution
+    // proceeds on the program's own options, which is what it did before.
+    if (!options?.paths && !options?.baseUrl) return undefined;
+    // The project states where its own names live; everything about HOW to look is the
+    // frontend's, so that one tree's `moduleResolution` cannot change what another
+    // tree's files resolve to.
+    const merged: ts.CompilerOptions = {
+      ...base,
+      baseUrl: options.baseUrl,
+      paths: options.paths,
+      // Set by the config parser when `paths` are declared without a `baseUrl`, and it
+      // is what a relative target is resolved against. Dropping it resolves `./src/*`
+      // against the process working directory, which is nowhere near the tree.
+      pathsBasePath: options.pathsBasePath,
+    };
+    return { options: merged, cache: ts.createModuleResolutionCache(host.getCurrentDirectory(), canonical, merged) };
+  };
+
+  const projectFor = (containingFile: string): AliasProject | undefined => {
+    const file = path.resolve(containingFile);
+    // A declaration file out of node_modules is not part of any project in the tree,
+    // and walking up from one leaves the tree entirely.
+    if (!isUnder(root, file)) return undefined;
+
+    const visited: string[] = [];
+    let found: AliasProject | undefined;
+    for (let dir = path.dirname(file); ; dir = path.dirname(dir)) {
+      if (byDirectory.has(dir)) {
+        found = byDirectory.get(dir);
+        break;
+      }
+      visited.push(dir);
+      const configPath = path.join(dir, "tsconfig.json");
+      if (fs.existsSync(configPath)) {
+        found = projectAt(configPath);
+        break;
+      }
+      // Above the scanned tree as well as inside it: a tree scanned one package at a
+      // time is still governed by the config that declares the package, exactly as
+      // `typeRootsFor` looks upward for the @types it was installed with.
+      if (path.dirname(dir) === dir) break;
+    }
+    for (const dir of visited) byDirectory.set(dir, found);
+    return found;
+  };
+
+  host.resolveModuleNameLiterals = (literals, containingFile, redirectedReference, options, containingSourceFile) => {
+    const project = projectFor(containingFile);
+    const opts = project?.options ?? options;
+    const cache = project?.cache ?? fallback;
+    return literals.map((literal) => {
+      const mode = containingSourceFile
+        ? ts.getModeForUsageLocation(containingSourceFile, literal, opts)
+        : undefined;
+      return ts.resolveModuleName(literal.text, containingFile, opts, host, cache, redirectedReference, mode);
+    });
+  };
+
+  return host;
+}
+
 export function lowerProgram(opts: LowerOptions): IRDoc {
-  const program = ts.createProgram(opts.files, {
+  const compilerOptions: ts.CompilerOptions = {
     target: ts.ScriptTarget.ES2022,
     module: ts.ModuleKind.ESNext,
     moduleResolution: ts.ModuleResolutionKind.Node10,
@@ -302,13 +447,26 @@ export function lowerProgram(opts: LowerOptions): IRDoc {
     // resolves to `any`, and the frontend answers "I don't know" to questions it could
     // have answered — which costs confidence on findings that deserved better.
     typeRoots: typeRootsFor(opts.rootDir),
-  });
+  };
+  const program = ts.createProgram(opts.files, compilerOptions, aliasResolvingHost(opts.rootDir, compilerOptions));
   const checker = program.getTypeChecker();
   const templates = indexTemplates(opts.rootDir);
 
+  // Exactly the files the caller collected, and nothing resolution dragged in behind
+  // them. An alias may name a build directory or a package's shipped ESM -- pdfjs maps
+  // `fluent-bundle` at `./node_modules/@fluent/bundle/esm/index.js` -- and lowering one
+  // reports somebody else's minified or generated code against the project that merely
+  // depends on it. Resolution is for the CHECKER, which is what makes a call into such a
+  // file resolve; what gets lowered stays the caller's decision.
+  const collected = new Set(opts.files.map((f) => path.resolve(f)));
   const sources = program
     .getSourceFiles()
-    .filter((sf) => !sf.isDeclarationFile && isUnder(opts.rootDir, sf.fileName));
+    .filter(
+      (sf) =>
+        !sf.isDeclarationFile &&
+        isUnder(opts.rootDir, sf.fileName) &&
+        collected.has(path.resolve(sf.fileName)),
+    );
   indexRegexConstants(opts.rootDir, sources);
 
   const modules: Module[] = [];
