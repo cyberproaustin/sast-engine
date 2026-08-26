@@ -378,16 +378,36 @@ func TestGatingHasOneDefinition(t *testing.T) {
 	if len(res.Taint.Findings) == 0 {
 		t.Fatal("fixture produced no findings")
 	}
+	// Nothing in this corpus is anchored: it is a module of exported functions with no
+	// route in it, so no finding here is an assertion over an enumerated surface
+	// (ADR-009) and none of them may gate.
 	for _, f := range res.Taint.Findings {
-		if f.DependsOnUse == "" {
-			t.Errorf("%s should carry a reason it never gates", f.SinkLoc)
-		}
 		if res.Gates(f) {
-			t.Errorf("%s gates despite the judgement turning on something unseen", f.SinkLoc)
+			t.Errorf("%s gates despite reaching nothing the engine enumerated", f.SinkLoc)
 		}
 	}
 	if res.Gating() {
 		t.Error("the run gated on findings none of which individually gate")
+	}
+
+	// The OTHER reason a finding does not gate, checked on a corpus that still has one.
+	// weak-crypto used to be it -- a weak hash was reported with a DependsOnUse because
+	// the algorithm's name could not say what the digest was for -- and the engine
+	// decides that one now. A work factor cannot see what it was handed and still
+	// cannot, so the case lives there.
+	kdf := scan.Run(loadIR(t, "express-weak-kdf"), model.Builtin(), nil)
+	unseen := 0
+	for _, f := range kdf.Taint.Findings {
+		if f.DependsOnUse == "" {
+			continue
+		}
+		unseen++
+		if kdf.Gates(f) {
+			t.Errorf("%s gates despite the judgement turning on something unseen", f.SinkLoc)
+		}
+	}
+	if unseen == 0 {
+		t.Fatal("no finding whose judgement turns on something the analysis cannot see; the case this test exists for has gone")
 	}
 }
 

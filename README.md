@@ -314,12 +314,23 @@ way, so `(?:[-_:][a-z]+)*` is silent and `([0-9]+)+` is not.
 
 **Six kinds of judgement, because a weakness is not always a flow.** Taint asks where a
 value came from. Convention asks whether an entry point has what its peers have. A call
-shape asks what a call was written with — `createHash("md5")` is weak wherever it appears
-and nothing has to reach it. A decision asks what a comparison settles. A store asks where
+shape asks what a call was written with — `requests.get(url, verify=False)` turns off
+certificate verification wherever it appears and nothing has to reach it. A decision asks what a comparison settles. A store asks where
 a value was put — `req.session.role = req.body.role` calls nothing and compares nothing. And
 the smallest of them asks nothing at all about context: an RSA private key in a constant is
 not an argument, not a destination, and nothing reaches it. Bending any of these into a
 flow would mean inventing a source for a defect that has none.
+
+**A broken hash is judged by what the digest is asked to establish, not by its name.**
+`hashlib.md5` is the same call whether it builds a cache key or verifies a signature, and
+a rule that matched the algorithm produced 42 findings across ten production repositories
+of which an independent reader judged 39 worthless — rate-limit bucket keys, a Wikimedia
+directory path, an ETag, and twenty-six request signatures a remote site's own protocol
+demands in MD5. The call is a classification now, like a fast random number or a value
+read off the clock, and the finding lands where the digest is trusted: at a comparison, at
+a verification call, or in the field a later login is checked against. A digest that only
+ever becomes a URL, a filename or a key decides nothing here, whoever else reads it — and
+the engine says so by being silent rather than by printing a caveat.
 
 **An absence can be the defect, and it is held to a harder standard than a presence.**
 Installing an identity into a session is what every login does; doing it without rotating

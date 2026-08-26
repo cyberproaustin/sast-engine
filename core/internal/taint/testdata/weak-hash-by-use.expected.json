@@ -1,0 +1,38 @@
+{
+  "corpus": "weak-hash-by-use",
+  "description": "One broken algorithm, seven uses, and only the uses differ. Every digest here is MD5 or SHA-1 and every one is written the same way, so a rule that matched the ALGORITHM reported all seven -- which is what it did across ten production repositories, 42 findings of which an independent reader judged 39 worthless. What this corpus proves is that the difference is decidable and lives on the next line: three digests are ESTABLISHED BY and are findings -- one verified with hmac.compare_digest, one compared against a recorded digest, one written into the field a later login is checked against -- and four are labels and are silent: a rate-limit bucket key (the shape healthchecks writes five times), a cache key, a filename, and the Gravatar URL whose protocol requires MD5. The two spellings are both exercised, `hashlib.md5` and `hashlib.new(\"md5\")`, on both sides of the judgement, so nothing here turns on how the algorithm was named. The password store also produces CWE-759 from a different rule and the fixture asserts it, because a corpus that hid it would be asserting the absence of a finding that is there.",
+  "expected": [
+    {
+      "cwe": "CWE-328",
+      "sinkFile": "app.py",
+      "sinkLine": 43,
+      "sourceLabel": "hashlib.md5()",
+      "confidence": "low",
+      "note": "a signature the program verifies. compare_digest is the careful way to write the comparison and is still where the digest is believed, so a rule watching only the == operator would go quiet where the author took more care. Low confidence because the path crosses .hexdigest(), which this frontend cannot resolve (ADR-005) -- the judgement is certain and the call graph is not"
+    },
+    {
+      "cwe": "CWE-328",
+      "sinkFile": "app.py",
+      "sinkLine": 54,
+      "sourceLabel": "hashlib.md5()",
+      "confidence": "high",
+      "note": "a computed digest against a recorded one: the plainest form of the judgement, and the finding lands at the comparison because that is the line that decides"
+    },
+    {
+      "cwe": "CWE-328",
+      "sinkFile": "store.py",
+      "sinkLine": 22,
+      "sourceLabel": "hashlib.new(\"md5\")",
+      "confidence": "high",
+      "note": "the comparison this loses to happens in a later request, so there is no flow to follow and none is needed -- the write says that this digest is what the password now is"
+    },
+    {
+      "cwe": "CWE-759",
+      "sinkFile": "store.py",
+      "sinkLine": 22,
+      "sourceLabel": "flask.request.form.password",
+      "confidence": "medium",
+      "note": "a different rule on the same line, and both are true: the algorithm is broken AND the hash takes no salt"
+    }
+  ]
+}

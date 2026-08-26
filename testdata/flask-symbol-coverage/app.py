@@ -65,12 +65,14 @@ def render():
 
 @app.route("/digest")
 def digest():
-    # POSITIVE, and a gap this file found rather than exercised. The weak-hash rules
-    # covered `hashlib.new("sha1")` and `crypto.createHash("sha1")` and nothing else, so
-    # the direct form -- the spelling in every Python tutorial ever written -- was not
-    # reported at all. The algorithm is named just as plainly; it is the function rather
-    # than a string.
-    return hashlib.sha1(b"fixed").hexdigest()
+    # POSITIVE. The direct form of a weak hash -- the spelling in every Python tutorial
+    # ever written, and the one the named-algorithm rules never covered. It is a finding
+    # because the digest DECIDES something: it is compared against a recorded digest,
+    # which is the program saying that the digest stands in for the bytes. Nothing about
+    # the call changed; what changed is that there is now a second line to read.
+    if hashlib.sha1(b"fixed").hexdigest() == "0beec7b5ea3f0fdbc95d0dd47f3c5bc275da8a33":
+        return "ok"
+    return "no"
 
 
 @app.route("/subscribe", methods=["POST"])
