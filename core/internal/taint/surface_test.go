@@ -81,6 +81,68 @@ func TestSurfaceEnumeratesEntryPointsAndControls(t *testing.T) {
 	}
 }
 
+// Provenance changes the population and rank, never whether source was analyzed.
+// jupyterhub's nine example routes made a zero-coverage run read partly successful;
+// uptime-kuma's checked-in protocol package put upstream crypto beside application
+// findings. The fixture holds both sides so removing either is a regression.
+func TestNonFirstPartyCodeIsReportedOutsideTheApplicationSurface(t *testing.T) {
+	res := runScan(t, "non-first-party-code")
+
+	if got := len(res.Surface.Entries); got != 3 {
+		t.Fatalf("application surface has %d entries, want 3", got)
+	}
+	if got := len(res.Surface.NonApplicationEntries); got != 5 {
+		t.Fatalf("non-application surface has %d entries, want 5", got)
+	}
+
+	wantOrigin := map[string]ir.Provenance{
+		"examples/demo.ts":                 ir.Example,
+		"generated/table.ts":               ir.Generated,
+		"nested-package/index.ts":          ir.Vendored,
+		"server/modules/licensed/index.ts": ir.Vendored,
+		"server/modules/modified/index.ts": ir.Vendored,
+		"vendor/library.ts":                ir.Vendored,
+	}
+	gating := 0
+	seen := map[string]bool{}
+	for _, finding := range res.Taint.Findings {
+		seen[finding.SinkLoc.File] = true
+		if got, want := finding.Provenance, wantOrigin[finding.SinkLoc.File]; got != want {
+			t.Errorf("%s provenance = %q, want %q", finding.SinkLoc.File, got, want)
+		}
+		if res.Gates(finding) {
+			gating++
+		}
+	}
+	if len(seen) != 8 {
+		t.Errorf("reported findings from %d modules, want all 8", len(seen))
+	}
+	if gating != 2 {
+		t.Errorf("%d findings gate, want only the two hand-written application findings", gating)
+	}
+	if got := res.Surface.Completeness.InputFunctions; got != 1 {
+		t.Errorf("completeness counted %d input-reading functions, want only the application function", got)
+	}
+
+	// Recreate the failure mode: the frontend saw an example registration and none of
+	// the application's. Its presence must not turn zero application routes into one.
+	doc := loadCorpusIR(t, "non-first-party-code")
+	var examples []ir.EntryPoint
+	for _, entry := range doc.EntryPoints {
+		if strings.HasPrefix(entry.Loc.File, "examples/") {
+			examples = append(examples, entry)
+		}
+	}
+	doc.EntryPoints = examples
+	exampleOnly := buildSurface(t, doc, model.Builtin())
+	if len(exampleOnly.Entries) != 0 {
+		t.Errorf("example-only program claims %d application entry points", len(exampleOnly.Entries))
+	}
+	if !exampleOnly.Completeness.Suspect(len(exampleOnly.Entries)) {
+		t.Errorf("example-only surface is not suspect: %+v", exampleOnly.Completeness)
+	}
+}
+
 // The other Next.js router, whose files name a path and no verb at all.
 //
 // Nothing here is registered and nothing names a method, so the whole surface is derived:
