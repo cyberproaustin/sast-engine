@@ -1,0 +1,46 @@
+{
+  "corpus": "cipher-mode-decides-the-iv",
+  "description": "Four false findings from matching argument POSITIONS without knowing the construction. `createCipheriv(alg, key, iv)` holds an initialisation vector in the third slot in every mode that has one and holds nothing in ECB, which has none -- Node still requires the argument and an empty string is the ordinary way to write it -- so reading the third argument without the first judges an argument whose meaning has not been established. An NTLM implementation's `createCipheriv(\"DES-ECB\", key, \"\")` was reported as a predictable IV on a line whose real weakness, single-DES in ECB, was already being reported correctly one rule over: the finding was pure duplication of a true statement plus a false one. The mode test is written as a VETO on ECB and not as a list of the modes that take an IV, which `/store-configured` is the proof of: an algorithm that is a configuration value cannot be read, the IV is still written down, and trading four false findings for an unknown number of silences is not a precision fix. The same mistake lives in the other construction and the last two routes hold it: `createHmac(\"md5\", key)` is not `createHash(\"md5\")`, because what makes an HMAC sound is the key rather than the hash's collision resistance and HMAC-MD5 has no practical forgery -- while an unkeyed MD5 handed to a verification call is the program saying in its own code that a digest is standing in for what it was computed from.",
+  "expected": [
+    {
+      "cwe": "CWE-327",
+      "sinkFile": "app.js",
+      "sinkLine": 29,
+      "sourceLabel": "\"DES-ECB\"",
+      "confidence": "high",
+      "note": "the true statement about the NTLM line, made by a rule that reads argument ZERO. It was always being emitted; the IV finding beside it was the duplication"
+    },
+    {
+      "cwe": "CWE-329",
+      "sinkFile": "app.js",
+      "sinkLine": 36,
+      "sourceLabel": "\"0123456789abcdef\"",
+      "confidence": "high",
+      "note": "CBC takes an IV and this one is written down, so it is both predictable and the same for every message. The rule must not have been weakened into silence"
+    },
+    {
+      "cwe": "CWE-329",
+      "sinkFile": "app.js",
+      "sinkLine": 45,
+      "sourceLabel": "\"0123456789abcdef\"",
+      "confidence": "high",
+      "note": "the algorithm cannot be read and the IV can. An argument nobody wrote down disqualifies nothing -- this is what the veto's defeasibility buys"
+    },
+    {
+      "cwe": "CWE-327",
+      "sinkFile": "app.js",
+      "sinkLine": 51,
+      "sourceLabel": "\"aes-256-ecb\"",
+      "confidence": "high",
+      "note": "ECB is the finding wherever it appears, and this line proves the IV rule stays silent on it even when the third argument is spelled `null` rather than empty"
+    },
+    {
+      "cwe": "CWE-328",
+      "sinkFile": "app.js",
+      "sinkLine": 70,
+      "sourceLabel": "crypto.createHash(\"md5\")",
+      "confidence": "medium",
+      "note": "the contrast that makes the HMAC negative a judgement rather than an exemption: an unkeyed digest handed to a verification call is being trusted to stand in for its input, which is the one job that needs collision resistance"
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.14.0",
+  "irVersion": "0.15.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -373,7 +373,8 @@
             },
             {
               "index": 1,
-              "valueId": "admin.py#<module>:0:0$v13"
+              "valueId": "admin.py#<module>:0:0$v13",
+              "functionId": "front/views.py#index:17:1"
             }
           ],
           "resultValueId": "admin.py#<module>:0:0$v15",
@@ -921,7 +922,8 @@
             },
             {
               "index": 1,
-              "valueId": "api/urls.py#<module>:0:0$v4"
+              "valueId": "api/urls.py#<module>:0:0$v4",
+              "functionId": "api/views.py#checks:7:1"
             }
           ],
           "resultValueId": "api/urls.py#<module>:0:0$v5",
@@ -953,7 +955,8 @@
             },
             {
               "index": 1,
-              "valueId": "api/urls.py#<module>:0:0$v7"
+              "valueId": "api/urls.py#<module>:0:0$v7",
+              "functionId": "api/views.py#flips:12:1"
             }
           ],
           "resultValueId": "api/urls.py#<module>:0:0$v8",
@@ -985,7 +988,8 @@
             },
             {
               "index": 1,
-              "valueId": "api/urls.py#<module>:0:0$v10"
+              "valueId": "api/urls.py#<module>:0:0$v10",
+              "functionId": "api/views.py#ping:19:1"
             }
           ],
           "resultValueId": "api/urls.py#<module>:0:0$v11",
@@ -4036,7 +4040,8 @@
             },
             {
               "index": 1,
-              "valueId": "tests/test_urls.py#<module>:0:0$v4"
+              "valueId": "tests/test_urls.py#<module>:0:0$v4",
+              "functionId": "front/views.py#check_log:22:1"
             }
           ],
           "resultValueId": "tests/test_urls.py#<module>:0:0$v5",
@@ -4798,7 +4803,8 @@
             },
             {
               "index": 1,
-              "valueId": "urls.py#<module>:0:0$v10"
+              "valueId": "urls.py#<module>:0:0$v10",
+              "functionId": "front/views.py#check_log:22:1"
             }
           ],
           "resultValueId": "urls.py#<module>:0:0$v11",
@@ -4830,7 +4836,8 @@
             },
             {
               "index": 1,
-              "valueId": "urls.py#<module>:0:0$v13"
+              "valueId": "urls.py#<module>:0:0$v13",
+              "functionId": "front/views.py#check_ping:30:1"
             }
           ],
           "resultValueId": "urls.py#<module>:0:0$v14",
@@ -4862,7 +4869,8 @@
             },
             {
               "index": 1,
-              "valueId": "urls.py#<module>:0:0$v18"
+              "valueId": "urls.py#<module>:0:0$v18",
+              "functionId": "front/views.py#index:17:1"
             }
           ],
           "resultValueId": "urls.py#<module>:0:0$v19",
@@ -5004,7 +5012,8 @@
             },
             {
               "index": 1,
-              "valueId": "urls.py#<module>:0:0$v28"
+              "valueId": "urls.py#<module>:0:0$v28",
+              "functionId": "front/views.py#badge:35:1"
             }
           ],
           "resultValueId": "urls.py#<module>:0:0$v29",

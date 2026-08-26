@@ -39,6 +39,11 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 	stops := neverReturns(d)
 
 	var out []taint.Finding
+	for _, rule := range m.Guards {
+		if len(rule.Checks) > 0 {
+			out = append(out, siblingDifferential(ix, d, rule)...)
+		}
+	}
 	for _, fn := range d.Functions {
 		g := cfg.Build(fn)
 		if g == nil {
@@ -56,6 +61,9 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 		}
 
 		for _, rule := range m.Guards {
+			if len(rule.Checks) > 0 {
+				continue
+			}
 			if len(rule.Constructs) > 0 {
 				out = append(out, discardedConstruction(ix, fn, rule)...)
 				continue
@@ -148,11 +156,23 @@ func repeatingCallback(ix *ir.Index, fn *ir.Function, c *ir.Call, rule model.Gua
 // Nothing about a status, a name or a keyword is read. Two calls to one constructor,
 // one kept and one dropped, is the whole of the evidence.
 func discardedConstruction(ix *ir.Index, fn *ir.Function, rule model.GuardRule) []taint.Finding {
+	handed := map[string]bool{}
+	for _, p := range fn.Params {
+		handed[p.ValueID] = true
+	}
 	var built []*ir.Call
 	for _, c := range fn.Calls {
-		if c.ResultID != "" && matchesName(lastSegment(c.Callee.Symbol), c.Method, rule.Constructs) {
-			built = append(built, c)
+		if c.ResultID == "" || !matchesName(lastSegment(c.Callee.Symbol), c.Method, rule.Constructs) {
+			continue
 		}
+		// A response the function was HANDED is one it sends on. `res.redirect(url)`
+		// answers the request where `flask.redirect(url)` merely builds an answer, and
+		// the two are one word apart -- the receiver is the whole of the difference, and
+		// without this the rule would report the ordinary spelling of an Express handler.
+		if handed[c.ReceiverID] {
+			continue
+		}
+		built = append(built, c)
 	}
 	if len(built) < 2 {
 		return nil
@@ -246,6 +266,7 @@ func discardFinding(ix *ir.Index, fn *ir.Function, dropped, kept *ir.Call, rule 
 		Confidence:    taint.High,
 		EntryAnchored: true,
 		EntryPoint:    entryAbove(ix, parents(ix), fn),
+		SinkArgIndex:  -1,
 	}
 }
 

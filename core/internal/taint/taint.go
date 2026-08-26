@@ -48,8 +48,26 @@ func (c Confidence) Gating() bool { return c == High }
 //
 // Deliberately not folded into scan.Result.Gates: a finding that a baseline already knows
 // is still an error, because a baseline is a record and not a suppression (ADR-014).
+//
+// Trust joins the list for the same reason test modules and provenance are on it. A
+// management command interpolating its own argument into a shell, and a process start
+// reading its own environment, are true statements about code that only somebody who
+// already has the host can reach; failing a build on them would say a stranger can do
+// this, which is not what the engine found. They remain reported, at warning, exactly as
+// a vendored finding does -- and a scheduled job reading a column an HTTP request wrote
+// still gates, because the trust travels with the SOURCE and that source is remote.
 func (f Finding) Actionable() bool {
-	return f.EntryAnchored && f.DependsOnUse == "" && !f.InTestModule && f.Provenance == "" && f.Confidence.Gating()
+	return f.EntryAnchored && f.DependsOnUse == "" && !f.InTestModule && f.Provenance == "" &&
+		f.SourceTrust() == ir.Remote && f.Confidence.Gating()
+}
+
+// SourceTrust is who could cause this finding's value to enter the program, reading an
+// unstated trust as remote.
+func (f Finding) SourceTrust() ir.Trust {
+	if f.EntryTrust == "" {
+		return ir.Remote
+	}
+	return f.EntryTrust
 }
 
 // Hop is one step of the evidence path.
@@ -222,6 +240,18 @@ type Finding struct {
 	// actually enumerated. An unanchored finding is not an assertion over the
 	// surface (ADR-009): it is reported, but it never gates.
 	EntryAnchored bool
+	// EntryTrust is who could cause this value to enter the program: a remote caller,
+	// an operator with a shell, or nothing outside the process at all.
+	//
+	// It is the SOURCE's trust, not the sink's, because that is the question a reader
+	// is actually asking -- "can a stranger do this to me?" A cron job reading a column
+	// an HTTP request wrote is carrying a remote caller's value, and a management
+	// command interpolating its own argument into a shell is not, however identical the
+	// two sinks look.
+	//
+	// Empty means remote, which is what every entry point was before there was anything
+	// but a route. An engine must not become quieter because a frontend went silent.
+	EntryTrust ir.Trust
 	// InTestModule marks a finding in code that ships with the repository but does not
 	// run in production. Reported, never gating: a key written into a test is in the
 	// history exactly as the reason says and is still not a production credential.
@@ -316,6 +346,8 @@ type Origin struct {
 	Method     string
 	Path       string
 	Anchored   bool
+	// Trust is who could reach the entry point this value entered through.
+	Trust ir.Trust
 }
 
 // SkippedPolicy is a judgement the engine declined to make.
@@ -412,6 +444,13 @@ type seed struct {
 	// identityInjected records whether the framework handed this entry point the
 	// caller's identity as a parameter. A reported fact, never a gate.
 	identityInjected bool
+	// trust is who could cause this value to enter the program.
+	//
+	// It travels with the SOURCE rather than with the sink, which is the only reading
+	// that survives a second-order flow: a cron job reading a column an HTTP request
+	// wrote is carrying a remote caller's value however internal the job is, and a
+	// process start reading its own environment is not, however alarming the sink.
+	trust ir.Trust
 }
 
 // Analyze runs source-to-sink taint propagation over a lowered program.
@@ -482,6 +521,7 @@ func Analyze(d *ir.IR, m model.Model) Result {
 				Method:     sd.method,
 				Path:       sd.path,
 				Anchored:   sd.anchored,
+				Trust:      sd.trust,
 			}
 		}
 		// Recorded for EVERY value carrying the class, not just the seeds.
@@ -673,6 +713,9 @@ type storeWrite struct {
 	path       string
 	loc        ir.Loc
 	fields     []string
+	// trust is who reached the WRITE. A row a remote caller filled in stays a remote
+	// caller's however the reader is triggered.
+	trust ir.Trust
 }
 
 // seedByStoreRead marks what a lookup ANSWERED WITH, for a store some entry point writes
@@ -739,6 +782,9 @@ func (e *engine) seedByStoreRead(rule model.SourceRule, prior map[string]*engine
 			prev, seen := written[name]
 			if !seen {
 				site := storeWrite{entryPoint: entry, loc: c.Loc, fields: fields}
+				if ep, ok := EntryOf(e.ix, fn); ok {
+					site.trust = ep.TrustLevel()
+				}
 				if ep, ok := e.ix.EntryByFunc[fn.ID]; ok {
 					site.method, site.path = ep.Detail["method"], ep.Detail["path"]
 				}
@@ -779,7 +825,9 @@ func (e *engine) seedByStoreRead(rule model.SourceRule, prior map[string]*engine
 				continue
 			}
 			label := fmt.Sprintf("the %s store, written by %s", name, describeWriter(w))
-			sd := seed{label: label, entryPoint: entry, anchored: anchored, loc: c.Loc}
+			// The WRITER's trust, not the reader's: this value is whatever the caller
+			// who stored it was.
+			sd := seed{label: label, entryPoint: entry, anchored: anchored, loc: c.Loc, trust: w.trust}
 			if ep, ok := EntryOf(e.ix, fn); ok {
 				sd.unresolvedInputs = ep.UnresolvedParams
 				sd.identityInjected = injectsIdentity(e.ix, ep)
@@ -884,6 +932,7 @@ func (e *engine) seedByEntryCallProperty(rule model.SourceRule) {
 				unresolvedInputs: ep.UnresolvedParams,
 				loc:              ep.Loc,
 				identityInjected: injectsIdentity(e.ix, &ep),
+				trust:            ep.TrustLevel(),
 			}
 			e.markTainted(v.ID, edge{
 				desc:       fmt.Sprintf("source: %s (%s)", label, e.class.Label),
@@ -911,6 +960,7 @@ func (e *engine) seedByValueKind(rule model.SourceRule) {
 			if ep, ok := EntryOf(e.ix, fn); ok {
 				sd.unresolvedInputs, sd.loc = ep.UnresolvedParams, ep.Loc
 				sd.identityInjected = injectsIdentity(e.ix, ep)
+				sd.trust = ep.TrustLevel()
 			}
 			e.seeds[v.ID] = sd
 			if ep, ok := e.ix.EntryByFunc[fn.ID]; ok {
@@ -1014,6 +1064,7 @@ func (e *engine) seedByCallResult(rule model.SourceRule) {
 			if ep, ok := EntryOf(e.ix, fn); ok {
 				sd.unresolvedInputs, sd.loc = ep.UnresolvedParams, ep.Loc
 				sd.identityInjected = injectsIdentity(e.ix, ep)
+				sd.trust = ep.TrustLevel()
 			}
 			if ep, ok := e.ix.EntryByFunc[fn.ID]; ok {
 				sd.method, sd.path = ep.Detail["method"], ep.Detail["path"]
@@ -1077,6 +1128,7 @@ func (e *engine) seedByGlobalProperty(rule model.SourceRule) {
 			if ep, ok := EntryOf(e.ix, fn); ok {
 				sd.unresolvedInputs, sd.loc = ep.UnresolvedParams, ep.Loc
 				sd.identityInjected = injectsIdentity(e.ix, ep)
+				sd.trust = ep.TrustLevel()
 			}
 			e.seeds[v.ID] = sd
 			if ep, ok := e.ix.EntryByFunc[fn.ID]; ok {
@@ -1132,6 +1184,7 @@ func (e *engine) seedByEntryParamProperty(rule model.SourceRule) {
 					unresolvedInputs: ep.UnresolvedParams,
 					loc:              ep.Loc,
 					identityInjected: injectsIdentity(e.ix, &ep),
+					trust:            ep.TrustLevel(),
 				}
 				e.markTainted(v.ID, edge{
 					desc:       fmt.Sprintf("source: %s (%s)", label, e.class.Label),
@@ -1873,7 +1926,11 @@ func EntryOf(ix *ir.Index, fn *ir.Function) (*ir.EntryPoint, bool) {
 	for len(queue) > 0 {
 		id := queue[0]
 		queue = queue[1:]
-		for _, site := range ix.CallSitesOf[id] {
+		// Called here, or HANDED to something here. Both are ways this function is
+		// reached from the function that holds the site, and ReachableFrom has counted
+		// both since it existed -- so a walk upward that counted only the first
+		// disagreed with the walk downward about which code the surface accounts for.
+		for _, site := range append(append([]*ir.Call{}, ix.CallSitesOf[id]...), ix.PassedAt[id]...) {
 			caller := ix.OwnerOfCall[site.ID]
 			if caller == nil || seen[caller.ID] {
 				continue
@@ -2165,6 +2222,7 @@ func (e *engine) buildFinding(c *ir.Call, ch model.Channel, p model.Policy, arg 
 		EntryMethod:   sd.method,
 		EntryPath:     sd.path,
 		EntryAnchored: sd.anchored,
+		EntryTrust:    sd.trust,
 		EntryHasNoInjectedIdentity: sd.anchored && !sd.identityInjected && e.programInjects &&
 			p.RequiresRelationTo == e.m.IdentityClass(),
 		SinkLoc: c.Loc,
@@ -2401,6 +2459,19 @@ func describeEntry(ep ir.EntryPoint) string {
 		parts = append(parts, p)
 	}
 	desc := strings.Join(parts, " ")
+	// An entry point that is not a route has no method and no path, and its KIND alone
+	// makes every one of them read the same. Whichever detail names this particular
+	// registration -- the command an operator types, the event a bus delivers, the
+	// schedule a timer keeps, the module a process starts in -- is what a reader needs
+	// to find it, and it is the only thing distinguishing seventeen sibling jobs.
+	if desc == "" {
+		for _, key := range []string{"command", "event", "schedule", "trigger", "start"} {
+			if v := ep.Detail[key]; v != "" {
+				desc = ep.Kind + " " + v
+				break
+			}
+		}
+	}
 	if desc == "" {
 		desc = ep.Kind
 	}

@@ -1,0 +1,14 @@
+{
+  "corpus": "msw-not-express",
+  "description": "Routes reported that are not routes. `http.post(\"/api/drive/files\", async ({ request }) => ...)` is the same four tokens as an Express registration -- an identifier, a verb, a path literal, a function -- and it means the opposite: the handler answers a fetch the browser makes to itself while a component story runs. One production repository contributed 58 of these to a surface of 141, so 41% of what the engine claimed the application answered was a Storybook mock, and the receiver is called `http`, which is exactly the case no type resolution was ever going to decide. Over-reporting the surface is worse than under-reporting it (ADR-009): the surface is the primary output and a phantom route makes every count downstream a lie. Two negatives are cheap and decisive and both are here -- the import (`msw` and its subpaths) and the file (`*.stories.*`, `.storybook/`) -- because a story that pulls its handlers out of a shared module imports nothing from `msw` at all. The exclusion is per IDENTIFIER, which `api.ts` is the proof of: one module mocks one API and serves another, and only the name the mock library handed it is barred. The other three registrations must survive, including the two on receivers nothing can type -- a Fastify parameter and a router passed into a module -- because dropping a real route trades one wrong number for another. The surface itself is asserted in `entrypoint_metadata_test.go`; the finding below says the routes that survive are still analysed.",
+  "expected": [
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "app.js",
+      "sinkLine": 12,
+      "sourceLabel": "req.body.name",
+      "confidence": "high",
+      "note": "the surviving Express route, analysed exactly as before. A mock exclusion that also quietened real registrations would show up here"
+    }
+  ]
+}

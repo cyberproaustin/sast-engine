@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.14.0",
+  "irVersion": "0.15.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -440,10 +440,26 @@
         "line": 34,
         "column": 1
       },
-      "params": [],
+      "params": [
+        {
+          "index": 0,
+          "name": "kwargs",
+          "valueId": "app.py#cache_key:34:1$v0"
+        }
+      ],
       "values": [
         {
           "id": "app.py#cache_key:34:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 17
+          },
+          "name": "kwargs"
+        },
+        {
+          "id": "app.py#cache_key:34:1$v1",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -453,7 +469,7 @@
           "name": "kwargs.copy"
         },
         {
-          "id": "app.py#cache_key:34:1$v1",
+          "id": "app.py#cache_key:34:1$v2",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -463,7 +479,7 @@
           "name": "key"
         },
         {
-          "id": "app.py#cache_key:34:1$v2",
+          "id": "app.py#cache_key:34:1$v3",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -473,19 +489,19 @@
           "name": "flask.request"
         },
         {
-          "id": "app.py#cache_key:34:1$v3",
+          "id": "app.py#cache_key:34:1$v4",
           "kind": "property",
           "loc": {
             "file": "app.py",
             "line": 37,
             "column": 16
           },
-          "base": "app.py#cache_key:34:1$v2",
+          "base": "app.py#cache_key:34:1$v3",
           "path": "args",
           "name": "args"
         },
         {
-          "id": "app.py#cache_key:34:1$v4",
+          "id": "app.py#cache_key:34:1$v5",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -497,8 +513,8 @@
       ],
       "flows": [
         {
-          "from": "app.py#cache_key:34:1$v0",
-          "to": "app.py#cache_key:34:1$v1",
+          "from": "app.py#cache_key:34:1$v1",
+          "to": "app.py#cache_key:34:1$v2",
           "kind": "assign",
           "loc": {
             "file": "app.py",
@@ -508,8 +524,8 @@
           "block": "app.py#cache_key:34:1$b0"
         },
         {
-          "from": "app.py#cache_key:34:1$v2",
-          "to": "app.py#cache_key:34:1$v3",
+          "from": "app.py#cache_key:34:1$v3",
+          "to": "app.py#cache_key:34:1$v4",
           "kind": "property",
           "loc": {
             "file": "app.py",
@@ -533,14 +549,15 @@
             "resolution": "probable"
           },
           "args": [],
-          "resultValueId": "app.py#cache_key:34:1$v0",
+          "resultValueId": "app.py#cache_key:34:1$v1",
           "block": "app.py#cache_key:34:1$b0",
           "method": "copy",
           "enumeratedOptions": [
             -1
           ],
           "receiverType": "dict",
-          "receiverTypeOrigin": "builtin"
+          "receiverTypeOrigin": "builtin",
+          "receiverValueId": "app.py#cache_key:34:1$v0"
         },
         {
           "id": "app.py#cache_key:34:1$c1",
@@ -557,10 +574,10 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#cache_key:34:1$v3"
+              "valueId": "app.py#cache_key:34:1$v4"
             }
           ],
-          "resultValueId": "app.py#cache_key:34:1$v4",
+          "resultValueId": "app.py#cache_key:34:1$v5",
           "block": "app.py#cache_key:34:1$b0",
           "method": "update",
           "argCount": 1,
@@ -569,11 +586,11 @@
           ],
           "receiverType": "dict",
           "receiverTypeOrigin": "builtin",
-          "receiverValueId": "app.py#cache_key:34:1$v1"
+          "receiverValueId": "app.py#cache_key:34:1$v2"
         }
       ],
       "returns": [
-        "app.py#cache_key:34:1$v1"
+        "app.py#cache_key:34:1$v2"
       ],
       "comparisons": [],
       "writes": [],

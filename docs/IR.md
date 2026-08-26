@@ -343,8 +343,42 @@ without a core change.
 }
 ```
 
-Known kinds today: `http-route`. Reserved by convention: `server-action`,
-`queue-consumer`, `cli`, `event-handler`.
+Known kinds today: `http-route`, `scheduled-job`, `event-consumer`, `cli-command`,
+`process-start`. Reserved by convention: `server-action`, `queue-consumer`.
+
+### `trust` (added in 0.15.0)
+
+Who can cause this entry point to run. **Absent means `remote`**, which is the
+conservative reading and the one every entry point had before there was anything but a
+route: a frontend that says nothing must not make the core quieter.
+
+| value | meaning |
+| --- | --- |
+| `remote` | anything that can reach the service. An HTTP route. |
+| `operator` | someone who can already run a command on the host or start the process. A management command's arguments, a process's configuration and environment. |
+| `internal` | nothing outside the process triggers it. A timer fires it, or an in-process bus delivers to it. |
+
+The surface stopped being all one kind the moment anything but a route was enumerated,
+and a cron job is not an anonymous request. The frontend states which it is and the core
+decides what it means — the same division `provenance` and `isTest` already draw. A
+finding's rank follows the trust of the **source**, not of the entry point holding the
+sink: a scheduled job reading a column an HTTP request wrote is carrying a remote
+caller's value, and a management command interpolating its own argument into a shell is
+not.
+
+```jsonc
+{ "functionId": "server/jobs.js#clearOldData:4", "kind": "scheduled-job",
+  "trust": "internal", "detail": { "trigger": "Cron", "schedule": "14 03 * * *" } }
+{ "functionId": "hc/api/management/commands/smtpd.py#handle:154:5", "kind": "cli-command",
+  "framework": "django", "trust": "operator",
+  "detail": { "command": "smtpd", "class": "Command", "arguments": "host port" } }
+{ "functionId": "jupyterhub/app.py#<module>:0:0", "kind": "process-start",
+  "trust": "operator", "detail": { "start": "__main__ guard" } }
+```
+
+An entry point that is not a route carries no `method` and no `path`, so `detail` names
+it some other way — `command`, `event`, `schedule`, `trigger`, `start` — and a reader
+and the core both use whichever is present.
 
 ### `middleware` (added in 0.3.0)
 

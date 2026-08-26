@@ -151,3 +151,49 @@ func contains(haystack []string, want string) bool {
 	}
 	return false
 }
+
+// A registration that is not a registration.
+//
+// `http.post("/api/drive/files", handler)` from Mock Service Worker is an identifier, a
+// verb, a path literal and a function -- the same four tokens an Express route is
+// written with -- and it answers a fetch the browser makes to itself inside a component
+// story. 58 of one repository's 141 entry points were these, so 41% of the surface the
+// engine claimed the application answered was a Storybook mock, and the receiver is
+// called `http`: exactly the case where a resolved type was never going to arrive.
+//
+// The assertion is on the SURFACE because that is what was wrong. Over-reporting it is
+// worse than under-reporting it (ADR-009), so the other half of this test matters just
+// as much: three registrations survive, two of them on receivers nothing can type.
+func TestMockHandlersAreNotRoutes(t *testing.T) {
+	assertRoutes(t, "msw-not-express", []string{
+		// The application, on a binding watched being created.
+		"express POST /users",
+		// One module that mocks one API and serves another: the exclusion is per
+		// identifier, and `app` is not the identifier the mock library handed it.
+		"express GET /health",
+		// A router that arrives as a parameter. There is no binding to find and the
+		// shape is the evidence -- still a route, and dropping it would trade one wrong
+		// number for another.
+		"express POST /things",
+		// A Fastify registration on an untyped receiver. It answers requests, so it is
+		// enumerated. That it is LABELLED express is a separate defect about metadata,
+		// recorded here rather than quietly asserted as correct.
+		"express GET /status",
+	})
+
+	// Named individually, because "four entry points" is a count and the thing that was
+	// wrong was WHICH four.
+	for _, ep := range loadCorpusIR(t, "msw-not-express").EntryPoints {
+		if strings.Contains(ep.FunctionID, "mocks.ts") {
+			t.Errorf("an msw handler is enumerated as a route: %s %s",
+				ep.Detail["method"], ep.Detail["path"])
+		}
+		if strings.Contains(ep.FunctionID, ".stories.") {
+			t.Errorf("a story's handler is enumerated as a route: %s %s",
+				ep.Detail["method"], ep.Detail["path"])
+		}
+		if ep.Detail["path"] == "/api/meta" {
+			t.Error("the msw handler in a module that also serves routes was admitted with them")
+		}
+	}
+}

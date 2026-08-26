@@ -1,0 +1,22 @@
+{
+  "corpus": "literal-return-summary",
+  "description": "A value that cannot be caller-controlled must not carry taint. Where every return of a resolved function is a string written in the source -- a fixed-error helper, a suffix-to-mime chain, a ternary over two names -- the call's result is a constant set whatever it was handed, and a caller who sends a line break gets one of those constants back. The engine already reaches this answer, and it reaches it the honest way rather than by a summary bolted on top: a literal is never a tainted value, so a function that returns only literals has nothing tainted to return and its callers receive nothing. This corpus exists to hold that property still, because the way it would break is silent -- and because the two negatives are the whole risk in the idea. `describePath` returns a literal on one path and interpolates its parameter on the other, which is exactly the shape a summary that said `mostly literals` would silence; `storedName` returns a literal on one path and a value read out of a store on the other. Both are reported. Three positives-turned-silent above them would each have been a false finding, and the four this shape produced in one production repository were 36% of that run's false positives.",
+  "expected": [
+    {
+      "cwe": "CWE-93",
+      "sinkFile": "app.js",
+      "sinkLine": 47,
+      "sourceLabel": "req.query.file",
+      "confidence": "medium",
+      "note": "`describePath` returns a literal on one path and interpolates the parameter on the other. Every return means EVERY return: this must survive"
+    },
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "app.js",
+      "sinkLine": 48,
+      "sourceLabel": "req.query.id",
+      "confidence": "medium",
+      "note": "`storedName` returns a literal on one path and whatever the store answered on the other, which is a different provenance and not a constant"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "corpus": "management-command",
+  "description": "An entry point a person reaches through a shell rather than through a socket. A Django management command runs with everything the application has -- its database, its secrets, its network -- and nothing routes to `handle`, so before this class existed no enumerated entry point reached any of it: not judged and found clean, but never asked about. What decides a command is its BASE CLASS and not its directory or its method name; `management/commands/` is Django's loading rule and keying on it would enumerate an `__init__.py` and miss a command a project keeps elsewhere. Both findings are the same defect arriving two ways, because argparse hands a declared argument to `handle` as a named parameter and everything else as `**options` -- and `**options` had to become a parameter for the second to exist at all: until it was lowered as one, `options[\"output\"]` resolved to no base and the whole statement vanished from the IR, which is a frontend being silent rather than careful. The trust label cuts both ways and that is the point of it. Whoever runs `manage.py` already has the host, so these publish at warning and do not fail a build -- reporting them at the rank of an anonymous request would be a lie. They are also not nothing: operators paste values out of tickets, cron entries and CI variables into these arguments, and burying them would be a lie in the other direction. Two silences: a class with a `handle` method that derives from nothing, which no operator runs; and a command whose command line is written down in the source, which is enumerated as an entry point because it is one and reports nothing because nothing a person typed reaches the interpreter.",
+  "expected": [
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "commands.py",
+      "sinkLine": 39,
+      "sourceLabel": "host",
+      "confidence": "high",
+      "note": "a declared positional argument, arriving as a named parameter of `handle`. High confidence -- the flow is three statements in one function with nothing unresolved on it -- and still not gating, because the trust says an operator supplied it"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "commands.py",
+      "sinkLine": 57,
+      "sourceLabel": "options",
+      "confidence": "high",
+      "note": "the same value through `**options`, which argparse fills with every option the command declared. This one exists only because a starred parameter is now lowered as a parameter"
+    }
+  ]
+}

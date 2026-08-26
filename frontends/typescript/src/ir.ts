@@ -32,6 +32,16 @@ export interface Module {
   isTest?: boolean;
   /** Why this is not hand-written application source. */
   provenance?: "vendored" | "example" | "generated";
+  /**
+   * No other module in this program names it, and no framework convention loads it.
+   *
+   * A graph fact, not a judgement: the frontend says which modules nothing reaches and
+   * the core decides what that means, which is the same division `isTest` and
+   * `provenance` already draw. Set only where the answer is decidable -- every import,
+   * re-export, `require` and dynamic `import()` in the program was resolved, and the
+   * module is not one a framework loads by PATH rather than by name.
+   */
+  unreferenced?: boolean;
 }
 
 export type ValueKind =

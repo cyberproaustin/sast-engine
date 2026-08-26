@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.14.0",
+  "irVersion": "0.15.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -576,6 +576,15 @@
       "detail": {
         "method": "GET",
         "path": "/upstream-strict"
+      }
+    },
+    {
+      "functionId": "app.py#<module>:0:0",
+      "kind": "process-start",
+      "trust": "operator",
+      "detail": {
+        "module": "app.py",
+        "start": "__main__ guard"
       }
     }
   ]

@@ -23,6 +23,41 @@ function requiresExpress(expr: ts.Expression): boolean {
 /** Packages whose default export is a router factory. */
 const ROUTER_MODULES = new Set(["koa-router", "@koa/router", "express-promise-router", "router"]);
 
+/**
+ * Whether a module hands out request-handler REGISTRARS that answer nothing on the
+ * network.
+ *
+ * Mock Service Worker is written `http.post("/api/drive/files", async ({ request }) =>
+ * ...)`, which is the same four tokens as a route registration and means the opposite:
+ * the handler answers a fetch the browser makes to itself inside a component story. One
+ * repository contributed 58 of these to a surface of 141 -- 41% of what the engine
+ * claimed the application answered was a Storybook mock -- and the receiver `http` is
+ * exactly the case where a type cannot be resolved, so nothing downstream could have
+ * caught it.
+ *
+ * The import is the whole of the evidence and it is decisive, which is the same shape
+ * the supertest exclusion has: `server.post("/api/x", {body})` is a REQUEST written like
+ * a registration, and it is told apart by what the arguments are rather than by where
+ * they sit.
+ */
+function isMockRegistrar(module: string): boolean {
+  return module === "msw" || module.startsWith("msw/");
+}
+
+/**
+ * A Storybook story, or the mock support beside it.
+ *
+ * Independent of the import, because a story that pulls its handlers out of a shared
+ * `mocks.js` registers them under a name this file never imported from `msw`. Over-
+ * reporting the surface is worse than under-reporting it (ADR-009): a phantom route
+ * makes every count downstream a lie, and no application serves its production API out
+ * of `.storybook/` or a `*.stories.*` file.
+ */
+function isMockModule(fileName: string): boolean {
+  const path = fileName.replace(/\\/g, "/");
+  return /(^|\/)\.storybook\//.test(path) || /\.stories\./.test(path);
+}
+
 const ROUTE_METHODS = new Set([
   "get",
   "post",
@@ -58,8 +93,14 @@ export function detectExpressRoutes(
   resolveFunction: ResolveFunction,
   locOf: (node: ts.Node) => { file: string; line: number; column: number },
 ): EntryPoint[] {
+  if (isMockModule(sf.fileName)) return [];
+
   const expressNames = new Set<string>();
   const routerNames = new Set<string>();
+  const mockNames = new Set<string>();
+  for (const [local, ref] of imports) {
+    if (isMockRegistrar(ref.module)) mockNames.add(local);
+  }
   for (const [local, ref] of imports) {
     // Koa's router is the same shape from a different package, and it is what several
     // large applications are built on. `import Router from "koa-router"` then `new
@@ -84,6 +125,9 @@ export function detectExpressRoutes(
   // structure rather than on the receiver being named "app" (ADR-010).
   const shaped = collectRouterShapes(sf);
   for (const name of shaped) appNames.add(name);
+  // Removed last, and per identifier rather than per file: a module is entitled to mock
+  // one API and serve another, and only the name the mock library handed it is barred.
+  for (const name of mockNames) appNames.delete(name);
   if (appNames.size === 0) return [];
 
   // Names bound to an expression anywhere in this file, so a path written as a template

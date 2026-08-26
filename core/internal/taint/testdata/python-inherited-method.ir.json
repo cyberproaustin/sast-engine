@@ -1,0 +1,1512 @@
+{
+  "irVersion": "0.15.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi",
+        "django",
+        "tornado"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "app.py",
+      "path": "app.py"
+    },
+    {
+      "id": "handlers/__init__.py",
+      "path": "handlers/__init__.py"
+    },
+    {
+      "id": "handlers/api.py",
+      "path": "handlers/api.py"
+    },
+    {
+      "id": "handlers/base.py",
+      "path": "handlers/base.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "app.py#<module>:0:0",
+      "name": "<module>",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The route table. Every class in it answers in a base class in another file."
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "app.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#make_app:7:1",
+      "name": "make_app",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 7,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#make_app:7:1$v0",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 8,
+            "column": 28
+          },
+          "name": "handlers.api"
+        },
+        {
+          "id": "app.py#make_app:7:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 8,
+            "column": 28
+          },
+          "base": "app.py#make_app:7:1$v0",
+          "path": "default_handlers",
+          "name": "default_handlers"
+        },
+        {
+          "id": "app.py#make_app:7:1$v2",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 8,
+            "column": 12
+          },
+          "name": "tornado.web"
+        },
+        {
+          "id": "app.py#make_app:7:1$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 8,
+            "column": 12
+          },
+          "name": "tornado.web.Application"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#make_app:7:1$v0",
+          "to": "app.py#make_app:7:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 8,
+            "column": 28
+          },
+          "block": "app.py#make_app:7:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#make_app:7:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 8,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "tornado.web.Application",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#make_app:7:1$v1"
+            }
+          ],
+          "resultValueId": "app.py#make_app:7:1$v3",
+          "block": "app.py#make_app:7:1$b0",
+          "method": "Application",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#make_app:7:1$v2"
+        }
+      ],
+      "returns": [
+        "app.py#make_app:7:1$v3"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#make_app:7:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#make_app:7:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 7,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#make_app:7:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 8,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "handlers/__init__.py#<module>:0:0",
+      "name": "<module>",
+      "module": "handlers/__init__.py",
+      "loc": {
+        "file": "handlers/__init__.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "handlers/__init__.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "handlers/__init__.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "handlers/__init__.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "handlers/api.py#<module>:0:0",
+      "name": "<module>",
+      "module": "handlers/api.py",
+      "loc": {
+        "file": "handlers/api.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "handlers/api.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The registered classes. Neither carries the request handling it runs."
+        },
+        {
+          "id": "handlers/api.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 6,
+            "column": 23
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "handlers/api.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 6,
+            "column": 24
+          },
+          "literal": "read:checks"
+        },
+        {
+          "id": "handlers/api.py#<module>:0:0$v3",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 6,
+            "column": 5
+          },
+          "name": "required_scopes"
+        },
+        {
+          "id": "handlers/api.py#<module>:0:0$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 14,
+            "column": 5
+          },
+          "literal": "NEGATIVE for the resolution order. This subclass OVERRIDES the inherited name, so\n    `self.parse_body()` here is its own method: a fallback that fired before the\n    enclosing class was consulted would attribute the base's body to a route that never\n    reaches it."
+        },
+        {
+          "id": "handlers/api.py#<module>:0:0$v5",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 27,
+            "column": 20
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "handlers/api.py#<module>:0:0$v6",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 28,
+            "column": 5
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "handlers/api.py#<module>:0:0$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 28,
+            "column": 6
+          },
+          "literal": "/api/search"
+        },
+        {
+          "id": "handlers/api.py#<module>:0:0$v8",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 29,
+            "column": 5
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "handlers/api.py#<module>:0:0$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 29,
+            "column": 6
+          },
+          "literal": "/api/report"
+        },
+        {
+          "id": "handlers/api.py#<module>:0:0$v10",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 27,
+            "column": 1
+          },
+          "name": "default_handlers"
+        }
+      ],
+      "flows": [
+        {
+          "from": "handlers/api.py#<module>:0:0$v2",
+          "to": "handlers/api.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 6,
+            "column": 23
+          },
+          "block": "handlers/api.py#<module>:0:0$b0"
+        },
+        {
+          "from": "handlers/api.py#<module>:0:0$v1",
+          "to": "handlers/api.py#<module>:0:0$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 6,
+            "column": 5
+          },
+          "block": "handlers/api.py#<module>:0:0$b0"
+        },
+        {
+          "from": "handlers/api.py#<module>:0:0$v7",
+          "to": "handlers/api.py#<module>:0:0$v6",
+          "kind": "enclose",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 28,
+            "column": 5
+          },
+          "block": "handlers/api.py#<module>:0:0$b0"
+        },
+        {
+          "from": "handlers/api.py#<module>:0:0$v6",
+          "to": "handlers/api.py#<module>:0:0$v5",
+          "kind": "enclose",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 27,
+            "column": 20
+          },
+          "block": "handlers/api.py#<module>:0:0$b0"
+        },
+        {
+          "from": "handlers/api.py#<module>:0:0$v9",
+          "to": "handlers/api.py#<module>:0:0$v8",
+          "kind": "enclose",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 29,
+            "column": 5
+          },
+          "block": "handlers/api.py#<module>:0:0$b0"
+        },
+        {
+          "from": "handlers/api.py#<module>:0:0$v8",
+          "to": "handlers/api.py#<module>:0:0$v5",
+          "kind": "enclose",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 27,
+            "column": 20
+          },
+          "block": "handlers/api.py#<module>:0:0$b0"
+        },
+        {
+          "from": "handlers/api.py#<module>:0:0$v5",
+          "to": "handlers/api.py#<module>:0:0$v10",
+          "kind": "assign",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 27,
+            "column": 1
+          },
+          "block": "handlers/api.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "handlers/api.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "handlers/api.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "handlers/api.py#post:8:5",
+      "name": "post",
+      "module": "handlers/api.py",
+      "loc": {
+        "file": "handlers/api.py",
+        "line": 8,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "handlers/api.py#post:8:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "handlers/api.py#post:8:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 8,
+            "column": 14
+          },
+          "name": "self"
+        },
+        {
+          "id": "handlers/api.py#post:8:5$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 9,
+            "column": 16
+          },
+          "name": "local"
+        },
+        {
+          "id": "handlers/api.py#post:8:5$v2",
+          "kind": "property",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 9,
+            "column": 16
+          },
+          "name": "term",
+          "base": "handlers/api.py#post:8:5$v1",
+          "path": "term"
+        },
+        {
+          "id": "handlers/api.py#post:8:5$v3",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 9,
+            "column": 9
+          },
+          "name": "term"
+        },
+        {
+          "id": "handlers/api.py#post:8:5$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 10,
+            "column": 24
+          },
+          "name": "local"
+        },
+        {
+          "id": "handlers/api.py#post:8:5$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 10,
+            "column": 20
+          },
+          "name": "str"
+        },
+        {
+          "id": "handlers/api.py#post:8:5$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 10,
+            "column": 9
+          },
+          "name": "self.write"
+        }
+      ],
+      "flows": [
+        {
+          "from": "handlers/api.py#post:8:5$v1",
+          "to": "handlers/api.py#post:8:5$v2",
+          "kind": "property",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 9,
+            "column": 16
+          },
+          "block": "handlers/api.py#post:8:5$b0"
+        },
+        {
+          "from": "handlers/api.py#post:8:5$v2",
+          "to": "handlers/api.py#post:8:5$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 9,
+            "column": 9
+          },
+          "block": "handlers/api.py#post:8:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "handlers/api.py#post:8:5$c0",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 9,
+            "column": 16
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "handlers/base.py#parse_body:16:5",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "handlers/api.py#post:8:5$v1",
+          "block": "handlers/api.py#post:8:5$b0",
+          "method": "parse_body",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "handlers/api.py#post:8:5$v0"
+        },
+        {
+          "id": "handlers/api.py#post:8:5$c1",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 10,
+            "column": 24
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "handlers/base.py#lookup:23:5",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "handlers/api.py#post:8:5$v3"
+            }
+          ],
+          "resultValueId": "handlers/api.py#post:8:5$v4",
+          "block": "handlers/api.py#post:8:5$b0",
+          "method": "lookup",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "handlers/api.py#post:8:5$v0"
+        },
+        {
+          "id": "handlers/api.py#post:8:5$c2",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 10,
+            "column": 20
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "str",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "handlers/api.py#post:8:5$v4"
+            }
+          ],
+          "resultValueId": "handlers/api.py#post:8:5$v5",
+          "block": "handlers/api.py#post:8:5$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "handlers/api.py#post:8:5$c3",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 10,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "self.write",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "handlers/api.py#post:8:5$v5"
+            }
+          ],
+          "resultValueId": "handlers/api.py#post:8:5$v6",
+          "block": "handlers/api.py#post:8:5$b0",
+          "method": "write",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "handlers/api.py#post:8:5$v0"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "handlers/api.py#post:8:5$b0",
+      "blocks": [
+        {
+          "id": "handlers/api.py#post:8:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 8,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "handlers/api.py#parse_body:19:5",
+      "name": "parse_body",
+      "module": "handlers/api.py",
+      "loc": {
+        "file": "handlers/api.py",
+        "line": 19,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "handlers/api.py#parse_body:19:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "handlers/api.py#parse_body:19:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 19,
+            "column": 20
+          },
+          "name": "self"
+        },
+        {
+          "id": "handlers/api.py#parse_body:19:5$v1",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 20,
+            "column": 16
+          },
+          "name": "{dict}"
+        },
+        {
+          "id": "handlers/api.py#parse_body:19:5$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 20,
+            "column": 25
+          },
+          "literal": "fixed"
+        }
+      ],
+      "flows": [
+        {
+          "from": "handlers/api.py#parse_body:19:5$v2",
+          "to": "handlers/api.py#parse_body:19:5$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 20,
+            "column": 16
+          },
+          "block": "handlers/api.py#parse_body:19:5$b0"
+        }
+      ],
+      "calls": [],
+      "returns": [
+        "handlers/api.py#parse_body:19:5$v1"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "handlers/api.py#parse_body:19:5$b0",
+      "blocks": [
+        {
+          "id": "handlers/api.py#parse_body:19:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 19,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "handlers/api.py#parse_body:19:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 20,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "handlers/api.py#post:22:5",
+      "name": "post",
+      "module": "handlers/api.py",
+      "loc": {
+        "file": "handlers/api.py",
+        "line": 22,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "handlers/api.py#post:22:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "handlers/api.py#post:22:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 22,
+            "column": 14
+          },
+          "name": "self"
+        },
+        {
+          "id": "handlers/api.py#post:22:5$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 23,
+            "column": 16
+          },
+          "name": "local"
+        },
+        {
+          "id": "handlers/api.py#post:22:5$v2",
+          "kind": "property",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 23,
+            "column": 16
+          },
+          "name": "term",
+          "base": "handlers/api.py#post:22:5$v1",
+          "path": "term"
+        },
+        {
+          "id": "handlers/api.py#post:22:5$v3",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 23,
+            "column": 9
+          },
+          "name": "term"
+        },
+        {
+          "id": "handlers/api.py#post:22:5$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 24,
+            "column": 24
+          },
+          "name": "local"
+        },
+        {
+          "id": "handlers/api.py#post:22:5$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 24,
+            "column": 20
+          },
+          "name": "str"
+        },
+        {
+          "id": "handlers/api.py#post:22:5$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 24,
+            "column": 9
+          },
+          "name": "self.write"
+        }
+      ],
+      "flows": [
+        {
+          "from": "handlers/api.py#post:22:5$v1",
+          "to": "handlers/api.py#post:22:5$v2",
+          "kind": "property",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 23,
+            "column": 16
+          },
+          "block": "handlers/api.py#post:22:5$b0"
+        },
+        {
+          "from": "handlers/api.py#post:22:5$v2",
+          "to": "handlers/api.py#post:22:5$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 23,
+            "column": 9
+          },
+          "block": "handlers/api.py#post:22:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "handlers/api.py#post:22:5$c0",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 23,
+            "column": 16
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "handlers/api.py#parse_body:19:5",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "handlers/api.py#post:22:5$v1",
+          "block": "handlers/api.py#post:22:5$b0",
+          "method": "parse_body",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "handlers/api.py#post:22:5$v0"
+        },
+        {
+          "id": "handlers/api.py#post:22:5$c1",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 24,
+            "column": 24
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "handlers/base.py#lookup:23:5",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "handlers/api.py#post:22:5$v3"
+            }
+          ],
+          "resultValueId": "handlers/api.py#post:22:5$v4",
+          "block": "handlers/api.py#post:22:5$b0",
+          "method": "lookup",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "handlers/api.py#post:22:5$v0"
+        },
+        {
+          "id": "handlers/api.py#post:22:5$c2",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 24,
+            "column": 20
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "str",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "handlers/api.py#post:22:5$v4"
+            }
+          ],
+          "resultValueId": "handlers/api.py#post:22:5$v5",
+          "block": "handlers/api.py#post:22:5$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "handlers/api.py#post:22:5$c3",
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 24,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "self.write",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "handlers/api.py#post:22:5$v5"
+            }
+          ],
+          "resultValueId": "handlers/api.py#post:22:5$v6",
+          "block": "handlers/api.py#post:22:5$b0",
+          "method": "write",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "handlers/api.py#post:22:5$v0"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "handlers/api.py#post:22:5$b0",
+      "blocks": [
+        {
+          "id": "handlers/api.py#post:22:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 22,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "handlers/base.py#<module>:0:0",
+      "name": "<module>",
+      "module": "handlers/base.py",
+      "loc": {
+        "file": "handlers/base.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "handlers/base.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The base class every registered handler in this program answers through.\n\nRegistered nowhere itself, and nothing in the program names these methods in a way that\nresolves without knowing what `self` IS -- which is the whole point of the shape and the\nwhole reason a frontend has to follow it.\n"
+        },
+        {
+          "id": "handlers/base.py#<module>:0:0$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 12,
+            "column": 22
+          },
+          "literal": "hub.db"
+        },
+        {
+          "id": "handlers/base.py#<module>:0:0$v2",
+          "kind": "global",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 12,
+            "column": 6
+          },
+          "name": "sqlite3"
+        },
+        {
+          "id": "handlers/base.py#<module>:0:0$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 12,
+            "column": 6
+          },
+          "name": "sqlite3.connect"
+        },
+        {
+          "id": "handlers/base.py#<module>:0:0$v4",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 12,
+            "column": 1
+          },
+          "name": "DB"
+        }
+      ],
+      "flows": [
+        {
+          "from": "handlers/base.py#<module>:0:0$v3",
+          "to": "handlers/base.py#<module>:0:0$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 12,
+            "column": 1
+          },
+          "block": "handlers/base.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "handlers/base.py#<module>:0:0$c0",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 12,
+            "column": 6
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "sqlite3.connect",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "handlers/base.py#<module>:0:0$v1"
+            }
+          ],
+          "resultValueId": "handlers/base.py#<module>:0:0$v3",
+          "block": "handlers/base.py#<module>:0:0$b0",
+          "method": "connect",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "hub.db"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "handlers/base.py#<module>:0:0$v2"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "handlers/base.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "handlers/base.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "handlers/base.py#parse_body:16:5",
+      "name": "parse_body",
+      "module": "handlers/base.py",
+      "loc": {
+        "file": "handlers/base.py",
+        "line": 16,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "handlers/base.py#parse_body:16:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "handlers/base.py#parse_body:16:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 16,
+            "column": 20
+          },
+          "name": "self"
+        },
+        {
+          "id": "handlers/base.py#parse_body:16:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 21,
+            "column": 27
+          },
+          "base": "handlers/base.py#parse_body:16:5$v0",
+          "path": "request.body",
+          "name": "request.body"
+        },
+        {
+          "id": "handlers/base.py#parse_body:16:5$v2",
+          "kind": "global",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 21,
+            "column": 16
+          },
+          "name": "json"
+        },
+        {
+          "id": "handlers/base.py#parse_body:16:5$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 21,
+            "column": 16
+          },
+          "name": "json.loads"
+        }
+      ],
+      "flows": [
+        {
+          "from": "handlers/base.py#parse_body:16:5$v0",
+          "to": "handlers/base.py#parse_body:16:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 21,
+            "column": 27
+          },
+          "block": "handlers/base.py#parse_body:16:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "handlers/base.py#parse_body:16:5$c0",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 21,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "json.loads",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "handlers/base.py#parse_body:16:5$v1"
+            }
+          ],
+          "resultValueId": "handlers/base.py#parse_body:16:5$v3",
+          "block": "handlers/base.py#parse_body:16:5$b0",
+          "method": "loads",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "handlers/base.py#parse_body:16:5$v2"
+        }
+      ],
+      "returns": [
+        "handlers/base.py#parse_body:16:5$v3"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "handlers/base.py#parse_body:16:5$b0",
+      "blocks": [
+        {
+          "id": "handlers/base.py#parse_body:16:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 16,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "handlers/base.py#parse_body:16:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 21,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "handlers/base.py#lookup:23:5",
+      "name": "lookup",
+      "module": "handlers/base.py",
+      "loc": {
+        "file": "handlers/base.py",
+        "line": 23,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "handlers/base.py#lookup:23:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "term",
+          "valueId": "handlers/base.py#lookup:23:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "handlers/base.py#lookup:23:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 23,
+            "column": 16
+          },
+          "name": "self"
+        },
+        {
+          "id": "handlers/base.py#lookup:23:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 23,
+            "column": 22
+          },
+          "name": "term"
+        },
+        {
+          "id": "handlers/base.py#lookup:23:5$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 27,
+            "column": 15
+          },
+          "name": "DB.cursor"
+        },
+        {
+          "id": "handlers/base.py#lookup:23:5$v3",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 27,
+            "column": 9
+          },
+          "name": "cur"
+        },
+        {
+          "id": "handlers/base.py#lookup:23:5$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 28,
+            "column": 21
+          },
+          "literal": "SELECT * FROM checks WHERE name = ?"
+        },
+        {
+          "id": "handlers/base.py#lookup:23:5$v5",
+          "kind": "local",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 28,
+            "column": 60
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "handlers/base.py#lookup:23:5$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 28,
+            "column": 9
+          },
+          "name": "cur.execute"
+        },
+        {
+          "id": "handlers/base.py#lookup:23:5$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 29,
+            "column": 16
+          },
+          "name": "cur.fetchone"
+        }
+      ],
+      "flows": [
+        {
+          "from": "handlers/base.py#lookup:23:5$v2",
+          "to": "handlers/base.py#lookup:23:5$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 27,
+            "column": 9
+          },
+          "block": "handlers/base.py#lookup:23:5$b0"
+        },
+        {
+          "from": "handlers/base.py#lookup:23:5$v1",
+          "to": "handlers/base.py#lookup:23:5$v5",
+          "kind": "enclose",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 28,
+            "column": 60
+          },
+          "block": "handlers/base.py#lookup:23:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "handlers/base.py#lookup:23:5$c0",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 27,
+            "column": 15
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "DB.cursor",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "handlers/base.py#lookup:23:5$v2",
+          "block": "handlers/base.py#lookup:23:5$b0",
+          "method": "cursor",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "handlers/base.py#<module>:0:0$v4"
+        },
+        {
+          "id": "handlers/base.py#lookup:23:5$c1",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 28,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cur.execute",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "handlers/base.py#lookup:23:5$v4"
+            },
+            {
+              "index": 1,
+              "valueId": "handlers/base.py#lookup:23:5$v5"
+            }
+          ],
+          "resultValueId": "handlers/base.py#lookup:23:5$v6",
+          "block": "handlers/base.py#lookup:23:5$b0",
+          "method": "execute",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "SELECT * FROM checks WHERE name = ?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "handlers/base.py#lookup:23:5$v3"
+        },
+        {
+          "id": "handlers/base.py#lookup:23:5$c2",
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 29,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cur.fetchone",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "handlers/base.py#lookup:23:5$v7",
+          "block": "handlers/base.py#lookup:23:5$b0",
+          "method": "fetchone",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "handlers/base.py#lookup:23:5$v3"
+        }
+      ],
+      "returns": [
+        "handlers/base.py#lookup:23:5$v7"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "handlers/base.py#lookup:23:5$b0",
+      "blocks": [
+        {
+          "id": "handlers/base.py#lookup:23:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 23,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "handlers/base.py#lookup:23:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 29,
+            "column": 9
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "handlers/api.py#post:8:5",
+      "kind": "http-route",
+      "framework": "tornado",
+      "detail": {
+        "method": "POST",
+        "path": "/api/search"
+      }
+    },
+    {
+      "functionId": "handlers/api.py#post:22:5",
+      "kind": "http-route",
+      "framework": "tornado",
+      "detail": {
+        "method": "POST",
+        "path": "/api/report"
+      }
+    }
+  ]
+}

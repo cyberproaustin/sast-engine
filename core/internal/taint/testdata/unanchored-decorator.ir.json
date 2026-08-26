@@ -1,9 +1,9 @@
 {
-  "irVersion": "0.14.0",
+  "irVersion": "0.15.0",
   "frontend": {"name":"typescript","version":"0.1.0","capabilities":{"typeChecker":true,"interprocedural":true,"crossModule":true,"controlFlow":true,"templates":false,"frameworkModels":["express","nestjs"]}},
   "modules": [
     {"id":"framework.ts","path":"framework.ts"},
-    {"id":"tags.controller.ts","path":"tags.controller.ts"}
+    {"id":"tags.controller.ts","path":"tags.controller.ts","unreferenced":true}
   ],
   "functions": [
     {"id":"framework.ts#<module>:0","name":"<module>","module":"framework.ts","loc":{"file":"framework.ts","line":2,"column":1},"params":[],"values":[],"flows":[],"calls":[],"returns":[],"comparisons":[],"entryBlock":"framework.ts#<module>:0$b0","blocks":[{"id":"framework.ts#<module>:0$b0","successors":[],"loc":{"file":"framework.ts","line":2,"column":1}}]},

@@ -324,6 +324,7 @@ func finding(ix *ir.Index, fn *ir.Function, cmp ir.Comparison, rule model.Decisi
 		EntryMethod:   o.Method,
 		EntryPath:     o.Path,
 		EntryAnchored: o.Anchored,
+		EntryTrust:    o.Trust,
 		InTestModule:  ix.InTestModule(cmp.Loc),
 		SinkLoc:       cmp.Loc,
 		SinkFunction:  fn.Name,

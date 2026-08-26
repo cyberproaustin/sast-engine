@@ -602,6 +602,7 @@ func finding(ix *ir.Index, fn *ir.Function, ep *ir.EntryPoint, rule model.ScopeR
 		EntryMethod:   ep.Detail["method"],
 		EntryPath:     ep.Detail["path"],
 		EntryAnchored: true,
+		EntryTrust:    ep.TrustLevel(),
 		InTestModule:  ix.InTestModule(op.Loc),
 		SinkLoc:       op.Loc,
 		SinkFunction:  fn.Name,
@@ -656,6 +657,19 @@ func describeEntry(ep *ir.EntryPoint) string {
 		parts = append(parts, p)
 	}
 	desc := strings.Join(parts, " ")
+	// An entry point that is not a route has no method and no path, and its KIND alone
+	// makes every one of them read the same. Whichever detail names this particular
+	// registration -- the command an operator types, the event a bus delivers, the
+	// schedule a timer keeps, the module a process starts in -- is what a reader needs
+	// to find it, and it is the only thing distinguishing seventeen sibling jobs.
+	if desc == "" {
+		for _, key := range []string{"command", "event", "schedule", "trigger", "start"} {
+			if v := ep.Detail[key]; v != "" {
+				desc = ep.Kind + " " + v
+				break
+			}
+		}
+	}
 	if desc == "" {
 		desc = ep.Kind
 	}

@@ -29,6 +29,7 @@ import type {
   ValueKind,
 } from "./ir.ts";
 import { detectExpressRoutes } from "./express.ts";
+import { detectBackgroundEntries } from "./background.ts";
 import { detectDescribedRoutes, detectFileRoutes, detectHelperRoutes } from "./fileroutes.ts";
 import type { ImportRef } from "./express.ts";
 import {
@@ -473,6 +474,7 @@ export function lowerProgram(opts: LowerOptions): IRDoc {
   const modules: Module[] = [];
   const funcByNode = new Map<ts.Node, FuncMeta>();
   const importsByFile = new Map<ts.SourceFile, Map<string, ImportRef>>();
+  const referenced = referencedModules(opts.rootDir, sources, checker);
 
   for (const sf of sources) {
     const moduleId = moduleIdOf(opts.rootDir, sf.fileName);
@@ -481,6 +483,8 @@ export function lowerProgram(opts: LowerOptions): IRDoc {
       path: moduleId,
       isTest: isTestModule(moduleId) || undefined,
       provenance: provenance.get(moduleId),
+      unreferenced:
+        !referenced.has(moduleId) && !frameworkLoadsByPath(moduleId) ? true : undefined,
     });
     importsByFile.set(sf, buildImportMap(sf));
     collectFunctions(sf, moduleId, funcByNode);
@@ -557,6 +561,8 @@ export function lowerProgram(opts: LowerOptions): IRDoc {
       entryPoints.push(...detectFileRoutes(sf, moduleId, resolveFunction, (n) => locOf(sf, n)));
       entryPoints.push(...detectHelperRoutes(sf, resolveFunction, (n) => locOf(sf, n)));
       entryPoints.push(...detectDescribedRoutes(sf, resolveFunction, (n) => locOf(sf, n)));
+      // Not a route: a timer or a bus runs these, and only the process itself can.
+      entryPoints.push(...detectBackgroundEntries(sf, checker, resolveFunction, (n) => locOf(sf, n)));
     }
   }
 
@@ -724,10 +730,92 @@ function isTestModule(moduleId: string): boolean {
   return TEST_PATH.test(moduleId);
 }
 
+/**
+ * Directories whose files a framework loads BY PATH.
+ *
+ * Nothing imports a Next.js page, a Remix route or an entry module, and the fact that
+ * nothing imports them is exactly what the convention means -- so an unreferenced answer
+ * about them would be a statement about the framework rather than about the program.
+ * Held deliberately wide, because being wrong here is a module wrongly called reachable,
+ * and that is silence in the direction the engine already has.
+ */
+const FRAMEWORK_LOADED = /(^|\/)(pages|app|routes|api|middleware|instrumentation)(\/|\.[cm]?[jt]sx?$)/;
+const PROCESS_ENTRY = /(^|\/)(index|main|app|server|worker|cli|bin|entry)\.[cm]?[jt]sx?$/;
+
+function frameworkLoadsByPath(moduleId: string): boolean {
+  return FRAMEWORK_LOADED.test(moduleId) || PROCESS_ENTRY.test(moduleId);
+}
+
+/**
+ * Every module some other module in this program names.
+ *
+ * Asked of the compiler rather than of the text, because a specifier is not a path: an
+ * alias, a workspace package and a directory index all name a file that the string does
+ * not spell, and the checker has already resolved every one of them.
+ *
+ * The four ways one module names another are all here -- `import`, `export ... from`,
+ * `require()` and a dynamic `import()` -- and a module that appears in none of them is
+ * one nothing in the program can run. A component nobody renders is the case this was
+ * built for: an application had a button whose `window.open` was reported as a finding
+ * on the enumerated surface, and the component was not imported, re-exported or
+ * dynamically loaded anywhere in its own repository.
+ */
+function referencedModules(
+  rootDir: string,
+  sources: readonly ts.SourceFile[],
+  checker: ts.TypeChecker,
+): Set<string> {
+  const out = new Set<string>();
+  const mark = (spec: ts.Expression | undefined): void => {
+    if (!spec) return;
+    let sym: ts.Symbol | undefined;
+    try {
+      sym = checker.getSymbolAtLocation(spec);
+    } catch {
+      sym = undefined;
+    }
+    for (const d of sym?.getDeclarations() ?? []) {
+      if (ts.isSourceFile(d)) out.add(moduleIdOf(rootDir, d.fileName));
+    }
+  };
+  const isRequire = (n: ts.CallExpression): boolean =>
+    n.expression.kind === ts.SyntaxKind.ImportKeyword ||
+    (ts.isIdentifier(n.expression) && n.expression.text === "require");
+
+  for (const sf of sources) {
+    const visit = (n: ts.Node): void => {
+      if (ts.isImportDeclaration(n) || ts.isExportDeclaration(n)) {
+        mark(n.moduleSpecifier);
+      } else if (ts.isImportEqualsDeclaration(n) && ts.isExternalModuleReference(n.moduleReference)) {
+        mark(n.moduleReference.expression);
+      } else if (ts.isCallExpression(n) && isRequire(n) && n.arguments.length > 0) {
+        mark(n.arguments[0]);
+      }
+      ts.forEachChild(n, visit);
+    };
+    visit(sf);
+  }
+  return out;
+}
+
 type ModuleProvenance = NonNullable<Module["provenance"]>;
 
 const EXAMPLE_PATH = /(^|\/)(examples?|demos?|samples?|docs)(\/|$)/;
 const VENDOR_PATH = /(^|\/)(vendor|third_party|third-party)(\/|$)/;
+
+/**
+ * Directories that hold build and development machinery.
+ *
+ * Matched only where one of these is the FIRST segment of a package -- the repository
+ * root, or a workspace root -- and never anywhere deeper. That anchoring is the whole of
+ * what makes the list safe: umami serves a real route from
+ * `src/app/api/scripts/telemetry/route.ts`, and a rule that matched `scripts` at any
+ * depth would delete a live endpoint from the surface to remove a watch script. Build
+ * tooling lives at a package root; it does not live five segments inside an API tree.
+ */
+const TOOLING_DIRS = new Set([
+  "scripts", "devscripts", "dev-scripts", "tools", "tooling", "bundle", ".storybook",
+]);
 const GENERATED_HEADER = /^\s*(?:\/+|#|\/\*+|\*)\s*(?:(?:this file|code)\s+(?:is\s+)?generated\b|generated by\b|auto[- ]generated\b|@generated\b|.*generated[^\n]{0,80}do not edit)/im;
 const ORIGINAL_SOURCE = /\boriginal source\s*:\s*https?:\/\/(?:www\.)?(?:github\.com|gitlab\.com|npmjs\.com)\//i;
 const LICENCE_FILES = ["LICENSE", "LICENSE.md", "LICENSE.txt", "LICENCE", "COPYING"];
@@ -791,6 +879,8 @@ function classifyModuleProvenance(rootDir: string, sources: ts.SourceFile[]): Ma
     let origin: ModuleProvenance | undefined;
     if (EXAMPLE_PATH.test(moduleId)) {
       origin = "example";
+    } else if (isToolingModule(moduleId, workspacePatterns)) {
+      origin = "tooling";
     } else if (
       VENDOR_PATH.test(moduleId) ||
       [...packageRoots].some((root) => isWithin(moduleId, root)) ||
@@ -803,6 +893,23 @@ function classifyModuleProvenance(rootDir: string, sources: ts.SourceFile[]): Ma
     if (origin) out.set(moduleId, origin);
   }
   return out;
+}
+
+/**
+ * Whether this module is build or development machinery rather than the application.
+ *
+ * A tooling directory counts only when it sits directly under the repository root or
+ * directly under a workspace root: `devscripts/x.ts` and `packages/backend/scripts/x.mjs`
+ * are tooling, `src/app/api/scripts/telemetry/route.ts` is a route.
+ */
+function isToolingModule(moduleId: string, workspacePatterns: string[]): boolean {
+  const parts = moduleId.split("/");
+  for (let i = 0; i < parts.length - 1; i++) {
+    if (!TOOLING_DIRS.has(parts[i])) continue;
+    const prefix = parts.slice(0, i).join("/");
+    if (prefix === "" || matchesWorkspace(prefix, workspacePatterns)) return true;
+  }
+  return false;
 }
 
 function isWithin(moduleId: string, directory: string): boolean {
@@ -1976,9 +2083,20 @@ function lowerFunction(
     // catch runs instead of the rest, not after it.
     //
     // The finally block is the one part that IS unavoidable, and it is linked from both.
+    //
+    // The exception edge leaves the try REGION and not any statement inside it, which is
+    // why the region gets a block of its own with nothing in it. Hanging that edge on the
+    // first block of the body instead made the catch a successor of whatever the body
+    // ended up doing -- and a body that ends in `return res.status(405).json(...)`
+    // terminates that very block, so the catch became the one thing that unavoidably
+    // followed the refusal. `switch (m) { ...; default: return res.status(405)... }` inside
+    // a `try` is an extremely common handler shape and every one of them was reported as
+    // execution after a response.
     if (ts.isTryStatement(n)) {
+      const tryEntry = newBlock(n.tryBlock);
+      link(current, tryEntry);
       const tryBlock = newBlock(n.tryBlock);
-      link(current, tryBlock);
+      link(tryEntry, tryBlock);
       current = tryBlock;
       walk(n.tryBlock);
       const tryEnd = current;
@@ -1986,8 +2104,9 @@ function lowerFunction(
       let catchEnd: string | undefined;
       if (n.catchClause) {
         const catchBlock = newBlock(n.catchClause);
-        // From the START of the try: an exception can be raised anywhere inside it.
-        link(tryBlock, catchBlock);
+        // From the START of the try: an exception can be raised anywhere inside it. From
+        // the region's own block, so a statement that left the function reaches nothing.
+        link(tryEntry, catchBlock);
         current = catchBlock;
         walk(n.catchClause);
         catchEnd = current;

@@ -1,0 +1,30 @@
+{
+  "corpus": "try-return-not-caught",
+  "description": "A `return` inside a `try` has an edge to the function exit and to the `finally`, and never to the `catch`. Only a statement that can RAISE reaches the handler, and a statement that has already left the function raises nothing. The engine hung the exception edge on the first block of the try body, which made the catch a successor of whatever that body ended up doing -- and when it ends with `return res.status(405).json(...)`, as a method switch inside a try does in every single-file route handler ever written, the catch's own response became the one thing that unavoidably followed a refusal. Two production handlers were reported that way, both at error level, both gating, both false. Three negatives here are the shapes that were wrong: a returning `switch` default, the same under a `finally`, and a `throw` whose catch is genuinely reached. The two CWE-209 findings are the guard against over-correcting: they live INSIDE catch blocks, so an edge deleted rather than moved would take them with it. The positive is the shape that must survive -- a refusal written without a return, with the work it refused still unavoidable after it, which is exactly as wrong inside a `try` as outside one.",
+  "expected": [
+    {
+      "cwe": "CWE-209",
+      "sinkFile": "app.js",
+      "sinkLine": 34,
+      "sourceLabel": "error",
+      "confidence": "medium",
+      "note": "the catch of the returning switch. Reported because the catch is still on the try's exception edge -- this is what says the edge was moved to the region and not removed"
+    },
+    {
+      "cwe": "CWE-209",
+      "sinkFile": "app.js",
+      "sinkLine": 50,
+      "sourceLabel": "err",
+      "confidence": "medium",
+      "note": "the catch reached by a `throw` written in the try body, which is the one thing that DOES reach a handler"
+    },
+    {
+      "cwe": "CWE-698",
+      "sinkFile": "app.js",
+      "sinkLine": 78,
+      "sourceLabel": "create",
+      "confidence": "high",
+      "note": "the only real one: the refusal does not return and the creation it was refusing is unavoidable after it. Being inside a `try` is not a defence, and a fix that suppressed catch blocks wholesale would have lost this"
+    }
+  ]
+}

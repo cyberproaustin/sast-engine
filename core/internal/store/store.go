@@ -470,6 +470,7 @@ func finding(ix *ir.Index, fn *ir.Function, w ir.Write, rule model.StoreRule, o 
 		EntryMethod:   o.Method,
 		EntryPath:     o.Path,
 		EntryAnchored: o.Anchored,
+		EntryTrust:    o.Trust,
 		InTestModule:  ix.InTestModule(w.Loc),
 		SinkLoc:       w.Loc,
 		SinkFunction:  fn.Name,
@@ -880,6 +881,7 @@ func keyFinding(ix *ir.Index, fn *ir.Function, w ir.Write, rule model.StoreRule,
 		EntryMethod:   o.Method,
 		EntryPath:     o.Path,
 		EntryAnchored: o.Anchored,
+		EntryTrust:    o.Trust,
 		InTestModule:  ix.InTestModule(w.Loc),
 		SinkLoc:       w.Loc,
 		SinkFunction:  fn.Name,
@@ -903,6 +905,7 @@ func keyFinding(ix *ir.Index, fn *ir.Function, w ir.Write, rule model.StoreRule,
 				f.EntryMethod = ep.Detail["method"]
 				f.EntryPath = ep.Detail["path"]
 				f.EntryAnchored = true
+				f.EntryTrust = ep.TrustLevel()
 			}
 		}
 	}

@@ -62,13 +62,10 @@ func (r Result) InScope(f taint.Finding) bool {
 // judgement did not turn on something the analysis cannot see, no baseline records it, and
 // it touches the change under review.
 func (r Result) Gates(f taint.Finding) bool {
-	return f.EntryAnchored &&
-		f.DependsOnUse == "" &&
-		!f.InTestModule &&
-		f.Provenance == "" &&
-		f.Confidence.Gating() &&
-		r.IsNew(f) &&
-		r.InScope(f)
+	// The finding's own merits live on the finding, so that the SARIF level and this
+	// gate cannot disagree about them; only the two questions about the RUN are asked
+	// here.
+	return f.Actionable() && r.IsNew(f) && r.InScope(f)
 }
 
 // IsNew reports whether a finding was absent from the baseline. With no baseline every
@@ -114,6 +111,7 @@ func Run(d *ir.IR, m model.Model, p *policy.Policy) Result {
 	for i := range t.Findings {
 		t.Findings[i].Provenance = ix.ProvenanceOf(t.Findings[i].SinkLoc)
 	}
+	unanchorUnreachedModules(ix, d, t.Findings)
 	t.Findings = collapseIdenticalFindings(t.Findings)
 
 	return Result{
@@ -122,6 +120,49 @@ func Run(d *ir.IR, m model.Model, p *policy.Policy) Result {
 		Taint:       t,
 		Expectation: expectation.Analyze(d, s, m, p, expectation.DefaultThresholds()),
 		Exempted:    exempted,
+	}
+}
+
+// unanchorUnreachedModules withdraws the anchoring claim from a finding written in a
+// module nothing in the program names.
+//
+// Anchored means the engine tied this to the surface it enumerated (ADR-009), and it is
+// what decides whether a finding fails a build. Several kinds assert it by construction,
+// on the sound reasoning that a weak hash in a file nothing routes to is still a weak
+// hash -- but "nothing routes to it" and "nothing can run it" are different facts, and
+// the second one was never asked. An application's settings button had its `window.open`
+// reported at error level on the strength of a handler local to the component, and the
+// component is not imported, re-exported or dynamically loaded anywhere in its own
+// repository: there is no path from any enumerated entry point down to that line.
+//
+// The finding is not withdrawn, because the code says what it says. What is withdrawn is
+// the claim about WHERE it is, which is the claim the engine could not support -- the
+// same correction the surface already made when it started printing `<unresolved:expr>`
+// for a mount path it could not read instead of `*`.
+//
+// A module that declares an entry point of its own is exempt whatever the import graph
+// says: the framework reaches those by path, and a finding inside a route this run
+// enumerated is anchored to that route by definition. Silence here would be the surface
+// and the findings contradicting each other.
+func unanchorUnreachedModules(ix *ir.Index, d *ir.IR, findings []taint.Finding) {
+	unreferenced := make(map[string]bool)
+	for _, m := range d.Modules {
+		if m.Unreferenced {
+			unreferenced[m.Path] = true
+		}
+	}
+	if len(unreferenced) == 0 {
+		return
+	}
+	for _, ep := range d.EntryPoints {
+		if fn := ix.FuncByID[ep.FunctionID]; fn != nil {
+			delete(unreferenced, fn.Module)
+		}
+	}
+	for i := range findings {
+		if unreferenced[findings[i].SinkLoc.File] {
+			findings[i].EntryAnchored = false
+		}
 	}
 }
 

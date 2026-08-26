@@ -1,0 +1,30 @@
+{
+  "corpus": "process-start",
+  "description": "The entry point a program has before it has any caller. Module-level code runs at import in EVERY module, so \"module-level initialization\" on its own would make an entry point of every settings file and every constant table in a tree -- and the surface is the engine's primary output (ADR-009), which means a count nobody can audit is worse than no count. What narrows it to something true is the language's own rule for where a process starts: the `__main__` guard, and the `__main__.py` of a package. Everything the start reaches is startup code, running before any request exists, over the environment an operator started it with -- which is why the trust is `operator`, why the finding here is reported at warning, and why it does not fail a build. Two call-graph facts had to hold for the class to be worth anything and both are exercised: the guard calls `app.Hub.launch()`, an attribute chain three segments deep through an imported module, which resolved only one segment deep meant the top level of a program called out of the program; and `launch` hands `self.start_async` to something else to call, which no call site records, so without following a function passed as an argument the chain ended at the line that hands it over. That second half also had to be followed UPWARD -- reachability had counted argument functions since it existed while every walk toward an entry point counted only callees, and the disagreement is exactly what left jupyterhub's cookie-secret handling unanchored. A third entry point is enumerated and excluded: a `devscripts/` release script is a real program start and is not the application's, so it lands in the non-application surface the way an example route does -- and `devscripts` counts only because it is the FIRST segment of the repository, since matching a tooling name at any depth would classify application packages by accident. Two silences: a single variable read out of the environment by name, because the rule asks for the whole structure and a program that publishes its region is leaking nothing; and a module whose top level does work and is not a program start, which is the count that would have run to thousands.",
+  "expected": [
+    {
+      "cwe": "CWE-497",
+      "sinkFile": "hub/app.py",
+      "sinkLine": 58,
+      "sourceLabel": "os.environ",
+      "confidence": "high",
+      "note": "the whole environment posted to a third party at startup, four calls below a line that runs only because somebody started the program. Anchored to the process start, and not gating: the trust says an operator reached it, not a stranger"
+    },
+    {
+      "cwe": "CWE-497",
+      "sinkFile": "tools.py",
+      "sinkLine": 18,
+      "sourceLabel": "os.environ",
+      "confidence": "high",
+      "note": "the same weakness in a module with no program start in it. Reported and UNANCHORED, which is the honest answer: nothing here says this function ever runs, and inventing an entry point for every module's top level to make it anchored would have destroyed the surface"
+    },
+    {
+      "cwe": "CWE-497",
+      "sinkFile": "devscripts/release.py",
+      "sinkLine": 21,
+      "sourceLabel": "os.environ",
+      "confidence": "high",
+      "note": "the same weakness in a release script. Enumerated -- it IS a program start -- and reported under the non-application surface, never gating, exactly as an example route is. One repository in this batch contributes fifteen of these against one real entry point, which is why the class had to be separable rather than merely counted"
+    }
+  ]
+}
