@@ -1551,7 +1551,11 @@ function lowerFunction(
       for (const prop of expr.properties) {
         if (ts.isPropertyAssignment(prop)) {
           const from = lowerExpr(prop.initializer);
-          addFlow(from, id, "enclose", loc);
+          // The enclosing object's start can be several lines above the value that
+          // actually entered it. Keeping the initializer's position is what lets a
+          // consolidated finding show every branch's evidence instead of three copies
+          // of the opening `res.json({` line.
+          addFlow(from, id, "enclose", locOf(sf, prop.initializer));
           const key = ts.isIdentifier(prop.name) || ts.isStringLiteralLike(prop.name)
             ? prop.name.text
             : undefined;
@@ -1577,7 +1581,7 @@ function lowerFunction(
           // local it reads. The checker has a dedicated accessor for the value.
           const valueSym = checker.getShorthandAssignmentValueSymbol(prop);
           const from = valueSym ? bySymbol.get(valueSym) : undefined;
-          addFlow(from, id, "enclose", loc);
+          addFlow(from, id, "enclose", locOf(sf, prop.name));
           if (from) fields.set(prop.name.text, from);
         } else if (ts.isSpreadAssignment(prop)) {
           // A spread is NOT an enclosure. `{ ...req.body }` is the caller's object with

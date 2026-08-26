@@ -60,11 +60,12 @@ type sarifText struct {
 }
 
 type sarifResult struct {
-	RuleID    string          `json:"ruleId"`
-	Level     string          `json:"level"`
-	Message   sarifText       `json:"message"`
-	Locations []sarifLocation `json:"locations"`
-	CodeFlows []sarifCodeFlow `json:"codeFlows,omitempty"`
+	RuleID           string          `json:"ruleId"`
+	Level            string          `json:"level"`
+	Message          sarifText       `json:"message"`
+	Locations        []sarifLocation `json:"locations"`
+	RelatedLocations []sarifLocation `json:"relatedLocations,omitempty"`
+	CodeFlows        []sarifCodeFlow `json:"codeFlows,omitempty"`
 	// PartialFingerprints is SARIF's own mechanism for matching a finding to its
 	// previous self across runs. Emitting it here means a consumer that already knows
 	// how to track findings — GitHub code scanning, among others — does not need this
@@ -74,6 +75,7 @@ type sarifResult struct {
 }
 
 type sarifLocation struct {
+	ID               int           `json:"id,omitempty"`
 	PhysicalLocation sarifPhysical `json:"physicalLocation"`
 	Message          *sarifText    `json:"message,omitempty"`
 }
@@ -152,8 +154,9 @@ func SARIF(w io.Writer, scanRes scan.Result, toolVersion string) error {
 			RuleID:              f.CWE,
 			Level:               levelFor(f),
 			Message:             sarifText{Text: fmt.Sprintf("%s: %s (source: %s)", f.Class, f.Message, f.SourceLabel)},
-			Locations:           []sarifLocation{locationOf(f.SinkLoc, "")},
-			CodeFlows:           []sarifCodeFlow{codeFlowOf(f)},
+			Locations:           locationsOf(f),
+			RelatedLocations:    relatedLocationsOf(f),
+			CodeFlows:           codeFlowsOf(f),
 			PartialFingerprints: map[string]string{"sastEngine/v1": f.Fingerprint()},
 			Properties: map[string]any{
 				"confidence":  string(f.Confidence),
@@ -277,11 +280,53 @@ func rulesFor(r scan.Result) []sarifRule {
 }
 
 func codeFlowOf(f taint.Finding) sarifCodeFlow {
-	locs := make([]sarifThreadFlowLocation, 0, len(f.Path))
-	for _, h := range f.Path {
+	return codeFlowForPath(f.Path)
+}
+
+func codeFlowForPath(path []taint.Hop) sarifCodeFlow {
+	locs := make([]sarifThreadFlowLocation, 0, len(path))
+	for _, h := range path {
 		locs = append(locs, sarifThreadFlowLocation{Location: locationOf(h.Loc, h.Description)})
 	}
 	return sarifCodeFlow{ThreadFlows: []sarifThreadFlow{{Locations: locs}}}
+}
+
+func locationsOf(f taint.Finding) []sarifLocation {
+	locations := make([]sarifLocation, 0, 1+len(f.RelatedSites))
+	locations = append(locations, locationOf(primarySiteLoc(f), ""))
+	for _, site := range f.RelatedSites {
+		locations = append(locations, locationOf(site.Loc, "same weakness at another syntactic site"))
+	}
+	return locations
+}
+
+func primarySiteLoc(f taint.Finding) ir.Loc {
+	if len(f.Path) > 1 {
+		h := f.Path[len(f.Path)-2]
+		if h.Kind == "enclose" && h.Loc.File == f.SinkLoc.File {
+			return h.Loc
+		}
+	}
+	return f.SinkLoc
+}
+
+func relatedLocationsOf(f taint.Finding) []sarifLocation {
+	locations := make([]sarifLocation, 0, len(f.RelatedSites))
+	for i, site := range f.RelatedSites {
+		loc := locationOf(site.Loc, "same rule, sink function and value origin")
+		loc.ID = i + 1
+		locations = append(locations, loc)
+	}
+	return locations
+}
+
+func codeFlowsOf(f taint.Finding) []sarifCodeFlow {
+	flows := make([]sarifCodeFlow, 0, 1+len(f.RelatedSites))
+	flows = append(flows, codeFlowOf(f))
+	for _, site := range f.RelatedSites {
+		flows = append(flows, codeFlowForPath(site.Path))
+	}
+	return flows
 }
 
 func locationOf(l ir.Loc, message string) sarifLocation {

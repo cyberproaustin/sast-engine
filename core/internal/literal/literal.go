@@ -39,6 +39,10 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 
 	var out []taint.Finding
 	for _, fn := range d.Functions {
+		// The raw value is used only as an in-memory identity. SourceLabel is deliberately
+		// elided so reports do not publish a credential, and grouping by that prefix would
+		// merge different keys that happen to begin alike.
+		seen := make(map[string]int)
 		for _, v := range fn.Values {
 			if v.Kind != ir.ValueLiteral || v.Literal == "" {
 				continue
@@ -80,6 +84,19 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 				if r, _ := roles.classify(fn, v, text); r == rolePresented {
 					break
 				}
+				key := rule.ID + "\x00" + text
+				if at, ok := seen[key]; ok {
+					out[at].RelatedSites = append(out[at].RelatedSites, taint.Site{
+						Loc: v.Loc,
+						Path: []taint.Hop{{
+							Loc:         v.Loc,
+							Description: fmt.Sprintf("%s is also written here", rule.Finding),
+							Resolution:  ir.Resolved,
+						}},
+					})
+					break
+				}
+				seen[key] = len(out)
 				out = append(out, finding(ix, fn, v, rule, text))
 				// One value is one finding. A private key that also parses as something
 				// else is still one key written into one file, and reporting it twice
