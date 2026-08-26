@@ -126,6 +126,7 @@ var corpora = []string{
 	"weak-hash-by-use",
 	"regex-complexity",
 	"unowned-record-access",
+	"unbounded-resource",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {

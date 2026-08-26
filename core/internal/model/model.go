@@ -7080,6 +7080,72 @@ type StoreRule struct {
 	// called. Process-wide state written from a request handler is read back by the next
 	// request, and the name it happens to have says nothing about that.
 	IntoScope string
+
+	// KeyClass is the classification the KEY must carry, for a rule whose subject is
+	// what the entry was filed under rather than what was filed.
+	//
+	// `cache[req.params.id] = row` writes a row the server produced under an identifier
+	// the caller invented, and the two halves of that statement are different weaknesses.
+	// What was written decides whether one request's data is answered to another; what it
+	// was written UNDER decides how many entries there can ever be, because a container
+	// gains one per distinct key and the caller has an unlimited supply.
+	//
+	// A literal key can never make the container grow past the number of literals in the
+	// program, which is why only a computed key is matched at all.
+	KeyClass string
+
+	// IntoOutlivingRequest requires the destination to be reached through a binding no
+	// request created: a name declared at a module's top level, or one the language
+	// provides. A container that is made inside the handler dies with it however many
+	// entries it gained, so the same statement in the same handler means nothing there.
+	//
+	// Read from the shape of the IR rather than from a name: the base of the write is
+	// followed to the root of its property chain, and the root either belongs to a
+	// module's top level or is a global. `IntoScope` answers the same question for an
+	// assignment to a plain NAME, which is the only shape a frontend can decide by
+	// itself; a subscript into a container is decided here because it is the same
+	// question asked about a value the core can already see.
+	IntoOutlivingRequest bool
+
+	// AbsentSizeBound requires that nothing in the program measures the container's
+	// extent against a number written in the source.
+	//
+	// A cache with a cap is a cache; a cache without one is a leak, and the difference
+	// is a comparison. `if (cache.size > 1000) evict()` is the whole of what separates
+	// them, so a rule that reports unbounded growth has to look for it -- and has to
+	// look program-wide, because the eviction is routinely written in a different
+	// function from the insertion.
+	AbsentSizeBound bool
+
+	// NotAfterLookup withdraws the judgement when a call handed the same key has already
+	// DECIDED something before the write: the key was looked up, control branched on the
+	// answer, and the write is on the far side of that branch.
+	//
+	// This is what separates a leak from a memo. `const row = await find(id); if (!row)
+	// return 404; cache[id] = row` can only ever hold keys that name a row, and the
+	// number of rows is not the caller's to choose. The identical write with the lookup
+	// BELOW it, or with the lookup's answer not yet consulted, has no such ceiling.
+	//
+	// A basic block is the whole evidence and there is no guessing in it: a block
+	// contains no branch, so a lookup in the same block as the write cannot have changed
+	// whether the write runs. uptime-kuma asks `isMonitorPublic(id)` and installs a
+	// permanent entry for `id` two lines later, in the same block, before reading the
+	// answer.
+	NotAfterLookup bool
+
+	// KeyPure names the calls that decide nothing about a key beyond its own text, so
+	// that a conversion is not mistaken for a lookup.
+	//
+	// `Number.isNaN(id)` and `/^[0-9]+$/.test(id)` are checks, and what they establish is
+	// that the key is well FORMED -- and the set of well-formed keys is exactly as
+	// unbounded as the set of keys. uptime-kuma's badge routes reject a non-numeric
+	// monitor id two lines above installing an entry for whatever number arrived, which
+	// is the shape this exists to keep visible.
+	//
+	// A method on a type the language itself declares is excluded without being named:
+	// nothing a string can be asked about itself is a lookup, and the frontend already
+	// says which receivers those are.
+	KeyPure []string
 	// AbsentCall names calls whose ABSENCE is the defect: the write is unremarkable and
 	// what makes it a weakness is the thing that did not happen beside it.
 	//
@@ -7142,6 +7208,34 @@ type GuardRule struct {
 	// Raises names calls that end the request by throwing. Flask's `abort` is the one
 	// that matters; the rest are found by looking at the function rather than the name.
 	Raises []string
+
+	// The second shape this kind reads, and the same judgement asked about a callback
+	// rather than about a block: not "does work follow this refusal" but "will the thing
+	// that produced the input be asked for more".
+	//
+	// A refusal inside a listener is not a refusal. `return` ends this invocation and the
+	// next chunk arrives anyway, and rejecting a promise that is already rejected does
+	// nothing at all -- so a size limit written this way is a limit the program checks
+	// and then declines to enforce, while the buffer it was about keeps growing.
+	//
+	//	req.on("data", (chunk) => {
+	//	  chunks.push(chunk)                                  // still runs
+	//	  total += chunk.length
+	//	  if (total > limit) reject(new Error("Too Large"))    // and nothing detaches this
+	//	})
+	//
+	// Attaches names the calls that register a callback for an event and Repeats the
+	// event names whose callback is called more than once -- both are lists because an
+	// event's name is the only thing that says whether it happens again, and `end` and
+	// `error` happen once. Refuses is what a refusal looks like where there is no
+	// response object to write a status into. Accumulates names the calls that make the
+	// invocation cost something that outlasts it. Detaches names what makes the refusal
+	// real: removing the listener, or stopping what feeds it.
+	Attaches    []string
+	Repeats     []string
+	Refuses     []string
+	Accumulates []string
+	Detaches    []string
 
 	CWE       string
 	Finding   string
@@ -7248,6 +7342,32 @@ func builtinGuards() []GuardRule {
 			Reason:       "the program has already decided this request should not proceed, and the operation it was refusing runs anyway -- so the refusal is a status code and nothing more",
 			Rationale:    "an error status is written into the response and work that follows it is unavoidable",
 		},
+		{
+			// The same judgement about a callback rather than a block. A size limit
+			// enforced from inside a `data` listener is a limit the program measures and
+			// then does not apply: the listener stays attached, the next chunk is pushed
+			// onto the same array, and the promise it rejected is already rejected.
+			//
+			// The three lists are what keep this from being a rule about promises. An
+			// event that happens ONCE needs no detaching, so the event name decides
+			// whether there is a weakness at all; a callback that accumulates nothing
+			// costs nothing to run again; and a listener something removes, or a source
+			// something destroys, is a refusal that took effect.
+			ID:          "refusal-inside-a-repeating-callback",
+			Attaches:    []string{"on", "addListener", "prependListener", "addEventListener"},
+			Repeats:     []string{"data", "chunk", "message", "readable", "packet", "frame"},
+			Refuses:     []string{"reject", "abort", "fail"},
+			Accumulates: []string{"push", "append", "concat", "write", "add", "extend", "set"},
+			Detaches: []string{
+				"destroy", "removeListener", "removeAllListeners", "off", "pause",
+				"unpipe", "abort", "close", "end", "unsubscribe", "detach", "cancel",
+			},
+			CWE:     "CWE-770",
+			Finding: "The program refused the input and goes on accepting it",
+			Reason:  "the refusal is written inside a callback the source will call again, and nothing removes the callback or stops the source, so the next chunk is appended to the very buffer the limit was about",
+			Rationale: "a refusal inside a listener registered for a repeating event, in a callback that appends to a collection it did not create, " +
+				"with nothing on any path detaching the listener or stopping what feeds it",
+		},
 	}
 }
 
@@ -7322,6 +7442,50 @@ func builtinStores() []StoreRule {
 			Finding:               "One request's data written into state the whole process shares",
 			Reason:                "every request this process handles reads the same variable, so what one caller put there is what the next caller gets",
 			Rationale:             "the assignment reaches a name bound outside the handler",
+		},
+		{
+			// The same write the rule above declines to read, read the other way round.
+			// That one asks what was PUT in a container; this one asks what it was put
+			// UNDER, because the key is what decides how large the container can become:
+			// one entry per distinct key, and a caller who chooses the keys has an
+			// unlimited supply of them.
+			//
+			// Three things have to hold together and each removes a whole population of
+			// ordinary code. The container has to outlive the request, or it dies with
+			// the handler however much it grew. The key has to be the caller's, or the
+			// number of keys is the program's business. And nothing may cap the
+			// container, because a cache with an eviction bound is a cache.
+			//
+			// The fourth is what separates a leak from a memo, and it is the one that
+			// makes the rule usable: a write that is on the far side of a branch on a
+			// LOOKUP of the same key can only ever hold keys that name something real.
+			// The number of real things is not the caller's to choose.
+			ID:       "unbounded-retention-by-caller-key",
+			KeyClass: "untrusted-input",
+			// The process environment is a namespace with a meaning rather than a
+			// container something is kept in, and a caller's value written into one is a
+			// weakness the model already reports under its own number. Two rules
+			// describing one line at different granularities is what NotInto is for, and
+			// the narrower one keeps it. Measured: misskey's test harness has a route
+			// that does exactly this, and across ten production repositories it was the
+			// only other thing this rule had to say.
+			NotInto:              []string{"env", "environ"},
+			IntoOutlivingRequest: true,
+			AbsentSizeBound:      true,
+			NotAfterLookup:       true,
+			// The language's own conversions and predicates. Every one of these answers
+			// a question about the key's TEXT, and no answer about a key's text bounds
+			// how many keys there can be.
+			KeyPure: []string{
+				"parseInt", "parseFloat", "Number", "String", "Boolean", "isNaN",
+				"toString", "valueOf", "encodeURIComponent", "decodeURIComponent",
+				"int", "str", "float", "bool", "len", "abs", "round",
+			},
+			RequiresEntryFunction: true,
+			CWE:                   "CWE-770",
+			Finding:               "The caller decides how many entries the process keeps",
+			Reason:                "the container outlives the request and gains an entry per distinct key, the key is one the caller chose, and nothing in the program bounds how many there can be",
+			Rationale:             "a write into state bound outside the handler, under a key the caller supplied, with no size bound anywhere and no lookup deciding the key names anything",
 		},
 		{
 			// Session fixation. Installing an identity into the session is what every

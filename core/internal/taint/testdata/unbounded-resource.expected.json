@@ -1,0 +1,30 @@
+{
+  "corpus": "unbounded-resource",
+  "description": "How much a caller may make the server keep, and how much it may make it accept. Neither judgement is \"this loop has no bound\", which is true of nearly every loop in every program and is why a rule shaped that way is worth nothing. The first is that a container OUTLIVING the request gains one entry per distinct key, so when the caller chooses the keys, nothing measures the container against a number written in the source, and nothing has decided the key names anything real, the number of entries the process keeps is a number the caller sets -- uptime-kuma installs an UptimeCalculator in a process-wide map for whatever monitor id arrives, two lines before it reads the answer to whether that monitor is public. The second is that a refusal written inside a listener for an event that HAPPENS AGAIN is not a refusal: `return` ends this invocation and detaches nothing, so the next chunk is appended to the very buffer the limit was about -- linkwarden's migration endpoint rejects its promise and leaves the data listener attached. Seven negatives carry the weight: a container with a cap in another function, a key written down, a container made inside the handler, an installation reached only after a lookup, a listener the handler destroys, an event that happens once, and a fixture. Three more are LOOPS, and they are here because the shape that would have reported them was measured and withdrawn: the engine has no repetition in its IR, so the capped loop, the constant loop and the genuinely unbounded one are all silent, and the corpus records that rather than hiding it.",
+  "expected": [
+    {
+      "cwe": "CWE-770",
+      "sinkFile": "app.ts",
+      "sinkLine": 53,
+      "sourceLabel": "req.body.token",
+      "confidence": "high",
+      "note": "a module-level container, a key the caller sent, no comparison anywhere against the container's size, and nothing establishing that the token names a session"
+    },
+    {
+      "cwe": "CWE-770",
+      "sinkFile": "store.ts",
+      "sinkLine": 24,
+      "sourceLabel": "req.params.widgetId",
+      "confidence": "high",
+      "note": "the write is in the helper and the decision about whether to make it is in the handler, where there is none; the route below reaches the identical helper after a lookup and is silent"
+    },
+    {
+      "cwe": "CWE-770",
+      "sinkFile": "app.ts",
+      "sinkLine": 120,
+      "sourceLabel": "data",
+      "confidence": "high",
+      "note": "the limit is measured inside a `data` listener and nothing detaches it, so the next chunk is pushed onto the same array; the route below destroys the request and is silent"
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.13.0",
+  "irVersion": "0.14.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -1890,7 +1890,9 @@
             "column": 5
           },
           "base": "front/signals.py#<module>:0:0$v2",
-          "from": "front/signals.py#register:6:1$v1"
+          "key": "front/signals.py#register:6:1$v0",
+          "from": "front/signals.py#register:6:1$v1",
+          "block": "front/signals.py#register:6:1$b0"
         }
       ],
       "entryBlock": "front/signals.py#register:6:1$b0",

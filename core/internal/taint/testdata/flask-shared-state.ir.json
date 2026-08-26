@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.13.0",
+  "irVersion": "0.14.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -285,6 +285,7 @@
           "base": "app.py#<module>:0:0$v3",
           "path": "current_user",
           "from": "app.py#login:9:1$v2",
+          "block": "app.py#login:9:1$b0",
           "scope": "process"
         }
       ],
@@ -334,6 +335,40 @@
         },
         {
           "id": "app.py#login_keyed:19:1$v1",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 24,
+            "column": 14
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#login_keyed:19:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 24,
+            "column": 14
+          },
+          "base": "app.py#login_keyed:19:1$v1",
+          "path": "form",
+          "name": "form"
+        },
+        {
+          "id": "app.py#login_keyed:19:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 24,
+            "column": 14
+          },
+          "name": "email",
+          "base": "app.py#login_keyed:19:1$v2",
+          "path": "form.email"
+        },
+        {
+          "id": "app.py#login_keyed:19:1$v4",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -343,10 +378,33 @@
           "literal": "ok"
         }
       ],
-      "flows": [],
+      "flows": [
+        {
+          "from": "app.py#login_keyed:19:1$v1",
+          "to": "app.py#login_keyed:19:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 24,
+            "column": 14
+          },
+          "block": "app.py#login_keyed:19:1$b0"
+        },
+        {
+          "from": "app.py#login_keyed:19:1$v2",
+          "to": "app.py#login_keyed:19:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 24,
+            "column": 14
+          },
+          "block": "app.py#login_keyed:19:1$b0"
+        }
+      ],
       "calls": [],
       "returns": [
-        "app.py#login_keyed:19:1$v1"
+        "app.py#login_keyed:19:1$v4"
       ],
       "comparisons": [],
       "writes": [
@@ -357,7 +415,9 @@
             "column": 5
           },
           "base": "app.py#<module>:0:0$v5",
-          "from": "app.py#login_keyed:19:1$v0"
+          "key": "app.py#login_keyed:19:1$v3",
+          "from": "app.py#login_keyed:19:1$v0",
+          "block": "app.py#login_keyed:19:1$b0"
         }
       ],
       "entryBlock": "app.py#login_keyed:19:1$b0",

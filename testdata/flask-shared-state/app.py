@@ -17,10 +17,10 @@ def login():
 
 @app.route("/login-keyed", methods=["POST"])
 def login_keyed():
-    # NEGATIVE for THIS rule. A container keyed by something is a cache: what the next
-    # request reads is what it asked for. That the caller also chooses the keys, and can
-    # grow this dictionary until the process runs out of memory, is a different question
-    # and this rule does not ask it.
+    # NEGATIVE for THIS rule and a POSITIVE for the one beside it. A container keyed by
+    # something is a cache: what the next request reads is what it asked for. That the
+    # caller also chooses the keys, and can grow this dictionary until the process runs
+    # out of memory, is the other rule's question, and it has one now.
     SESSIONS[request.form["email"]] = True
     return "ok"
 

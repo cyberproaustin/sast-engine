@@ -117,6 +117,26 @@ type Write struct {
 	Path string `json:"path,omitempty"`
 	// From is the value written, when it produced one.
 	From string `json:"from,omitempty"`
+	// Key is the value the entry was FILED UNDER, for a subscript whose key was
+	// computed rather than written down. `cache[req.params.id] = entry` records the
+	// entry in From and the identifier the caller chose in Key, and it is the key that
+	// decides how many entries the container can come to hold: one per distinct key.
+	//
+	// Path already carries a key that was written as a literal, because a literal key is
+	// a property name spelled differently and a fixed set of names cannot grow. The two
+	// are never both set.
+	Key string `json:"key,omitempty"`
+
+	// Block is the basic block this write occurs in, and it exists for the same reason
+	// the flows carry one: a question about what a CHECK settled before the write
+	// cannot be answered from a line number. Two writes on the same line of two
+	// programs sit in different places in the graph, and only one of them is downstream
+	// of a rejection.
+	//
+	// Absent is a refusal, never a default — a write inside a loop body or a switch arm
+	// is at a position the block graph does not express, and a judgement that needs the
+	// position declines to be made rather than guessing at it.
+	Block string `json:"block,omitempty"`
 
 	// Scope says how far the destination reaches, for a write whose danger is not what
 	// it writes into but how long that lives. "process" marks state shared by every
@@ -166,6 +186,11 @@ const (
 	ValueCallResult ValueKind = "call-result"
 	ValueLiteral    ValueKind = "literal"
 	ValueCatchParam ValueKind = "catch-param"
+	// ValueGlobal is a name with no binding inside any function: a module-level
+	// declaration, or an ambient the language provides. What it identifies is a
+	// container that outlives every request the process serves, which is the whole
+	// evidence a retention rule has.
+	ValueGlobal ValueKind = "global"
 )
 
 // Value is a dataflow node. Taint is a property of values.

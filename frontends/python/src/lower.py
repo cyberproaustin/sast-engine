@@ -18,7 +18,7 @@ from typing import Any
 
 from templates import index_templates, resolve_template
 
-IR_VERSION = "0.13.0"
+IR_VERSION = "0.14.0"
 FRONTEND_VERSION = "0.1.0"
 
 FUNCTION_NODES = (ast.FunctionDef, ast.AsyncFunctionDef)
@@ -69,6 +69,74 @@ PYTHON_BUILTINS = frozenset({
 })
 
 BUILTIN_CONTAINERS = frozenset({"dict", "list", "set", "frozenset", "bytearray", "tuple", "Counter", "defaultdict", "OrderedDict"})
+
+
+# --- Route binders ----------------------------------------------------------
+#
+# WHICH FRAMEWORK a decorator belongs to is a property of the object it is bound to, not
+# of the file it sits in. `@router.get("/me")` on a FastAPI `APIRouter` and
+# `@app.route("/me")` on a Flask app are two frameworks, and a file that imports both --
+# which is what an application with a Flask admin and a FastAPI API looks like -- gets one
+# answer per decorator or a wrong answer for half of them.
+#
+# The constructor names each framework binds a route receiver with, and the module each
+# one comes from. The module is checked first (the import table already resolves it), and
+# the bare name is the fallback for a constructor whose import could not be resolved.
+ROUTER_CONSTRUCTORS = {
+    "APIRouter": "fastapi",
+    "FastAPI": "fastapi",
+    "Flask": "flask",
+    "Blueprint": "flask",
+    "Namespace": "flask",
+    "Api": "flask",
+    "Sanic": "sanic",
+}
+
+# The import root a constructor came from decides the framework when the two disagree:
+# `Blueprint` is Flask's and `APIRouter` is FastAPI's, but an application is free to
+# import either from a wrapper of its own.
+ROUTER_MODULE_FRAMEWORKS = (
+    ("fastapi", "fastapi"),
+    ("starlette", "fastapi"),
+    ("flask", "flask"),
+    ("sanic", "sanic"),
+)
+
+# The keyword each framework spells a mount prefix with. A router constructed under a
+# prefix serves every route registered on it BELOW that prefix, and a path recorded
+# without it names an address that answers nothing.
+PREFIX_KEYWORDS = ("prefix", "url_prefix", "path")
+
+# What a path that could not be resolved is called. `*` was what this used to print, and
+# `*` reads as "matches everything" -- a claim about the route that is both different from
+# and stronger than "this frontend could not read the expression". ADR-009 asks for the
+# route to exist either way; it does not ask for it to lie about its address.
+UNRESOLVED_PATH = "<unresolved>"
+
+
+def unresolved_path(expr: str = "") -> str:
+    """The marker for a path the frontend could not read, naming the expression."""
+    return f"<unresolved:{expr}>" if expr else UNRESOLVED_PATH
+
+
+def is_unresolved_path(path: str) -> bool:
+    return path.startswith("<unresolved")
+
+
+def _is_environ(node: ast.AST) -> bool:
+    """`os.environ` however the file spelled the import."""
+    if isinstance(node, ast.Attribute):
+        return node.attr == "environ"
+    return isinstance(node, ast.Name) and node.id == "environ"
+
+
+def join_route(prefix: str, path: str) -> str:
+    """A mount prefix concatenated with the path registered under it."""
+    if not prefix:
+        return path
+    if not path:
+        return prefix
+    return prefix.rstrip("/") + "/" + path.lstrip("/")
 
 
 # --- Django URLconf ---------------------------------------------------------
@@ -456,7 +524,15 @@ class ModuleLowerer:
         # inside a handler are the same object, and without this link the second is a
         # method call on nothing -- which is most of Python logging.
         self.module_scope: dict[str, str] = {}
+        # Every name bound to a string, so a route written as a name or a concatenation
+        # resolves to the address it is actually served at rather than to nothing.
+        self.string_bindings: dict[str, ast.AST] = {}
+        # Route receivers: which framework each one belongs to, and the prefix it mounts
+        # its routes under.
+        self.binder_framework: dict[str, str] = {}
+        self.binder_prefix: dict[str, ast.AST] = {}
         self._collect_imports()
+        self._collect_route_binders()
 
     def _collect_imports(self) -> None:
         for node in ast.walk(self.tree):
@@ -479,6 +555,156 @@ class ModuleLowerer:
                 for alias in node.names:
                     local = alias.asname or alias.name
                     self.imports[local] = f"{module}.{alias.name}"
+
+    # --- Route receivers and the paths they are mounted at ---------------------
+    #
+    # A decorator says which verb and which path; the object it is bound to says which
+    # framework and which prefix. Both halves are needed before an entry point can state
+    # its own address, and the second half is what a per-FILE framework guess threw away.
+
+    def _collect_route_binders(self) -> None:
+        """`router = APIRouter(prefix=...)` -- the framework and prefix of each receiver.
+
+        Walked over the whole tree rather than the module body: an application factory
+        (`def create_app(): app = Flask(__name__)`) is where a great deal of real code
+        constructs its app, and a receiver bound inside one is a receiver all the same.
+        """
+        for node in ast.walk(self.tree):
+            if isinstance(node, ast.Assign):
+                targets, value = node.targets, node.value
+            elif isinstance(node, ast.AnnAssign) and node.value is not None:
+                targets, value = [node.target], node.value
+            else:
+                continue
+            for target in targets:
+                if not isinstance(target, ast.Name):
+                    continue
+                # First binding wins, the way the reader of the file sees it: a name
+                # reassigned later is still the one the decorators below it were written
+                # against.
+                if isinstance(value, ast.Call):
+                    framework = self._constructor_framework(value.func)
+                    if framework and target.id not in self.binder_framework:
+                        self.binder_framework[target.id] = framework
+                        prefix = self._prefix_argument(value)
+                        if prefix is not None:
+                            self.binder_prefix[target.id] = prefix
+                if target.id not in self.string_bindings:
+                    self.string_bindings[target.id] = value
+
+        # `api.register_blueprint(bp, url_prefix="/v2")` and FastAPI's
+        # `app.include_router(router, prefix="/api")` mount a receiver that was
+        # constructed without a prefix of its own. Same fact, stated at the mount.
+        for node in ast.walk(self.tree):
+            if not isinstance(node, ast.Call) or not isinstance(node.func, ast.Attribute):
+                continue
+            if node.func.attr not in ("register_blueprint", "include_router", "add_namespace"):
+                continue
+            if not node.args or not isinstance(node.args[0], ast.Name):
+                continue
+            name = node.args[0].id
+            prefix = self._prefix_argument(node)
+            if prefix is not None and name not in self.binder_prefix:
+                self.binder_prefix[name] = prefix
+
+    def _constructor_framework(self, func: ast.AST) -> str | None:
+        """The framework a route receiver's constructor belongs to, or None."""
+        if isinstance(func, ast.Name):
+            name, origin = func.id, self.imports.get(func.id, "")
+        elif isinstance(func, ast.Attribute):
+            name = func.attr
+            root = func.value.id if isinstance(func.value, ast.Name) else ""
+            origin = f"{self.imports.get(root, root)}.{name}"
+        else:
+            return None
+        if name not in ROUTER_CONSTRUCTORS:
+            return None
+        root = origin.split(".")[0]
+        for module, framework in ROUTER_MODULE_FRAMEWORKS:
+            if root == module or root.startswith(module + "_"):
+                return framework
+        return ROUTER_CONSTRUCTORS[name]
+
+    @staticmethod
+    def _prefix_argument(call: ast.Call) -> ast.AST | None:
+        for kw in call.keywords:
+            if kw.arg in PREFIX_KEYWORDS:
+                return kw.value
+        return None
+
+    def binder_prefix_text(self, receiver: ast.AST) -> str:
+        """The mount prefix of the object a decorator is bound to."""
+        if not isinstance(receiver, ast.Name):
+            return ""
+        expr = self.binder_prefix.get(receiver.id)
+        return "" if expr is None else self.path_text(expr)
+
+    def path_text(self, node: ast.AST, seen: frozenset[str] = frozenset()) -> str:
+        """A route path as it was written, resolved as far as the file allows.
+
+        A path is a name, a concatenation or an f-string at least as often as it is a
+        literal, and every one of those used to lower to `*`. What cannot be resolved is
+        NAMED -- `<unresolved:baseUriPath>/api` says which expression stood in the way,
+        which is the difference between an operator being able to look it up and not.
+        """
+        if isinstance(node, ast.Constant):
+            return node.value if isinstance(node.value, str) else unresolved_path()
+        if isinstance(node, ast.Name):
+            # A name that resolves to a string is that string; one that does not is named
+            # rather than dropped, and the cycle guard is what keeps `x = x + "/y"` finite.
+            bound = self.string_bindings.get(node.id)
+            if bound is not None and node.id not in seen:
+                text = self.path_text(bound, seen | {node.id})
+                if not is_unresolved_path(text):
+                    return text
+            return unresolved_path(node.id)
+        if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):
+            return self.path_text(node.left, seen) + self.path_text(node.right, seen)
+        if isinstance(node, ast.JoinedStr):
+            out = []
+            for part in node.values:
+                if isinstance(part, ast.Constant) and isinstance(part.value, str):
+                    out.append(part.value)
+                elif isinstance(part, ast.FormattedValue):
+                    out.append(self.path_text(part.value, seen))
+                else:
+                    out.append(unresolved_path())
+            return "".join(out)
+        if isinstance(node, ast.Attribute):
+            return unresolved_path(ast.unparse(node))
+        if isinstance(node, ast.Call):
+            return self._call_path_text(node, seen)
+        return unresolved_path()
+
+    def _call_path_text(self, node: ast.Call, seen: frozenset[str]) -> str:
+        """The two calls a mount prefix is routinely written as.
+
+        `os.environ.get("PREFIX", "/hub")` is the DEFAULT for every deployment that leaves
+        the variable unset, which is the same judgement `django_route_text` already makes
+        about a setting interpolated into a URLconf: the static text is the route until an
+        operator changes it, and the alternative was no path at all (ADR-009). `.rstrip("/")`
+        and its siblings are how the same code then normalises it.
+        """
+        func = node.func
+        if isinstance(func, ast.Attribute):
+            if func.attr in ("strip", "rstrip", "lstrip"):
+                base = self.path_text(func.value, seen)
+                chars = node.args[0].value if (
+                    node.args and isinstance(node.args[0], ast.Constant)
+                    and isinstance(node.args[0].value, str)) else None
+                if not is_unresolved_path(base):
+                    if func.attr == "strip":
+                        return base.strip(chars) if chars else base.strip()
+                    if func.attr == "rstrip":
+                        return base.rstrip(chars) if chars else base.rstrip()
+                    return base.lstrip(chars) if chars else base.lstrip()
+                return base
+            if func.attr == "get" and len(node.args) > 1 and _is_environ(func.value):
+                return self.path_text(node.args[1], seen)
+        name = func.attr if isinstance(func, ast.Attribute) else getattr(func, "id", "")
+        if name == "getenv" and len(node.args) > 1:
+            return self.path_text(node.args[1], seen)
+        return unresolved_path(name or ast.unparse(func))
 
     def lower(self, django: list[dict], registered: set[str]) -> None:
         """Lowers this module, given what the whole program's URLconfs registered.
@@ -651,13 +877,34 @@ class ModuleLowerer:
             if not target:
                 continue
             paths = self._paths_in(node)
-            out.append({
-                "functionId": target,
-                "kind": "http-route",
-                "framework": "flask",
-                "detail": {"method": "GET", "path": paths[0] if paths else "*"},
-            })
+            path = paths[0] if paths else (
+                self.path_text(node.args[0]) if node.args else unresolved_path())
+            # `add_url_rule(..., methods=["POST"])` is the same declaration the decorator
+            # makes, and GET was being applied over the top of it here too.
+            for method in self._declared_methods(node):
+                out.append({
+                    "functionId": target,
+                    "kind": "http-route",
+                    "framework": "flask",
+                    "detail": {"method": method, "path": path},
+                })
         return out
+
+    @staticmethod
+    def _declared_methods(call: ast.Call, default: list[str] | None = None) -> list[str]:
+        """The verbs a registration declares, or the framework's default when it declares none.
+
+        Flask defaults to GET when `methods=` is ABSENT. That default was being applied
+        even where the argument was present, which recorded every POST-capable route in
+        one application as GET-only.
+        """
+        for kw in call.keywords:
+            if kw.arg == "methods" and isinstance(kw.value, (ast.List, ast.Tuple, ast.Set)):
+                found = [str(e.value).upper() for e in kw.value.elts
+                         if isinstance(e, ast.Constant) and isinstance(e.value, str)]
+                if found:
+                    return list(dict.fromkeys(found))
+        return default or ["GET"]
 
     # --- aiohttp framework model -----------------------------------------
     #
@@ -686,7 +933,7 @@ class ModuleLowerer:
                 if len(node.args) < 3:
                     continue
                 method = self._constant(node.args[0]) or "ANY"
-                path = self._constant(node.args[1]) or "*"
+                path = self.path_text(node.args[1])
                 handler = node.args[2]
             elif attr in self._VERB_METHODS:
                 # add_get(path, handler) and web.get(path, handler). A bare `get` or
@@ -696,7 +943,7 @@ class ModuleLowerer:
                 if len(node.args) < 2:
                     continue
                 method = self._VERB_METHODS[attr]
-                path = self._constant(node.args[0]) or "*"
+                path = self.path_text(node.args[0])
                 handler = node.args[1]
             else:
                 continue
@@ -1017,78 +1264,106 @@ class ModuleLowerer:
     def entry_points_for(self, node: ast.AST, function_id: str) -> list[dict]:
         out = []
         for dec in getattr(node, "decorator_list", []):
-            entry = self._entry_point_for_decorator(dec, function_id)
-            if entry:
-                out.append(entry)
+            out.extend(self._entry_points_for_decorator(dec, function_id))
         return out
 
-    def _entry_point_for_decorator(self, dec: ast.AST, function_id: str) -> dict | None:
-        if True:
-            if not isinstance(dec, ast.Call):
-                return None
+    def _entry_points_for_decorator(self, dec: ast.AST, function_id: str) -> list[dict]:
+        """Every entry point one route decorator registers.
 
-            # `@app.route(...)`, `@router.get(...)` — bound to an object.
-            if isinstance(dec.func, ast.Attribute):
-                attr = dec.func.attr
-                framework = "flask"
-            # `@expose("/path")` — a bare name, which is how Flask-AppBuilder and
-            # several other view frameworks register. Requiring an attribute made
-            # every such route invisible.
-            elif isinstance(dec.func, ast.Name):
-                # A BARE name is a route only for the frameworks that register that way.
-                # Accepting every verb here read `@patch("module.thing")` -- unittest's
-                # mock decorator -- as an HTTP route, and one application reported 1338
-                # routes where it has about 1025. A surface that invents entry points is
-                # worse than one that misses them: it is the primary output, and every
-                # judgement rests on it (ADR-009).
-                attr = dec.func.id
-                if attr != "expose":
-                    return None
-                framework = "flask-appbuilder"
-            else:
-                return None
+        EVERY one, because `methods=["GET", "POST"]` is one decorator and two entry
+        points. Reporting only the first left every POST-capable Flask route in a search
+        engine's web application labelled GET-only, which is the exact fact a body-based
+        bypass of a query-string-only guard turns on: with the verb wrong, the question
+        cannot even be asked.
+        """
+        if not isinstance(dec, ast.Call):
+            return []
 
-            # An error handler is reached by making a request that fails, which is
-            # something any caller can do on purpose. It reads the request object like
-            # any other handler, and a vulnerable Flask application interpolates
-            # `request.url` into a template inside one. Treating it as unreachable left
-            # a real template injection in the unanchored section, where nothing gates.
-            if attr == "errorhandler":
-                return {
-                    "functionId": function_id,
-                    "kind": "http-route",
-                    "framework": framework,
-                    "detail": {"method": "ANY", "path": "<error handler>"},
-                }
+        # `@app.route(...)`, `@router.get(...)` — bound to an object, and the OBJECT is
+        # what says which framework this is. Reading it off the file's imports made
+        # `@router.get` on a FastAPI `APIRouter` report as flask whenever anything else
+        # in the file was Flask-shaped.
+        if isinstance(dec.func, ast.Attribute):
+            attr = dec.func.attr
+            receiver = dec.func.value
+            known_binder = (isinstance(receiver, ast.Name)
+                            and receiver.id in self.binder_framework)
+            framework = (self.binder_framework[receiver.id] if known_binder
+                         else self._framework_by_import(attr))
+        # `@expose("/path")` — a bare name, which is how Flask-AppBuilder and
+        # several other view frameworks register. Requiring an attribute made
+        # every such route invisible.
+        elif isinstance(dec.func, ast.Name):
+            # A BARE name is a route only for the frameworks that register that way.
+            # Accepting every verb here read `@patch("module.thing")` -- unittest's
+            # mock decorator -- as an HTTP route, and one application reported 1338
+            # routes where it has about 1025. A surface that invents entry points is
+            # worse than one that misses them: it is the primary output, and every
+            # judgement rests on it (ADR-009).
+            attr = dec.func.id
+            if attr != "expose":
+                return []
+            receiver, known_binder = None, False
+            framework = "flask-appbuilder"
+        else:
+            return []
 
-            if attr not in ("route", "expose", "get", "post", "put", "patch", "delete"):
-                return None
-
-            path = "*"
-            if dec.args and isinstance(dec.args[0], ast.Constant):
-                path = str(dec.args[0].value)
-            # A verb decorator whose first argument is not a PATH is not a route.
-            # `@mock.patch("sqli.dao.user.User")` and `@pytest.mark.parametrize(...)` are
-            # written the same way and mean something else entirely.
-            if attr not in ("route", "expose") and not path.startswith("/"):
-                return None
-
-            methods = ["GET"] if attr in ("route", "expose") else [attr.upper()]
-            for kw in dec.keywords:
-                if kw.arg == "methods" and isinstance(kw.value, ast.List):
-                    found = [
-                        str(e.value) for e in kw.value.elts if isinstance(e, ast.Constant)
-                    ]
-                    if found:
-                        methods = found
-
-            return {
+        # An error handler is reached by making a request that fails, which is
+        # something any caller can do on purpose. It reads the request object like
+        # any other handler, and a vulnerable Flask application interpolates
+        # `request.url` into a template inside one. Treating it as unreachable left
+        # a real template injection in the unanchored section, where nothing gates.
+        if attr == "errorhandler":
+            return [{
                 "functionId": function_id,
                 "kind": "http-route",
                 "framework": framework,
-                "detail": {"method": methods[0], "path": path},
-            }
-        return None
+                "detail": {"method": "ANY", "path": "<error handler>"},
+            }]
+
+        if attr not in ("route", "expose", "get", "post", "put", "patch", "delete"):
+            return []
+
+        path = self.path_text(dec.args[0]) if dec.args else unresolved_path()
+        # A verb decorator whose first argument is not a PATH is not a route.
+        # `@mock.patch("sqli.dao.user.User")` and `@pytest.mark.parametrize(...)` are
+        # written the same way and mean something else entirely. A receiver this file
+        # WATCHED being constructed as a router is exempt: `@router.get(PREFIX)` is a
+        # route on the evidence of the binding, whatever the argument resolves to.
+        if attr not in ("route", "expose") and not known_binder and not path.startswith("/"):
+            return []
+
+        path = join_route(self.binder_prefix_text(receiver) if receiver is not None else "",
+                          path)
+
+        # A verb decorator names its own verb; `route` and `expose` fall back on Flask's
+        # GET default, and only where `methods=` is absent.
+        methods = self._declared_methods(
+            dec, ["GET"] if attr in ("route", "expose") else [attr.upper()])
+
+        return [{
+            "functionId": function_id,
+            "kind": "http-route",
+            "framework": framework,
+            "detail": {"method": method, "path": path},
+        } for method in methods]
+
+    def _framework_by_import(self, attr: str) -> str:
+        """The framework of a receiver this file never watched being constructed.
+
+        A handler routinely takes its router as a PARAMETER (`def register(router):`), so
+        the binding is in another file. The DECORATOR still narrows it: `.route(...)` is
+        Flask's spelling and FastAPI has no such decorator, so only a bare verb is
+        ambiguous -- and there the file's imports are the next best evidence. Flask stays
+        the answer when there is none, which is what this used to say unconditionally.
+        """
+        if attr in ("route", "expose", "errorhandler"):
+            return "flask"
+        roots = {origin.split(".")[0] for origin in self.imports.values()}
+        for module, framework in ROUTER_MODULE_FRAMEWORKS:
+            if module in roots and framework != "flask":
+                return framework
+        return "flask"
 
 
 class FunctionLowerer:
@@ -1172,6 +1447,14 @@ class FunctionLowerer:
                 flow["block"] = self.current
             self.flows.append(flow)
 
+    def write_block(self) -> str | None:
+        """Where a write sits in the block graph, on the same terms as a flow.
+
+        A loop body and a `match` arm are positions the graph does not express, so the
+        frontend states none and a judgement that needs one declines to be made.
+        """
+        return None if self.unmodelled else self.current
+
     def lower(self) -> dict:
         # A module's top level is code like any other, and it is where configuration
         # lives: `app.run(debug=True)` is never inside a function. Lowering it as a
@@ -1253,15 +1536,24 @@ class FunctionLowerer:
                         "base": self.expr(target.value),
                         "path": target.attr,
                         "from": src,
+                        "block": self.write_block(),
                     })
                     continue
                 if isinstance(target, ast.Subscript):
                     key = target.slice
+                    literal_key = isinstance(key, ast.Constant) and isinstance(key.value, str)
+                    # A COMPUTED key is recorded as a value, because how many entries a
+                    # container can come to hold is decided by how many distinct keys
+                    # reach it -- and a key the caller chose has no ceiling. A literal
+                    # key is an attribute name spelled differently and goes in `path`
+                    # with every other fixed name.
                     self.writes.append({
                         "loc": loc_of(self.mod.module, node),
                         "base": self.expr(target.value),
-                        "path": key.value if isinstance(key, ast.Constant) and isinstance(key.value, str) else None,
+                        "path": key.value if literal_key else None,
+                        "key": None if literal_key else self.expr(key),
                         "from": src,
+                        "block": self.write_block(),
                     })
                     continue
                 if isinstance(target, ast.Name):
@@ -1276,6 +1568,7 @@ class FunctionLowerer:
                             "base": self.mod.module_scope.get(target.id),
                             "path": target.id,
                             "from": src,
+                            "block": self.write_block(),
                             "scope": "process",
                         })
                     vid = self.new_value("local", target, name=target.id)

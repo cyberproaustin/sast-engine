@@ -13,11 +13,11 @@ app.post("/login", (req, res) => {
 });
 
 app.post("/login-keyed", (req, res) => {
-  // NEGATIVE for THIS rule. A module-level CONTAINER keyed by something is a cache, and
-  // a cache is not a variable: what the next request reads is what it asked for, which is
-  // the question this rule asks. That the caller also chooses the KEYS, and can therefore
-  // grow this map until the process runs out of memory, is a different question with its
-  // own number and this rule does not ask it.
+  // NEGATIVE for THIS rule and a POSITIVE for the one beside it, which is the division
+  // of labour this corpus now asserts. A module-level CONTAINER keyed by something is a
+  // cache, and what the next request reads is what it asked for, so the shared-state rule
+  // stands aside. That the caller also chooses the KEYS, and can grow this map until the
+  // process runs out of memory, is the other rule's question and it has one now.
   sessions[req.body.email] = { at: Date.now() };
   res.json({ ok: true });
 });
