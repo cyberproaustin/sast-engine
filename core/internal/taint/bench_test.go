@@ -119,6 +119,7 @@ var corpora = []string{
 	"flask-xxe",
 	"flask-unsafe-files",
 	"flask-csv-injection",
+	"django-urlconf",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {

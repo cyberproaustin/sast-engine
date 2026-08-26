@@ -789,6 +789,34 @@ func builtin() Model {
 						Paths: []string{"query", "match_info", "rel_url", "headers", "cookies",
 							"query_string", "path", "path_qs", "url", "host", "remote", "raw_path"},
 					},
+					// Django hands the request to the view as a parameter, the way
+					// aiohttp does, and names its two form dictionaries after the verbs
+					// that carry them: `request.GET` is the query string and
+					// `request.POST` is the form body.
+					{
+						Match:      MatchEntryParamProperty,
+						Framework:  "django",
+						EntryKind:  "http-route",
+						ParamIndex: 0,
+						Paths: []string{"GET", "POST", "FILES", "COOKIES", "META", "body", "headers",
+							// The request line, for the reason it is listed for every other
+							// framework here: a handler that builds a link back to itself
+							// reads the path the caller asked for.
+							"path", "path_info", "get_full_path"},
+					},
+					{
+						// The same request, one parameter along. A Django class-based view
+						// and a DRF viewset answer in a METHOD, so `self` is the first
+						// parameter and the request is the second -- and a rule that only
+						// ever looks at the first one is blind to every framework whose
+						// handlers are classes, which is most of Django REST Framework.
+						Match:      MatchEntryParamProperty,
+						Framework:  "django",
+						EntryKind:  "http-route",
+						ParamIndex: 1,
+						Paths: []string{"GET", "POST", "FILES", "COOKIES", "META", "body", "headers",
+							"path", "path_info", "get_full_path"},
+					},
 					// The METHOD forms of an aiohttp body, which is the only way to read
 					// one: it is a coroutine, so there is no property to reach for.
 					{Match: MatchCallResult, Symbol: "request.post"},
