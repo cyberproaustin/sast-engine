@@ -15,10 +15,17 @@ import "strings"
 //
 // Deliberately structural and deliberately narrow. It is not a decision procedure --
 // that question is undecidable in general and expensive in practice -- and it does not
-// try to be: everything it reports has the nesting, and a pattern that backtracks for
-// some subtler reason is a stated miss. What it must not do is guess, because the rule
-// it feeds fires on a real input reaching a real call.
+// try to be: everything it reports has one of the two shapes, and a pattern that
+// backtracks for some subtler reason is a stated miss. What it must not do is guess,
+// because the rule it feeds fires on a real input reaching a real call.
 func CatastrophicPattern(pattern string) bool {
+	return nestedAmbiguity(pattern) || adjacentAmbiguity(pattern)
+}
+
+// nestedAmbiguity is the first shape: a quantified group whose repetitions have no marker
+// to tell one from the next. Scanned byte by byte rather than parsed, because the question
+// it asks is local to a group and needs nothing the scanner cannot see.
+func nestedAmbiguity(pattern string) bool {
 	p := strings.TrimPrefix(pattern, "/")
 	if i := strings.LastIndexByte(p, '/'); i > 0 {
 		p = p[:i] // drop the flags of a JavaScript literal

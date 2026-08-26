@@ -1,0 +1,22 @@
+{
+  "corpus": "regex-complexity",
+  "description": "Catastrophic backtracking, and the two ways an application arrives at it. The first is a match written in the handler and the engine could always see it: the pattern is the receiver, the caller's string is the argument, and the two are connected by a flow. The second is how a modern application validates a request, and there is no call anywhere in it where the pattern and the string meet -- the route writes a SCHEMA and hands it to the framework, and the match happens inside the validation library. Nothing flows, so a flow analysis has nothing to follow; what is written down is the pattern and the route it belongs to, and a request schema exists to be run against a request. umami's pre-authentication ReDoS is that second shape. What separates the two positives from the four negatives is never the presence of a quantifier -- every pattern here has several. The reported schema field and the silent one differ by ONE CHARACTER: `[a-z0-9-_]+(-[a-z0-9-_]+)*` puts the hyphen inside the class the `+` in front of the group matches, so a hyphenated run can be divided between the two in as many ways as it has hyphens, while `[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*` cannot be divided at all and is one of the commonest validation patterns there is. Reading the two character sets is the only thing that tells them apart, which is why this is a parse and not a list of bad strings. The other three negatives each remove one half of the evidence and must stay silent for a different reason: the dangerous pattern run on a string written in this file has no caller choosing its input; the same schema field in `unreached.ts` is as catastrophic as the reported one and no entry point reaches it, so reporting it would stop being a claim about the attack surface (ADR-009); and the same schema field in `__tests__/schema.test.ts` IS reached by an enumerated route, because the frontend cannot tell one `app.post` from another -- so silence there is stated by the rule rather than falling out of reachability.",
+  "expected": [
+    {
+      "cwe": "CWE-1333",
+      "sinkFile": "app.ts",
+      "sinkLine": 32,
+      "sourceLabel": "req.body.tags",
+      "confidence": "high",
+      "note": "the direction a flow can follow: the pattern is a module-scope constant, the caller's string is the argument, and the test is written inside a negated condition, which is where validation lives"
+    },
+    {
+      "cwe": "CWE-1333",
+      "sinkFile": "app.ts",
+      "sinkLine": 41,
+      "sourceLabel": "\"/^[a-z0-9-_]+(-[a-z0-9-_]+)*$/\"",
+      "confidence": "high",
+      "note": "umami's shape. No flow connects the pattern to the request -- the schema is handed to the framework and the match happens inside it -- so the evidence is the pattern, imported from another module and resolved through the import, plus the route that builds the schema. Adjacent rather than nested: the group's leading hyphen is defeated by the `+` in front of it, which matches hyphens too"
+    }
+  ]
+}

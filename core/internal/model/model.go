@@ -40,6 +40,16 @@ const (
 	// Flask's `request`. Added because a request object is not always a handler
 	// parameter — the judgement is identical, the plumbing is not.
 	MatchGlobalProperty = "global-property"
+	// MatchEntryCallProperty: a property read off the RESULT of a call the handler
+	// made with its own request — `const { auth } = await parseRequest(request)`.
+	//
+	// A fourth plumbing for the same judgement (ADR-004). A framework that hands the
+	// handler a bare `Request` gives it no place to hang an identity, so applications
+	// built on one parse and authenticate in a helper and destructure the answer. The
+	// call is the application's own, so the rule cannot name it; what it names is the
+	// SHAPE — a property of a result, in a handler, off a call that was handed the
+	// handler's request.
+	MatchEntryCallProperty = "entry-call-property"
 )
 
 // SourceRule locates values of a class by their origin.
@@ -613,6 +623,7 @@ type Model struct {
 	Controls        []ControlRule
 	Literals        []LiteralRule
 	Guards          []GuardRule
+	Scopes          []ScopeRule
 	TaintFlowReq    Requirements
 	SurfaceReq      Requirements
 }
@@ -930,6 +941,61 @@ func builtin() Model {
 						ParamIndex: 0,
 						Paths:      []string{"user", "session", "auth", "principal"},
 					},
+					// The same request object, reached through a route the frontend
+					// found by its SHAPE rather than by a registration call: a table of
+					// `{method, path, handler}` objects, or a helper that takes a verb,
+					// a path and a handler. One application in the corpus builds its
+					// whole surface that way -- 109 of its 113 entry points -- and
+					// every one of them hands the handler an Express request whose
+					// `user` a middleware has already established. Nothing here spoke
+					// for those routes, so the ownership analysis reported `no source
+					// for actor-identity in this program` over an application that
+					// consults `req.user` in most of its controllers.
+					{
+						Match:      MatchEntryParamProperty,
+						Framework:  "described-route",
+						EntryKind:  "http-route",
+						ParamIndex: 0,
+						Paths:      []string{"user", "session", "auth", "principal"},
+					},
+					{
+						Match:      MatchEntryParamProperty,
+						Framework:  "helper-route",
+						EntryKind:  "http-route",
+						ParamIndex: 0,
+						Paths:      []string{"user", "session", "auth", "principal"},
+					},
+					// Django hangs the authenticated user off the request, and Django
+					// REST Framework adds `request.auth` for the credential that
+					// established it. A class-based view or a viewset answers in a
+					// METHOD, so the request is the second parameter there -- the same
+					// two-rule pairing the untrusted-input side already makes for this
+					// framework.
+					{
+						Match:      MatchEntryParamProperty,
+						Framework:  "django",
+						EntryKind:  "http-route",
+						ParamIndex: 0,
+						Paths:      []string{"user", "auth", "session"},
+					},
+					{
+						Match:      MatchEntryParamProperty,
+						Framework:  "django",
+						EntryKind:  "http-route",
+						ParamIndex: 1,
+						Paths:      []string{"user", "auth", "session"},
+					},
+					// Tornado hangs it off the HANDLER rather than off the request, so
+					// the identity is `self.current_user` and `self` is the verb
+					// method's first parameter. Same judgement, different plumbing
+					// (ADR-004).
+					{
+						Match:      MatchEntryParamProperty,
+						Framework:  "tornado",
+						EntryKind:  "http-route",
+						ParamIndex: 0,
+						Paths:      []string{"current_user", "current_user_token"},
+					},
 					// A token whose signature was CHECKED. That is what makes the claims
 					// inside it an established identity rather than something the caller
 					// said about themselves: `decode` reads the same fields and proves
@@ -941,6 +1007,32 @@ func builtin() Model {
 					// EVALUATED on every one of them -- honest, and no use to anybody.
 					{Match: MatchCallResult, Symbol: "flask_jwt_extended.get_jwt_identity"},
 					{Match: MatchCallResult, Symbol: "flask_login.current_user"},
+					// A file route is handed a bare `Request` and nothing else, so an
+					// application built on one has nowhere to put an identity and
+					// parses, validates and authenticates in a helper of its own:
+					//
+					//	const { auth, body, error } = await parseRequest(request, schema);
+					//
+					// The helper is the application's, so no symbol can be named for
+					// it and none is: what is named is the property, off the result of
+					// a call the handler made with its own request. `auth` is the only
+					// leaf that means this in every framework that spells it this way,
+					// and the neighbours in the same destructuring -- `body`, `query`,
+					// `error` -- are deliberately not identity.
+					{
+						Match:      MatchEntryCallProperty,
+						Framework:  "file-route",
+						EntryKind:  "http-route",
+						ParamIndex: 0,
+						Paths:      []string{"auth", "user", "currentUser", "session", "principal"},
+					},
+					{
+						Match:      MatchEntryCallProperty,
+						Framework:  "next-pages",
+						EntryKind:  "http-route",
+						ParamIndex: 0,
+						Paths:      []string{"auth", "user", "currentUser", "session", "principal"},
+					},
 					{
 						Match:  MatchGlobalProperty,
 						Symbol: "flask.g",
@@ -3175,7 +3267,20 @@ func builtin() Model {
 				ID: "record-selector", Visibility: "internal", Context: "record-selector",
 				Method: "update", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
 				RequiresExternalReceiver: true,
-				Rationale:                "modifies a single record by the identifier it is given",
+				// A selector is a value the caller HANDED OVER; a message is one the
+				// program BUILT. `update` is the one record operation whose Python
+				// spelling takes the new field values rather than the criteria --
+				// Django's `qs.filter(...).update(field=value)` chose the record in the
+				// `filter` above and this call writes into it -- and a keyword argument
+				// arrives at index 0 exactly like a positional one, so nothing else
+				// separates the two readings. Composition does: healthchecks builds
+				// `f"Delivery failed ({diagnostic})"` out of a bounced email and writes
+				// it to `last_error`, and reading that as "the caller chose which record"
+				// is the same mistake an earlier adjudication recorded against superset.
+				// The stated cost is a composite key built by concatenation, which is
+				// not reported.
+				RequiresWholeValue: true,
+				Rationale:          "modifies a single record by the identifier it is given",
 			},
 			// SQL execution. Described as an OPERATION rather than as a library: what
 			// matters is that this argument is read as SQL, and that is equally true of
@@ -3682,6 +3787,7 @@ func builtin() Model {
 		Decisions:  builtinDecisions(),
 		Stores:     builtinStores(),
 		Guards:     builtinGuards(),
+		Scopes:     builtinScopes(),
 
 		Policies: []Policy{
 			{
@@ -5113,6 +5219,29 @@ type CallShape struct {
 	// stated false negative rather than a false alarm.
 	Qualifiers []ArgCondition
 
+	// PatternArg names an argument that holds a regular expression, written as a literal
+	// or bound to one by name. The shape matches only when that pattern is one that can be
+	// made to backtrack exponentially (see CatastrophicPattern).
+	//
+	// The channel of the same name asks this at a call that is HANDED the caller's string.
+	// A validation schema never is: `z.string().regex(DOMAIN)` describes a check, and the
+	// string it will run on arrives later, inside whatever the framework calls to parse the
+	// request. The pattern and the reachability are both plainly written and they are
+	// written in different places, which is exactly what this kind is for.
+	PatternArg *int
+
+	// EntryReachable requires the call to sit in a function an enumerated entry point
+	// reaches. A shape that says "a caller's input meets this" has claimed something about
+	// the attack surface and must be held to it (ADR-009): a schema in a script, in a test,
+	// or in a module nothing routes to has no caller and is not a finding.
+	EntryReachable bool
+
+	// SymbolContains narrows a method-name shape by the CHAIN it was called on, which the
+	// TypeScript frontend records in the callee symbol: `z.string().trim().regex` names
+	// every step that built the receiver. `regex` alone is a common enough method name;
+	// `regex` on something a validation library made is not.
+	SymbolContains []string
+
 	// DependsOnUse marks a shape whose judgement turns on what the result is USED for,
 	// which the call does not carry.
 	//
@@ -5625,6 +5754,54 @@ func builtinCallShapes() []CallShape {
 			Finding:   "RSA used without OAEP padding",
 			Reason:    "PKCS#1 v1.5 encryption padding is vulnerable to an adaptive chosen-ciphertext attack that recovers the plaintext, and OAEP is the padding that is not",
 			Rationale: "PKCS1_v1_5 is the padding without OAEP",
+		},
+
+		// --- request validation -----------------------------------------------------
+		//
+		// The other half of CWE-1333, and the half a flow analysis cannot reach. A route
+		// that validates its request with a schema never writes the match: it writes the
+		// PATTERN, hands the schema to whatever parses the request, and the string and the
+		// pattern meet somewhere inside the validation library. There is no call in the
+		// application where the two are arguments to each other, so there is nothing for a
+		// channel to fire on -- and this is how a modern application spells its input
+		// validation, which is precisely where a pattern meets a caller's string first.
+		//
+		// So the evidence is the schema and the surface. `z.string().regex(P)` says that P
+		// will be run against whatever this schema is given; the schema being built in a
+		// function an enumerated entry point reaches says who gives it one. Both halves are
+		// written down, neither is guessed, and the pattern still has to be one the
+		// structural test calls catastrophic.
+		//
+		// umami's pre-authentication ReDoS is exactly this: `domain:
+		// z.string().trim().regex(DOMAIN_REGEX).max(500)` in the POST handler, validated by
+		// a shared helper that runs the schema before it checks any credential.
+		{
+			ID: "catastrophic-pattern-in-schema", Method: "regex",
+			SymbolContains: []string{"z.string", "zod.string", "z.coerce.string", "z.custom"},
+			PatternArg:     at(0), EntryReachable: true,
+			CWE:       "CWE-1333",
+			Finding:   "A route's input schema validates with a pattern that can be made to churn",
+			Reason:    "the schema runs this pattern against whatever the route is sent, and the pattern can be made to backtrack exponentially, so a long string a caller chooses stops the process without touching it",
+			Rationale: "the schema field is validated with a pattern that has two repetitions able to claim the same input",
+		},
+		{
+			// Joi and yup spell the same field the same way under different names.
+			ID: "catastrophic-pattern-in-schema", Method: "pattern",
+			SymbolContains: []string{"Joi.string", "joi.string"},
+			PatternArg:     at(0), EntryReachable: true,
+			CWE:       "CWE-1333",
+			Finding:   "A route's input schema validates with a pattern that can be made to churn",
+			Reason:    "the schema runs this pattern against whatever the route is sent, and the pattern can be made to backtrack exponentially, so a long string a caller chooses stops the process without touching it",
+			Rationale: "the schema field is validated with a pattern that has two repetitions able to claim the same input",
+		},
+		{
+			ID: "catastrophic-pattern-in-schema", Method: "matches",
+			SymbolContains: []string{"yup.string", "y.string"},
+			PatternArg:     at(0), EntryReachable: true,
+			CWE:       "CWE-1333",
+			Finding:   "A route's input schema validates with a pattern that can be made to churn",
+			Reason:    "the schema runs this pattern against whatever the route is sent, and the pattern can be made to backtrack exponentially, so a long string a caller chooses stops the process without touching it",
+			Rationale: "the schema field is validated with a pattern that has two repetitions able to claim the same input",
 		},
 
 		// --- files and permissions --------------------------------------------------
@@ -6970,6 +7147,93 @@ type GuardRule struct {
 	Finding   string
 	Reason    string
 	Rationale string
+}
+
+// ScopeRule is a weakness in the RELATION between two calls: which key an authorization
+// check was scoped to, and which key the operation it admitted was performed with.
+//
+// It is a rule kind of its own because nothing already here can say it. A channel says
+// what a destination interprets and a policy says which class must not reach it; both are
+// judgements about ONE value arriving at ONE place. This judgement has no such shape --
+// the value that reaches the store is perfectly ordinary, and what makes it a defect is
+// that the check standing in front of it asked about a DIFFERENT one. Two calls, a
+// control-flow relation between them, and a comparison of the keys they carry.
+//
+// The alternative was a presumption, and the engine had it: "a helper receiving actor
+// identity is presumed to enforce". That presumption is what a scoped-elsewhere handler
+// satisfies -- the permission call is right there, carrying `req.user`, and it is
+// authorizing something else.
+type ScopeRule struct {
+	ID string
+	// IdentityClass is the classification whose presence in a call's arguments makes
+	// that call an authorization check rather than an ordinary one.
+	IdentityClass string
+
+	// KeyWords are the trailing words that make a request field an IDENTIFIER rather
+	// than a payload. Compared against the LAST word of the field's name, split on
+	// camel case and underscores: `projectId`, `strategy_id` and `segmentIds` are
+	// keys, `name` and `description` are not.
+	//
+	// A name list, and the narrowest form this project allows: it decides nothing about
+	// a local variable, only about a field read off the request the handler was given.
+	//
+	// Two stated costs, both measured. A key spelled as a NAME is missed -- unleash's
+	// `featureName` selects a feature -- because `name` is what most payload fields are
+	// called. A key spelled as a SLUG was tried and withdrawn: a slug is a record's own
+	// vanity string at least as often as it is a reference to another record, and
+	// umami's link and pixel rename endpoints, whose whole purpose is to set the row's
+	// own slug behind a unique constraint, were two of the four findings it produced.
+	KeyWords []string
+
+	// Mutations are the leading words that make a call a write to a store record that
+	// ALREADY EXISTS. Two exclusions do the work here and both were measured.
+	//
+	// A read outside the authorized scope is worth knowing about and is not what this
+	// rule reports; the operations named here are the ones that change something.
+	//
+	// A CREATE is excluded for a sharper reason: the identifiers a create is handed are
+	// the new row's own fields, not a selector reaching an existing row, so the relation
+	// this rule states does not apply to them. Three of the first five findings on real
+	// code were `createLink({id: body.id ?? uuid()})` and its siblings -- a caller
+	// choosing the primary key of a record it is creating, which may well be worth a
+	// line and is not this one.
+	Mutations []string
+
+	// ChosenContainers are the request containers whose contents the CALLER decided.
+	// A key taken from one of these is not a scope: being told which project to check
+	// the caller against is not authorization, it is a parameter. A key from the route
+	// or from established identity is, because the route is what the request addressed.
+	ChosenContainers []string
+
+	// Requires are the capabilities this rule needs. Deciding that a check GATES the
+	// operation rather than merely preceding it is a control-flow question.
+	Requires Requirements
+
+	CWE       string
+	Finding   string
+	Reason    string
+	Rationale string
+}
+
+func builtinScopes() []ScopeRule {
+	return []ScopeRule{
+		{
+			ID:            "authorization-scoped-elsewhere",
+			IdentityClass: "actor-identity",
+			KeyWords:      []string{"id", "ids", "uuid", "guid"},
+			Mutations: []string{
+				"update", "delete", "remove", "destroy", "patch", "archive",
+				"restore", "rename", "revoke", "disable", "detach", "unlink",
+				"move",
+			},
+			ChosenContainers: []string{"body", "data", "payload", "json", "form"},
+			Requires:         Requirements{ControlFlow: true},
+			CWE:              "CWE-639",
+			Finding:          "Authorization scoped to a different record",
+			Reason:           "the handler proved the caller may act on one record and then wrote to another one the caller also chose, with nothing relating the two",
+			Rationale:        "a store write whose key was never the key the permission check asked about",
+		},
+	}
 }
 
 func builtinGuards() []GuardRule {

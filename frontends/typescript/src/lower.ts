@@ -309,6 +309,7 @@ export function lowerProgram(opts: LowerOptions): IRDoc {
   const sources = program
     .getSourceFiles()
     .filter((sf) => !sf.isDeclarationFile && isUnder(opts.rootDir, sf.fileName));
+  indexRegexConstants(opts.rootDir, sources);
 
   const modules: Module[] = [];
   const funcByNode = new Map<ts.Node, FuncMeta>();
@@ -492,6 +493,64 @@ function literalOf(node: ts.Expression): string | undefined {
   if (node.kind === ts.SyntaxKind.FalseKeyword) return "false";
   if (node.kind === ts.SyntaxKind.NullKeyword) return "null";
   return undefined;
+}
+
+/**
+ * Every module-scope `const NAME = /pattern/` in the tree, by name.
+ *
+ * The checker resolves an imported name to the constant it came from only when it can
+ * resolve the module, and a project that writes `@/lib/constants` has told tsconfig what
+ * `@` means -- which is not something the compiler options built here say. Rather than
+ * teach the frontend a project's path aliases, the table answers the narrower question
+ * directly: which module-scope regular-expression constant does this imported name refer
+ * to? An answer is given only when exactly one candidate matches both the name and the
+ * tail of the import specifier, so two `PATTERN` constants in two files stay two.
+ *
+ * Filled once per program, before anything is lowered.
+ */
+type RegexConstant = { module: string; text: string };
+const regexConstants = new Map<string, RegexConstant[]>();
+
+function indexRegexConstants(rootDir: string, sources: readonly ts.SourceFile[]): void {
+  regexConstants.clear();
+  for (const sf of sources) {
+    const moduleId = moduleIdOf(rootDir, sf.fileName);
+    for (const stmt of sf.statements) {
+      if (!ts.isVariableStatement(stmt)) continue;
+      if (!(stmt.declarationList.flags & ts.NodeFlags.Const)) continue;
+      for (const decl of stmt.declarationList.declarations) {
+        if (!ts.isIdentifier(decl.name) || !decl.initializer) continue;
+        if (!ts.isRegularExpressionLiteral(decl.initializer)) continue;
+        const list = regexConstants.get(decl.name.text) ?? [];
+        list.push({ module: moduleId, text: decl.initializer.text });
+        regexConstants.set(decl.name.text, list);
+      }
+    }
+  }
+}
+
+/** Strips a path alias or a relative prefix: `@/lib/constants` and `../constants`. */
+function bareModulePath(spec: string): string {
+  let out = spec;
+  for (;;) {
+    const next = out.replace(/^(\.\.\/|\.\/|[@~#]\/)/, "");
+    if (next === out) return next;
+    out = next;
+  }
+}
+
+function moduleTailMatches(moduleId: string, wanted: string): boolean {
+  const bare = moduleId.replace(/\.[cm]?[jt]sx?$/, "").replace(/\/index$/, "");
+  return bare === wanted || bare.endsWith(`/${wanted}`);
+}
+
+function importedRegexConstant(name: string, imported: ImportRef | undefined): string | undefined {
+  if (!imported || imported.export === "*") return undefined;
+  const candidates = regexConstants.get(name);
+  if (!candidates) return undefined;
+  const wanted = bareModulePath(imported.module);
+  const matches = candidates.filter((c) => moduleTailMatches(c.module, wanted));
+  return matches.length === 1 ? matches[0].text : undefined;
 }
 
 /** JavaScript and TypeScript test-file conventions. */
@@ -831,6 +890,43 @@ function lowerFunction(
       return literalOf(decl.initializer);
     }
     return undefined;
+  };
+
+  /**
+   * The text of a regular expression, whether it was written at the call or bound to a
+   * name somewhere else -- including in another module, which is where a shared pattern
+   * lives.
+   *
+   * `literalOf` deliberately reads only values a program HOLDS. A pattern is not one: it
+   * is a description of values a program will recognise, and it is left out of the literal
+   * vocabulary so that a rule looking for a written-down secret never reads a scanner's
+   * own detector as one. But a rule about the pattern itself needs the text, and
+   * `z.string().regex(DOMAIN_REGEX)` -- a schema field validated by an imported constant --
+   * is how request validation is actually written. Recorded as the argument's literal so
+   * the core can read it without following anything.
+   */
+  const regexTextOf = (node: ts.Expression): string | undefined => {
+    if (ts.isRegularExpressionLiteral(node)) return node.text;
+    if (!ts.isIdentifier(node)) return undefined;
+    let sym = checker.getSymbolAtLocation(node);
+    // An imported name resolves to the IMPORT, whose declaration is the specifier rather
+    // than the constant. A shared pattern is always imported -- umami's lives in
+    // `constants.ts` and is used from a route -- so stopping at the alias would mean this
+    // only ever read a pattern written in the same file it is used in.
+    if (sym && sym.flags & ts.SymbolFlags.Alias) {
+      try {
+        sym = checker.getAliasedSymbol(sym);
+      } catch {
+        sym = undefined;
+      }
+    }
+    for (const decl of sym?.declarations ?? []) {
+      if (!ts.isVariableDeclaration(decl) || !decl.initializer) continue;
+      const list = decl.parent;
+      if (!ts.isVariableDeclarationList(list) || !(list.flags & ts.NodeFlags.Const)) continue;
+      if (ts.isRegularExpressionLiteral(decl.initializer)) return decl.initializer.text;
+    }
+    return importedRegexConstant(node.text, imports.get(node.text));
   };
 
   /** Whether the checker says a call's signature returns `never`. */
@@ -1399,7 +1495,7 @@ function lowerFunction(
       const valueId = lowerExpr(a);
       const fn = resolveFunction(a);
       if (valueId || fn) args.push({ index, valueId, functionId: fn?.id });
-      const lit = literalOf(a) ?? constantOf(a);
+      const lit = literalOf(a) ?? constantOf(a) ?? regexTextOf(a);
       if (lit !== undefined) {
         argLiterals[index] = lit;
         return;

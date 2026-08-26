@@ -104,3 +104,80 @@ func TestOptionalPrefixDoesNotHideTheMarker(t *testing.T) {
 		}
 	}
 }
+
+// The second shape, and the reason it needs a parse rather than a scan.
+//
+// Both of these repeat a class and then repeat a hyphen-separated group of the same class.
+// They differ by one character, and the difference decides whether a hyphenated run can be
+// divided between the two repetitions in exponentially many ways. Nothing about the
+// nesting separates them -- the group's body begins with a marker in both -- so the only
+// thing that can is reading what the two character sets hold.
+func TestAdjacentRepetitionsThatOverlap(t *testing.T) {
+	catastrophic := []string{
+		`[a-z0-9-_]+(-[a-z0-9-_]+)*`, // umami's, reduced
+		`^[\w-]+(-[\w]+)*$`,          // \w and a hyphen in one class
+		`/^(localhost(:[1-9]\d{0,4})?|((?=[a-z0-9-_]{1,63}\.)(xn--)?[a-z0-9-_]+(-[a-z0-9-_]+)*\.)+(xn--)?[a-z0-9-_]{2,63})$/`, // umami's, whole
+	}
+	for _, p := range catastrophic {
+		if !model.CatastrophicPattern(p) {
+			t.Errorf("%s should be reported: the class in front of the group matches the group's own separator", p)
+		}
+	}
+
+	// The commonest validation patterns there are, and every one of them is linear
+	// because the separator the group repeats on is not in the class before it.
+	fine := []string{
+		`^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$`,
+		`\w+([-.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*`,
+		`[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*`,
+		`^[a-z]+(/[a-z]+)*$`,
+		`^\d+(,\d+)*$`,
+	}
+	for _, p := range fine {
+		if model.CatastrophicPattern(p) {
+			t.Errorf("%s must not be reported: the group's separator is not in the class before it", p)
+		}
+	}
+}
+
+// A group whose repetitions are all the same length gives one choice -- where the
+// repetition in front of it stopped -- and there are as many of those as there are
+// characters. Linear, and excluded on purpose.
+func TestFixedLengthRepetitionsAreNotAmbiguous(t *testing.T) {
+	for _, p := range []string{
+		`[a-f0-9-]+(-[a-f0-9]{4})*`,
+		`[a-z-]+(-ab)*`,
+	} {
+		if model.CatastrophicPattern(p) {
+			t.Errorf("%s must not be reported: every repetition of the group is the same length", p)
+		}
+	}
+}
+
+// A pattern the parser cannot read produces silence, not a guess. Backreferences and
+// numeric escapes are the two shapes it declines.
+func TestUnreadablePatternsSayNothing(t *testing.T) {
+	for _, p := range []string{
+		`([a-z-]+)-\1+`,
+		`[\x41-\x5a-]+(-[\x41-\x5a]+)*`,
+	} {
+		if model.CatastrophicPattern(p) {
+			t.Errorf("%s must not be reported: the parser cannot read it and does not guess", p)
+		}
+	}
+}
+
+// The Python spellings of the same two shapes. A pattern is an ordinary string there, so
+// nothing about the syntax that reaches this function differs -- which is the point: the
+// test is on the pattern, and the language decides only how the pattern is written down.
+func TestPythonPatternSpellings(t *testing.T) {
+	if !model.CatastrophicPattern(`^(\s*\w+)+$`) {
+		t.Error(`^(\s*\w+)+$ must be reported: nothing in the body has to match exactly once`)
+	}
+	if !model.CatastrophicPattern(`^[\w-]+(-\w+)*$`) {
+		t.Error(`^[\w-]+(-\w+)*$ must be reported: the hyphen is in the class in front of the group`)
+	}
+	if model.CatastrophicPattern(`^\w+(-\w+)*$`) {
+		t.Error(`^\w+(-\w+)*$ must not be reported: \w holds no hyphen`)
+	}
+}

@@ -613,8 +613,80 @@ func (e *engine) seedSources() {
 			e.seedByGlobalProperty(rule)
 		case model.MatchCallResult:
 			e.seedByCallResult(rule)
+		case model.MatchEntryCallProperty:
+			e.seedByEntryCallProperty(rule)
 		default:
 			e.seedByEntryParamProperty(rule)
+		}
+	}
+}
+
+// seedByEntryCallProperty marks a property read off the result of a call the handler
+// made with its own request.
+//
+//	const { auth, body, error } = await parseRequest(request, schema);
+//
+// A framework that hands the handler a bare `Request` gives it nowhere to hang an
+// identity, so the application parses and authenticates in a helper of its own and
+// destructures the answer. The helper belongs to the application, so no symbol can be
+// named for it; what is named is the shape, and the two halves that keep it narrow are
+// that the call was handed one of the handler's OWN parameters and that the property is
+// one of the leaves the rule lists.
+func (e *engine) seedByEntryCallProperty(rule model.SourceRule) {
+	for _, ep := range e.ix.IR.EntryPoints {
+		if rule.EntryKind != ep.Kind {
+			continue
+		}
+		if rule.Framework != "" && ep.Framework != "" && rule.Framework != ep.Framework {
+			continue
+		}
+		fn := e.ix.FuncByID[ep.FunctionID]
+		if fn == nil {
+			continue
+		}
+		param, ok := paramAt(fn, rule.ParamIndex)
+		if !ok {
+			continue
+		}
+		// The results of calls this handler made with that parameter. A call that was
+		// handed the request is the only kind that can have parsed it.
+		fromRequest := map[string]bool{}
+		for _, c := range fn.Calls {
+			if c.ResultID == "" {
+				continue
+			}
+			for _, a := range c.Args {
+				if a.ValueID == param.ValueID {
+					fromRequest[c.ResultID] = true
+				}
+			}
+		}
+		if len(fromRequest) == 0 {
+			continue
+		}
+		for _, v := range fn.Values {
+			if v.Kind != ir.ValueProperty || !fromRequest[v.Base] {
+				continue
+			}
+			if !matchesPath(v.Path, rule.Paths) || !leafMatches(v.Path, rule) {
+				continue
+			}
+			label := v.Path
+			e.seeds[v.ID] = seed{
+				label:            label,
+				entryPoint:       describeEntry(ep),
+				method:           ep.Detail["method"],
+				path:             ep.Detail["path"],
+				anchored:         true,
+				unresolvedInputs: ep.UnresolvedParams,
+				loc:              ep.Loc,
+				identityInjected: injectsIdentity(e.ix, &ep),
+			}
+			e.markTainted(v.ID, edge{
+				desc:       fmt.Sprintf("source: %s (%s)", label, e.class.Label),
+				loc:        v.Loc,
+				resolution: ir.Resolved,
+			})
 		}
 	}
 }
@@ -633,7 +705,7 @@ func (e *engine) seedByValueKind(rule model.SourceRule) {
 			}
 			entry, anchored := enclosingEntry(e.ix, fn)
 			sd := seed{label: label, entryPoint: entry, anchored: anchored}
-			if ep, ok := entryOf(e.ix, fn); ok {
+			if ep, ok := EntryOf(e.ix, fn); ok {
 				sd.unresolvedInputs, sd.loc = ep.UnresolvedParams, ep.Loc
 				sd.identityInjected = injectsIdentity(e.ix, ep)
 			}
@@ -736,7 +808,7 @@ func (e *engine) seedByCallResult(rule model.SourceRule) {
 			}
 			entry, anchored := enclosingEntry(e.ix, fn)
 			sd := seed{label: label, entryPoint: entry, anchored: anchored}
-			if ep, ok := entryOf(e.ix, fn); ok {
+			if ep, ok := EntryOf(e.ix, fn); ok {
 				sd.unresolvedInputs, sd.loc = ep.UnresolvedParams, ep.Loc
 				sd.identityInjected = injectsIdentity(e.ix, ep)
 			}
@@ -799,7 +871,7 @@ func (e *engine) seedByGlobalProperty(rule model.SourceRule) {
 			label := fmt.Sprintf("%s.%s", rule.Symbol, path)
 			entry, anchored := enclosingEntry(e.ix, fn)
 			sd := seed{label: label, entryPoint: entry, anchored: anchored}
-			if ep, ok := entryOf(e.ix, fn); ok {
+			if ep, ok := EntryOf(e.ix, fn); ok {
 				sd.unresolvedInputs, sd.loc = ep.UnresolvedParams, ep.Loc
 				sd.identityInjected = injectsIdentity(e.ix, ep)
 			}
@@ -1516,14 +1588,17 @@ func programInjectsIdentity(ix *ir.Index) bool {
 	return false
 }
 
-// entryOf finds the enumerated entry point this function serves, following the call
+// EntryOf finds the enumerated entry point this function serves, following the call
 // graph upward when the function is not itself a handler.
 //
 // A framework exposes untrusted input in more than one place: a handler parameter, but
 // also a request global any helper can read. Requiring the source to sit IN a handler
 // would lose the second shape entirely, so reachability is the test — is there an
 // enumerated entry point from which this function is called?
-func entryOf(ix *ir.Index, fn *ir.Function) (*ir.EntryPoint, bool) {
+// EntryOf is exported because the call-shape analysis asks the same question: a rule
+// whose subject is a call rather than a flow still needs to know whether anything a
+// caller reaches gets there.
+func EntryOf(ix *ir.Index, fn *ir.Function) (*ir.EntryPoint, bool) {
 	if ep, ok := ix.EntryByFunc[fn.ID]; ok {
 		return ep, true
 	}
@@ -1559,7 +1634,7 @@ func entryOf(ix *ir.Index, fn *ir.Function) (*ir.EntryPoint, bool) {
 // be real, but they are not assertions about an attack surface this engine mapped, and
 // reporting them as though they were makes the surface look complete when it is not.
 func enclosingEntry(ix *ir.Index, fn *ir.Function) (string, bool) {
-	if ep, ok := entryOf(ix, fn); ok {
+	if ep, ok := EntryOf(ix, fn); ok {
 		return describeEntry(*ep), true
 	}
 	return fn.Name + "()", false
