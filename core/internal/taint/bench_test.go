@@ -124,6 +124,7 @@ var corpora = []string{
 	"tornado-urlspec",
 	"reassignment-kills-taint",
 	"weak-hash-by-use",
+	"regex-complexity",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {

@@ -16,6 +16,7 @@ import (
 	"github.com/cyberproaustin/sast-engine/core/internal/literal"
 	"github.com/cyberproaustin/sast-engine/core/internal/model"
 	"github.com/cyberproaustin/sast-engine/core/internal/policy"
+	"github.com/cyberproaustin/sast-engine/core/internal/scope"
 	"github.com/cyberproaustin/sast-engine/core/internal/store"
 	"github.com/cyberproaustin/sast-engine/core/internal/surface"
 	"github.com/cyberproaustin/sast-engine/core/internal/taint"
@@ -99,6 +100,7 @@ func Run(d *ir.IR, m model.Model, p *policy.Policy) Result {
 	t.Findings = append(t.Findings, store.Analyze(d, m, t.ByClass)...)
 	t.Findings = append(t.Findings, literal.Analyze(d, m)...)
 	t.Findings = append(t.Findings, guard.Analyze(d, m)...)
+	t.Findings = append(t.Findings, scope.Analyze(d, m, t.ByClass)...)
 	t.Findings = collapseIdenticalFindings(t.Findings)
 
 	return Result{

@@ -61,6 +61,28 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 				if len(shape.ReceiverFromCall) > 0 && !receiverMadeBy(d, c, shape.ReceiverFromCall) {
 					continue
 				}
+				// A claim about the attack surface has to be held to it: a schema in a
+				// script or in a module nothing routes to has no caller (ADR-009). A route
+				// registered in a TEST module is a fixture rather than a surface, and the
+				// frontend cannot tell one `app.post` from another -- so the rule says it
+				// here rather than leaving the finding to be filtered downstream, where it
+				// would still be counted.
+				if shape.EntryReachable {
+					if _, ok := taint.EntryOf(ix, fn); !ok {
+						continue
+					}
+					if ix.InTestModule(c.Loc) {
+						continue
+					}
+				}
+				if shape.PatternArg != nil {
+					pattern, ok := c.ArgLiterals[*shape.PatternArg]
+					if !ok || !model.CatastrophicPattern(pattern) {
+						continue
+					}
+					out = append(out, finding(ix, fn, c, shape, pattern))
+					continue
+				}
 				if shape.ArgFromModuleScope != nil {
 					if !boundAtModuleScope(ix, c, *shape.ArgFromModuleScope) {
 						continue
@@ -154,6 +176,12 @@ func boundAtModuleScope(ix *ir.Index, c *ir.Call, index int) bool {
 }
 
 func targets(shape model.CallShape, c *ir.Call) bool {
+	// The chain the receiver was built from, when the shape asks for one. A method name
+	// on its own says too little: `regex` is a method on a validation schema and on
+	// plenty of other things.
+	if len(shape.SymbolContains) > 0 && !containsAny(c.Callee.Symbol, shape.SymbolContains) {
+		return false
+	}
 	if shape.Symbol != "" {
 		return c.Callee.Symbol == shape.Symbol
 	}
@@ -161,6 +189,15 @@ func targets(shape model.CallShape, c *ir.Call) bool {
 		return c.Method == shape.Method
 	}
 	return shape.AnyCall
+}
+
+func containsAny(symbol string, wants []string) bool {
+	for _, want := range wants {
+		if strings.Contains(symbol, want) {
+			return true
+		}
+	}
+	return false
 }
 
 // match finds the literal this shape forbids, if the call carries one.
