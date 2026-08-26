@@ -18,10 +18,29 @@ from typing import Any
 
 from templates import index_templates, resolve_template
 
-IR_VERSION = "0.12.0"
+IR_VERSION = "0.13.0"
 FRONTEND_VERSION = "0.1.0"
 
 FUNCTION_NODES = (ast.FunctionDef, ast.AsyncFunctionDef)
+
+# Statements whose control flow the block builder does not express. A loop's back edge is
+# never emitted, `try` is lowered as straight-line code, and a `match`'s arms all appear
+# to run. Inside one of these, `self.current` names a block that would claim an edge is
+# unavoidable when it is not -- so a flow lowered here states no block at all, and the
+# core keeps it. The bias goes one way on purpose: a flow with no position is kept, a
+# flow with a wrong position could be dropped, and a dropped flow is a missed weakness.
+UNMODELLED_STATEMENTS = tuple(
+    node
+    for node in (
+        ast.For,
+        ast.AsyncFor,
+        ast.While,
+        ast.Try,
+        getattr(ast, "TryStar", None),
+        getattr(ast, "Match", None),
+    )
+    if node is not None
+)
 
 # The language's own containers. `payload.update(request.form)` and a record update are
 # the same three words, and only one of them touches a store whose records someone owns.
@@ -1093,6 +1112,9 @@ class FunctionLowerer:
         self.writes: list[dict] = []
         self.blocks: list[dict] = []
         self._b = 0
+        # Depth inside statements the block graph does not model; see
+        # UNMODELLED_STATEMENTS and `add_flow`.
+        self.unmodelled = 0
         self.entry_block = self.new_block(node)
         self.current = self.entry_block
         self.params: list[dict] = []
@@ -1141,9 +1163,14 @@ class FunctionLowerer:
 
     def add_flow(self, src: str | None, dst: str, kind: str, node: ast.AST) -> None:
         if src and dst:
-            self.flows.append(
-                {"from": src, "to": dst, "kind": kind, "loc": loc_of(self.mod.module, node)}
-            )
+            flow = {"from": src, "to": dst, "kind": kind, "loc": loc_of(self.mod.module, node)}
+            # The block is stated only where the block graph expresses when the edge
+            # runs. See `UNMODELLED_STATEMENTS`: an absent block is a refusal, and the
+            # core keeps the flow rather than reasoning about a position nobody vouched
+            # for (ADR-003).
+            if not self.unmodelled:
+                flow["block"] = self.current
+            self.flows.append(flow)
 
     def lower(self) -> dict:
         # A module's top level is code like any other, and it is where configuration
@@ -1193,6 +1220,22 @@ class FunctionLowerer:
         }
 
     def walk(self, node: ast.AST) -> None:
+        # A loop runs its body an unknown number of times and `try`/`match` choose
+        # between arms, and the block graph says none of it: all of them are lowered
+        # straight-line into the enclosing block. The walk is unchanged; what is
+        # suppressed is the CLAIM that a flow inside one of them sits at a known point in
+        # the control-flow graph, which the core would otherwise read as licence to kill
+        # an earlier definition of the same name.
+        if isinstance(node, UNMODELLED_STATEMENTS):
+            self.unmodelled += 1
+            try:
+                self._walk(node)
+            finally:
+                self.unmodelled -= 1
+            return
+        self._walk(node)
+
+    def _walk(self, node: ast.AST) -> None:
         # Nested functions are separate IR functions; their bodies are not inlined.
         if isinstance(node, FUNCTION_NODES) and node is not self.node:
             return
@@ -1811,7 +1854,8 @@ class FunctionLowerer:
                     {"id": value_id, "kind": "property", "loc": at, "base": src,
                      "path": rest, "name": rest}
                 )
-                self.flows.append({"from": src, "to": value_id, "kind": "property", "loc": at})
+                self.flows.append({"from": src, "to": value_id, "kind": "property",
+                                   "loc": at, "block": self.current})
             symbol = "<template>.escaped" if read["escaped"] else "<template>.unescaped"
             result_id = f"{self.id}$v{self._v}"
             self._v += 1

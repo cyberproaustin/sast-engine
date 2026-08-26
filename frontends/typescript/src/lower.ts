@@ -692,8 +692,19 @@ function lowerFunction(
     return { type: symbol.getName() };
   };
 
+  // Statements the block builder does not model: a loop, whose back edge is never
+  // emitted, and a `switch`, whose arms are lowered as if they all ran. Inside one of
+  // these, `current` names a block that claims an edge is unavoidable when it is not,
+  // and the reaching-definition analysis in the core would read that claim as licence to
+  // kill an earlier definition. So the frontend declines to state a position at all.
+  //
+  // The bias is deliberate and it only goes one way: a flow with no block is kept by the
+  // core, a flow with a wrong block could be dropped, and a dropped flow is a missed
+  // weakness (ADR-003).
+  let unmodelled = 0;
+
   const addFlow = (from: string | undefined, to: string, kind: Flow["kind"], loc: Loc): void => {
-    if (from && to) flows.push({ from, to, kind, loc });
+    if (from && to) flows.push({ from, to, kind, loc, block: unmodelled === 0 ? current : undefined });
   };
 
   const bind = (name: ts.Identifier, valueId: string): void => {
@@ -1444,6 +1455,24 @@ function lowerFunction(
   const walk = (n: ts.Node): void => {
     // Nested functions are separate IR functions; their bodies are not inlined here.
     if (n !== node && isFunctionLike(n)) return;
+
+    // A loop body runs an unknown number of times and a switch arm runs or does not,
+    // and the block graph says neither: both are lowered straight-line into the
+    // enclosing block. Walking them exactly as before, with the position claim on any
+    // flow inside suppressed -- see `unmodelled`.
+    if (
+      ts.isForStatement(n) ||
+      ts.isForOfStatement(n) ||
+      ts.isForInStatement(n) ||
+      ts.isWhileStatement(n) ||
+      ts.isDoStatement(n) ||
+      ts.isSwitchStatement(n)
+    ) {
+      unmodelled += 1;
+      ts.forEachChild(n, walk);
+      unmodelled -= 1;
+      return;
+    }
 
     if (ts.isVariableDeclaration(n)) {
       const loc = locOf(sf, n);

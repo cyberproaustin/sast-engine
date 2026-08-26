@@ -15,6 +15,10 @@ type Graph struct {
 	order    []string
 	preds    map[string][]string
 	postDoms map[string]map[string]bool
+
+	// doms and reachedFromEntry are built on first use; see computeDominators.
+	doms             map[string]map[string]bool
+	reachedFromEntry map[string]bool
 }
 
 // Build constructs the graph. Returns nil when the frontend supplied no blocks, so
@@ -201,4 +205,140 @@ func sameSet(a, b map[string]bool) bool {
 		}
 	}
 	return true
+}
+
+// --- dominance and reachability -------------------------------------------
+//
+// Post-dominance answers "does this happen BECAUSE of that check". The opposite
+// direction answers a different question that a redefinition needs: "has this
+// definitely already happened by the time we get here". A variable assigned twice is
+// lowered as one value with two edges into it, and telling a live definition from a
+// dead one is exactly dominance plus reachability -- the later definition kills the
+// earlier one for a use only if it is unavoidable on the way to that use and the
+// earlier one cannot run again afterwards.
+//
+// Computed lazily: every caller of Build today asks only about post-dominance, and
+// making them all pay for a second fixpoint would be a cost with no reader.
+
+// Dominates reports whether every path from the function's entry to `b` passes through
+// `a`. A block that is not reachable from the entry dominates nothing and is dominated
+// by nothing: dead code makes no claim in either direction.
+func (g *Graph) Dominates(a, b string) bool {
+	g.computeDominators()
+	set, ok := g.doms[b]
+	if !ok {
+		return false
+	}
+	return set[a]
+}
+
+// Reachable reports whether control can arrive at this block from the entry at all.
+//
+// Both frontends open a fresh block after a `return`, so straight-line code that ends
+// in one leaves an orphan behind it, and that orphan is linked as a predecessor of
+// whatever comes next. Ignoring it is what makes a `try` whose `catch` returns dominate
+// the code after it -- which is the whole shape this analysis was built for.
+func (g *Graph) Reachable(b string) bool {
+	g.computeDominators()
+	return g.reachedFromEntry[b]
+}
+
+// Reaches reports whether control can get from `from` to `to` along one or more edges.
+// A block reaches ITSELF only through a cycle, which is the question a loop asks.
+func (g *Graph) Reaches(from, to string) bool {
+	seen := make(map[string]bool, len(g.order))
+	queue := append([]string(nil), g.blocks[from].Successors...)
+	if _, ok := g.blocks[from]; !ok {
+		return false
+	}
+	for len(queue) > 0 {
+		id := queue[0]
+		queue = queue[1:]
+		if id == to {
+			return true
+		}
+		if seen[id] {
+			continue
+		}
+		seen[id] = true
+		if b, ok := g.blocks[id]; ok {
+			queue = append(queue, b.Successors...)
+		}
+	}
+	return false
+}
+
+// computeDominators runs the standard iterative dataflow forward from the entry, over
+// the reachable subgraph only.
+func (g *Graph) computeDominators() {
+	if g.doms != nil {
+		return
+	}
+
+	g.reachedFromEntry = make(map[string]bool, len(g.order))
+	queue := []string{g.entry}
+	for len(queue) > 0 {
+		id := queue[0]
+		queue = queue[1:]
+		if g.reachedFromEntry[id] {
+			continue
+		}
+		g.reachedFromEntry[id] = true
+		if b, ok := g.blocks[id]; ok {
+			queue = append(queue, b.Successors...)
+		}
+	}
+
+	all := make(map[string]bool, len(g.order))
+	for _, id := range g.order {
+		if g.reachedFromEntry[id] {
+			all[id] = true
+		}
+	}
+
+	g.doms = make(map[string]map[string]bool, len(g.order))
+	for _, id := range g.order {
+		if !g.reachedFromEntry[id] {
+			continue
+		}
+		if id == g.entry {
+			g.doms[id] = map[string]bool{id: true}
+			continue
+		}
+		g.doms[id] = copySet(all)
+	}
+
+	for changed := true; changed; {
+		changed = false
+		for _, id := range g.order {
+			if !g.reachedFromEntry[id] || id == g.entry {
+				continue
+			}
+			var next map[string]bool
+			for _, p := range g.preds[id] {
+				if !g.reachedFromEntry[p] {
+					continue
+				}
+				set := g.doms[p]
+				if next == nil {
+					next = copySet(set)
+					continue
+				}
+				for k := range next {
+					if !set[k] {
+						delete(next, k)
+					}
+				}
+			}
+			if next == nil {
+				next = map[string]bool{}
+			}
+			next[id] = true
+
+			if !sameSet(next, g.doms[id]) {
+				g.doms[id] = next
+				changed = true
+			}
+		}
+	}
 }

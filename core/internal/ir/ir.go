@@ -192,6 +192,24 @@ type Flow struct {
 	To   string `json:"to"`
 	Kind string `json:"kind"`
 	Loc  Loc    `json:"loc"`
+	// Block is the basic block this edge occurs in, when the frontend can say so.
+	//
+	// A variable that is REDEFINED is lowered as a merge: one value with two edges into
+	// it. Without a block on each edge the core cannot tell "the caller's body, and then
+	// the verified event that replaced it" from "either of two things reached here", and
+	// it reports the dead one. linkwarden's Stripe webhook is the measured case --
+	// `let event = req.body` on line 46, `event = stripe.webhooks.constructEvent(...)`
+	// on line 56, and a log on line 106 reported as caller-controlled through a value
+	// that stopped existing fifty lines earlier. `Call` already carries this field for
+	// the same reason; an assignment needed it too.
+	//
+	// EMPTY IS A REFUSAL, NEVER A DEFAULT. A frontend must leave this unset wherever the
+	// block graph does not express when the edge runs -- inside a loop body, whose back
+	// edge neither frontend emits, or inside a `switch`, whose arms are lowered
+	// straight-line. The core reads an absent block as "position unknown" and keeps the
+	// flow, which is the only safe direction for a security tool: a false negative costs
+	// more than a false positive (ADR-003).
+	Block string `json:"block,omitempty"`
 }
 
 // Resolution is how confidently a call site was resolved. This drives finding
