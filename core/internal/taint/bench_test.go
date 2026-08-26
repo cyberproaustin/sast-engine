@@ -123,6 +123,7 @@ var corpora = []string{
 	"next-pages-router",
 	"tornado-urlspec",
 	"reassignment-kills-taint",
+	"weak-hash-by-use",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {

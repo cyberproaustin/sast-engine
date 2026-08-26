@@ -70,14 +70,14 @@
       "cwe": "CWE-328",
       "sinkFile": "app.py",
       "sinkLine": 73,
-      "sourceLabel": "\"hashlib.sha1()\"",
+      "sourceLabel": "hashlib.sha1()",
       "confidence": "high",
-      "note": "the direct form of a weak hash, which the named-algorithm rules never covered. Reported and never gating: across the clean corpus the direct form is 44 of the 80 weak-hash findings, every one examined being a cache key, an ETag or a Gravatar URL"
+      "note": "the direct form of a weak hash, which the named-algorithm rules never covered -- and it is reported because the digest is compared against a recorded one rather than because the algorithm is named. The 42 findings the name-matching rule produced across ten repositories were cache keys, bucket keys, ETags and request signatures a remote protocol demands, and none of them decided anything here"
     },
     {
       "cwe": "CWE-1333",
       "sinkFile": "app.py",
-      "sinkLine": 83,
+      "sinkLine": 85,
       "sourceLabel": "flask.request.form.mail",
       "confidence": "medium",
       "note": "a caller's string against a pattern that backtracks, compiled at module scope and used in the handler -- which is the normal way to write this and means the rule has to follow the receiver through the compile step. Written inside `if not ...`, where the frontend used to walk straight past the call"

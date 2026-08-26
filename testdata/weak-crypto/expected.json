@@ -1,22 +1,22 @@
 {
   "corpus": "weak-crypto",
-  "description": "A weakness visible in a call's own arguments, with no dataflow anywhere near it. Two broken hash algorithms named in the source are findings; SHA-256 is not; HMAC-SHA1 is not, because it is not broken the way a bare SHA-1 digest is and is deliberately absent from the list rather than swept in by association; and an algorithm chosen at runtime is not matched, because this kind matches literals and does not guess.",
+  "description": "A broken hash algorithm, judged by what the digest is asked to establish rather than by its name. The algorithm is still read from a literal and an algorithm chosen at runtime is still not guessed at; what decides now is the second line, where the digest is compared against a value the program was given. Two digests are compared and are findings: MD5 verifying downloaded bytes and SHA-1 verifying a claimed signature, both computed a function away from the comparison. Five digests are silent, and each one is a different edge of the same judgement: SHA-256 compared the same way (not broken), HMAC-SHA1 compared the same way (its soundness is the key and the construction, not collision resistance), an algorithm that is a parameter (not knowable), and MD5 with no comparison at all (a cache key is a name for a slot, and a collision there costs a miss). The finding lands at the comparison because that is where the program decides something -- the constructor is where it would be fixed, and the evidence names both.",
   "expected": [
     {
       "cwe": "CWE-328",
       "sinkFile": "app.ts",
-      "sinkLine": 13,
-      "sourceLabel": "\"md5\"",
+      "sinkLine": 43,
+      "sourceLabel": "crypto.createHash(\"md5\")",
       "confidence": "high",
-      "note": "the algorithm is written into the call"
+      "note": "the digest stands in for the bytes it was computed from, and a second input that hashes the same passes this check"
     },
     {
       "cwe": "CWE-328",
       "sinkFile": "app.ts",
-      "sinkLine": 17,
-      "sourceLabel": "\"sha1\"",
+      "sinkLine": 50,
+      "sourceLabel": "crypto.createHash(\"sha1\")",
       "confidence": "high",
-      "note": "a bare SHA-1 digest, unlike HMAC-SHA1 below"
+      "note": "a bare SHA-1 digest verified against a claimed one, unlike the HMAC-SHA1 below which is silent"
     }
   ]
 }

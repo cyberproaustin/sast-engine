@@ -501,6 +501,11 @@ type SanitizerRule struct {
 
 // AppliesTo reports whether this transform speaks to a classification at all.
 func (s SanitizerRule) AppliesTo(class string) bool {
+	for _, c := range s.Except {
+		if c == class {
+			return false
+		}
+	}
 	if len(s.Classes) == 0 {
 		return true
 	}
@@ -4495,15 +4500,20 @@ func builtin() Model {
 			{
 				// Node's digest is a method on an object, so the identity comes from
 				// what built the object rather than from the name.
+				//
+				// Except the digest's OWN class: this call is what produces a digest, so
+				// it cannot also be what ends the question of where that digest goes.
 				Method:      "digest",
 				AfterSymbol: []string{"createHash", "createHmac"},
 				Contexts:    []string{AnyContext},
+				Except:      []string{"weak-digest"},
 				Note:        "a digest is not what was digested, and a hex digest cannot carry syntax",
 			},
 			{
 				Method:      "hexdigest",
 				AfterSymbol: []string{"md5", "sha1", "sha224", "sha256", "sha384", "sha512", "new"},
 				Contexts:    []string{AnyContext},
+				Except:      []string{"weak-digest"},
 				Note:        "a digest is not what was digested, and a hex digest cannot carry syntax",
 			},
 			{
@@ -6656,6 +6666,17 @@ type DecisionRule struct {
 	// the weakness.
 	OtherNotSameClass bool
 
+	// OtherNotAbsent forbids the judgement when the other side is the language's way of
+	// writing NOTHING -- an empty string, None, null, undefined.
+	//
+	// `s == ""` asks whether anything arrived at all, and every function that takes a
+	// string asks it. It is not a comparison that establishes anything, so it is not a
+	// comparison a rule about what a value PROVES has any business reading. Narrower
+	// than OtherNotLiteral on purpose: a digest compared against a digest written into
+	// the source is a recorded checksum and is exactly the case worth reporting, so
+	// excluding every literal would throw that away to be rid of this.
+	OtherNotAbsent bool
+
 	// OtherNotLiteral requires the other side to be a runtime value rather than
 	// something written down.
 	//
@@ -6784,6 +6805,7 @@ func builtinDecisions() []DecisionRule {
 			ID: "weak-digest-compared", Class: "weak-digest",
 			Ops:                 []string{"==", "===", "!=", "!==", "Eq", "NotEq"},
 			RequiresUnprojected: true,
+			OtherNotAbsent:      true,
 			CWE:                 "CWE-328",
 			Finding:             "Broken digest compared as proof",
 			Reason:              "the comparison decides that two things are the same because their digests are, and this algorithm is broken against collision -- so a second input passes the check as readily as the right one",

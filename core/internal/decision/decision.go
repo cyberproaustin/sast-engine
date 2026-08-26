@@ -129,6 +129,10 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 				if rule.OtherNotLiteral && writtenDown(ix.ValueByID[other]) {
 					continue
 				}
+				// A test for nothing at all is not a test of what the value stands for.
+				if rule.OtherNotAbsent && absentValue(ix.ValueByID[other]) {
+					continue
+				}
 				o := carrying.Origin[side]
 				// A rule with no class has no source to name, so the evidence is the
 				// literal that was compared -- which is the whole of what was written.
@@ -218,6 +222,26 @@ func writtenDown(v *ir.Value) bool {
 	}
 	switch strings.ToLower(v.Name) {
 	case "undefined", "null", "nan", "none":
+		return true
+	}
+	return false
+}
+
+// absentValue reports whether a value is the language's way of writing NOTHING: an empty
+// string, or one of the names the language provides for absence.
+//
+// The empty literal has to be read from the KIND rather than from the text, because an
+// unrecorded literal and an empty one are the same empty string otherwise -- and only one
+// of them is evidence.
+func absentValue(v *ir.Value) bool {
+	if v == nil {
+		return false
+	}
+	if v.Kind == ir.ValueLiteral && strings.TrimSpace(v.Literal) == "" {
+		return true
+	}
+	switch strings.ToLower(v.Name) {
+	case "none", "null", "undefined", "nan":
 		return true
 	}
 	return false
