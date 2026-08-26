@@ -54,6 +54,7 @@ func writeSurface(b *strings.Builder, s surface.Surface) {
 	fmt.Fprintf(b, "\nsurface: %d entry point(s) in %d group(s)\n", len(s.Entries), len(names))
 	writeCompleteness(b, s)
 	if len(s.Entries) == 0 {
+		writeNonApplicationSurface(b, s)
 		return
 	}
 
@@ -88,6 +89,37 @@ func writeSurface(b *strings.Builder, s surface.Surface) {
 	}
 	writeUniversalControls(b, s)
 	writeUnresolvedInputs(b, s)
+	writeNonApplicationSurface(b, s)
+}
+
+// Example and vendored registrations are kept visible without letting their presence
+// make an empty application surface look partly enumerated. jupyterhub supplied the
+// measured failure: all nine routes were examples, while none of the application was
+// represented.
+func writeNonApplicationSurface(b *strings.Builder, s surface.Surface) {
+	if len(s.NonApplicationEntries) == 0 {
+		return
+	}
+	counts := map[ir.Provenance]int{}
+	for _, entry := range s.NonApplicationEntries {
+		counts[entry.Provenance]++
+	}
+	fmt.Fprintf(b, "\nnon-application surface: %d entry point(s), excluded from the application count\n",
+		len(s.NonApplicationEntries))
+	for _, provenance := range []ir.Provenance{ir.Example, ir.Vendored} {
+		if counts[provenance] == 0 {
+			continue
+		}
+		fmt.Fprintf(b, "  %s: %d\n", provenance, counts[provenance])
+		if len(s.NonApplicationEntries) > surfaceDetailLimit {
+			continue
+		}
+		for _, entry := range s.NonApplicationEntries {
+			if entry.Provenance == provenance {
+				fmt.Fprintf(b, "    %-30s %s\n", entry.Label(), entry.Loc())
+			}
+		}
+	}
 }
 
 // Controls applied to every entry point, named once rather than repeated on each.
@@ -290,11 +322,16 @@ func writeTaint(b *strings.Builder, res taint.Result, newness, scoped map[string
 	// which question was being asked.
 	byFlow := map[string][]taint.Finding{}
 	var order []string
+	var nonApplication []taint.Finding
 	// Findings the engine could not tie to an enumerated entry point are separated,
 	// not mixed in. Presenting them alongside anchored findings would claim a surface
 	// the engine did not map (ADR-009).
 	var unanchored []taint.Finding
 	for _, f := range res.Findings {
+		if f.Provenance != "" {
+			nonApplication = append(nonApplication, f)
+			continue
+		}
 		if !f.EntryAnchored {
 			unanchored = append(unanchored, f)
 			continue
@@ -396,18 +433,91 @@ func writeTaint(b *strings.Builder, res taint.Result, newness, scoped map[string
 			}
 		}
 	}
-	switch {
-	case known > 0 && out > 0:
-		fmt.Fprintf(b, "\n  %d finding(s), %d new, %d in this change, %d gating\n", anchored, anchored-known, anchored-out, gating)
-	case known > 0:
-		fmt.Fprintf(b, "\n  %d finding(s), %d new, %d gating\n", anchored, anchored-known, gating)
-	case out > 0:
-		fmt.Fprintf(b, "\n  %d finding(s), %d in this change, %d gating\n", anchored, anchored-out, gating)
-	default:
-		fmt.Fprintf(b, "\n  %d finding(s), %d gating\n", anchored, gating)
+	if anchored == 0 {
+		fmt.Fprintf(b, "  no application findings\n")
+	} else {
+		switch {
+		case known > 0 && out > 0:
+			fmt.Fprintf(b, "\n  %d finding(s), %d new, %d in this change, %d gating\n", anchored, anchored-known, anchored-out, gating)
+		case known > 0:
+			fmt.Fprintf(b, "\n  %d finding(s), %d new, %d gating\n", anchored, anchored-known, gating)
+		case out > 0:
+			fmt.Fprintf(b, "\n  %d finding(s), %d in this change, %d gating\n", anchored, anchored-out, gating)
+		default:
+			fmt.Fprintf(b, "\n  %d finding(s), %d gating\n", anchored, gating)
+		}
 	}
 	writeUnanchored(b, unanchored)
+	writeNonApplicationFindings(b, nonApplication, newness, scoped)
 	writeNoCallerIdentity(b, res)
+}
+
+// Findings in source the repository did not hand-write remain facts, but putting them in
+// the application section gives them the same visual rank even when SARIF correctly says
+// note. uptime-kuma measured the cost: protocol-compatibility DES in a checked-in package
+// sat beside findings its maintainers could actually fix.
+func writeNonApplicationFindings(b *strings.Builder, findings []taint.Finding, newness, scoped map[string]bool) {
+	if len(findings) == 0 {
+		return
+	}
+	sort.SliceStable(findings, func(i, j int) bool {
+		if findings[i].Provenance != findings[j].Provenance {
+			return findings[i].Provenance < findings[j].Provenance
+		}
+		if findings[i].Analysis != findings[j].Analysis {
+			return findings[i].Analysis < findings[j].Analysis
+		}
+		return findings[i].SinkLoc.String() < findings[j].SinkLoc.String()
+	})
+
+	fmt.Fprintf(b, "\nnon-application findings: %d, all reported and never gating\n", len(findings))
+	var provenance ir.Provenance
+	analysis := ""
+	shown := 0
+	elided := map[string]int{}
+	flushElided := func() {
+		if len(elided) == 0 {
+			return
+		}
+		files := make([]string, 0, len(elided))
+		for file := range elided {
+			files = append(files, file)
+		}
+		sort.Strings(files)
+		fmt.Fprintf(b, "\n  additional %s finding(s):\n", analysis)
+		for _, file := range files {
+			fmt.Fprintf(b, "    %-64s %d\n", file, elided[file])
+		}
+		elided = map[string]int{}
+	}
+
+	for _, f := range findings {
+		if f.Provenance != provenance {
+			flushElided()
+			provenance = f.Provenance
+			analysis = ""
+			fmt.Fprintf(b, "\n  -- %s code --\n", provenance)
+		}
+		if f.Analysis != analysis {
+			flushElided()
+			analysis = f.Analysis
+			shown = 0
+			fmt.Fprintf(b, "\n  %s\n", analysis)
+		}
+		if shown >= sameRuleDetailLimit {
+			elided[f.SinkLoc.File]++
+			continue
+		}
+		shown++
+		writeTaintFinding(b, f)
+		if newness != nil && !newness[f.Fingerprint()] {
+			fmt.Fprintf(b, "  in baseline: %s\n", f.Fingerprint())
+		}
+		if scoped != nil && !scoped[f.Fingerprint()] {
+			fmt.Fprintf(b, "  outside this change\n")
+		}
+	}
+	flushElided()
 }
 
 // Findings on entry points the framework handed no caller identity, named once as a

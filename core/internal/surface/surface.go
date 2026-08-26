@@ -47,6 +47,7 @@ type Control struct {
 type EntryFacts struct {
 	EntryPoint ir.EntryPoint
 	Function   *ir.Function
+	Provenance ir.Provenance
 
 	// Group is the comparison population for convention analysis (ADR-010).
 	Group string
@@ -89,6 +90,10 @@ func (e EntryFacts) ControlRefs() map[string]Control {
 // Surface is the enumerated attack surface.
 type Surface struct {
 	Entries []EntryFacts
+	// NonApplicationEntries are real registrations in examples or checked-in
+	// dependencies. They remain auditable without being presented as the application's
+	// own attack surface.
+	NonApplicationEntries []EntryFacts
 	// Completeness is evidence about whether this enumeration accounts for the program.
 	Completeness Completeness
 }
@@ -166,17 +171,31 @@ func (s Surface) GroupNames() []string {
 func Build(d *ir.IR, m model.Model, p *policy.Policy) Surface {
 	ix := ir.NewIndex(d)
 	var entries []EntryFacts
+	var nonApplication []EntryFacts
 
 	for _, ep := range d.EntryPoints {
 		fn := ix.FuncByID[ep.FunctionID]
+		loc := ep.Loc
+		if fn != nil {
+			loc = fn.Loc
+		} else if loc.File == "" {
+			loc.File = ep.Detail["module"]
+		}
 		facts := EntryFacts{
 			EntryPoint: ep,
 			Function:   fn,
+			Provenance: ix.ProvenanceOf(loc),
 			Method:     ep.Detail["method"],
 			Path:       ep.Detail["path"],
 			Group:      groupOf(ep, fn),
 		}
 		facts.Controls = controlsOf(ep, fn, m, p)
+		if !ix.InApplicationSurface(loc) {
+			if facts.Provenance == ir.Vendored || facts.Provenance == ir.Example {
+				nonApplication = append(nonApplication, facts)
+			}
+			continue
+		}
 		entries = append(entries, facts)
 	}
 
@@ -202,8 +221,18 @@ func Build(d *ir.IR, m model.Model, p *policy.Policy) Surface {
 		}
 		return entries[i].Label() < entries[j].Label()
 	})
+	sort.Slice(nonApplication, func(i, j int) bool {
+		if nonApplication[i].Provenance != nonApplication[j].Provenance {
+			return nonApplication[i].Provenance < nonApplication[j].Provenance
+		}
+		return nonApplication[i].Label() < nonApplication[j].Label()
+	})
 
-	return Surface{Entries: entries, Completeness: completenessOf(ix, m)}
+	return Surface{
+		Entries:               entries,
+		NonApplicationEntries: nonApplication,
+		Completeness:          completenessOf(ix, m, entries),
+	}
 }
 
 // groupOf picks the population an entry point should be compared against. The module
@@ -291,7 +320,7 @@ func displayName(mw ir.MiddlewareRef) string {
 
 // completenessOf counts the code that handles caller-supplied input and asks how much of
 // it the enumerated surface accounts for.
-func completenessOf(ix *ir.Index, m model.Model) Completeness {
+func completenessOf(ix *ir.Index, m model.Model, entries []EntryFacts) Completeness {
 	// Which value kinds and which framework globals mean "caller-supplied", according to
 	// the model rather than to anything hardcoded here.
 	kinds := map[string]bool{}
@@ -323,9 +352,18 @@ func completenessOf(ix *ir.Index, m model.Model) Completeness {
 		}
 	}
 
-	reachable := ix.ReachableFromEntries()
+	roots := make([]string, 0, len(entries))
+	for _, entry := range entries {
+		if entry.EntryPoint.FunctionID != "" {
+			roots = append(roots, entry.EntryPoint.FunctionID)
+		}
+	}
+	reachable := ix.ReachableFrom(roots)
 	var out Completeness
 	for _, fn := range ix.IR.Functions {
+		if !ix.InApplicationSurface(fn.Loc) {
+			continue
+		}
 		params := map[string]bool{}
 		for _, p := range fn.Params {
 			params[p.ValueID] = true
