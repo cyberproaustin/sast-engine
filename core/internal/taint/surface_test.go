@@ -5,6 +5,7 @@ package taint_test
 
 import (
 	"os"
+	"strings"
 	"testing"
 
 	"github.com/cyberproaustin/sast-engine/core/internal/expectation"
@@ -77,6 +78,62 @@ func TestSurfaceEnumeratesEntryPointsAndControls(t *testing.T) {
 	}
 	if got := byLabel["GET /api/admin/stats"]; got != 2 {
 		t.Errorf("admin route should carry 2 controls, got %d", got)
+	}
+}
+
+// The other Next.js router, whose files name a path and no verb at all.
+//
+// Nothing here is registered and nothing names a method, so the whole surface is derived:
+// the path from the directory below `pages/api`, and the verbs from the branches the
+// handler takes on `req.method`. An application built this way enumerated ZERO entry
+// points against 54 handlers before the convention was modelled.
+//
+// The set is asserted exactly, in both directions. `pages/` without `api/` is the other
+// half of this same convention and holds React components with the identical shape --
+// directory-derived path, default-exported function -- so a rule that is slightly too
+// generous does not lose a route, it fills the surface with pages no caller can reach,
+// and ADR-009 makes the enumeration the thing every finding rests on.
+func TestPagesRouterSurfaceIsDerivedFromFilesAndBranches(t *testing.T) {
+	res := runScan(t, "next-pages-router")
+
+	want := map[string]bool{
+		// No branch on the method: this handler really does answer all of them.
+		"ANY /api/health": true,
+		// `index` is the directory itself, and an if-chain is two reachable handlers.
+		"GET /api/v1/links":  true,
+		"POST /api/v1/links": true,
+		// The parameter is in the FILE name, and a switch dispatches the same way.
+		"GET /api/v1/links/:id":    true,
+		"PUT /api/v1/links/:id":    true,
+		"DELETE /api/v1/links/:id": true,
+		// `req.method !== "POST"` is the 405 guard, and it names POST.
+		"POST /api/webhooks/stripe": true,
+		// Catch-all and optional catch-all.
+		"ANY /api/proxy/*":  true,
+		"ANY /api/legacy/*": true,
+	}
+
+	got := map[string]bool{}
+	for _, e := range res.Surface.Entries {
+		got[e.Label()] = true
+	}
+	for label := range want {
+		if !got[label] {
+			t.Errorf("missing entry point %s", label)
+		}
+	}
+	for label := range got {
+		if !want[label] {
+			t.Errorf("%s was enumerated and is not a route", label)
+		}
+	}
+
+	// Said again as a property rather than a list, because the list only holds while
+	// this corpus does: what makes a file a route is the directory it is in.
+	for _, e := range res.Surface.Entries {
+		if module := e.EntryPoint.Detail["module"]; !strings.Contains(module, "pages/api/") {
+			t.Errorf("%s was enumerated from %s, which is not an API route file", e.Label(), module)
+		}
 	}
 }
 

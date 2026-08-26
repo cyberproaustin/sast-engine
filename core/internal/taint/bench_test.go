@@ -120,6 +120,8 @@ var corpora = []string{
 	"flask-unsafe-files",
 	"flask-csv-injection",
 	"django-urlconf",
+	"next-pages-router",
+	"tornado-urlspec",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {
