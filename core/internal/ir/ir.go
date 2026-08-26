@@ -210,6 +210,18 @@ type Callee struct {
 	FunctionID string     `json:"functionId,omitempty"`
 	Symbol     string     `json:"symbol,omitempty"`
 	Resolution Resolution `json:"resolution"`
+	// Name is what the call was WRITTEN as, independently of what it resolved to.
+	//
+	// An unresolved call carried no identity at all, which meant no rule could say
+	// anything about one however plainly it was written. `next(err)` inside an Express
+	// handler is the case that forced this: `next` is a parameter, so it resolves to
+	// nothing -- and whether an error is passed to it is the difference between handing
+	// the request off and carrying on with it.
+	//
+	// Deliberately NOT folded into Symbol. A symbol is a claim about what a name refers
+	// to; this is a record of the name. Rules that match a symbol must keep matching only
+	// where the frontend could say what it was.
+	Name string `json:"name,omitempty"`
 }
 
 // Arg binds a positional argument to a value node. FunctionID is set when the

@@ -56,7 +56,14 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 				side, other := "", ""
 				if rule.Class == "" {
 					side, other = cmp.Left, cmp.Right
+					// A rule with no class finds its side by what PRODUCED it.
+					if len(rule.SideFrom) > 0 && !producedBy(resultOf, side, rule.SideFrom) {
+						side, other = cmp.Right, cmp.Left
+					}
 					if rule.OtherIsText && !isText(ix.ValueByID[other]) {
+						side, other = cmp.Right, cmp.Left
+					}
+					if len(rule.OtherNamed) > 0 && !namedOneOf(ix, other, rule.OtherNamed) {
 						side, other = cmp.Right, cmp.Left
 					}
 				} else {
@@ -75,6 +82,9 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 					default:
 						continue
 					}
+				}
+				if len(rule.SideFrom) > 0 && !producedBy(resultOf, side, rule.SideFrom) {
+					continue
 				}
 				// A rule about a THRESHOLD needs the threshold, and a comparison against
 				// something computed at runtime has none to read.
@@ -113,10 +123,11 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 				if rule.OtherNotSameClass && carrying.Values[other] {
 					continue
 				}
-				if rule.OtherNotLiteral {
-					if v := ix.ValueByID[other]; v == nil || v.Kind == ir.ValueLiteral {
-						continue
-					}
+				if len(rule.OtherNamed) > 0 && !namedOneOf(ix, other, rule.OtherNamed) {
+					continue
+				}
+				if rule.OtherNotLiteral && writtenDown(ix.ValueByID[other]) {
+					continue
 				}
 				o := carrying.Origin[side]
 				// A rule with no class has no source to name, so the evidence is the
@@ -166,6 +177,71 @@ func derivedVia(ix *ir.Index, resultOf map[string]*ir.Call, v *ir.Value, names [
 		}
 	}
 	return "", false
+}
+
+// producedBy reports whether a value is the result of a call to one of these symbols.
+func producedBy(resultOf map[string]*ir.Call, id string, symbols []string) bool {
+	c := resultOf[id]
+	if c == nil {
+		return false
+	}
+	name := c.Callee.Symbol
+	if name == "" {
+		name = c.Method
+	}
+	for _, want := range symbols {
+		if strings.EqualFold(name, want) || strings.EqualFold(leafOf(name), leafOf(want)) {
+			return true
+		}
+	}
+	return false
+}
+
+func leafOf(s string) string {
+	if i := strings.LastIndexByte(s, '.'); i >= 0 {
+		return s[i+1:]
+	}
+	return s
+}
+
+// writtenDown reports whether the other side of a comparison is something the author
+// PUT THERE rather than something the program computed.
+//
+// A literal is the obvious case. `undefined`, `null` and `NaN` are the other one: the
+// language provides them and nothing computes them, so `token === undefined` is a
+// presence test exactly as `token === ""` is -- and a rule that excludes the first must
+// exclude the second. They started reaching rules at all only when bare language names
+// began to be lowered, which is why this is stated here rather than assumed.
+func writtenDown(v *ir.Value) bool {
+	if v == nil || v.Kind == ir.ValueLiteral {
+		return true
+	}
+	switch strings.ToLower(v.Name) {
+	case "undefined", "null", "nan", "none":
+		return true
+	}
+	return false
+}
+
+// namedOneOf reports whether a value IS one of these names -- `NaN`, `math.nan`. The
+// name is all there is: the language provides the value and there is no literal to read.
+func namedOneOf(ix *ir.Index, id string, names []string) bool {
+	v := ix.ValueByID[id]
+	if v == nil {
+		return false
+	}
+	for _, want := range names {
+		if strings.EqualFold(v.Path, want) || strings.EqualFold(v.Name, want) {
+			return true
+		}
+		if i := strings.LastIndexByte(want, '.'); i >= 0 {
+			leaf := want[i+1:]
+			if strings.EqualFold(v.Path, leaf) || strings.EqualFold(v.Name, leaf) {
+				return true
+			}
+		}
+	}
+	return false
 }
 
 func matchesName(dotted string, names []string) bool {
