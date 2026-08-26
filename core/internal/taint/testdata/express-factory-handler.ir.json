@@ -19,6 +19,6 @@
   ],
   "entryPoints": [
     {"functionId":"login.js#<anonymous>:6:10","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/rest/user/login","module":"app.js"},"loc":{"file":"app.js","line":6,"column":1},"middleware":[]},
-    {"functionId":"","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/either","module":"app.js"},"loc":{"file":"app.js","line":7,"column":1},"middleware":[]}
+    {"functionId":"","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/either","module":"app.js","handler":"ambiguous(true)"},"loc":{"file":"app.js","line":7,"column":1},"middleware":[]}
   ]
 }

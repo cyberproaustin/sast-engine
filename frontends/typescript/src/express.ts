@@ -6,6 +6,7 @@
 
 import ts from "typescript";
 import type { EntryPoint, MiddlewareRef } from "./ir.ts";
+import { collectStringBindings, joinRoute, pathText, unresolvedPath } from "./routepath.ts";
 
 /** `require("express")` written inline, without an intermediate binding. */
 function requiresExpress(expr: ts.Expression): boolean {
@@ -85,6 +86,14 @@ export function detectExpressRoutes(
   for (const name of shaped) appNames.add(name);
   if (appNames.size === 0) return [];
 
+  // Names bound to an expression anywhere in this file, so a path written as a template
+  // or a constant resolves to the address it is served at.
+  const consts = collectStringBindings(sf);
+  // Where a router in this file is mounted: `app.use("/api", router)` puts every route
+  // registered on `router` below `/api`, and a path recorded without that prefix names an
+  // address that answers nothing.
+  const mounts = collectMountPrefixes(sf, appNames, consts);
+
   // Application-wide middleware. Path scoping and registration order are not modeled
   // yet, so this is attributed to every route on the same binding; that is why it is
   // recorded with scope "app" rather than merged into the route chain.
@@ -104,7 +113,10 @@ export function detectExpressRoutes(
         if (method === "use") {
           appMiddleware.push(...middlewareFrom(node, "app", resolveFunction, locOf));
         } else if (ROUTE_METHODS.has(method)) {
-          entryPoints.push(...routesFrom(node, method, resolveFunction, locOf));
+          const prefix = mounts.get(root.text) ?? "";
+          entryPoints.push(
+            ...routesFrom(node, method, prefix, chainRoutePath(target, consts), consts, resolveFunction, locOf),
+          );
         }
       }
     }
@@ -147,6 +159,45 @@ function collectAppBindings(
   return bindings;
 }
 
+/**
+ * Where each router in this file is mounted: `app.use("/api/v2", router)`.
+ *
+ * Only what is decidable HERE. A router required across a module boundary --
+ * `app.use("/api", require("./routes"))` -- is mounted at a prefix this file states and
+ * registered in a file that never sees it, and joining those two halves needs a
+ * program-wide pass the frontend does not have yet. That limit is stated rather than
+ * papered over (ADR-003): the routes still appear, at the path their own file spells.
+ */
+function collectMountPrefixes(
+  sf: ts.SourceFile,
+  appNames: Set<string>,
+  consts: Map<string, ts.Expression>,
+): Map<string, string> {
+  const out = new Map<string, string>();
+
+  const visit = (node: ts.Node): void => {
+    if (
+      ts.isCallExpression(node) &&
+      ts.isPropertyAccessExpression(node.expression) &&
+      node.expression.name.text === "use" &&
+      node.arguments.length >= 2
+    ) {
+      // The MOUNTED thing has to be a router this file watched being created. Every
+      // other second argument of `use` is middleware, and giving middleware a mount
+      // prefix would move routes that were never registered on it.
+      const mounted = node.arguments[node.arguments.length - 1];
+      if (ts.isIdentifier(mounted) && appNames.has(mounted.text) && !out.has(mounted.text)) {
+        const prefix = pathText(node.arguments[0], consts);
+        if (prefix) out.set(mounted.text, prefix);
+      }
+    }
+    ts.forEachChild(node, visit);
+  };
+  visit(sf);
+
+  return out;
+}
+
 /** Identifiers used like a router: `x.get("/path", ...)`. */
 function collectRouterShapes(sf: ts.SourceFile): Set<string> {
   const out = new Set<string>();
@@ -187,6 +238,40 @@ function chainRoot(expr: ts.Expression): ts.Identifier | undefined {
   for (let hops = 0; hops < 16; hops++) {
     if (ts.isIdentifier(cur)) return cur;
     if (ts.isCallExpression(cur)) {
+      cur = cur.expression;
+      continue;
+    }
+    if (ts.isPropertyAccessExpression(cur)) {
+      cur = cur.expression;
+      continue;
+    }
+    return undefined;
+  }
+  return undefined;
+}
+
+/**
+ * The path a `.route(...)` in the receiver chain already stated, if there is one.
+ *
+ * `router.route("/things").get(handler).post(handler)` puts the path on a call of its
+ * own, so the verb calls have NO path argument and their first argument is the handler.
+ * Reading the path off the chain is what tells those two shapes apart -- and it recovers
+ * a path that was being recorded as `*` for every route registered this way.
+ */
+function chainRoutePath(
+  expr: ts.Expression,
+  consts: Map<string, ts.Expression>,
+): string | undefined {
+  let cur: ts.Expression = expr;
+  for (let hops = 0; hops < 16; hops++) {
+    if (ts.isCallExpression(cur)) {
+      if (
+        ts.isPropertyAccessExpression(cur.expression) &&
+        cur.expression.name.text === "route" &&
+        cur.arguments.length > 0
+      ) {
+        return pathText(cur.arguments[0], consts);
+      }
       cur = cur.expression;
       continue;
     }
@@ -273,32 +358,38 @@ function middlewareFrom(
 function routesFrom(
   call: ts.CallExpression,
   method: string,
+  prefix: string,
+  chainPath: string | undefined,
+  consts: Map<string, ts.Expression>,
   resolveFunction: ResolveFunction,
   locOf: (node: ts.Node) => { file: string; line: number; column: number },
 ): EntryPoint[] {
   const args = call.arguments;
-  let routePath = "*";
-  let start = 0;
+  // A verb call in a `.route(path)` chain carries no path of its own: its first argument
+  // is already a handler. Everywhere else, a route method's first argument IS its path --
+  // that is the framework's signature, and it holds whether or not the path is a literal.
+  let routePath = chainPath ?? (args.length > 0 ? pathText(args[0], consts) : unresolvedPath());
+  let start = chainPath === undefined && args.length > 0 ? 1 : 0;
 
-  if (args.length > 0 && ts.isStringLiteralLike(args[0])) {
+  if (start === 1 && args.length > 1 && ts.isStringLiteralLike(args[1]) && args[1].text.startsWith("/")) {
     // Koa allows a route NAME in front of the path: `router.post("thing.create",
     // middleware, handler)`. The name is what the application calls the route and is
     // the only identifier it has, so it stands in for the path -- which is what ADR-009
     // asks for when the engine knows least.
-    routePath = args[0].text;
-    start = 1;
-    if (args.length > 1 && ts.isStringLiteralLike(args[1]) && args[1].text.startsWith("/")) {
-      routePath = args[1].text;
-      start = 2;
-    }
+    routePath = args[1].text;
+    start = 2;
   }
 
-  // The LAST function argument is the handler; everything before it is middleware
-  // applied to this route. Treating every function argument as a handler both
-  // invents entry points and loses the controls guarding the real one.
+  // The LAST argument is the handler; everything before it is middleware applied to this
+  // route. It used to be the last argument this frontend could RESOLVE, which is a
+  // different thing: `app.get("/metrics", apiAuth, prometheusAPIMetrics())` ends in a
+  // factory call from a package outside the tree, so the search walked back past it and
+  // anchored the route to its authentication middleware. The surface then said the
+  // handler of /metrics was the auth check -- a false statement about the one function
+  // every judgement about that route is made against.
   let handlerIndex = -1;
   for (let i = args.length - 1; i >= start; i--) {
-    if (resolveFunction(args[i])) {
+    if (isHandlerArgument(args[i])) {
       handlerIndex = i;
       break;
     }
@@ -308,7 +399,8 @@ function routesFrom(
   // required through CommonJS often resolves to nothing, and dropping the route
   // there makes the enumerated surface silently incomplete — the one thing it must
   // never be (ADR-009). Emit it with no function: the operator sees the route, and
-  // analyses that need a body skip it.
+  // analyses that need a body skip it. What the handler was WRITTEN as is recorded
+  // either way, so an unresolved one is a named gap rather than a blank.
   const handler = handlerIndex >= 0 ? resolveFunction(args[handlerIndex]) : undefined;
   const middleware = middlewareFrom(
     call,
@@ -318,18 +410,39 @@ function routesFrom(
     handlerIndex >= 0 ? handlerIndex : args.length,
   );
 
+  // A configured prefix that defaults to empty leaves `app.get(`${baseUriPath}`)`
+  // registering the empty string, and Express serves that at the root. Recording it as
+  // "" would print a blank column where a path belongs.
+  const detail: Record<string, string> = {
+    method: method.toUpperCase(),
+    path: joinRoute(prefix, routePath) || "/",
+    module: locOf(call).file,
+  };
+  if (!handler && handlerIndex >= 0) {
+    detail.handler = args[handlerIndex].getText(args[handlerIndex].getSourceFile());
+  }
+
   return [
     {
       functionId: handler ? handler.id : "",
       kind: "http-route",
       framework: "express",
-      detail: {
-        method: method.toUpperCase(),
-        path: routePath,
-        module: locOf(call).file,
-      },
+      detail,
       loc: locOf(call),
       middleware,
     },
   ];
+}
+
+/**
+ * Whether this argument occupies a HANDLER slot rather than the path slot.
+ *
+ * Written as the negative of "could be a path" on purpose: a registration's first
+ * argument is its path unless it plainly is not one, and everything from there on is a
+ * function until the last, which is the handler.
+ */
+function isHandlerArgument(node: ts.Expression): boolean {
+  if (ts.isStringLiteralLike(node) || ts.isTemplateExpression(node)) return false;
+  if (ts.isRegularExpressionLiteral(node) || ts.isArrayLiteralExpression(node)) return false;
+  return couldBeHandler(node);
 }

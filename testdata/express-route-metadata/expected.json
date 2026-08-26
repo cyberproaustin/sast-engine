@@ -1,0 +1,22 @@
+{
+  "corpus": "express-route-metadata",
+  "description": "A registration states a verb, a framework, a path and a handler, and three of those were being read from the wrong place. A configured base path and a router's mount prefix were both printed as `*` -- which is not a smaller answer but a false one, because `*` claims the route matches every request in the application; here they compose into `/api/v2/orders/:id`, and what cannot be read is marked unresolved and NAMED instead. The entry used to be anchored to the last argument this frontend could RESOLVE rather than the one Express calls last, so `app.get(\"/metrics\", apiAuth, prometheusMetrics())` -- ending in a factory from a package outside the tree -- reported its authentication middleware as the handler: a false statement about the one function every judgement about that route is made against. It is now anchored to the handler slot, which is unresolved and says so, and apiAuth appears where it belongs, as a control on the route. The `.route(path).get(h).post(h)` chain puts the path on a call of its own, and both findings are reachable only because the paths and the handler are right: the negative in the same chain reads nothing a caller sent.",
+  "expected": [
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "orders.js",
+      "sinkLine": 7,
+      "sourceLabel": "req.params.id",
+      "confidence": "high",
+      "note": "GET /api/v2/orders/:id -- the router's mount prefix is half of that address, and the route is anchored to this handler rather than to the apiAuth middleware in front of it"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "orders.js",
+      "sinkLine": 19,
+      "sourceLabel": "req.body.name",
+      "confidence": "high",
+      "note": "registered through a `.route(path)` chain, whose verb calls carry no path of their own"
+    }
+  ]
+}

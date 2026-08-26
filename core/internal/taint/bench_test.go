@@ -127,6 +127,8 @@ var corpora = []string{
 	"regex-complexity",
 	"unowned-record-access",
 	"unbounded-resource",
+	"express-route-metadata",
+	"flask-route-metadata",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {

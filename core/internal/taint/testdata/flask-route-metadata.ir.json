@@ -1,0 +1,1876 @@
+{
+  "irVersion": "0.14.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi",
+        "django",
+        "tornado"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "api.py",
+      "path": "api.py"
+    },
+    {
+      "id": "app.py",
+      "path": "app.py"
+    },
+    {
+      "id": "notroutes.py",
+      "path": "notroutes.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "api.py#<module>:0:0",
+      "name": "<module>",
+      "module": "api.py",
+      "loc": {
+        "file": "api.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "api.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "api.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "`@router.get` on a FastAPI APIRouter is not Flask.\n\nThe framework was being picked once per FILE, from whatever the file imported, so four\nFastAPI routes in a JupyterHub example were labelled `flask`. The decorator's RECEIVER is\nwhat says which framework a registration belongs to, and a file is free to hold two.\n"
+        },
+        {
+          "id": "api.py#<module>:0:0$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "api.py",
+            "line": 13,
+            "column": 70
+          },
+          "literal": "/"
+        },
+        {
+          "id": "api.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "api.py",
+            "line": 13,
+            "column": 37
+          },
+          "literal": "API_PREFIX"
+        },
+        {
+          "id": "api.py#<module>:0:0$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "api.py",
+            "line": 13,
+            "column": 51
+          },
+          "literal": "/api/v1/"
+        },
+        {
+          "id": "api.py#<module>:0:0$v4",
+          "kind": "global",
+          "loc": {
+            "file": "api.py",
+            "line": 13,
+            "column": 27
+          },
+          "name": "os"
+        },
+        {
+          "id": "api.py#<module>:0:0$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "api.py",
+            "line": 13,
+            "column": 27
+          },
+          "name": "os.getenv"
+        },
+        {
+          "id": "api.py#<module>:0:0$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "api.py",
+            "line": 13,
+            "column": 27
+          },
+          "name": "unresolved"
+        },
+        {
+          "id": "api.py#<module>:0:0$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "api.py",
+            "line": 13,
+            "column": 10
+          },
+          "name": "fastapi.APIRouter"
+        },
+        {
+          "id": "api.py#<module>:0:0$v8",
+          "kind": "local",
+          "loc": {
+            "file": "api.py",
+            "line": 13,
+            "column": 1
+          },
+          "name": "router"
+        }
+      ],
+      "flows": [
+        {
+          "from": "api.py#<module>:0:0$v7",
+          "to": "api.py#<module>:0:0$v8",
+          "kind": "assign",
+          "loc": {
+            "file": "api.py",
+            "line": 13,
+            "column": 1
+          },
+          "block": "api.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "api.py#<module>:0:0$c0",
+          "loc": {
+            "file": "api.py",
+            "line": 13,
+            "column": 27
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "os.getenv",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "api.py#<module>:0:0$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "api.py#<module>:0:0$v3"
+            }
+          ],
+          "resultValueId": "api.py#<module>:0:0$v5",
+          "block": "api.py#<module>:0:0$b0",
+          "method": "getenv",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "API_PREFIX",
+            "1": "/api/v1/"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "api.py#<module>:0:0$v4"
+        },
+        {
+          "id": "api.py#<module>:0:0$c1",
+          "loc": {
+            "file": "api.py",
+            "line": 13,
+            "column": 27
+          },
+          "callee": {
+            "kind": "unresolved",
+            "resolution": "dynamic-unresolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "api.py#<module>:0:0$v1"
+            }
+          ],
+          "resultValueId": "api.py#<module>:0:0$v6",
+          "block": "api.py#<module>:0:0$b0",
+          "method": "rstrip",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "/"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "api.py#<module>:0:0$v5"
+        },
+        {
+          "id": "api.py#<module>:0:0$c2",
+          "loc": {
+            "file": "api.py",
+            "line": 13,
+            "column": 10
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "fastapi.APIRouter",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "api.py#<module>:0:0$v6"
+            }
+          ],
+          "resultValueId": "api.py#<module>:0:0$v7",
+          "block": "api.py#<module>:0:0$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "prefix=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "api.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "api.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "api.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "api.py#list_items:17:1",
+      "name": "list_items",
+      "module": "api.py",
+      "loc": {
+        "file": "api.py",
+        "line": 17,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "api.py#list_items:17:1$v0",
+          "kind": "local",
+          "loc": {
+            "file": "api.py",
+            "line": 18,
+            "column": 12
+          },
+          "name": "[sequence]"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [
+        "api.py#list_items:17:1$v0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "api.py#list_items:17:1$b0",
+      "blocks": [
+        {
+          "id": "api.py#list_items:17:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "api.py",
+            "line": 17,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "api.py#list_items:17:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "api.py",
+            "line": 18,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "api.py#create_item:22:1",
+      "name": "create_item",
+      "module": "api.py",
+      "loc": {
+        "file": "api.py",
+        "line": 22,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "name",
+          "valueId": "api.py#create_item:22:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "api.py#create_item:22:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "api.py",
+            "line": 22,
+            "column": 23
+          },
+          "name": "name"
+        },
+        {
+          "id": "api.py#create_item:22:1$v1",
+          "kind": "local",
+          "loc": {
+            "file": "api.py",
+            "line": 23,
+            "column": 12
+          },
+          "name": "{dict}"
+        }
+      ],
+      "flows": [
+        {
+          "from": "api.py#create_item:22:1$v0",
+          "to": "api.py#create_item:22:1$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "api.py",
+            "line": 23,
+            "column": 12
+          },
+          "block": "api.py#create_item:22:1$b0"
+        }
+      ],
+      "calls": [],
+      "returns": [
+        "api.py#create_item:22:1$v1"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "api.py#create_item:22:1$b0",
+      "blocks": [
+        {
+          "id": "api.py#create_item:22:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "api.py",
+            "line": 22,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "api.py#create_item:22:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "api.py",
+            "line": 23,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#<module>:0:0",
+      "name": "<module>",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "Wrong metadata is worse than a missing route.\n\nA route that is enumerated with the wrong verb, the wrong framework or the wrong path is\nnot a smaller version of the truth -- it is a false statement about the surface, and every\nquestion asked against it inherits the error. A GET-only label makes a whole class of\nbody-based bypasses unaskable: nobody asks what a POST body reaches when the surface says\nno POST exists.\n\nFlask defaults to GET when `methods=` is ABSENT. That default was being applied even where\nthe argument was present, so a search engine's five POST-capable routes were all recorded\nGET-only. One decorator declaring two verbs is two entry points, not one.\n"
+        },
+        {
+          "id": "app.py#<module>:0:0$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 18,
+            "column": 7
+          },
+          "name": "flask.Flask"
+        },
+        {
+          "id": "app.py#<module>:0:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 18,
+            "column": 1
+          },
+          "name": "app"
+        },
+        {
+          "id": "app.py#<module>:0:0$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 19
+          },
+          "literal": "admin"
+        },
+        {
+          "id": "app.py#<module>:0:0$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 49
+          },
+          "literal": "/admin"
+        },
+        {
+          "id": "app.py#<module>:0:0$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 9
+          },
+          "name": "flask.Blueprint"
+        },
+        {
+          "id": "app.py#<module>:0:0$v6",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 1
+          },
+          "name": "admin"
+        },
+        {
+          "id": "app.py#<module>:0:0$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 33
+          },
+          "literal": "SERVICE_PREFIX"
+        },
+        {
+          "id": "app.py#<module>:0:0$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 51
+          },
+          "literal": "/hub"
+        },
+        {
+          "id": "app.py#<module>:0:0$v9",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 18
+          },
+          "name": "os"
+        },
+        {
+          "id": "app.py#<module>:0:0$v10",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 18
+          },
+          "base": "app.py#<module>:0:0$v9",
+          "path": "environ",
+          "name": "environ"
+        },
+        {
+          "id": "app.py#<module>:0:0$v11",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 18
+          },
+          "name": "os.environ.get"
+        },
+        {
+          "id": "app.py#<module>:0:0$v12",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 1
+          },
+          "name": "service_prefix"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#<module>:0:0$v1",
+          "to": "app.py#<module>:0:0$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 18,
+            "column": 1
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v5",
+          "to": "app.py#<module>:0:0$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 1
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v9",
+          "to": "app.py#<module>:0:0$v10",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 18
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v11",
+          "to": "app.py#<module>:0:0$v12",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 1
+          },
+          "block": "app.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#<module>:0:0$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 18,
+            "column": 7
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.Flask",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#<module>:0:0$v1",
+          "block": "app.py#<module>:0:0$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#<module>:0:0$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.Blueprint",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#<module>:0:0$v3"
+            },
+            {
+              "index": 2,
+              "valueId": "app.py#<module>:0:0$v4"
+            }
+          ],
+          "resultValueId": "app.py#<module>:0:0$v5",
+          "block": "app.py#<module>:0:0$b0",
+          "argCount": 3,
+          "argLiterals": {
+            "0": "admin",
+            "-1": "url_prefix=/admin"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#<module>:0:0$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 18
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "os.environ.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#<module>:0:0$v7"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#<module>:0:0$v8"
+            }
+          ],
+          "resultValueId": "app.py#<module>:0:0$v11",
+          "block": "app.py#<module>:0:0$b0",
+          "method": "get",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "SERVICE_PREFIX",
+            "1": "/hub"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#<module>:0:0$v10"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "app.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#search:31:1",
+      "name": "search",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 31,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#search:31:1$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 32,
+            "column": 5
+          },
+          "literal": "POST /search and GET /search, from one decorator.\n\n    POSITIVE. The query arrives in the BODY, which is a place the surface said this route\n    did not read from, because the surface said this route did not accept POST.\n    "
+        },
+        {
+          "id": "app.py#search:31:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 30
+          },
+          "literal": "q"
+        },
+        {
+          "id": "app.py#search:31:1$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 35
+          },
+          "literal": ""
+        },
+        {
+          "id": "app.py#search:31:1$v3",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 13
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#search:31:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 13
+          },
+          "base": "app.py#search:31:1$v3",
+          "path": "form",
+          "name": "form"
+        },
+        {
+          "id": "app.py#search:31:1$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 13
+          },
+          "name": "flask.request.form.get"
+        },
+        {
+          "id": "app.py#search:31:1$v6",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 5
+          },
+          "name": "query"
+        },
+        {
+          "id": "app.py#search:31:1$v7",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 38,
+            "column": 29
+          },
+          "name": "concat"
+        },
+        {
+          "id": "app.py#search:31:1$v8",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 38,
+            "column": 29
+          },
+          "name": "concat"
+        },
+        {
+          "id": "app.py#search:31:1$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 38,
+            "column": 29
+          },
+          "literal": "grep "
+        },
+        {
+          "id": "app.py#search:31:1$v10",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 38,
+            "column": 47
+          },
+          "literal": " /var/log/app.log"
+        },
+        {
+          "id": "app.py#search:31:1$v11",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 38,
+            "column": 74
+          },
+          "literal": "true"
+        },
+        {
+          "id": "app.py#search:31:1$v12",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 38,
+            "column": 5
+          },
+          "name": "subprocess"
+        },
+        {
+          "id": "app.py#search:31:1$v13",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 38,
+            "column": 5
+          },
+          "name": "subprocess.check_output"
+        },
+        {
+          "id": "app.py#search:31:1$v14",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 39,
+            "column": 12
+          },
+          "literal": "ok"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#search:31:1$v3",
+          "to": "app.py#search:31:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 13
+          },
+          "block": "app.py#search:31:1$b0"
+        },
+        {
+          "from": "app.py#search:31:1$v5",
+          "to": "app.py#search:31:1$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 5
+          },
+          "block": "app.py#search:31:1$b0"
+        },
+        {
+          "from": "app.py#search:31:1$v9",
+          "to": "app.py#search:31:1$v8",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 38,
+            "column": 29
+          },
+          "block": "app.py#search:31:1$b0"
+        },
+        {
+          "from": "app.py#search:31:1$v6",
+          "to": "app.py#search:31:1$v8",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 38,
+            "column": 29
+          },
+          "block": "app.py#search:31:1$b0"
+        },
+        {
+          "from": "app.py#search:31:1$v8",
+          "to": "app.py#search:31:1$v7",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 38,
+            "column": 29
+          },
+          "block": "app.py#search:31:1$b0"
+        },
+        {
+          "from": "app.py#search:31:1$v10",
+          "to": "app.py#search:31:1$v7",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 38,
+            "column": 29
+          },
+          "block": "app.py#search:31:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#search:31:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 13
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.request.form.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#search:31:1$v1"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#search:31:1$v2"
+            }
+          ],
+          "resultValueId": "app.py#search:31:1$v5",
+          "block": "app.py#search:31:1$b0",
+          "method": "get",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "q",
+            "1": ""
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#search:31:1$v4"
+        },
+        {
+          "id": "app.py#search:31:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 38,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "subprocess.check_output",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#search:31:1$v7"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#search:31:1$v11"
+            }
+          ],
+          "resultValueId": "app.py#search:31:1$v13",
+          "block": "app.py#search:31:1$b0",
+          "method": "check_output",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "shell=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#search:31:1$v12"
+        }
+      ],
+      "returns": [
+        "app.py#search:31:1$v14"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#search:31:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#search:31:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#search:31:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 39,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#health:43:1",
+      "name": "health",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 43,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#health:43:1$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 46,
+            "column": 12
+          },
+          "literal": "ok"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [
+        "app.py#health:43:1$v0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#health:43:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#health:43:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#health:43:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 46,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#purge:50:1",
+      "name": "purge",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 50,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#purge:50:1$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 5
+          },
+          "literal": "POSITIVE, at `/admin/purge` rather than `/purge`.\n\n    A tuple declares verbs exactly as a list does, and the blueprint's own prefix is the\n    first half of this route's address.\n    "
+        },
+        {
+          "id": "app.py#purge:50:1$v1",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 56,
+            "column": 29
+          },
+          "name": "concat"
+        },
+        {
+          "id": "app.py#purge:50:1$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 56,
+            "column": 29
+          },
+          "literal": "rm -rf "
+        },
+        {
+          "id": "app.py#purge:50:1$v3",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 56,
+            "column": 41
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#purge:50:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 56,
+            "column": 41
+          },
+          "base": "app.py#purge:50:1$v3",
+          "path": "form",
+          "name": "form"
+        },
+        {
+          "id": "app.py#purge:50:1$v5",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 56,
+            "column": 41
+          },
+          "name": "directory",
+          "base": "app.py#purge:50:1$v4",
+          "path": "form.directory"
+        },
+        {
+          "id": "app.py#purge:50:1$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 56,
+            "column": 74
+          },
+          "literal": "true"
+        },
+        {
+          "id": "app.py#purge:50:1$v7",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 56,
+            "column": 5
+          },
+          "name": "subprocess"
+        },
+        {
+          "id": "app.py#purge:50:1$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 56,
+            "column": 5
+          },
+          "name": "subprocess.check_output"
+        },
+        {
+          "id": "app.py#purge:50:1$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 57,
+            "column": 12
+          },
+          "literal": "ok"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#purge:50:1$v2",
+          "to": "app.py#purge:50:1$v1",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 56,
+            "column": 29
+          },
+          "block": "app.py#purge:50:1$b0"
+        },
+        {
+          "from": "app.py#purge:50:1$v3",
+          "to": "app.py#purge:50:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 56,
+            "column": 41
+          },
+          "block": "app.py#purge:50:1$b0"
+        },
+        {
+          "from": "app.py#purge:50:1$v4",
+          "to": "app.py#purge:50:1$v5",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 56,
+            "column": 41
+          },
+          "block": "app.py#purge:50:1$b0"
+        },
+        {
+          "from": "app.py#purge:50:1$v5",
+          "to": "app.py#purge:50:1$v1",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 56,
+            "column": 29
+          },
+          "block": "app.py#purge:50:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#purge:50:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 56,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "subprocess.check_output",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#purge:50:1$v1"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#purge:50:1$v6"
+            }
+          ],
+          "resultValueId": "app.py#purge:50:1$v8",
+          "block": "app.py#purge:50:1$b0",
+          "method": "check_output",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "shell=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#purge:50:1$v7"
+        }
+      ],
+      "returns": [
+        "app.py#purge:50:1$v9"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#purge:50:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#purge:50:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 50,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#purge:50:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 57,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#whoami:61:1",
+      "name": "whoami",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 61,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#whoami:61:1$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 29
+          },
+          "literal": "name"
+        },
+        {
+          "id": "app.py#whoami:61:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 37
+          },
+          "literal": ""
+        },
+        {
+          "id": "app.py#whoami:61:1$v2",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 12
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#whoami:61:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 12
+          },
+          "base": "app.py#whoami:61:1$v2",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "app.py#whoami:61:1$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 12
+          },
+          "name": "flask.request.args.get"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#whoami:61:1$v2",
+          "to": "app.py#whoami:61:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 12
+          },
+          "block": "app.py#whoami:61:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#whoami:61:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.request.args.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#whoami:61:1$v0"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#whoami:61:1$v1"
+            }
+          ],
+          "resultValueId": "app.py#whoami:61:1$v4",
+          "block": "app.py#whoami:61:1$b0",
+          "method": "get",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "name",
+            "1": ""
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#whoami:61:1$v3"
+        }
+      ],
+      "returns": [
+        "app.py#whoami:61:1$v4"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#whoami:61:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#whoami:61:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 61,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#whoami:61:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#_runtime_prefix:68:1",
+      "name": "_runtime_prefix",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 68,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#_runtime_prefix:68:1$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 69,
+            "column": 25
+          },
+          "literal": "/"
+        },
+        {
+          "id": "app.py#_runtime_prefix:68:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 69,
+            "column": 41
+          },
+          "literal": "2"
+        },
+        {
+          "id": "app.py#_runtime_prefix:68:1$v2",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 69,
+            "column": 30
+          },
+          "name": "os"
+        },
+        {
+          "id": "app.py#_runtime_prefix:68:1$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 69,
+            "column": 30
+          },
+          "name": "os.urandom"
+        },
+        {
+          "id": "app.py#_runtime_prefix:68:1$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 69,
+            "column": 30
+          },
+          "name": "unresolved"
+        },
+        {
+          "id": "app.py#_runtime_prefix:68:1$v5",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 69,
+            "column": 12
+          },
+          "base": "app.py#_runtime_prefix:68:1$v2",
+          "path": "path",
+          "name": "path"
+        },
+        {
+          "id": "app.py#_runtime_prefix:68:1$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 69,
+            "column": 12
+          },
+          "name": "os.path.join"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#_runtime_prefix:68:1$v2",
+          "to": "app.py#_runtime_prefix:68:1$v5",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 69,
+            "column": 12
+          },
+          "block": "app.py#_runtime_prefix:68:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#_runtime_prefix:68:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 69,
+            "column": 30
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "os.urandom",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#_runtime_prefix:68:1$v1"
+            }
+          ],
+          "resultValueId": "app.py#_runtime_prefix:68:1$v3",
+          "block": "app.py#_runtime_prefix:68:1$b0",
+          "method": "urandom",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "2"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#_runtime_prefix:68:1$v2"
+        },
+        {
+          "id": "app.py#_runtime_prefix:68:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 69,
+            "column": 30
+          },
+          "callee": {
+            "kind": "unresolved",
+            "resolution": "dynamic-unresolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#_runtime_prefix:68:1$v4",
+          "block": "app.py#_runtime_prefix:68:1$b0",
+          "method": "hex",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#_runtime_prefix:68:1$v3"
+        },
+        {
+          "id": "app.py#_runtime_prefix:68:1$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 69,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "os.path.join",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#_runtime_prefix:68:1$v0"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#_runtime_prefix:68:1$v4"
+            }
+          ],
+          "resultValueId": "app.py#_runtime_prefix:68:1$v6",
+          "block": "app.py#_runtime_prefix:68:1$b0",
+          "method": "join",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "/"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#_runtime_prefix:68:1$v5"
+        }
+      ],
+      "returns": [
+        "app.py#_runtime_prefix:68:1$v6"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#_runtime_prefix:68:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#_runtime_prefix:68:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 68,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#_runtime_prefix:68:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 69,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#callback:73:1",
+      "name": "callback",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 73,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#callback:73:1$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 77,
+            "column": 12
+          },
+          "literal": "ok"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [
+        "app.py#callback:73:1$v0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#callback:73:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#callback:73:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 73,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#callback:73:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 77,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "notroutes.py#<module>:0:0",
+      "name": "<module>",
+      "module": "notroutes.py",
+      "loc": {
+        "file": "notroutes.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "notroutes.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "notroutes.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "What is written like a route decorator and is not one.\n\n`patch` is an HTTP verb and it is also the name of the most widely used decorator in\nPython testing. A surface that invents entry points is worse than one that misses them,\nso a verb decorator on a receiver this file never watched being constructed is a route\nonly when its first argument is a PATH.\n"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "notroutes.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "notroutes.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "notroutes.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "notroutes.py#replace_subprocess:12:1",
+      "name": "replace_subprocess",
+      "module": "notroutes.py",
+      "loc": {
+        "file": "notroutes.py",
+        "line": 12,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "fake",
+          "valueId": "notroutes.py#replace_subprocess:12:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "notroutes.py#replace_subprocess:12:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "notroutes.py",
+            "line": 12,
+            "column": 24
+          },
+          "name": "fake"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [
+        "notroutes.py#replace_subprocess:12:1$v0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "notroutes.py#replace_subprocess:12:1$b0",
+      "blocks": [
+        {
+          "id": "notroutes.py#replace_subprocess:12:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "notroutes.py",
+            "line": 12,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "notroutes.py#replace_subprocess:12:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "notroutes.py",
+            "line": 14,
+            "column": 5
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "api.py#list_items:17:1",
+      "kind": "http-route",
+      "framework": "fastapi",
+      "detail": {
+        "method": "GET",
+        "path": "/api/v1/items"
+      }
+    },
+    {
+      "functionId": "api.py#create_item:22:1",
+      "kind": "http-route",
+      "framework": "fastapi",
+      "detail": {
+        "method": "POST",
+        "path": "/api/v1/items"
+      }
+    },
+    {
+      "functionId": "app.py#search:31:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/search"
+      }
+    },
+    {
+      "functionId": "app.py#search:31:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "POST",
+        "path": "/search"
+      }
+    },
+    {
+      "functionId": "app.py#health:43:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/health"
+      }
+    },
+    {
+      "functionId": "app.py#purge:50:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "POST",
+        "path": "/admin/purge"
+      }
+    },
+    {
+      "functionId": "app.py#whoami:61:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/hub/whoami"
+      }
+    },
+    {
+      "functionId": "app.py#callback:73:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "<unresolved:_runtime_prefix>/callback"
+      }
+    }
+  ]
+}
