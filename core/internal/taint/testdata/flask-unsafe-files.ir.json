@@ -647,6 +647,26 @@
         },
         {
           "id": "app.py#report_safe:35:1$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 38,
+            "column": 5
+          },
+          "name": "fd"
+        },
+        {
+          "id": "app.py#report_safe:35:1$v3",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 38,
+            "column": 9
+          },
+          "name": "path"
+        },
+        {
+          "id": "app.py#report_safe:35:1$v4",
           "kind": "global",
           "loc": {
             "file": "app.py",
@@ -656,7 +676,7 @@
           "name": "os"
         },
         {
-          "id": "app.py#report_safe:35:1$v3",
+          "id": "app.py#report_safe:35:1$v5",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -666,7 +686,7 @@
           "name": "os.close"
         },
         {
-          "id": "app.py#report_safe:35:1$v4",
+          "id": "app.py#report_safe:35:1$v6",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -676,7 +696,7 @@
           "literal": "384"
         },
         {
-          "id": "app.py#report_safe:35:1$v5",
+          "id": "app.py#report_safe:35:1$v7",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -686,7 +706,30 @@
           "name": "os.chmod"
         }
       ],
-      "flows": [],
+      "flows": [
+        {
+          "from": "app.py#report_safe:35:1$v1",
+          "to": "app.py#report_safe:35:1$v2",
+          "kind": "element",
+          "loc": {
+            "file": "app.py",
+            "line": 38,
+            "column": 5
+          },
+          "block": "app.py#report_safe:35:1$b0"
+        },
+        {
+          "from": "app.py#report_safe:35:1$v1",
+          "to": "app.py#report_safe:35:1$v3",
+          "kind": "element",
+          "loc": {
+            "file": "app.py",
+            "line": 38,
+            "column": 5
+          },
+          "block": "app.py#report_safe:35:1$b0"
+        }
+      ],
       "calls": [
         {
           "id": "app.py#report_safe:35:1$c0",
@@ -721,15 +764,20 @@
             "symbol": "os.close",
             "resolution": "resolved"
           },
-          "args": [],
-          "resultValueId": "app.py#report_safe:35:1$v3",
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#report_safe:35:1$v2"
+            }
+          ],
+          "resultValueId": "app.py#report_safe:35:1$v5",
           "block": "app.py#report_safe:35:1$b0",
           "method": "close",
           "argCount": 1,
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#report_safe:35:1$v2"
+          "receiverValueId": "app.py#report_safe:35:1$v4"
         },
         {
           "id": "app.py#report_safe:35:1$c2",
@@ -745,11 +793,15 @@
           },
           "args": [
             {
+              "index": 0,
+              "valueId": "app.py#report_safe:35:1$v3"
+            },
+            {
               "index": 1,
-              "valueId": "app.py#report_safe:35:1$v4"
+              "valueId": "app.py#report_safe:35:1$v6"
             }
           ],
-          "resultValueId": "app.py#report_safe:35:1$v5",
+          "resultValueId": "app.py#report_safe:35:1$v7",
           "block": "app.py#report_safe:35:1$b0",
           "method": "chmod",
           "argCount": 2,
@@ -759,10 +811,12 @@
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "app.py#report_safe:35:1$v2"
+          "receiverValueId": "app.py#report_safe:35:1$v4"
         }
       ],
-      "returns": [],
+      "returns": [
+        "app.py#report_safe:35:1$v3"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#report_safe:35:1$b0",

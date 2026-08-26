@@ -1,0 +1,38 @@
+{
+  "corpus": "client-identifier",
+  "description": "One shape, two roles, and only the use tells them apart. Every provider-issued value here looks identical from the outside -- a run of characters in a format its issuer defined -- and a rule that matched the SHAPE reported all of them. Measured across ten production repositories, that rule produced 27 false findings in a single program, every one a public client identifier that the third-party site publishes in its own web client. What this corpus proves is that the difference is decidable and lives in the request part the value travels under. Four positives: a signing key written into this program's own configuration; a credential the caller sent compared against a string written in the source, which is the comparison BEING the authentication; the password this program dials its own database with; and a Stripe secret key that travels outward exactly as the negatives do and is reported because the program files it under Authorization, the request part reserved for saying who you are. Three negatives, taken shape for shape from yt-dlp: a browser key sent as a query parameter beside the service's own public Referer, a Firebase web key built into the request line from a constant three functions away, and a signed client attestation posted as client_id to an OAuth token endpoint. The `AIza`, `sk_live_` and `eyJ` families appear on BOTH sides of the judgement, which is the point: a rule keyed on the prefix would get one direction or the other wrong every time.",
+  "expected": [
+    {
+      "cwe": "CWE-798",
+      "sinkFile": "app.py",
+      "sinkLine": 32,
+      "sourceLabel": "\"s3cr3t-dev-key\"",
+      "confidence": "high",
+      "note": "a signing key written into this program's own configuration -- no request, no third party, and nothing to decide: the program configures itself with it"
+    },
+    {
+      "cwe": "CWE-798",
+      "sinkFile": "app.py",
+      "sinkLine": 37,
+      "sourceLabel": "\"postgres://app_user:hunt...\"",
+      "confidence": "high",
+      "note": "the database password. The server on the other end is this program's own, so there is no client identity to mistake it for"
+    },
+    {
+      "cwe": "CWE-798",
+      "sinkFile": "app.py",
+      "sinkLine": 43,
+      "sourceLabel": "\"sk_live_4eC39HqLyjWDarjt...\"",
+      "confidence": "high",
+      "note": "the contrast that makes the rule a judgement about USE rather than about shape: this key leaves the process in the same kind of request as the two negatives below, and it is reported because the program files it under Authorization"
+    },
+    {
+      "cwe": "CWE-798",
+      "sinkFile": "app.py",
+      "sinkLine": 58,
+      "sourceLabel": "flask.request.form.password",
+      "confidence": "high",
+      "note": "the comparison IS the authentication. Nothing about the literal's shape is examined and nothing needs to be -- what makes it a credential is that a caller's value is measured against it"
+    }
+  ]
+}

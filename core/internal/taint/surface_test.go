@@ -274,3 +274,78 @@ func TestConventionNamesMissingCsrfAsCsrf(t *testing.T) {
 		t.Errorf("a missing anti-CSRF control is CWE-352, got %s", f.CWE)
 	}
 }
+
+// A module specifier that only a `tsconfig.json` can explain.
+//
+// `@/lib/controllers/deleteLinks` is neither a package nor a relative path: it is the
+// project's own alias, and `@/` is what a Next.js application is scaffolded with. A
+// specifier that resolves to nothing lowers the call as EXTERNAL, so the caller's data
+// taints the call's result instead of entering the callee's parameter and the whole
+// controller layer reads as unreachable -- which is what hid linkwarden's bulk endpoints
+// and what put umami's DOMAIN_REGEX out of reach through `@/lib/constants`.
+//
+// Asserted on the callee rather than only on the findings, because a resolution that
+// happens to reach a sink and a resolution that is CORRECT are different claims, and the
+// negatives can only be stated here: nothing is reported for a call that stays external,
+// and "no finding" is what a resolver inventing callees would also produce.
+func TestPathAliasesResolveWithinTheDeclaringProject(t *testing.T) {
+	doc := loadCorpusIR(t, "tsconfig-path-alias")
+
+	type site struct{ module, written string }
+	calls := map[site]ir.Callee{}
+	for _, fn := range doc.Functions {
+		for _, c := range fn.Calls {
+			if c.Callee.Name != "" {
+				calls[site{fn.Module, c.Callee.Name}] = c.Callee
+			}
+		}
+	}
+
+	// Each of these crosses a boundary only the alias table spans, and each by a
+	// different mechanism the compiler's own resolver already implements.
+	resolved := map[site]string{
+		// `"@/*": ["./generated/*", "./*"]` -- the first target has nothing under it,
+		// so the second answers. A multi-target array is tried in order.
+		{"apps/web/pages/api/links.ts", "deleteLinks"}: "apps/web/lib/controllers/deleteLinks.ts#deleteLinks:9:1",
+		// The first target, when it does answer.
+		{"apps/web/pages/api/links.ts", "describeModel"}: "apps/web/generated/models.ts#describeModel:5:1",
+		// `@/lib/db` names a DIRECTORY; `index.ts` is the file.
+		{"apps/web/pages/api/links.ts", "runQuery"}: "apps/web/lib/db/index.ts#runQuery:5:1",
+		// `@shared/*` is declared two directories up and reached by following
+		// `apps/api/tsconfig.json`'s `extends`.
+		{"apps/api/routes.ts", "auditLog"}: "packages/shared/src/audit.ts#auditLog:6:1",
+		// A workspace package NAME, mapped without a wildcard at all.
+		{"apps/api/routes.ts", "runReport"}: "packages/shared/src/index.ts#runReport:6:1",
+	}
+	for where, want := range resolved {
+		got, found := calls[where]
+		if !found {
+			t.Errorf("%s in %s: no call site lowered at all", where.written, where.module)
+			continue
+		}
+		if got.Kind != "local" || got.FunctionID != want {
+			t.Errorf("%s in %s: want local %s, got %s %s",
+				where.written, where.module, want, got.Kind, got.FunctionID)
+		}
+	}
+
+	// An alias table states what a project's OWN names mean. `@ui/widgets` matches no
+	// mapping and nothing on disk answers it, and `@/lib/db` is `apps/web`'s alias --
+	// the identical specifier written in `apps/api`, whose config never declared it.
+	// A mapping is per-directory or it is a resolver answering for a project that made
+	// no such claim.
+	for _, where := range []site{
+		{"apps/web/pages/api/links.ts", "renderWidget"},
+		{"apps/api/routes.ts", "runQuery"},
+	} {
+		got, found := calls[where]
+		if !found {
+			t.Errorf("%s in %s: no call site lowered at all", where.written, where.module)
+			continue
+		}
+		if got.Kind != "external" {
+			t.Errorf("%s in %s: no mapping reaches it, want external, got %s %s",
+				where.written, where.module, got.Kind, got.FunctionID)
+		}
+	}
+}

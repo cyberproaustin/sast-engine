@@ -1,0 +1,38 @@
+{
+  "corpus": "tsconfig-path-alias",
+  "description": "A module specifier that only a tsconfig can explain. `@/lib/api/controllers/...` is not a package and not a relative path -- it is the project's own alias, declared in `compilerOptions.paths`, and `@/` is what every Next.js application is scaffolded with. A frontend that does not read the config resolves the specifier to nothing: the call lowers as external, the caller's data taints the call's RESULT instead of entering the callee's parameter, and an entire controller layer reads as unreachable while the routes above it still enumerate. It cost two rules before it was fixed -- one could not see linkwarden's bulk endpoints at all, the other could not follow umami's DOMAIN_REGEX through `@/lib/constants` and fell back to a program-wide table of regex literals instead. Each of the four findings here crosses a boundary that only the alias table spans, and each crosses it by a different mechanism: a `@/*` wildcard whose SECOND target answers because the first names a `generated/` directory with nothing in it; a specifier naming a DIRECTORY, answered by its `index.ts`; an `extends` chain, where `apps/api/tsconfig.json` inherits `@shared/*` from a base config two levels up; and a workspace package NAME mapped without a wildcard at all, which is how a monorepo refers to its own packages. The negatives are what keeps the mapping honest. `@ui/widgets` matches no mapping and nothing on disk answers it, so it must stay EXTERNAL -- an alias table states what a project's own names mean, and a resolver that guesses past it would invent a callee and a flow into it. And `@/lib/db` imported from `apps/api` must stay external too, though the identical specifier resolves from `apps/web`: the mapping belongs to a DIRECTORY, the nearest config governs it, and a monorepo where one package's aliases leak into the next is a resolver answering for a project that never made the claim.",
+  "expected": [
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "apps/web/lib/controllers/deleteLinks.ts",
+      "sinkLine": 10,
+      "sourceLabel": "req.query.ids",
+      "confidence": "high",
+      "note": "`@/*` wildcard, second target: `./generated/lib/...` does not exist so `./lib/...` answers"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "apps/web/lib/db/index.ts",
+      "sinkLine": 6,
+      "sourceLabel": "req.query.collection",
+      "confidence": "high",
+      "note": "`@/lib/db` names a directory; `index.ts` is the file"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "packages/shared/src/audit.ts",
+      "sinkLine": 7,
+      "sourceLabel": "req.body.entry",
+      "confidence": "high",
+      "note": "`@shared/*` is inherited through an `extends` chain, not declared in the nearest config"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "packages/shared/src/index.ts",
+      "sinkLine": 7,
+      "sourceLabel": "req.query.name",
+      "confidence": "high",
+      "note": "`@acme/shared` is a workspace package name: a non-wildcard mapping"
+    }
+  ]
+}

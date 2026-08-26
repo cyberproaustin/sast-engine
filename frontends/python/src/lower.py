@@ -1556,6 +1556,30 @@ class FunctionLowerer:
                         "block": self.write_block(),
                     })
                     continue
+                if isinstance(target, (ast.Tuple, ast.List)):
+                    # `requestor_id, brand, software_statement = self._DOMAIN_MAP[domain]`
+                    # bound three names and lowered NOTHING: an unpacking target matched
+                    # no branch here, so the names did not exist as values and no rule
+                    # could follow what was put in them. Every judgement about where a
+                    # destructured value goes was silently unanswerable -- four Adobe
+                    # client attestations in yt-dlp were reported as this program's
+                    # secrets for that reason and no other.
+                    #
+                    # Each name gets the right-hand side, which is what unpacking means:
+                    # every element came out of the one object. A nested target and a
+                    # starred one bind names too, and only the plain names are taken --
+                    # what is skipped is skipped visibly rather than guessed at.
+                    for elt in target.elts:
+                        if isinstance(elt, ast.Starred):
+                            elt = elt.value
+                        if not isinstance(elt, ast.Name):
+                            continue
+                        vid = self.new_value("local", elt, name=elt.id)
+                        self.scope[elt.id] = vid
+                        if self.is_module:
+                            self.mod.module_scope[elt.id] = vid
+                        self.add_flow(src, vid, "element", node)
+                    continue
                 if isinstance(target, ast.Name):
                     # Assigning a name a function DECLARED global writes state the whole
                     # process shares, and the next request reads it back. Python makes
