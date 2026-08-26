@@ -1902,7 +1902,13 @@ func (e *engine) buildFinding(c *ir.Call, ch model.Channel, p model.Policy, arg 
 		EntryAnchored: sd.anchored,
 		EntryHasNoInjectedIdentity: sd.anchored && !sd.identityInjected && e.programInjects &&
 			p.RequiresRelationTo == e.m.IdentityClass(),
-		SinkLoc:      c.Loc,
+		SinkLoc: c.Loc,
+		// Every other analysis has marked this since the field existed; the dataflow
+		// analysis never did, and it is the one that produces most of the findings. So
+		// the whole test-module judgement -- reported, never gating, published at note
+		// rather than error -- silently did not apply to taint at all. It surfaced as a
+		// CWE-639 in `pat.e2e.test.ts` arriving at warning next to real ones.
+		InTestModule: e.ix.InTestModule(c.Loc),
 		SinkSymbol:   sinkName(c),
 		SinkArgIndex: arg.Index,
 		SinkContext:  ch.Context,
