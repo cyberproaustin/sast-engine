@@ -16,6 +16,7 @@ import (
 // capability gets a permanent regression check.
 var corpora = []string{
 	"express-command-injection",
+	"one-weakness-per-site",
 	"express-async",
 	"clean-express",
 	"express-authz",
