@@ -7,6 +7,8 @@
 package scan
 
 import (
+	"strings"
+
 	"github.com/cyberproaustin/sast-engine/core/internal/baseline"
 	"github.com/cyberproaustin/sast-engine/core/internal/callshape"
 	"github.com/cyberproaustin/sast-engine/core/internal/decision"
@@ -90,6 +92,12 @@ type Exemption struct {
 func Run(d *ir.IR, m model.Model, p *policy.Policy) Result {
 	s := surface.Build(d, m, p)
 	t := taint.Analyze(d, m)
+	// Dataflow reaches the same operation through syntactically different branches in
+	// real applications. Across the measured batch this made one error-message exposure
+	// in uptime-kuma count three times solely because sendHttpError selects three status
+	// codes. Consolidate before declarations and reporting so every downstream count is a
+	// count of weaknesses, while RelatedSites retains each branch and its evidence path.
+	t.Findings = collapseFlowFindings(d, t.Findings)
 	exempted := applyDeclarations(&t, m, p)
 
 	// Weaknesses visible in a call's own arguments, with no dataflow involved. Appended
@@ -110,6 +118,114 @@ func Run(d *ir.IR, m model.Model, p *policy.Policy) Result {
 		Expectation: expectation.Analyze(d, s, m, p, expectation.DefaultThresholds()),
 		Exempted:    exempted,
 	}
+}
+
+// collapseFlowFindings identifies a flow by its rule, the function holding the sink and
+// the value's semantic origin. Locations are deliberately absent: ADR-014 requires the
+// same weakness to survive reformatting. Entry point and files remain in the key because
+// two equal parameter names in unrelated request paths are not evidence of one value.
+//
+// This is separate from Finding.Fingerprint on purpose. Batch 1 has 131 adjudications
+// keyed by that stable value; re-keying them to make a presentation decision would orphan
+// the ledger. It is also limited to dataflow findings. A call-shape rule can use the same
+// symbol several times for genuinely different written values -- the three juice-shop
+// directory listings are the measured counterexample.
+func collapseFlowFindings(d *ir.IR, all []taint.Finding) []taint.Finding {
+	type key struct {
+		analysis, cwe, entryPoint       string
+		channel, sinkFile, sinkFunction string
+		sinkOperation                   string
+		sourceFile, sourceLabel, class  string
+		valuePath                       string
+	}
+
+	ix := ir.NewIndex(d)
+	rank := map[taint.Confidence]int{taint.Low: 0, taint.Medium: 1, taint.High: 2}
+	best := make(map[key]int, len(all))
+	out := make([]taint.Finding, 0, len(all))
+	for _, f := range all {
+		k := key{
+			analysis: f.Analysis, cwe: f.CWE, entryPoint: f.EntryPoint,
+			channel: f.ChannelID, sinkFile: f.SinkLoc.File, sinkFunction: ownerOfSink(ix, f),
+			sinkOperation: sinkOperation(f.SinkSymbol),
+			sourceFile:    f.SourceLoc.File, sourceLabel: f.SourceLabel, class: f.DataClass,
+			valuePath: valuePath(f.Path),
+		}
+		at, seen := best[k]
+		if !seen {
+			best[k] = len(out)
+			out = append(out, f)
+			continue
+		}
+
+		if rank[f.Confidence] > rank[out[at].Confidence] {
+			previous := siteOf(out[at])
+			related := append([]taint.Site{previous}, out[at].RelatedSites...)
+			f.RelatedSites = append(related, f.RelatedSites...)
+			out[at] = f
+			continue
+		}
+		out[at].RelatedSites = append(out[at].RelatedSites, siteOf(f))
+		out[at].RelatedSites = append(out[at].RelatedSites, f.RelatedSites...)
+	}
+	return out
+}
+
+func siteOf(f taint.Finding) taint.Site {
+	loc := f.SinkLoc
+	// For an object response the tainted field is the syntactic site a reviewer needs.
+	// The frontend records that initializer on the enclosure hop; the last hop remains
+	// the encompassing call because it is still the sink.
+	if len(f.Path) > 1 {
+		h := f.Path[len(f.Path)-2]
+		if h.Kind == "enclose" && h.Loc.File == f.SinkLoc.File {
+			loc = h.Loc
+		}
+	}
+	return taint.Site{Loc: loc, Path: f.Path}
+}
+
+// valuePath distinguishes two values derived from the same root without smuggling a
+// source position back into the key. linkwarden derives both a Content-Type and a download
+// filename from one token and sends both as headers; those are two judgements. The three
+// uptime-kuma branches carry the same msg through the same enclosure and differ only in
+// the final status-selecting sink hop, which is intentionally omitted here.
+func valuePath(path []taint.Hop) string {
+	var b strings.Builder
+	for i, h := range path {
+		if i == len(path)-1 {
+			break
+		}
+		b.WriteString(h.Kind)
+		b.WriteByte(0)
+		b.WriteString(h.Symbol)
+		b.WriteByte(0)
+		b.WriteString(h.Description)
+		b.WriteByte(0)
+	}
+	return b.String()
+}
+
+// sinkOperation keeps distinct dangerous operations in one function distinct while
+// treating receiver chains that only select a branch-local option as the same sink.
+// uptime-kuma spells the three occurrences res.status(503|404|403).json; the called
+// operation is json in all three. subprocess.call and subprocess.Popen remain separate.
+func sinkOperation(symbol string) string {
+	if at := strings.LastIndexByte(symbol, '.'); at >= 0 {
+		return symbol[at+1:]
+	}
+	return symbol
+}
+
+func ownerOfSink(ix *ir.Index, f taint.Finding) string {
+	for _, c := range ix.CallByID {
+		if c.Loc == f.SinkLoc {
+			if fn := ix.OwnerOfCall[c.ID]; fn != nil {
+				return fn.Name
+			}
+		}
+	}
+	return f.SinkFunction
 }
 
 // collapseIdenticalFindings keeps one of any set that say the same thing about the same
@@ -139,6 +255,8 @@ func collapseIdenticalFindings(all []taint.Finding) []taint.Finding {
 			continue
 		}
 		if rank[f.Confidence] > rank[all[prev].Confidence] {
+			f.RelatedSites = append([]taint.Site{{Loc: all[prev].SinkLoc, Path: all[prev].Path}},
+				all[prev].RelatedSites...)
 			best[k] = i
 			for j, at := range order {
 				if at == prev {
@@ -146,7 +264,10 @@ func collapseIdenticalFindings(all []taint.Finding) []taint.Finding {
 					break
 				}
 			}
+			all[i] = f
+			continue
 		}
+		all[prev].RelatedSites = append(all[prev].RelatedSites, f.RelatedSites...)
 	}
 
 	out := make([]taint.Finding, 0, len(order))

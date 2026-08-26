@@ -1,0 +1,22 @@
+{
+  "corpus": "one-weakness-per-site",
+  "description": "One failure-detail value returned from three branches is one weakness with three evidence sites. The same credential-shaped literal used as a fixture input and expected value in one function is likewise one finding, while neither consolidation changes the position-independent fingerprint that existing baselines and verdicts record.",
+  "expected": [
+    {
+      "cwe": "CWE-209",
+      "sinkFile": "app.js",
+      "sinkLine": 6,
+      "sourceLabel": "error",
+      "confidence": "medium",
+      "note": "three response branches returning one failure-detail origin are one weakness"
+    },
+    {
+      "cwe": "CWE-798",
+      "sinkFile": "app.js",
+      "sinkLine": 23,
+      "sourceLabel": "\"https://user:password@ex...\"",
+      "confidence": "high",
+      "note": "identical input and expected literals in one function are one finding"
+    }
+  ]
+}

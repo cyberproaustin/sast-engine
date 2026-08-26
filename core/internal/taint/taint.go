@@ -62,6 +62,15 @@ type Hop struct {
 	Resolution  ir.Resolution
 }
 
+// Site is another syntactic occurrence of the same weakness. The primary occurrence
+// remains in Finding.SinkLoc and Finding.Path so fingerprints and every existing
+// consumer stay stable; these sites retain the evidence that consolidation removes from
+// the finding count.
+type Site struct {
+	Loc  ir.Loc
+	Path []Hop
+}
+
 // composedIntoText reports whether the value was built into a larger piece of text on
 // its way to the sink, rather than passed along whole.
 // receiverArgIndex stands for "the value this call was made on" where an argument index
@@ -248,6 +257,9 @@ type Finding struct {
 
 	Path       []Hop
 	Sanitizers []Sanitizer
+	// RelatedSites are other operations carrying the same rule and value origin in the
+	// same function. They are evidence for this finding, not additional findings.
+	RelatedSites []Site
 }
 
 // Result is the outcome of an analysis run. An analysis whose capability
@@ -2078,6 +2090,16 @@ func (f Finding) Touches(files map[string]bool) bool {
 	for _, h := range f.Path {
 		if files[h.Loc.File] {
 			return true
+		}
+	}
+	for _, site := range f.RelatedSites {
+		if files[site.Loc.File] {
+			return true
+		}
+		for _, h := range site.Path {
+			if files[h.Loc.File] {
+				return true
+			}
 		}
 	}
 	return false

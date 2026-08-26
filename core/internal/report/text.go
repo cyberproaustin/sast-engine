@@ -531,6 +531,9 @@ func writeTaintFinding(b *strings.Builder, f taint.Finding) {
 	} else {
 		fmt.Fprintf(b, "  sink:  %s argument %d at %s\n", f.SinkSymbol, f.SinkArgIndex, f.SinkLoc)
 	}
+	for _, site := range f.RelatedSites {
+		fmt.Fprintf(b, "         same weakness at %s\n", site.Loc)
+	}
 	if f.SinkRational != "" {
 		fmt.Fprintf(b, "         %s\n", f.SinkRational)
 	}
