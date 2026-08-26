@@ -171,6 +171,7 @@ func SARIF(w io.Writer, scanRes scan.Result, toolVersion string) error {
 				"owaspTop10":  assertion.Top10For(f.CWE),
 				"sanitizers":  sanitizerProps(f),
 				"provenance":  f.Provenance,
+				"entryTrust":  string(f.SourceTrust()),
 			},
 		})
 	}
@@ -245,9 +246,11 @@ func entryProps(entries []surface.EntryFacts) []map[string]any {
 		out = append(out, map[string]any{
 			"entryPoint": e.Label(),
 			"kind":       e.EntryPoint.Kind,
+			"trust":      string(e.TrustLevel()),
 			"group":      e.Group,
 			"controls":   controls,
 			"provenance": e.Provenance,
+			"detail":     e.EntryPoint.Detail,
 		})
 	}
 	return out
@@ -376,10 +379,19 @@ func sanitizerProps(f taint.Finding) []map[string]any {
 // as its reason says, and it is still not a production defect; 34 of 59 hardcoded-secret
 // findings in that batch were test fixtures, and flattening that distinction into error is
 // how a real credential in a test would have been lost among them.
+//
+// Trust ranks the same way and for the same reason. `error` is read by every consumer as
+// "a caller can do this to you"; a management command's own argument and a process's own
+// environment are reached by whoever already has the host, and a cron job is reached by
+// nobody at all. Those are real findings and they are not that claim, so they publish at
+// warning — while a scheduled job reading a column an HTTP request wrote still publishes
+// at error, because the trust travels with the source and that source is remote.
 func levelFor(f taint.Finding) string {
 	switch {
 	case f.InTestModule || f.Provenance != "":
 		return "note"
+	case f.SourceTrust() != ir.Remote:
+		return "warning"
 	case f.Actionable():
 		return "error"
 	default:

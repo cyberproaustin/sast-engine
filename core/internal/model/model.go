@@ -106,6 +106,16 @@ type SourceRule struct {
 	// MatchValueKind
 	ValueKind string
 
+	// Trust is who supplies the values this rule seeds, when that is not a remote
+	// caller. Empty means remote, which is what every source was before there was
+	// anything but a request.
+	//
+	// It exists so that surface completeness keeps asking its own question. That count
+	// reads "code that handles caller input and that no entry point reaches" as evidence
+	// a ROUTE was missed -- and a management command's argument is untrusted in exactly
+	// the way a request field is while being no evidence of that at all.
+	Trust ir.Trust
+
 	// MatchCallResult
 	Symbol string
 
@@ -872,6 +882,20 @@ func builtin() Model {
 						// handler parameter (NestJS @Param/@Body/@Query).
 						Match:     MatchValueKind,
 						ValueKind: "untrusted-param",
+					},
+					{
+						// A management command's own arguments, as the argument parser
+						// hands them to `handle`.
+						//
+						// The same CLASS as request data and emphatically not the same
+						// TRUST: this is a string a person typed at a shell they already
+						// have, so it is the entry point's trust label that ranks the
+						// finding rather than this rule. Classified here because what
+						// happens next is identical -- a command line interpolated into
+						// `os.system` is the same defect whoever typed it.
+						Match:     MatchValueKind,
+						ValueKind: "operator-param",
+						Trust:     ir.Operator,
 					},
 					{
 						Match:  MatchGlobalProperty,
@@ -5248,6 +5272,20 @@ type ArgCondition struct {
 	// token two lines above.
 	NotLiteral bool
 
+	// HoldsWhenUnread keeps a veto from going silent on an argument nobody wrote down.
+	//
+	// A condition normally fails when the argument it names is not a literal, because
+	// nothing is assumed about a value decided at runtime. That is the right default for
+	// a condition that must ESTABLISH something. It is the wrong one for a condition that
+	// only DISQUALIFIES: `createCipheriv(alg, key, iv)` puts an initialisation vector in
+	// the third slot in every mode that has one and requires the slot to be empty in ECB,
+	// which has none -- so reading the third argument without the first judges an
+	// argument whose meaning has not been established. Written as a veto on ECB rather
+	// than as a list of the modes that do take an IV, because an algorithm named by a
+	// variable is where the engine knows least, and trading four false findings for an
+	// unknown number of silences is not a precision fix.
+	HoldsWhenUnread bool
+
 	// NoneOf disqualifies, and is checked first.
 	//
 	// A double-submit CSRF token is the case that requires it. `csrf_token` contains
@@ -5297,7 +5335,7 @@ func (a ArgCondition) Holds(literals map[int]string) bool {
 		lit, ok = literals[a.ArgIndex]
 	}
 	if !ok {
-		return false
+		return a.HoldsWhenUnread
 	}
 	lit = strings.ToLower(lit)
 	for _, veto := range a.NoneOf {
@@ -6627,12 +6665,24 @@ func builtinCallShapes() []CallShape {
 			// which for CBC leaks whether two plaintexts start alike and for CTR is
 			// catastrophic. Matched on having been WRITTEN DOWN, exactly as a hardcoded
 			// key is: what it says does not matter.
+			//
+			// What it says does not matter; what the MODE says does. The third slot holds
+			// an IV in CBC, CTR, GCM, CFB and OFB and holds nothing in ECB, which has no
+			// IV at all -- Node still requires the argument and an empty string is the
+			// ordinary way to write it. Reading the third argument without the first
+			// judged an argument whose meaning had not been established, and reported
+			// `createCipheriv("DES-ECB", key, "")` as a predictable IV. The true statement
+			// about that same line -- single-DES in ECB -- is already emitted by
+			// `weak-cipher` off argument zero, so this was duplication as well as error.
 			ID: "predictable-iv", Symbol: "crypto.createCipheriv", ArgIndex: 2, AnyLiteral: true,
-			Qualifiers: []ArgCondition{{ArgIndex: 2, NoneOf: []string{"null", "undefined"}}},
-			CWE:        "CWE-329",
-			Finding:    "Initialisation vector written into the source",
-			Reason:     "an IV must be unpredictable and must never repeat, and one written down is both predictable and reused on every message",
-			Rationale:  "the third argument to createCipheriv() is the IV",
+			Qualifiers: []ArgCondition{
+				{ArgIndex: 2, NoneOf: []string{"null", "undefined"}},
+				{ArgIndex: 0, NoneOf: []string{"ecb"}, HoldsWhenUnread: true},
+			},
+			CWE:       "CWE-329",
+			Finding:   "Initialisation vector written into the source",
+			Reason:    "an IV must be unpredictable and must never repeat, and one written down is both predictable and reused on every message",
+			Rationale: "the third argument to createCipheriv() is the IV",
 		},
 
 		// --- cookie attributes ------------------------------------------------------
@@ -7541,6 +7591,43 @@ type GuardRule struct {
 	// ground the engine ever has for saying a line is missing.
 	Constructs []string
 
+	// The fourth shape, and the only one in this kind that judges a function against
+	// ANOTHER function rather than against its own graph.
+	//
+	// Two handlers on one resource read the same value out of the request. One of them
+	// asks a question about it and the other does not:
+	//
+	//	const { projectId, featureName } = req.params
+	//	await this.featureService.validateFeatureBelongsToProject({ featureName, projectId })   // the read path
+	//	...
+	//	const { projectId, featureName } = req.params
+	//	await this.featureService.updateVariantsOnEnv(featureName, projectId, ...)              // the write path
+	//
+	// The engine cannot know what check OUGHT to be there. What it can observe is that
+	// the program performs one on a neighbouring path, over the very same value, and that
+	// this path does not -- which is the same reasoning convention analysis uses when it
+	// judges an entry point against its peers, narrowed from a population to a pair.
+	//
+	// Checks names the stems of a call that ASKS something; Retrieves the prefixes that
+	// disqualify a name from being one, because `getPermissionsForUser` fetches where
+	// `hasPermission` judges. Reads and Mutates name the prefixes that say which
+	// direction a handler runs in, and the rule fires in ONE direction only: a check the
+	// READ path makes and the WRITE path beside it does not. That is deliberate and it is
+	// what makes the rule quiet. A write that checks more than a read is the ordinary
+	// asymmetry of every application ever written and is evidence of nothing; a read that
+	// checks more than a write is that asymmetry INVERTED, which no design explains.
+	//
+	// Records names the calls that merely write a value down. A value whose only visible
+	// use is a log line was not operated on, so there is nothing a missing check would
+	// have protected. Containers names the parameters that hold a request, because a
+	// value with no request under it is not something a caller chose.
+	Checks     []string
+	Retrieves  []string
+	Reads      []string
+	Mutates    []string
+	Records    []string
+	Containers []string
+
 	CWE       string
 	Finding   string
 	Reason    string
@@ -7694,6 +7781,39 @@ func builtinGuards() []GuardRule {
 			Finding:   "The handler builds a refusal and drops it",
 			Reason:    "the branch beside this one returns the very same construction, and this one leaves it on the floor -- so the check runs, decides against the request, and the request proceeds",
 			Rationale: "a response constructor whose result is used nowhere, where another call to the same constructor in the same function is returned",
+		},
+		{
+			// A check one handler makes and the handler beside it does not, over the same
+			// value out of the same request.
+			//
+			// Every list here is a narrowing that was measured rather than guessed. The
+			// loosest form of this comparison -- "the guard sets differ" -- produced 32
+			// candidate pairs in a single repository, almost all of them a read path that
+			// does not do what a write path does, which is what correct code looks like.
+			// Four conditions cut that to three, and the three are one weakness:
+			//
+			//   the value is one the CALLER chose, read off a request parameter;
+			//   the direction is inverted, a check on the READ path and not the write;
+			//   the weak path holds every value the check consumed, because a check it
+			//     has no arguments for is a different question, not a missing one;
+			//   the weak path does something with the value other than log it.
+			ID:        "sibling-guard-differential",
+			Checks:    []string{"validate", "verify", "authoriz", "authenticat", "permission", "permitted", "allowed", "hasaccess", "canaccess", "checkaccess", "belongsto", "isowner", "owns", "forbidden"},
+			Retrieves: []string{"get", "fetch", "find", "list", "load", "read", "select", "query"},
+			Reads:     []string{"get", "list", "fetch", "find", "read", "search", "show", "index", "count", "query", "view", "load", "describe"},
+			Mutates: []string{
+				"create", "update", "delete", "remove", "patch", "put", "post", "add",
+				"set", "save", "overwrite", "push", "insert", "upsert", "archive",
+				"restore", "rename", "revoke", "disable", "enable", "move", "clone",
+				"register", "import", "reset", "change", "toggle", "assign", "apply",
+				"write", "edit", "bulk",
+			},
+			Records:    []string{"log", "logger", "debug", "info", "warn", "warning", "error", "trace", "console", "print"},
+			Containers: []string{"req", "request", "ctx", "context"},
+			CWE:        "CWE-862",
+			Finding:    "A check the sibling path makes and this one does not",
+			Reason:     "the read path on this resource asks whether the caller's value is the one it claims to be, and this write path takes the same value out of the same request and does not ask",
+			Rationale:  "a request value a sibling read path passes to a validation or authorization call, used here by a write path that passes it to no such call",
 		},
 	}
 }

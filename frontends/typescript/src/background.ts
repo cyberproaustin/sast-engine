@@ -56,12 +56,6 @@ const EVENT_EMITTER_TYPE = /EventEmitter$/;
  */
 const INTERVAL_FUNCTIONS = new Set(["setInterval"]);
 
-/** The text a value was written as, for evidence when nothing resolved. */
-function textOf(node: ts.Node): string {
-  const t = node.getText(node.getSourceFile()).replace(/\s+/g, " ");
-  return t.length > 60 ? t.slice(0, 57) + "..." : t;
-}
-
 /** `f.bind(this)` — a detail of what `this` is, not of which function runs. */
 function unbind(node: ts.Expression): ts.Expression {
   if (
@@ -75,38 +69,36 @@ function unbind(node: ts.Expression): ts.Expression {
 }
 
 /**
- * Whether this argument was WRITTEN as a reference to something callable.
+ * Which argument is the callback — and it must RESOLVE to a function.
  *
- * Not a claim that it is one: `job.jobFunc` and `job.interval` are the same syntax and
- * only the position tells them apart. Used only as the fallback below, where the last
- * such argument is taken and everything plainly not callable — a string, a number, an
- * options object, a call that computes a duration — is passed over.
- */
-function referenceLike(node: ts.Expression): boolean {
-  const bare = unbind(node);
-  return ts.isIdentifier(bare) || ts.isPropertyAccessExpression(bare);
-}
-
-/**
- * Which argument is the callback, and the function it names when that is knowable.
+ * This is the one place where a background entry point differs from a route, and the
+ * difference is not a lapse from ADR-009. A route exists at an ADDRESS: `app.post("/x",
+ * controller.register)` is reachable by anyone who can spell `/x`, whether or not the
+ * frontend can find `register`, so dropping it would hide part of the surface. A
+ * background job has no address. It IS its callback, and a registration whose callback
+ * cannot be named contributes no reachability, can anchor nothing, and adds a row to the
+ * surface that nobody can reason about.
  *
- * Two passes, because the argument ORDER is not fixed across schedulers. First an
- * argument the program defines a function for — an inline arrow, or a name that
- * resolves. Failing that, the LAST argument written as a reference: `new Cron(
- * job.interval, {...}, job.jobFunc)` puts a property access in the first slot and the
- * callback in the last, and taking the first reference would have scheduled the cron
- * expression.
+ * Measured on ten repositories: allowing an unresolved argument through produced five
+ * entry points and every one of them was wrong. Two were `this.schedule(draft)` — an
+ * application's own method that takes a RECORD, matched because it happens to be spelled
+ * `schedule` — and three were forwarding helpers (`useInterval(fn, ms)` calling
+ * `setInterval(fn, ...)`, an event store re-exposing its bus as `on(name, listener)`)
+ * where the callback is a parameter of the enclosing function and the real registration
+ * is at each call site. It bought nothing and cost five false rows.
+ *
+ * The argument ORDER is not fixed across schedulers, so the first argument that resolves
+ * is taken. `new Cron(job.interval, {...}, job.jobFunc)` is the shape that makes this
+ * work: `job.interval` and `job.jobFunc` are the same syntax and only one of them is a
+ * function the program defines.
  */
 function selectCallback(
   args: readonly ts.Expression[],
   resolveFunction: ResolveFunction,
-): { index: number; fn?: FuncRef } | undefined {
+): { index: number; fn: FuncRef } | undefined {
   for (let i = 0; i < args.length; i++) {
     const fn = resolveFunction(unbind(args[i]));
     if (fn) return { index: i, fn };
-  }
-  for (let i = args.length - 1; i >= 0; i--) {
-    if (referenceLike(args[i])) return { index: i };
   }
   return undefined;
 }
@@ -120,6 +112,12 @@ function scheduleText(args: readonly ts.Expression[], skip: number): string {
     else if (ts.isNumericLiteral(args[i])) out.push((args[i] as ts.NumericLiteral).text);
   }
   return out.join(" ");
+}
+
+/** The text an event name was written as, when it is not a string literal. */
+function textOf(node: ts.Node): string {
+  const t = node.getText(node.getSourceFile()).replace(/\s+/g, " ");
+  return t.length > 60 ? t.slice(0, 57) + "..." : t;
 }
 
 /**
@@ -149,15 +147,10 @@ export function detectBackgroundEntries(
     kind: string,
     node: ts.Node,
     detail: Record<string, string>,
-    chosen: { index: number; fn?: FuncRef },
-    args: readonly ts.Expression[],
+    fn: FuncRef,
   ): void => {
-    // A registration whose callback did not resolve STILL REGISTERS. Dropping it makes
-    // the enumeration silently incomplete, which is the one thing a surface may never
-    // be (ADR-009); naming what it was written as turns a blank into a stated gap.
-    if (!chosen.fn) detail.handler = textOf(args[chosen.index]);
     out.push({
-      functionId: chosen.fn ? chosen.fn.id : "",
+      functionId: fn.id,
       kind,
       // Nothing outside the process can make either of these run.
       trust: "internal",
@@ -172,12 +165,11 @@ export function detectBackgroundEntries(
     args: readonly ts.Expression[],
     fixed?: number,
   ): void => {
-    let chosen: { index: number; fn?: FuncRef } | undefined;
+    let chosen: { index: number; fn: FuncRef } | undefined;
     if (fixed !== undefined) {
       if (args.length <= fixed) return;
       const fn = resolveFunction(unbind(args[fixed]));
-      if (!fn && !referenceLike(args[fixed]) && !ts.isFunctionExpression(args[fixed])) return;
-      chosen = { index: fixed, fn };
+      if (fn) chosen = { index: fixed, fn };
     } else {
       chosen = selectCallback(args, resolveFunction);
     }
@@ -185,7 +177,7 @@ export function detectBackgroundEntries(
     const detail: Record<string, string> = { trigger, module: locOf(node).file };
     const every = scheduleText(args, chosen.index);
     if (every) detail.schedule = every;
-    push("scheduled-job", node, detail, chosen, args);
+    push("scheduled-job", node, detail, chosen.fn);
   };
 
   const visit = (node: ts.Node): void => {
@@ -209,7 +201,7 @@ export function detectBackgroundEntries(
           const type = receiverTypeName(callee.expression);
           if (EVENT_EMITTER_TYPE.test(type)) {
             const fn = resolveFunction(unbind(node.arguments[1]));
-            if (fn || referenceLike(node.arguments[1])) {
+            if (fn) {
               const name = ts.isStringLiteralLike(node.arguments[0])
                 ? node.arguments[0].getText(sf).slice(1, -1)
                 : textOf(node.arguments[0]);
@@ -217,8 +209,7 @@ export function detectBackgroundEntries(
                 "event-consumer",
                 node,
                 { trigger: method, event: name, bus: type, module: locOf(node).file },
-                { index: 1, fn },
-                node.arguments,
+                fn,
               );
             }
           }

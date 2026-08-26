@@ -1,0 +1,46 @@
+{
+  "corpus": "unreferenced-component",
+  "description": "Anchored means the engine tied a finding to the surface it enumerated (ADR-009), and it is what decides whether a finding fails a build. Several analyses assert it by construction, on the sound reasoning that a weak key in a file nothing routes to is still a weak key -- but `nothing routes to it` and `nothing can run it` are different facts and the second one was never asked. An application reported the `window.open` inside a settings button at error level, gating, on the strength of a handler local to the component, and the component is not imported, re-exported or dynamically loaded anywhere in its own repository: there is no path from any enumerated entry point down to that line. Five findings here and all five are reported, because the code says what it says; what the two in unreferenced modules lose is the claim about WHERE they are -- the same correction the surface made when it started printing `<unresolved:expr>` for a mount path it could not read instead of `*`. The three that keep it are the reason this cannot be done by suppressing anything: a module the process entry imports, a module a page imports, and the page itself, which nothing imports and never would because the framework loads it by PATH. Anchoring is asserted in `anchoring_test.go`, since it is not expressible as a finding -- which is exactly how it was wrong.",
+  "expected": [
+    {
+      "cwe": "CWE-329",
+      "sinkFile": "lib/preview.ts",
+      "sinkLine": 8,
+      "sourceLabel": "\"0123456789abcdef\"",
+      "confidence": "high",
+      "note": "reached from the process entry, so the finding stands where the engine puts it"
+    },
+    {
+      "cwe": "CWE-329",
+      "sinkFile": "lib/legacy.ts",
+      "sinkLine": 9,
+      "sourceLabel": "\"fedcba9876543210\"",
+      "confidence": "high",
+      "note": "the identical call in a module nothing names. Still reported -- the IV is written down either way -- and no longer claiming to stand on the surface"
+    },
+    {
+      "cwe": "CWE-1022",
+      "sinkFile": "pages/dashboard.tsx",
+      "sinkLine": 8,
+      "sourceLabel": "\"window.open()\"",
+      "confidence": "high",
+      "note": "nothing imports a page and nothing ever would: the framework loads it by path, and reading `no import` as `no caller` here would be a statement about the framework rather than about the program"
+    },
+    {
+      "cwe": "CWE-1022",
+      "sinkFile": "ui/MountedPanel.tsx",
+      "sinkLine": 5,
+      "sourceLabel": "\"window.open()\"",
+      "confidence": "high",
+      "note": "the same call as the orphan below, in a component the page imports. The difference between the two is the whole judgement"
+    },
+    {
+      "cwe": "CWE-1022",
+      "sinkFile": "ui/OrphanPanel.tsx",
+      "sinkLine": 8,
+      "sourceLabel": "\"window.open()\"",
+      "confidence": "high",
+      "note": "the shape the corpus exists for: a component-local handler was enough to gate a build on a component nothing in the tree renders"
+    }
+  ]
+}

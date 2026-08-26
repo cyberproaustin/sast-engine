@@ -11,6 +11,7 @@ package surface
 
 import (
 	"sort"
+	"strconv"
 	"strings"
 
 	"github.com/cyberproaustin/sast-engine/core/internal/ir"
@@ -78,6 +79,11 @@ func (e EntryFacts) Label() string {
 	return e.EntryPoint.FunctionID
 }
 
+// TrustLevel is who can cause this entry point to run. A route answers a stranger; a
+// cron job answers a clock. Read from the entry point rather than copied onto these
+// facts, so there is one answer and not two.
+func (e EntryFacts) TrustLevel() ir.Trust { return e.EntryPoint.TrustLevel() }
+
 // ControlRefs is the set of control identities on this entry point.
 func (e EntryFacts) ControlRefs() map[string]Control {
 	out := make(map[string]Control, len(e.Controls))
@@ -90,9 +96,9 @@ func (e EntryFacts) ControlRefs() map[string]Control {
 // Surface is the enumerated attack surface.
 type Surface struct {
 	Entries []EntryFacts
-	// NonApplicationEntries are real registrations in examples or checked-in
-	// dependencies. They remain auditable without being presented as the application's
-	// own attack surface.
+	// NonApplicationEntries are real registrations the application does not serve:
+	// examples, checked-in dependencies, build and development tooling. They remain
+	// auditable without being presented as the application's own attack surface.
 	NonApplicationEntries []EntryFacts
 	// Completeness is evidence about whether this enumeration accounts for the program.
 	Completeness Completeness
@@ -114,7 +120,73 @@ type Completeness struct {
 	InputFunctions int
 	// UnreachedInputFunctions read it without any enumerated entry point reaching them.
 	UnreachedInputFunctions int
+	// NonProductionInputFunctions read it in modules that cannot serve a request --
+	// tests, examples, checked-in dependencies. They are not counted above and the
+	// number is stated because it is usually the larger one: 733 of healthchecks'
+	// 824 input-reading functions are in its test suite, and a count that included
+	// them said 745 of 824 unreached about an enumeration an adjudicator had just
+	// verified was complete.
+	NonProductionInputFunctions int
+	// Unreached says WHY the functions counted above cannot be reached, in bounded
+	// form.
+	//
+	// A number without this is not actionable and, worse, is not checkable: a reader
+	// who cannot tell "745, and 733 of them are test fixtures" from "745, all of them
+	// in views.py" learns to ignore the line, and then it is worth less than nothing
+	// on the run where it is right.
+	Unreached []UnreachedGroup
 }
+
+// UnreachedGroup is one reason a set of input-reading functions is unreachable, with
+// enough of them named to check the claim.
+type UnreachedGroup struct {
+	// Cause is one of the Cause* constants.
+	Cause string
+	Count int
+	// FromReachedCode counts, for CauseMissingCallEdge, the functions whose name is
+	// written at a call site the surface DOES reach. Those are the actionable ones:
+	// the route was enumerated, the call was found, and only the edge between them
+	// is missing.
+	FromReachedCode int
+	// Modules are the directories holding these functions, largest first, bounded.
+	Modules []ModuleCount
+	// Sample names a few of them so the cause can be checked rather than believed.
+	Sample []UnreachedFunction
+}
+
+// ModuleCount is how many unreached functions one directory holds.
+type ModuleCount struct {
+	Dir   string
+	Count int
+}
+
+// UnreachedFunction is one named example.
+type UnreachedFunction struct {
+	Name string
+	Loc  ir.Loc
+	// Detail is what is known about this one beyond its cause: the caller it sits
+	// below, or the property read that made it count as input-reading.
+	Detail string
+}
+
+// Why an input-reading function is not reachable from any enumerated entry point.
+// These are properties of the CALL GRAPH, which is the only thing that can be
+// observed here -- the engine cannot know that Django calls a form's clean_ hooks,
+// only that nothing in the program does.
+const (
+	// CauseMissingCallEdge: a call written with this function's name is somewhere in
+	// the program and did not resolve to it. The enumeration is not what failed; the
+	// call graph is.
+	CauseMissingCallEdge = "a call written with this name did not resolve to it"
+	// CauseBelowUnreached: something does call it, and that caller is unreached too.
+	// The cause is the caller's, one level up.
+	CauseBelowUnreached = "every caller is itself unreached"
+	// CauseNeverCalled: no call anywhere in the program is written with this name. A
+	// framework invokes it -- a decorator's wrapper, a form hook, a template tag, a
+	// signal handler, an inherited method dispatched on a receiver -- or it is dead.
+	// Either way it is not evidence of a route that was missed.
+	CauseNeverCalled = "nothing in the program calls them by name"
+)
 
 // Suspect reports whether the enumeration contradicts what the program plainly does.
 func (c Completeness) Suspect(entries int) bool {
@@ -142,6 +214,57 @@ func (c Completeness) Suspect(entries int) bool {
 	// caller sent cannot be reached from anything enumerated, the enumeration does not
 	// describe the program, and how many routes happen to be in it is beside the point.
 	return c.UnreachedInputFunctions*2 > c.InputFunctions
+}
+
+// ClassCount is how many entry points of one kind the application exposes, and who can
+// reach them.
+type ClassCount struct {
+	Kind  string
+	Trust ir.Trust
+	Count int
+}
+
+// Classes counts the enumerated entry points by kind, largest first.
+//
+// The surface is the primary output (ADR-009) and it stopped being one number the moment
+// it stopped being all routes. A total that folds seventeen cron jobs into a route count
+// says the application answers seventeen more requests than it does, and a reader
+// checking the enumeration against the application they know would be right to distrust
+// the whole report over it. So the classes are counted apart and the total is their sum.
+func (s Surface) Classes() []ClassCount {
+	byKind := map[string]*ClassCount{}
+	var order []string
+	for _, e := range s.Entries {
+		c, ok := byKind[e.EntryPoint.Kind]
+		if !ok {
+			c = &ClassCount{Kind: e.EntryPoint.Kind, Trust: e.TrustLevel()}
+			byKind[e.EntryPoint.Kind] = c
+			order = append(order, e.EntryPoint.Kind)
+		}
+		c.Count++
+	}
+	sort.Strings(order)
+	out := make([]ClassCount, 0, len(order))
+	for _, k := range order {
+		out = append(out, *byKind[k])
+	}
+	sort.SliceStable(out, func(i, j int) bool { return out[i].Count > out[j].Count })
+	return out
+}
+
+// RemoteEntries counts the entry points a caller outside the process can reach.
+//
+// This, and not the total, is what the completeness question is about: a program with
+// sixteen process starts and no route has no remote surface at all, and reading the
+// total would say it had sixteen.
+func (s Surface) RemoteEntries() int {
+	n := 0
+	for _, e := range s.Entries {
+		if e.TrustLevel() == ir.Remote {
+			n++
+		}
+	}
+	return n
 }
 
 // Groups returns entry points bucketed by comparison population, in stable order.
@@ -191,7 +314,7 @@ func Build(d *ir.IR, m model.Model, p *policy.Policy) Surface {
 		}
 		facts.Controls = controlsOf(ep, fn, m, p)
 		if !ix.InApplicationSurface(loc) {
-			if facts.Provenance == ir.Vendored || facts.Provenance == ir.Example {
+			if facts.Provenance != "" {
 				nonApplication = append(nonApplication, facts)
 			}
 			continue
@@ -325,75 +448,234 @@ func completenessOf(ix *ir.Index, m model.Model, entries []EntryFacts) Completen
 	// the model rather than to anything hardcoded here.
 	kinds := map[string]bool{}
 	globals := map[string]bool{}
-	// Paths a request object exposes: "body", "query", "params" and the like. Used here
-	// as evidence of HANDLER SHAPE, never to seed taint. A function that reads .body off
-	// its own first parameter looks exactly like a request handler whether or not any
-	// route pointing at it was recognized, and that is the whole question being asked.
+	// Paths a request object exposes: "body", "query", "params" and the like, kept
+	// under the PARAMETER POSITION the rule names them at. Used here as evidence of
+	// HANDLER SHAPE, never to seed taint. A function that reads .body off its own
+	// first parameter looks exactly like a request handler whether or not any route
+	// pointing at it was recognized, and that is the whole question being asked.
 	//
 	// Without this the check is blind precisely where it is needed most: frameworks that
 	// pass a request object into the handler anchor their rule to an enumerated entry
 	// point, so a handler nobody enumerated leaves no trace at all.
-	paths := map[string]bool{}
+	//
+	// The position is part of the rule and dropping it is what made the count
+	// unusable. Flattened into one set matched against ANY parameter, the union of
+	// every framework's request shape matches an enormous amount of code that is not
+	// a handler at all: searxng's engine plugins take an outbound `params` dict as
+	// their SECOND argument and set params["headers"], and 62 of them counted as
+	// unreached request handlers. Position is the cheapest thing that tells a request
+	// object apart from a domain object carrying a colliding field name, and it is
+	// already written down.
+	pathsAt := map[int]map[string]bool{}
 	for _, c := range m.Classifications {
 		if c.Class != m.UntrustedClass() {
 			continue
 		}
 		for _, r := range c.Rules {
+			// A source only a person with a shell can supply is not evidence that a
+			// route was missed, which is the only thing this count asks about.
+			if r.Trust != "" && r.Trust != ir.Remote {
+				continue
+			}
 			switch r.Match {
 			case model.MatchValueKind:
 				kinds[r.ValueKind] = true
 			case model.MatchGlobalProperty:
 				globals[r.Symbol] = true
-			default:
+			case model.MatchEntryParamProperty:
+				if pathsAt[r.ParamIndex] == nil {
+					pathsAt[r.ParamIndex] = map[string]bool{}
+				}
 				for _, p := range r.Paths {
-					paths[p] = true
+					pathsAt[r.ParamIndex][p] = true
 				}
 			}
 		}
 	}
 
+	// REMOTE entry points only.
+	//
+	// The question this counts is whether the enumerated surface accounts for the code
+	// that reads what a CALLER SENT, and a cron job reaching a handler does not mean a
+	// request can. Letting background entries into the roots would answer a different
+	// question with the same number and quietly lower the bar -- the exact failure
+	// Suspect's own comment records, where a surface got bigger and the gate switched
+	// off without getting any more complete.
 	roots := make([]string, 0, len(entries))
 	for _, entry := range entries {
-		if entry.EntryPoint.FunctionID != "" {
+		if entry.EntryPoint.FunctionID != "" && entry.EntryPoint.TrustLevel() == ir.Remote {
 			roots = append(roots, entry.EntryPoint.FunctionID)
 		}
 	}
 	reachable := ix.ReachableFrom(roots)
+
 	var out Completeness
+	var unreached []*ir.Function
+	evidence := map[string]string{}
 	for _, fn := range ix.IR.Functions {
-		if !ix.InApplicationSurface(fn.Loc) {
+		reads, why := readsCallerInput(ix, fn, kinds, globals, pathsAt)
+		if !reads {
 			continue
 		}
-		params := map[string]bool{}
-		for _, p := range fn.Params {
-			params[p.ValueID] = true
-		}
-
-		reads := false
-		for _, v := range fn.Values {
-			if kinds[string(v.Kind)] {
-				reads = true
-				break
-			}
-			base := ix.ValueByID[v.Base]
-			if base != nil && base.Kind == "global" && globals[base.Name] {
-				reads = true
-				break
-			}
-			if v.Kind == ir.ValueProperty && params[v.Base] && paths[firstSegment(v.Path)] {
-				reads = true
-				break
-			}
-		}
-		if !reads {
+		// A function that cannot serve a request cannot be evidence that a route
+		// serving one was missed.
+		if !ix.InApplicationSurface(fn.Loc) {
+			out.NonProductionInputFunctions++
 			continue
 		}
 		out.InputFunctions++
 		if !reachable[fn.ID] {
 			out.UnreachedInputFunctions++
+			unreached = append(unreached, fn)
+			evidence[fn.ID] = why
 		}
 	}
+	out.Unreached = explainUnreached(ix, reachable, unreached, evidence)
 	return out
+}
+
+// readsCallerInput reports whether a function handles caller-supplied input, and what
+// made it look that way.
+func readsCallerInput(ix *ir.Index, fn *ir.Function, kinds, globals map[string]bool, pathsAt map[int]map[string]bool) (bool, string) {
+	index := make(map[string]int, len(fn.Params))
+	for i, p := range fn.Params {
+		index[p.ValueID] = i
+	}
+	for _, v := range fn.Values {
+		if kinds[string(v.Kind)] {
+			return true, string(v.Kind)
+		}
+		base := ix.ValueByID[v.Base]
+		if base != nil && base.Kind == "global" && globals[base.Name] {
+			return true, base.Name + "." + v.Path
+		}
+		if v.Kind != ir.ValueProperty {
+			continue
+		}
+		i, ok := index[v.Base]
+		if !ok {
+			continue
+		}
+		if pathsAt[i][firstSegment(v.Path)] {
+			name := fn.Params[i].Name
+			if name == "" {
+				name = "arg" + strconv.Itoa(i)
+			}
+			return true, name + "." + firstSegment(v.Path)
+		}
+	}
+	return false, ""
+}
+
+// sampleSize bounds each cause's listing. Three is enough to see what KIND of code a
+// cause covers, which is the question; the counts carry the scale.
+const sampleSize = 3
+
+// moduleSize bounds the directory rollup per cause.
+const moduleSize = 3
+
+// explainUnreached says why each unreached function cannot be reached, grouped by
+// cause and bounded.
+//
+// Only the call graph is consulted, because only the call graph can be observed. The
+// engine cannot know that Django calls a form's clean_ hooks or that Tornado
+// dispatches an inherited method on a handler; it can know that no call site in the
+// program is written with that name, which is a different claim and a checkable one.
+func explainUnreached(ix *ir.Index, reachable map[string]bool, unreached []*ir.Function, evidence map[string]string) []UnreachedGroup {
+	if len(unreached) == 0 {
+		return nil
+	}
+	// Names written at call sites that did not resolve to a local function, and
+	// whether the code writing them is reached. Both spellings are collected: a
+	// method call records the property name, a plain call records the written name.
+	named := map[string]bool{}
+	namedFromReached := map[string]bool{}
+	for _, fn := range ix.IR.Functions {
+		for _, c := range fn.Calls {
+			if c.Callee.Kind == "local" && c.Callee.FunctionID != "" {
+				continue
+			}
+			for _, n := range []string{c.Method, c.Callee.Name} {
+				if n == "" {
+					continue
+				}
+				named[n] = true
+				if reachable[fn.ID] {
+					namedFromReached[n] = true
+				}
+			}
+		}
+	}
+
+	order := []string{CauseMissingCallEdge, CauseBelowUnreached, CauseNeverCalled}
+	groups := map[string]*UnreachedGroup{}
+	dirs := map[string]map[string]int{}
+	for _, fn := range unreached {
+		cause, detail := CauseNeverCalled, evidence[fn.ID]
+		switch {
+		case len(ix.CallSitesOf[fn.ID]) > 0:
+			cause = CauseBelowUnreached
+			if caller := ix.OwnerOfCall[ix.CallSitesOf[fn.ID][0].ID]; caller != nil {
+				detail = "called by " + caller.Name + ", which is unreached too"
+			}
+		case named[fn.Name]:
+			cause = CauseMissingCallEdge
+		}
+		g := groups[cause]
+		if g == nil {
+			g = &UnreachedGroup{Cause: cause}
+			groups[cause] = g
+			dirs[cause] = map[string]int{}
+		}
+		g.Count++
+		if cause == CauseMissingCallEdge && namedFromReached[fn.Name] {
+			g.FromReachedCode++
+		}
+		dirs[cause][dirOf(fn.Loc.File)]++
+		if len(g.Sample) < sampleSize {
+			g.Sample = append(g.Sample, UnreachedFunction{Name: fn.Name, Loc: fn.Loc, Detail: detail})
+		}
+	}
+
+	var out []UnreachedGroup
+	for _, cause := range order {
+		g := groups[cause]
+		if g == nil {
+			continue
+		}
+		g.Modules = topModules(dirs[cause])
+		out = append(out, *g)
+	}
+	return out
+}
+
+// topModules ranks directories by how many unreached functions they hold. This is the
+// line that made searxng's number readable at a glance: 100 of 134 in searx/engines,
+// which are plugins the router loads by name and not routes anybody failed to find.
+func topModules(counts map[string]int) []ModuleCount {
+	out := make([]ModuleCount, 0, len(counts))
+	for dir, n := range counts {
+		out = append(out, ModuleCount{Dir: dir, Count: n})
+	}
+	sort.Slice(out, func(i, j int) bool {
+		if out[i].Count != out[j].Count {
+			return out[i].Count > out[j].Count
+		}
+		return out[i].Dir < out[j].Dir
+	})
+	if len(out) > moduleSize {
+		out = out[:moduleSize]
+	}
+	return out
+}
+
+// dirOf is the directory a file sits in, which is the granularity a reader groups code
+// at. A file with no directory answers for itself.
+func dirOf(file string) string {
+	if i := strings.LastIndexByte(file, '/'); i > 0 {
+		return file[:i]
+	}
+	return file
 }
 
 // firstSegment is the leading name of a dotted access path: "body.target" -> "body".

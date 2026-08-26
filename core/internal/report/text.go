@@ -52,6 +52,7 @@ func writeSurface(b *strings.Builder, s surface.Surface) {
 	names := s.GroupNames()
 
 	fmt.Fprintf(b, "\nsurface: %d entry point(s) in %d group(s)\n", len(s.Entries), len(names))
+	writeClasses(b, s)
 	writeCompleteness(b, s)
 	if len(s.Entries) == 0 {
 		writeNonApplicationSurface(b, s)
@@ -90,6 +91,23 @@ func writeSurface(b *strings.Builder, s surface.Surface) {
 	writeUniversalControls(b, s)
 	writeUnresolvedInputs(b, s)
 	writeNonApplicationSurface(b, s)
+}
+
+// A route and a cron job are both entry points and they are not the same number.
+//
+// Printed whenever the surface holds more than one kind, because a single total that
+// folds background work into a route count overstates what a caller can reach -- and the
+// surface is meant to be AUDITED against the application an operator knows (ADR-009),
+// which they cannot do if the classes are added together. Each line says who can reach
+// that class, which is the fact that makes the split worth making.
+func writeClasses(b *strings.Builder, s surface.Surface) {
+	classes := s.Classes()
+	if len(classes) < 2 {
+		return
+	}
+	for _, c := range classes {
+		fmt.Fprintf(b, "  %-16s %4d  reachable by: %s\n", c.Kind, c.Count, c.Trust)
+	}
 }
 
 // Example and vendored registrations are kept visible without letting their presence
@@ -195,15 +213,18 @@ func writeUnresolvedInputs(b *strings.Builder, s surface.Surface) {
 // exactly like a clean application. This is the one place that difference can be stated.
 func writeCompleteness(b *strings.Builder, s surface.Surface) {
 	c := s.Completeness
-	if !c.Suspect(len(s.Entries)) {
-		if len(s.Entries) == 0 {
-			fmt.Fprintf(b, "  none enumerated - no analysis below can mean anything\n")
+	if !c.Suspect(s.RemoteEntries()) {
+		if s.RemoteEntries() == 0 {
+			fmt.Fprintf(b, "  nothing here answers a caller - no analysis below says what a stranger could do\n")
 		}
 		return
 	}
 
-	if len(s.Entries) == 0 {
-		fmt.Fprintf(b, "  INCOMPLETE: none enumerated, but %d function(s) read caller-supplied input\n", c.InputFunctions)
+	if s.RemoteEntries() == 0 {
+		// "None" means none a CALLER can reach. A program with sixteen process starts
+		// and no route has no remote surface at all, and saying "none enumerated" beside
+		// sixteen listed entry points would read as a contradiction rather than a fact.
+		fmt.Fprintf(b, "  INCOMPLETE: no entry point a caller can reach, and %d function(s) read caller-supplied input\n", c.InputFunctions)
 	} else {
 		fmt.Fprintf(b, "  INCOMPLETE: %d function(s) read caller-supplied input and no enumerated\n", c.UnreachedInputFunctions)
 		fmt.Fprintf(b, "  entry point reaches them (%d read it in total)\n", c.InputFunctions)
@@ -211,6 +232,43 @@ func writeCompleteness(b *strings.Builder, s surface.Surface) {
 	fmt.Fprintf(b, "  This application routes requests in a way the framework models do not\n")
 	fmt.Fprintf(b, "  recognize. Findings below cover only what was enumerated; silence here is\n")
 	fmt.Fprintf(b, "  the model failing to see the application, not the application being clean.\n")
+	writeUnreached(b, c)
+}
+
+// A count of unreachable code is an accusation against the enumeration, and an
+// accusation nobody can check is one a reader learns to skip. This says which
+// functions and why, bounded to a summary: three named examples and the directories
+// they sit in, per cause.
+func writeUnreached(b *strings.Builder, c surface.Completeness) {
+	if c.NonProductionInputFunctions > 0 {
+		fmt.Fprintf(b, "  a further %d read it in modules that cannot serve a request (tests,\n", c.NonProductionInputFunctions)
+		fmt.Fprintf(b, "  examples, checked-in dependencies) and are not counted above\n")
+	}
+	if len(c.Unreached) == 0 {
+		return
+	}
+	fmt.Fprintf(b, "  why the surface does not reach them:\n")
+	for _, g := range c.Unreached {
+		fmt.Fprintf(b, "    %d  %s\n", g.Count, g.Cause)
+		if g.FromReachedCode > 0 {
+			fmt.Fprintf(b, "       %d of those from code the surface does reach: the route was found,\n", g.FromReachedCode)
+			fmt.Fprintf(b, "       the call was found, and the edge between them was not\n")
+		}
+		if len(g.Modules) > 0 {
+			var parts []string
+			for _, mod := range g.Modules {
+				parts = append(parts, fmt.Sprintf("%s (%d)", mod.Dir, mod.Count))
+			}
+			fmt.Fprintf(b, "       in %s\n", strings.Join(parts, ", "))
+		}
+		for _, fn := range g.Sample {
+			line := fmt.Sprintf("       %s at %s", fn.Name, fn.Loc)
+			if fn.Detail != "" {
+				line += "  [" + fn.Detail + "]"
+			}
+			fmt.Fprintf(b, "%s\n", line)
+		}
+	}
 }
 
 // Coverage against the whole published catalog, not against the part we cover.

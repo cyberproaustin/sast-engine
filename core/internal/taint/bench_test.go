@@ -127,6 +127,7 @@ var corpora = []string{
 	"reassignment-kills-taint",
 	"weak-hash-by-use",
 	"client-identifier",
+	"sibling-guard-differential",
 	"regex-complexity",
 	"unowned-record-access",
 	"unbounded-resource",
@@ -134,6 +135,15 @@ var corpora = []string{
 	"flask-route-metadata",
 	"second-order-taint",
 	"non-first-party-code",
+	"scheduled-jobs",
+	"management-command",
+	"process-start",
+	"try-return-not-caught",
+	"msw-not-express",
+	"cipher-mode-decides-the-iv",
+	"literal-return-summary",
+	"unreferenced-component",
+	"python-inherited-method",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {

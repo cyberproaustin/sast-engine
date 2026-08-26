@@ -1,0 +1,38 @@
+{
+  "corpus": "scheduled-jobs",
+  "description": "An entry point that is not a route. A scheduled job and an event-bus consumer run with the application's privileges over data an earlier request left behind, and until they were enumerated no entry point reached them -- so every defect inside them was not judged and found clean but never asked about, which is the failure ADR-009 exists to prevent. Four registrations are recognised here and each is a different spelling of the same fact: a croner constructor, `setInterval`, a `schedule` method handed a bound method reference, and a table of jobs whose callback is the LAST reference in the argument list rather than the first -- `job.interval` and `job.jobFunc` are the same syntax and taking the first would have scheduled the cron expression. Three findings are anchored to those entries and all three are second-order: a request wrote a column, the request ended, and hours later a timer reads it into SQL. A fifth registration is enumerated and excluded: a `scripts/` dev-watch script is a real recurring callback and is not the application's, so it lands in the non-application surface the way an example route does -- and `scripts` counts only because it is the first segment of the package, since a rule matching it at any depth would have deleted a live umami endpoint served from `src/app/api/scripts/telemetry/route.ts`. Five silences say what the class costs. `setTimeout` is not a schedule -- a one-shot delay is how every debounce and backoff in JavaScript is written -- and the fourth finding here proves what that silence does and does not mean: the SQL injection inside the timeout is still reported, unanchored and never gating, exactly as it was before this class existed. `socket.on` is the same three letters as `bus.on` and is NOT an internal consumer, because a websocket answers a remote caller; the receiver's type decides and nothing is claimed where the checker cannot say. `planner.schedule(from, to)` books a meeting: a bare method name is not an identity, so a `schedule` handed no function registers nothing. And two shapes are silent because the callback must RESOLVE: a forwarding helper whose callback is a PARAMETER of the enclosing function registers whatever its caller hands it, and an application method spelled `schedule` that takes a RECORD registers nothing at all. This is the one place a background entry point differs from a route and it is not a lapse from ADR-009 -- a route exists at an ADDRESS whether or not its handler resolves, and a job has no address: it IS its callback, so a row naming no function contributes no reachability and cannot be reasoned about. Allowing one through was measured at five entry points across ten repositories, every one of them wrong. Every entry point here carries trust `internal`, which is the half a reader needs to rank them: whoever can make one of these run already has the process.",
+  "expected": [
+    {
+      "cwe": "CWE-89",
+      "sinkFile": "jobs.ts",
+      "sinkLine": 26,
+      "sourceLabel": "the job store, written by POST /jobs",
+      "confidence": "medium",
+      "note": "the shape the whole class exists for: POST /jobs put a caller's text in a column and went away, and a cron job reads it back into SQL hours later. Medium because every hop through an ambient store client is probable rather than resolved, which is what a real ORM client is"
+    },
+    {
+      "cwe": "CWE-89",
+      "sinkFile": "jobs.ts",
+      "sinkLine": 35,
+      "sourceLabel": "the webhook store, written by POST /webhooks",
+      "confidence": "medium",
+      "note": "the same shape through `setInterval`, which is a scheduler the language ships with rather than one a library provides"
+    },
+    {
+      "cwe": "CWE-89",
+      "sinkFile": "jobs.ts",
+      "sinkLine": 46,
+      "sourceLabel": "the job store, written by POST /jobs",
+      "confidence": "medium",
+      "note": "an event-bus consumer, told apart from a websocket handler by what the CHECKER says the receiver is rather than by the method name they share"
+    },
+    {
+      "cwe": "CWE-89",
+      "sinkFile": "jobs.ts",
+      "sinkLine": 89,
+      "sourceLabel": "the job store, written by POST /jobs",
+      "confidence": "medium",
+      "note": "inside a `setTimeout`, which is deliberately NOT a scheduled job. Reported and UNANCHORED -- the finding was always visible; what the new class supplies is something to attribute it to, and a one-shot delay is not that"
+    }
+  ]
+}

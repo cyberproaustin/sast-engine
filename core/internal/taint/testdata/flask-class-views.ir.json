@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.14.0",
+  "irVersion": "0.15.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -354,6 +354,10 @@
             {
               "index": 1,
               "valueId": "app.py#register:33:1$v6"
+            },
+            {
+              "index": 2,
+              "functionId": "app.py#report:29:1"
             }
           ],
           "resultValueId": "app.py#register:33:1$v7",

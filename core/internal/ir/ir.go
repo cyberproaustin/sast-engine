@@ -71,6 +71,18 @@ type Module struct {
 	// generated-source shapes are language and ecosystem facts; the core owns what the
 	// distinction means to a finding and to the enumerated surface.
 	Provenance Provenance `json:"provenance,omitempty"`
+	// Unreferenced marks a module no other module in the program names -- no import,
+	// no re-export, no `require`, no dynamic `import()` -- and that no framework
+	// convention loads by path.
+	//
+	// A graph fact, stated by the frontend because resolving a specifier to a file is a
+	// language question, and read by the core because what it MEANS to a finding is not.
+	// It means the finding is not standing on the enumerated surface: an application
+	// reported a `window.open` inside a settings button as though a caller could reach
+	// it, and the component was not imported, re-exported or dynamically loaded anywhere
+	// in its own repository. False is no claim either way, which is what every frontend
+	// that does not compute this says.
+	Unreferenced bool `json:"unreferenced,omitempty"`
 }
 
 // Provenance is where a module came from when it is not ordinary first-party source.
@@ -80,6 +92,16 @@ const (
 	Vendored  Provenance = "vendored"
 	Example   Provenance = "example"
 	Generated Provenance = "generated"
+	// Tooling is build and development machinery that ships in the repository and does
+	// not run in the deployed application: a watch script, a release script, a
+	// packaging script.
+	//
+	// Not a smaller kind of application code. A `setInterval` in a dev-watch script is a
+	// recurring callback on a developer's laptop, and counting it in the surface an
+	// operator is meant to audit against the application they run is the same category
+	// error as counting an example route -- which is the one this file already draws the
+	// line for.
+	Tooling Provenance = "tooling"
 )
 
 // Trust is who can cause an entry point to run.
@@ -574,6 +596,22 @@ type Index struct {
 	// targeting it. Used to propagate a callee's tainted return to its callers.
 	CallSitesOf map[string][]*Call
 
+	// PassedAt is the other half of the reverse graph: function ID -> the call sites
+	// that were HANDED it as an argument.
+	//
+	// Kept apart from CallSitesOf on purpose. A callback is reached from the site that
+	// registers it, so the two are the same relation for a question about REACHABILITY
+	// -- and they are not the same relation for a question about VALUES: a callback's
+	// return does not become the registering call's result, and folding these together
+	// would say it does.
+	//
+	// ReachableFrom has followed argument functions downward since it existed, while
+	// every walk upward followed only CallSitesOf. That disagreement is what made a
+	// process start unable to anchor anything: `run_sync(partial(self.start_async))`
+	// hands the whole application over in one argument, so walking up from any function
+	// in it reached the callback and stopped.
+	PassedAt map[string][]*Call
+
 	// TestModule marks modules the frontend identified as tests.
 	TestModule map[string]bool
 	// ModuleProvenance records the frontend's origin classification under both module
@@ -593,7 +631,7 @@ func (ix *Index) ProvenanceOf(loc Loc) Provenance { return ix.ModuleProvenance[l
 // surface; examples and checked-in dependencies do not.
 func (ix *Index) InApplicationSurface(loc Loc) bool {
 	p := ix.ProvenanceOf(loc)
-	return !ix.InTestModule(loc) && p != Vendored && p != Example
+	return !ix.InTestModule(loc) && p != Vendored && p != Example && p != Tooling
 }
 
 // NewIndex builds lookup tables over an IR. It does not mutate the IR.
@@ -608,6 +646,7 @@ func NewIndex(d *IR) *Index {
 		FlowsFrom:        make(map[string][]Flow),
 		EntryByFunc:      make(map[string]*EntryPoint, len(d.EntryPoints)),
 		CallSitesOf:      make(map[string][]*Call),
+		PassedAt:         make(map[string][]*Call),
 		TestModule:       make(map[string]bool),
 		ModuleProvenance: make(map[string]Provenance),
 	}
@@ -635,6 +674,11 @@ func NewIndex(d *IR) *Index {
 			ix.OwnerOfCall[c.ID] = fn
 			if c.Callee.Kind == "local" && c.Callee.FunctionID != "" {
 				ix.CallSitesOf[c.Callee.FunctionID] = append(ix.CallSitesOf[c.Callee.FunctionID], c)
+			}
+			for _, a := range c.Args {
+				if a.FunctionID != "" {
+					ix.PassedAt[a.FunctionID] = append(ix.PassedAt[a.FunctionID], c)
+				}
 			}
 		}
 	}

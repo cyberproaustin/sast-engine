@@ -1,0 +1,22 @@
+{
+  "corpus": "sibling-guard-differential",
+  "description": "A check the program performs on one path and not on the path beside it. The engine cannot know what check OUGHT to guard an operation, and a rule that names one is guessing; it does not have to guess when the program has written the check down on a neighbouring path over the same value, and then the expected shape is the program's own and the finding can cite it. Two positives, one per shape. `variants.ts` is the differential between two handlers: `featureName` and `projectId` both arrive in the route, nothing relates them, the read path asks whether the feature belongs to the project and the write path takes the same two values out of the same request and does not. `secfetch.ts` is the differential between two BRANCHES of one chain: `Response.redirect` builds a response and sends nothing, so the branch that does not return it has written a line that does not exist -- and the branch above returns the identical construction, which is how the program says what this one was meant to do. Four negatives, and each is a shape that would have fired under a looser reading of the same idea. `segments.ts` is a read and a write that legitimately differ, with the WRITE carrying the permission check: that is the ordinary asymmetry of every application, and the rule fires only on its inversion. `reports.ts` is two paths whose guards differ over values that are not the same value -- the read validates a date range the write never reads -- so the check is a question about an argument the write does not have rather than one it skipped. `widgets.ts` is the positive's shape exactly, cleared by one line in `app.ts` that puts the check on the route. `login.ts` is the discarded-construction shape exactly, cleared because `res.redirect` was HANDED to the handler and answers the request itself, where a constructor only builds an answer -- one word apart, and reading the word alone would report the ordinary spelling of every Express login in existence.",
+  "expected": [
+    {
+      "cwe": "CWE-862",
+      "sinkFile": "variants.ts",
+      "sinkLine": 22,
+      "sourceLabel": "req.params.featureName",
+      "confidence": "high",
+      "note": "the write path passes the caller's featureName to the store without the belongs-to-project question its sibling read path asks about the very same value"
+    },
+    {
+      "cwe": "CWE-698",
+      "sinkFile": "secfetch.ts",
+      "sinkLine": 15,
+      "sourceLabel": "Response.redirect",
+      "confidence": "high",
+      "note": "the redirect is constructed and referred to by nothing, five lines below the branch that returns the identical construction"
+    }
+  ]
+}

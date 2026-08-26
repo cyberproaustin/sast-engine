@@ -29,7 +29,13 @@ func TestExampleEntriesDoNotPopulateTheApplicationSurfaceSummary(t *testing.T) {
 	report := b.String()
 	for _, want := range []string{
 		"surface: 0 entry point(s)",
-		"INCOMPLETE: none enumerated",
+		// The wording of the empty-surface warning is not what this test is about, and
+		// pinning it here made an unrelated improvement look like a regression: the trust
+		// labels changed "none enumerated" to "no entry point a caller can REACH", which
+		// is the more accurate sentence now that an operator-triggered entry point can
+		// exist and not be one. Assert that the warning is PRESENT and that it is about
+		// an empty application surface; leave its prose to the test that owns it.
+		"INCOMPLETE:",
 		"non-application surface: 1 entry point(s)",
 		"example: 1",
 		"GET /demo",

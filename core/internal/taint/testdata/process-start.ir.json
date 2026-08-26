@@ -1,0 +1,1613 @@
+{
+  "irVersion": "0.15.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi",
+        "django",
+        "tornado"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "devscripts/release.py",
+      "path": "devscripts/release.py",
+      "provenance": "tooling"
+    },
+    {
+      "id": "hub/__init__.py",
+      "path": "hub/__init__.py"
+    },
+    {
+      "id": "hub/app.py",
+      "path": "hub/app.py"
+    },
+    {
+      "id": "hub/loop.py",
+      "path": "hub/loop.py"
+    },
+    {
+      "id": "tools.py",
+      "path": "tools.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "devscripts/release.py#<module>:0:0",
+      "name": "<module>",
+      "module": "devscripts/release.py",
+      "loc": {
+        "file": "devscripts/release.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "devscripts/release.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "devscripts/release.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "SILENT AS APPLICATION SURFACE -- a release script.\n\nA real program start, enumerated as one, and not the application's. It runs when a\nmaintainer types a build command; nothing an operator deploys ever executes it. Counting\nit beside the process the application actually starts in is the same category error as\ncounting an example route, and one repository in this corpus contributes fifteen of these\nagainst one real entry point.\n\n`devscripts/` counts only because it is the first segment of the repository. Matching a\ntooling name at any depth would classify application packages by accident.\n"
+        },
+        {
+          "id": "devscripts/release.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "devscripts/release.py",
+            "line": 24,
+            "column": 4
+          },
+          "name": "comparison"
+        },
+        {
+          "id": "devscripts/release.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "devscripts/release.py",
+            "line": 24,
+            "column": 16
+          },
+          "literal": "__main__"
+        },
+        {
+          "id": "devscripts/release.py#<module>:0:0$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "devscripts/release.py",
+            "line": 25,
+            "column": 5
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "devscripts/release.py#<module>:0:0$c0",
+          "loc": {
+            "file": "devscripts/release.py",
+            "line": 25,
+            "column": 5
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "devscripts/release.py#publish:20:1",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "devscripts/release.py#<module>:0:0$v3",
+          "block": "devscripts/release.py#<module>:0:0$b1",
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "devscripts/release.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "devscripts/release.py#<module>:0:0$b0",
+          "successors": [
+            "devscripts/release.py#<module>:0:0$b1",
+            "devscripts/release.py#<module>:0:0$b2"
+          ],
+          "loc": {
+            "file": "devscripts/release.py",
+            "line": 0,
+            "column": 1
+          },
+          "terminator": "branch"
+        },
+        {
+          "id": "devscripts/release.py#<module>:0:0$b1",
+          "successors": [
+            "devscripts/release.py#<module>:0:0$b2"
+          ],
+          "loc": {
+            "file": "devscripts/release.py",
+            "line": 24,
+            "column": 1
+          }
+        },
+        {
+          "id": "devscripts/release.py#<module>:0:0$b2",
+          "successors": [],
+          "loc": {
+            "file": "devscripts/release.py",
+            "line": 24,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "devscripts/release.py#publish:20:1",
+      "name": "publish",
+      "module": "devscripts/release.py",
+      "loc": {
+        "file": "devscripts/release.py",
+        "line": 20,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "devscripts/release.py#publish:20:1$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "devscripts/release.py",
+            "line": 21,
+            "column": 19
+          },
+          "literal": "https://uploads.example/release"
+        },
+        {
+          "id": "devscripts/release.py#publish:20:1$v1",
+          "kind": "global",
+          "loc": {
+            "file": "devscripts/release.py",
+            "line": 21,
+            "column": 59
+          },
+          "name": "os"
+        },
+        {
+          "id": "devscripts/release.py#publish:20:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "devscripts/release.py",
+            "line": 21,
+            "column": 59
+          },
+          "base": "devscripts/release.py#publish:20:1$v1",
+          "path": "environ",
+          "name": "environ"
+        },
+        {
+          "id": "devscripts/release.py#publish:20:1$v3",
+          "kind": "global",
+          "loc": {
+            "file": "devscripts/release.py",
+            "line": 21,
+            "column": 5
+          },
+          "name": "requests"
+        },
+        {
+          "id": "devscripts/release.py#publish:20:1$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "devscripts/release.py",
+            "line": 21,
+            "column": 5
+          },
+          "name": "requests.post"
+        }
+      ],
+      "flows": [
+        {
+          "from": "devscripts/release.py#publish:20:1$v1",
+          "to": "devscripts/release.py#publish:20:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "devscripts/release.py",
+            "line": 21,
+            "column": 59
+          },
+          "block": "devscripts/release.py#publish:20:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "devscripts/release.py#publish:20:1$c0",
+          "loc": {
+            "file": "devscripts/release.py",
+            "line": 21,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "requests.post",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "devscripts/release.py#publish:20:1$v0"
+            },
+            {
+              "index": 1,
+              "valueId": "devscripts/release.py#publish:20:1$v2"
+            }
+          ],
+          "resultValueId": "devscripts/release.py#publish:20:1$v4",
+          "block": "devscripts/release.py#publish:20:1$b0",
+          "method": "post",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "https://uploads.example/release",
+            "-1": "json=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "devscripts/release.py#publish:20:1$v3"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "devscripts/release.py#publish:20:1$b0",
+      "blocks": [
+        {
+          "id": "devscripts/release.py#publish:20:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "devscripts/release.py",
+            "line": 20,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "hub/__init__.py#<module>:0:0",
+      "name": "<module>",
+      "module": "hub/__init__.py",
+      "loc": {
+        "file": "hub/__init__.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "hub/__init__.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "hub/__init__.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "hub/__init__.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "hub/app.py#<module>:0:0",
+      "name": "<module>",
+      "module": "hub/app.py",
+      "loc": {
+        "file": "hub/app.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "hub/app.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "Process startup: the entry point a program has before it has any caller.\n\nModule-level code runs at import in EVERY module, so \"module-level initialization\" on its\nown would make an entry point of every settings file and every constant table in a tree.\nWhat narrows it to something true is the language's own rule for where a process starts:\nthe `__main__` guard below, and the `__main__.py` of a package.\n\nEverything the start reaches is startup code, and startup code runs before any request\nexists. Its inputs are the environment the operator started it with and the configuration\nthey wrote, which is why the trust here is `operator` and not `remote` -- and why the\nfinding below is reported and does not fail a build.\n\nTwo call-graph facts have to hold for any of this to be worth enumerating, and both are\nexercised here on purpose:\n\n  * the guard calls `app.Hub.launch()`, an attribute chain three segments deep through an\n    imported module. Resolved only one segment deep, the module's own top level called out\n    of the program and the call graph stopped at the first line of the process.\n\n  * `launch` hands `self.start_async` to something else to call. A function passed as an\n    argument is called by whatever receives it, and nothing at this call site records\n    that, so without the reference the chain ended at the line that hands it over.\n\nRemove either and this file's startup is unreachable while the surface still says the\nprogram was enumerated -- which is exactly the shape jupyterhub's cookie-secret handling\nhad before this class existed.\n"
+        },
+        {
+          "id": "hub/app.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 70,
+            "column": 1
+          },
+          "name": "main"
+        },
+        {
+          "id": "hub/app.py#<module>:0:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 72,
+            "column": 4
+          },
+          "name": "comparison"
+        },
+        {
+          "id": "hub/app.py#<module>:0:0$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 72,
+            "column": 16
+          },
+          "literal": "__main__"
+        },
+        {
+          "id": "hub/app.py#<module>:0:0$v4",
+          "kind": "global",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 75,
+            "column": 5
+          },
+          "name": "hub.app"
+        },
+        {
+          "id": "hub/app.py#<module>:0:0$v5",
+          "kind": "property",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 75,
+            "column": 5
+          },
+          "base": "hub/app.py#<module>:0:0$v4",
+          "path": "Hub",
+          "name": "Hub"
+        },
+        {
+          "id": "hub/app.py#<module>:0:0$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 75,
+            "column": 5
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [
+        {
+          "from": "hub/app.py#<module>:0:0$v4",
+          "to": "hub/app.py#<module>:0:0$v5",
+          "kind": "property",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 75,
+            "column": 5
+          },
+          "block": "hub/app.py#<module>:0:0$b1"
+        }
+      ],
+      "calls": [
+        {
+          "id": "hub/app.py#<module>:0:0$c0",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 75,
+            "column": 5
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "hub/app.py#launch:41:5",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "hub/app.py#<module>:0:0$v6",
+          "block": "hub/app.py#<module>:0:0$b1",
+          "method": "launch",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "hub/app.py#<module>:0:0$v5"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "hub/app.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "hub/app.py#<module>:0:0$b0",
+          "successors": [
+            "hub/app.py#<module>:0:0$b1",
+            "hub/app.py#<module>:0:0$b2"
+          ],
+          "loc": {
+            "file": "hub/app.py",
+            "line": 0,
+            "column": 1
+          },
+          "terminator": "branch"
+        },
+        {
+          "id": "hub/app.py#<module>:0:0$b1",
+          "successors": [
+            "hub/app.py#<module>:0:0$b2"
+          ],
+          "loc": {
+            "file": "hub/app.py",
+            "line": 72,
+            "column": 1
+          }
+        },
+        {
+          "id": "hub/app.py#<module>:0:0$b2",
+          "successors": [],
+          "loc": {
+            "file": "hub/app.py",
+            "line": 72,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "hub/app.py#launch:41:5",
+      "name": "launch",
+      "module": "hub/app.py",
+      "loc": {
+        "file": "hub/app.py",
+        "line": 41,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "cls",
+          "valueId": "hub/app.py#launch:41:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "hub/app.py#launch:41:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 41,
+            "column": 16
+          },
+          "name": "cls"
+        },
+        {
+          "id": "hub/app.py#launch:41:5$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 42,
+            "column": 16
+          },
+          "name": "cls"
+        },
+        {
+          "id": "hub/app.py#launch:41:5$v2",
+          "kind": "local",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 42,
+            "column": 9
+          },
+          "name": "self"
+        },
+        {
+          "id": "hub/app.py#launch:41:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 43,
+            "column": 41
+          },
+          "base": "hub/app.py#launch:41:5$v2",
+          "path": "start_async",
+          "name": "start_async"
+        },
+        {
+          "id": "hub/app.py#launch:41:5$v4",
+          "kind": "global",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 43,
+            "column": 23
+          },
+          "name": "functools"
+        },
+        {
+          "id": "hub/app.py#launch:41:5$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 43,
+            "column": 23
+          },
+          "name": "functools.partial"
+        },
+        {
+          "id": "hub/app.py#launch:41:5$v6",
+          "kind": "global",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 43,
+            "column": 9
+          },
+          "name": "hub.loop"
+        },
+        {
+          "id": "hub/app.py#launch:41:5$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 43,
+            "column": 9
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [
+        {
+          "from": "hub/app.py#launch:41:5$v1",
+          "to": "hub/app.py#launch:41:5$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 42,
+            "column": 9
+          },
+          "block": "hub/app.py#launch:41:5$b0"
+        },
+        {
+          "from": "hub/app.py#launch:41:5$v2",
+          "to": "hub/app.py#launch:41:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 43,
+            "column": 41
+          },
+          "block": "hub/app.py#launch:41:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "hub/app.py#launch:41:5$c0",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 42,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cls",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "hub/app.py#launch:41:5$v1",
+          "block": "hub/app.py#launch:41:5$b0",
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "hub/app.py#launch:41:5$c1",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 43,
+            "column": 23
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "functools.partial",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "hub/app.py#launch:41:5$v3",
+              "functionId": "hub/app.py#start_async:45:5"
+            }
+          ],
+          "resultValueId": "hub/app.py#launch:41:5$v5",
+          "block": "hub/app.py#launch:41:5$b0",
+          "method": "partial",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "hub/app.py#launch:41:5$v4"
+        },
+        {
+          "id": "hub/app.py#launch:41:5$c2",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 43,
+            "column": 9
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "hub/loop.py#run_sync:4:1",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "hub/app.py#launch:41:5$v5"
+            }
+          ],
+          "resultValueId": "hub/app.py#launch:41:5$v7",
+          "block": "hub/app.py#launch:41:5$b0",
+          "method": "run_sync",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "hub/app.py#launch:41:5$v6"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "hub/app.py#launch:41:5$b0",
+      "blocks": [
+        {
+          "id": "hub/app.py#launch:41:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "hub/app.py",
+            "line": 41,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "hub/app.py#start_async:45:5",
+      "name": "start_async",
+      "module": "hub/app.py",
+      "loc": {
+        "file": "hub/app.py",
+        "line": 45,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "hub/app.py#start_async:45:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "hub/app.py#start_async:45:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 45,
+            "column": 21
+          },
+          "name": "self"
+        },
+        {
+          "id": "hub/app.py#start_async:45:5$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 46,
+            "column": 9
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "hub/app.py#start_async:45:5$c0",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 46,
+            "column": 9
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "hub/app.py#initialize:48:5",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "hub/app.py#start_async:45:5$v1",
+          "block": "hub/app.py#start_async:45:5$b0",
+          "method": "initialize",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "hub/app.py#start_async:45:5$v0"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "hub/app.py#start_async:45:5$b0",
+      "blocks": [
+        {
+          "id": "hub/app.py#start_async:45:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "hub/app.py",
+            "line": 45,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "hub/app.py#initialize:48:5",
+      "name": "initialize",
+      "module": "hub/app.py",
+      "loc": {
+        "file": "hub/app.py",
+        "line": 48,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "hub/app.py#initialize:48:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "hub/app.py#initialize:48:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 48,
+            "column": 20
+          },
+          "name": "self"
+        },
+        {
+          "id": "hub/app.py#initialize:48:5$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 49,
+            "column": 9
+          },
+          "name": "local"
+        },
+        {
+          "id": "hub/app.py#initialize:48:5$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 50,
+            "column": 9
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "hub/app.py#initialize:48:5$c0",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 49,
+            "column": 9
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "hub/app.py#report_boot:57:5",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "hub/app.py#initialize:48:5$v1",
+          "block": "hub/app.py#initialize:48:5$b0",
+          "method": "report_boot",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "hub/app.py#initialize:48:5$v0"
+        },
+        {
+          "id": "hub/app.py#initialize:48:5$c1",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 50,
+            "column": 9
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "hub/app.py#init_secrets:65:5",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "hub/app.py#initialize:48:5$v2",
+          "block": "hub/app.py#initialize:48:5$b0",
+          "method": "init_secrets",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "hub/app.py#initialize:48:5$v0"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "hub/app.py#initialize:48:5$b0",
+      "blocks": [
+        {
+          "id": "hub/app.py#initialize:48:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "hub/app.py",
+            "line": 48,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "hub/app.py#report_boot:57:5",
+      "name": "report_boot",
+      "module": "hub/app.py",
+      "loc": {
+        "file": "hub/app.py",
+        "line": 57,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "hub/app.py#report_boot:57:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "hub/app.py#report_boot:57:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 57,
+            "column": 21
+          },
+          "name": "self"
+        },
+        {
+          "id": "hub/app.py#report_boot:57:5$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 58,
+            "column": 23
+          },
+          "literal": "https://telemetry.example/boot"
+        },
+        {
+          "id": "hub/app.py#report_boot:57:5$v2",
+          "kind": "global",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 58,
+            "column": 62
+          },
+          "name": "os"
+        },
+        {
+          "id": "hub/app.py#report_boot:57:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 58,
+            "column": 62
+          },
+          "base": "hub/app.py#report_boot:57:5$v2",
+          "path": "environ",
+          "name": "environ"
+        },
+        {
+          "id": "hub/app.py#report_boot:57:5$v4",
+          "kind": "global",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 58,
+            "column": 9
+          },
+          "name": "requests"
+        },
+        {
+          "id": "hub/app.py#report_boot:57:5$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 58,
+            "column": 9
+          },
+          "name": "requests.post"
+        }
+      ],
+      "flows": [
+        {
+          "from": "hub/app.py#report_boot:57:5$v2",
+          "to": "hub/app.py#report_boot:57:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 58,
+            "column": 62
+          },
+          "block": "hub/app.py#report_boot:57:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "hub/app.py#report_boot:57:5$c0",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 58,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "requests.post",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "hub/app.py#report_boot:57:5$v1"
+            },
+            {
+              "index": 1,
+              "valueId": "hub/app.py#report_boot:57:5$v3"
+            }
+          ],
+          "resultValueId": "hub/app.py#report_boot:57:5$v5",
+          "block": "hub/app.py#report_boot:57:5$b0",
+          "method": "post",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "https://telemetry.example/boot",
+            "-1": "json=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "hub/app.py#report_boot:57:5$v4"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "hub/app.py#report_boot:57:5$b0",
+      "blocks": [
+        {
+          "id": "hub/app.py#report_boot:57:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "hub/app.py",
+            "line": 57,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "hub/app.py#init_secrets:65:5",
+      "name": "init_secrets",
+      "module": "hub/app.py",
+      "loc": {
+        "file": "hub/app.py",
+        "line": 65,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "hub/app.py#init_secrets:65:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "hub/app.py#init_secrets:65:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 65,
+            "column": 22
+          },
+          "name": "self"
+        },
+        {
+          "id": "hub/app.py#init_secrets:65:5$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 66,
+            "column": 32
+          },
+          "literal": "HUB_TOKEN"
+        },
+        {
+          "id": "hub/app.py#init_secrets:65:5$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 66,
+            "column": 45
+          },
+          "literal": ""
+        },
+        {
+          "id": "hub/app.py#init_secrets:65:5$v3",
+          "kind": "global",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 66,
+            "column": 17
+          },
+          "name": "os"
+        },
+        {
+          "id": "hub/app.py#init_secrets:65:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 66,
+            "column": 17
+          },
+          "base": "hub/app.py#init_secrets:65:5$v3",
+          "path": "environ",
+          "name": "environ"
+        },
+        {
+          "id": "hub/app.py#init_secrets:65:5$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 66,
+            "column": 17
+          },
+          "name": "os.environ.get"
+        },
+        {
+          "id": "hub/app.py#init_secrets:65:5$v6",
+          "kind": "local",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 66,
+            "column": 9
+          },
+          "name": "token"
+        },
+        {
+          "id": "hub/app.py#init_secrets:65:5$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 67,
+            "column": 16
+          },
+          "name": "len"
+        }
+      ],
+      "flows": [
+        {
+          "from": "hub/app.py#init_secrets:65:5$v3",
+          "to": "hub/app.py#init_secrets:65:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 66,
+            "column": 17
+          },
+          "block": "hub/app.py#init_secrets:65:5$b0"
+        },
+        {
+          "from": "hub/app.py#init_secrets:65:5$v5",
+          "to": "hub/app.py#init_secrets:65:5$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 66,
+            "column": 9
+          },
+          "block": "hub/app.py#init_secrets:65:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "hub/app.py#init_secrets:65:5$c0",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 66,
+            "column": 17
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "os.environ.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "hub/app.py#init_secrets:65:5$v1"
+            },
+            {
+              "index": 1,
+              "valueId": "hub/app.py#init_secrets:65:5$v2"
+            }
+          ],
+          "resultValueId": "hub/app.py#init_secrets:65:5$v5",
+          "block": "hub/app.py#init_secrets:65:5$b0",
+          "method": "get",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "HUB_TOKEN",
+            "1": ""
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "hub/app.py#init_secrets:65:5$v4"
+        },
+        {
+          "id": "hub/app.py#init_secrets:65:5$c1",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 67,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "len",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "hub/app.py#init_secrets:65:5$v6"
+            }
+          ],
+          "resultValueId": "hub/app.py#init_secrets:65:5$v7",
+          "block": "hub/app.py#init_secrets:65:5$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "hub/app.py#init_secrets:65:5$v7"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "hub/app.py#init_secrets:65:5$b0",
+      "blocks": [
+        {
+          "id": "hub/app.py#init_secrets:65:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "hub/app.py",
+            "line": 65,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "hub/app.py#init_secrets:65:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "hub/app.py",
+            "line": 67,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "hub/loop.py#<module>:0:0",
+      "name": "<module>",
+      "module": "hub/loop.py",
+      "loc": {
+        "file": "hub/loop.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "hub/loop.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "hub/loop.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "An event loop, standing in for the one a real application borrows from its framework."
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "hub/loop.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "hub/loop.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "hub/loop.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "hub/loop.py#run_sync:4:1",
+      "name": "run_sync",
+      "module": "hub/loop.py",
+      "loc": {
+        "file": "hub/loop.py",
+        "line": 4,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "fn",
+          "valueId": "hub/loop.py#run_sync:4:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "hub/loop.py#run_sync:4:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "hub/loop.py",
+            "line": 4,
+            "column": 14
+          },
+          "name": "fn"
+        },
+        {
+          "id": "hub/loop.py#run_sync:4:1$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "hub/loop.py",
+            "line": 5,
+            "column": 12
+          },
+          "name": "fn"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "hub/loop.py#run_sync:4:1$c0",
+          "loc": {
+            "file": "hub/loop.py",
+            "line": 5,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "fn",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "hub/loop.py#run_sync:4:1$v1",
+          "block": "hub/loop.py#run_sync:4:1$b0",
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "hub/loop.py#run_sync:4:1$v1"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "hub/loop.py#run_sync:4:1$b0",
+      "blocks": [
+        {
+          "id": "hub/loop.py#run_sync:4:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "hub/loop.py",
+            "line": 4,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "hub/loop.py#run_sync:4:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "hub/loop.py",
+            "line": 5,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "tools.py#<module>:0:0",
+      "name": "<module>",
+      "module": "tools.py",
+      "loc": {
+        "file": "tools.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "tools.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "tools.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "SILENT -- a module with no program start in it.\n\nIts top level does work, exactly as every module's does, and it is not where a process\nbegins. Treating module-level initialization as an entry point wherever it appears would\nmake one of every settings file in a tree, and the surface is the engine's primary output\n(ADR-009): a count that includes every import side effect is not a surface anyone can\naudit against the application they know.\n"
+        },
+        {
+          "id": "tools.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "tools.py",
+            "line": 14,
+            "column": 12
+          },
+          "name": "{dict}"
+        },
+        {
+          "id": "tools.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "tools.py",
+            "line": 14,
+            "column": 24
+          },
+          "literal": "3"
+        },
+        {
+          "id": "tools.py#<module>:0:0$v3",
+          "kind": "local",
+          "loc": {
+            "file": "tools.py",
+            "line": 14,
+            "column": 1
+          },
+          "name": "SETTINGS"
+        }
+      ],
+      "flows": [
+        {
+          "from": "tools.py#<module>:0:0$v2",
+          "to": "tools.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "tools.py",
+            "line": 14,
+            "column": 12
+          },
+          "block": "tools.py#<module>:0:0$b0"
+        },
+        {
+          "from": "tools.py#<module>:0:0$v1",
+          "to": "tools.py#<module>:0:0$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "tools.py",
+            "line": 14,
+            "column": 1
+          },
+          "block": "tools.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "tools.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "tools.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "tools.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "tools.py#dump_environment:17:1",
+      "name": "dump_environment",
+      "module": "tools.py",
+      "loc": {
+        "file": "tools.py",
+        "line": 17,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "tools.py#dump_environment:17:1$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "tools.py",
+            "line": 18,
+            "column": 19
+          },
+          "literal": "https://telemetry.example/tools"
+        },
+        {
+          "id": "tools.py#dump_environment:17:1$v1",
+          "kind": "global",
+          "loc": {
+            "file": "tools.py",
+            "line": 18,
+            "column": 59
+          },
+          "name": "os"
+        },
+        {
+          "id": "tools.py#dump_environment:17:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "tools.py",
+            "line": 18,
+            "column": 59
+          },
+          "base": "tools.py#dump_environment:17:1$v1",
+          "path": "environ",
+          "name": "environ"
+        },
+        {
+          "id": "tools.py#dump_environment:17:1$v3",
+          "kind": "global",
+          "loc": {
+            "file": "tools.py",
+            "line": 18,
+            "column": 5
+          },
+          "name": "requests"
+        },
+        {
+          "id": "tools.py#dump_environment:17:1$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "tools.py",
+            "line": 18,
+            "column": 5
+          },
+          "name": "requests.post"
+        }
+      ],
+      "flows": [
+        {
+          "from": "tools.py#dump_environment:17:1$v1",
+          "to": "tools.py#dump_environment:17:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "tools.py",
+            "line": 18,
+            "column": 59
+          },
+          "block": "tools.py#dump_environment:17:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "tools.py#dump_environment:17:1$c0",
+          "loc": {
+            "file": "tools.py",
+            "line": 18,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "requests.post",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "tools.py#dump_environment:17:1$v0"
+            },
+            {
+              "index": 1,
+              "valueId": "tools.py#dump_environment:17:1$v2"
+            }
+          ],
+          "resultValueId": "tools.py#dump_environment:17:1$v4",
+          "block": "tools.py#dump_environment:17:1$b0",
+          "method": "post",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "https://telemetry.example/tools",
+            "-1": "json=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "tools.py#dump_environment:17:1$v3"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "tools.py#dump_environment:17:1$b0",
+      "blocks": [
+        {
+          "id": "tools.py#dump_environment:17:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "tools.py",
+            "line": 17,
+            "column": 1
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "devscripts/release.py#<module>:0:0",
+      "kind": "process-start",
+      "trust": "operator",
+      "detail": {
+        "module": "devscripts/release.py",
+        "start": "__main__ guard"
+      }
+    },
+    {
+      "functionId": "hub/app.py#<module>:0:0",
+      "kind": "process-start",
+      "trust": "operator",
+      "detail": {
+        "module": "hub/app.py",
+        "start": "__main__ guard"
+      }
+    }
+  ]
+}

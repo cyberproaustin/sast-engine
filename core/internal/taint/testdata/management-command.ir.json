@@ -1,0 +1,1200 @@
+{
+  "irVersion": "0.15.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi",
+        "django",
+        "tornado"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "commands.py",
+      "path": "commands.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "commands.py#<module>:0:0",
+      "name": "<module>",
+      "module": "commands.py",
+      "loc": {
+        "file": "commands.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "commands.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "commands.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "Django management commands: an entry point that is not a route.\n\nA command runs with everything the application has -- its database, its secrets, its\nnetwork -- over arguments a person typed at a shell. Nothing routes to `handle`, so\nbefore this class existed no enumerated entry point reached any of this code and every\ndefect in it was not judged and found clean but never asked about, which is the failure\nADR-009 exists to prevent.\n\nThe trust label is the other half, and it cuts BOTH ways. Somebody who can run\n`manage.py` already has the host, so a shell metacharacter they type is not the same\nfinding as one a stranger posts to a route -- reporting the two at one rank would\noverstate this one. And it is emphatically not nothing: operators paste values from\ntickets, cron entries and CI variables into these arguments, and the interpolation below\nis a real defect. So it is reported, at warning, and it does not fail a build.\n"
+        },
+        {
+          "id": "commands.py#<module>:0:0$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "commands.py",
+            "line": 26,
+            "column": 5
+          },
+          "literal": "`manage.py probehost <host> --shell` -- argparse fills `handle` in."
+        },
+        {
+          "id": "commands.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "commands.py",
+            "line": 28,
+            "column": 12
+          },
+          "literal": "Check that a host answers."
+        },
+        {
+          "id": "commands.py#<module>:0:0$v3",
+          "kind": "local",
+          "loc": {
+            "file": "commands.py",
+            "line": 28,
+            "column": 5
+          },
+          "name": "help"
+        },
+        {
+          "id": "commands.py#<module>:0:0$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "commands.py",
+            "line": 44,
+            "column": 5
+          },
+          "literal": "A second command, reading its option out of the keyword dictionary."
+        },
+        {
+          "id": "commands.py#<module>:0:0$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "commands.py",
+            "line": 61,
+            "column": 5
+          },
+          "literal": "SILENT -- a class with a `handle` method that is not a command.\n\n    Nothing derives this from a management-command base, so nothing about it says an\n    operator ever runs it, and its parameter is an ordinary argument some other part of\n    the program passes. The base class is what decides, not the method name and not the\n    directory: keying on `management/commands/` would have enumerated an `__init__.py`\n    and missed a command a project keeps somewhere else.\n    "
+        },
+        {
+          "id": "commands.py#<module>:0:0$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "commands.py",
+            "line": 75,
+            "column": 5
+          },
+          "literal": "SILENT -- a command that runs a fixed command line.\n\n    Enumerated as an entry point, because it is one. It reports nothing because nothing\n    an operator typed reaches the interpreter: every part of this was written down in\n    the source and is the same in every clone of the repository.\n    "
+        }
+      ],
+      "flows": [
+        {
+          "from": "commands.py#<module>:0:0$v2",
+          "to": "commands.py#<module>:0:0$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "commands.py",
+            "line": 28,
+            "column": 5
+          },
+          "block": "commands.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "commands.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "commands.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "commands.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "commands.py#add_arguments:30:5",
+      "name": "add_arguments",
+      "module": "commands.py",
+      "loc": {
+        "file": "commands.py",
+        "line": 30,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "commands.py#add_arguments:30:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "parser",
+          "valueId": "commands.py#add_arguments:30:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "commands.py#add_arguments:30:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "commands.py",
+            "line": 30,
+            "column": 23
+          },
+          "name": "self"
+        },
+        {
+          "id": "commands.py#add_arguments:30:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "commands.py",
+            "line": 30,
+            "column": 29
+          },
+          "name": "parser"
+        },
+        {
+          "id": "commands.py#add_arguments:30:5$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "commands.py",
+            "line": 34,
+            "column": 29
+          },
+          "literal": "host"
+        },
+        {
+          "id": "commands.py#add_arguments:30:5$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "commands.py",
+            "line": 34,
+            "column": 42
+          },
+          "literal": "hostname to probe"
+        },
+        {
+          "id": "commands.py#add_arguments:30:5$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "commands.py",
+            "line": 34,
+            "column": 9
+          },
+          "name": "parser.add_argument"
+        },
+        {
+          "id": "commands.py#add_arguments:30:5$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "commands.py",
+            "line": 35,
+            "column": 29
+          },
+          "literal": "--attempts"
+        },
+        {
+          "id": "commands.py#add_arguments:30:5$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "commands.py",
+            "line": 35,
+            "column": 61
+          },
+          "literal": "1"
+        },
+        {
+          "id": "commands.py#add_arguments:30:5$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "commands.py",
+            "line": 35,
+            "column": 9
+          },
+          "name": "parser.add_argument"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "commands.py#add_arguments:30:5$c0",
+          "loc": {
+            "file": "commands.py",
+            "line": 34,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "parser.add_argument",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "commands.py#add_arguments:30:5$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "commands.py#add_arguments:30:5$v3"
+            }
+          ],
+          "resultValueId": "commands.py#add_arguments:30:5$v4",
+          "block": "commands.py#add_arguments:30:5$b0",
+          "method": "add_argument",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "host",
+            "-1": "help=hostname to probe"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "commands.py#add_arguments:30:5$v1"
+        },
+        {
+          "id": "commands.py#add_arguments:30:5$c1",
+          "loc": {
+            "file": "commands.py",
+            "line": 35,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "parser.add_argument",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "commands.py#add_arguments:30:5$v5"
+            },
+            {
+              "index": 1,
+              "valueId": "commands.py#add_arguments:30:5$v6"
+            }
+          ],
+          "resultValueId": "commands.py#add_arguments:30:5$v7",
+          "block": "commands.py#add_arguments:30:5$b0",
+          "method": "add_argument",
+          "argCount": 3,
+          "argLiterals": {
+            "0": "--attempts",
+            "-1": "type=?",
+            "-2": "default=1"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "commands.py#add_arguments:30:5$v1"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "commands.py#add_arguments:30:5$b0",
+      "blocks": [
+        {
+          "id": "commands.py#add_arguments:30:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "commands.py",
+            "line": 30,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "commands.py#handle:38:5",
+      "name": "handle",
+      "module": "commands.py",
+      "loc": {
+        "file": "commands.py",
+        "line": 38,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "commands.py#handle:38:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "host",
+          "valueId": "commands.py#handle:38:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "attempts",
+          "valueId": "commands.py#handle:38:5$v2"
+        },
+        {
+          "index": 3,
+          "name": "options",
+          "valueId": "commands.py#handle:38:5$v3"
+        }
+      ],
+      "values": [
+        {
+          "id": "commands.py#handle:38:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "commands.py",
+            "line": 38,
+            "column": 16
+          },
+          "name": "self"
+        },
+        {
+          "id": "commands.py#handle:38:5$v1",
+          "kind": "operator-param",
+          "loc": {
+            "file": "commands.py",
+            "line": 38,
+            "column": 22
+          },
+          "name": "host"
+        },
+        {
+          "id": "commands.py#handle:38:5$v2",
+          "kind": "operator-param",
+          "loc": {
+            "file": "commands.py",
+            "line": 38,
+            "column": 28
+          },
+          "name": "attempts"
+        },
+        {
+          "id": "commands.py#handle:38:5$v3",
+          "kind": "operator-param",
+          "loc": {
+            "file": "commands.py",
+            "line": 38,
+            "column": 40
+          },
+          "name": "options"
+        },
+        {
+          "id": "commands.py#handle:38:5$v4",
+          "kind": "local",
+          "loc": {
+            "file": "commands.py",
+            "line": 39,
+            "column": 19
+          },
+          "name": "concat"
+        },
+        {
+          "id": "commands.py#handle:38:5$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "commands.py",
+            "line": 39,
+            "column": 19
+          },
+          "literal": "ping -c %s %s"
+        },
+        {
+          "id": "commands.py#handle:38:5$v6",
+          "kind": "local",
+          "loc": {
+            "file": "commands.py",
+            "line": 39,
+            "column": 37
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "commands.py#handle:38:5$v7",
+          "kind": "global",
+          "loc": {
+            "file": "commands.py",
+            "line": 39,
+            "column": 9
+          },
+          "name": "os"
+        },
+        {
+          "id": "commands.py#handle:38:5$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "commands.py",
+            "line": 39,
+            "column": 9
+          },
+          "name": "os.system"
+        },
+        {
+          "id": "commands.py#handle:38:5$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "commands.py",
+            "line": 40,
+            "column": 16
+          },
+          "literal": "done"
+        }
+      ],
+      "flows": [
+        {
+          "from": "commands.py#handle:38:5$v5",
+          "to": "commands.py#handle:38:5$v4",
+          "kind": "binary",
+          "loc": {
+            "file": "commands.py",
+            "line": 39,
+            "column": 19
+          },
+          "block": "commands.py#handle:38:5$b0"
+        },
+        {
+          "from": "commands.py#handle:38:5$v2",
+          "to": "commands.py#handle:38:5$v6",
+          "kind": "enclose",
+          "loc": {
+            "file": "commands.py",
+            "line": 39,
+            "column": 37
+          },
+          "block": "commands.py#handle:38:5$b0"
+        },
+        {
+          "from": "commands.py#handle:38:5$v1",
+          "to": "commands.py#handle:38:5$v6",
+          "kind": "enclose",
+          "loc": {
+            "file": "commands.py",
+            "line": 39,
+            "column": 37
+          },
+          "block": "commands.py#handle:38:5$b0"
+        },
+        {
+          "from": "commands.py#handle:38:5$v6",
+          "to": "commands.py#handle:38:5$v4",
+          "kind": "binary",
+          "loc": {
+            "file": "commands.py",
+            "line": 39,
+            "column": 19
+          },
+          "block": "commands.py#handle:38:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "commands.py#handle:38:5$c0",
+          "loc": {
+            "file": "commands.py",
+            "line": 39,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "os.system",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "commands.py#handle:38:5$v4"
+            }
+          ],
+          "resultValueId": "commands.py#handle:38:5$v8",
+          "block": "commands.py#handle:38:5$b0",
+          "method": "system",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "commands.py#handle:38:5$v7"
+        }
+      ],
+      "returns": [
+        "commands.py#handle:38:5$v9"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "commands.py#handle:38:5$b0",
+      "blocks": [
+        {
+          "id": "commands.py#handle:38:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "commands.py",
+            "line": 38,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "commands.py#handle:38:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "commands.py",
+            "line": 40,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "commands.py#add_arguments:46:5",
+      "name": "add_arguments",
+      "module": "commands.py",
+      "loc": {
+        "file": "commands.py",
+        "line": 46,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "commands.py#add_arguments:46:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "parser",
+          "valueId": "commands.py#add_arguments:46:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "commands.py#add_arguments:46:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "commands.py",
+            "line": 46,
+            "column": 23
+          },
+          "name": "self"
+        },
+        {
+          "id": "commands.py#add_arguments:46:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "commands.py",
+            "line": 46,
+            "column": 29
+          },
+          "name": "parser"
+        },
+        {
+          "id": "commands.py#add_arguments:46:5$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "commands.py",
+            "line": 47,
+            "column": 29
+          },
+          "literal": "--output"
+        },
+        {
+          "id": "commands.py#add_arguments:46:5$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "commands.py",
+            "line": 47,
+            "column": 49
+          },
+          "literal": "/tmp/report.csv"
+        },
+        {
+          "id": "commands.py#add_arguments:46:5$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "commands.py",
+            "line": 47,
+            "column": 9
+          },
+          "name": "parser.add_argument"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "commands.py#add_arguments:46:5$c0",
+          "loc": {
+            "file": "commands.py",
+            "line": 47,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "parser.add_argument",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "commands.py#add_arguments:46:5$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "commands.py#add_arguments:46:5$v3"
+            }
+          ],
+          "resultValueId": "commands.py#add_arguments:46:5$v4",
+          "block": "commands.py#add_arguments:46:5$b0",
+          "method": "add_argument",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "--output",
+            "-1": "default=/tmp/report.csv"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "commands.py#add_arguments:46:5$v1"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "commands.py#add_arguments:46:5$b0",
+      "blocks": [
+        {
+          "id": "commands.py#add_arguments:46:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "commands.py",
+            "line": 46,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "commands.py#handle:56:5",
+      "name": "handle",
+      "module": "commands.py",
+      "loc": {
+        "file": "commands.py",
+        "line": 56,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "commands.py#handle:56:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "options",
+          "valueId": "commands.py#handle:56:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "commands.py#handle:56:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "commands.py",
+            "line": 56,
+            "column": 16
+          },
+          "name": "self"
+        },
+        {
+          "id": "commands.py#handle:56:5$v1",
+          "kind": "operator-param",
+          "loc": {
+            "file": "commands.py",
+            "line": 56,
+            "column": 24
+          },
+          "name": "options"
+        },
+        {
+          "id": "commands.py#handle:56:5$v2",
+          "kind": "local",
+          "loc": {
+            "file": "commands.py",
+            "line": 57,
+            "column": 24
+          },
+          "name": "concat"
+        },
+        {
+          "id": "commands.py#handle:56:5$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "commands.py",
+            "line": 57,
+            "column": 24
+          },
+          "literal": "gzip "
+        },
+        {
+          "id": "commands.py#handle:56:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "commands.py",
+            "line": 57,
+            "column": 34
+          },
+          "name": "output",
+          "base": "commands.py#handle:56:5$v1",
+          "path": "output"
+        },
+        {
+          "id": "commands.py#handle:56:5$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "commands.py",
+            "line": 57,
+            "column": 59
+          },
+          "literal": "true"
+        },
+        {
+          "id": "commands.py#handle:56:5$v6",
+          "kind": "global",
+          "loc": {
+            "file": "commands.py",
+            "line": 57,
+            "column": 9
+          },
+          "name": "subprocess"
+        },
+        {
+          "id": "commands.py#handle:56:5$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "commands.py",
+            "line": 57,
+            "column": 9
+          },
+          "name": "subprocess.run"
+        }
+      ],
+      "flows": [
+        {
+          "from": "commands.py#handle:56:5$v3",
+          "to": "commands.py#handle:56:5$v2",
+          "kind": "binary",
+          "loc": {
+            "file": "commands.py",
+            "line": 57,
+            "column": 24
+          },
+          "block": "commands.py#handle:56:5$b0"
+        },
+        {
+          "from": "commands.py#handle:56:5$v1",
+          "to": "commands.py#handle:56:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "commands.py",
+            "line": 57,
+            "column": 34
+          },
+          "block": "commands.py#handle:56:5$b0"
+        },
+        {
+          "from": "commands.py#handle:56:5$v4",
+          "to": "commands.py#handle:56:5$v2",
+          "kind": "binary",
+          "loc": {
+            "file": "commands.py",
+            "line": 57,
+            "column": 24
+          },
+          "block": "commands.py#handle:56:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "commands.py#handle:56:5$c0",
+          "loc": {
+            "file": "commands.py",
+            "line": 57,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "subprocess.run",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "commands.py#handle:56:5$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "commands.py#handle:56:5$v5"
+            }
+          ],
+          "resultValueId": "commands.py#handle:56:5$v7",
+          "block": "commands.py#handle:56:5$b0",
+          "method": "run",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "shell=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "commands.py#handle:56:5$v6"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "commands.py#handle:56:5$b0",
+      "blocks": [
+        {
+          "id": "commands.py#handle:56:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "commands.py",
+            "line": 56,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "commands.py#handle:70:5",
+      "name": "handle",
+      "module": "commands.py",
+      "loc": {
+        "file": "commands.py",
+        "line": 70,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "commands.py#handle:70:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "host",
+          "valueId": "commands.py#handle:70:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "commands.py#handle:70:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "commands.py",
+            "line": 70,
+            "column": 16
+          },
+          "name": "self"
+        },
+        {
+          "id": "commands.py#handle:70:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "commands.py",
+            "line": 70,
+            "column": 22
+          },
+          "name": "host"
+        },
+        {
+          "id": "commands.py#handle:70:5$v2",
+          "kind": "local",
+          "loc": {
+            "file": "commands.py",
+            "line": 71,
+            "column": 19
+          },
+          "name": "concat"
+        },
+        {
+          "id": "commands.py#handle:70:5$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "commands.py",
+            "line": 71,
+            "column": 19
+          },
+          "literal": "ping -c 1 "
+        },
+        {
+          "id": "commands.py#handle:70:5$v4",
+          "kind": "global",
+          "loc": {
+            "file": "commands.py",
+            "line": 71,
+            "column": 9
+          },
+          "name": "os"
+        },
+        {
+          "id": "commands.py#handle:70:5$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "commands.py",
+            "line": 71,
+            "column": 9
+          },
+          "name": "os.system"
+        }
+      ],
+      "flows": [
+        {
+          "from": "commands.py#handle:70:5$v3",
+          "to": "commands.py#handle:70:5$v2",
+          "kind": "binary",
+          "loc": {
+            "file": "commands.py",
+            "line": 71,
+            "column": 19
+          },
+          "block": "commands.py#handle:70:5$b0"
+        },
+        {
+          "from": "commands.py#handle:70:5$v1",
+          "to": "commands.py#handle:70:5$v2",
+          "kind": "binary",
+          "loc": {
+            "file": "commands.py",
+            "line": 71,
+            "column": 19
+          },
+          "block": "commands.py#handle:70:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "commands.py#handle:70:5$c0",
+          "loc": {
+            "file": "commands.py",
+            "line": 71,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "os.system",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "commands.py#handle:70:5$v2"
+            }
+          ],
+          "resultValueId": "commands.py#handle:70:5$v5",
+          "block": "commands.py#handle:70:5$b0",
+          "method": "system",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "commands.py#handle:70:5$v4"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "commands.py#handle:70:5$b0",
+      "blocks": [
+        {
+          "id": "commands.py#handle:70:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "commands.py",
+            "line": 70,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "commands.py#handle:82:5",
+      "name": "handle",
+      "module": "commands.py",
+      "loc": {
+        "file": "commands.py",
+        "line": 82,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "commands.py#handle:82:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "options",
+          "valueId": "commands.py#handle:82:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "commands.py#handle:82:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "commands.py",
+            "line": 82,
+            "column": 16
+          },
+          "name": "self"
+        },
+        {
+          "id": "commands.py#handle:82:5$v1",
+          "kind": "operator-param",
+          "loc": {
+            "file": "commands.py",
+            "line": 82,
+            "column": 24
+          },
+          "name": "options"
+        },
+        {
+          "id": "commands.py#handle:82:5$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "commands.py",
+            "line": 83,
+            "column": 19
+          },
+          "literal": "vacuumdb --analyze"
+        },
+        {
+          "id": "commands.py#handle:82:5$v3",
+          "kind": "global",
+          "loc": {
+            "file": "commands.py",
+            "line": 83,
+            "column": 9
+          },
+          "name": "os"
+        },
+        {
+          "id": "commands.py#handle:82:5$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "commands.py",
+            "line": 83,
+            "column": 9
+          },
+          "name": "os.system"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "commands.py#handle:82:5$c0",
+          "loc": {
+            "file": "commands.py",
+            "line": 83,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "os.system",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "commands.py#handle:82:5$v2"
+            }
+          ],
+          "resultValueId": "commands.py#handle:82:5$v4",
+          "block": "commands.py#handle:82:5$b0",
+          "method": "system",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "vacuumdb --analyze"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "commands.py#handle:82:5$v3"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "commands.py#handle:82:5$b0",
+      "blocks": [
+        {
+          "id": "commands.py#handle:82:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "commands.py",
+            "line": 82,
+            "column": 5
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "commands.py#handle:38:5",
+      "kind": "cli-command",
+      "framework": "django",
+      "trust": "operator",
+      "detail": {
+        "module": "commands.py",
+        "command": "commands",
+        "class": "Command",
+        "arguments": "host attempts"
+      }
+    },
+    {
+      "functionId": "commands.py#handle:56:5",
+      "kind": "cli-command",
+      "framework": "django",
+      "trust": "operator",
+      "detail": {
+        "module": "commands.py",
+        "command": "commands",
+        "class": "ReportCommand",
+        "arguments": "output"
+      }
+    },
+    {
+      "functionId": "commands.py#handle:82:5",
+      "kind": "cli-command",
+      "framework": "django",
+      "trust": "operator",
+      "detail": {
+        "module": "commands.py",
+        "command": "commands",
+        "class": "VacuumCommand"
+      }
+    }
+  ]
+}

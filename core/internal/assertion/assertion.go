@@ -266,7 +266,7 @@ func notEvaluated(req Requirement, res scan.Result, skipped map[string][]string)
 	// examples directory and none of the sixty-two real ones. searxng printed six
 	// satisfied with 128 of its 130 input-reading functions unreached. A false positive
 	// wastes somebody's afternoon; this tells them their application is fine.
-	if res.Surface.Completeness.Suspect(len(res.Surface.Entries)) {
+	if res.Surface.Completeness.Suspect(res.Surface.RemoteEntries()) {
 		return fmt.Sprintf(
 			"the enumerated surface is incomplete: %d function(s) read caller-supplied input that no entry point reaches, against %d enumerated",
 			res.Surface.Completeness.UnreachedInputFunctions, len(res.Surface.Entries)), true
