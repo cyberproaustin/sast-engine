@@ -1,0 +1,14 @@
+{
+  "corpus": "decipher-update",
+  "description": "A bare method name is not an object identity. Node Hash, Hmac, Cipheriv and Decipheriv objects all expose update because they stream bytes; an ORM model exposes update because it changes a shared record. The four clean crypto calls exercise both chained and assigned receiver provenance, including the two shapes that produced false CWE-639 findings in umami. The expected ORM finding holds recall: the record-selector channel still recognizes update everywhere except receivers structurally proven to come from one of the four crypto constructors.",
+  "expected": [
+    {
+      "cwe": "CWE-639",
+      "sinkFile": "app.ts",
+      "sinkLine": 61,
+      "sourceLabel": "req.body.accountId",
+      "confidence": "high",
+      "note": "the receiver came from an application model rather than a crypto constructor, so update remains a record-selector operation"
+    }
+  ]
+}
