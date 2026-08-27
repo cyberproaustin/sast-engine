@@ -865,6 +865,10 @@ func (e *engine) seedSources(prior map[string]*engine) {
 			e.seedByGlobalProperty(rule)
 		case model.MatchCallResult:
 			e.seedByCallResult(rule)
+		case model.MatchCallMethodResult:
+			e.seedByCallMethodResult(rule)
+		case model.MatchProperty:
+			e.seedByProperty(rule)
 		case model.MatchEntryCallProperty:
 			e.seedByEntryCallProperty(rule)
 		case model.MatchStoreRead:
@@ -1288,6 +1292,60 @@ func (e *engine) seedByCallResult(rule model.SourceRule) {
 				desc:       fmt.Sprintf("source: %s (%s)", label, e.class.Label),
 				loc:        c.Loc,
 				resolution: c.Callee.Resolution,
+			})
+		}
+	}
+}
+
+// seedByCallMethodResult is intentionally separate from symbol matching. The timing rule
+// needs one Tornado method, not a semantic change to every existing call-result source.
+func (e *engine) seedByCallMethodResult(rule model.SourceRule) {
+	for _, fn := range e.ix.IR.Functions {
+		for _, c := range fn.Calls {
+			if c.ResultID == "" || c.Method != rule.Method {
+				continue
+			}
+			label := rule.Method + "()"
+			entry, anchored := enclosingEntry(e.ix, fn)
+			sd := seed{label: label, entryPoint: entry, anchored: anchored, loc: c.Loc}
+			if ep, ok := EntryOf(e.ix, fn); ok {
+				sd.entryPoint, sd.anchored = describeEntry(*ep), true
+				sd.method, sd.path = ep.Detail["method"], ep.Detail["path"]
+				sd.trust = ep.TrustLevel()
+			}
+			e.seeds[c.ResultID] = sd
+			e.markTainted(c.ResultID, edge{
+				desc:       fmt.Sprintf("source: %s (%s)", label, e.class.Label),
+				loc:        c.Loc,
+				resolution: c.Callee.Resolution,
+			})
+		}
+	}
+}
+
+// seedByProperty marks a value whose property leaf states its security role. This is
+// deliberately not a local-name classifier: locals named token and secret are abundant,
+// while a property access is the program selecting a field with that role from a runtime
+// object. No finding rests on this class alone; a decision rule must relate it to caller
+// input before it can say anything.
+func (e *engine) seedByProperty(rule model.SourceRule) {
+	for _, fn := range e.ix.IR.Functions {
+		for _, v := range fn.Values {
+			if v.Kind != ir.ValueProperty || !leafMatches(v.Path, rule) {
+				continue
+			}
+			entry, anchored := enclosingEntry(e.ix, fn)
+			sd := seed{label: v.Path, entryPoint: entry, anchored: anchored, loc: v.Loc}
+			if ep, ok := EntryOf(e.ix, fn); ok {
+				sd.entryPoint, sd.anchored = describeEntry(*ep), true
+				sd.method, sd.path = ep.Detail["method"], ep.Detail["path"]
+				sd.trust = ep.TrustLevel()
+			}
+			e.seeds[v.ID] = sd
+			e.markTainted(v.ID, edge{
+				desc:       fmt.Sprintf("source: %s (%s)", v.Path, e.class.Label),
+				loc:        v.Loc,
+				resolution: ir.Resolved,
 			})
 		}
 	}

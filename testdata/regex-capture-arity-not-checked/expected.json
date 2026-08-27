@@ -1,0 +1,14 @@
+{
+  "corpus": "regex-capture-arity-not-checked",
+  "description": "A zero-capture regex result is read at index one, which is statically undefined even after checking that exec returned a match. The controls establish each boundary: positional and named captures make index one valid, index zero is the whole match, a runtime pattern has no static arity, and a reassigned result uses its latest definition.",
+  "expected": [
+    {
+      "cwe": "CWE-129",
+      "sinkFile": "app.js",
+      "sinkLine": 11,
+      "sourceLabel": "\"/^[^:]+:\\\\/\\\\/[^/]+/\"",
+      "confidence": "high",
+      "note": "the ternary checks that exec matched, but successful matches still have no element one because the pattern defines zero captures"
+    }
+  ]
+}
