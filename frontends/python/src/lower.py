@@ -2839,8 +2839,13 @@ class FunctionLowerer:
         # append/extend mutate the list object rather than returning its new contents. The
         # result-value flow therefore cannot carry an inserted caller value to a later
         # Popen; the receiver itself is the value that gained an element.
+        # An argument records a valueId, or a functionId, or a name, and not always all
+        # three: `queue.append(handler)` carries a function and no value at all. Reading the
+        # key unconditionally crashed the whole lowering of mitmproxy, which is worse than
+        # any finding it could have produced -- a repository that does not lower contributes
+        # nothing, and the run reads as a repository with nothing to say.
         if (receiver and receiver_type == "list" and method in ("append", "extend")
-                and args):
+                and args and args[0].get("valueId")):
             self.add_flow(args[0]["valueId"], receiver, method, node)
 
         # Thread(target=f, args=(...)) invokes f with the tuple's members. SearxNG hands
