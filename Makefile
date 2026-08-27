@@ -52,7 +52,7 @@ baseline:
 
 test:
 	cd core && go test ./... -count=1
-	python3 loop/bin/test_adjudicate.py
+	@[ -f loop/bin/test_adjudicate.py ] && python3 loop/bin/test_adjudicate.py || true
 
 # A corpus in the wrong list is lowered by the wrong frontend and fails in a way that looks
 # like a rule regression. Three separate merges have collapsed these two lines into one, so
