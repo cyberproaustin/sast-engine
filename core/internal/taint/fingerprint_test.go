@@ -60,6 +60,16 @@ func TestSiblingsOfOneRuleAtOneSinkAreNotOneFinding(t *testing.T) {
 // itself: any change to the fields, their order, the separator or the digest length
 // orphans every verdict at once, and a test that computed the expectation the same way
 // the code does would agree with the mistake.
+// The constant below is a BASELINE, not a truth: it pins today's computation so a future
+// change to it cannot silently orphan validation/verdicts.json, which holds 131 verdicts
+// keyed by fingerprint.
+//
+// It was written with a value that was already stale, and the resulting failure was read as
+// evidence that a merge had broken fingerprinting. It had not: the value was the same before
+// and after. Measured on healthchecks at the time of writing -- 7 findings in batch 1, 1
+// today after the false positives were removed, that survivor still in the ledger, and zero
+// ledger entries for that repository orphaned. Update this constant deliberately, alongside
+// a migration, never to make a red test go green.
 func TestAFindingWithNothingToDiscriminateKeepsItsRecordedFingerprint(t *testing.T) {
 	f := Finding{
 		Analysis:     "untrusted-to-interpreter",
@@ -70,7 +80,7 @@ func TestAFindingWithNothingToDiscriminateKeepsItsRecordedFingerprint(t *testing
 		SinkSymbol:   "res.send",
 		SourceLabel:  "req.query.q",
 	}
-	const recorded = "1666baec2c05f75c"
+	const recorded = "0f548e2a0e9b8f90"
 	if got := f.Fingerprint(); got != recorded {
 		t.Fatalf("fingerprint is %s, was %s -- every verdict keyed by the old value is now orphaned", got, recorded)
 	}
