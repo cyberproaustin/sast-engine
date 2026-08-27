@@ -48,6 +48,15 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 			out = append(out, siblingDifferential(ix, d, rule)...)
 		}
 	}
+	// The peer half of the omitted-control rule needs every function in view at once, but
+	// it reads the same graph the per-function loop below already builds. Collecting into
+	// it there and answering after costs one traversal rather than two.
+	var peers []*peerIndex
+	for _, rule := range m.Guards {
+		if rule.Omits != nil {
+			peers = append(peers, newPeerIndex(rule))
+		}
+	}
 	for _, fn := range d.Functions {
 		g := cfg.Build(fn)
 		if g == nil {
@@ -64,9 +73,22 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 			}
 		}
 
-		for _, rule := range m.Guards {
+		for i, rule := range m.Guards {
 			// Both of these were answered above, over the whole program.
 			if len(rule.Checks) > 0 || rule.Limiter != nil {
+				continue
+			}
+			if rule.Discards != nil {
+				out = append(out, discardedRestriction(ix, fn, g, rule)...)
+				continue
+			}
+			if rule.Omits != nil {
+				out = append(out, omittedOnBranch(ix, fn, g, rule)...)
+				for _, p := range peers {
+					if p.rule.ID == m.Guards[i].ID {
+						p.observe(ix, fn, g)
+					}
+				}
 				continue
 			}
 			if rule.LateFileMode != nil {
@@ -92,6 +114,9 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 				out = append(out, finding(ix, fn, c, rule, after))
 			}
 		}
+	}
+	for _, p := range peers {
+		out = append(out, p.report(ix)...)
 	}
 	return out
 }

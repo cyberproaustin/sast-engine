@@ -1,0 +1,30 @@
+{
+  "corpus": "express-control-coverage",
+  "description": "A control the program HAS, with a hole in what it covers. Every other rule that says a control is missing says it about an absence -- an entry point that lacks what its peers have -- and cannot tell an endpoint that is public by design from one that forgot; the CWE-306 rule reported medplum's deliberately public FHIR router for exactly that reason until the design said stop. What is different here is CONVERGENCE. The paths compared produce the same value and hand it to the same call, so no design explains guarding one and not the other, and the finding cites the program's own check rather than naming one the engine invented. Three positives, one per shape. `snapshots.ts` is two BRANCHES of one handler: both assign `snapshot`, both fall through to one redirect, and `canViewSnapshot` stands on the id branch only -- the archivebox shape. `broadcast.ts` is two PEERS of one class: three handlers with one signature performing one call on one parameter, two of them behind `canViewEvent` and the third not -- the paperless-ngx shape. `filters.ts` is the same hole read from the far end: a restriction accumulated and then abandoned by a return the line that attaches it is not reachable from -- the medplum shape. Four negatives, each a shape a looser reading of the same idea fires on. `status.ts` is the public route beside the protected one, which is the design this rule must never re-report: the two handlers share no value and end at different calls, so nothing pairs them. `exports.ts` is the broadcast positive shape exactly, cleared because the shared call is a LOOKUP -- taking a retrieval for an operation made twelve unrelated view classes of one paperless-ngx module peers of each other, and every one of those twelve findings was false. `documents.ts` has a check on one branch and not the other and is cleared by a SECOND check standing over the operation on every path, because what matters is what decides the operation rather than what each branch happens to contain. And the second `return` in `filters.ts` abandons the same accumulator through the same graph shape and is correct -- a policy naming no criteria allows everything -- so a bare early return is not reported and only the one that complains first is.",
+  "expected": [
+    {
+      "cwe": "CWE-862",
+      "sinkFile": "snapshots.ts",
+      "sinkLine": 32,
+      "sourceLabel": "snapshot",
+      "confidence": "high",
+      "note": "both branches assign the snapshot and both reach this redirect; the access question is asked on one of them"
+    },
+    {
+      "cwe": "CWE-862",
+      "sinkFile": "broadcast.ts",
+      "sinkLine": 30,
+      "sourceLabel": "event",
+      "confidence": "high",
+      "note": "two sibling handlers send this same event only after asking whether the subscriber may see it, and this one sends it"
+    },
+    {
+      "cwe": "CWE-636",
+      "sinkFile": "filters.ts",
+      "sinkLine": 29,
+      "sourceLabel": "expressions",
+      "confidence": "high",
+      "note": "the branch records that the criteria are malformed and returns, dropping the disjunction it had already built -- so the search runs wider than the policy allows"
+    }
+  ]
+}
