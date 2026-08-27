@@ -186,6 +186,50 @@ DRF_ROUTES = (
 )
 
 
+def drf_custom_actions(node: ast.ClassDef, members: dict[str, str]) -> list[tuple[str, str, bool, str]]:
+    """The routes a DRF ``@action`` decorator adds to a registered viewset.
+
+    A router registration only names the class. Custom actions are declared on its
+    methods, and DRF derives both the URL and the verb from that decorator. Unknown
+    ``methods`` or ``detail`` values are refused rather than guessed: they are framework
+    configuration computed at runtime, not facts this frontend read.
+    """
+    out: list[tuple[str, str, bool, str]] = []
+    for member in node.body:
+        if not isinstance(member, FUNCTION_NODES) or member.name not in members:
+            continue
+        for dec in member.decorator_list:
+            if not isinstance(dec, ast.Call):
+                continue
+            called = dec.func.id if isinstance(dec.func, ast.Name) else getattr(dec.func, "attr", "")
+            if called != "action":
+                continue
+            keywords = {kw.arg: kw.value for kw in dec.keywords if kw.arg}
+            detail_node = keywords.get("detail")
+            if not isinstance(detail_node, ast.Constant) or not isinstance(detail_node.value, bool):
+                continue
+            methods_node = keywords.get("methods")
+            if methods_node is None:
+                methods = ["GET"]
+            elif isinstance(methods_node, (ast.List, ast.Tuple, ast.Set)):
+                methods = [str(item.value).upper() for item in methods_node.elts
+                           if isinstance(item, ast.Constant) and isinstance(item.value, str)]
+                if len(methods) != len(methods_node.elts):
+                    continue
+            else:
+                continue
+            url_node = keywords.get("url_path")
+            if url_node is None:
+                url_path = member.name.replace("_", "-")
+            elif isinstance(url_node, ast.Constant) and isinstance(url_node.value, str):
+                url_path = url_node.value.strip("/")
+            else:
+                continue
+            for method in methods:
+                out.append((method, url_path, detail_node.value, members[member.name]))
+    return out
+
+
 # --- Tornado URLSpec --------------------------------------------------------
 #
 # Tornado does not register a route with a CALL. A module declares a module-level list of
@@ -682,6 +726,7 @@ class ModuleLowerer:
                  templates: dict | None = None, resource_paths: dict[str, str] | None = None,
                  django_prefixes: dict[str, str] | None = None,
                  class_members: dict[str, dict[str, str]] | None = None,
+                 class_actions: dict[str, list[tuple[str, str, bool, str]]] | None = None,
                  base_members: dict[str, dict[str, str]] | None = None):
         self.module = module_id(root, path)
         # Every view under the root, read once for the whole program.
@@ -693,6 +738,10 @@ class ModuleLowerer:
         # write for the class. A class-based view is registered by CLASS and answers by
         # METHOD, so the registration names one thing and the entry points are another.
         self.class_members = class_members or {}
+        # Custom DRF actions are methods too, but their decorator supplies a route no
+        # fixed viewset table can infer. Kept beside class_members because registration
+        # and class routinely live in different modules.
+        self.class_actions = class_actions or {}
         # What a class INHERITS, one level up and resolved across the program. A registered
         # Tornado handler is free to define no verb of its own -- the subclass carries the
         # model and the permission scope and the base carries `get` and `post` -- and
@@ -1447,6 +1496,9 @@ class ModuleLowerer:
         """The methods of the class a registration names, wherever it is defined."""
         return self.class_members.get(self._class_key(node) or "", {})
 
+    def _django_class_actions(self, node: ast.AST) -> list[tuple[str, str, bool, str]]:
+        return self.class_actions.get(self._class_key(node) or "", [])
+
     @staticmethod
     def _django_hook(members: dict[str, str], action: str | None = None) -> str | None:
         """The method a request reaches on a class, when the class names one at all."""
@@ -1563,6 +1615,10 @@ class ModuleLowerer:
                     if target:
                         out.append(django_entry_point(target, method,
                                                       django_route_path(base + suffix)))
+                for method, url_path, detail, target in self._django_class_actions(node.args[1]):
+                    suffix = f"/<pk>/{url_path}/" if detail else f"/{url_path}/"
+                    out.append(django_entry_point(target, method,
+                                                  django_route_path(base + suffix)))
         return out
 
     # --- Tornado URLSpec --------------------------------------------------
@@ -3186,6 +3242,7 @@ def lower_program(root: str, files: list[str]) -> dict:
     # Django registers a class-based view by CLASS and dispatches into it by METHOD, so
     # the registration names one thing and the entry points behind it are another.
     class_members: dict[str, dict[str, str]] = {}
+    class_actions: dict[str, list[tuple[str, str, bool, str]]] = {}
     # What each class declares it is, and what every class name in the program holds. A
     # registered Tornado handler is free to define no verb at all and answer entirely in
     # its base, so a registration that stops at the class it names reaches nothing.
@@ -3227,6 +3284,10 @@ def lower_program(root: str, files: list[str]) -> dict:
                     class_members[f"{mid}:{node.name}"] = members
                     class_members[f"import:{dotted}.{node.name}"] = members
                     members_by_name.setdefault(node.name, members)
+                    actions = drf_custom_actions(node, members)
+                    if actions:
+                        class_actions[f"{mid}:{node.name}"] = actions
+                        class_actions[f"import:{dotted}.{node.name}"] = actions
                 # `class UserAPIHandler(APIHandler)` -- the base as it is WRITTEN, whether
                 # that is a bare name or `web.RequestHandler`. Recorded for every class
                 # and not only the ones with methods, because a class that adds nothing to
@@ -3319,7 +3380,7 @@ def lower_program(root: str, files: list[str]) -> dict:
         lambda module, node: f"{module}#{node.name}:{node.lineno}:{node.col_offset + 1}")
 
     lowerers = [ModuleLowerer(root, path, tree, defs, templates, resource_paths,
-                              django_prefixes, class_members, base_members)
+                              django_prefixes, class_members, class_actions, base_members)
                 for path, tree in trees]
     provenance = module_provenance(root, trees)
 

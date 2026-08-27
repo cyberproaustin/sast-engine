@@ -108,7 +108,7 @@ func Run(d *ir.IR, m model.Model, p *policy.Policy) Result {
 	// Weaknesses visible in a call's own arguments, with no dataflow involved. Appended
 	// to the same finding list because they are the same kind of claim to a reader, even
 	// though the analysis that produced them is a different one.
-	t.Findings = append(t.Findings, callshape.Analyze(d, m)...)
+	t.Findings = append(t.Findings, callshape.Analyze(d, m, t.ByClass)...)
 	t.Findings = append(t.Findings, decision.Analyze(d, m, t.ByClass)...)
 	t.Findings = append(t.Findings, store.Analyze(d, m, t.ByClass)...)
 	t.Findings = append(t.Findings, literal.Analyze(d, m)...)

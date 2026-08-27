@@ -143,6 +143,7 @@ var corpora = []string{
 	"regex-complexity",
 	"unowned-record-access",
 	"unbounded-resource",
+	"unbounded-input-read",
 	"express-route-metadata",
 	"flask-route-metadata",
 	"second-order-taint",
