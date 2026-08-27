@@ -1,0 +1,22 @@
+{
+  "corpus": "absent-dependency",
+  "description": "The policy this corpus settles is what an unresolved call into a package with no source here does to taint, and the answer is that it keeps flowing. The precedent that looked like it pointed the other way does not: a store read stopped taking taint from its argument because a lookup ANSWERS WITH WHAT WAS STORED, which is a fact about that operation, and an arbitrary unread callee offers no fact at all -- narrowing on the absence of one would make the engine quietest exactly where it knows least. The risks are not symmetric either: assuming taint survives costs precision, assuming it dies costs recall, and recall is what a security tool cannot spend. What changed is that the assumption is NAMED. The first handler is uptime-kuma's, where seven SVG-injection reports all turned on whether `badge-maker.makeBadge` escapes its label -- all seven adjudicated DISPUTED, which means unanswerable, and they were unanswerable because the report never said which hop the question was about. The second is the contrast that makes the discriminator something better than \"external\": this model HAS a statement about encodeURIComponent -- it clears a URL context and nothing else -- so that finding is reported as insufficient rather than as assumed. The test beside this corpus asserts the two apart.",
+  "expected": [
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "app.ts",
+      "sinkLine": 15,
+      "sourceLabel": "req.query.style",
+      "confidence": "medium",
+      "note": "taint survives a call into code that is not here, and the finding says so. Medium confidence because the sink's receiver could not be typed (ADR-005), which is a separate doubt from the assumed hop and is reported separately"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "app.ts",
+      "sinkLine": 24,
+      "sourceLabel": "req.query.host",
+      "confidence": "high",
+      "note": "the contrast: a traversed call the model describes. encodeURIComponent is INSUFFICIENT for a shell and is reported as such, and nothing on this path was assumed"
+    }
+  ]
+}

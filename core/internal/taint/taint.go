@@ -81,6 +81,12 @@ type Hop struct {
 	HasInputArg bool   // distinguishes argument zero from a hop without call input metadata
 	Kind        string // the IR flow kind this hop came from, when it came from a flow
 	Resolution  ir.Resolution
+	// Assumed marks a hop into code that is not in this tree and that the model says
+	// nothing about. The engine keeps the taint across it -- an unknown callee has no
+	// known semantics and over-approximating is the only safe reading of nothing -- and
+	// this is where it says so, because a reader deserves to know the difference between
+	// a path that was followed and a path that was presumed.
+	Assumed bool
 }
 
 // Site is another syntactic occurrence of the same weakness. The primary occurrence
@@ -486,6 +492,20 @@ type Finding struct {
 
 	Path       []Hop
 	Sanitizers []Sanitizer
+	// Assumptions names the calls on this path whose behaviour was never established:
+	// code that is not in this tree and that the model says nothing about, where the
+	// taint continued because an unknown callee has no known semantics and
+	// over-approximating is the only safe reading of nothing.
+	//
+	// The engine keeps these flows -- assuming taint dies costs recall, and recall is
+	// what a security tool cannot spend -- and it stops presenting them as if the path
+	// had been followed. Measured on uptime-kuma, where seven SVG-injection reports all
+	// turned on whether `badge-maker.makeBadge` escapes its input, which nothing in that
+	// repository establishes because the package is pinned in a lockfile and its source
+	// is not there. All seven were adjudicated DISPUTED -- unanswerable rather than
+	// wrong -- and they were unanswerable because the report did not say which hop the
+	// question was about.
+	Assumptions []string
 	// RelatedSites are other operations carrying the same rule and value origin in the
 	// same function. They are evidence for this finding, not additional findings.
 	RelatedSites []Site
@@ -575,6 +595,10 @@ type edge struct {
 	literals    map[int]string
 	inputArg    int
 	hasInputArg bool
+	// assumed marks a hop the engine took on an assumption rather than on evidence: a
+	// call into code that is not in this tree and that this model says nothing about, so
+	// whether the value survives it was never established, only presumed.
+	assumed bool
 }
 
 type engine struct {
@@ -626,7 +650,33 @@ type engine struct {
 	// serializer, an enclosing object -- stops, because none of those is reading a
 	// column and the row is not text.
 	recordFields map[string][]string
-	queue        []string
+	// resolves says, for a call written as a promise executor's continuation, which
+	// promise that call completes. Computed once for the program and shared, because it
+	// is a fact about the SHAPE of the code rather than about any one classification.
+	resolves map[string][]resolveTarget
+	// attested memoises whether the model has anything to say about a call spelling.
+	attested map[string]bool
+	queue    []string
+}
+
+// resolveTarget is where a value handed to a continuation actually arrives: the result of
+// the call that was given the callback holding it.
+type resolveTarget struct {
+	resultID string
+	argIndex int
+	note     string
+	// resolution is how well the call that CREATED the promise resolved, not how well
+	// the continuation call did.
+	//
+	// The frontend reports `resolve(v)` as dynamic-unresolved and is right to: `resolve`
+	// is a parameter, so there is nothing for a name to resolve to, and that is what
+	// makes this hop findable rather than what makes it doubtful. What the confidence is
+	// actually about (ADR-005) is whether the engine knows where the value went, and it
+	// does -- the destination is the result of `new Promise(...)`, a call the frontend
+	// resolved. Taking the continuation's own resolution instead would report every flow
+	// out of a promise at LOW and put a genuine injection below the gate for the sole
+	// reason that it travelled through the construct Node is built out of.
+	resolution ir.Resolution
 }
 
 type seed struct {
@@ -683,6 +733,10 @@ func Analyze(d *ir.IR, m model.Model) Result {
 	engines := make(map[string]*engine, len(m.Classifications))
 	order := make([]string, 0, len(m.Classifications))
 
+	// One question about the program's shape, asked once. Which promise a `resolve(...)`
+	// completes does not depend on what class of value is being followed.
+	resolves := resolveTargets(ix, m)
+
 	for _, class := range m.Classifications {
 		e := &engine{
 			ix:            ix,
@@ -702,6 +756,8 @@ func Analyze(d *ir.IR, m model.Model) Result {
 			flowEdgesInto: make(map[string][]ir.Flow),
 			returns:       make(map[string][]string),
 			recordFields:  make(map[string][]string),
+			resolves:      resolves,
+			attested:      make(map[string]bool),
 		}
 		e.programInjects = programInjectsIdentity(ix)
 		e.build()
@@ -1290,7 +1346,14 @@ func (e *engine) rootsAtGlobal(v *ir.Value, symbol string) bool {
 func (e *engine) seedByCallResult(rule model.SourceRule) {
 	for _, fn := range e.ix.IR.Functions {
 		for _, c := range fn.Calls {
-			if c.Callee.Symbol != rule.Symbol || c.ResultID == "" {
+			if c.ResultID == "" {
+				continue
+			}
+			if rule.SymbolLeaf {
+				if lastSegment(c.Callee.Symbol) != rule.Symbol {
+					continue
+				}
+			} else if c.Callee.Symbol != rule.Symbol {
 				continue
 			}
 			// A number the call was WRITTEN with. A length computed at runtime is not
@@ -1678,6 +1741,26 @@ func (e *engine) throughCall(argValueID string, c *ir.Call) {
 				resolution: c.Callee.Resolution,
 			})
 		default:
+			// A promise's continuation is not an ordinary unresolved call. `resolve(v)`
+			// answers its own caller with nothing and answers whoever awaits the promise
+			// with everything, so the value goes to the promise rather than to this call's
+			// result -- the opposite direction from every other hop in this function.
+			if targets := e.resolves[c.ID]; len(targets) > 0 {
+				for _, t := range targets {
+					if a.Index != t.argIndex {
+						continue
+					}
+					e.carriesRecord(argValueID, t.resultID)
+					e.markTainted(t.resultID, edge{
+						from:       argValueID,
+						desc:       fmt.Sprintf("%s (%s)", displaySymbol(c.Callee), t.note),
+						kind:       "resolve",
+						loc:        c.Loc,
+						resolution: t.resolution,
+					})
+				}
+				continue
+			}
 			// External or unresolved: taint the result. Whether a traversed
 			// sanitizer actually helps is decided at the sink, where the required
 			// context is known.
@@ -1712,6 +1795,9 @@ func (e *engine) throughCall(argValueID string, c *ir.Call) {
 				inputArg:    a.Index,
 				hasInputArg: true,
 				resolution:  c.Callee.Resolution,
+				// The taint continues, and whether it should is not established here.
+				// See Model.Attests and Finding.Assumptions.
+				assumed: !e.attests(c.Callee.Symbol, c.Method),
 			})
 		}
 	}
@@ -1753,9 +1839,135 @@ func (e *engine) throughReceiver(receiverID string, c *ir.Call) {
 	})
 }
 
+// --- the outward direction across a callback boundary ----------------------
+//
+// resolverClosureDepth and resolverClosureLimit bound the search for the calls that
+// complete one promise. The executor of `new Promise` is where the continuation is
+// BOUND, and almost never where it is CALLED: pdfjs computes its digest in a
+// `stream.on("end", ...)` handler two frames down, which is the ordinary reason to write
+// a promise by hand at all. The bound exists so that a program with thirty thousand
+// functions asks the same question as a program with thirty.
+const (
+	resolverClosureDepth = 6
+	resolverClosureLimit = 64
+)
+
+// resolveTargets finds every call written as a promise executor's continuation and says
+// which promise it completes.
+//
+// This is the mirror of the CallbackRule that carries a receiver's class INTO a callback,
+// and it is a separate walk rather than a second case of it because the two ask different
+// questions. The inward direction has the callback in its hand at the call site. The
+// outward one has to find, somewhere inside the executor, a call written as a name that
+// the frontend could not resolve -- because the name is a parameter, and a parameter
+// resolves to nothing.
+func resolveTargets(ix *ir.Index, m model.Model) map[string][]resolveTarget {
+	out := map[string][]resolveTarget{}
+	for _, fn := range ix.IR.Functions {
+		for _, c := range fn.Calls {
+			rule, ok := m.ResolverFor(c.Callee.Symbol, c.Method)
+			if !ok || c.ResultID == "" || rule.ResolverParam == nil {
+				continue
+			}
+			arg, found := argAt(c, rule.CallbackArg)
+			if !found || arg.FunctionID == "" {
+				continue
+			}
+			exec := ix.FuncByID[arg.FunctionID]
+			if exec == nil {
+				continue
+			}
+			p, ok := paramAt(exec, *rule.ResolverParam)
+			if !ok || p.Name == "" {
+				continue
+			}
+			bindResolver(ix, out, exec, p.Name, c.ResultID, c.Callee.Resolution, rule)
+		}
+	}
+	return out
+}
+
+// bindResolver records every call to `name` reachable from inside one executor.
+//
+// Reachable means through the executor's own calls: a function handed to one of them as
+// an argument, or a local function one of them calls. Both are how a continuation gets
+// used, and both are narrowed the same way -- the callee must be in the executor's module
+// and start at or after it, which is as close to "written inside these braces" as the IR
+// gets, and it must not bind the name itself, because a parameter of that name is a
+// different continuation and shadows this one.
+func bindResolver(ix *ir.Index, out map[string][]resolveTarget, exec *ir.Function, name, resultID string, resolution ir.Resolution, rule model.CallbackRule) {
+	type step struct {
+		fn    *ir.Function
+		depth int
+	}
+	seen := map[string]bool{exec.ID: true}
+	queue := []step{{exec, 0}}
+
+	for len(queue) > 0 {
+		cur := queue[0]
+		queue = queue[1:]
+
+		for _, c := range cur.fn.Calls {
+			// A call written as the continuation's own name that resolved to nothing.
+			// `resolve` is a parameter, so there is nothing for it to resolve to -- and a
+			// call the frontend DID resolve is a different function that happens to share
+			// the name.
+			if c.Callee.Kind == "unresolved" && c.Callee.Name == name {
+				out[c.ID] = append(out[c.ID], resolveTarget{
+					resultID:   resultID,
+					argIndex:   rule.ResolverArg,
+					note:       rule.Note,
+					resolution: resolution,
+				})
+			}
+			if cur.depth >= resolverClosureDepth || len(seen) >= resolverClosureLimit {
+				continue
+			}
+			reach := func(id string) {
+				if id == "" || seen[id] {
+					return
+				}
+				f := ix.FuncByID[id]
+				if f == nil || f.Module != exec.Module {
+					return
+				}
+				if f.Loc.Line < exec.Loc.Line {
+					return
+				}
+				for _, p := range f.Params {
+					if p.Name == name {
+						return
+					}
+				}
+				seen[id] = true
+				queue = append(queue, step{f, cur.depth + 1})
+			}
+			for _, a := range c.Args {
+				reach(a.FunctionID)
+			}
+			if c.Callee.Kind == "local" {
+				reach(c.Callee.FunctionID)
+			}
+		}
+	}
+}
+
 // collect walks every sink call site and reports those reached by tainted data.
 // hasSeeds reports whether this class was observed anywhere in the program. A class
 // with no seeds is one this engine has no vocabulary for in this codebase.
+// attests memoises Model.Attests. The question is asked once per distinct call spelling
+// rather than once per tainted value crossing it, because a repository with thirty
+// thousand functions asks it hundreds of thousands of times and the answer never changes.
+func (e *engine) attests(symbol, method string) bool {
+	key := symbol + "\x00" + method
+	if v, ok := e.attested[key]; ok {
+		return v
+	}
+	v := e.m.Attests(symbol, method)
+	e.attested[key] = v
+	return v
+}
+
 func (e *engine) hasSeeds() bool { return len(e.seeds) > 0 }
 
 func (e *engine) collect(all map[string]*engine, caps ir.Capabilities) []Finding {
@@ -2576,6 +2788,7 @@ func (e *engine) buildFinding(c *ir.Call, ch model.Channel, p model.Policy, arg 
 		SinkRational: ch.Rationale,
 		Path:         path,
 		Sanitizers:   sanitizers,
+		Assumptions:  assumptionsOn(path),
 	}, true
 }
 
@@ -2728,6 +2941,29 @@ func (e *engine) responseReceiverRoot(id string) string {
 	return id
 }
 
+// assumptionsOn names the calls this path crossed whose behaviour was never established.
+// In path order, deduplicated: seven routes through one unread dependency raise one
+// question, not seven.
+func assumptionsOn(path []Hop) []string {
+	var out []string
+	seen := map[string]bool{}
+	for _, h := range path {
+		if !h.Assumed {
+			continue
+		}
+		name := h.Symbol
+		if name == "" {
+			name = h.Description
+		}
+		if seen[name] {
+			continue
+		}
+		seen[name] = true
+		out = append(out, name)
+	}
+	return out
+}
+
 // anchoredRegexGuardClears credits a full-string allow-list only when the graph and the
 // pattern prove complementary facts: regex FAILURE is the branch that leaves, success is
 // the only branch that reaches this sink, and the accepted language cannot spell the
@@ -2841,6 +3077,7 @@ func (e *engine) tracePath(valueID string) ([]Hop, string) {
 			HasInputArg: ed.hasInputArg,
 			Kind:        ed.kind,
 			Resolution:  ed.resolution,
+			Assumed:     ed.assumed,
 		})
 		origin = cur
 		cur = ed.from

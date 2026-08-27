@@ -1,0 +1,38 @@
+{
+  "corpus": "promise-resolution",
+  "description": "The direction across a callback boundary that no rule described. A CallbackRule carries a class from a receiver INTO a callback's parameter, which is how `arr.forEach(x => ...)` and `p.then(v => ...)` work; a promise executor needs the opposite -- one of the callback's own parameters is a continuation, and everything the promise will ever carry is handed to it, from inside the executor or from a callback several frames deeper. The executor returns nothing, so before this the value reached nothing at all and every helper built on `new Promise` read as a clean wrapper. Taken from pdfjs, where an MD5 computed in a `stream.on(\"end\", ...)` handler is resolved, awaited and compared against a recorded digest -- an integrity check an independent reader called the one true CWE-328 finding in that repository, and one the engine could not see because the digest arrived at the comparison carrying nothing. Three positives: that shape, caller data resolved directly, and a continuation called from a function DECLARED inside the executor, which both frontends lift to the top of the module so that \"inside these braces\" has to be recovered from the call graph. Two negatives that decide how far this goes: a value handed to `reject` is NOT what `await` gives back -- rejection arrives at a catch handler through control flow the IR does not carry, and claiming otherwise would be wrong about where the value went rather than merely incomplete -- and a callback parameter of the same name belongs to whoever declared it, so an inner `resolve` completes nothing.",
+  "expected": [
+    {
+      "cwe": "CWE-328",
+      "sinkFile": "app.ts",
+      "sinkLine": 24,
+      "sourceLabel": "crypto.createHash(\"md5\")",
+      "confidence": "high",
+      "note": "the pdfjs shape: the digest is computed in a stream handler inside the executor, handed to resolve, and compared two functions away. The finding lands at the comparison because that is the line that decides"
+    },
+    {
+      "cwe": "CWE-208",
+      "sinkFile": "app.ts",
+      "sinkLine": 24,
+      "sourceLabel": "req.query.expected",
+      "confidence": "high",
+      "note": "the same line, and a second real weakness on it. `!==` compares a digest against a caller-supplied value one byte at a time. The corpus was written before the constant-time rule existed and did not expect it; the rule is right and the fixture was incomplete. Two agents' work meeting on one line is exactly what a shared corpus is for"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "app.ts",
+      "sinkLine": 41,
+      "sourceLabel": "req.query.host",
+      "confidence": "high",
+      "note": "caller data handed to the continuation in the executor itself. High confidence because what the confidence is about is whether the engine knows where the value went, and the destination is the result of a `new Promise` the frontend resolved -- the continuation reading as unresolved is what makes the hop findable, not what makes it doubtful"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "app.ts",
+      "sinkLine": 59,
+      "sourceLabel": "req.query.value",
+      "confidence": "high",
+      "note": "the continuation is called from a function declared inside the executor and lifted out of it by the frontend, so the binding is recovered through the call graph rather than from nesting"
+    }
+  ]
+}
