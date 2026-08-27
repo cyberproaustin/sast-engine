@@ -30,6 +30,7 @@ import type {
 } from "./ir.ts";
 import { collectPluginPrefixes, detectExpressRoutes } from "./express.ts";
 import { makeRegistryResolver } from "./registry.ts";
+import { makeWorkspaceResolver } from "./workspace.ts";
 import { connectionParameters, detectBackgroundEntries, messagePortDispatchers } from "./background.ts";
 import {
   detectDescribedRoutes,
@@ -459,6 +460,11 @@ function aliasResolvingHost(rootDir: string, base: ts.CompilerOptions): ts.Compi
     return found;
   };
 
+  // Consulted only where everything above answered nothing: a specifier naming a package
+  // the tree itself contains, which is how every workspace monorepo refers to its own
+  // code and which nothing resolves without an install. See workspace.ts.
+  const workspace = makeWorkspaceResolver(root);
+
   host.resolveModuleNameLiterals = (literals, containingFile, redirectedReference, options, containingSourceFile) => {
     const project = projectFor(containingFile);
     const opts = project?.options ?? options;
@@ -467,7 +473,21 @@ function aliasResolvingHost(rootDir: string, base: ts.CompilerOptions): ts.Compi
       const mode = containingSourceFile
         ? ts.getModeForUsageLocation(containingSourceFile, literal, opts)
         : undefined;
-      return ts.resolveModuleName(literal.text, containingFile, opts, host, cache, redirectedReference, mode);
+      const resolved = ts.resolveModuleName(
+        literal.text,
+        containingFile,
+        opts,
+        host,
+        cache,
+        redirectedReference,
+        mode,
+      );
+      if (resolved.resolvedModule) return resolved;
+      // A file OUTSIDE the tree asking for a workspace name is not this tree's question:
+      // the answer would be somebody else's package that happens to share a name.
+      if (!isUnder(root, containingFile)) return resolved;
+      const inTree = workspace(literal.text);
+      return inTree ? { ...resolved, resolvedModule: inTree } : resolved;
     });
   };
 

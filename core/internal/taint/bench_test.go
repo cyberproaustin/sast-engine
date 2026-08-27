@@ -131,6 +131,7 @@ var corpora = []string{
 	"django-declared-authorization",
 	"next-pages-router",
 	"tsconfig-path-alias",
+	"workspace-package-name",
 	"tornado-urlspec",
 	"graphene-schema",
 	"trpc-router",

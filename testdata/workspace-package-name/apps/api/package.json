@@ -1,0 +1,10 @@
+{
+  "name": "@acme/api",
+  "main": "./server.ts",
+  "dependencies": {
+    "@acme/build-output": "*",
+    "@acme/mapped": "*",
+    "@acme/store": "*",
+    "@acme/twins": "*"
+  }
+}
