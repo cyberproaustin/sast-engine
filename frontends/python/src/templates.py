@@ -95,6 +95,29 @@ _SCRIPT_CLOSE = re.compile(r"<\s*/\s*script\s*>", re.I)
 # The contexts an interpolation can sit in, as far as this frontend is willing to say.
 CONTEXT_MARKUP = "markup"
 CONTEXT_SCRIPT = "script"
+CONTEXT_URL_TARGET = "url-target"
+CONTEXT_URL_PART = "url-part"
+
+# Quoted URL-valued attributes only. An unquoted attribute or an expression mixed with
+# helper syntax is left as ordinary markup: guessing that boundary would create the very
+# context confusion this fact exists to remove.
+_URL_ATTRIBUTE = re.compile(r"\b(?:href|src|action)\s*=\s*([\"'])(.*?)\1", re.I | re.S)
+
+
+def _url_context(source: str, offset: int) -> str | None:
+    for attr in _URL_ATTRIBUTE.finditer(source):
+        start, stop = attr.span(2)
+        if not start <= offset < stop:
+            continue
+        value = attr.group(2)
+        reads = list(_INTERPOLATION.finditer(value))
+        if len(reads) != 1:
+            return CONTEXT_URL_PART
+        read = reads[0]
+        before = value[:read.start()].strip()
+        after = value[read.end():].strip()
+        return CONTEXT_URL_TARGET if not before and not after else CONTEXT_URL_PART
+    return None
 
 
 class Template:
@@ -319,7 +342,10 @@ def parse_template(module: str, source: str) -> Template:
         escaped = not in_off_block and marker is None
         line, column = _position_of(source, m.start())
         read = {"path": path, "escaped": escaped, "line": line, "column": column}
-        if any(a <= m.start() < b for a, b in scripts):
+        url_context = _url_context(source, m.start())
+        if url_context:
+            read["context"] = url_context
+        elif any(a <= m.start() < b for a, b in scripts):
             read["context"] = CONTEXT_SCRIPT
         if marker is not None:
             # `{{` is two characters wide and the body starts after it.

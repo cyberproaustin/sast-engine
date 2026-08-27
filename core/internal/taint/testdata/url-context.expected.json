@@ -1,0 +1,38 @@
+{
+  "corpus": "url-context",
+  "description": "URL-valued markup and DOM properties distinguish a whole target from a component after a fixed prefix. The whole target can choose a script-bearing scheme (CWE-79); a prefixed value can alter path/query syntax but cannot choose the host (CWE-116). URL-component encoding clears only the URL contexts it addresses.",
+  "expected": [
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "views/whole.ejs",
+      "sinkLine": 1,
+      "sourceLabel": "req.query.target",
+      "confidence": "high",
+      "note": "HTML escaping does not constrain a whole URL's scheme"
+    },
+    {
+      "cwe": "CWE-116",
+      "sinkFile": "views/part.ejs",
+      "sinkLine": 1,
+      "sourceLabel": "req.query.name",
+      "confidence": "high",
+      "note": "fixed host, unencoded path component"
+    },
+    {
+      "cwe": "CWE-116",
+      "sinkFile": "app.ts",
+      "sinkLine": 19,
+      "sourceLabel": "req.query.name",
+      "confidence": "high",
+      "note": "DOM URL property with a fixed prefix"
+    },
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "app.ts",
+      "sinkLine": 21,
+      "sourceLabel": "req.query.target",
+      "confidence": "high",
+      "note": "DOM URL property supplied whole"
+    }
+  ]
+}

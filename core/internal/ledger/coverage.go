@@ -89,7 +89,9 @@ var claims = map[string]Claim{
 			"to `innerHTML` parses what it is given as markup, which is the browser-side " +
 			"twin of an unescaped interpolation and is why a rule that watches calls " +
 			"could not see it. `textContent` is the same assignment with the parsing off, " +
-			"and is the fix. " +
+			"and is the fix. URL-valued href, src and action destinations are a distinct " +
+			"browser interpretation after markup parsing: when caller data supplies the " +
+			"whole value, HTML escaping does not constrain javascript or data schemes. " +
 			"Reporting the configuration instead was counted and declined -- 15 mentions " +
 			"of autoescape across the clean corpus, the two that disable it being a " +
 			"LaTeX renderer and a code generator, where HTML escaping would be the bug. " +
@@ -125,9 +127,11 @@ var claims = map[string]Claim{
 			"consumer are entry points, which is where a store is read back long after " +
 			"the request that filled it, and it is the write's trust the finding carries " +
 			"rather than the timer's",
-		By:       []string{"untrusted-to-interpreter", "markup-assignment", "stored-to-interpreter"},
+		By:       []string{"untrusted-to-interpreter", "markup-assignment", "stored-to-interpreter", "untrusted-url-target"},
 		Subsumes: true,
 	},
+	"CWE-116": {State: Partial, Reason: "caller data composed after a fixed URL prefix in an href, src or action attribute/property, without an encoder for URL-component syntax. This is deliberately not SSRF: the program-written prefix fixes the host, while an unencoded slash, question mark, fragment or dot segment can still change the resource. Quoted URL-valued template attributes and direct DOM property assignments only; helper expressions and unquoted attributes are left unclaimed rather than guessed",
+		By: []string{"untrusted-to-interpreter", "untrusted-url-part"}},
 	"CWE-81": {State: Asserted, Reason: "failure detail reaching a markup channel. Not subsumed by CWE-79 even though it sits beneath it: what distinguishes it is the SOURCE, and this engine classifies error detail separately from caller input precisely so it can tell them apart -- an error message is where a program repeats back what it was given, which is how the message becomes script",
 		By: []string{"error-detail-into-markup"}},
 	"CWE-209": {State: Partial, Reason: "caught error detail reaching a channel visible outside the system; cannot judge whether a message is generic enough",

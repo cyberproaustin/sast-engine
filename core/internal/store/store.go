@@ -33,6 +33,18 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 	elements := elementParams(d, ix)
 	doms := newDominance()
 	containers := boundedContainers(d, ix)
+	flowsInto := make(map[string][]ir.Flow)
+	callByResult := make(map[string]*ir.Call)
+	for _, fn := range d.Functions {
+		for _, f := range fn.Flows {
+			flowsInto[f.To] = append(flowsInto[f.To], f)
+		}
+		for _, c := range fn.Calls {
+			if c.ResultID != "" {
+				callByResult[c.ResultID] = c
+			}
+		}
+	}
 
 	var out []taint.Finding
 	for _, fn := range d.Functions {
@@ -118,6 +130,16 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 				if !carrying.Values[w.From] {
 					continue
 				}
+				composed := composedOnClassifiedPath(w.From, flowsInto, carrying.Values, map[string]bool{}, 0)
+				if rule.RequiresComposition && !composed {
+					continue
+				}
+				if rule.RequiresWholeValue && composed {
+					continue
+				}
+				if rule.Context != "" && !unsanitizedClassifiedPath(m, w.From, rule.Context, carrying, flowsInto, callByResult, map[string]bool{}, 0) {
+					continue
+				}
 				// A field read out of something the classification reached is not the
 				// classified thing. A server-side lookup handed a request once does not
 				// make its answer the caller's.
@@ -129,6 +151,81 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 		}
 	}
 	return out
+}
+
+// composedOnClassifiedPath asks whether the caller's contribution crossed a string
+// composition on its way to a write. Literal siblings are deliberately ignored: they
+// establish that composition happened, while only the classified branch establishes
+// which part the caller supplied.
+func composedOnClassifiedPath(id string, into map[string][]ir.Flow, classified map[string]bool, seen map[string]bool, depth int) bool {
+	if id == "" || depth >= 16 || seen[id] {
+		return false
+	}
+	seen[id] = true
+	defer delete(seen, id)
+	for _, f := range into[id] {
+		if !classified[f.From] {
+			continue
+		}
+		if f.Kind == "binary" || f.Kind == "template" {
+			return true
+		}
+		if composedOnClassifiedPath(f.From, into, classified, seen, depth+1) {
+			return true
+		}
+	}
+	return false
+}
+
+// unsanitizedClassifiedPath is the assignment-side mirror of taint.buildFinding's
+// sanitizer walk. Every classified predecessor must be neutralized; one unencoded path
+// keeps the finding, which is the precision-preserving direction at a merged value.
+func unsanitizedClassifiedPath(m model.Model, id, context string, carrying taint.Classified, into map[string][]ir.Flow, callByResult map[string]*ir.Call, seen map[string]bool, depth int) bool {
+	if id == "" || depth >= 16 || seen[id] {
+		return true
+	}
+	if carrying.Seeds[id] {
+		return true
+	}
+	seen[id] = true
+	defer delete(seen, id)
+	if c := callByResult[id]; c != nil {
+		if s, ok := m.SanitizerFor(c.Callee.Symbol); ok && s.AppliesTo("untrusted-input") && s.Clears(context) && sanitizerCoversClassifiedInputs(s, c, carrying.Values) {
+			return false
+		}
+	}
+	found := false
+	for _, f := range into[id] {
+		if !carrying.Values[f.From] {
+			continue
+		}
+		found = true
+		if unsanitizedClassifiedPath(m, f.From, context, carrying, into, callByResult, seen, depth+1) {
+			return true
+		}
+	}
+	return !found
+}
+
+// sanitizerCoversClassifiedInputs prevents an argument-specific transform from clearing
+// a dangerous value arriving through a different argument. If both the URL and its query
+// mapping are classified, url_concat has made only the latter safe and the former keeps
+// the finding alive.
+func sanitizerCoversClassifiedInputs(s model.SanitizerRule, c *ir.Call, classified map[string]bool) bool {
+	if s.RequiresInputArg == nil {
+		return true
+	}
+	covered := false
+	for _, a := range c.Args {
+		if !classified[a.ValueID] {
+			continue
+		}
+		if a.Index != *s.RequiresInputArg {
+			return false
+		}
+		covered = true
+	}
+	return covered
 }
 
 // reachedFromEntry reports whether a function is a request handler or is called by one,

@@ -103,6 +103,7 @@ var corpora = []string{
 	"express-radix",
 	"python-comparison",
 	"electron-window",
+	"enclosing-config-guard",
 	"express-personal-data",
 	"flask-personal-data",
 	"express-password-policy",
@@ -161,6 +162,8 @@ var corpora = []string{
 	"non-constant-time-secret-comparison",
 	"membership-test-not-a-comparison",
 	"regex-capture-arity-not-checked",
+	"response-context",
+	"url-context",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {
@@ -226,6 +229,35 @@ func TestCleanCorpusProducesNothing(t *testing.T) {
 				fp.CWE, fp.SinkLoc, fp.SourceLabel)
 		}
 		t.Fatalf("precision %.2f on the clean corpus", rep.Precision())
+	}
+}
+
+func TestEnclosingConfigurationGuardExplainsRatherThanSilences(t *testing.T) {
+	f, err := os.Open("testdata/enclosing-config-guard.ir.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer f.Close()
+	doc, err := ir.Load(f)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	findings := scan.Run(doc, model.Builtin(), loadPolicy(t, "enclosing-config-guard")).Taint.Findings
+	var guarded, unguarded string
+	for _, finding := range findings {
+		switch finding.SinkLoc.Line {
+		case 9:
+			guarded = finding.DependsOnUse
+		case 13:
+			unguarded = finding.DependsOnUse
+		}
+	}
+	if !strings.Contains(guarded, "env.NODE_ENV") || !strings.Contains(guarded, "unset or mis-set") {
+		t.Fatalf("guarded finding did not name its deployment dependency: %q", guarded)
+	}
+	if unguarded != "" {
+		t.Fatalf("unguarded finding was demoted: %q", unguarded)
 	}
 }
 
