@@ -56,6 +56,9 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 				continue
 			}
 			for _, shape := range m.CallShapes {
+				if shape.ExcludeTestModule && ix.InTestModule(c.Loc) {
+					continue
+				}
 				if !targets(shape, c) {
 					continue
 				}
