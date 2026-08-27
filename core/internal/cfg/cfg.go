@@ -157,6 +157,26 @@ func (g *Graph) ControlDependsOn(block, branch string) bool {
 	return reaches && avoids
 }
 
+// DependsOnSuccessor reports that `block` is reached through exactly the indexed arm
+// of `branch`. Frontends record a conditional's true arm first, so this preserves the
+// polarity needed by analyses that compare a predicate with an entry point rather than
+// merely asking whether the predicate matters.
+func (g *Graph) DependsOnSuccessor(block, branch string, successor int) bool {
+	b, ok := g.blocks[branch]
+	if !ok || successor < 0 || successor >= len(b.Successors) {
+		return false
+	}
+	if !g.PostDominates(block, b.Successors[successor]) {
+		return false
+	}
+	for i, other := range b.Successors {
+		if i != successor && g.PostDominates(block, other) {
+			return false
+		}
+	}
+	return true
+}
+
 // IsGuard reports whether a branch decides that the handler may STOP: some path out
 // of it leaves the function without rejoining the main line.
 //

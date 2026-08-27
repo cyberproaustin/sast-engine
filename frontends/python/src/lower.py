@@ -20,7 +20,7 @@ from typing import Any
 
 from templates import index_templates, resolve_template
 
-IR_VERSION = "0.15.0"
+IR_VERSION = "0.16.0"
 FRONTEND_VERSION = "0.1.0"
 
 FUNCTION_NODES = (ast.FunctionDef, ast.AsyncFunctionDef)
@@ -665,6 +665,11 @@ class ModuleLowerer:
         self.binder_framework: dict[str, str] = {}
         self.binder_prefix: dict[str, ast.AST] = {}
         self._collect_imports()
+        # A dictionary whose values are functions is a finite call graph even when the
+        # request chooses its key. searxng's autocomplete dispatch is exactly this
+        # shape; dropping the values made an outbound request look like an inert call to
+        # a local named `backend`.
+        self.callable_collections = self._collect_callable_collections()
         self._collect_route_binders()
 
     def _collect_imports(self) -> None:
@@ -688,6 +693,33 @@ class ModuleLowerer:
                 for alias in node.names:
                     local = alias.asname or alias.name
                     self.imports[local] = f"{module}.{alias.name}"
+
+    def _collect_callable_collections(self) -> dict[str, list[str]]:
+        """Module dictionaries whose complete value set resolves to local functions."""
+        out: dict[str, list[str]] = {}
+        for node in self.tree.body:
+            if not isinstance(node, (ast.Assign, ast.AnnAssign)):
+                continue
+            value = node.value
+            if not isinstance(value, ast.Dict):
+                continue
+            targets = node.targets if isinstance(node, ast.Assign) else [node.target]
+            names = [target.id for target in targets if isinstance(target, ast.Name)]
+            if not names:
+                continue
+            candidates: list[str] = []
+            complete = True
+            for item in value.values:
+                target = self._function_reference(item)
+                if not target:
+                    complete = False
+                    break
+                candidates.append(target)
+            if complete and candidates:
+                unique = list(dict.fromkeys(candidates))
+                for name in names:
+                    out[name] = unique
+        return out
 
     # --- Route receivers and the paths they are mounted at ---------------------
     #
@@ -1530,6 +1562,12 @@ class FunctionLowerer:
         self.prop_cache: dict[str, str] = {}
         self.local_types: dict[str, str] = {}
         self.globals_seen: dict[str, str] = {}
+        # Finite indirect targets carried separately from dataflow. A value selected
+        # from a literal dispatch table is not one arbitrary dynamic function: its
+        # candidates are written down, and retaining that set is what makes reachability
+        # through the dispatch auditable.
+        self.possible_functions: dict[str, list[str]] = {}
+        self.possible_modules: dict[str, list[str]] = {}
         # Names this function declared global or nonlocal, which is what makes an
         # assignment to one a write to state outside it.
         self.declared_global: set[str] = set()
@@ -1730,6 +1768,9 @@ class FunctionLowerer:
                         })
                     vid = self.new_value("local", target, name=target.id)
                     self.scope[target.id] = vid
+                    candidates = self._call_result_candidates(node.value)
+                    if candidates:
+                        self.possible_functions[target.id] = candidates
                     if self.is_module:
                         self.mod.module_scope[target.id] = vid
                     self.add_flow(src, vid, "assign", node)
@@ -1765,11 +1806,18 @@ class FunctionLowerer:
         # it goes -- an element comes OUT of the collection, and it comes out whole.
         if isinstance(node, (ast.For, ast.AsyncFor)):
             src = self.expr(node.iter)
+            modules: list[str] = []
+            if isinstance(node.iter, (ast.List, ast.Tuple, ast.Set)):
+                for item in node.iter.elts:
+                    if isinstance(item, ast.Name) and item.id in self.mod.imports:
+                        modules.append(self.mod.imports[item.id])
             # Destructuring nests: `for [name, [path, mode]] in request.json` binds three
             # names, and reading only the immediate children found one of them.
             for target in _bound_names(node.target):
                 vid = self.new_value("local", target, name=target.id)
                 self.scope[target.id] = vid
+                if modules:
+                    self.possible_modules[target.id] = list(dict.fromkeys(modules))
                 if self.is_module:
                     self.mod.module_scope[target.id] = vid
                 self.add_flow(src, vid, "property", node)
@@ -2172,6 +2220,9 @@ class FunctionLowerer:
             vid = self.expr(arg)
             if vid:
                 args.append({"index": index, "valueId": vid})
+            target = self.mod._function_reference(arg)
+            if target and not vid:
+                args.append({"index": index, "functionId": target})
             lit = self._literal_of(arg)
             if lit is not None:
                 literals[index] = lit
@@ -2325,14 +2376,22 @@ class FunctionLowerer:
         func = node.func
 
         if isinstance(func, ast.Name):
+            possible = self.possible_functions.get(func.id)
+            if possible:
+                return {
+                    "kind": "unresolved",
+                    "possibleFunctionIds": possible,
+                    "resolution": "resolved",
+                    "name": func.id,
+                }
             local = self.mod.global_defs.get(f"{self.mod.module}:{func.id}")
             if local:
-                return {"kind": "local", "functionId": local, "resolution": "resolved"}
+                return {"kind": "local", "functionId": local, "resolution": "resolved", "name": func.id}
             imported = self.mod.imports.get(func.id)
             if imported:
                 target = self.mod.global_defs.get(f"import:{imported}")
                 if target:
-                    return {"kind": "local", "functionId": target, "resolution": "resolved"}
+                    return {"kind": "local", "functionId": target, "resolution": "resolved", "name": func.id}
                 return {"kind": "external", "symbol": imported, "resolution": "resolved"}
             # A name that is neither defined here nor imported is the language's own.
             # Qualifying it is what lets a rule be written against `builtins.open` rather
@@ -2344,6 +2403,19 @@ class FunctionLowerer:
             return {"kind": "external", "symbol": func.id, "resolution": "probable"}
 
         if isinstance(func, ast.Attribute) and isinstance(func.value, ast.Name):
+            modules = self.possible_modules.get(func.value.id, [])
+            possible = [
+                target
+                for module in modules
+                if (target := self.mod.global_defs.get(f"import:{module}.{func.attr}"))
+            ]
+            if possible:
+                return {
+                    "kind": "unresolved",
+                    "possibleFunctionIds": list(dict.fromkeys(possible)),
+                    "resolution": "resolved",
+                    "name": func.attr,
+                }
             # `self.helper()` inside a class resolves to that class's own method.
             # Inheritance and rebinding can still defeat this, so the resolution is
             # PROBABLE rather than resolved — which costs confidence at the sink
@@ -2421,6 +2493,17 @@ class FunctionLowerer:
                 }
 
         return {"kind": "unresolved", "resolution": "dynamic-unresolved"}
+
+    def _call_result_candidates(self, node: ast.AST) -> list[str]:
+        """Targets selected from a module-level literal dispatch dictionary."""
+        if not isinstance(node, ast.Call) or not isinstance(node.func, ast.Attribute):
+            return []
+        if node.func.attr not in ("get", "__getitem__"):
+            return []
+        receiver = node.func.value
+        if not isinstance(receiver, ast.Name):
+            return []
+        return self.mod.callable_collections.get(receiver.id, [])
 
 
 def lower_program(root: str, files: list[str]) -> dict:

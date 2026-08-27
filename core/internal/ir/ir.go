@@ -263,10 +263,15 @@ const (
 
 // Callee is the target of a call site.
 type Callee struct {
-	Kind       string     `json:"kind"` // local | external | unresolved
-	FunctionID string     `json:"functionId,omitempty"`
-	Symbol     string     `json:"symbol,omitempty"`
-	Resolution Resolution `json:"resolution"`
+	Kind       string `json:"kind"` // local | external | unresolved
+	FunctionID string `json:"functionId,omitempty"`
+	// PossibleFunctionIDs are the finite targets of an indirect call when the frontend
+	// can enumerate the set but cannot name which member is selected on this request.
+	// A dispatch table lookup is the canonical shape: every value in the table is known,
+	// while the caller supplies the key.
+	PossibleFunctionIDs []string   `json:"possibleFunctionIds,omitempty"`
+	Symbol              string     `json:"symbol,omitempty"`
+	Resolution          Resolution `json:"resolution"`
 	// Name is what the call was WRITTEN as, independently of what it resolved to.
 	//
 	// An unresolved call carried no identity at all, which meant no rule could say

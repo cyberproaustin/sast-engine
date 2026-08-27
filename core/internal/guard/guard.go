@@ -38,7 +38,7 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 	ix := ir.NewIndex(d)
 	stops := neverReturns(d)
 
-	var out []taint.Finding
+	out := analyzeLimiters(d, m)
 	for _, fn := range d.Functions {
 		g := cfg.Build(fn)
 		if g == nil {
@@ -56,6 +56,9 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 		}
 
 		for _, rule := range m.Guards {
+			if rule.Limiter != nil {
+				continue
+			}
 			for _, c := range fn.Calls {
 				if len(rule.Repeats) > 0 {
 					out = append(out, repeatingCallback(ix, fn, c, rule)...)
@@ -396,6 +399,9 @@ func callName(ix *ir.Index, c *ir.Call) string {
 	// A local call carries no symbol, so the name is on the function it resolved to.
 	if fn := ix.FuncByID[c.Callee.FunctionID]; fn != nil && fn.Name != "" {
 		return fn.Name
+	}
+	if c.Callee.Name != "" {
+		return c.Callee.Name
 	}
 	return "the work it was refusing"
 }
