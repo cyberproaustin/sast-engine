@@ -7878,6 +7878,18 @@ type DecisionRule struct {
 	// Four findings in one production repository were exactly that.
 	RequiresUnprojected bool
 
+	// RequiresUnenclosed forbids the judgement for a STRUCTURE the classified value was
+	// put into, which is the same question read the other way round.
+	//
+	// medplum builds `{ ...login, scope }` out of the scope the caller asked for and
+	// hands the object to the repository. Eight frames down, in a module that rewrites
+	// attachment URLs, a generic helper opens with `if (input === null || input ===
+	// undefined) return input`, and `input` is that object. Nothing there reads a claim
+	// or decides anything about the caller; the object merely still contains a field the
+	// caller filled in. The rule reported it as a branch trusting the caller's own claim,
+	// at a line where the expression it named does not occur.
+	RequiresUnenclosed bool
+
 	// SideVia narrows to a classified side that is a particular DERIVATION of the
 	// classified value, named by the property leaf or the function that produced it.
 	//
@@ -7936,6 +7948,7 @@ func builtinDecisions() []DecisionRule {
 		{
 			ID: "caller-decides-own-authority", Class: "caller-asserted-authority", Ops: equality,
 			RequiresUnprojected: true,
+			RequiresUnenclosed:  true,
 			CWE:                 "CWE-807",
 			Finding:             "Security decision made on the caller's own claim",
 			Reason:              "a field the caller sent is a statement the caller made about themselves, and a branch that trusts it lets them choose which branch runs",

@@ -1,0 +1,14 @@
+{
+  "corpus": "claim-enclosed-in-an-object",
+  "description": "What a branch decided ON has to be the claim, not a record the claim was filed in. `/promote` compares `req.body.role` and picks the branch the caller asked for, which is the weakness. `/scope` builds `{ id, scope }` out of a field of the same kind and hands the object to a helper whose first line is a presence check on the object -- and the engine reported that as a security decision made on the caller's own claim. It is not one: nothing there reads a field, and the object travels wherever the record travels. medplum's is the measured case. `{ ...login, scope }` reached `if (input === null || input === undefined) return input` in an attachment-URL rewriter eight frames and three modules away, and the finding was reported HIGH and gating at a line where `req.body.scope`, the expression it named as the source, does not occur. The classification already refuses a value read OUT of a structure it reached; this is the same question asked the other way round, and both directions have to be refused for the answer to mean what it says.",
+  "expected": [
+    {
+      "cwe": "CWE-807",
+      "sinkFile": "app.js",
+      "sinkLine": 13,
+      "sourceLabel": "req.body.role",
+      "confidence": "high",
+      "note": "the branch runs because the caller said so, and this is the whole of the weakness; narrowing the rule must not reach it"
+    }
+  ]
+}

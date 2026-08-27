@@ -177,6 +177,8 @@ var corpora = []string{
 	"promise-resolution",
 	"absent-dependency",
 	"upstream-response",
+	"return-to-the-calling-site",
+	"claim-enclosed-in-an-object",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {
