@@ -142,6 +142,7 @@ var corpora = []string{
 	"try-return-not-caught",
 	"msw-not-express",
 	"cipher-mode-decides-the-iv",
+	"decipher-update",
 	"literal-return-summary",
 	"unreferenced-component",
 	"python-inherited-method",

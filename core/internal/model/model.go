@@ -289,6 +289,16 @@ type Channel struct {
 	// what it needs, and an unanswered question is not a yes.
 	ReceiverFrom []string
 
+	// ReceiverNotFrom excludes a method-name channel when WHAT MADE THE RECEIVER
+	// proves that the shared name has a different meaning.
+	//
+	// Node's Hash, Hmac, Cipheriv and Decipheriv all expose `update`, and umami had
+	// two CWE-639 findings because that name was read as an ORM operation even with
+	// the Node types installed. The constructor is the identity available in both
+	// typed and untyped IR. An unknown producer remains a match: absence of proof
+	// that this is crypto must not remove real ORM updates across the corpus.
+	ReceiverNotFrom []string
+
 	// RequiresUntrustedReceiver marks a channel whose identity comes from WHAT IT IS
 	// CALLED ON rather than from its name.
 	//
@@ -3460,6 +3470,7 @@ func builtin() Model {
 				ID: "record-selector", Visibility: "internal", Context: "record-selector",
 				Method: "update", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
 				RequiresExternalReceiver: true,
+				ReceiverNotFrom:          []string{"createHash", "createHmac", "createCipheriv", "createDecipheriv"},
 				// A selector is a value the caller HANDED OVER; a message is one the
 				// program BUILT. `update` is the one record operation whose Python
 				// spelling takes the new field values rather than the criteria --
