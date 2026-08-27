@@ -58,6 +58,11 @@ const (
 	// above it: those say where a value entered THIS request, and this one says a value
 	// entered an EARLIER one and came back.
 	MatchStoreRead = "store-read"
+	// MatchFunctionParamProperty: a parameter, or one of its properties, handed to a
+	// named lifecycle hook. Both measured argv flows cross framework dispatch the call
+	// graph cannot resolve: a SearxNG engine's search(query, params), and JupyterHub's
+	// add_system_user(user). The hook contract is the trust boundary in those cases.
+	MatchFunctionParamProperty = "function-param-property"
 )
 
 // SourceRule locates values of a class by their origin.
@@ -146,6 +151,9 @@ type SourceRule struct {
 	// Medium narrows the rule to one kind of store, so that the noise of each can be
 	// measured -- and withdrawn -- separately.
 	Medium string
+
+	// MatchFunctionParamProperty
+	Function string
 }
 
 // Classification assigns a data class to values by where they come from. What makes a
@@ -348,6 +356,13 @@ type Channel struct {
 	// rather than about text: composition is the same question for strings, and this is
 	// it for objects.
 	RequiresUnenclosed bool
+
+	// RequiresEnclosure is the inverse structural question: the destination interprets
+	// each member of a collection independently, so the caller's value must have become
+	// an ELEMENT on its way there. An argv vector is the measured case. Requiring the
+	// enclosure keeps the shell channel unchanged and keeps a composed command string
+	// from being reported a second time as argument injection.
+	RequiresEnclosure bool
 
 	// RequiresComposition marks a channel that interprets a STATEMENT its caller built.
 	// The untrusted value must have been concatenated or interpolated into text on its
@@ -638,17 +653,21 @@ type Model struct {
 	Stores          []StoreRule
 	// Persistence is where values are PUT and where they come BACK -- a store, modelled
 	// as a place rather than as a call that happens to be traversed.
-	Persistence  []StoreAccess
-	Policies     []Policy
-	Sanitizers   []SanitizerRule
-	Callbacks    []CallbackRule
-	Controls     []ControlRule
-	Literals     []LiteralRule
-	ClientRole   ClientRoleRule
-	Guards       []GuardRule
-	Scopes       []ScopeRule
-	TaintFlowReq Requirements
-	SurfaceReq   Requirements
+	Persistence []StoreAccess
+	Policies    []Policy
+	Sanitizers  []SanitizerRule
+	Callbacks   []CallbackRule
+	Controls    []ControlRule
+	Literals    []LiteralRule
+	ClientRole  ClientRoleRule
+	Guards      []GuardRule
+	Scopes      []ScopeRule
+	// ArgvNoOptionPrograms is deliberately an allowlist rather than a presumption. Most
+	// command-line programs accept options, and an unknown executable therefore proves
+	// nothing about whether a dash-leading argument changes its operation.
+	ArgvNoOptionPrograms []string
+	TaintFlowReq         Requirements
+	SurfaceReq           Requirements
 }
 
 // ChannelsMatching returns channels a call site could be. Receiver narrowing is
@@ -686,6 +705,23 @@ func (m Model) IdentityClass() string { return "actor-identity" }
 
 // UntrustedClass names the classification for data a caller supplied.
 func (m Model) UntrustedClass() string { return "untrusted-input" }
+
+// ArgvProgramHasNoOptions reports the exceptional programs whose argument grammar has
+// no option surface. The shipped list is empty until a command earns that claim by
+// documented semantics; callers can extend the declarative model without weakening the
+// default for unknown executables.
+func (m Model) ArgvProgramHasNoOptions(program string) bool {
+	program = strings.TrimSpace(program)
+	if i := strings.LastIndexAny(program, `/\\`); i >= 0 {
+		program = program[i+1:]
+	}
+	for _, allowed := range m.ArgvNoOptionPrograms {
+		if program == allowed {
+			return true
+		}
+	}
+	return false
+}
 
 func (m Model) SanitizerFor(symbol string) (SanitizerRule, bool) {
 	for _, s := range m.Sanitizers {
@@ -951,6 +987,21 @@ func builtin() Model {
 					{Match: MatchCallResult, Symbol: "flask.request.get_data"},
 					{Match: MatchCallResult, Symbol: "request.get_json"},
 					{Match: MatchCallResult, Symbol: "request.get_data"},
+				},
+			},
+			{
+				// Framework dispatch hands these lifecycle hooks data that originated at the
+				// request boundary, but no ordinary call edge joins the two. Kept as a
+				// separate class and governed only at argv: treating every engine search
+				// parameter as general request taint introduced unrelated HTML and log flows.
+				Class: "process-argument-input",
+				Label: "data supplied to a process-launch lifecycle hook",
+				Rules: []SourceRule{
+					{Match: MatchFunctionParamProperty, Function: "search", ParamIndex: 0},
+					{
+						Match: MatchFunctionParamProperty, Function: "add_system_user",
+						ParamIndex: 1, Paths: []string{"name"},
+					},
 				},
 			},
 			{
@@ -3714,6 +3765,60 @@ func builtin() Model {
 				Rationale: "a composed string passed here is run by the shell",
 			},
 			{
+				ID: "process-arguments", Visibility: "internal", Context: "argv",
+				Symbol: "subprocess.run", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE: "CWE-88", RequiresEnclosure: true,
+				Rationale: "each list element is interpreted independently as a process argument",
+			},
+			{
+				ID: "process-arguments", Visibility: "internal", Context: "argv",
+				Symbol: "subprocess.call", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE: "CWE-88", RequiresEnclosure: true,
+				Rationale: "each list element is interpreted independently as a process argument",
+			},
+			{
+				ID: "process-arguments", Visibility: "internal", Context: "argv",
+				Symbol: "subprocess.check_output", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE: "CWE-88", RequiresEnclosure: true,
+				Rationale: "each list element is interpreted independently as a process argument",
+			},
+			{
+				ID: "process-arguments", Visibility: "internal", Context: "argv",
+				Symbol: "subprocess.check_call", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE: "CWE-88", RequiresEnclosure: true,
+				Rationale: "each list element is interpreted independently as a process argument",
+			},
+			{
+				ID: "process-arguments", Visibility: "internal", Context: "argv",
+				Symbol: "subprocess.Popen", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE: "CWE-88", RequiresEnclosure: true,
+				Rationale: "each list element is interpreted independently as a process argument",
+			},
+			{
+				ID: "process-arguments", Visibility: "internal", Context: "argv",
+				Symbol: "os.execv", ReceiverIsEntryParam: -1, ArgIndex: []int{1},
+				CWE: "CWE-88", RequiresEnclosure: true,
+				Rationale: "each list element is interpreted independently as a process argument",
+			},
+			{
+				ID: "process-arguments", Visibility: "internal", Context: "argv",
+				Symbol: "os.execve", ReceiverIsEntryParam: -1, ArgIndex: []int{1},
+				CWE: "CWE-88", RequiresEnclosure: true,
+				Rationale: "each list element is interpreted independently as a process argument",
+			},
+			{
+				ID: "process-arguments", Visibility: "internal", Context: "argv",
+				Symbol: "os.execvp", ReceiverIsEntryParam: -1, ArgIndex: []int{1},
+				CWE: "CWE-88", RequiresEnclosure: true,
+				Rationale: "each list element is interpreted independently as a process argument",
+			},
+			{
+				ID: "process-arguments", Visibility: "internal", Context: "argv",
+				Symbol: "os.execvpe", ReceiverIsEntryParam: -1, ArgIndex: []int{1},
+				CWE: "CWE-88", RequiresEnclosure: true,
+				Rationale: "each list element is interpreted independently as a process argument",
+			},
+			{
 				ID: "shell-command", Visibility: "internal", Context: "shell",
 				Symbol: "os.system", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
 				CWE:       "CWE-78",
@@ -3850,10 +3955,18 @@ func builtin() Model {
 			{
 				ID:            "untrusted-to-interpreter",
 				Class:         "untrusted-input",
-				DeniedContext: []string{"shell", "exec-path", "sql", "html", "code", "template", "ldap", "xpath"},
+				DeniedContext: []string{"shell", "argv", "exec-path", "sql", "html", "code", "template", "ldap", "xpath"},
 				Reason:        "a caller must not be able to choose what an interpreter executes",
 				Finding:       "Untrusted input reaches an interpreter",
 				CWE:           "CWE-78",
+			},
+			{
+				ID:              "process-argument-to-argv",
+				Class:           "process-argument-input",
+				RequiredContext: []string{"argv"},
+				Reason:          "data supplied to a process-launch lifecycle hook must not be interpreted as an option",
+				Finding:         "Untrusted input reaches a process argument",
+				CWE:             "CWE-88",
 			},
 			{
 				// The same judgement one request later. A stored value reaching an
@@ -3866,7 +3979,7 @@ func builtin() Model {
 				// Only the destinations that INTERPRET what they are given are claimed.
 				ID:            "stored-to-interpreter",
 				Class:         "second-order-input",
-				DeniedContext: []string{"shell", "exec-path", "sql", "html", "code", "template", "ldap", "xpath"},
+				DeniedContext: []string{"shell", "argv", "exec-path", "sql", "html", "code", "template", "ldap", "xpath"},
 				Reason:        "a value one caller stored is read back by another request and interpreted there, so the store is the delivery mechanism rather than the request that arrives with it",
 				Finding:       "Stored input reaches an interpreter",
 				CWE:           "CWE-78",
