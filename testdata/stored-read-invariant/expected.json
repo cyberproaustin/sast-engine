@@ -1,0 +1,14 @@
+{
+  "corpus": "stored-read-invariant",
+  "description": "A validation applies to the runtime value it checked, not to every later read of the same field. One request writes a caller-controlled slug into the pages store. Both readers check the same full-string allow-list. The first sends the checked local and is silent. The second reloads the record and reads page.slug again; nothing proves that fresh stored value still satisfies the earlier check, so it must report. The historical failure was in lowering: property reads were cached by base and path, turning both page.slug expressions into one IR value and crediting a sanitizer across the reload.",
+  "expected": [
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "app.ts",
+      "sinkLine": 36,
+      "sourceLabel": "the page store, written by POST /pages",
+      "confidence": "medium",
+      "note": "the allow-list checked an earlier read; reload can replace the stored value before this fresh page.slug reaches markup"
+    }
+  ]
+}

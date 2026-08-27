@@ -1152,6 +1152,17 @@ func builtin() Model {
 						Paths:      []string{"query", "body", "headers", "cookies", "url", "socket"},
 					},
 					{
+						// A rendered page is reachable by URL and is not an API route. Next
+						// supplies these two props from that URL; keeping the entry kind
+						// distinct preserves the API count while giving their values the same
+						// provenance they have in a route handler.
+						Match:      MatchEntryParamProperty,
+						Framework:  "next-app-page",
+						EntryKind:  "rendered-page",
+						ParamIndex: 0,
+						Paths:      []string{"params", "searchParams"},
+					},
+					{
 						// Frameworks that inject request data straight into a
 						// handler parameter (NestJS @Param/@Body/@Query).
 						Match:     MatchValueKind,

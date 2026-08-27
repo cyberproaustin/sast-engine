@@ -199,6 +199,59 @@ func TestPagesRouterSurfaceIsDerivedFromFilesAndBranches(t *testing.T) {
 	}
 }
 
+// A rendered page is a real remote entry and still not an API handler.
+//
+// umami has 59 of these beside 168 exported API methods. Folding the two populations
+// would make a correct API count wrong in order to acknowledge code a caller can reach;
+// dropping the pages makes their server-side searchParams flows unreachable. The kind is
+// therefore part of the assertion, not presentation detail.
+func TestAppRouterPagesAreCountedApartFromAPIRoutes(t *testing.T) {
+	res := runScan(t, "app-router-pages")
+
+	wantPages := map[string]string{
+		"src/app/page.tsx": "GET /",
+		"src/app/(main)/accounts/[accountId]/page.tsx":            "GET /accounts/:accountId",
+		"src/app/(main)/search/page.tsx":                          "GET /search",
+		"src/app/@modal/(.)accounts/[accountId]/details/page.tsx": "GET /accounts/:accountId/details",
+	}
+	gotPages := map[string]string{}
+	httpRoutes := 0
+	for _, entry := range res.Surface.Entries {
+		switch entry.EntryPoint.Kind {
+		case "rendered-page":
+			gotPages[entry.EntryPoint.Detail["module"]] = entry.Label()
+			if entry.EntryPoint.Framework != "next-app-page" {
+				t.Errorf("%s framework = %q, want next-app-page", entry.Label(), entry.EntryPoint.Framework)
+			}
+		case "http-route":
+			httpRoutes++
+		default:
+			t.Errorf("unexpected surface kind %q at %s", entry.EntryPoint.Kind, entry.Label())
+		}
+	}
+	if httpRoutes != 1 {
+		t.Errorf("API surface has %d routes, want only route.ts", httpRoutes)
+	}
+	for module, label := range wantPages {
+		if gotPages[module] != label {
+			t.Errorf("rendered page %s = %q, want %q", module, gotPages[module], label)
+		}
+	}
+	for module, label := range gotPages {
+		if _, ok := wantPages[module]; !ok {
+			t.Errorf("%s from %s was enumerated but is not a real default-exported page component", label, module)
+		}
+	}
+
+	classes := map[string]int{}
+	for _, class := range res.Surface.Classes() {
+		classes[class.Kind] = class.Count
+	}
+	if classes["rendered-page"] != 4 || classes["http-route"] != 1 {
+		t.Errorf("surface classes = %#v, want rendered-page=4 and http-route=1", classes)
+	}
+}
+
 // The flagship case: a defect that is an absence, with the peer population as its
 // evidence (ADR-009, ADR-010).
 func TestConventionFindsDeviationFromPeers(t *testing.T) {

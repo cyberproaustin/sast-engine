@@ -602,6 +602,23 @@ export function lowerProgram(opts: LowerOptions): IRDoc {
     }
   }
 
+  // A page component's destructured `params` and `searchParams` bindings are values the
+  // framework fills from the URL. They have no aggregate parameter in this frontend's
+  // IR, so the ordinary entry-parameter rule cannot name them. Mark only those two
+  // framework-defined bindings, and only on verified page entries, so application props
+  // with the same spelling elsewhere do not become request sources.
+  const functionByID = new Map(functions.map((fn) => [fn.id, fn]));
+  for (const ep of entryPoints) {
+    if (ep.kind !== "rendered-page" || ep.framework !== "next-app-page") continue;
+    const fn = functionByID.get(ep.functionId);
+    if (!fn) continue;
+    for (const value of fn.values) {
+      if (value.kind !== "param") continue;
+      const root = (value.path ?? value.name ?? "").split(".")[0];
+      if (root === "params" || root === "searchParams") value.kind = "untrusted-param";
+    }
+  }
+
   return {
     irVersion: IR_VERSION,
     frontend: {
@@ -1162,7 +1179,12 @@ function lowerFunction(
   // have one; anything built elsewhere is a value with no readable fields, which is what
   // makes a render call whose locals came from another function a stated miss.
   const objectFields = new Map<string, Map<string, string>>();
-  const propCache = new Map<string, string>();
+  // One AST read may be visited more than once while its enclosing expression is
+  // lowered, and should still have one value. Two different reads of the same field are
+  // not one value: a record may be reloaded, a getter may answer differently, or another
+  // request may update the store between awaits. Caching by `base|path` merged those
+  // runtime reads and let a guard on the first silently sanitize the second.
+  const propCache = new Map<ts.PropertyAccessExpression, string>();
 
   let valueCount = 0;
   let callCount = 0;
@@ -1567,14 +1589,13 @@ function lowerFunction(
     if (!baseId) return undefined;
 
     const dotted = segments.join(".");
-    const key = `${baseId}|${dotted}`;
-    const cached = propCache.get(key);
+    const cached = propCache.get(node2);
     if (cached) return cached;
 
     const loc = locOf(sf, node2);
     const id = newValue("property", loc, { base: baseId, path: dotted, name: dotted });
     addFlow(baseId, id, "property", loc);
-    propCache.set(key, id);
+    propCache.set(node2, id);
     return id;
   };
 
