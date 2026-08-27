@@ -151,7 +151,36 @@ func SARIF(w io.Writer, scanRes scan.Result, toolVersion string) error {
 		run.Invocations = []sarifInvocation{{ExecutionSuccessful: true}}
 	}
 
+	// Every finding is written, including the ones the engine enumerates and does not
+	// report. A document that held only the reported set would be a suppression list with
+	// no name on it (ADR-013), and the first person to look for a real credential parked
+	// in a fixture would find a file that says the repository is clean. What the reported
+	// set is FOR is counting: `properties.reportable` is the flag a harness filters on,
+	// and `properties.notReportedBecause` is the sentence it owes a reader who asks why a
+	// result it can see is not in the number it was given.
 	for _, f := range res.Findings {
+		props := map[string]any{
+			"confidence":   string(f.Confidence),
+			"gating":       scanRes.Gates(f),
+			"baselined":    !scanRes.IsNew(f),
+			"entryPoint":   f.EntryPoint,
+			"anchored":     f.EntryAnchored,
+			"sinkSymbol":   f.SinkSymbol,
+			"sinkContext":  f.SinkContext,
+			"owaspTop10":   assertion.Top10For(f.CWE),
+			"sanitizers":   sanitizerProps(f),
+			"provenance":   f.Provenance,
+			"entryTrust":   string(f.SourceTrust()),
+			"inTestModule": f.InTestModule,
+			"reportable":   f.Reportable(),
+			// Published whether or not it changed this finding's rank, because a
+			// consumer reading a note is owed the reason it is a note.
+			"entryAuthenticates": f.EntryAuthenticates,
+			"audienceDecides":    f.AudienceDecides,
+		}
+		if why := f.NotReportedBecause(); why != "" {
+			props["notReportedBecause"] = why
+		}
 		run.Results = append(run.Results, sarifResult{
 			RuleID:              f.CWE,
 			Level:               levelFor(f),
@@ -160,23 +189,7 @@ func SARIF(w io.Writer, scanRes scan.Result, toolVersion string) error {
 			RelatedLocations:    relatedLocationsOf(f),
 			CodeFlows:           codeFlowsOf(f),
 			PartialFingerprints: map[string]string{"sastEngine/v1": f.Fingerprint()},
-			Properties: map[string]any{
-				"confidence":  string(f.Confidence),
-				"gating":      scanRes.Gates(f),
-				"baselined":   !scanRes.IsNew(f),
-				"entryPoint":  f.EntryPoint,
-				"anchored":    f.EntryAnchored,
-				"sinkSymbol":  f.SinkSymbol,
-				"sinkContext": f.SinkContext,
-				"owaspTop10":  assertion.Top10For(f.CWE),
-				"sanitizers":  sanitizerProps(f),
-				"provenance":  f.Provenance,
-				"entryTrust":  string(f.SourceTrust()),
-				// Published whether or not it changed this finding's rank, because a
-				// consumer reading a note is owed the reason it is a note.
-				"entryAuthenticates": f.EntryAuthenticates,
-				"audienceDecides":    f.AudienceDecides,
-			},
+			Properties:          props,
 		})
 	}
 
@@ -191,7 +204,12 @@ func SARIF(w io.Writer, scanRes scan.Result, toolVersion string) error {
 			Message:   sarifText{Text: f.Message},
 			Locations: []sarifLocation{locationOf(f.EntryLoc, "")},
 			Properties: map[string]any{
-				"gating":             f.Gates,
+				"gating": f.Gates,
+				// An expectation is an assertion about an entry point the engine
+				// enumerated, so there is no module context to discount it by. Stated
+				// rather than left absent, so a consumer filtering on the flag is not
+				// reading two different meanings of a missing key.
+				"reportable":         true,
 				"expectationOrigin":  f.Origin,
 				"entryPoint":         f.EntryPoint,
 				"group":              f.Group,

@@ -714,3 +714,62 @@ who is told only one of them has been told the smaller half.
 
 **How to tell if this is being applied.** Ask what fact the new kind reads that no existing
 kind can reach. If the answer is a field on an existing rule, it is a field.
+
+---
+
+## ADR-017: The engine enumerates everything it found and reports the part that is a defect
+
+**Status:** Accepted (2026-08-27).
+
+### Decision
+A run produces two sets, and they are named:
+
+- **enumerated** — every finding the analyses produced, with its whole evidence path.
+- **reported** — the subset that is a defect in the application somebody is being asked
+  to defend.
+
+A finding leaves the reported set for exactly three reasons, all of them facts a frontend
+lowered: it is in a test module (`ir.Module.IsTest`), it is in code the repository did not
+hand-write (`ir.Module.Provenance`), or the value that makes it wrong could only have been
+supplied at operator or internal trust (`ir.EntryPoint.Trust`). The judgement is one
+function in the policy layer (`policy.Context`), applied to every analysis kind at once in
+`scan.Run`, so a rule written next year inherits it without knowing it exists.
+
+Everything else is unchanged. An enumerated finding still prints, with its path, under the
+reason it is not reported. It still travels in SARIF, at the level it always had, carrying
+`properties.reportable` and `properties.notReportedBecause`. A baseline still records it.
+Precision is scored over the reported set; **recall is scored over the enumerated set**,
+because an expectation asks whether the engine FOUND the thing.
+
+### Why (do not revert this)
+Measured. Across twenty repositories, 12 of the 41 false positives attributed to the eight
+worst-scoring rules were one failure repeated across eight unrelated rules: the rule found
+exactly the shape it was built to find, in a test fixture, in an example, or on a path only
+somebody who already holds the host can walk. Every one of those rules was correct. What
+was wrong was the set it published into.
+
+Re-scored over the ten repositories of batch 2, 86 enumerated findings became 55 reported.
+The 31 are 20 in test modules, 6 in `examples/`, and 5 reached only through a management
+command. Not one of them left the output, and the gating count did not move by one on any
+of the ten — which is the check that says this changed what the engine PUBLISHES rather
+than what it believes.
+
+The distinction it is easy to collapse is between this and a suppression (ADR-013), and
+the difference is that nothing here reads a filename or a rule name. The terms are three
+IR facts; a repository that spells its tests differently is answered by the frontend that
+knows that ecosystem, and a rule added tomorrow gets the same answer as one added a year
+ago. It is also why the answer is a sentence and not a flag: a reader who is not shown a
+finding in the list they are reading is owed the reason it is elsewhere.
+
+### If you are a future reviewer
+Two ways this goes wrong. The first is scoring recall over the reported set: that turns the
+corpora holding the non-HTTP entry-point classes into false negatives and looks like a
+precision win. The second is trusting the trust term where it is a proxy for the wrong
+question. `Trust` says who can cause the entry point to run, and for a value that a caller
+supplied that is also who supplied it — but a weakness whose victim is somebody OTHER than
+the caller does not follow that rule. `testdata/secret-file-created-before-chmod` is the
+case: a secret file created at the process umask, reachable only from a program start, and
+the local user who reads it in the interval is not the operator who started it. It is
+enumerated and not reported today, and if a second case like it is measured, the fix is to
+ask whether the finding is about a value that crossed the boundary — not to add an
+exception for the rule.

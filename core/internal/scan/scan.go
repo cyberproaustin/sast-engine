@@ -116,8 +116,22 @@ func Run(d *ir.IR, m model.Model, p *policy.Policy) Result {
 	t.Findings = append(t.Findings, scope.Analyze(d, m, t.ByClass)...)
 	ix := ir.NewIndex(d)
 	authenticated := authenticatedEntries(s)
+	// Where the code IS is asked once, here, of every analysis kind at once. Provenance
+	// has been stamped in this loop since it existed; the test-module fact is the same
+	// kind of fact about the same location and was being re-derived by each rule that
+	// remembered to. Seven of the eight kinds did remember and the rate-limit rules did
+	// not, which is the shape of the problem rather than the size of it: nothing measured
+	// the gap, it was found by reading, and every rule written after today would have had
+	// to be read the same way. A fact the whole engine judges by belongs where no rule can
+	// forget it.
+	//
+	// The stamp only ADDS. A rule that knows a better location than its own sink -- a
+	// guard rule judges a function, a sibling rule judges the use site -- has already
+	// answered for that location, and the module holding the sink is a second true reason
+	// rather than a correction of the first.
 	for i := range t.Findings {
 		t.Findings[i].Provenance = ix.ProvenanceOf(t.Findings[i].SinkLoc)
+		t.Findings[i].InTestModule = t.Findings[i].InTestModule || ix.InTestModule(t.Findings[i].SinkLoc)
 		t.Findings[i].EntryAuthenticates = authenticated[t.Findings[i].EntryPoint]
 	}
 	unanchorUnreachedModules(ix, d, t.Findings)

@@ -222,6 +222,18 @@ func TestCorpusScores(t *testing.T) {
 				t.Errorf("CONFIDENCE DRIFT: %s expected %s, got %s",
 					m.Expectation, m.Expectation.Confidence, m.Got)
 			}
+			// Not failures. A corpus is free to assert a weakness in a fixture or behind
+			// a management command, and several do on purpose -- the whole point of the
+			// non-HTTP entry-point corpora is that the engine finds those. What this says
+			// is that the finding is enumerated and not reported, so a reader comparing
+			// this line to a repository's finding count knows which set each number is.
+			for _, e := range rep.ExpectedButNotReported {
+				t.Logf("ENUMERATED, NOT REPORTED: %s", e)
+			}
+			for _, f := range rep.EnumeratedOnly {
+				t.Logf("ENUMERATED, NOT REPORTED, NOT EXPECTED: %s at %s from %s (%s)",
+					f.CWE, f.SinkLoc, f.SourceLabel, f.NotReportedBecause())
+			}
 		})
 	}
 }
@@ -236,10 +248,18 @@ func TestCleanCorpusProducesNothing(t *testing.T) {
 	if rep.NotApplicable {
 		t.Fatal("clean corpus did not run; an unrun analysis is not a clean result")
 	}
-	if len(rep.FalsePositives) != 0 {
+	// Both sets, because precision is now scored over the reported one. A claim the
+	// engine merely enumerates is still a claim about safe code, and letting the
+	// context judgement absorb one here would make this measurement say less than it
+	// did before the judgement existed.
+	if len(rep.FalsePositives)+len(rep.EnumeratedOnly) != 0 {
 		for _, fp := range rep.FalsePositives {
 			t.Errorf("false positive on safe code: %s at %s from %s",
 				fp.CWE, fp.SinkLoc, fp.SourceLabel)
+		}
+		for _, fp := range rep.EnumeratedOnly {
+			t.Errorf("enumerated on safe code: %s at %s from %s (%s)",
+				fp.CWE, fp.SinkLoc, fp.SourceLabel, fp.NotReportedBecause())
 		}
 		t.Fatalf("precision %.2f on the clean corpus", rep.Precision())
 	}

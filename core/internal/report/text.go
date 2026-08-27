@@ -433,9 +433,19 @@ func writeTaint(b *strings.Builder, res taint.Result, newness, scoped map[string
 	// not mixed in. Presenting them alongside anchored findings would claim a surface
 	// the engine did not map (ADR-009).
 	var unanchored []taint.Finding
+	// And findings the context judgement enumerates rather than reports (policy.Context):
+	// a key in a fixture, a path only an operator walks. The non-application section
+	// below is the same separation drawn one step earlier, which is why provenance is
+	// asked first -- "this is not our code" is a more specific answer than "this is not
+	// reported", and the reader who has it does not need the weaker one.
+	var notReported []taint.Finding
 	for _, f := range res.Findings {
 		if f.Provenance != "" {
 			nonApplication = append(nonApplication, f)
+			continue
+		}
+		if !f.Reportable() {
+			notReported = append(notReported, f)
 			continue
 		}
 		if !f.EntryAnchored {
@@ -506,9 +516,6 @@ func writeTaint(b *strings.Builder, res taint.Result, newness, scoped map[string
 				fmt.Fprintf(b, "  outside this change\n")
 				out++
 			}
-			if f.InTestModule {
-				fmt.Fprintf(b, "  in a test module: ships with the repository, does not run in production\n")
-			}
 			if f.DependsOnUse != "" {
 				// Verdict first, reason after. A reader scanning for what will stop a
 				// build should not have to finish a sentence to find out.
@@ -554,8 +561,81 @@ func writeTaint(b *strings.Builder, res taint.Result, newness, scoped map[string
 		}
 	}
 	writeUnanchored(b, unanchored)
+	writeNotReported(b, notReported, newness, scoped)
 	writeNonApplicationFindings(b, nonApplication, newness, scoped)
 	writeNoCallerIdentity(b, res)
+}
+
+// Findings the engine enumerated and does not report, each under the reason it is not
+// reported.
+//
+// Separated, and never dropped. 12 of the 41 false positives from one batch's
+// worst-scoring rules were a correct rule firing in a test fixture, an example, or a
+// management command an operator runs, and reading those beside an application's own
+// defects is what teaches a maintainer to stop reading the rule. Printing them in full is
+// the same measurement read from the other side: operators paste values out of tickets,
+// cron entries and CI variables into those arguments, and a key parked in a fixture is a
+// real key. Both sentences are true, and a section that states which one applies is the
+// only way to say both.
+func writeNotReported(b *strings.Builder, findings []taint.Finding, newness, scoped map[string]bool) {
+	if len(findings) == 0 {
+		return
+	}
+	sort.SliceStable(findings, func(i, j int) bool {
+		if a, c := findings[i].NotReportedBecause(), findings[j].NotReportedBecause(); a != c {
+			return a < c
+		}
+		if findings[i].Analysis != findings[j].Analysis {
+			return findings[i].Analysis < findings[j].Analysis
+		}
+		return findings[i].SinkLoc.String() < findings[j].SinkLoc.String()
+	})
+
+	fmt.Fprintf(b, "\nenumerated, not reported: %d finding(s), each under the reason it is not\n",
+		len(findings))
+	reason, analysis, shown := "", "", 0
+	elided := map[string]int{}
+	flushElided := func() {
+		if len(elided) == 0 {
+			return
+		}
+		files := make([]string, 0, len(elided))
+		for file := range elided {
+			files = append(files, file)
+		}
+		sort.Strings(files)
+		fmt.Fprintf(b, "\n  additional %s finding(s):\n", analysis)
+		for _, file := range files {
+			fmt.Fprintf(b, "    %-64s %d\n", file, elided[file])
+		}
+		elided = map[string]int{}
+	}
+
+	for _, f := range findings {
+		if why := f.NotReportedBecause(); why != reason {
+			flushElided()
+			reason, analysis = why, ""
+			fmt.Fprintf(b, "\n  -- %s --\n", reason)
+		}
+		if f.Analysis != analysis {
+			flushElided()
+			analysis, shown = f.Analysis, 0
+			fmt.Fprintf(b, "\n  %s\n", analysis)
+		}
+		if shown >= sameRuleDetailLimit {
+			elided[f.SinkLoc.File]++
+			continue
+		}
+		shown++
+		writeTaintFinding(b, f)
+		if newness != nil && !newness[f.Fingerprint()] {
+			fmt.Fprintf(b, "  in baseline: %s\n", f.Fingerprint())
+		}
+		if scoped != nil && !scoped[f.Fingerprint()] {
+			fmt.Fprintf(b, "  outside this change\n")
+		}
+	}
+	flushElided()
 }
 
 // Findings in source the repository did not hand-write remain facts, but putting them in
