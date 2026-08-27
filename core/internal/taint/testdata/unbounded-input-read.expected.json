@@ -1,0 +1,14 @@
+{
+  "corpus": "unbounded-input-read",
+  "description": "A request-derived upload is materialized whole when read() omits its size argument. The route beside it reads the same input through the same API with an application-written maximum and is silent.",
+  "expected": [
+    {
+      "cwe": "CWE-770",
+      "sinkFile": "app.py",
+      "sinkLine": 16,
+      "sourceLabel": "request.FILES",
+      "confidence": "high",
+      "note": "the upload receiver carries remote untrusted input and read() has no positional size"
+    }
+  ]
+}
