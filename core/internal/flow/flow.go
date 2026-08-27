@@ -155,7 +155,7 @@ func atCallSites(r ir.Render, ix *ir.Index, ids []string) []resolved {
 			// the frontend could read: a call that spreads a mapping it did not
 			// enumerate binds nothing here, and binding a value to a name nobody wrote
 			// would attach the finding to the wrong interpolation.
-			for k, v := range keywordArgs(c) {
+			for k, v := range keywordArgs(c, ix) {
 				bind[k] = v
 			}
 		}
@@ -167,46 +167,41 @@ func atCallSites(r ir.Render, ix *ir.Index, ids []string) []resolved {
 	return out
 }
 
-// keywordArgs is what a call bound by NAME.
+// keywordArgs is what a call bound by NAME, for the frontends that record it.
 //
 // A keyword argument appears in `argLiterals` under a negative index spelled
-// `name=value`, in the order the keywords were written, and its VALUE — the thing
-// dataflow tracks — is an ordinary entry in `args` after the positional ones.
-//
-// The pairing is refused unless every argument that was WRITTEN produced a value:
-// `len(Args) == ArgCount` is the only evidence that nothing was dropped, and a dropped
-// argument shifts the tail so that one name takes another's value. Binding a template
-// variable to the wrong value would attach a finding to the wrong interpolation, which
-// is worse than the silence.
-func keywordArgs(c *ir.Call) map[string]string {
+// `name=value`, and its VALUE — the thing dataflow tracks — is an ordinary entry in
+// `args` at the position keyword arguments start. Pairing the two by order is what the
+// caller's own lowering guarantees.
+func keywordArgs(c *ir.Call, ix *ir.Index) map[string]string {
 	out := map[string]string{}
-	if !c.OptionsEnumerated(-1) || c.ArgCount == 0 || len(c.Args) != c.ArgCount {
+	if !c.OptionsEnumerated(-1) {
 		return out
 	}
+	var names []string
 	keys := make([]int, 0, len(c.ArgLiterals))
 	for k := range c.ArgLiterals {
-		// Below -1000 are the keys of options written one level down inside a named
-		// group, which are not arguments of this call.
 		if k < 0 && k > -1000 {
 			keys = append(keys, k)
 		}
 	}
 	sort.Sort(sort.Reverse(sort.IntSlice(keys)))
-	names := make([]string, 0, len(keys))
 	for _, k := range keys {
 		name, _, ok := strings.Cut(c.ArgLiterals[k], "=")
-		if !ok || name == "" {
-			return out
+		if !ok {
+			continue
 		}
 		names = append(names, name)
 	}
-	if len(names) == 0 || len(names) > len(c.Args) {
+	if len(names) == 0 {
 		return out
 	}
-	tail := c.Args[len(c.Args)-len(names):]
-	for i, name := range names {
-		if tail[i].ValueID != "" {
-			out[name] = tail[i].ValueID
+	// The name on the argument is the binding. Reconstructing it from the order of
+	// separately recorded literals was necessary only while every keyword shared one
+	// fabricated positional index.
+	for _, a := range c.Args {
+		if a.Name != "" && a.ValueID != "" && ix.ValueByID[a.ValueID] != nil {
+			out[a.Name] = a.ValueID
 		}
 	}
 	return out

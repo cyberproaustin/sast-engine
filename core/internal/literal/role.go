@@ -226,7 +226,7 @@ func (f *roleFinder) classify(fn *ir.Function, v *ir.Value, text string) (role, 
 			if c.ReceiverID == cur.id && c.ResultID != "" && f.rule.IsCarrier(c.Callee.Symbol, c.Method) {
 				queue = append(queue, step{cur.fn, c.ResultID, cur.depth + 1, cur.crossed})
 			}
-			idx, ok, unique := argIndexOf(c, cur.id)
+			arg, ok, unique := argumentOf(c, cur.id)
 			if !ok {
 				continue
 			}
@@ -248,11 +248,9 @@ func (f *roleFinder) classify(fn *ir.Function, v *ir.Value, text string) (role, 
 				queue = append(queue, step{cur.fn, c.ResultID, cur.depth + 1, cur.crossed})
 			}
 			// Into the callee, at the parameter this argument binds to. Only for an
-			// argument whose position is unambiguous: Python lowers every keyword
-			// argument at the position of the first one, and following one of those
-			// would land on a parameter it never bound.
+			// argument whose binding is unambiguous.
 			if unique {
-				if callee, pv := f.calleeParam(c, idx); callee != nil && pv != "" {
+				if callee, pv := f.calleeParam(c, arg); callee != nil && pv != "" {
 					queue = append(queue, step{callee, pv, cur.depth + 1, cur.crossed + 1})
 				}
 			}
@@ -380,7 +378,7 @@ func (f *roleFinder) builtWithAnAddress(fn *ir.Function, to *ir.Value, text stri
 // that defines it is in another module. Resolving it by NAME is how the walk reaches
 // `_extract_mvpd_auth`, and it is done only where the name has exactly one definition in
 // the whole program: an ambiguous name is left unresolved rather than guessed at.
-func (f *roleFinder) calleeParam(c *ir.Call, idx int) (*ir.Function, string) {
+func (f *roleFinder) calleeParam(c *ir.Call, arg ir.Arg) (*ir.Function, string) {
 	var callee *ir.Function
 	if c.Callee.Kind == "local" && c.Callee.FunctionID != "" {
 		callee = f.ix.FuncByID[c.Callee.FunctionID]
@@ -402,6 +400,13 @@ func (f *roleFinder) calleeParam(c *ir.Call, idx int) (*ir.Function, string) {
 	if callee == nil || len(callee.Params) == 0 {
 		return nil, ""
 	}
+	if arg.Name != "" {
+		if p, ok := arg.BoundParam(callee); ok {
+			return callee, p.ValueID
+		}
+		return nil, ""
+	}
+	idx := arg.Index
 	// A method call binds the receiver to the first parameter, which the argument list
 	// does not carry.
 	if c.ReceiverID != "" {
@@ -418,22 +423,21 @@ func (f *roleFinder) calleeParam(c *ir.Call, idx int) (*ir.Function, string) {
 	return nil, ""
 }
 
-// argIndexOf reports whether a value is an argument of a call, at which position, and
-// whether that position is unambiguous. Python lowers every keyword argument at the
-// position of the first one, so a repeated index says the binding is not knowable.
-func argIndexOf(c *ir.Call, valueID string) (idx int, ok bool, unique bool) {
-	found := -1
+// argumentOf reports whether a value is an argument of a call and whether that binding
+// is unambiguous.
+func argumentOf(c *ir.Call, valueID string) (found ir.Arg, ok bool, unique bool) {
 	count := 0
 	for _, a := range c.Args {
 		if a.ValueID == valueID {
-			found = a.Index
+			found = a
 		}
 	}
-	if found < 0 {
-		return 0, false, false
+	if found.ValueID == "" {
+		return ir.Arg{}, false, false
 	}
 	for _, a := range c.Args {
-		if a.Index == found {
+		if (found.Name != "" && a.Name == found.Name) ||
+			(found.Name == "" && a.Name == "" && a.Index == found.Index) {
 			count++
 		}
 	}
