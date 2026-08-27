@@ -1,5 +1,6 @@
-// Package taint is the core dataflow analysis. It consumes only the IR and the
-// security model, and knows nothing about any language.
+// Package taint is the core dataflow analysis. It consumes the IR, the security model,
+// and the policy layer's judgement about the code a finding names (policy.Context), and
+// knows nothing about any language.
 //
 // Every finding it produces carries the path that justifies it (ADR-006), and its
 // confidence is derived from how well the call edges along that path resolved, not
@@ -18,6 +19,7 @@ import (
 	"github.com/cyberproaustin/sast-engine/core/internal/flow"
 	"github.com/cyberproaustin/sast-engine/core/internal/ir"
 	"github.com/cyberproaustin/sast-engine/core/internal/model"
+	"github.com/cyberproaustin/sast-engine/core/internal/policy"
 	"github.com/cyberproaustin/sast-engine/core/internal/reachdef"
 )
 
@@ -50,17 +52,37 @@ func (c Confidence) Gating() bool { return c == High }
 // Deliberately not folded into scan.Result.Gates: a finding that a baseline already knows
 // is still an error, because a baseline is a record and not a suppression (ADR-014).
 //
-// Trust joins the list for the same reason test modules and provenance are on it. A
-// management command interpolating its own argument into a shell, and a process start
-// reading its own environment, are true statements about code that only somebody who
-// already has the host can reach; failing a build on them would say a stranger can do
-// this, which is not what the engine found. They remain reported, at warning, exactly as
-// a vendored finding does -- and a scheduled job reading a column an HTTP request wrote
-// still gates, because the trust travels with the SOURCE and that source is remote.
+// The three terms about WHERE the finding is -- test module, provenance, trust -- used to
+// be spelled out here, and they are now one call to the context judgement, because the
+// same three had to be asked in the report, in the score and in every new rule. Nothing
+// about the answer changed; what changed is that there is one place to change it.
 func (f Finding) Actionable() bool {
-	return f.EntryAnchored && f.DependsOnUse == "" && !f.InTestModule && f.Provenance == "" &&
-		f.SourceTrust() == ir.Remote && f.Confidence.Gating()
+	return f.Reportable() && f.EntryAnchored && f.DependsOnUse == "" && f.Confidence.Gating()
 }
+
+// Context is where this finding sits, in the terms that decide whether it is reported or
+// only enumerated (policy.Context).
+func (f Finding) Context() policy.Context {
+	return policy.Context{
+		InTestModule: f.InTestModule,
+		Provenance:   f.Provenance,
+		Trust:        f.SourceTrust(),
+	}
+}
+
+// Reportable reports whether this finding belongs in the set handed to a maintainer as a
+// defect in their application, as opposed to the enumerated set, which is everything the
+// engine found and which nothing here removes anything from.
+//
+// Weaker than Actionable on purpose: a medium-confidence injection on a live route is
+// reportable and does not gate, because how well the call graph resolved (ADR-005) is a
+// different question from whose application this is.
+func (f Finding) Reportable() bool { return f.Context().Reportable() }
+
+// NotReportedBecause is why this finding is enumerated and not reported, or "" when it is
+// reported. Carried out to every consumer, since a finding that is not in the list a
+// reader is looking at is owed the reason it is not there.
+func (f Finding) NotReportedBecause() string { return f.Context().NotReportedBecause() }
 
 // SourceTrust is who could cause this finding's value to enter the program, reading an
 // unstated trust as remote.
@@ -426,12 +448,18 @@ type Finding struct {
 	// but a route. An engine must not become quieter because a frontend went silent.
 	EntryTrust ir.Trust
 	// InTestModule marks a finding in code that ships with the repository but does not
-	// run in production. Reported, never gating: a key written into a test is in the
-	// history exactly as the reason says and is still not a production credential.
+	// run in production. Enumerated, never reported and never gating: a key written into
+	// a test is in the history exactly as the reason says and is still not a production
+	// credential.
+	//
+	// Stamped once for every analysis in scan.Run rather than asked for rule by rule.
+	// A rule that knows a better location than the sink -- a guard rule judges the
+	// function, not the call -- may set it itself, and the stamp only adds.
 	InTestModule bool
-	// Provenance marks a true statement about code the repository did not hand-write as
-	// lower-ranked than the same statement about application code. It remains reported:
-	// vendored protocol compatibility and a generated credential table are still facts.
+	// Provenance marks a true statement about code the repository did not hand-write.
+	// Enumerated rather than reported, for the same reason: vendored protocol
+	// compatibility and a generated credential table are still facts, and they are not
+	// defects in the application anybody is being asked to defend.
 	Provenance ir.Provenance
 	// DependsOnUse is why this finding never gates, or empty when it may.
 	//

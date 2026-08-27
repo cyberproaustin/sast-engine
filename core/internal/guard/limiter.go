@@ -150,10 +150,15 @@ func analyzeLimiterCoverage(ix *ir.Index, m model.Model, rule model.GuardRule) [
 			EntryMethod:   ep.Detail["method"],
 			EntryPath:     ep.Detail["path"],
 			EntryAnchored: true,
-			SinkLoc:       at.loc,
-			SinkFunction:  fn.ID,
-			SinkSymbol:    "rate-limit admission predicate",
-			SinkRational:  rule.Rationale,
+			// The entry point IS the subject here -- this route reaches expensive work
+			// with nothing admitting it -- so who can reach the route is the finding's
+			// own trust. Unstated, it would read as remote, which is the right default
+			// for a route and the wrong one for anything else that ever grows a limiter.
+			EntryTrust:   ep.TrustLevel(),
+			SinkLoc:      at.loc,
+			SinkFunction: fn.ID,
+			SinkSymbol:   "rate-limit admission predicate",
+			SinkRational: rule.Rationale,
 			RelatedSites: []taint.Site{{
 				Loc: expensive.Loc,
 			}},

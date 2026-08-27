@@ -35,13 +35,35 @@ type Corpus struct {
 }
 
 // Report is the outcome of scoring one corpus.
+//
+// Two sets, because the engine produces two. It ENUMERATES everything it found, and it
+// REPORTS the part of that which is a defect in the application somebody is being asked
+// to defend (policy.Context). Precision is scored over the reported set, because that is
+// the set a maintainer is handed and the one the false-positive rate is about. Recall is
+// scored over the enumerated set, because an expectation asks whether the engine FOUND
+// the thing, and a corpus that deliberately puts a weakness in a fixture or behind a
+// management command is asserting exactly that.
+//
+// Scoring recall over the reported set instead would have made this change look like a
+// precision win while silently deleting the corpora that hold the engine's non-HTTP
+// entry-point classes -- which is the failure this split exists to prevent, not to cause.
 type Report struct {
-	Corpus          string
-	NotApplicable   bool
-	TruePositives   int
-	FalsePositives  []taint.Finding
-	FalseNegatives  []Expectation
-	WrongConfidence []Mismatch
+	Corpus         string
+	NotApplicable  bool
+	TruePositives  int
+	FalsePositives []taint.Finding
+	// EnumeratedOnly are claims no expectation covers that the engine does not report:
+	// found in a test module, in code the repository did not hand-write, or on a path
+	// only an operator walks. Listed rather than dropped, so that "precision improved"
+	// can never quietly mean "the engine stopped saying it".
+	EnumeratedOnly []taint.Finding
+	// ExpectedButNotReported are expectations the engine satisfies with a finding it
+	// enumerates and does not report. Not a failure -- the finding is there and the
+	// corpus found it -- and worth naming, because a fixture asserting a test-context
+	// finding is evidence about what its author meant that no summary line carries.
+	ExpectedButNotReported []Expectation
+	FalseNegatives         []Expectation
+	WrongConfidence        []Mismatch
 }
 
 // Mismatch is a finding that was expected and found, but tiered differently than
@@ -51,8 +73,8 @@ type Mismatch struct {
 	Got         taint.Confidence
 }
 
-// Precision is TP / (TP + FP). A run that claims nothing cannot be wrong, so an
-// empty claim set scores 1.
+// Precision is TP / (TP + FP) over the REPORTED set. A run that claims nothing cannot be
+// wrong, so an empty claim set scores 1.
 func (r Report) Precision() float64 {
 	claimed := r.TruePositives + len(r.FalsePositives)
 	if claimed == 0 {
@@ -61,7 +83,8 @@ func (r Report) Precision() float64 {
 	return float64(r.TruePositives) / float64(claimed)
 }
 
-// Recall is TP / (TP + FN). A corpus asserting nothing cannot be missed.
+// Recall is TP / (TP + FN) over the ENUMERATED set. A corpus asserting nothing cannot be
+// missed.
 func (r Report) Recall() float64 {
 	expected := r.TruePositives + len(r.FalseNegatives)
 	if expected == 0 {
@@ -79,10 +102,20 @@ func (r Report) Summary() string {
 	if r.NotApplicable {
 		return fmt.Sprintf("%-28s NOT APPLICABLE (analysis did not run)", r.Corpus)
 	}
-	return fmt.Sprintf(
+	line := fmt.Sprintf(
 		"%-28s precision %.2f  recall %.2f   tp=%d fp=%d fn=%d",
 		r.Corpus, r.Precision(), r.Recall(), r.TruePositives, len(r.FalsePositives), len(r.FalseNegatives),
 	)
+	// Printed only when there is one, and never silently: a corpus whose findings are
+	// enumerated rather than reported is one whose numbers mean something different from
+	// the line above them.
+	if n := len(r.EnumeratedOnly); n > 0 {
+		line += fmt.Sprintf(" enumerated-only=%d", n)
+	}
+	if n := len(r.ExpectedButNotReported); n > 0 {
+		line += fmt.Sprintf(" expected-not-reported=%d", n)
+	}
+	return line
 }
 
 // LoadCorpus reads a corpus expectation manifest.
@@ -130,6 +163,9 @@ func Score(c Corpus, res taint.Result) Report {
 		}
 		claimed[matched] = true
 		rep.TruePositives++
+		if !res.Findings[matched].Reportable() {
+			rep.ExpectedButNotReported = append(rep.ExpectedButNotReported, want)
+		}
 		if want.Confidence != "" && string(res.Findings[matched].Confidence) != want.Confidence {
 			rep.WrongConfidence = append(rep.WrongConfidence, Mismatch{
 				Expectation: want,
@@ -139,9 +175,14 @@ func Score(c Corpus, res taint.Result) Report {
 	}
 
 	for i, got := range res.Findings {
-		if !claimed[i] {
-			rep.FalsePositives = append(rep.FalsePositives, got)
+		if claimed[i] {
+			continue
 		}
+		if got.Reportable() {
+			rep.FalsePositives = append(rep.FalsePositives, got)
+			continue
+		}
+		rep.EnumeratedOnly = append(rep.EnumeratedOnly, got)
 	}
 	return rep
 }
