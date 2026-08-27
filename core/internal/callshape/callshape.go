@@ -358,6 +358,9 @@ func finding(ix *ir.Index, fn *ir.Function, c *ir.Call, shape model.CallShape, l
 		SinkRational: shape.Rationale,
 		SourceLabel:  strconv.Quote(lit),
 		SourceLoc:    c.Loc,
+		// What tells this call apart from its siblings, for the shapes where the
+		// SourceLabel cannot: see writtenArguments.
+		Discriminator: writtenArguments(c, shape),
 		// The evidence is the call itself: this symbol was written with this argument.
 		// Short, and complete for the claim being made (ADR-006) -- unlike a flow, there
 		// is no path to walk because nothing travelled.
@@ -378,6 +381,45 @@ func finding(ix *ir.Index, fn *ir.Function, c *ir.Call, shape model.CallShape, l
 		EntryAnchored: true,
 		EntryPoint:    enclosing(ix, fn),
 	}
+}
+
+// writtenArguments is what this call was written with, for the shapes whose finding does
+// not otherwise say which call it was.
+//
+// A shape that judges an ARGUMENT already records that argument's value as the source
+// label, so its siblings differ there and this stays empty -- which matters, because an
+// empty discriminator leaves the fingerprint exactly as it has always been computed and
+// every verdict recorded against one of those rules keeps its key.
+//
+// The shapes that need it are the ones whose evidence is the call itself: `Always` says a
+// call is a defect by existing, and `MissingArg` says an argument was never supplied.
+// Both record the SYMBOL, which is identical for every sibling. juice-shop calls
+// `serveIndex` five times in one function, three of them adjudicated separately as real,
+// and all of them fingerprinted alike -- `serveIndex("ftp")` and
+// `serveIndex("encryptionkeys")` publish different directories and are different defects.
+//
+// The arguments and not the line, because surviving a reformat is the whole point
+// (ADR-014). Two calls written identically in one function still share a fingerprint,
+// which is correct: nothing about them differs except where they sit.
+func writtenArguments(c *ir.Call, shape model.CallShape) string {
+	if !shape.Always && shape.MissingArg == nil {
+		return ""
+	}
+	if len(c.ArgLiterals) == 0 {
+		return ""
+	}
+	indexes := make([]int, 0, len(c.ArgLiterals))
+	for i := range c.ArgLiterals {
+		indexes = append(indexes, i)
+	}
+	// Ordered, because Go randomizes map iteration and a fingerprint that changes
+	// between runs on identical input is worse than one that is too coarse.
+	sort.Ints(indexes)
+	parts := make([]string, 0, len(indexes))
+	for _, i := range indexes {
+		parts = append(parts, strconv.Itoa(i)+"="+c.ArgLiterals[i])
+	}
+	return strings.Join(parts, ",")
 }
 
 func enclosing(ix *ir.Index, fn *ir.Function) string {

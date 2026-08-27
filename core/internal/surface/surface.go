@@ -135,6 +135,12 @@ type Completeness struct {
 	// in views.py" learns to ignore the line, and then it is worth less than nothing
 	// on the run where it is right.
 	Unreached []UnreachedGroup
+
+	// UnenumeratedRoutes are files a framework serves at an address derived from their
+	// path, that no enumerated entry point names. See UnenumeratedRoute: this is the
+	// route family missed WHOLE, which the ratio above cannot see and which reads
+	// exactly like a clean application.
+	UnenumeratedRoutes []UnenumeratedRoute
 }
 
 // UnreachedGroup is one reason a set of input-reading functions is unreachable, with
@@ -189,7 +195,20 @@ const (
 )
 
 // Suspect reports whether the enumeration contradicts what the program plainly does.
+//
+// Two independent contradictions, and a reader needs to know WHICH, so each is a
+// predicate of its own and this is their disjunction. An address the framework serves
+// that nothing enumerated does not go through the ratio below, because the ratio cannot
+// see it: a route family missed whole contributes no reached code AND no unreached
+// input-reading functions, so it moves neither side of the fraction. umami read as
+// complete with 37 of its server-rendered pages absent.
 func (c Completeness) Suspect(entries int) bool {
+	return len(c.UnenumeratedRoutes) > 0 || c.UnreachedShareSuspect(entries)
+}
+
+// UnreachedShareSuspect reports whether the code the surface cannot reach is too much of
+// the code that reads what a caller sent for the enumeration to describe the program.
+func (c Completeness) UnreachedShareSuspect(entries int) bool {
 	if c.InputFunctions == 0 {
 		return false
 	}
@@ -531,6 +550,7 @@ func completenessOf(ix *ir.Index, m model.Model, entries []EntryFacts) Completen
 		}
 	}
 	out.Unreached = explainUnreached(ix, reachable, unreached, evidence)
+	out.UnenumeratedRoutes = unenumeratedRoutes(ix)
 	return out
 }
 

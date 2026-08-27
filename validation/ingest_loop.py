@@ -31,7 +31,12 @@ def rows_of(p):
 
 def main(work):
     doc = json.loads(LEDGER.read_text())
+    # `supersedes` is the key a row USED to have, before a fingerprint change split
+    # colliding siblings apart (see rekey_fingerprints.py). Artifacts written by the
+    # previous build still name it, and a verdict recorded once is never asked for again --
+    # so the old key answers for the row exactly as the new one does.
     known = {v["fingerprint"] for v in doc["verdicts"]}
+    known |= {v["supersedes"] for v in doc["verdicts"] if v.get("supersedes")}
     added, skipped, unmatched = [], 0, 0
 
     for d in sorted(pathlib.Path(work).iterdir()):

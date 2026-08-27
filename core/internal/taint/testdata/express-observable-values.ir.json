@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.15.0",
+  "irVersion": "0.16.0",
   "frontend": {"name":"typescript","version":"0.1.0","capabilities":{"typeChecker":true,"interprocedural":true,"crossModule":true,"controlFlow":true,"templates":false,"frameworkModels":["express","nestjs"]}},
   "modules": [
     {"id":"app.js","path":"app.js"}
@@ -19,6 +19,8 @@
     {"functionId":"app.js#<anonymous>:21:24","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/claim-code","module":"app.js"},"loc":{"file":"app.js","line":21,"column":1},"middleware":[]},
     {"functionId":"app.js#<anonymous>:29:19","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/nonce","module":"app.js"},"loc":{"file":"app.js","line":29,"column":1},"middleware":[]},
     {"functionId":"app.js#<anonymous>:37:25","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/upload-name","module":"app.js"},"loc":{"file":"app.js","line":37,"column":1},"middleware":[]},
-    {"functionId":"app.js#<anonymous>:45:19","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/token","module":"app.js"},"loc":{"file":"app.js","line":45,"column":1},"middleware":[]}
+    {"functionId":"app.js#<anonymous>:45:19","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/token","module":"app.js"},"loc":{"file":"app.js","line":45,"column":1},"middleware":[]},
+    {"functionId":"","kind":"static-mount","framework":"express","detail":{"path":"/","root":"."},"loc":{"file":"app.js","line":52,"column":1}},
+    {"functionId":"","kind":"static-mount","framework":"express","detail":{"path":"/","root":"public"},"loc":{"file":"app.js","line":55,"column":1}}
   ]
 }

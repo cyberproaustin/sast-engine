@@ -1,0 +1,1347 @@
+{
+  "irVersion": "0.16.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi",
+        "django",
+        "tornado"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "app.py",
+      "path": "app.py"
+    },
+    {
+      "id": "favicons/__init__.py",
+      "path": "favicons/__init__.py"
+    },
+    {
+      "id": "favicons/proxy.py",
+      "path": "favicons/proxy.py"
+    },
+    {
+      "id": "handlers.py",
+      "path": "handlers.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "app.py#<module>:0:0",
+      "name": "<module>",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "`add_url_rule` registers a route whose handler is an EXPRESSION, not a name.\n\nThe shape was already modelled and the argument test was not: `view_func` had to be a\nbare `ast.Name`, so the one route an application registered as\n`view_func=favicons.favicon_proxy` was the only Flask route in its tree that never\nappeared on the surface.\n\nTwo of the three registrations below resolve to a function. The third does not, and it is\nhere because it is the case that matters: `favicon_proxy` is re-exported through a package\n`__init__`, which this frontend's definition table does not follow. A route whose handler\ncannot be resolved still exists at its address, and dropping it would make the enumerated\nsurface silently incomplete -- the one thing it must never be (ADR-009).\n"
+        },
+        {
+          "id": "app.py#<module>:0:0$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 7
+          },
+          "name": "flask.Flask"
+        },
+        {
+          "id": "app.py#<module>:0:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 1
+          },
+          "name": "app"
+        },
+        {
+          "id": "app.py#<module>:0:0$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 18
+          },
+          "literal": "/local-search"
+        },
+        {
+          "id": "app.py#<module>:0:0$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 35
+          },
+          "literal": "local_search"
+        },
+        {
+          "id": "app.py#<module>:0:0$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 1
+          },
+          "name": "app.add_url_rule"
+        },
+        {
+          "id": "app.py#<module>:0:0$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 40,
+            "column": 18
+          },
+          "literal": "/report"
+        },
+        {
+          "id": "app.py#<module>:0:0$v7",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 40,
+            "column": 37
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "app.py#<module>:0:0$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 40,
+            "column": 38
+          },
+          "literal": "GET"
+        },
+        {
+          "id": "app.py#<module>:0:0$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 40,
+            "column": 45
+          },
+          "literal": "POST"
+        },
+        {
+          "id": "app.py#<module>:0:0$v10",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 40,
+            "column": 64
+          },
+          "name": "handlers"
+        },
+        {
+          "id": "app.py#<module>:0:0$v11",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 40,
+            "column": 64
+          },
+          "base": "app.py#<module>:0:0$v10",
+          "path": "report",
+          "name": "report"
+        },
+        {
+          "id": "app.py#<module>:0:0$v12",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 40,
+            "column": 1
+          },
+          "name": "app.add_url_rule"
+        },
+        {
+          "id": "app.py#<module>:0:0$v13",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 44,
+            "column": 18
+          },
+          "literal": "/favicon_proxy"
+        },
+        {
+          "id": "app.py#<module>:0:0$v14",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 44,
+            "column": 44
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "app.py#<module>:0:0$v15",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 44,
+            "column": 45
+          },
+          "literal": "GET"
+        },
+        {
+          "id": "app.py#<module>:0:0$v16",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 44,
+            "column": 62
+          },
+          "literal": "favicon_proxy"
+        },
+        {
+          "id": "app.py#<module>:0:0$v17",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 28
+          },
+          "name": "searx.favicons"
+        },
+        {
+          "id": "app.py#<module>:0:0$v18",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 28
+          },
+          "base": "app.py#<module>:0:0$v17",
+          "path": "favicon_proxy",
+          "name": "favicon_proxy"
+        },
+        {
+          "id": "app.py#<module>:0:0$v19",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 44,
+            "column": 1
+          },
+          "name": "app.add_url_rule"
+        },
+        {
+          "id": "app.py#<module>:0:0$v20",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 49,
+            "column": 18
+          },
+          "literal": "/preferences"
+        },
+        {
+          "id": "app.py#<module>:0:0$v21",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 49,
+            "column": 64
+          },
+          "literal": "preferences"
+        },
+        {
+          "id": "app.py#<module>:0:0$v22",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 49,
+            "column": 44
+          },
+          "name": "Preferences.as_view"
+        },
+        {
+          "id": "app.py#<module>:0:0$v23",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 49,
+            "column": 1
+          },
+          "name": "app.add_url_rule"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#<module>:0:0$v1",
+          "to": "app.py#<module>:0:0$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 1
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v8",
+          "to": "app.py#<module>:0:0$v7",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 40,
+            "column": 37
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v9",
+          "to": "app.py#<module>:0:0$v7",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 40,
+            "column": 37
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v10",
+          "to": "app.py#<module>:0:0$v11",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 40,
+            "column": 64
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v15",
+          "to": "app.py#<module>:0:0$v14",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 44,
+            "column": 44
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v17",
+          "to": "app.py#<module>:0:0$v18",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 28
+          },
+          "block": "app.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#<module>:0:0$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 7
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.Flask",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#<module>:0:0$v1",
+          "block": "app.py#<module>:0:0$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#<module>:0:0$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 1
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "app.add_url_rule",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#<module>:0:0$v3"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#<module>:0:0$v4"
+            }
+          ],
+          "resultValueId": "app.py#<module>:0:0$v5",
+          "block": "app.py#<module>:0:0$b0",
+          "method": "add_url_rule",
+          "argCount": 3,
+          "argLiterals": {
+            "0": "/local-search",
+            "1": "local_search",
+            "-1": "view_func=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#<module>:0:0$v2"
+        },
+        {
+          "id": "app.py#<module>:0:0$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 40,
+            "column": 1
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "app.add_url_rule",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#<module>:0:0$v6"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#<module>:0:0$v7"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#<module>:0:0$v11",
+              "functionId": "handlers.py#report:4:1"
+            }
+          ],
+          "resultValueId": "app.py#<module>:0:0$v12",
+          "block": "app.py#<module>:0:0$b0",
+          "method": "add_url_rule",
+          "argCount": 3,
+          "argLiterals": {
+            "0": "/report",
+            "-1": "methods=?",
+            "-2": "view_func=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#<module>:0:0$v2"
+        },
+        {
+          "id": "app.py#<module>:0:0$c3",
+          "loc": {
+            "file": "app.py",
+            "line": 44,
+            "column": 1
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "app.add_url_rule",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#<module>:0:0$v13"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#<module>:0:0$v14"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#<module>:0:0$v16"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#<module>:0:0$v18"
+            }
+          ],
+          "resultValueId": "app.py#<module>:0:0$v19",
+          "block": "app.py#<module>:0:0$b0",
+          "method": "add_url_rule",
+          "argCount": 4,
+          "argLiterals": {
+            "0": "/favicon_proxy",
+            "-1": "methods=?",
+            "-2": "endpoint=favicon_proxy",
+            "-3": "view_func=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#<module>:0:0$v2"
+        },
+        {
+          "id": "app.py#<module>:0:0$c4",
+          "loc": {
+            "file": "app.py",
+            "line": 49,
+            "column": 44
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "Preferences.as_view",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#<module>:0:0$v21"
+            }
+          ],
+          "resultValueId": "app.py#<module>:0:0$v22",
+          "block": "app.py#<module>:0:0$b0",
+          "method": "as_view",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "preferences"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#<module>:0:0$c5",
+          "loc": {
+            "file": "app.py",
+            "line": 49,
+            "column": 1
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "app.add_url_rule",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#<module>:0:0$v20"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#<module>:0:0$v22"
+            }
+          ],
+          "resultValueId": "app.py#<module>:0:0$v23",
+          "block": "app.py#<module>:0:0$b0",
+          "method": "add_url_rule",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "/preferences",
+            "-1": "view_func=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#<module>:0:0$v2"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "app.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#local_search:24:1",
+      "name": "local_search",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 24,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#local_search:24:1$v0",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 29
+          },
+          "name": "concat"
+        },
+        {
+          "id": "app.py#local_search:24:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 29
+          },
+          "literal": "locate "
+        },
+        {
+          "id": "app.py#local_search:24:1$v2",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 41
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#local_search:24:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 41
+          },
+          "base": "app.py#local_search:24:1$v2",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "app.py#local_search:24:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 41
+          },
+          "name": "q",
+          "base": "app.py#local_search:24:1$v3",
+          "path": "args.q"
+        },
+        {
+          "id": "app.py#local_search:24:1$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 66
+          },
+          "literal": "true"
+        },
+        {
+          "id": "app.py#local_search:24:1$v6",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 5
+          },
+          "name": "subprocess"
+        },
+        {
+          "id": "app.py#local_search:24:1$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 5
+          },
+          "name": "subprocess.check_output"
+        },
+        {
+          "id": "app.py#local_search:24:1$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 12
+          },
+          "literal": "ok"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#local_search:24:1$v1",
+          "to": "app.py#local_search:24:1$v0",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 29
+          },
+          "block": "app.py#local_search:24:1$b0"
+        },
+        {
+          "from": "app.py#local_search:24:1$v2",
+          "to": "app.py#local_search:24:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 41
+          },
+          "block": "app.py#local_search:24:1$b0"
+        },
+        {
+          "from": "app.py#local_search:24:1$v3",
+          "to": "app.py#local_search:24:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 41
+          },
+          "block": "app.py#local_search:24:1$b0"
+        },
+        {
+          "from": "app.py#local_search:24:1$v4",
+          "to": "app.py#local_search:24:1$v0",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 29
+          },
+          "block": "app.py#local_search:24:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#local_search:24:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "subprocess.check_output",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#local_search:24:1$v0"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#local_search:24:1$v5"
+            }
+          ],
+          "resultValueId": "app.py#local_search:24:1$v7",
+          "block": "app.py#local_search:24:1$b0",
+          "method": "check_output",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "shell=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#local_search:24:1$v6"
+        }
+      ],
+      "returns": [
+        "app.py#local_search:24:1$v8"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#local_search:24:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#local_search:24:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 24,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#local_search:24:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#get:31:5",
+      "name": "get",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 31,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "app.py#get:31:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#get:31:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 13
+          },
+          "name": "self"
+        },
+        {
+          "id": "app.py#get:31:5$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 32,
+            "column": 16
+          },
+          "literal": "ok"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [
+        "app.py#get:31:5$v1"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#get:31:5$b0",
+      "blocks": [
+        {
+          "id": "app.py#get:31:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#get:31:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 32,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "favicons/__init__.py#<module>:0:0",
+      "name": "<module>",
+      "module": "favicons/__init__.py",
+      "loc": {
+        "file": "favicons/__init__.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "favicons/__init__.py#<module>:0:0$v0",
+          "kind": "local",
+          "loc": {
+            "file": "favicons/__init__.py",
+            "line": 6,
+            "column": 11
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "favicons/__init__.py#<module>:0:0$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "favicons/__init__.py",
+            "line": 6,
+            "column": 12
+          },
+          "literal": "favicon_proxy"
+        },
+        {
+          "id": "favicons/__init__.py#<module>:0:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "favicons/__init__.py",
+            "line": 6,
+            "column": 1
+          },
+          "name": "__all__"
+        }
+      ],
+      "flows": [
+        {
+          "from": "favicons/__init__.py#<module>:0:0$v1",
+          "to": "favicons/__init__.py#<module>:0:0$v0",
+          "kind": "enclose",
+          "loc": {
+            "file": "favicons/__init__.py",
+            "line": 6,
+            "column": 11
+          },
+          "block": "favicons/__init__.py#<module>:0:0$b0"
+        },
+        {
+          "from": "favicons/__init__.py#<module>:0:0$v0",
+          "to": "favicons/__init__.py#<module>:0:0$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "favicons/__init__.py",
+            "line": 6,
+            "column": 1
+          },
+          "block": "favicons/__init__.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "favicons/__init__.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "favicons/__init__.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "favicons/__init__.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "favicons/proxy.py#<module>:0:0",
+      "name": "<module>",
+      "module": "favicons/proxy.py",
+      "loc": {
+        "file": "favicons/proxy.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "favicons/proxy.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "favicons/proxy.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "favicons/proxy.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "favicons/proxy.py#favicon_proxy:4:1",
+      "name": "favicon_proxy",
+      "module": "favicons/proxy.py",
+      "loc": {
+        "file": "favicons/proxy.py",
+        "line": 4,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "favicons/proxy.py#favicon_proxy:4:1$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "favicons/proxy.py",
+            "line": 5,
+            "column": 29
+          },
+          "literal": "url"
+        },
+        {
+          "id": "favicons/proxy.py#favicon_proxy:4:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "favicons/proxy.py",
+            "line": 5,
+            "column": 36
+          },
+          "literal": ""
+        },
+        {
+          "id": "favicons/proxy.py#favicon_proxy:4:1$v2",
+          "kind": "global",
+          "loc": {
+            "file": "favicons/proxy.py",
+            "line": 5,
+            "column": 12
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "favicons/proxy.py#favicon_proxy:4:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "favicons/proxy.py",
+            "line": 5,
+            "column": 12
+          },
+          "base": "favicons/proxy.py#favicon_proxy:4:1$v2",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "favicons/proxy.py#favicon_proxy:4:1$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "favicons/proxy.py",
+            "line": 5,
+            "column": 12
+          },
+          "name": "flask.request.args.get"
+        }
+      ],
+      "flows": [
+        {
+          "from": "favicons/proxy.py#favicon_proxy:4:1$v2",
+          "to": "favicons/proxy.py#favicon_proxy:4:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "favicons/proxy.py",
+            "line": 5,
+            "column": 12
+          },
+          "block": "favicons/proxy.py#favicon_proxy:4:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "favicons/proxy.py#favicon_proxy:4:1$c0",
+          "loc": {
+            "file": "favicons/proxy.py",
+            "line": 5,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.request.args.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "favicons/proxy.py#favicon_proxy:4:1$v0"
+            },
+            {
+              "index": 1,
+              "valueId": "favicons/proxy.py#favicon_proxy:4:1$v1"
+            }
+          ],
+          "resultValueId": "favicons/proxy.py#favicon_proxy:4:1$v4",
+          "block": "favicons/proxy.py#favicon_proxy:4:1$b0",
+          "method": "get",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "url",
+            "1": ""
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "favicons/proxy.py#favicon_proxy:4:1$v3"
+        }
+      ],
+      "returns": [
+        "favicons/proxy.py#favicon_proxy:4:1$v4"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "favicons/proxy.py#favicon_proxy:4:1$b0",
+      "blocks": [
+        {
+          "id": "favicons/proxy.py#favicon_proxy:4:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "favicons/proxy.py",
+            "line": 4,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "favicons/proxy.py#favicon_proxy:4:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "favicons/proxy.py",
+            "line": 5,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "handlers.py#<module>:0:0",
+      "name": "<module>",
+      "module": "handlers.py",
+      "loc": {
+        "file": "handlers.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "handlers.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "handlers.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "handlers.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "handlers.py#report:4:1",
+      "name": "report",
+      "module": "handlers.py",
+      "loc": {
+        "file": "handlers.py",
+        "line": 4,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "handlers.py#report:4:1$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers.py",
+            "line": 6,
+            "column": 29
+          },
+          "literal": "id"
+        },
+        {
+          "id": "handlers.py#report:4:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "handlers.py",
+            "line": 6,
+            "column": 35
+          },
+          "literal": ""
+        },
+        {
+          "id": "handlers.py#report:4:1$v2",
+          "kind": "global",
+          "loc": {
+            "file": "handlers.py",
+            "line": 6,
+            "column": 12
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "handlers.py#report:4:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "handlers.py",
+            "line": 6,
+            "column": 12
+          },
+          "base": "handlers.py#report:4:1$v2",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "handlers.py#report:4:1$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "handlers.py",
+            "line": 6,
+            "column": 12
+          },
+          "name": "flask.request.args.get"
+        }
+      ],
+      "flows": [
+        {
+          "from": "handlers.py#report:4:1$v2",
+          "to": "handlers.py#report:4:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "handlers.py",
+            "line": 6,
+            "column": 12
+          },
+          "block": "handlers.py#report:4:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "handlers.py#report:4:1$c0",
+          "loc": {
+            "file": "handlers.py",
+            "line": 6,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.request.args.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "handlers.py#report:4:1$v0"
+            },
+            {
+              "index": 1,
+              "valueId": "handlers.py#report:4:1$v1"
+            }
+          ],
+          "resultValueId": "handlers.py#report:4:1$v4",
+          "block": "handlers.py#report:4:1$b0",
+          "method": "get",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "id",
+            "1": ""
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "handlers.py#report:4:1$v3"
+        }
+      ],
+      "returns": [
+        "handlers.py#report:4:1$v4"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "handlers.py#report:4:1$b0",
+      "blocks": [
+        {
+          "id": "handlers.py#report:4:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "handlers.py",
+            "line": 4,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "handlers.py#report:4:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "handlers.py",
+            "line": 6,
+            "column": 5
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "app.py#get:31:5",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/preferences"
+      }
+    },
+    {
+      "functionId": "app.py#local_search:24:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/local-search"
+      }
+    },
+    {
+      "functionId": "handlers.py#report:4:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/report"
+      }
+    },
+    {
+      "functionId": "handlers.py#report:4:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "POST",
+        "path": "/report"
+      }
+    },
+    {
+      "functionId": "",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/favicon_proxy"
+      }
+    }
+  ],
+  "views": [],
+  "renders": []
+}

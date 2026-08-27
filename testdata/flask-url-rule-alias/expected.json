@@ -1,0 +1,14 @@
+{
+  "corpus": "flask-url-rule-alias",
+  "description": "`add_url_rule` registers a route whose handler is an EXPRESSION. The shape was already modelled and the argument test was not -- `view_func` had to be a bare name -- so `view_func=favicons.favicon_proxy` was the one Flask route in an application's tree that never reached the surface. Three registrations, one finding, and the interesting rows are the ones with no finding at all. `/report` resolves across a module boundary, which is what the same helper every other registrar in this frontend uses already did. `/favicon_proxy` does NOT resolve: the function is re-exported through a package `__init__`, which the definition table does not follow, and the route is emitted with no function behind it because a route exists at its address whether or not the handler can be named (ADR-009) -- the alternative was a surface silently one route short. The negative is `Preferences.as_view(...)`: a class-based view takes its verbs from its own methods and those are already entry points, so admitting the registration as well would count the same address twice, once with nothing behind it.",
+  "expected": [
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "app.py",
+      "sinkLine": 26,
+      "sourceLabel": "flask.request.args.q",
+      "confidence": "high",
+      "note": "reached through a name-form add_url_rule, which is the case that always worked"
+    }
+  ]
+}

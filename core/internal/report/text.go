@@ -220,20 +220,68 @@ func writeCompleteness(b *strings.Builder, s surface.Surface) {
 		return
 	}
 
-	if s.RemoteEntries() == 0 {
-		// "None" means none a CALLER can reach. A program with sixteen process starts
-		// and no route has no remote surface at all, and saying "none enumerated" beside
-		// sixteen listed entry points would read as a contradiction rather than a fact.
-		fmt.Fprintf(b, "  INCOMPLETE: no entry point a caller can reach, and %d function(s) read caller-supplied input\n", c.InputFunctions)
-	} else {
-		fmt.Fprintf(b, "  INCOMPLETE: %d function(s) read caller-supplied input and no enumerated\n", c.UnreachedInputFunctions)
-		fmt.Fprintf(b, "  entry point reaches them (%d read it in total)\n", c.InputFunctions)
+	statedUnreachedCount := c.UnreachedShareSuspect(s.RemoteEntries())
+	if statedUnreachedCount {
+		if s.RemoteEntries() == 0 {
+			// "None" means none a CALLER can reach. A program with sixteen process starts
+			// and no route has no remote surface at all, and saying "none enumerated" beside
+			// sixteen listed entry points would read as a contradiction rather than a fact.
+			fmt.Fprintf(b, "  INCOMPLETE: no entry point a caller can reach, and %d function(s) read caller-supplied input\n", c.InputFunctions)
+		} else {
+			fmt.Fprintf(b, "  INCOMPLETE: %d function(s) read caller-supplied input and no enumerated\n", c.UnreachedInputFunctions)
+			fmt.Fprintf(b, "  entry point reaches them (%d read it in total)\n", c.InputFunctions)
+		}
 	}
+	writeUnenumeratedRoutes(b, c)
 	fmt.Fprintf(b, "  This application routes requests in a way the framework models do not\n")
 	fmt.Fprintf(b, "  recognize. Findings below cover only what was enumerated; silence here is\n")
 	fmt.Fprintf(b, "  the model failing to see the application, not the application being clean.\n")
+	// The unreached listing counts something, and the count is only on the line above
+	// when the SHARE of unreachable input-reading code is what made this run suspect. A
+	// run flagged for a missing route family instead would print "a further 4 ... are not
+	// counted above" against nothing at all, and "them" would refer to nothing.
+	if !statedUnreachedCount && c.UnreachedInputFunctions > 0 {
+		fmt.Fprintf(b, "  separately, %d of the %d function(s) that read caller-supplied input are\n",
+			c.UnreachedInputFunctions, c.InputFunctions)
+		fmt.Fprintf(b, "  not reached from anything enumerated - too few to call the surface thin\n")
+		fmt.Fprintf(b, "  on their own, and listed because the reason may be the same one\n")
+	}
 	writeUnreached(b, c)
 }
+
+// A route family missed WHOLE is the one incompleteness a reader cannot infer from any
+// other number in this report, so it names the files rather than counting them: the claim
+// is checkable in one `ls`, and an accusation nobody can check is one a reader skips.
+func writeUnenumeratedRoutes(b *strings.Builder, c surface.Completeness) {
+	if len(c.UnenumeratedRoutes) == 0 {
+		return
+	}
+	byConvention := map[string][]surface.UnenumeratedRoute{}
+	var order []string
+	for _, r := range c.UnenumeratedRoutes {
+		if _, seen := byConvention[r.Convention]; !seen {
+			order = append(order, r.Convention)
+		}
+		byConvention[r.Convention] = append(byConvention[r.Convention], r)
+	}
+	sort.Strings(order)
+	for _, convention := range order {
+		rs := byConvention[convention]
+		fmt.Fprintf(b, "  INCOMPLETE: %d file(s) the framework serves at an address of their own\n", len(rs))
+		fmt.Fprintf(b, "  are not in the enumeration - %s\n", convention)
+		for i, r := range rs {
+			if i >= sampleRoutes {
+				fmt.Fprintf(b, "    ... and %d more\n", len(rs)-sampleRoutes)
+				break
+			}
+			fmt.Fprintf(b, "    %-58s %s\n", r.Module, r.Evidence)
+		}
+	}
+}
+
+// sampleRoutes bounds the listing above for the same reason the unreached listing is
+// bounded: 37 lines of paths is a wall, and three is enough to check the claim.
+const sampleRoutes = 3
 
 // A count of unreachable code is an accusation against the enumeration, and an
 // accusation nobody can check is one a reader learns to skip. This says which

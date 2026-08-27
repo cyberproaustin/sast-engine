@@ -411,3 +411,140 @@ func TestPathAliasesResolveWithinTheDeclaringProject(t *testing.T) {
 		}
 	}
 }
+
+// The label is not decoration: it selects the source rules that seed a handler's
+// parameters, and one application's 83 routes were recorded as express over a Fastify
+// server. Every registration in this frontend is spelled `x.get(path, handler)`, so the
+// shape cannot tell the two apart and the receiver has to.
+func TestFrameworkComesFromTheReceiverNotTheShape(t *testing.T) {
+	res := runScan(t, "fastify-routes")
+
+	want := map[string]string{
+		// `const fastify = Fastify()` -- the factory came from the framework's module.
+		"GET /diag/ping":   "fastify",
+		"POST /diag/trace": "fastify",
+		// A parameter declared `FastifyInstance`, registering at a path held in a local
+		// constant. Nothing else in that file looks like a route at all.
+		"GET /admin/purge": "fastify",
+		// Two frameworks in one tree is the ordinary case.
+		"GET /legacy/health": "express",
+	}
+
+	got := map[string]string{}
+	for _, e := range res.Surface.Entries {
+		got[e.Label()] = e.EntryPoint.Framework
+	}
+	for label, framework := range want {
+		if got[label] != framework {
+			t.Errorf("%s: want framework %s, got %q", label, framework, got[label])
+		}
+	}
+	for label := range got {
+		if _, ok := want[label]; !ok {
+			t.Errorf("%s was enumerated and is not a route", label)
+		}
+	}
+}
+
+// A described route's path is read the way every other registrar's is. Requiring a
+// string literal matched 109 of one application's 208 descriptions, and the 99 misses
+// were three spellings of the same thing rather than a different shape.
+func TestDescribedRoutePathsResolveLikeEveryOtherRegistrar(t *testing.T) {
+	res := runScan(t, "described-route-paths")
+
+	want := map[string]bool{
+		// `path: ''` is the router's own mount point, rejected by a truthiness test.
+		"GET /": true,
+		// The literal, which is the case that always worked.
+		"GET /health": true,
+		// A constant, and a constant built from constants.
+		"GET /:projectId/features/:featureName/environments/:environment":      true,
+		"POST /:projectId/features/:featureName/environments/:environment/off": true,
+		// Genuinely unreadable, and it names the expression that stood in the way
+		// rather than claiming `*`.
+		"DELETE <unresolved:prefix>/:contextField": true,
+	}
+
+	assertSurface(t, res.Surface.Entries, want)
+}
+
+// A registration one hop from a registration. The wrapper proves itself -- one route
+// description built out of its own parameters -- rather than being trusted for its name.
+func TestForwardedRegistrarIsARegistration(t *testing.T) {
+	res := runScan(t, "forwarded-registrar")
+
+	want := map[string]bool{
+		"GET /prometheus":     true,
+		"GET /impact/metrics": true,
+		"POST /heap-snapshot": true,
+	}
+
+	assertSurface(t, res.Surface.Entries, want)
+}
+
+// One call site, many addresses. A loop over a statically enumerable registry is folded
+// once per element; a loop over a collection assembled at runtime is not folded at all.
+func TestRegistryLoopExpandsOnlyWhatItCanEnumerate(t *testing.T) {
+	res := runScan(t, "route-registry-loop")
+
+	want := map[string]bool{
+		// One row per endpoint and not two, though the loop registers in both branches
+		// of a condition: an address exists once however many implementations sit
+		// behind it. The prefix comes from `register(plugin, { prefix })`, which the
+		// plugin's own file never states.
+		"ALL /api/notesCreate": true,
+		"ALL /api/notesDelete": true,
+		"ALL /api/usersShow":   true,
+		// The negative: nothing here knows what the environment holds.
+		"GET /api/x/<unresolved:name>": true,
+		"GET /api/healthz":             true,
+		"GET /diag/ping":               true,
+	}
+
+	assertSurface(t, res.Surface.Entries, want)
+}
+
+// `add_url_rule`'s view_func is an EXPRESSION. The registration shape was modelled and
+// the argument test was not, so a handler named through its module was refused -- and a
+// route whose handler cannot be resolved still exists at its address.
+func TestUrlRuleRegistersWhateverItsViewFuncIs(t *testing.T) {
+	res := runScan(t, "flask-url-rule-alias")
+
+	want := map[string]bool{
+		// A bare name, and a module attribute resolved across a file boundary.
+		"GET /local-search": true,
+		"GET /report":       true,
+		"POST /report":      true,
+		// Re-exported through a package `__init__`, which the definition table does not
+		// follow: the row carries no function and the address is still enumerated.
+		"GET /favicon_proxy": true,
+		// The class-based view, counted ONCE -- by its verb methods, not a second time
+		// through the `as_view` registration that has no function behind it.
+		"GET /preferences": true,
+	}
+
+	assertSurface(t, res.Surface.Entries, want)
+}
+
+// The set is asserted in BOTH directions wherever the surface is the expectation: a rule
+// that is slightly too generous does not lose a route, it fills the enumeration with
+// addresses nothing answers at, and ADR-009 makes the enumeration the thing every
+// finding rests on.
+func assertSurface(t *testing.T, entries []surface.EntryFacts, want map[string]bool) {
+	t.Helper()
+
+	got := map[string]bool{}
+	for _, e := range entries {
+		got[e.Label()] = true
+	}
+	for label := range want {
+		if !got[label] {
+			t.Errorf("missing entry point %s", label)
+		}
+	}
+	for label := range got {
+		if !want[label] {
+			t.Errorf("%s was enumerated and is not a route", label)
+		}
+	}
+}

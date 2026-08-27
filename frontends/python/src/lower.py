@@ -1219,7 +1219,15 @@ class ModuleLowerer:
                 continue
 
             # A class-based view registered this way gets its path from here; its methods
-            # are already entry points by the framework's verb contract.
+            # are already entry points by the framework's verb contract. `as_view` is the
+            # adapter that makes one -- `Preferences.as_view("preferences")` -- and it has
+            # to be named here now that a view_func is read as an expression rather than
+            # as a bare name: without it the class is counted a second time, at the same
+            # address, with no function behind it.
+            if isinstance(ref, ast.Call):
+                callee = ref.func
+                if isinstance(callee, ast.Attribute) and callee.attr == "as_view":
+                    continue
             if isinstance(ref, ast.Name) and ref.id in self.view_classes:
                 continue
             # A route whose handler does not resolve STILL EXISTS. `favicon_proxy` is
@@ -2680,6 +2688,23 @@ class FunctionLowerer:
             self.lower_rendered_template(node, by_keyword)
         return result
 
+    def view_name_param(self, node: ast.expr) -> str | None:
+        """The parameter this render takes its view name from, or None.
+
+        Not only a bare name. A helper that puts the theme in front of the view --
+        `render_template("{}/{}".format(theme, name), **kwargs)` -- is naming the view its
+        caller chose, through a prefix the caller did not write; searxng's every page is
+        rendered that way and none of them was reachable while the name had to be a
+        literal at the call. What is required is that EXACTLY ONE parameter appears in the
+        expression, because two would mean guessing which of them is the view.
+
+        The `**kwargs` parameter is deliberately not a candidate: it is the context, and a
+        name read out of it is a key rather than a view.
+        """
+        names = {n.id for n in ast.walk(node)
+                 if isinstance(n, ast.Name) and n.id in self.param_names}
+        return names.pop() if len(names) == 1 else None
+
     def lower_rendered_template(self, node: ast.Call, by_keyword: dict[str, str]) -> None:
         """Where a render call ends and a view begins.
 
@@ -2712,13 +2737,13 @@ class FunctionLowerer:
                 return
             render["view"] = view.module
             render["name"] = name_arg.value
-        elif isinstance(name_arg, ast.Name) and name_arg.id in self.param_names:
+        elif name_arg is not None and (chosen := self.view_name_param(name_arg)):
             # A render whose view is named by WHOEVER CALLED THIS. A framework's base
             # handler is written exactly this way -- one method that takes the view name,
             # adds the application-wide namespace and renders -- and it is the shape that
             # put jupyterhub's every page out of reach. The core resolves the name at each
             # call site; this side states only that the parameter is where it comes from.
-            render["fromParam"] = name_arg.id
+            render["fromParam"] = chosen
         else:
             return
         bindings = [{"name": key, "valueId": vid} for key, vid in by_keyword.items()]
