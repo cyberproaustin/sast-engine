@@ -1,0 +1,14 @@
+{
+  "corpus": "app-router-pages",
+  "description": "Next.js App Router pages are caller-reachable render roots, not API handlers. Four real page.tsx files with resolved default component exports become rendered-page entries while the route.ts handler remains the sole http-route; the fourth also proves that parallel slots and interception markers are filesystem instructions, not URL text. The negatives hold each over-reporting boundary: layout.tsx wraps addresses but creates none, a named export does not satisfy Next's page contract, a literal default export is not a component, and pages/dashboard.tsx belongs to the older Pages Router and is not a server entry merely because it renders React. The one finding proves that destructured searchParams are caller input even though this frontend has no aggregate parameter value for that binding.",
+  "expected": [
+    {
+      "cwe": "CWE-918",
+      "sinkFile": "src/app/(main)/search/page.tsx",
+      "sinkLine": 8,
+      "sourceLabel": "searchParams",
+      "confidence": "high",
+      "note": "the rendered page is a remote entry even though it is counted apart from the API, and Next fills the destructured searchParams binding from its URL"
+    }
+  ]
+}
