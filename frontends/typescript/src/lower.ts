@@ -1820,7 +1820,16 @@ function lowerFunction(
     // never was, and the whole flow ended before it started.
     if (ts.isBinaryExpression(expr) && SELECTION_OPERATORS.has(expr.operatorToken.kind)) {
       const loc = locOf(sf, expr);
-      const id = newValue("local", loc, { name: "either" });
+      // Keep the one selection whose right side is a DEFAULT distinguishable. A
+      // security option set to `env.SECRET || "known-secret"` is not merely a value
+      // that might be literal: whenever the deployment omits the environment value,
+      // the literal is the option. `??` and `&&` make different promises and retain the
+      // generic name.
+      const name =
+        expr.operatorToken.kind === ts.SyntaxKind.BarBarToken && literalOf(expr.right) !== undefined
+          ? "literal-fallback"
+          : "either";
+      const id = newValue("local", loc, { name });
       addFlow(lowerExpr(expr.left), id, "assign", loc);
       addFlow(lowerExpr(expr.right), id, "assign", loc);
       return id;
@@ -1904,13 +1913,19 @@ function lowerFunction(
           // application writes its configuration, and a rule that watches writes could
           // not see it at all.
           //
-          // Only literals. Recording every property of every object literal would
-          // multiply the IR for the sake of a question no rule asks.
+          // Only literals in an exported configuration, and literal fallbacks anywhere.
+          // Recording every property of every object literal produced 1463 findings in
+          // one measured corpus; `X || "literal"` is the smaller fact the missing-default
+          // rule actually asks for, and the store rule still requires a security-role key.
+          const hasLiteralFallback =
+            ts.isBinaryExpression(prop.initializer) &&
+            prop.initializer.operatorToken.kind === ts.SyntaxKind.BarBarToken &&
+            literalOf(prop.initializer.right) !== undefined;
           if (
-            isModuleConfig &&
             from &&
             key !== undefined &&
-            literalOf(prop.initializer) !== undefined
+            ((isModuleConfig && literalOf(prop.initializer) !== undefined) ||
+              hasLiteralFallback)
           ) {
             writes.push({ loc: locOf(sf, prop), base: id, path: key, from, block: writeBlock() });
           }

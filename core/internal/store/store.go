@@ -110,7 +110,7 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 				// destination name has already narrowed its role above; neither half can
 				// decide the finding alone. A value read from the environment is not a
 				// literal and never reaches this judgement.
-				if rule.FromLiteral {
+				if rule.FromLiteral || rule.FromLiteralFallback {
 					v := ix.ValueByID[w.From]
 					// The same bar the literal analysis applies, for the same reason
 					// and in the same place: a fixture is not a leak, and a REAL key
@@ -120,10 +120,28 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 						literal.IsPlaceholder(strings.TrimSpace(v.Literal)) {
 						continue
 					}
-					if v == nil || v.Kind != ir.ValueLiteral || !meaningfulSecret(v.Literal) {
+					if v != nil && v.Kind == ir.ValueLiteral && meaningfulSecret(v.Literal) {
+						out = append(out, finding(ix, fn, w, rule, taint.Origin{Label: quoted(v.Literal)}))
 						continue
 					}
-					out = append(out, finding(ix, fn, w, rule, taint.Origin{Label: quoted(v.Literal)}))
+					if rule.FromLiteralFallback {
+						if fallback := literalFallback(ix, flowsInto, w.From); fallback != "" && meaningfulSecret(fallback) {
+							// The direct-literal path above applies the same bar. Test setup
+							// commonly defaults an account password to `test-password`; it is
+							// source-visible because the test needs it, not because production
+							// trusts it.
+							if ix.InTestModule(w.Loc) && literal.IsPlaceholder(fallback) {
+								continue
+							}
+							// The evidence is source code, not a request flow. A default secret is
+							// present in every clone whether or not an enumerated route reaches the
+							// configuration object, just like a literal or call-shape finding.
+							out = append(out, finding(ix, fn, w, rule, taint.Origin{
+								Label: quoted(fallback), Anchored: true,
+							}))
+							continue
+						}
+					}
 					continue
 				}
 				carrying := byClass[rule.Class]
@@ -151,6 +169,22 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 		}
 	}
 	return out
+}
+
+// literalFallback returns the written default of `X || literal`, and nothing for any
+// other merge. The frontend names this value because ordinary assignment edges preserve
+// taint correctly but do not say which of `||`, `??`, and `&&` selected the value.
+func literalFallback(ix *ir.Index, into map[string][]ir.Flow, id string) string {
+	v := ix.ValueByID[id]
+	if v == nil || v.Name != "literal-fallback" {
+		return ""
+	}
+	for _, f := range into[id] {
+		if source := ix.ValueByID[f.From]; source != nil && source.Kind == ir.ValueLiteral {
+			return source.Literal
+		}
+	}
+	return ""
 }
 
 // composedOnClassifiedPath asks whether the caller's contribution crossed a string
