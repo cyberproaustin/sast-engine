@@ -6345,6 +6345,19 @@ type CallShape struct {
 	// of arguments is the whole evidence.
 	MissingArg *int
 
+	// InputClass requires the receiver or one argument to carry a classification the
+	// dataflow analysis already established. This is still a judgement about the call:
+	// `upload.read()` and `local_file.read()` have the same written shape, and what the
+	// call was handed is the fact that separates remote input from an ordinary file.
+	// InputReceiver and InputArg say which operand the API consumes.
+	InputClass    string
+	InputReceiver bool
+	InputArg      *int
+	// RemoteInput refuses operator and internal sources. A management command may read
+	// its whole input safely because the person choosing it already controls the host;
+	// the same allocation on an HTTP path is available to anyone who can reach it.
+	RemoteInput bool
+
 	// RequiredKeyword names an option whose ABSENCE is the defect, which is the shape
 	// most misconfiguration takes: nothing wrong was written down, the right thing was
 	// left out.
@@ -6508,6 +6521,24 @@ func builtinCallShapes() []CallShape {
 	}
 
 	return []CallShape{
+		{
+			// Measured before it was written (ADR-015). The raw shape -- `read()` on a
+			// receiver carrying untrusted-input -- occurred twice across the ten production
+			// repositories: linkding's HTTP bookmark import and its management-command
+			// importer. Requiring REMOTE trust removed the command and left one finding.
+			// After the independently missing DRF action surface was lowered, the raw count
+			// became three and the remote count became two; both remote sites are the two
+			// independently confirmed uploads this rule was meant to state.
+			// A read with any positional size is silent, because the call then materialises
+			// an amount the program chose rather than the whole object the caller supplied.
+			ID: "remote-input-read-without-size", Method: "read", MissingArg: at(0),
+			InputClass: "untrusted-input", InputReceiver: true, RemoteInput: true,
+			EntryReachable: true,
+			CWE:            "CWE-770",
+			Finding:        "Remote input materialized without a size bound",
+			Reason:         "the call reads the whole object a remote caller supplied into memory, and no size argument limits how much that operation accepts",
+			Rationale:      "read() is called on request-derived input without the positional size argument",
+		},
 		{
 			// A protocol version nobody should still be negotiating. Naming one in the
 			// call is asking for it specifically, which is different from accepting

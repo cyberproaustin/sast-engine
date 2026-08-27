@@ -25,7 +25,7 @@ import (
 )
 
 // Analyze reports every call whose written arguments make it a defect.
-func Analyze(d *ir.IR, m model.Model) []taint.Finding {
+func Analyze(d *ir.IR, m model.Model, classified map[string]taint.Classified) []taint.Finding {
 	if len(m.CallShapes) == 0 {
 		return nil
 	}
@@ -40,7 +40,7 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 		// A shape that reads a literal needs one; a shape that asks where an argument
 		// CAME FROM does not, and a call whose arguments are all variables is exactly the
 		// case it exists for.
-		if shape.Always || shape.ArgFromModuleScope != nil {
+		if shape.Always || shape.ArgFromModuleScope != nil || shape.MissingArg != nil || shape.InputClass != "" {
 			callIsEnough = true
 			break
 		}
@@ -63,6 +63,10 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 					continue
 				}
 				if len(shape.ReceiverFromCall) > 0 && !receiverMadeBy(d, c, shape.ReceiverFromCall) {
+					continue
+				}
+				inputID, inputOrigin, hasInput := classifiedOperand(c, shape, classified)
+				if shape.InputClass != "" && !hasInput {
 					continue
 				}
 				// A claim about the attack surface has to be held to it: a schema in a
@@ -103,11 +107,63 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 				if !ok {
 					continue
 				}
-				out = append(out, finding(ix, fn, c, shape, lit))
+				f := finding(ix, fn, c, shape, lit)
+				if shape.InputClass != "" {
+					f = findingFromInput(ix, c, shape, inputID, inputOrigin, f)
+				}
+				out = append(out, f)
 			}
 		}
 	}
 	return out
+}
+
+func classifiedOperand(c *ir.Call, shape model.CallShape, classified map[string]taint.Classified) (string, taint.Origin, bool) {
+	if shape.InputClass == "" {
+		return "", taint.Origin{}, false
+	}
+	class := classified[shape.InputClass]
+	id := ""
+	if shape.InputReceiver {
+		id = c.ReceiverID
+	} else if shape.InputArg != nil {
+		for _, arg := range c.Args {
+			if arg.At(*shape.InputArg) {
+				id = arg.ValueID
+				break
+			}
+		}
+	}
+	if id == "" || !class.Values[id] {
+		return "", taint.Origin{}, false
+	}
+	origin := class.Origin[id]
+	if shape.RemoteInput && origin.Trust != "" && origin.Trust != ir.Remote {
+		return "", taint.Origin{}, false
+	}
+	return id, origin, true
+}
+
+func findingFromInput(ix *ir.Index, c *ir.Call, shape model.CallShape, inputID string, origin taint.Origin, f taint.Finding) taint.Finding {
+	f.DataClass = shape.InputClass
+	f.SourceLabel = origin.Label
+	f.EntryPoint = origin.EntryPoint
+	f.EntryMethod = origin.Method
+	f.EntryPath = origin.Path
+	f.EntryAnchored = origin.Anchored
+	f.EntryTrust = origin.Trust
+	if value := ix.ValueByID[inputID]; value != nil {
+		f.SourceLoc = value.Loc
+		f.Path = append([]taint.Hop{{
+			Loc:         value.Loc,
+			Description: origin.Label + " supplies the receiver",
+			Resolution:  ir.Resolved,
+		}}, f.Path...)
+	}
+	// The source classification, rather than the missing argument text, distinguishes
+	// this finding from a literal call shape in reports and baselines.
+	f.Discriminator = shape.InputClass
+	return f
 }
 
 func enclosingConfigurationCondition(ix *ir.Index, fn *ir.Function, sink *ir.Call) string {
