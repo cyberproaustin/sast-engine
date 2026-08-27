@@ -7641,6 +7641,12 @@ type StoreRule struct {
 // question left is whether it does.
 type GuardRule struct {
 	ID string
+	// Limiter turns this graph rule into a judgement about a control's attachment to
+	// entry points. The call that increments a bucket is evidence that the application
+	// HAS a limiter; the mount and predicates say which requests it governs. Keeping the
+	// two together is what prevents this analysis becoming a universal complaint that a
+	// route has no throttle.
+	Limiter *LimiterGuard
 	// RejectMethod names the calls that write a refusal into the response, and
 	// RejectStatus the leading digits of a status that IS one. `res.status(400)` refuses;
 	// `res.status(201)` is the happy path and says nothing about anything.
@@ -7747,6 +7753,51 @@ type GuardRule struct {
 	Rationale string
 }
 
+// LimiterGuard describes rate limiting as a control rather than as a dangerous call.
+// Every field is framework vocabulary; the guard engine supplies the graph relation.
+type LimiterGuard struct {
+	Framework string
+
+	// Counters are calls that consume a bucket. Compared by full symbol or final segment
+	// so an application wrapper and the imported spelling carry the same identity.
+	Counters []string
+	// Constructors create middleware whose bucket key is decided by its options.
+	Constructors []string
+	// MountMethods attach the control to an application or router.
+	MountMethods []string
+
+	// PathAttributes are request properties whose literal comparisons narrow a mounted
+	// control to a route. RequestAttributes retain transport semantics: Flask args is
+	// query-only, form is body-only, and values is the framework's merged view.
+	PathAttributes    []string
+	RequestAttributes []RequestAttribute
+
+	// ExpensiveChannels are existing channel identities whose execution makes an
+	// uncovered route consequential. URLMethods cover application wrappers that accept a
+	// written URL and eventually perform the request under a project-specific symbol.
+	ExpensiveChannels []string
+	URLMethods        []string
+
+	BucketKey *BucketKeyRule
+}
+
+type RequestAttribute struct {
+	Path      string
+	Transport string // "query" | "body" | "query-or-body"
+}
+
+// BucketKeyRule states when a limiter's default key is derived from configuration the
+// application itself has declared trusted.
+type BucketKeyRule struct {
+	Default        string
+	OverrideOption string
+	Validation     string
+	ValidationOff  string
+	TrustMethod    string
+	TrustKey       string
+	TrustedValues  []string
+}
+
 // ScopeRule is a weakness in the RELATION between two calls: which key an authorization
 // check was scoped to, and which key the operation it admitted was performed with.
 //
@@ -7836,6 +7887,46 @@ func builtinScopes() []ScopeRule {
 
 func builtinGuards() []GuardRule {
 	return []GuardRule{
+		{
+			ID: "expensive-entry-outside-rate-limiter",
+			Limiter: &LimiterGuard{
+				Framework:      "flask",
+				Counters:       []string{"incr_sliding_window"},
+				MountMethods:   []string{"before_request"},
+				PathAttributes: []string{"path"},
+				RequestAttributes: []RequestAttribute{
+					{Path: "args", Transport: "query"},
+					{Path: "form", Transport: "body"},
+					{Path: "values", Transport: "query-or-body"},
+				},
+				ExpensiveChannels: []string{"outbound-destination", "outbound-http", "shell-command", "sql-query"},
+				URLMethods:        []string{"get", "post", "put", "patch", "delete", "request", "urlopen"},
+			},
+			CWE:       "CWE-770",
+			Finding:   "An expensive entry point is outside the application's rate limiter",
+			Reason:    "the application mounts a rate limiter, but its own route predicate excludes this entry point before the bucket is consumed",
+			Rationale: "a mounted limiter consumes a bucket only under a request predicate that this expensive entry point does not satisfy",
+		},
+		{
+			ID: "rate-limit-key-from-trusted-forwarding-header",
+			Limiter: &LimiterGuard{
+				Framework:    "express",
+				Constructors: []string{"express-rate-limit.default"},
+				BucketKey: &BucketKeyRule{
+					Default:        "req.ip",
+					OverrideOption: "keyGenerator",
+					Validation:     "validate",
+					ValidationOff:  "false",
+					TrustMethod:    "set",
+					TrustKey:       "trust proxy",
+					TrustedValues:  []string{"true"},
+				},
+			},
+			CWE:       "CWE-770",
+			Finding:   "The rate-limit bucket key trusts a client-supplied forwarding chain",
+			Reason:    "the limiter uses its default req.ip key while the application trusts every proxy hop and has disabled the limiter's validation of that configuration",
+			Rationale: "the application configures forwarded addresses as trusted and leaves the limiter bucket keyed by the resulting request IP",
+		},
 		{
 			ID:           "rejection-without-return",
 			RejectMethod: []string{"status", "sendStatus", "status_code"},

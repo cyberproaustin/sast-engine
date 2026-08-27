@@ -1,4 +1,4 @@
-# Program IR — v0.6.0
+# Program IR — v0.16.0
 
 The IR is the contract between language frontends and the core (ADR-001). A frontend
 lowers a codebase into this shape and stops. The core consumes only this shape and
@@ -133,6 +133,7 @@ A call site. Together, the `calls` of every function form the call graph.
   "callee": {
     "kind": "local",              // local | external | unresolved
     "functionId": "src/exec-helper.ts#runPing:3",
+    "possibleFunctionIds": [ ... ], // finite targets of an indirect call
     "symbol": "child_process.exec", // when kind=external
     "resolution": "resolved"        // resolved | probable | dynamic-unresolved
   },
@@ -154,6 +155,15 @@ A call site. Together, the `calls` of every function form the call graph.
   "enumeratedOptions": [2]          // positions whose option KEYS were read in full
 }
 ```
+
+#### `callee.possibleFunctionIds` (added in 0.16.0)
+
+The finite targets of an indirect call when the program writes the whole candidate set
+but chooses one member at runtime. A dictionary of functions selected by a request field,
+and a loop over imported modules invoking the same method on each, are the two measured
+shapes. Neither is unresolved in the ordinary sense: the selected member is unknown, but
+the set is exact. Keeping that set is what lets reachability account for work behind a
+dispatch table without inventing an edge to every function in the program.
 
 `resolution` is what drives finding confidence and the pipeline gate (ADR-005). A path
 crossing a `dynamic-unresolved` edge cannot produce a high-confidence finding.

@@ -1,0 +1,22 @@
+{
+  "corpus": "rate-limit-scope",
+  "description": "A mounted limiter is a control over the requests its predicates admit, not evidence that every route is throttled. Two positives reach outbound work in an application that demonstrably consumes rate-limit buckets: autocomplete is outside the limiter's path predicate, and export selects its expensive representation from Flask's POST-only form mapping while the limiter reads the query-only args mapping. Search performs the same outbound work under the admitted path and is silent; query-export proves that equal query predicates on the limiter and expensive operation do cover one another; health is outside the limiter but has no expensive sink. The fixture's app-level limiter is the negative boundary against reporting every expensive route in applications that never declared one.",
+  "expected": [
+    {
+      "cwe": "CWE-770",
+      "sinkFile": "app.py",
+      "sinkLine": 31,
+      "sourceLabel": "GET /autocompleter reaches expensive work",
+      "confidence": "high",
+      "note": "the outbound autocomplete call is reachable from a route excluded by the mounted limiter's /search predicate"
+    },
+    {
+      "cwe": "CWE-770",
+      "sinkFile": "app.py",
+      "sinkLine": 34,
+      "sourceLabel": "POST /export reaches expensive work",
+      "confidence": "high",
+      "note": "request.args is query-only; it does not cover a format selected from request.form in the POST body"
+    }
+  ]
+}
