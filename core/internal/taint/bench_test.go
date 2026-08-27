@@ -126,6 +126,7 @@ var corpora = []string{
 	"flask-unsafe-files",
 	"flask-csv-injection",
 	"django-urlconf",
+	"django-keyword-registration",
 	"next-pages-router",
 	"tsconfig-path-alias",
 	"tornado-urlspec",
