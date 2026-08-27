@@ -77,11 +77,34 @@ var claims = map[string]Claim{
 			"Both frontends read their ecosystem's templates and record, per " +
 			"interpolation, whether the engine escapes it: EJS, Handlebars, Mustache, " +
 			"Pug, Nunjucks and Swig on one side, Jinja2 on the other. The finding points " +
-			"at the template line rather than at the handler. What stays out of reach is " +
-			"stated rather than assumed: a view name not written in the render call, a " +
-			"name two templates could answer to, a context built in another function, " +
-			"and an interpolation that is not a plain access path -- each a case where " +
-			"naming a file would mean guessing which one. One further miss is a " +
+			"at the template line rather than at the handler, and it names the `| safe` " +
+			"that removed the encoder as a hop of its own: autoescaping is on in both " +
+			"template languages, so an unescaped interpolation is a decision somebody " +
+			"wrote down and an absent encoder is a different fact from a removed one. " +
+			"The context no longer has to be written at the render call. A mapping " +
+			"handed over whole -- `render_template(name, **ns)` -- supplies the view's " +
+			"names through its KEYS, and the core resolves those program-wide: a " +
+			"mapping literal's entries, an assignment into a subscript, `dict(k=v)`, an " +
+			"`update` from another mapping, and the mapping a called function returns. " +
+			"That is what a base handler's namespace hook and an application-wide render " +
+			"helper are, and neither writes both halves in one place. Its cost was " +
+			"measured before it was claimed: across ten production repositories it " +
+			"roughly doubled the interpolations that carry a value -- searxng 112 to " +
+			"215, jupyterhub 54 to 69 -- and changed NOT ONE finding in either " +
+			"direction. Every key rests on a literal somebody wrote; a computed key " +
+			"names nothing a view can read and binds nothing. What stays out of reach " +
+			"is stated rather than assumed: a view name not written in the render call, " +
+			"a name two templates could answer to, an interpolation that is not a plain " +
+			"access path, and a POSITIONAL context object -- Django's " +
+			"`render(request, name, ctx)` and Express's locals built anywhere but the " +
+			"call. The Django half was built, measured and withdrawn: it made 188 views " +
+			"and 101 renders visible in healthchecks where there had been none, wrote " +
+			"621 interpolation sinks, and produced exactly one finding -- a URL-target " +
+			"report whose taint arrived through a helper's return merged across its " +
+			"call sites, so the entry point it names cannot reach the page it names. " +
+			"Zero true findings against one false one is worse than silence, and the " +
+			"limit it depends on -- no call-site context (docs/IR.md) -- is not this " +
+			"rule's to fix. One further miss is a " +
 			"measurement rather than a structural limit: an engine configured with " +
 			"autoescaping off globally makes every interpolation in its templates " +
 			"unescaped, and the configuration is not connected to the files it governs. " +
@@ -92,6 +115,18 @@ var claims = map[string]Claim{
 			"and is the fix. URL-valued href, src and action destinations are a distinct " +
 			"browser interpretation after markup parsing: when caller data supplies the " +
 			"whole value, HTML escaping does not constrain javascript or data schemes. " +
+			"A `<script>` element is a fifth place, and it is neither markup nor a " +
+			"JavaScript string: the HTML parser ends the element at the first " +
+			"`</script` whatever the JavaScript says, and does not decode entities in " +
+			"there. So HTML-escaping answers it -- the `<` is gone -- and escaping for " +
+			"a JavaScript string does not, because `json.dumps` and `JSON.stringify` " +
+			"escape the quote and leave the `<`. Both are declared, and an encoder that " +
+			"answered the wrong question is recorded as considered-and-insufficient " +
+			"rather than as nothing tried (ADR-006). Asserted by fixture and not yet " +
+			"observed on production code: jupyterhub writes exactly this shape at " +
+			"share/jupyterhub/templates/page.html:86, and the value reaching it is a " +
+			"username read back out of the database, which no source in this build " +
+			"classifies. " +
 			"Reporting the configuration instead was counted and declined -- 15 mentions " +
 			"of autoescape across the clean corpus, the two that disable it being a " +
 			"LaTeX renderer and a code generator, where HTML escaping would be the bug. " +

@@ -102,6 +102,18 @@ type Render struct {
 	// arguments, so the names bound at ITS call sites are bound in the view.
 	ForwardsKeywords bool `json:"forwardsKeywords,omitempty"`
 
+	// ContextValues are mappings this render hands over WHOLE instead of naming each
+	// variable: `render_template(name, **ns)`, and the positional context object that
+	// Django and Express both take, where a context is one object and never a keyword
+	// list.
+	//
+	// The names a view then reads are that mapping's KEYS, and a mapping is routinely
+	// filled in somewhere other than the call — a base handler mutates it, a helper
+	// returns it, a loop writes into it. A frontend states only which value was handed
+	// over; which names it carries is a program-wide question the core answers, because
+	// the answer is not in this function (docs/DESIGN-DECISIONS.md ADR-001).
+	ContextValues []string `json:"contextValues,omitempty"`
+
 	FunctionID string    `json:"functionId"`
 	Loc        Loc       `json:"loc"`
 	Block      string    `json:"block,omitempty"`
@@ -359,6 +371,24 @@ type Value struct {
 	// without it the decision analysis could see that a password was being measured but
 	// not what it was being measured against.
 	Literal string `json:"literal,omitempty"`
+
+	// Entries are a mapping literal's members, by the key each was filed under.
+	//
+	// A mapping is lowered as one value with an edge in from each member, which records
+	// what went IN and not what any of it is CALLED. The name is the whole of the
+	// question when the mapping is a template's context: a view reads `{{ query }}`, and
+	// which value that is depends entirely on the key.
+	//
+	// Only a key written as a literal string appears here. A computed key names nothing
+	// a view can read, and guessing one would bind a value to an interpolation nobody
+	// wrote.
+	Entries []Entry `json:"entries,omitempty"`
+}
+
+// Entry is one member of a mapping, under the name it was filed as.
+type Entry struct {
+	Key     string `json:"key"`
+	ValueID string `json:"valueId"`
 }
 
 // Flow is a directed intraprocedural dataflow edge. Kind is descriptive only in v0:

@@ -759,8 +759,20 @@ function importedRegexConstant(name: string, imported: ImportRef | undefined): s
   return matches.length === 1 ? matches[0].text : undefined;
 }
 
-/** JavaScript and TypeScript test-file conventions. */
-const TEST_PATH = /(^|\/)(__tests__|__mocks__|tests?|spec|e2e|__e2e__)\/|\.(test|spec|e2e)\.[cm]?[jt]sx?$|(^|\/)(jest|vitest|playwright|cypress)\.(config|setup)\./;
+/**
+ * JavaScript and TypeScript test-file conventions.
+ *
+ * `cypress/` and `playwright/` are the runners' own scaffolding directories, and both
+ * tools were already named here by their config files -- only the directory they create
+ * was missing. It costs a route to leave it out: one application's surface carried
+ * `GET /api/admin/user` out of `frontend/cypress/support/UI.ts`, which is
+ * `cy.intercept('GET', '/api/admin/user', ...)` -- a stub for a request the TEST makes,
+ * matched because an interceptor is spelled exactly as a registration. That is the msw
+ * judgement over again (a mock registrar answers nothing on the network), reached through
+ * the file rather than through an import because Cypress hands `cy` to the file as a
+ * global and there is no import to key on.
+ */
+const TEST_PATH = /(^|\/)(__tests__|__mocks__|tests?|spec|e2e|__e2e__|cypress|playwright)\/|\.(test|spec|e2e)\.[cm]?[jt]sx?$|(^|\/)(jest|vitest|playwright|cypress)\.(config|setup)\./;
 
 function isTestModule(moduleId: string): boolean {
   return TEST_PATH.test(moduleId);

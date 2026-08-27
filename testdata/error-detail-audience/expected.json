@@ -1,0 +1,30 @@
+{
+  "corpus": "error-detail-audience",
+  "description": "One error-detail rule, three audiences. All three disclosures are real and all three are reported; what separates them is who receives the message, which is what the rule could not say. Nine of linkwarden's twenty-one findings were this rule, eight adjudicated true and none worth reporting, all behind a session; the same rule found two of the batch's four worth-reporting findings in uptime-kuma, where the endpoints answer anybody.",
+  "expected": [
+    {
+      "cwe": "CWE-209",
+      "sinkFile": "app.ts",
+      "sinkLine": 13,
+      "sourceLabel": "err",
+      "confidence": "medium",
+      "note": "No control asks who the caller is, so the driver message goes to whoever asked. This is the audience worth acting on and it publishes at error rank in SARIF. MEDIUM confidence, not high: the .json hop resolves heuristically without Express types (ADR-005)."
+    },
+    {
+      "cwe": "CWE-209",
+      "sinkFile": "app.ts",
+      "sinkLine": 25,
+      "sourceLabel": "err",
+      "confidence": "medium",
+      "note": "The same disclosure behind verifyUser, called in the handler itself. Still a finding -- the audience lowers the rank and never suppresses -- and it publishes at note."
+    },
+    {
+      "cwe": "CWE-209",
+      "sinkFile": "app.ts",
+      "sinkLine": 42,
+      "sourceLabel": "err",
+      "confidence": "medium",
+      "note": "Authenticated one hop below the handler, which is where a route that dispatches before it acts puts its control. Also a note. The route's own control list is empty and correctly so: nothing is attached to the entry point, and surface.EntryFacts.Authenticates is the separate, weaker fact that says the caller was still asked who they are."
+    }
+  ]
+}

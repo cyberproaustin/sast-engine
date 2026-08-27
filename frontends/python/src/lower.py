@@ -20,7 +20,7 @@ from typing import Any
 
 from templates import index_templates, resolve_template
 
-IR_VERSION = "0.17.0"
+IR_VERSION = "0.18.0"
 FRONTEND_VERSION = "0.1.0"
 
 FUNCTION_NODES = (ast.FunctionDef, ast.AsyncFunctionDef)
@@ -2341,6 +2341,12 @@ class FunctionLowerer:
 
         if isinstance(node, ast.Dict):
             vid = self.new_value("local", node, name="{dict}")
+            record = self.values[-1]
+            # The KEY each member was filed under, for the members whose key was written
+            # as a string. A template's context is a mapping and a view reads it BY NAME,
+            # so a dict recording only what went into it records the half that cannot
+            # answer `{{ query }}`. A computed key is left out rather than guessed at.
+            entries = []
             for key, value in zip(node.keys, node.values):
                 # A dict's keys are not reliably configuration names -- a lookup table
                 # from a setting to its group has the same shape and its keys are data.
@@ -2352,7 +2358,12 @@ class FunctionLowerer:
                 # enclosure said the application had chosen the fields when it had chosen
                 # none of them.
                 kind = "enclose" if key is not None else "assign"
-                self.add_flow(self.expr(value), vid, kind, node)
+                member = self.expr(value)
+                self.add_flow(member, vid, kind, node)
+                if member and isinstance(key, ast.Constant) and isinstance(key.value, str):
+                    entries.append({"key": key.value, "valueId": member})
+            if entries:
+                record["entries"] = entries
             return vid
 
         if isinstance(node, (ast.List, ast.Tuple, ast.Set)):
@@ -2591,6 +2602,8 @@ class FunctionLowerer:
         # What each keyword carries. A template reads its values by NAME, so linking a
         # render call to the view it renders needs this map and nothing else.
         by_keyword: dict[str, str] = {}
+        # What a `**` SPREAD carries: one mapping, whose keys are decided somewhere else.
+        spread: list[str] = []
         for offset, kw in enumerate(node.keywords):
             vid = self.expr(kw.value)
             if vid:
@@ -2609,6 +2622,8 @@ class FunctionLowerer:
                 args.append(entry)
                 if kw.arg:
                     by_keyword[kw.arg] = vid
+                else:
+                    spread.append(vid)
             if not kw.arg:
                 keys_known = False
                 continue
@@ -2715,7 +2730,7 @@ class FunctionLowerer:
         # Measured: resolving inherited methods took jupyterhub's spawn form off the map
         # and with it the only application finding in the repository.
         if "render_template" in ((callee.get("symbol") or "").rsplit(".", 1)[-1], method):
-            self.lower_rendered_template(node, by_keyword)
+            self.lower_rendered_template(node, by_keyword, spread)
         return result
 
     def view_name_param(self, node: ast.expr) -> str | None:
@@ -2735,7 +2750,9 @@ class FunctionLowerer:
                  if isinstance(n, ast.Name) and n.id in self.param_names}
         return names.pop() if len(names) == 1 else None
 
-    def lower_rendered_template(self, node: ast.Call, by_keyword: dict[str, str]) -> None:
+    def lower_rendered_template(
+        self, node: ast.Call, by_keyword: dict[str, str], spread: list[str]
+    ) -> None:
         """Where a render call ends and a view begins.
 
         `render_template("page.html", name=x)` hands a set of named values to a file this
@@ -2749,11 +2766,14 @@ class FunctionLowerer:
         ANYWHERE, through a parent it extends and a file it includes, and no single call
         site can see that.
 
-        Three things this cannot say, each stated rather than guessed at (ADR-003): a view
-        name that is neither a literal here nor a parameter this function was handed, a
-        name two templates could answer to, and a context spread from a mapping whose keys
-        were not written down -- binding a value to a name nobody wrote would attach a
-        finding to the wrong interpolation.
+        A context SPREAD from a mapping -- `render_template(name, **ns)` -- is recorded as
+        the mapping itself rather than dropped. Which names it carries is decided wherever
+        the mapping is filled in, and that is routinely another function; the core answers
+        it program-wide, and a key nobody wrote as a literal still binds nothing.
+
+        Two things this cannot say, each stated rather than guessed at (ADR-003): a view
+        name that is neither a literal here nor a parameter this function was handed, and
+        a name two templates could answer to.
         """
         name_arg = node.args[0] if node.args else None
         render: dict[str, Any] = {
@@ -2780,10 +2800,15 @@ class FunctionLowerer:
         if bindings:
             render["bindings"] = bindings
         # `render_template(name, **ns)` hands on whatever its own caller passed, so the
-        # bindings written at THIS function's call sites are bindings for the view.
+        # bindings written at THIS function's call sites are bindings for the view. The
+        # same `**ns` is also a mapping in its own right, and a helper that takes the
+        # caller's keywords and then adds a dozen of its own -- which is what an
+        # application-wide render helper IS -- supplies both.
         for kw in node.keywords:
             if kw.arg is None and isinstance(kw.value, ast.Name) and kw.value.id in self.kwargs_names:
                 render["forwardsKeywords"] = True
+        if spread:
+            render["contextValues"] = list(spread)
         self.mod.renders.append(render)
 
     def resolve_callee(self, node: ast.Call) -> dict:

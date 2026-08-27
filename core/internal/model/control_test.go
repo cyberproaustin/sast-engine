@@ -24,6 +24,33 @@ func TestClassifyControlMatchesRealNames(t *testing.T) {
 	}
 }
 
+// Containment has to begin at a word, or it reads a control into a word that merely
+// contains one.
+//
+// `unauthorized` is the case that forced this and it is the opposite of a control: umami
+// calls it 145 times to WRITE a 401. It went unnoticed for as long as classification could
+// not see a locally defined call at all; the first tree it was pointed at came back with
+// 136 of 170 entry points carrying an "authorization control" that answers requests with a
+// refusal. Inventing a control is a false claim about what is THERE, on the surface, which
+// is the primary output (ADR-009).
+func TestClassifyControlOnlyMatchesAtAWordBoundary(t *testing.T) {
+	m := Builtin()
+	cases := []struct{ name, want string }{
+		{"unauthorized", ""},           // writes a 401; contains "authorize"
+		{"sendUnauthorized", ""},       // the same, one word further in
+		{"authorize", "authorization"}, // the real thing
+		{"authorizeTotpCode", "authorization"},
+		{"authorize_signal", "authorization"},
+		{"canAuthorizeRequest", "authorization"}, // buried, but at a hump
+		{"deauthorize", ""},                      // the stated cost: mid-word, missed
+	}
+	for _, c := range cases {
+		if got := m.ClassifyControl(c.name); got != c.want {
+			t.Errorf("ClassifyControl(%q) = %q, want %q", c.name, got, c.want)
+		}
+	}
+}
+
 // Containment is only safe because the longest rule wins. Without that ordering
 // `requireAuth` is a prefix of `requireAuthorization` and would misname it.
 func TestClassifyControlPrefersTheLongerRule(t *testing.T) {

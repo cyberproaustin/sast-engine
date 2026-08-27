@@ -48,6 +48,27 @@ func TestLevelReflectsJudgementNotConfidence(t *testing.T) {
 
 		{"medium confidence", taint.Finding{Confidence: taint.Medium, EntryAnchored: true}, "warning",
 			"an inferred expectation never gates (ADR-010)"},
+
+		// A disclosure is the one judgement whose weight IS its audience. Nine of
+		// linkwarden's twenty-one findings were CWE-209 returned to a caller who already
+		// holds the account; eight were adjudicated true and none was worth reporting,
+		// while the same rule found two of the batch's four worth-reporting findings in
+		// uptime-kuma, where the endpoints answer anybody. One rank for both is what
+		// teaches a reader to skip the rule.
+		{"disclosure to a caller who authenticated",
+			taint.Finding{Confidence: taint.High, EntryAnchored: true, AudienceDecides: true, EntryAuthenticates: true},
+			"note", "the message reached somebody who is already inside"},
+
+		{"disclosure to anybody at all",
+			taint.Finding{Confidence: taint.High, EntryAnchored: true, AudienceDecides: true},
+			"error", "no control asks who the caller is, so it describes the system to whoever asked"},
+
+		// Both halves are required, and this is the half that keeps the rank honest: an
+		// injection behind a login is the same injection, because what an attacker can do
+		// to the system does not change with who they are.
+		{"authenticated, but the judgement is not about who receives it",
+			taint.Finding{Confidence: taint.High, EntryAnchored: true, EntryAuthenticates: true},
+			"error", "only a disclosure is ranked by its audience"},
 	} {
 		if got := levelFor(c.f); got != c.level {
 			t.Errorf("%s: level %q, want %q — %s", c.name, got, c.level, c.why)

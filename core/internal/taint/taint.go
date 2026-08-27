@@ -15,6 +15,7 @@ import (
 	"strings"
 
 	"github.com/cyberproaustin/sast-engine/core/internal/cfg"
+	"github.com/cyberproaustin/sast-engine/core/internal/flow"
 	"github.com/cyberproaustin/sast-engine/core/internal/ir"
 	"github.com/cyberproaustin/sast-engine/core/internal/model"
 	"github.com/cyberproaustin/sast-engine/core/internal/reachdef"
@@ -447,6 +448,18 @@ type Finding struct {
 	// internal error is equally wrong on a login endpoint, and grouping it here would
 	// suggest a remedy that does not apply to it.
 	EntryHasNoInjectedIdentity bool
+	// EntryAuthenticates reports whether the caller had to say who they are before
+	// reaching this. See surface.EntryFacts.Authenticates, which is where it is decided;
+	// it is copied onto the finding so that the SARIF level and the report cannot
+	// disagree about it.
+	//
+	// A fact, not a verdict: it is true of injections and disclosures alike, and it
+	// changes nothing on its own. Only a judgement that says the audience is what it is
+	// about reads it (AudienceDecides).
+	EntryAuthenticates bool
+	// AudienceDecides carries model.Policy.AudienceDecides onto the finding: this
+	// judgement's weight IS who receives what was disclosed.
+	AudienceDecides bool
 
 	SinkLoc      ir.Loc
 	SinkFunction string
@@ -2549,7 +2562,8 @@ func (e *engine) buildFinding(c *ir.Call, ch model.Channel, p model.Policy, arg 
 		EntryTrust:    sd.trust,
 		EntryHasNoInjectedIdentity: sd.anchored && !sd.identityInjected && e.programInjects &&
 			p.RequiresRelationTo == e.m.IdentityClass(),
-		SinkLoc: c.Loc,
+		AudienceDecides: p.AudienceDecides,
+		SinkLoc:         c.Loc,
 		// Every other analysis has marked this since the field existed; the dataflow
 		// analysis never did, and it is the one that produces most of the findings. So
 		// the whole test-module judgement -- reported, never gating, published at note
@@ -2781,7 +2795,9 @@ func regexGuardForbidden(context string) []string {
 	switch context {
 	case "path":
 		return []string{"/", `\`, ".."}
-	case "html":
+	case "html", "script":
+		// A guard that cannot admit `<` cannot admit `</script` either, so one
+		// forbidden set answers both places the character decides.
 		return []string{"<", ">", "&", `"`}
 	case "header", "log-line":
 		return []string{"\r", "\n"}
@@ -2918,6 +2934,11 @@ func (e *engine) describeFlow(f ir.Flow) string {
 		return "property access"
 	case "return":
 		return "returned"
+	case flow.FlowEncoderRemoved:
+		// The template engine escapes by default and something took that off. The hop
+		// carries the position of the marker, which is the one place a reader can go and
+		// see the decision that was made.
+		return "the template engine's escaping is removed here"
 	default:
 		return f.Kind
 	}
@@ -3009,6 +3030,14 @@ func (f Finding) Fingerprint() string {
 	h := sha256.Sum256([]byte(strings.Join(parts, "\x00")))
 	return hex.EncodeToString(h[:8])
 }
+
+// EntryLabel is how a finding names the entry point it is anchored to.
+//
+// Exported because it is the join: a finding records a STRING, and anything wanting to
+// attach a fact about the entry point to the findings that came through it has to
+// produce the same string. One function, so that a second spelling of it cannot drift
+// into existence and quietly match nothing.
+func EntryLabel(ep ir.EntryPoint) string { return describeEntry(ep) }
 
 func describeEntry(ep ir.EntryPoint) string {
 	parts := make([]string, 0, 3)

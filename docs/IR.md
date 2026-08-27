@@ -1,4 +1,4 @@
-# Program IR — v0.17.0
+# Program IR — v0.18.0
 
 The IR is the contract between language frontends and the core (ADR-001). A frontend
 lowers a codebase into this shape and stops. The core consumes only this shape and
@@ -12,7 +12,7 @@ could not be expressed without it. Nothing is added in anticipation.
 
 ```jsonc
 {
-  "irVersion": "0.17.0",
+  "irVersion": "0.18.0",
   "frontend": { "name": "typescript", "version": "0.1.0", "capabilities": { ... } },
   "modules":     [ ... ],
   "functions":   [ ... ],
@@ -433,6 +433,91 @@ comparison.
 A frontend should emit a middleware reference even when it cannot resolve the target
 to a function — an unresolved identifier still has a stable name, and comparing chains
 across peers only requires knowing that peers share a binding this one lacks.
+
+## Views and renders (added in 0.16.0)
+
+A server-rendered application makes every escaping decision in a file the language's own
+compiler has never heard of, and supplies the values from somewhere else entirely. So the
+IR carries the two halves as TWO facts and the core joins them (`core/internal/flow`).
+
+```jsonc
+"views": [
+  {
+    "id": "templates/results.html",
+    "extends": ["templates/base.html"],
+    "includes": [{ "view": "templates/row.html", "rebind": { "row": "rows" } }],
+    "reads": [
+      {
+        "path": "query",
+        "escaped": false,
+        "context": "script",
+        "removedAt": { "file": "templates/results.html", "line": 2, "column": 30 },
+        "loc": {...}
+      }
+    ]
+  }
+],
+"renders": [
+  {
+    "view": "templates/results.html",
+    "name": "results.html",
+    "functionId": "app.py#search:8:1",
+    "bindings": [{ "name": "query", "valueId": "...$v3" }],
+    "contextValues": ["...$v7"],
+    "loc": {...},
+    "block": "...$b0"
+  }
+]
+```
+
+A view's `id` is its root-relative path, which is also how a render names it. `extends`
+and `includes` are the template graph: both carry the SAME context, which is why a
+variable a handler never mentioned in the render call it wrote can still be read three
+files away. An include's `rebind` maps a name that is FREE in the included view to the
+path it stands for in the including one, so a file included from inside a loop reads a
+name that only exists there.
+
+A read's `escaped` is whether the template engine escapes this interpolation. `context`
+names the syntax it lands in when that is not ordinary markup -- `script`, `url-target`,
+`url-part` -- because an encoder can only be judged against the place the value actually
+goes. `removedAt` is where the marker that turned the escaping OFF is written: autoescaping
+is on in both template languages read today, so an unescaped interpolation is a decision
+somebody made, and an absent encoder and a REMOVED one are different facts about a line.
+
+A render names its view directly, or names the parameter that supplies it (`fromParam`)
+for a base handler whose caller chooses the page.
+
+### `contextValues` (added in 0.18.0)
+
+Mappings a render hands over WHOLE instead of naming each variable: `render_template(name,
+**ns)`, and the positional context object that Django and Express both take, where a
+context is one object and never a keyword list. The names a view then reads are that
+mapping's KEYS.
+
+The core resolves them program-wide, because a mapping is routinely filled in somewhere
+other than the call -- a base handler mutates it, a helper returns it, a loop writes into
+it -- and no single call site can see that. Every answer rests on a key somebody wrote as
+a literal: a mapping literal's `entries`, an assignment into a subscript or an attribute
+(`writes`), a `dict(name=value)` call's named arguments, an `update` with another mapping,
+and the mapping a called function returns. A computed key names nothing a view can read.
+
+### `entries` on a value (added in 0.18.0)
+
+A mapping literal is lowered as one value with an edge in from each member, which records
+what went IN and not what any of it is CALLED. `entries` is the missing half: the key each
+member was filed under, for the keys written as literal strings.
+
+```jsonc
+{ "id": "...$v7", "kind": "local", "name": "{dict}",
+  "entries": [{ "key": "query", "valueId": "...$v3" }], "loc": {...} }
+```
+
+Supplied by the Python frontend, for the `**mapping` spread. The positional context object
+is not lowered by either frontend today: the TypeScript frontend still joins views and
+renders itself, at the call site, from an inline object literal -- so it emits neither
+`views` nor `renders`, and a render whose locals were built anywhere else is silent there.
+The Python frontend's Django shortcut was built, measured and withdrawn; the coverage
+ledger records the numbers.
 
 ## What v0 does not have
 

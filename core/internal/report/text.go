@@ -739,6 +739,18 @@ func writeTaintFinding(b *strings.Builder, f taint.Finding) {
 	fmt.Fprintf(b, "\n[%s] %s (%s)\n", strings.ToUpper(string(f.Confidence)), f.Class, f.CWE)
 	fmt.Fprintf(b, "  %s\n", f.Message)
 	fmt.Fprintf(b, "  entry: %s\n", f.EntryPoint)
+	// Who reads this is the whole weakness for a disclosure, so it is said on the
+	// finding rather than left to be inferred from a level in another output format. The
+	// negative is worth as much as the positive here: "answers an unauthenticated
+	// caller" is the sentence that separates the two findings worth acting on from the
+	// eight that are not.
+	if f.AudienceDecides {
+		if f.EntryAuthenticates {
+			fmt.Fprintf(b, "  audience: a caller the entry point authenticated\n")
+		} else {
+			fmt.Fprintf(b, "  audience: no authentication control runs on this entry point\n")
+		}
+	}
 	// A negative index is not a position: -1 is "the value this was called ON", and a
 	// comparison has no arguments at all. Printing "argument -1" was reporting an index
 	// that does not exist.

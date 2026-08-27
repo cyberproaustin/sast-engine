@@ -25,10 +25,11 @@ def about():
 
 @app.route("/report")
 def report():
-    # NEGATIVE, and a STATED MISS rather than a safe line. The context is spread from a
-    # dictionary built elsewhere, so the map from a template's variable names to the
-    # values behind them does not exist here -- and naming a file on a guess is worse
-    # than saying nothing.
+    # POSITIVE, and reported at the line the handler above is reported at. The context is
+    # spread from a dictionary built in another function, which was a stated miss until
+    # the mapping's own keys became the answer. Both handlers put the caller's `q` into
+    # the same interpolation, so one line carrying one value is one weakness and the
+    # second path is kept as another site rather than counted again.
     return render_template("results.html", **build_context())
 
 

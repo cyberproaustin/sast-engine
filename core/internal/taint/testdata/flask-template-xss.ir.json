@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.16.0",
+  "irVersion": "0.17.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -227,12 +227,12 @@
               "valueId": "app.py#search:8:1$v0"
             },
             {
-              "index": 1,
-              "valueId": "app.py#search:8:1$v3"
+              "valueId": "app.py#search:8:1$v3",
+              "name": "query"
             },
             {
-              "index": 1,
-              "valueId": "app.py#search:8:1$v4"
+              "valueId": "app.py#search:8:1$v4",
+              "name": "count"
             }
           ],
           "resultValueId": "app.py#search:8:1$v5",
@@ -305,7 +305,13 @@
             "line": 17,
             "column": 49
           },
-          "name": "{dict}"
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "name",
+              "valueId": "app.py#profile:16:1$v4"
+            }
+          ]
         },
         {
           "id": "app.py#profile:16:1$v2",
@@ -406,8 +412,8 @@
               "valueId": "app.py#profile:16:1$v0"
             },
             {
-              "index": 1,
-              "valueId": "app.py#profile:16:1$v1"
+              "valueId": "app.py#profile:16:1$v1",
+              "name": "user"
             }
           ],
           "resultValueId": "app.py#profile:16:1$v5",
@@ -513,8 +519,8 @@
               "valueId": "app.py#about:21:1$v0"
             },
             {
-              "index": 1,
-              "valueId": "app.py#about:21:1$v1"
+              "valueId": "app.py#about:21:1$v1",
+              "name": "updated"
             }
           ],
           "resultValueId": "app.py#about:21:1$v2",
@@ -573,7 +579,7 @@
           "kind": "literal",
           "loc": {
             "file": "app.py",
-            "line": 32,
+            "line": 33,
             "column": 28
           },
           "literal": "results.html"
@@ -583,7 +589,7 @@
           "kind": "call-result",
           "loc": {
             "file": "app.py",
-            "line": 32,
+            "line": 33,
             "column": 46
           },
           "name": "local"
@@ -593,7 +599,7 @@
           "kind": "call-result",
           "loc": {
             "file": "app.py",
-            "line": 32,
+            "line": 33,
             "column": 12
           },
           "name": "flask.render_template"
@@ -605,12 +611,12 @@
           "id": "app.py#report:27:1$c0",
           "loc": {
             "file": "app.py",
-            "line": 32,
+            "line": 33,
             "column": 46
           },
           "callee": {
             "kind": "local",
-            "functionId": "app.py#build_context:35:1",
+            "functionId": "app.py#build_context:36:1",
             "resolution": "resolved",
             "name": "build_context"
           },
@@ -625,7 +631,7 @@
           "id": "app.py#report:27:1$c1",
           "loc": {
             "file": "app.py",
-            "line": 32,
+            "line": 33,
             "column": 12
           },
           "callee": {
@@ -639,7 +645,6 @@
               "valueId": "app.py#report:27:1$v0"
             },
             {
-              "index": 1,
               "valueId": "app.py#report:27:1$v1"
             }
           ],
@@ -673,73 +678,83 @@
           "successors": [],
           "loc": {
             "file": "app.py",
-            "line": 32,
+            "line": 33,
             "column": 5
           }
         }
       ]
     },
     {
-      "id": "app.py#build_context:35:1",
+      "id": "app.py#build_context:36:1",
       "name": "build_context",
       "module": "app.py",
       "loc": {
         "file": "app.py",
-        "line": 35,
+        "line": 36,
         "column": 1
       },
       "params": [],
       "values": [
         {
-          "id": "app.py#build_context:35:1$v0",
+          "id": "app.py#build_context:36:1$v0",
           "kind": "local",
           "loc": {
             "file": "app.py",
-            "line": 36,
+            "line": 37,
             "column": 12
           },
-          "name": "{dict}"
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "query",
+              "valueId": "app.py#build_context:36:1$v3"
+            },
+            {
+              "key": "count",
+              "valueId": "app.py#build_context:36:1$v4"
+            }
+          ]
         },
         {
-          "id": "app.py#build_context:35:1$v1",
+          "id": "app.py#build_context:36:1$v1",
           "kind": "global",
           "loc": {
             "file": "app.py",
-            "line": 36,
+            "line": 37,
             "column": 22
           },
           "name": "flask.request"
         },
         {
-          "id": "app.py#build_context:35:1$v2",
+          "id": "app.py#build_context:36:1$v2",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 36,
+            "line": 37,
             "column": 22
           },
-          "base": "app.py#build_context:35:1$v1",
+          "base": "app.py#build_context:36:1$v1",
           "path": "args",
           "name": "args"
         },
         {
-          "id": "app.py#build_context:35:1$v3",
+          "id": "app.py#build_context:36:1$v3",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 36,
+            "line": 37,
             "column": 22
           },
           "name": "q",
-          "base": "app.py#build_context:35:1$v2",
+          "base": "app.py#build_context:36:1$v2",
           "path": "args.q"
         },
         {
-          "id": "app.py#build_context:35:1$v4",
+          "id": "app.py#build_context:36:1$v4",
           "kind": "literal",
           "loc": {
             "file": "app.py",
-            "line": 36,
+            "line": 37,
             "column": 50
           },
           "literal": "1"
@@ -747,150 +762,150 @@
       ],
       "flows": [
         {
-          "from": "app.py#build_context:35:1$v1",
-          "to": "app.py#build_context:35:1$v2",
+          "from": "app.py#build_context:36:1$v1",
+          "to": "app.py#build_context:36:1$v2",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 36,
+            "line": 37,
             "column": 22
           },
-          "block": "app.py#build_context:35:1$b0"
+          "block": "app.py#build_context:36:1$b0"
         },
         {
-          "from": "app.py#build_context:35:1$v2",
-          "to": "app.py#build_context:35:1$v3",
+          "from": "app.py#build_context:36:1$v2",
+          "to": "app.py#build_context:36:1$v3",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 36,
+            "line": 37,
             "column": 22
           },
-          "block": "app.py#build_context:35:1$b0"
+          "block": "app.py#build_context:36:1$b0"
         },
         {
-          "from": "app.py#build_context:35:1$v3",
-          "to": "app.py#build_context:35:1$v0",
+          "from": "app.py#build_context:36:1$v3",
+          "to": "app.py#build_context:36:1$v0",
           "kind": "enclose",
           "loc": {
             "file": "app.py",
-            "line": 36,
+            "line": 37,
             "column": 12
           },
-          "block": "app.py#build_context:35:1$b0"
+          "block": "app.py#build_context:36:1$b0"
         },
         {
-          "from": "app.py#build_context:35:1$v4",
-          "to": "app.py#build_context:35:1$v0",
+          "from": "app.py#build_context:36:1$v4",
+          "to": "app.py#build_context:36:1$v0",
           "kind": "enclose",
           "loc": {
             "file": "app.py",
-            "line": 36,
+            "line": 37,
             "column": 12
           },
-          "block": "app.py#build_context:35:1$b0"
+          "block": "app.py#build_context:36:1$b0"
         }
       ],
       "calls": [],
       "returns": [
-        "app.py#build_context:35:1$v0"
+        "app.py#build_context:36:1$v0"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#build_context:35:1$b0",
+      "entryBlock": "app.py#build_context:36:1$b0",
       "blocks": [
         {
-          "id": "app.py#build_context:35:1$b0",
+          "id": "app.py#build_context:36:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
-            "line": 35,
+            "line": 36,
             "column": 1
           },
           "terminator": "return"
         },
         {
-          "id": "app.py#build_context:35:1$b1",
+          "id": "app.py#build_context:36:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
-            "line": 36,
+            "line": 37,
             "column": 5
           }
         }
       ]
     },
     {
-      "id": "app.py#comment:40:1",
+      "id": "app.py#comment:41:1",
       "name": "comment",
       "module": "app.py",
       "loc": {
         "file": "app.py",
-        "line": 40,
+        "line": 41,
         "column": 1
       },
       "params": [],
       "values": [
         {
-          "id": "app.py#comment:40:1$v0",
+          "id": "app.py#comment:41:1$v0",
           "kind": "literal",
           "loc": {
             "file": "app.py",
-            "line": 43,
+            "line": 44,
             "column": 28
           },
           "literal": "comment.html"
         },
         {
-          "id": "app.py#comment:40:1$v1",
+          "id": "app.py#comment:41:1$v1",
           "kind": "global",
           "loc": {
             "file": "app.py",
-            "line": 43,
+            "line": 44,
             "column": 56
           },
           "name": "flask.request"
         },
         {
-          "id": "app.py#comment:40:1$v2",
+          "id": "app.py#comment:41:1$v2",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 43,
+            "line": 44,
             "column": 56
           },
-          "base": "app.py#comment:40:1$v1",
+          "base": "app.py#comment:41:1$v1",
           "path": "args",
           "name": "args"
         },
         {
-          "id": "app.py#comment:40:1$v3",
+          "id": "app.py#comment:41:1$v3",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 43,
+            "line": 44,
             "column": 56
           },
           "name": "body",
-          "base": "app.py#comment:40:1$v2",
+          "base": "app.py#comment:41:1$v2",
           "path": "args.body"
         },
         {
-          "id": "app.py#comment:40:1$v4",
+          "id": "app.py#comment:41:1$v4",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
-            "line": 43,
+            "line": 44,
             "column": 49
           },
           "name": "markupsafe.escape"
         },
         {
-          "id": "app.py#comment:40:1$v5",
+          "id": "app.py#comment:41:1$v5",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
-            "line": 43,
+            "line": 44,
             "column": 12
           },
           "name": "flask.render_template"
@@ -898,34 +913,34 @@
       ],
       "flows": [
         {
-          "from": "app.py#comment:40:1$v1",
-          "to": "app.py#comment:40:1$v2",
+          "from": "app.py#comment:41:1$v1",
+          "to": "app.py#comment:41:1$v2",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 43,
+            "line": 44,
             "column": 56
           },
-          "block": "app.py#comment:40:1$b0"
+          "block": "app.py#comment:41:1$b0"
         },
         {
-          "from": "app.py#comment:40:1$v2",
-          "to": "app.py#comment:40:1$v3",
+          "from": "app.py#comment:41:1$v2",
+          "to": "app.py#comment:41:1$v3",
           "kind": "property",
           "loc": {
             "file": "app.py",
-            "line": 43,
+            "line": 44,
             "column": 56
           },
-          "block": "app.py#comment:40:1$b0"
+          "block": "app.py#comment:41:1$b0"
         }
       ],
       "calls": [
         {
-          "id": "app.py#comment:40:1$c0",
+          "id": "app.py#comment:41:1$c0",
           "loc": {
             "file": "app.py",
-            "line": 43,
+            "line": 44,
             "column": 49
           },
           "callee": {
@@ -936,21 +951,21 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#comment:40:1$v3"
+              "valueId": "app.py#comment:41:1$v3"
             }
           ],
-          "resultValueId": "app.py#comment:40:1$v4",
-          "block": "app.py#comment:40:1$b0",
+          "resultValueId": "app.py#comment:41:1$v4",
+          "block": "app.py#comment:41:1$b0",
           "argCount": 1,
           "enumeratedOptions": [
             -1
           ]
         },
         {
-          "id": "app.py#comment:40:1$c1",
+          "id": "app.py#comment:41:1$c1",
           "loc": {
             "file": "app.py",
-            "line": 43,
+            "line": 44,
             "column": 12
           },
           "callee": {
@@ -961,15 +976,15 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#comment:40:1$v0"
+              "valueId": "app.py#comment:41:1$v0"
             },
             {
-              "index": 1,
-              "valueId": "app.py#comment:40:1$v4"
+              "valueId": "app.py#comment:41:1$v4",
+              "name": "body"
             }
           ],
-          "resultValueId": "app.py#comment:40:1$v5",
-          "block": "app.py#comment:40:1$b0",
+          "resultValueId": "app.py#comment:41:1$v5",
+          "block": "app.py#comment:41:1$b0",
           "argCount": 2,
           "argLiterals": {
             "0": "comment.html",
@@ -981,28 +996,28 @@
         }
       ],
       "returns": [
-        "app.py#comment:40:1$v5"
+        "app.py#comment:41:1$v5"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "app.py#comment:40:1$b0",
+      "entryBlock": "app.py#comment:41:1$b0",
       "blocks": [
         {
-          "id": "app.py#comment:40:1$b0",
+          "id": "app.py#comment:41:1$b0",
           "successors": [],
           "loc": {
             "file": "app.py",
-            "line": 40,
+            "line": 41,
             "column": 1
           },
           "terminator": "return"
         },
         {
-          "id": "app.py#comment:40:1$b1",
+          "id": "app.py#comment:41:1$b1",
           "successors": [],
           "loc": {
             "file": "app.py",
-            "line": 43,
+            "line": 44,
             "column": 5
           }
         }
@@ -1047,7 +1062,7 @@
       }
     },
     {
-      "functionId": "app.py#comment:40:1",
+      "functionId": "app.py#comment:41:1",
       "kind": "http-route",
       "framework": "flask",
       "detail": {
@@ -1207,27 +1222,30 @@
       "functionId": "app.py#report:27:1",
       "loc": {
         "file": "app.py",
-        "line": 32,
+        "line": 33,
         "column": 12
       },
       "block": "app.py#report:27:1$b0",
       "view": "templates/results.html",
-      "name": "results.html"
+      "name": "results.html",
+      "contextValues": [
+        "app.py#report:27:1$v1"
+      ]
     },
     {
-      "functionId": "app.py#comment:40:1",
+      "functionId": "app.py#comment:41:1",
       "loc": {
         "file": "app.py",
-        "line": 43,
+        "line": 44,
         "column": 12
       },
-      "block": "app.py#comment:40:1$b0",
+      "block": "app.py#comment:41:1$b0",
       "view": "templates/comment.html",
       "name": "comment.html",
       "bindings": [
         {
           "name": "body",
-          "valueId": "app.py#comment:40:1$v4"
+          "valueId": "app.py#comment:41:1$v4"
         }
       ]
     }

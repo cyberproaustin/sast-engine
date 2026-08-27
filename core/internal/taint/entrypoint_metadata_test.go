@@ -195,5 +195,12 @@ func TestMockHandlersAreNotRoutes(t *testing.T) {
 		if ep.Detail["path"] == "/api/meta" {
 			t.Error("the msw handler in a module that also serves routes was admitted with them")
 		}
+		// The end-to-end runner's scaffolding, which is the same defect through a
+		// different door: `cy.intercept("GET", "/api/admin/user", handler)` is a stub for
+		// a request the test makes, and one application's surface carried it as a route.
+		if strings.Contains(ep.FunctionID, "cypress/") {
+			t.Errorf("a test runner's interceptor is enumerated as a route: %s %s",
+				ep.Detail["method"], ep.Detail["path"])
+		}
 	}
 }

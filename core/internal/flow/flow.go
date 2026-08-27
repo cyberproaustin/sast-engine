@@ -14,6 +14,12 @@
 // right, and a value reaches one if it reaches any context handed to a render of that
 // view anywhere.
 //
+// "Any context" includes one the render call never enumerates. A context handed over as a
+// MAPPING supplies the view's names through its keys, and the keys are decided wherever
+// the mapping is filled in — which is routinely another function. Resolving them is
+// context.go, and it is the half that makes the sentence above true rather than
+// aspirational.
+//
 // The join produces IR, not findings. What it writes back into the program is the same
 // shape a colocated render used to be lowered as: a call, at the TEMPLATE's location,
 // carrying the value the context bound to that interpolation's name. Every rule that
@@ -36,7 +42,17 @@ const (
 	SymbolUnescaped = "<template>.unescaped"
 	SymbolURLTarget = "<template>.url-target"
 	SymbolURLPart   = "<template>.url-part"
+	SymbolScript    = "<template>.script"
 )
+
+// FlowEncoderRemoved is the edge from a value to the marker that took the template
+// engine's escaping off it, so the evidence path names the words rather than only the
+// interpolation they sit in.
+const FlowEncoderRemoved = "encoder removed"
+
+// markerName is what that value is called in evidence. Both template languages spell the
+// decision the same way and `Markup(...)` is the other spelling of it.
+const markerName = "escaping removed here"
 
 // Report is what the join did, for the surface summary.
 type Report struct {
@@ -75,8 +91,11 @@ func JoinViews(d *ir.IR) Report {
 		byID[fn.ID] = fn
 	}
 
-	w := &writer{views: views, byID: byID, seen: make(map[string]bool)}
-	for _, r := range resolveRenders(d, ix, ids) {
+	w := &writer{
+		views: views, byID: byID, ix: ix,
+		seen: make(map[string]bool), open: make(map[string]bool),
+	}
+	for _, r := range w.resolveRenders(d, ix, ids) {
 		rep.Resolved++
 		rep.Sinks += w.render(r)
 	}
@@ -98,7 +117,7 @@ type resolved struct {
 // resolveRenders answers, for every render in the program, which view it renders and
 // what names it bound — including the renders whose view is named by whoever called the
 // function they sit in.
-func resolveRenders(d *ir.IR, ix *ir.Index, ids []string) []resolved {
+func (w *writer) resolveRenders(d *ir.IR, ix *ir.Index, ids []string) []resolved {
 	var out []resolved
 	for i := range d.Renders {
 		r := d.Renders[i]
@@ -106,10 +125,10 @@ func resolveRenders(d *ir.IR, ix *ir.Index, ids []string) []resolved {
 		case r.View != "":
 			out = append(out, resolved{
 				View: r.View, Name: r.Name, Function: r.FunctionID,
-				Loc: r.Loc, Block: r.Block, Bind: bindingsOf(r.Bindings, nil),
+				Loc: r.Loc, Block: r.Block, Bind: bindingsOf(r.Bindings, w.context(r)),
 			})
 		case r.FromParam != "":
-			out = append(out, atCallSites(r, ix, ids)...)
+			out = append(out, w.atCallSites(r, ix, ids)...)
 		}
 	}
 	return out
@@ -122,7 +141,7 @@ func resolveRenders(d *ir.IR, ix *ir.Index, ids []string) []resolved {
 // point reaches. A base handler's `render_template` is one function shared by every page
 // in the application, and attributing every page's context to it would put one pile of
 // unrelated values in one place.
-func atCallSites(r ir.Render, ix *ir.Index, ids []string) []resolved {
+func (w *writer) atCallSites(r ir.Render, ix *ir.Index, ids []string) []resolved {
 	fn := ix.FuncByID[r.FunctionID]
 	if fn == nil {
 		return nil
@@ -137,6 +156,11 @@ func atCallSites(r ir.Render, ix *ir.Index, ids []string) []resolved {
 	if index < 0 {
 		return nil
 	}
+	// The helper's OWN mapping, resolved once: an application-wide render helper adds a
+	// dozen names of its own to whatever it was handed, and those names belong to every
+	// page it renders. It does not vary by call site, and resolving it per call site
+	// would walk the same mapping a dozen times.
+	own := w.context(r)
 	var out []resolved
 	for _, c := range ix.CallSitesOf[r.FunctionID] {
 		name, ok := c.ArgLiterals[index]
@@ -151,12 +175,11 @@ func atCallSites(r ir.Render, ix *ir.Index, ids []string) []resolved {
 		if caller == nil {
 			continue
 		}
-		bind := bindingsOf(r.Bindings, nil)
+		bind := bindingsOf(r.Bindings, copyOf(own))
 		if r.ForwardsKeywords {
-			// The caller's own keyword arguments are the view's names. Only the ones
-			// the frontend could read: a call that spreads a mapping it did not
-			// enumerate binds nothing here, and binding a value to a name nobody wrote
-			// would attach the finding to the wrong interpolation.
+			// The caller's own keyword arguments are the view's names, and they win
+			// over the helper's: a page that passes `query=` is naming the value THIS
+			// render writes, whatever the helper put under that name first.
 			for k, v := range keywordArgs(c, ix) {
 				bind[k] = v
 			}
@@ -205,6 +228,14 @@ func keywordArgs(c *ir.Call, ix *ir.Index) map[string]string {
 		if a.Name != "" && a.ValueID != "" && ix.ValueByID[a.ValueID] != nil {
 			out[a.Name] = a.ValueID
 		}
+	}
+	return out
+}
+
+func copyOf(m map[string]string) map[string]string {
+	out := make(map[string]string, len(m))
+	for k, v := range m {
+		out[k] = v
 	}
 	return out
 }
@@ -260,8 +291,12 @@ func resolveName(ids []string, name string) string {
 type writer struct {
 	views map[string]*ir.View
 	byID  map[string]*ir.Function
+	ix    *ir.Index
 	seen  map[string]bool
-	n     int
+	// open is the mapping values currently being resolved, so a context that reaches
+	// itself is walked once rather than forever (see context.go).
+	open map[string]bool
+	n    int
 }
 
 // reachedView is one view a render reaches, and what the names inside it stand for in
@@ -408,6 +443,17 @@ func (w *writer) write(fn *ir.Function, read ir.ViewRead, src, rest, block strin
 		symbol = SymbolURLTarget
 	case "url-part":
 		symbol = SymbolURLPart
+	case "script":
+		// Inside a `<script>` element the HTML parser does not decode entities, so an
+		// interpolation the engine escaped cannot end the element and stays where every
+		// other escaped one is. An UNESCAPED one lands in a context of its own: the
+		// encoders that answer it are not the encoders that answer a JavaScript string,
+		// and reporting it as ordinary markup would accept the wrong one.
+		if read.Escaped {
+			symbol = SymbolEscaped
+		} else {
+			symbol = SymbolScript
+		}
 	case "":
 		if read.Escaped {
 			symbol = SymbolEscaped
@@ -419,6 +465,23 @@ func (w *writer) write(fn *ir.Function, read ir.ViewRead, src, rest, block strin
 		if read.Escaped {
 			symbol = SymbolEscaped
 		}
+	}
+	// Where somebody turned the escaping OFF, when they did.
+	//
+	// Autoescaping is on in both template languages this engine reads, so an unescaped
+	// interpolation is never an omission -- it is a decision, and this is the position of
+	// the words that make it. An absent encoder and a REMOVED one are different facts
+	// about a line and only the second has something a reader can go and look at, so the
+	// marker becomes a hop of its own rather than a footnote to the sink.
+	if read.RemovedAt != nil && !read.Escaped {
+		id := w.id(fn, "v")
+		fn.Values = append(fn.Values, &ir.Value{
+			ID: id, Kind: ir.ValueLocal, Loc: *read.RemovedAt, Name: markerName,
+		})
+		fn.Flows = append(fn.Flows, ir.Flow{
+			From: value, To: id, Kind: FlowEncoderRemoved, Loc: *read.RemovedAt, Block: block,
+		})
+		value = id
 	}
 	result := w.id(fn, "v")
 	fn.Values = append(fn.Values, &ir.Value{ID: result, Kind: ir.ValueCallResult, Loc: at, Name: symbol})
