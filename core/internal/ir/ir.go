@@ -357,6 +357,16 @@ type Call struct {
 	ReceiverID string `json:"receiverValueId,omitempty"`
 	ResultID   string `json:"resultValueId,omitempty"`
 	Block      string `json:"block,omitempty"`
+	// ConditionBranch says which result of this call enters the FIRST successor of its
+	// block when the call is the direct condition of a branch: "truthy" for `if (f())`
+	// and "falsy" for `if (!f())`.
+	//
+	// Polarity is a language fact the graph cannot recover. Without it, a failed
+	// allow-list check that returns and a successful allow-list check that returns have
+	// the same blocks, while only the first constrains what reaches the code after it.
+	// Empty means the frontend did not state that direct relationship, and analyses must
+	// decline any judgement that needs it.
+	ConditionBranch string `json:"conditionBranch,omitempty"`
 	// ArgLiterals holds the literal VALUE of any argument written as one, keyed by
 	// argument index. `createHash("md5")` is a defect visible in the call itself with no
 	// dataflow anywhere near it, and there is no way to say so without the string.
