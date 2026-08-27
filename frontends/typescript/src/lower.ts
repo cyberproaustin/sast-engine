@@ -1476,6 +1476,23 @@ function lowerFunction(
       for (const bound of bindingPaths(p.name)) {
         const id = newValue(kind, loc, { name: bound.name.text, path: bound.path.join(".") });
         bind(bound.name, id);
+        // A binding is DECLARED as a parameter too, and until it was, a function whose
+        // only parameter is an object pattern had an empty parameter list -- so no
+        // argument bound anything and interprocedural taint stopped dead at every call
+        // to one. The options object is one of the most common shapes in TypeScript;
+        // measured on documenso, 3239 local call edges landed on a callee that declared
+        // no parameters at all, `createDocumentFromTemplate` among them.
+        //
+        // They share the parameter's INDEX, because one argument is what the call
+        // passes. Which part of it each name receives is the path, and the core narrows
+        // the argument to that property where the call site wrote the object down.
+        params.push({
+          index,
+          name: bound.name.text,
+          valueId: id,
+          destructured: true,
+          ...(bound.keys.length > 0 ? { path: bound.keys.join(".") } : {}),
+        });
       }
       return;
     }
@@ -2028,6 +2045,10 @@ function lowerFunction(
     if (ts.isObjectLiteralExpression(expr)) {
       const loc = locOf(sf, expr);
       const id = newValue("local", loc, { name: "{object}" });
+      // Held so the keys can be written onto the value once they are known. The
+      // properties are lowered after the object exists and push values of their own, so
+      // the object is no longer the last element by the time `fields` is complete.
+      const objectValue = values[values.length - 1];
       // An object literal written AT A CALL is that call's options, and the call-shape
       // rules already read them from the call. Recording its properties as writes too
       // reported one line twice under two numbers -- `mysql.createConnection({password:
@@ -2113,6 +2134,20 @@ function lowerFunction(
         }
       }
       objectFields.set(id, fields);
+      // The same map, stated in the IR. The enclose flows already say what went into
+      // this object; only the keys say which PART is which, and a callee that
+      // destructures its argument reads exactly one part. Without them the whole object
+      // is the only thing a caller can hand over, so one tainted field taints every
+      // binding the callee makes -- which is the difference between reporting the field
+      // that reaches a sink and reporting all of them.
+      //
+      // A key nobody wrote is not here: a computed key names nothing a callee can
+      // destructure, and a spread's keys are decided elsewhere. Both leave the object
+      // carrying taint that no key accounts for, which the core reads as "the shape of
+      // this argument is not known" and falls back to handing over the whole of it.
+      if (fields.size > 0) {
+        objectValue.entries = [...fields].map(([key, valueId]) => ({ key, valueId }));
+      }
       return id;
     }
 
@@ -2799,15 +2834,36 @@ function lowerFunction(
 interface BoundName {
   name: ts.Identifier;
   path: string[];
+  /**
+   * The leading run of `path` that is genuinely a sequence of PROPERTY KEYS the source
+   * wrote down, which is not the whole of `path`.
+   *
+   * `path` has always recorded an array pattern's elements under the names the binding
+   * gave them -- `const [first] = xs` reads element 0 and records "first" -- and a rest
+   * element under its own name, neither of which is a key anything can be looked up by.
+   * That is harmless for a value's path, which only has to distinguish one binding from
+   * another, and it is not harmless for deciding WHICH PART of an argument a parameter
+   * receives: binding a caller's property to the wrong name would move taint between
+   * fields. So the honest prefix is recorded separately and the run stops at the first
+   * segment that was not a written key. An empty prefix means the binding takes whatever
+   * it is given whole.
+   */
+  keys: string[];
 }
 
 /**
  * Every identifier a destructuring pattern binds, with the property path it reads.
  * `const { body: { target } } = req` binds `target` at path body.target.
  */
-function bindingPaths(name: ts.BindingName, prefix: string[] = []): BoundName[] {
-  if (ts.isIdentifier(name)) return [{ name, path: prefix }];
+function bindingPaths(
+  name: ts.BindingName,
+  prefix: string[] = [],
+  keys: string[] = [],
+  keyed = true,
+): BoundName[] {
+  if (ts.isIdentifier(name)) return [{ name, path: prefix, keys }];
 
+  const isObject = ts.isObjectBindingPattern(name);
   const out: BoundName[] = [];
   for (const element of name.elements) {
     if (!ts.isBindingElement(element)) continue;
@@ -2816,7 +2872,20 @@ function bindingPaths(name: ts.BindingName, prefix: string[] = []): BoundName[] 
     const key = element.propertyName ?? (ts.isIdentifier(element.name) ? element.name : undefined);
     if (key && (ts.isIdentifier(key) || ts.isStringLiteral(key))) segment = key.text;
 
-    out.push(...bindingPaths(element.name, segment ? [...prefix, segment] : prefix));
+    // A written key, and only in an object pattern: an array element's position is not
+    // its variable's name, and `...rest` collects whatever is left rather than one
+    // property. Either ends the keyed run at whatever prefix was already established.
+    const written =
+      isObject && segment !== undefined && element.dotDotDotToken === undefined && keyed;
+
+    out.push(
+      ...bindingPaths(
+        element.name,
+        segment ? [...prefix, segment] : prefix,
+        written ? [...keys, segment as string] : keys,
+        written,
+      ),
+    );
   }
   return out;
 }

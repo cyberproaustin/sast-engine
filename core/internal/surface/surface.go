@@ -641,9 +641,18 @@ func completenessOf(ix *ir.Index, m model.Model, entries []EntryFacts) Completen
 // readsCallerInput reports whether a function handles caller-supplied input, and what
 // made it look that way.
 func readsCallerInput(ix *ir.Index, fn *ir.Function, kinds, globals map[string]bool, pathsAt map[int]map[string]bool) (bool, string) {
-	index := make(map[string]int, len(fn.Params))
+	// pathsAt is keyed by the ARGUMENT the rule was written about, so what this needs is
+	// a parameter's position. That is its place in this list for an ordinary parameter
+	// and it is not for a destructured one: a binding pattern declares one entry per
+	// bound name and every one of them sits at the position of the single argument it
+	// takes apart, so `function h({ a, b })` would otherwise test `b` against a rule
+	// written about a second argument the call never passes.
+	index := make(map[string]ir.Param, len(fn.Params))
 	for i, p := range fn.Params {
-		index[p.ValueID] = i
+		if !p.Destructured {
+			p.Index = i
+		}
+		index[p.ValueID] = p
 	}
 	for _, v := range fn.Values {
 		if kinds[string(v.Kind)] {
@@ -656,14 +665,25 @@ func readsCallerInput(ix *ir.Index, fn *ir.Function, kinds, globals map[string]b
 		if v.Kind != ir.ValueProperty {
 			continue
 		}
-		i, ok := index[v.Base]
+		p, ok := index[v.Base]
 		if !ok {
 			continue
 		}
-		if pathsAt[i][firstSegment(v.Path)] {
-			name := fn.Params[i].Name
+		// The path FROM THE ARGUMENT, which for a destructured binding is not the path
+		// from the binding. `({ website }) => website.url` reads `arg0.website.url`, and
+		// reading it as `arg0.url` matched the request rule on a resume's website field
+		// -- three React components in reactive-resume, none of them a handler. The rule
+		// is already only a claim about field names at a position (see
+		// TestPositionSeparatesARequestFromADomainObject); rooting the path where the
+		// argument actually starts is what keeps that claim about the right name.
+		path := v.Path
+		if p.Destructured && p.Path != "" {
+			path = p.Path + "." + v.Path
+		}
+		if pathsAt[p.Index][firstSegment(path)] {
+			name := p.Name
 			if name == "" {
-				name = "arg" + strconv.Itoa(i)
+				name = "arg" + strconv.Itoa(p.Index)
 			}
 			return true, name + "." + firstSegment(v.Path)
 		}
