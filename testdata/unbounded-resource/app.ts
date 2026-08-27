@@ -174,7 +174,7 @@ app.post("/import-once", (req, res) => {
 // stay silent on, and it is written here because that rule was measured and withdrawn.
 app.post("/batch-capped", async (req, res) => {
   const ids: string[] = req.body.ids ?? [];
-  if (ids.length > 50) {
+  if (ids.length > 24 * 30) {
     res.status(413).send();
     return;
   }
