@@ -1,0 +1,14 @@
+{
+  "corpus": "non-constant-time-secret-comparison",
+  "description": "The JupyterHub XSRF shape is the one positive: a Tornado get_argument result is caller-supplied and the opposite property is the server's runtime token. Equality alone is insufficient. Three safe Python constant-time calls, a comparison between two caller fields, and an ordinary caller-versus-configuration comparison are silent.",
+  "expected": [
+    {
+      "cwe": "CWE-208",
+      "sinkFile": "app.py",
+      "sinkLine": 20,
+      "sourceLabel": "get_argument()",
+      "confidence": "high",
+      "note": "handler.xsrf_token independently classifies the opposite side; the constant-time calls and the two one-sided comparisons below do not satisfy both halves"
+    }
+  ]
+}

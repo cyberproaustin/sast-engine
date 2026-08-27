@@ -36,6 +36,10 @@ const (
 	MatchValueKind = "value-kind"
 	// MatchCallResult: the result of calling a known symbol.
 	MatchCallResult = "call-result"
+	// MatchCallMethodResult names a result by the receiver method rather than the resolved
+	// callee symbol. Framework helper objects are often passed under application-chosen
+	// names, while their API method remains stable.
+	MatchCallMethodResult = "call-method-result"
 	// MatchGlobalProperty: a property access on a framework-bound global, e.g.
 	// Flask's `request`. Added because a request object is not always a handler
 	// parameter — the judgement is identical, the plumbing is not.
@@ -63,6 +67,11 @@ const (
 	// graph cannot resolve: a SearxNG engine's search(query, params), and JupyterHub's
 	// add_system_user(user). The hook contract is the trust boundary in those cases.
 	MatchFunctionParamProperty = "function-param-property"
+	// MatchProperty classifies a property by what the property itself is named, without
+	// claiming anything about the object it was read from. Used only for values whose
+	// role is stated by the leaf -- a stored token or signature compared with caller
+	// input -- and never as a general secret-name heuristic.
+	MatchProperty = "property"
 )
 
 // SourceRule locates values of a class by their origin.
@@ -123,6 +132,10 @@ type SourceRule struct {
 
 	// MatchCallResult
 	Symbol string
+	// Method is the receiver-method spelling of a MatchCallMethodResult source. Tornado's
+	// get_argument is the case: the helper receives a handler under an application-chosen
+	// parameter name, so the symbol is not stable and the API method is.
+	Method string
 
 	// ArgBelow narrows a call-result source to calls that were WRITTEN with a number
 	// smaller than this in a particular argument.
@@ -857,7 +870,9 @@ func Builtin() Model {
 	// large repository has hundreds of thousands of them. MustCompile is right here: a
 	// pattern in the shipped model that does not compile is a build that must not ship.
 	for i := range m.Literals {
-		m.Literals[i].re = regexp.MustCompile(m.Literals[i].Pattern)
+		if m.Literals[i].Pattern != "" {
+			m.Literals[i].re = regexp.MustCompile(m.Literals[i].Pattern)
+		}
 	}
 	return m
 }
@@ -1040,6 +1055,42 @@ func builtin() Model {
 					{Match: MatchCallResult, Symbol: "flask.request.get_data"},
 					{Match: MatchCallResult, Symbol: "request.get_json"},
 					{Match: MatchCallResult, Symbol: "request.get_data"},
+				},
+			},
+			{
+				// Caller input used only by the timing decision. Keeping this separate
+				// from general untrusted-input is a measured precision boundary: adding
+				// Tornado get_argument there produced three unrelated JupyterHub findings
+				// through approximate external-call flow, two false and one disputed. A
+				// comparison rule needs this source; SQL, templates and record ownership
+				// do not need a second request model beside the frontend's entry model.
+				Class: "caller-comparison-input",
+				Label: "a value supplied by the caller for comparison",
+				Rules: []SourceRule{
+					{
+						Match:      MatchEntryParamProperty,
+						Framework:  "express",
+						EntryKind:  "http-route",
+						ParamIndex: 0,
+						Paths:      []string{"query", "body", "params", "headers", "cookies"},
+					},
+					{
+						Match:      MatchEntryParamProperty,
+						Framework:  "fastify",
+						EntryKind:  "http-route",
+						ParamIndex: 0,
+						Paths:      []string{"query", "body", "params", "headers", "cookies"},
+					},
+					{
+						Match:  MatchGlobalProperty,
+						Symbol: "flask.request",
+						Paths:  []string{"args", "form", "json", "values", "headers", "cookies", "data"},
+					},
+					// Tornado exposes a request argument through the handler method even
+					// when an application passes that handler into a helper. The method is
+					// the framework contract; the parameter name before it is application
+					// vocabulary and cannot be named by a source rule.
+					{Match: MatchCallMethodResult, Method: "get_argument"},
 				},
 			},
 			{
@@ -1264,6 +1315,40 @@ func builtin() Model {
 						LeafExcept:   []string{"csrf", "xsrf"},
 					},
 				},
+			},
+			{
+				// A runtime value this program expects a caller to reproduce exactly. A
+				// name is not enough to report anything on its own; it is only one side
+				// of the relational timing rule, and the other side must independently be
+				// caller-supplied. Call provenance covers the spellings where the value's
+				// role is stated by the constructor rather than by a property leaf.
+				Class: "computed-secret",
+				Label: "a secret or digest the program computed",
+				Rules: []SourceRule{
+					{Match: MatchCallResult, Symbol: "crypto.createHmac"},
+					{Match: MatchCallResult, Symbol: "hmac.new"},
+					{Match: MatchCallResult, Symbol: "crypto.createHash"},
+					{Match: MatchCallResult, Symbol: "hashlib.sha256"},
+					{Match: MatchCallResult, Symbol: "hashlib.sha384"},
+					{Match: MatchCallResult, Symbol: "hashlib.sha512"},
+					{Match: MatchCallResult, Symbol: "crypto.randomBytes"},
+					{Match: MatchCallResult, Symbol: "secrets.token_bytes"},
+					{Match: MatchCallResult, Symbol: "secrets.token_hex"},
+					{Match: MatchCallResult, Symbol: "secrets.token_urlsafe"},
+				},
+			},
+			{
+				// The property twin of the provenance class above. Kept separate because a
+				// caller may itself send a field named token; two caller fields are a
+				// confirmation even though one has a secret-bearing name. A property on the
+				// server side carries this class without carrying caller input.
+				Class: "stored-secret",
+				Label: "a runtime property holding a secret or digest",
+				Rules: []SourceRule{{
+					Match:        MatchProperty,
+					LeafContains: []string{"secret", "token", "signature", "digest", "hmac", "mac"},
+					LeafExcept:   []string{"id", "name", "type", "count", "limit", "length", "algorithm"},
+				}},
 			},
 			{
 				// A privilege the CALLER claims to have. The name is the whole evidence
@@ -4901,14 +4986,14 @@ func builtin() Model {
 				Method:      "digest",
 				AfterSymbol: []string{"createHash", "createHmac"},
 				Contexts:    []string{AnyContext},
-				Except:      []string{"weak-digest"},
+				Except:      []string{"weak-digest", "computed-secret"},
 				Note:        "a digest is not what was digested, and a hex digest cannot carry syntax",
 			},
 			{
 				Method:      "hexdigest",
 				AfterSymbol: []string{"md5", "sha1", "sha224", "sha256", "sha384", "sha512", "new"},
 				Contexts:    []string{AnyContext},
-				Except:      []string{"weak-digest"},
+				Except:      []string{"weak-digest", "computed-secret"},
 				Note:        "a digest is not what was digested, and a hex digest cannot carry syntax",
 			},
 			{
@@ -5110,6 +5195,14 @@ func builtin() Model {
 		// can be trusted without a second thought.
 		Literals: []LiteralRule{
 			{
+				ID:                "regex-capture-arity-not-checked",
+				RegexCaptureArity: true,
+				CWE:               "CWE-129",
+				Finding:           "Regular-expression capture read beyond the pattern's arity",
+				Reason:            "this index names a capture group the pattern does not have, so the value is always undefined even when the expression matches",
+				Rationale:         "the regex literal fixes the number of capture groups and the indexed read exceeds it",
+			},
+			{
 				// `postgres://user:hunter2@db.internal/app`. Five on the clean corpus and
 				// all five real: three vendor demo credentials in database engine
 				// documentation, a Firebird default, and a developer script.
@@ -5213,6 +5306,10 @@ func builtin() Model {
 // real key left out.
 type LiteralRule struct {
 	ID string
+	// RegexCaptureArity reports an indexed capture that the literal cannot contain. It
+	// shares this rule kind because the complete evidence starts in the regex literal;
+	// the index is retained only to identify which part of that literal was read.
+	RegexCaptureArity bool
 	// Pattern is a regular expression the value must match. Compiled once at model
 	// construction, because this runs against every literal in the program.
 	Pattern string
@@ -7262,6 +7359,10 @@ type DecisionRule struct {
 	// two equal strings is not guaranteed and is a different question from the one the
 	// author meant to ask. No classification is involved and none should be required.
 	Class string
+	// OtherClasses requires the opposite operand to carry at least one of these
+	// classifications. A caller value compared with another runtime value is ordinary;
+	// the timing weakness begins only when that other value is a secret or digest.
+	OtherClasses []string
 	// Ops narrows to particular operators, or empty for any. Equality and inequality are
 	// how a privilege is tested; ordering comparisons on a role are rare enough that
 	// including them would be reaching.
@@ -7306,6 +7407,10 @@ type DecisionRule struct {
 	// not a check. The value has no literal to match on -- it is a name the language
 	// provides -- so neither OtherIsText nor a literal test can reach it.
 	OtherNamed []string
+	// OtherNameContains narrows a relation whose opposite operand is a named container.
+	// Membership in a blacklist establishes something; membership in a cache does not,
+	// and the container is the only place those character-for-character spellings differ.
+	OtherNameContains []string
 
 	// RequiresUnprojected forbids the judgement for a value read OUT of a structure the
 	// classification reached.
@@ -7336,6 +7441,11 @@ type DecisionRule struct {
 	// exactly this in the vulnerable corpus and was right about the shape and wrong about
 	// the weakness.
 	OtherNotSameClass bool
+	// OtherClassOverridesSame permits a derived proof to be compared with the input it
+	// was computed from. An HMAC over a request body still becomes a server-held expected
+	// digest; a second request field does not. The independent derived class is the fact
+	// that separates them.
+	OtherClassOverridesSame []string
 
 	// OtherNotAbsent forbids the judgement when the other side is the language's way of
 	// writing NOTHING -- an empty string, None, null, undefined.
@@ -7444,15 +7554,17 @@ func builtinDecisions() []DecisionRule {
 			// The other side must be a runtime value: comparing a token to a literal is a
 			// presence check, a flag test, or a hardcoded credential, and the last of
 			// those has its own number.
-			ID: "credential-compared-in-variable-time", Class: "caller-credential",
-			Ops:                 []string{"==", "===", "!=", "!==", "Eq", "NotEq"},
-			OtherNotLiteral:     true,
-			OtherNotSameClass:   true,
-			RequiresUnprojected: true,
-			CWE:                 "CWE-208",
-			Finding:             "Secret compared in variable time",
-			Reason:              "the comparison stops at the first byte that differs, so how long it takes says how much of the guess was right, and enough guesses recover the whole value",
-			Rationale:           "a value the caller sent as a credential is compared with the language's equality operator",
+			ID: "non-constant-time-secret-comparison", Class: "caller-comparison-input",
+			Ops:                     []string{"==", "===", "!=", "!==", "Eq", "NotEq"},
+			OtherClasses:            []string{"computed-secret", "stored-secret", "weak-digest"},
+			OtherNotLiteral:         true,
+			OtherNotSameClass:       true,
+			OtherClassOverridesSame: []string{"computed-secret", "weak-digest"},
+			RequiresUnprojected:     true,
+			CWE:                     "CWE-208",
+			Finding:                 "Secret compared in variable time",
+			Reason:                  "the comparison stops at the first byte that differs, so how long it takes says how much of the guess was right, and enough guesses recover the whole value",
+			Rationale:               "a value the caller sent as a credential is compared with the language's equality operator",
 		},
 		{
 			// The other half of the rule above, and the reason that one requires a
@@ -7511,6 +7623,20 @@ func builtinDecisions() []DecisionRule {
 			Finding:             "Broken digest compared as proof",
 			Reason:              "the comparison decides that two things are the same because their digests are, and this algorithm is broken against collision -- so a second input passes the check as readily as the right one",
 			Rationale:           "a digest from a broken algorithm is what the comparison decides on",
+		},
+		{
+			// Membership is a security decision only when the container says it is a
+			// denial set. `digest in cache` is the identical operator over the identical
+			// class and is how memoization is written, so the container name is a required
+			// half of the judgement rather than an exclusion applied afterwards.
+			ID: "membership-test-not-a-comparison", Class: "weak-digest",
+			Ops:                 []string{"In", "NotIn"},
+			OtherNameContains:   []string{"blacklist", "blocklist", "denylist"},
+			RequiresUnprojected: true,
+			CWE:                 "CWE-328",
+			Finding:             "Broken digest tested against a denial list",
+			Reason:              "membership makes this digest the identity of the blocked value, and collisions let a second value make the same decision",
+			Rationale:           "a digest from a broken algorithm decides membership in a container named as a denial list",
 		},
 		{
 			// The Referer says where a request came from only in the sense that it says
@@ -7720,6 +7846,10 @@ type StoreRule struct {
 // question left is whether it does.
 type GuardRule struct {
 	ID string
+	// LateFileMode identifies a file created with the process umask, written, and only
+	// then restricted. The three events are individually ordinary; their order and their
+	// shared path/handle are the weakness.
+	LateFileMode *LateFileModeGuard
 	// Limiter turns this graph rule into a judgement about a control's attachment to
 	// entry points. The call that increments a bucket is evidence that the application
 	// HAS a limiter; the mount and predicates say which requests it governs. Keeping the
@@ -7830,6 +7960,15 @@ type GuardRule struct {
 	Finding   string
 	Reason    string
 	Rationale string
+}
+
+// LateFileModeGuard is the vocabulary for one file lifecycle. The analyzer supplies
+// aliasing and control-flow order; the model states the APIs and the final private mode.
+type LateFileModeGuard struct {
+	OpenSymbols  []string
+	WriteMethods []string
+	ChmodSymbols []string
+	PrivateMode  int
 }
 
 // LimiterGuard describes rate limiting as a control rather than as a dangerous call.
@@ -7966,6 +8105,19 @@ func builtinScopes() []ScopeRule {
 
 func builtinGuards() []GuardRule {
 	return []GuardRule{
+		{
+			ID: "secret-file-created-before-chmod",
+			LateFileMode: &LateFileModeGuard{
+				OpenSymbols:  []string{"builtins.open"},
+				WriteMethods: []string{"write", "writelines"},
+				ChmodSymbols: []string{"os.chmod"},
+				PrivateMode:  0o600,
+			},
+			CWE:       "CWE-732",
+			Finding:   "Secret file created before its mode is restricted",
+			Reason:    "the file exists at the process umask while secret data is written, so another local user can read it before the later chmod narrows access",
+			Rationale: "the same path is opened for creation, written through that handle, and only afterwards chmodded to 0o600",
+		},
 		{
 			ID: "expensive-entry-outside-rate-limiter",
 			Limiter: &LimiterGuard{

@@ -38,6 +38,11 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 	roles := newRoleFinder(ix, m)
 
 	var out []taint.Finding
+	for _, rule := range m.Literals {
+		if rule.RegexCaptureArity {
+			out = append(out, regexCaptureFindings(d, ix, rule)...)
+		}
+	}
 	for _, fn := range d.Functions {
 		// The raw value is used only as an in-memory identity. SourceLabel is deliberately
 		// elided so reports do not publish a credential, and grouping by that prefix would
@@ -106,6 +111,193 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 		}
 	}
 	return out
+}
+
+// regexCaptureFindings reports only the statically impossible half of capture access: an
+// index larger than the number of groups written in a regex literal. Whether an in-range
+// access checked that the match succeeded is a control-flow question and is deliberately
+// left out; this proof needs neither inference nor a guess about which branch runs.
+func regexCaptureFindings(d *ir.IR, ix *ir.Index, rule model.LiteralRule) []taint.Finding {
+	var out []taint.Finding
+	for _, fn := range d.Functions {
+		byID := make(map[string]*ir.Value, len(fn.Values))
+		for _, v := range fn.Values {
+			byID[v.ID] = v
+		}
+		for _, c := range fn.Calls {
+			pattern := regexPatternValue(c, byID)
+			if pattern == nil || !isRegexLiteral(strings.TrimSpace(pattern.Literal)) {
+				continue
+			}
+			groups := captureCount(pattern.Literal)
+			for _, v := range fn.Values {
+				index, ok := captureIndex(v)
+				if !ok || index <= groups || !assignedAtUse(fn, c.ResultID, v.Base, v.Loc) ||
+					ambiguousUnmodelledUse(fn, v) {
+					continue
+				}
+				out = append(out, regexCaptureFinding(ix, fn, pattern, v, groups, rule))
+			}
+		}
+	}
+	return out
+}
+
+// ambiguousUnmodelledUse declines when a read sits in control flow the frontend does not
+// model and the local has several definitions. PDF.js reuses `m` for four regexes, then
+// assigns a fifth result in a while condition the IR cannot state. Selecting the last
+// visible definition produced one false result; treating all definitions as live produced
+// ten. With no defensible reaching definition, silence is the precision-preserving answer.
+func ambiguousUnmodelledUse(fn *ir.Function, access *ir.Value) bool {
+	unpositioned := false
+	for _, f := range fn.Flows {
+		if f.Kind == "property" && f.To == access.ID && f.Block == "" {
+			unpositioned = true
+			break
+		}
+	}
+	if !unpositioned {
+		return false
+	}
+	definitions := 0
+	for _, f := range fn.Flows {
+		if f.Kind == "assign" && f.To == access.Base && locAtOrBefore(f.Loc, access.Loc) {
+			definitions++
+		}
+	}
+	return definitions > 1
+}
+
+func regexPatternValue(c *ir.Call, byID map[string]*ir.Value) *ir.Value {
+	switch c.Method {
+	case "exec":
+		return byID[c.ReceiverID]
+	case "match":
+		for _, a := range c.Args {
+			if a.Index == 0 {
+				return byID[a.ValueID]
+			}
+		}
+	}
+	return nil
+}
+
+// assignedAtUse follows the definition that most recently reached each local before the
+// indexed read. The TypeScript IR deliberately reuses one value for `m` across `m = re1`
+// and `m = re2`; treating every incoming edge as simultaneously live made an early
+// one-capture regex appear to feed later `m[3]` reads. PDF.js produced ten false findings
+// from that merge, all removed by asking which assignment is actually in force here.
+func assignedAtUse(fn *ir.Function, start, base string, use ir.Loc) bool {
+	if start == "" || base == "" {
+		return false
+	}
+	cur, before := base, use
+	seen := map[string]bool{}
+	for hops := 0; hops < 16 && cur != "" && !seen[cur]; hops++ {
+		if cur == start {
+			return true
+		}
+		seen[cur] = true
+		var latest *ir.Flow
+		for i := range fn.Flows {
+			f := &fn.Flows[i]
+			if f.Kind != "assign" || f.To != cur || !locAtOrBefore(f.Loc, before) {
+				continue
+			}
+			if latest == nil || locAtOrBefore(latest.Loc, f.Loc) {
+				latest = f
+			}
+		}
+		if latest == nil {
+			return false
+		}
+		cur, before = latest.From, latest.Loc
+	}
+	return false
+}
+
+func locAtOrBefore(a, b ir.Loc) bool {
+	if a.File != b.File {
+		return false
+	}
+	return a.Line < b.Line || (a.Line == b.Line && a.Column <= b.Column)
+}
+
+func captureIndex(v *ir.Value) (int, bool) {
+	if v == nil || len(v.Path) < 3 || v.Path[0] != '[' || v.Path[len(v.Path)-1] != ']' {
+		return 0, false
+	}
+	n, err := strconv.Atoi(v.Path[1 : len(v.Path)-1])
+	return n, err == nil && n >= 0
+}
+
+// captureCount reads JavaScript's group syntax without trying to execute the pattern.
+// Escaped parentheses and parentheses inside a character class are text; `(?:...)` and
+// lookarounds do not capture; `(?<name>...)` does, while `(?<=...)` and `(?<!...)` do not.
+func captureCount(literal string) int {
+	literal = strings.TrimSpace(literal)
+	end := strings.LastIndexByte(literal, '/')
+	if len(literal) < 2 || literal[0] != '/' || end <= 0 {
+		return 0
+	}
+	pattern := literal[1:end]
+	groups, escaped, inClass := 0, false, false
+	for i := 0; i < len(pattern); i++ {
+		ch := pattern[i]
+		if escaped {
+			escaped = false
+			continue
+		}
+		if ch == '\\' {
+			escaped = true
+			continue
+		}
+		if ch == '[' {
+			inClass = true
+			continue
+		}
+		if ch == ']' && inClass {
+			inClass = false
+			continue
+		}
+		if ch != '(' || inClass {
+			continue
+		}
+		if i+1 >= len(pattern) || pattern[i+1] != '?' {
+			groups++
+			continue
+		}
+		if i+2 < len(pattern) && pattern[i+2] == '<' &&
+			(i+3 >= len(pattern) || (pattern[i+3] != '=' && pattern[i+3] != '!')) {
+			groups++
+		}
+	}
+	return groups
+}
+
+func regexCaptureFinding(ix *ir.Index, fn *ir.Function, pattern, access *ir.Value, groups int, rule model.LiteralRule) taint.Finding {
+	return taint.Finding{
+		Analysis:      rule.ID,
+		DataClass:     "regex-literal",
+		ChannelID:     rule.ID,
+		Class:         rule.Finding,
+		CWE:           rule.CWE,
+		Message:       rule.Reason,
+		Confidence:    taint.High,
+		SourceLoc:     pattern.Loc,
+		SourceLabel:   strconv.Quote(pattern.Literal),
+		SinkLoc:       access.Loc,
+		SinkFunction:  fn.Name,
+		SinkSymbol:    access.Path,
+		SinkRational:  rule.Rationale,
+		InTestModule:  ix.InTestModule(access.Loc),
+		EntryAnchored: true,
+		EntryPoint:    enclosing(ix, fn),
+		Path: []taint.Hop{
+			{Loc: pattern.Loc, Description: fmt.Sprintf("pattern defines %d capture group(s)", groups), Resolution: ir.Resolved},
+			{Loc: access.Loc, Description: fmt.Sprintf("reads capture %s", access.Path), Resolution: ir.Resolved},
+		},
+	}
 }
 
 func finding(ix *ir.Index, fn *ir.Function, v *ir.Value, rule model.LiteralRule, text string) taint.Finding {

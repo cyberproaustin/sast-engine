@@ -86,6 +86,9 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 				if len(rule.SideFrom) > 0 && !producedBy(resultOf, side, rule.SideFrom) {
 					continue
 				}
+				if len(rule.OtherClasses) > 0 && !carriesAnyClass(byClass, other, rule.OtherClasses) {
+					continue
+				}
 				// A rule about a THRESHOLD needs the threshold, and a comparison against
 				// something computed at runtime has none to read.
 				if rule.OtherBelow != nil && !numberBelow(ix.ValueByID[other], *rule.OtherBelow) {
@@ -120,10 +123,14 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 				}
 				// Two values the same caller just sent, compared against each other:
 				// a confirmation field, not a secret check.
-				if rule.OtherNotSameClass && carrying.Values[other] {
+				if rule.OtherNotSameClass && carrying.Values[other] &&
+					!carriesAnyClass(byClass, other, rule.OtherClassOverridesSame) {
 					continue
 				}
 				if len(rule.OtherNamed) > 0 && !namedOneOf(ix, other, rule.OtherNamed) {
+					continue
+				}
+				if len(rule.OtherNameContains) > 0 && !nameContainsOneOf(ix.ValueByID[other], rule.OtherNameContains) {
 					continue
 				}
 				if rule.OtherNotLiteral && writtenDown(ix.ValueByID[other]) {
@@ -146,6 +153,36 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 		}
 	}
 	return out
+}
+
+func carriesAnyClass(byClass map[string]taint.Classified, id string, classes []string) bool {
+	for _, class := range classes {
+		if byClass[class].Values[id] {
+			return true
+		}
+	}
+	return false
+}
+
+// nameContainsOneOf reads the name the program gave a value, with separators removed so
+// ahmia_blacklist and ahmiaBlacklist are the same evidence. Used only after the other
+// operand has independently been classified, never to turn a name into a finding alone.
+func nameContainsOneOf(v *ir.Value, wants []string) bool {
+	if v == nil {
+		return false
+	}
+	name := strings.ToLower(v.Path)
+	if name == "" {
+		name = strings.ToLower(v.Name)
+	}
+	name = strings.NewReplacer("_", "", "-", "").Replace(name)
+	for _, want := range wants {
+		want = strings.NewReplacer("_", "", "-", "").Replace(strings.ToLower(want))
+		if strings.Contains(name, want) {
+			return true
+		}
+	}
+	return false
 }
 
 // numberBelow reports whether a value is a number written into the source and smaller
