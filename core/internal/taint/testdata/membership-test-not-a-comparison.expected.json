@@ -1,0 +1,14 @@
+{
+  "corpus": "membership-test-not-a-comparison",
+  "description": "Two MD5 membership tests differ only in the module-global container name: blacklist makes the digest a denial decision and cache is an ordinary lookup. A SHA-256 membership in the same blacklist proves the container name alone is also insufficient. The globals are annotated because publishing annotated module bindings to functions is the frontend fact the production site lacked.",
+  "expected": [
+    {
+      "cwe": "CWE-328",
+      "sinkFile": "app.py",
+      "sinkLine": 22,
+      "sourceLabel": "hashlib.md5()",
+      "confidence": "high",
+      "note": "the MD5 cache lookup below is silent despite carrying the same class and operator, and the SHA-256 blacklist lookup is silent despite carrying the same container role"
+    }
+  ]
+}

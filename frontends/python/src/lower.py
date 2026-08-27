@@ -2048,6 +2048,13 @@ class FunctionLowerer:
             if isinstance(node.target, ast.Name):
                 vid = self.new_value("local", node.target, name=node.target.id)
                 self.scope[node.target.id] = vid
+                # An annotated assignment binds a module name on exactly the same
+                # terms as an unannotated one. Keeping it only in this function's scope
+                # made every method in the module resolve `name in container` on the
+                # left and lose the annotated module global on the right -- SearXNG's
+                # digest blacklist was the measured case.
+                if self.is_module:
+                    self.mod.module_scope[node.target.id] = vid
                 self.add_flow(src, vid, "assign", node)
                 self.note_local_type(node.target, node.annotation, node.value)
             return

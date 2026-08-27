@@ -149,6 +149,10 @@ var corpora = []string{
 	"rate-limit-key",
 	"rate-limit-scope",
 	"python-try-except",
+	"secret-file-created-before-chmod",
+	"non-constant-time-secret-comparison",
+	"membership-test-not-a-comparison",
+	"regex-capture-arity-not-checked",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {

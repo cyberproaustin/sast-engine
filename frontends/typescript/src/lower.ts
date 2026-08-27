@@ -1650,6 +1650,19 @@ function lowerFunction(
         addFlow(base, id, "property", loc);
         return id;
       }
+      // A numeric key can carry a proof a string key cannot: a regular-expression
+      // result has exactly one element per capture, so `[3]` is statically absent when
+      // the pattern has two. Preserve the index instead of collapsing every such read to
+      // the same anonymous property. It still carries the base's data on the same edge.
+      if (ts.isNumericLiteral(key)) {
+        const id = newValue("property", loc, {
+          base,
+          path: `[${key.text}]`,
+          name: `[${key.text}]`,
+        });
+        addFlow(base, id, "property", loc);
+        return id;
+      }
       const id = newValue("property", loc, { base, name: "[index]" });
       addFlow(base, id, "property", loc);
       return id;

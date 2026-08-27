@@ -1,0 +1,14 @@
+{
+  "corpus": "secret-file-created-before-chmod",
+  "description": "A file is created at the process umask, written through that exact handle, and only then restricted on the same path. The late chmod is the program's own evidence that the file was intended to be private, so ordinary file creation is outside the rule. Four negatives each remove a necessary fact: an opener or os.open supplies 0600 at creation, NamedTemporaryFile creates a private descriptor, chmod happens before open, or nothing is written through the handle.",
+  "expected": [
+    {
+      "cwe": "CWE-732",
+      "sinkFile": "app.py",
+      "sinkLine": 15,
+      "sourceLabel": "handle.write",
+      "confidence": "high",
+      "note": "the same handle is written on line 16 and the same path is not narrowed to 0600 until line 17"
+    }
+  ]
+}
