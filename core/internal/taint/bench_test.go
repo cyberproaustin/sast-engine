@@ -154,6 +154,9 @@ var corpora = []string{
 	"forwarded-registrar",
 	"route-registry-loop",
 	"flask-url-rule-alias",
+	"promise-resolution",
+	"absent-dependency",
+	"upstream-response",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {

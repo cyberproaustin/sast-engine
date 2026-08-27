@@ -123,6 +123,17 @@ type SourceRule struct {
 
 	// MatchCallResult
 	Symbol string
+	// SymbolLeaf matches the symbol's LAST dotted segment instead of the whole of it,
+	// for a name distinctive enough that whatever it hangs off does not change what it
+	// does. `urlopen` is the whole of the list this was added for: the stdlib spells it
+	// `urllib.request.urlopen` and applications spell it `self.ydl.urlopen`,
+	// `ydl.urlopen` and `self._downloader.urlopen`, and every one of them opens a URL.
+	//
+	// Deliberately opt-in per rule rather than a general fallback. Most of the names in
+	// this model are ordinary words -- `get`, `post`, `request` -- whose meaning is
+	// entirely in what they hang off, and matching those by leaf would classify every
+	// dictionary lookup in the program.
+	SymbolLeaf bool
 
 	// ArgBelow narrows a call-result source to calls that were WRITTEN with a number
 	// smaller than this in a particular argument.
@@ -610,15 +621,43 @@ func lastKeySegment(key string) string {
 // is about to be used for.
 const AnyContext = "*"
 
-// CallbackRule propagates a class from a method's receiver into a function passed as
-// an argument to it. This is what carries data across the callback and promise
-// boundaries that most of Node is built out of.
+// CallbackRule propagates a class ACROSS a higher-order call, in one of two directions.
+// This is what carries data across the callback and promise boundaries that most of Node
+// is built out of.
+//
+// Inward is the original and the common one: the class on a method's RECEIVER reaches a
+// parameter of the function handed to it (`arr.forEach(x => ...)`, `p.then(v => ...)`).
+//
+// Outward is the mirror image, and a value that takes it is invisible without it. One of
+// the callback's own parameters is a CONTINUATION rather than a value, and whatever is
+// handed to that continuation is what the call itself answers with.
+// `new Promise(resolve => ...)` is the whole of the shape: the executor returns nothing,
+// and everything the promise ever carries was passed to `resolve` -- routinely from
+// several callbacks deep inside the executor, which is where the value actually is.
 type CallbackRule struct {
-	Method        string
-	CallbackArg   int
+	// Method matches a method call by name. Symbol matches by the symbol the frontend
+	// resolved the callee to, which is what a CONSTRUCTOR has instead: `new Promise(...)`
+	// is called on nothing, so there is no method name and no receiver.
+	Method      string
+	Symbol      string
+	CallbackArg int
+	// CallbackParam is the callback parameter the receiver's class flows INTO. Only
+	// meaningful for a rule matched on a Method, because a call with no receiver has
+	// nothing to carry inward.
 	CallbackParam int
-	Note          string
+	// ResolverParam names a callback parameter that is a CONTINUATION, and turns the rule
+	// around: a value handed to that parameter flows OUT, to the result of the call the
+	// callback was passed to. Absent for every ordinary callback, where the parameters
+	// are values and the return is the answer.
+	ResolverParam *int
+	// ResolverArg is which argument OF the continuation carries the value. Zero for every
+	// promise: `resolve(value)`.
+	ResolverArg int
+	Note        string
 }
+
+// argIndex names an argument position in a rule that may also leave it unnamed.
+func argIndex(i int) *int { return &i }
 
 // ControlRule classifies a named function as a security control. It is only a
 // CLASSIFIER, never the detector of record: convention analysis treats any shared
@@ -758,14 +797,103 @@ func (s SanitizerRule) matchesMethod(symbol string) bool {
 	return len(s.AfterSymbol) == 0
 }
 
-// CallbackFor returns the higher-order propagation rule for a method name, if any.
+// CallbackFor returns the INWARD higher-order propagation rule for a method name, if
+// any. A rule with no method name describes a call that has none, and matching it against
+// the empty string would make every plain function call a callback site.
 func (m Model) CallbackFor(method string) (CallbackRule, bool) {
+	if method == "" {
+		return CallbackRule{}, false
+	}
 	for _, c := range m.Callbacks {
-		if c.Method == method {
+		if c.Method == method && c.ResolverParam == nil {
 			return c, true
 		}
 	}
 	return CallbackRule{}, false
+}
+
+// ResolverFor returns the OUTWARD rule for a call, if this call hands a continuation to a
+// function it was given. Symbol and method are both offered because a constructor has
+// only the first and a method only the second.
+func (m Model) ResolverFor(symbol, method string) (CallbackRule, bool) {
+	for _, c := range m.Callbacks {
+		if c.ResolverParam == nil {
+			continue
+		}
+		if c.Symbol != "" && (symbol == c.Symbol || lastSegmentOf(symbol) == c.Symbol) {
+			return c, true
+		}
+		if c.Method != "" && c.Method == method {
+			return c, true
+		}
+	}
+	return CallbackRule{}, false
+}
+
+// lastSegmentOf returns the final dotted segment of a symbol, so that an imported
+// `Promise` and a global one are one name.
+func lastSegmentOf(symbol string) string {
+	if i := strings.LastIndex(symbol, "."); i >= 0 {
+		return symbol[i+1:]
+	}
+	return symbol
+}
+
+// Attests reports whether anything in this model has something to say about a call.
+//
+// It is the question behind "is this hop proven or assumed". When taint crosses a call
+// into code that is not in the tree, the engine keeps it -- an unknown callee has no
+// known semantics, and over-approximating is the only safe reading of nothing. But a
+// model that describes the call is a different situation from a model that does not: an
+// escape, a serializer, a store read and a digest are all calls the engine has a
+// STATEMENT about, and `badge-maker.makeBadge` is a call it has never heard of and whose
+// source it has never seen, where the taint continues on an assumption alone.
+//
+// Deliberately not a name list and not a package manifest. It asks what this model
+// covers, so it stays right as the model grows and needs no lockfile, no registry and no
+// guess about which directory a dependency was vendored into.
+func (m Model) Attests(symbol, method string) bool {
+	if len(m.ChannelsMatching(symbol, method)) > 0 {
+		return true
+	}
+	if _, ok := m.SanitizerFor(symbol); ok {
+		return true
+	}
+	if _, ok := m.CallbackFor(method); ok {
+		return true
+	}
+	if _, ok := m.ResolverFor(symbol, method); ok {
+		return true
+	}
+	if _, ok := m.StoreReadAt(symbol, method, ""); ok {
+		return true
+	}
+	if _, ok := m.StoreWriteAt(symbol, method, ""); ok {
+		return true
+	}
+	if m.ClientRole.IsCarrier(symbol, method) {
+		return true
+	}
+	leaf := lastSegmentOf(symbol)
+	for _, c := range m.Classifications {
+		for _, r := range c.Rules {
+			if r.Match != MatchCallResult {
+				continue
+			}
+			if r.SymbolLeaf && r.Symbol == leaf {
+				return true
+			}
+			if !r.SymbolLeaf && r.Symbol == symbol {
+				return true
+			}
+		}
+	}
+	for _, sh := range m.CallShapes {
+		if sh.Symbol == symbol || (sh.Method != "" && sh.Method == method) {
+			return true
+		}
+	}
+	return false
 }
 
 // ClassifyControl says what kind of control a name denotes, or "" when it cannot tell.
@@ -1072,6 +1200,74 @@ func builtin() Model {
 					{
 						Match: MatchStoreRead, WrittenClass: "untrusted-input", Medium: "orm",
 					},
+				},
+			},
+			{
+				// The answer a service on the other end of a network call gave. Whoever
+				// runs that service wrote the bytes, and a program that parses them is
+				// parsing somebody else's text however ordinary the call looks.
+				//
+				// This is a separate class from request data rather than more of it, for
+				// the same reason the stored class is separate: what makes it worth
+				// reporting differs. A request is sent by a stranger and this is not
+				// necessarily -- an application routinely calls a service it operates
+				// itself, and calling your own API is not a vulnerability. The engine
+				// cannot read a URL and say whose host it names, so it declines to: the
+				// class is labelled by WHERE the value came from, the finding says so in
+				// those words, and the denied set is narrowed to the destinations that
+				// INTERPRET what they are handed, where the answer does not turn on whose
+				// service it was. A response landing in a log or an outbound request is
+				// not claimed at all.
+				//
+				// It does not contradict the client-role judgement one line above; the
+				// two are the same fact read in opposite directions. That rule says a key
+				// this program PRESENTS to a third party is that party's public
+				// configuration and not this program's secret. This one says the answer
+				// that party sends BACK is that party's text and not this program's data.
+				// Both rest on the third party being outside the trust boundary; they
+				// disagree about nothing, because no value is ever both.
+				Class: "upstream-response",
+				Label: "a response from a service this program called",
+				Rules: []SourceRule{
+					// The response OBJECT, not one field of it. A body reaches the
+					// program through `.json()`, `.text`, `.content`, `.read()` and a
+					// dozen other spellings per library, and the receiver rule already
+					// carries the class through every one; enumerating the accessors
+					// would be a list that goes wrong at the next library.
+					{Match: MatchCallResult, Symbol: "requests.get"},
+					{Match: MatchCallResult, Symbol: "requests.post"},
+					{Match: MatchCallResult, Symbol: "requests.put"},
+					{Match: MatchCallResult, Symbol: "requests.patch"},
+					{Match: MatchCallResult, Symbol: "requests.delete"},
+					{Match: MatchCallResult, Symbol: "requests.head"},
+					{Match: MatchCallResult, Symbol: "requests.request"},
+					{Match: MatchCallResult, Symbol: "httpx.get"},
+					{Match: MatchCallResult, Symbol: "httpx.post"},
+					{Match: MatchCallResult, Symbol: "httpx.put"},
+					{Match: MatchCallResult, Symbol: "httpx.patch"},
+					{Match: MatchCallResult, Symbol: "httpx.delete"},
+					{Match: MatchCallResult, Symbol: "httpx.head"},
+					{Match: MatchCallResult, Symbol: "httpx.request"},
+					{Match: MatchCallResult, Symbol: "urlopen", SymbolLeaf: true},
+					{Match: MatchCallResult, Symbol: "fetch"},
+					{Match: MatchCallResult, Symbol: "node-fetch"},
+					{Match: MatchCallResult, Symbol: "axios"},
+					{Match: MatchCallResult, Symbol: "axios.get"},
+					{Match: MatchCallResult, Symbol: "axios.post"},
+					{Match: MatchCallResult, Symbol: "axios.put"},
+					{Match: MatchCallResult, Symbol: "axios.patch"},
+					{Match: MatchCallResult, Symbol: "axios.delete"},
+					{Match: MatchCallResult, Symbol: "axios.request"},
+					// The other half of a contract this model already names. A SearxNG
+					// engine module is dispatched by the framework at two points -- it
+					// builds a request in `search(query, params)` and it parses the
+					// answer in `response(resp)` -- and the first is already declared
+					// above, for the same reason: no resolvable call edge joins the
+					// framework to the module, so the hook signature IS the boundary.
+					// 241 of the 242 functions with this name in that repository are
+					// engine modules and every one takes the upstream response as its
+					// first parameter.
+					{Match: MatchFunctionParamProperty, Function: "response", ParamIndex: 0},
 				},
 			},
 			{
@@ -4077,6 +4273,46 @@ func builtin() Model {
 				CWE:           "CWE-78",
 			},
 			{
+				// The interpreter set and nothing else, exactly as the stored-input
+				// policy above draws it and for the same reason: a destination that
+				// INTERPRETS its input is dangerous whoever wrote the input, and every
+				// other destination turns on a question about the upstream that the
+				// source does not answer. An upstream response written to a log is a log
+				// of what the upstream said; an upstream response sent onward to another
+				// service is an integration. Neither is a weakness, and claiming them
+				// would bury the ones that are.
+				ID:    "upstream-response-to-interpreter",
+				Class: "upstream-response",
+				// The interpreter set plus the XML parser, and the parser is here because
+				// the measurement put it here. Widened experimentally to every context
+				// the first-order class denies, this policy added nine findings to pdfjs
+				// -- a `console.warn`, two build scripts downloading Mozilla's
+				// translations, and vendored WASM glue -- one to linkwarden, and eight to
+				// searxng. The eight are `lxml.etree.fromstring(resp.content)` in eight
+				// engine modules, and the engine ALREADY asserts that exact pairing for a
+				// document a caller sent: lxml's default parser expands entities, the
+				// call supplied no parser of its own, and a parser does not care who
+				// wrote the document it was handed. The other ten turned on whose service
+				// it was, which is the question this class declines to answer.
+				//
+				// `ldap` is deliberately absent, and the measurement is why. The LDAP
+				// filter channel matches the METHOD NAME `search` on a receiver it
+				// requires to be external -- and a frontend that cannot type receivers
+				// leaves that unanswerable, which is correctly not the same as "not
+				// builtin", so the channel matches at reduced confidence. In Python that
+				// makes `re.search(pattern, url)` an LDAP filter: yt-dlp
+				// `extractor/common.py`:2686 was the one wrong finding this family
+				// produced, and it was wrong about the SINK rather than about the source.
+				// Pairing a second class with a channel that already misreads a stdlib
+				// call would multiply a known imprecision, so an upstream response
+				// reaching a real LDAP filter is a stated miss until that channel can
+				// tell `re` from a directory connection.
+				DeniedContext: []string{"shell", "argv", "exec-path", "sql", "html", "code", "template", "xpath", "xml"},
+				Reason:        "the bytes were chosen by whoever runs the service that answered, and this destination interprets what it is given rather than merely carrying it",
+				Finding:       "A response from another service reaches an interpreter",
+				CWE:           "CWE-78",
+			},
+			{
 				ID:                 "unowned-record-access",
 				Class:              "untrusted-input",
 				RequiredContext:    []string{"record-selector"},
@@ -5031,6 +5267,21 @@ func builtin() Model {
 		},
 
 		Callbacks: []CallbackRule{
+			// The one OUTWARD rule, and the only construct in either language that needs
+			// one. Everything a promise ever carries was handed to `resolve` inside the
+			// executor -- often from a callback several frames deeper, because the whole
+			// reason to write `new Promise` by hand is to bridge a callback API -- and the
+			// executor's own return value is discarded. Without this the value computed
+			// inside the executor reaches nothing at all, and the helper that computes it
+			// reads as a function that returns a promise of nothing in particular.
+			//
+			// `reject` is deliberately not modelled. A rejected value arrives at a `catch`
+			// handler or as a thrown exception, which is a control-flow edge the IR does
+			// not carry, and pretending it arrives at the await's result would be wrong
+			// about where the value goes rather than merely incomplete.
+			{Symbol: "Promise", CallbackArg: 0, ResolverParam: argIndex(0), ResolverArg: 0,
+				Note: "resolved out of the promise executor"},
+
 			{Method: "then", CallbackArg: 0, CallbackParam: 0, Note: "promise continuation"},
 			{Method: "forEach", CallbackArg: 0, CallbackParam: 0, Note: "element"},
 			{Method: "map", CallbackArg: 0, CallbackParam: 0, Note: "element"},
