@@ -8172,6 +8172,13 @@ type StoreRule struct {
 	// NotPath excludes keys another rule already claims, so two rules can describe the
 	// same destination at different granularities without reporting one line twice.
 	NotPath []string
+	// DirectPath requires the identity slot to be written directly on the destination.
+	// A dotted key is an application namespace, not the session's principal slot:
+	// wger's `trainer.identity` remembers who a trainer switched away from and
+	// `gym.user` carries credentials for a follow-up display. Treating their final words
+	// as `identity` and `user` produced both of CWE-384's measured findings and neither
+	// was an identity change.
+	DirectPath bool
 	// RequiresUnprojected forbids the judgement for a value read OUT of something the
 	// classification reached. `accountability.admin = userGlobalAccess.admin` writes a
 	// field of what a server-side lookup returned, and that the lookup was once handed a
@@ -8288,6 +8295,18 @@ type StoreRule struct {
 	// A rule with an AbsentCall needs no classification: the write is the event, and
 	// nothing has to have flowed anywhere for the missing call to be missing.
 	AbsentCall []string
+	// IdentityCalls are operations that replace the authenticated principal when they
+	// receive a request as their receiver or first argument. The request role is part of
+	// the match: `mailbox.login(user, password)` and a repository client's `login` method
+	// use the same verb and change no HTTP identity.
+	IdentityCalls []string
+	// IntrinsicRotationSymbols are identity operations whose implementation guarantees
+	// rotation. Their exact external identity is required; treating every `login` call
+	// as Django would hide a custom login that writes the principal directly.
+	IntrinsicRotationSymbols []string
+	// IntrinsicRotationMethods are request methods whose framework contract includes
+	// regeneration, such as Passport's req.logIn/req.login operation.
+	IntrinsicRotationMethods []string
 	// NotElement excludes a destination that is an ELEMENT of a collection.
 	//
 	// `sessions.forEach((session) => { session.user = ... })` writes to somebody else's
@@ -8871,32 +8890,40 @@ func builtinStores() []StoreRule {
 			Rationale:             "a write into state bound outside the handler, under a key the caller supplied, with no size bound anywhere and no lookup deciding the key names anything",
 		},
 		{
-			// Session fixation. Installing an identity into the session is what every
-			// login does, so the rule cannot be about the write: what makes it a weakness
-			// is the rotation that did not happen beside it. An identifier an attacker
-			// planted before the login still names the session afterwards, and the session
-			// it names now belongs to the victim.
-			ID:   "session-not-rotated",
-			Into: []string{"session"},
+			// A direct assignment to the session's principal slot is the low-level form of
+			// an identity change. Application-owned namespaces are not: measured on wger,
+			// `trainer.identity` and `gym.user` were the whole two-finding population and
+			// both only stored data for later display.
+			ID:    "session-not-rotated",
+			Class: "identity-change",
+			Into:  []string{"session"},
 			// The keys that say WHO the session belongs to, or what it may do. A session
 			// carries a shopping basket and a language preference too, and rewriting one
 			// of those is not a change of principal.
 			Path: []string{"userId", "user_id", "user", "uid", "accountId", "account_id",
 				"isAdmin", "is_admin", "role", "roles", "authenticated", "isAuthenticated",
 				"loggedIn", "logged_in", "auth", "principal", "identity", "username",
-				"passport", "currentUser", "current_user"},
+				"passport", "currentUser", "current_user", "_auth_user_id"},
+			DirectPath: true,
 			// `clear` is here because for a client-side signed cookie there is no
 			// server-side identifier to rotate, and emptying the session before installing
 			// the identity discards whatever an attacker planted in it. It is the same
 			// remedy under a different storage model, and a rule about an absence has to
 			// know every shape the presence takes.
-			AbsentCall: []string{"regenerate", "regenerateId", "cycle", "reset", "clear"},
-			NotElement: true,
-			NotFrom:    []string{"null", "undefined", "none", "false", "0", ""},
-			CWE:        "CWE-384",
-			Finding:    "Session identifier survives the change of identity",
-			Reason:     "an identifier an attacker planted or captured before the login still names the session after it, and that session is now the victim's",
-			Rationale:  "an identity is installed into the session and nothing near the assignment rotates the session identifier",
+			// Django's login call performs the cycle itself; Passport's login operation
+			// likewise regenerates before serializing the user. They are identity-change
+			// calls and rotation evidence at once, not arbitrary calls near a write.
+			AbsentCall: []string{"regenerate", "regenerateId", "cycle", "cycle_key",
+				"cycleKey", "reset", "clear"},
+			IdentityCalls:            []string{"login", "django_login", "logIn"},
+			IntrinsicRotationSymbols: []string{"django.contrib.auth.login"},
+			IntrinsicRotationMethods: []string{"login", "logIn"},
+			NotElement:               true,
+			NotFrom:                  []string{"null", "undefined", "none", "false", "0", ""},
+			CWE:                      "CWE-384",
+			Finding:                  "Session identifier survives the change of identity",
+			Reason:                   "an identifier an attacker planted or captured before the login still names the session after it, and that session is now the victim's",
+			Rationale:                "the request's authenticated identity changes and no accompanying operation rotates the session identifier",
 		},
 		{
 			// A signing key, a password or an API key written into a configuration

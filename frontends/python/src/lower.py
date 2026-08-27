@@ -1738,7 +1738,11 @@ class ModuleLowerer:
             "functionId": function_id,
             "kind": "http-route",
             "framework": framework,
-            "detail": {"method": method, "path": path},
+            "detail": {
+                "method": method,
+                "path": path,
+                **({"mount": ast.unparse(receiver)} if receiver is not None else {}),
+            },
         } for method in methods]
 
     def _framework_by_import(self, attr: str) -> str:

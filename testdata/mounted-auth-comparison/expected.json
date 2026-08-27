@@ -1,0 +1,5 @@
+{
+  "corpus": "mounted-auth-comparison",
+  "description": "Two routers declared in one module, matching medplum's publicRoutes/protectedRoutes split. The public metadata routes are an author decision and must not be compared with the protected router. Inside the protected mount, three of four routes establish the same authenticated context and the fourth remains a real inferred CWE-306 deviation. Convention findings are asserted directly by the surface test; this taint manifest is empty because expectation findings are a separate result kind.",
+  "expected": []
+}

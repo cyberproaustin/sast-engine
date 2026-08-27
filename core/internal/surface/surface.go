@@ -403,8 +403,12 @@ func Build(d *ir.IR, m model.Model, p *policy.Policy) Surface {
 }
 
 // groupOf picks the population an entry point should be compared against. The module
-// that registers a route is how applications are actually organized (a router per
-// file), which makes it a better peer group than a global bucket.
+// that registers a route is how applications are usually organized, and the mount is
+// the author-written boundary inside modules that deliberately host both public and
+// protected routers. medplum measured the cost of dropping that second identity: two
+// public FHIR routes were the only CWE-306 findings in twenty repositories, and both
+// were compared with handlers registered on a different, protected router in the same
+// file.
 func groupOf(ep ir.EntryPoint, fn *ir.Function) string {
 	module := ""
 	if fn != nil {
@@ -418,7 +422,11 @@ func groupOf(ep ir.EntryPoint, fn *ir.Function) string {
 	if module == "" {
 		module = "<unknown>"
 	}
-	return ep.Kind + " in " + module
+	group := ep.Kind + " in " + module
+	if mount := ep.Detail["mount"]; mount != "" {
+		group += " on " + mount
+	}
+	return group
 }
 
 // controlsOf collects every control-like signal attached to an entry point.
