@@ -23,9 +23,16 @@ could not be expressed without it. Nothing is added in anticipation.
 ### Modules
 
 `isTest` records an ecosystem test convention. `provenance` records why a module is not
-ordinary hand-written application source: `vendored`, `example`, or `generated`. Both are
-facts supplied by the frontend; reporting and surface analysis decide what those facts are
-worth. The files remain in the IR.
+ordinary hand-written application source: `vendored`, `example`, `generated`, or
+`tooling`. Both are facts supplied by the frontend; reporting and surface analysis decide
+what those facts are worth. The files remain in the IR.
+
+`tooling` is build and development machinery that ships in the repository and does not run
+in the deployed application — a watch script, a release script, a packaging script. Like
+`example` and `vendored` it is kept out of the application's attack surface and reported
+beside it. The directory names are matched only at the top level of the repository or of a
+workspace package: an application may serve a route from a path with `scripts` in it, and
+dropping a live endpoint to remove a build script would be the worse error of the two.
 
 ### `frontend.capabilities`
 

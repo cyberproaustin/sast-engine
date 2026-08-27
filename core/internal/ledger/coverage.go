@@ -31,12 +31,28 @@ import "strings"
 // a finding must be able to say "runs with operator privileges, not reachable by a remote
 // caller", and ranking them together would misstate one of them.
 //
+// A background entry point must NAME ITS CALLBACK, which is the one place these differ
+// from a route and is not a lapse from ADR-009. A route exists at an ADDRESS whether or
+// not its handler resolves, so dropping it would hide surface; a job has no address -- it
+// IS its callback -- so a row naming no function contributes no reachability and cannot be
+// reasoned about. Measured: allowing an unresolved argument through produced five entry
+// points across ten repositories and every one was wrong, two of them an application's own
+// method that happens to be spelled `schedule` and takes a record.
+//
+// Build and development machinery is enumerated and held OUT of the application's count,
+// on the same terms as an example: `ir.Tooling`. A `setInterval` in a dev-watch script and
+// a `__main__` guard in a release script are real and are not something the deployed
+// application does. It matters at scale -- 15 of yt-dlp's 16 program starts are
+// `devscripts/` and `bundle/`, leaving its actual entry point, `yt_dlp/__main__.py`, alone
+// in a surface that had been empty.
+//
 // Measured, and the number is unflattering in the direction that matters: these classes
-// added 156 entry points across ten production repositories -- 34 scheduled jobs and 27
-// bus consumers in one, 17 management commands in another, 16 program starts in a third --
-// and changed NOT ONE finding. What they bought on real code is reachability and an
-// enumeration that names work the surface previously denied existed; the findings they
-// make possible are asserted by fixture and have not yet been observed in the wild.
+// added 134 entry points to the application surface of ten production repositories, and 26
+// more held outside it -- 34 scheduled jobs and 25 bus consumers in one, 17 management
+// commands in another -- and changed NOT ONE finding. What they bought on real code is
+// reachability and an enumeration that names work the surface previously denied existed;
+// the findings they make possible are asserted by fixture and have not yet been observed
+// in the wild.
 //
 // A claim without a reason is not accepted. See TestEveryClaimStatesItsReason.
 var claims = map[string]Claim{
