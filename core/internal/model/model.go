@@ -16,6 +16,7 @@ package model
 
 import (
 	"regexp"
+	"slices"
 	"strconv"
 	"strings"
 
@@ -725,6 +726,13 @@ type Requirements struct {
 	TypeChecker     bool
 	Interprocedural bool
 	ControlFlow     bool
+	// FrameworkModels are the framework idioms this rule reads facts from. A rule whose
+	// whole subject is a declaration only one framework makes cannot be evaluated where
+	// the frontend never looked for it, and reporting that as a clean result is the
+	// failure ADR-003 exists to prevent: a Python frontend that models Django URLconfs
+	// and does not model DRF view classes is not silent about DRF because DRF is
+	// correct.
+	FrameworkModels []string
 }
 
 // Missing reports which required capabilities the frontend does not declare.
@@ -738,6 +746,11 @@ func (r Requirements) Missing(c ir.Capabilities) []string {
 	}
 	if r.ControlFlow && !c.ControlFlow {
 		missing = append(missing, "controlFlow")
+	}
+	for _, want := range r.FrameworkModels {
+		if !slices.Contains(c.FrameworkModels, want) {
+			missing = append(missing, "frameworkModels="+want)
+		}
 	}
 	return missing
 }
@@ -8764,10 +8777,34 @@ type ScopeRule struct {
 	// operation rather than merely preceding it is a control-flow question.
 	Requires Requirements
 
+	// Declared, when set, reads the rule's two operands out of a view's DECLARATIONS
+	// instead of out of its control-flow graph. The relation being stated is identical --
+	// a gate scoped to one key admitting an operation on another -- and the fields above
+	// have nothing to match on, because a declarative view has neither call in it
+	// (ADR-016: a rule that needs different operands is a field, not a new kind).
+	Declared *DeclaredScope
+
 	CWE       string
 	Finding   string
 	Reason    string
 	Rationale string
+}
+
+// DeclaredScope selects which frameworks' declarations the scope relation is read from.
+//
+// Named rather than left implicit, because a declaration means what its framework says it
+// means: `queryset` plus a lookup key is a record selection in DRF and could be anything
+// at all in the next framework whose views get lowered. A rule that applied to whatever
+// the frontend happened to emit would be making a claim nobody measured (ADR-004).
+type DeclaredScope struct {
+	Frameworks []string
+
+	// BodyReason and BodyRationale say the same thing about the half of the rule where
+	// the operation IS a call the application wrote. One weakness, two sentences, because
+	// a reader looking at a bulk delete needs to be told that the check they cannot see
+	// happened above the method rather than that a framework resolved something.
+	BodyReason    string
+	BodyRationale string
 }
 
 func builtinScopes() []ScopeRule {
@@ -8861,6 +8898,68 @@ func builtinScopes() []ScopeRule {
 			Finding:   "Authorization asked one accessor and the operation used another",
 			Reason:    "the handler asked one accessor of its request context whether the caller may act, and then acted through a different accessor of the same context on a record the caller named, so whatever the check established does not cover what the operation reached",
 			Rationale: "a record operation performed through a sibling accessor of the context whose other accessor answered the permission check, keyed by a request field, with nothing relating that record to the caller's context",
+		},
+		{
+			// The same relation where neither operand is a call.
+			//
+			// The rule above needs a gate call and an operation call in one control-flow
+			// graph. A declaratively registered view has neither: `permission_classes`
+			// and `queryset` are class attributes, the framework does the selecting, and
+			// the class body an analysis would read is empty. That is not a rarity --
+			// it is how every Django REST Framework detail view is written, and doccano
+			// holds ten of them whose permission asks about `project_id` while the
+			// framework fetches the row named by `example_id`, `tag_id` or `label_id`.
+			//
+			// Reads are reported here and are not reported by the rule above, and the
+			// difference is a fact about the shape rather than a change of mind. A store
+			// write is one call and the analysis can see which verb it is; a DRF detail
+			// view resolves ONE record through `get_object()` and serves it to GET, PUT,
+			// PATCH and DELETE alike, so there is no read to separate from the write --
+			// the declaration is the same declaration. Four of the seven findings this
+			// rule was built for are cross-project reads.
+			//
+			// Measured before it was written, over the seven Python repositories of the
+			// clean corpus (ADR-015). wger declares 52 of these views and paperless-ngx
+			// 71 registrations; neither produces a single match, because neither has a
+			// permission class that consults a URL keyword -- they scope by the
+			// requester in `get_queryset` instead, which is the shape this rule is
+			// silent about by construction. Every match is in doccano: eleven distinct
+			// declarations, all adjudicated true against source, while the other nine
+			// production repositories report findings byte-identical to before.
+			//
+			// Widening the rule above to reads was measured as the alternative and does
+			// not do this. Nineteen read verbs added to its `Mutations` changed not one
+			// finding on any of the ten repositories, because what keeps it quiet on a
+			// declarative view is the missing gate call rather than the verb list.
+			//
+			// The rule also judges the view's own handler bodies, and there the write
+			// restriction comes back. A bulk delete written into `delete()` IS a call
+			// with a verb to read, so the reason the rule above excludes reads applies
+			// again unchanged -- what makes the declarative half different is that
+			// `get_object()` has no verb of its own, not that reads became interesting.
+			ID: "authorization-declared-elsewhere",
+			Declared: &DeclaredScope{
+				Frameworks:    []string{"drf"},
+				BodyReason:    "the view's authorization is declared against one request key and this method operates on a record the caller named with another, and the class relates them nowhere",
+				BodyRationale: "a store write under a declared permission, keyed by a request field that permission never asks about",
+			},
+			Requires: Requirements{FrameworkModels: []string{"drf"}},
+			// Not what makes a call a check here -- the check is declared and there is no
+			// call. It is read for the other direction: an operation narrowed by the
+			// REQUESTER is related to the requester, and a bulk delete written
+			// `filter(user=request.user, pk__in=ids)` cannot reach a row its caller does
+			// not own however many keys it also carries.
+			IdentityClass: "actor-identity",
+			KeyWords:      []string{"id", "ids", "uuid", "guid"},
+			Mutations: []string{
+				"update", "delete", "remove", "destroy", "patch", "archive",
+				"restore", "rename", "revoke", "disable", "detach", "unlink",
+				"move",
+			},
+			CWE:       "CWE-639",
+			Finding:   "Authorization declared for a different record",
+			Reason:    "the view's authorization is declared against one request key and the framework resolves the record from another, and the view declares nothing relating them",
+			Rationale: "a framework-resolved record selection whose key was never the key the declared permission asks about",
 		},
 	}
 }

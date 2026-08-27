@@ -128,6 +128,7 @@ var corpora = []string{
 	"django-urlconf",
 	"django-keyword-registration",
 	"django-session-identity-change",
+	"django-declared-authorization",
 	"next-pages-router",
 	"tsconfig-path-alias",
 	"tornado-urlspec",

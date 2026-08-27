@@ -25,6 +25,21 @@ type IR struct {
 	Functions   []*Function  `json:"functions"`
 	EntryPoints []EntryPoint `json:"entryPoints"`
 
+	// DeclaredViews are the request handlers the application never wrote.
+	//
+	// A Django REST Framework view is a class holding four assignments. The framework
+	// reads them, resolves one record out of the URL, runs the permission classes and
+	// answers; there is no handler body, no gate call and no operation call, so every
+	// judgement in this engine that relates one call to another has nothing to look at.
+	// Seven confirmed cross-project IDORs walked past an analysis written for exactly
+	// that relation because both of its operands were class attributes.
+	//
+	// A separate fact rather than more Detail on an entry point, and for the reason
+	// Views and Renders are separate: an entry point is a FUNCTION the surface reached,
+	// and these views have no function at all. Attaching them to one would have meant
+	// inventing it.
+	DeclaredViews []DeclaredView `json:"declaredViews,omitempty"`
+
 	// Views are the application's templates, and Renders are the sites that hand a
 	// context to one. They are TWO facts rather than one because they are two facts:
 	// the file that decides the escaping and the call that supplies the value are
@@ -39,6 +54,68 @@ type IR struct {
 	// of the program, and a scan run twice over one document would otherwise report
 	// every interpolation twice.
 	ViewsJoined bool `json:"-"`
+}
+
+// DeclaredView is one registered view class and the four things it declared about how the
+// framework should serve it.
+//
+// Deliberately says nothing about the framework's vocabulary. `lookup_url_kwarg`,
+// `get_queryset` and `has_object_permission` are DRF's words for these facts and they
+// stay in the frontend that read them; what crosses the IR is which REQUEST KEY each
+// declaration was about, because that is the only part a judgement about scope needs and
+// the only part the next framework will spell the same way.
+type DeclaredView struct {
+	// ID is the class as the program identifies it: module and name.
+	ID        string `json:"id"`
+	Framework string `json:"framework,omitempty"`
+	// Name is the class name, which is what a reader recognises in a stack trace.
+	Name string `json:"name"`
+	Loc  Loc    `json:"loc"`
+	// Handlers are the view's own methods that answer a request, so a judgement about
+	// the declared authorization can reach the bodies it governs.
+	Handlers []string `json:"handlers,omitempty"`
+	// Authorizes are the request keys the declared authorization consults. Several,
+	// because a view composes permission classes and each may ask about a different key;
+	// the scope the view was authorized against is their union.
+	Authorizes []DeclaredKey `json:"authorizes,omitempty"`
+	// Selects is the request key the framework resolves the record from, when the class
+	// declared one. Absent means the view answers about a collection rather than a row.
+	Selects *DeclaredKey `json:"selects,omitempty"`
+	// Constrains are the request keys the application's own query override narrows by.
+	// This is where a correctly scoped view states its relation, and its absence is the
+	// finding.
+	Constrains []DeclaredKey `json:"constrains,omitempty"`
+	// Resolves are the view's own accessors that stand for a request key. `By` is the
+	// accessor's name.
+	//
+	// `self.project.examples` in a handler body is a query already narrowed to the
+	// authorized project, and nothing in the body says so -- `project` is a property
+	// elsewhere in the class that fetches the row `self.kwargs["project_id"]` names.
+	// Without this the same line reads as an unconstrained query over every row.
+	Resolves []DeclaredKey `json:"resolves,omitempty"`
+	// ObjectRelation names the declaration that ties the SELECTED record to the caller,
+	// when the application made one. A framework that offers a hook for object-level
+	// authorization and an application that uses it have settled this question between
+	// them, whatever the URL keys say.
+	ObjectRelation string `json:"objectRelation,omitempty"`
+	// Target is the query the class declared, which is the operation the framework
+	// performs with the selected key.
+	Target *DeclaredTarget `json:"target,omitempty"`
+}
+
+// DeclaredKey is one request key a declaration was about, and which declaration that was.
+type DeclaredKey struct {
+	Key string `json:"key"`
+	// By is the declaration that consults it -- the attribute, the override, or the
+	// permission class -- so a finding can cite the line that made the claim.
+	By  string `json:"by"`
+	Loc Loc    `json:"loc"`
+}
+
+// DeclaredTarget is the store query a view declared, named as the application wrote it.
+type DeclaredTarget struct {
+	Symbol string `json:"symbol"`
+	Loc    Loc    `json:"loc"`
 }
 
 // View is one template: what it writes into the page, and which other templates it

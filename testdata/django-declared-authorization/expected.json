@@ -1,0 +1,30 @@
+{
+  "corpus": "django-declared-authorization",
+  "description": "Authorization that is DECLARED rather than called, which is how the largest Python web framework's APIs are written and which the engine's scope analysis could not see. A Django REST Framework view is a class of four assignments: the framework reads `permission_classes` to decide who may proceed and `queryset` plus `lookup_url_kwarg` to decide which row to fetch, and it does both itself. There is no gate call, no operation call, and no control-flow graph to relate the two in, so an analysis built to relate one call to another sees an empty class body and reports nothing -- which is how seven confirmed cross-project IDORs in one production application walked past the rule written for exactly that relation. Three positives, one per place the operand can live. `DocumentDetail` is the shape at its plainest: the permission proves the caller belongs to the workspace named in the URL and the framework then fetches whatever document `document_id` names, out of every document in the installation, serving it to GET, PUT, PATCH and DELETE from the one declaration -- which is why reads are reported here and are not reported by the call-based rule beside it. `RevisionListBase` is the same mistake in a query override rather than a lookup key, declared in a base and inherited by two registered subclasses, and it is reported ONCE at the line that declares it. `TagList` is the half that IS in a function body: the class narrows its list query to the authorized workspace and the bulk delete beside it never calls that query, so primary keys go from the request body to the store under a check that named a different key. Nine negatives, and every one of them would fire under a looser reading. `DocumentList` narrows by the authorized key, which is the relation written the way a correct view writes it. `FolderDetail` is the positive's shape with the relation restored by a single `get_queryset` override over a still-global queryset. `WorkspaceDetail` selects by the very key the permission was scoped to. `NoteDetail` is the positive's shape exactly -- a different key, no narrowing -- and is silent because it declares `has_object_permission`, the hook DRF hands the selected row to, which relates the record to the requester instead of to a second URL key. `TaskViewSet` is the shape 52 of wger's declared views have: a role check with no key in it and a query narrowed by the requester, so there is no authorized scope to compare a selection against and this analysis has no claim to make. `ThreadCommentDetail` splits its declarations across the chain the way applications do -- the base names the lookup key and the subclass names only the model -- and is cleared by the base's narrowing, which the base walk has to follow to see. The last three are the body positive with one word changed each: `LabelList` puts the authorized key in the selection, `AttachmentList` narrows by the requester instead, and `ShareList` narrows through a property of its own whose body the handler never mentions.",
+  "expected": [
+    {
+      "cwe": "CWE-639",
+      "sinkFile": "views.py",
+      "sinkLine": 65,
+      "sourceLabel": "kwargs.document_id",
+      "confidence": "medium",
+      "note": "the permission is about the workspace and the framework fetches by document_id out of a global queryset; a member of one workspace reads and deletes another's by changing one number in the path"
+    },
+    {
+      "cwe": "CWE-639",
+      "sinkFile": "views.py",
+      "sinkLine": 143,
+      "sourceLabel": "kwargs.document_id",
+      "confidence": "medium",
+      "note": "the same mistake in a query override rather than a lookup key, declared in a base and inherited by two registered subclasses -- reported once, at the line that declares it"
+    },
+    {
+      "cwe": "CWE-639",
+      "sinkFile": "views.py",
+      "sinkLine": 197,
+      "sourceLabel": "data.ids",
+      "confidence": "medium",
+      "note": "the bulk delete beside a project-scoped list query, taking primary keys straight out of the request body: the framework never calls get_queryset for a method the application wrote itself"
+    }
+  ]
+}

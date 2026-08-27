@@ -18,9 +18,10 @@ import os
 import re
 from typing import Any
 
+from declarative import declared_views
 from templates import index_templates, resolve_template
 
-IR_VERSION = "0.18.0"
+IR_VERSION = "0.19.0"
 FRONTEND_VERSION = "0.1.0"
 
 FUNCTION_NODES = (ast.FunctionDef, ast.AsyncFunctionDef)
@@ -3308,6 +3309,15 @@ def lower_program(root: str, files: list[str]) -> dict:
 
     templates = index_templates(root)
 
+    # The declarative half of the program's views, resolved before any module is lowered
+    # for the reason the URLconfs are: a view names a permission class three packages
+    # away, and neither file knows the other exists. Test modules are left out, because a
+    # test registers whatever view it wants to exercise and none of that is served.
+    declared = declared_views(
+        [(module_id(root, path), tree) for path, tree in trees
+         if not is_test_module(module_id(root, path))],
+        lambda module, node: f"{module}#{node.name}:{node.lineno}:{node.col_offset + 1}")
+
     lowerers = [ModuleLowerer(root, path, tree, defs, templates, resource_paths,
                               django_prefixes, class_members, base_members)
                 for path, tree in trees]
@@ -3381,13 +3391,20 @@ def lower_program(root: str, files: list[str]) -> dict:
                 # Named for what the matcher actually recognizes. The decorator shape
                 # also matches FastAPI and Flask-AppBuilder; claiming only "flask"
                 # overstated one and understated the others.
+                # `drf` is named apart from `django` deliberately (ADR-003). A Django
+                # URLconf and a Django REST Framework view class are two different
+                # idioms: the first registers a function this frontend can lower, the
+                # second declares attributes the framework reads and writes no handler at
+                # all. Claiming "django" covered both would have reported an analysis of
+                # declarative views as clean on a program whose views were never read.
                 "frameworkModels": ["flask", "flask-appbuilder", "fastapi", "django",
-                                    "tornado"],
+                                    "drf", "tornado"],
             },
         },
         "modules": modules,
         "functions": functions,
         "entryPoints": entry_points,
+        "declaredViews": declared,
         "views": views,
         "renders": renders,
     }

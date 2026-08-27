@@ -113,7 +113,9 @@ func Run(d *ir.IR, m model.Model, p *policy.Policy) Result {
 	t.Findings = append(t.Findings, store.Analyze(d, m, t.ByClass)...)
 	t.Findings = append(t.Findings, literal.Analyze(d, m)...)
 	t.Findings = append(t.Findings, guard.Analyze(d, m)...)
-	t.Findings = append(t.Findings, scope.Analyze(d, m, t.ByClass)...)
+	scoped, scopeSkipped := scope.Analyze(d, m, t.ByClass)
+	t.Findings = append(t.Findings, scoped...)
+	t.Skipped = append(t.Skipped, scopeSkipped...)
 	ix := ir.NewIndex(d)
 	authenticated := authenticatedEntries(s)
 	// Where the code IS is asked once, here, of every analysis kind at once. Provenance
