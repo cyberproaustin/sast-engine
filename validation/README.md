@@ -41,3 +41,21 @@ recorded.
 
 `disputed` is not a dumping ground. It exists because forcing genuinely ambiguous cases
 into true or false is how precision numbers become fiction.
+
+## Scoring a run
+
+`python3 validation/score.py <corpus-or-loop-workroot>` reports two precision figures. The
+micro-average answers the ordinary per-finding question. The macro-average gives every
+repository with a judged finding equal weight, so one high-volume repository cannot silently
+carry the headline. The adjacent per-repository table states each repository's judged share,
+precision, and unjudged count; both views are kept because they answer different questions.
+
+The ledger is authoritative. A fingerprint already present there is scored with its recorded
+verdict and is removed from new loop adjudication packets. The remaining count is labeled
+genuinely new/unjudged rather than being mixed into precision. For historical diagnosis only,
+`--compare-adjudication` shows a run's original adjudication as a clearly non-authoritative
+comparison.
+
+Both scoring and the loop merger flag exact repeated reason text as template reasoning. The
+warning says `N verdicts share one reason; treat as N=1 data point`, and the loop keeps that
+warning in `template-reasons.txt` so final synthesis and collection cannot drop it.
