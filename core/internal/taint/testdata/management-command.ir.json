@@ -125,19 +125,7 @@
       "calls": [],
       "returns": [],
       "comparisons": [],
-      "writes": [
-        {
-          "loc": {
-            "file": "commands.py",
-            "line": 28,
-            "column": 5
-          },
-          "path": "help",
-          "from": "commands.py#<module>:0:0$v2",
-          "block": "commands.py#<module>:0:0$b0",
-          "scope": "module"
-        }
-      ],
+      "writes": [],
       "entryBlock": "commands.py#<module>:0:0$b0",
       "blocks": [
         {

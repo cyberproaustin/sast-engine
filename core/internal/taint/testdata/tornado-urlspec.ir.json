@@ -1339,28 +1339,6 @@
         {
           "loc": {
             "file": "handlers/api.py",
-            "line": 12,
-            "column": 5
-          },
-          "path": "required_scopes",
-          "from": "handlers/api.py#<module>:0:0$v2",
-          "block": "handlers/api.py#<module>:0:0$b0",
-          "scope": "module"
-        },
-        {
-          "loc": {
-            "file": "handlers/api.py",
-            "line": 16,
-            "column": 5
-          },
-          "path": "required_scopes",
-          "from": "handlers/api.py#<module>:0:0$v5",
-          "block": "handlers/api.py#<module>:0:0$b0",
-          "scope": "module"
-        },
-        {
-          "loc": {
-            "file": "handlers/api.py",
             "line": 19,
             "column": 1
           },

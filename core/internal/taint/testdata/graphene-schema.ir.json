@@ -2120,7 +2120,30 @@
       ],
       "returns": [],
       "comparisons": [],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "schema.py",
+            "line": 50,
+            "column": 1
+          },
+          "path": "schema",
+          "from": "schema.py#<module>:0:0$v20",
+          "block": "schema.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "schema.py",
+            "line": 52,
+            "column": 1
+          },
+          "path": "VISIBLE_TO",
+          "from": "schema.py#<module>:0:0$v22",
+          "block": "schema.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "schema.py#<module>:0:0$b0",
       "blocks": [
         {
