@@ -4,6 +4,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/cyberproaustin/sast-engine/core/internal/cfg"
 	"github.com/cyberproaustin/sast-engine/core/internal/ir"
 )
 
@@ -50,6 +51,88 @@ func TestTerminatedBlocksHaveNoSuccessors(t *testing.T) {
 			}
 		})
 	}
+}
+
+// Repetition is a frontend fact, so this assertion reads golden output from both
+// languages rather than constructing the desired graph by hand. The TypeScript corpus
+// is the one kept beside the withdrawn CWE-834 shape; the Python corpus supplies the
+// same language construct through the other frontend without adding a finding to either.
+func TestBothFrontendsEmitLoopHeadersBoundsAndBackEdges(t *testing.T) {
+	tests := []struct {
+		corpus string
+		loops  int
+	}{
+		{corpus: "unbounded-resource", loops: 4},
+		{corpus: "flask-archive-extract", loops: 2},
+	}
+	for _, tt := range tests {
+		t.Run(tt.corpus, func(t *testing.T) {
+			f, err := os.Open("testdata/" + tt.corpus + ".ir.json")
+			if err != nil {
+				t.Fatalf("open corpus IR: %v", err)
+			}
+			defer f.Close()
+			doc, err := ir.Load(f)
+			if err != nil {
+				t.Fatalf("load corpus IR: %v", err)
+			}
+
+			loops := 0
+			for _, fn := range doc.Functions {
+				graph := cfg.Build(fn)
+				for _, block := range fn.Blocks {
+					if !block.LoopHeader {
+						continue
+					}
+					loops++
+					if block.LoopBound == "" {
+						t.Errorf("%s: loop header %s at %s has no extent value", fn.ID, block.ID, block.Loc)
+					}
+					if graph == nil || !graph.Repeats(block.ID) {
+						t.Errorf("%s: loop header %s at %s has no reachable back edge", fn.ID, block.ID, block.Loc)
+					}
+				}
+			}
+			if loops != tt.loops {
+				t.Errorf("loop headers = %d, want %d", loops, tt.loops)
+			}
+		})
+	}
+}
+
+func TestComputedComparisonOperandSurvivesTypeScriptLowering(t *testing.T) {
+	f, err := os.Open("testdata/unbounded-resource.ir.json")
+	if err != nil {
+		t.Fatalf("open corpus IR: %v", err)
+	}
+	defer f.Close()
+	doc, err := ir.Load(f)
+	if err != nil {
+		t.Fatalf("load corpus IR: %v", err)
+	}
+
+	for _, fn := range doc.Functions {
+		values := make(map[string]*ir.Value, len(fn.Values))
+		for _, value := range fn.Values {
+			values[value.ID] = value
+		}
+		for _, comparison := range fn.Comparisons {
+			right := values[comparison.Right]
+			if right == nil || right.Name != "arithmetic" {
+				continue
+			}
+			operands := 0
+			for _, flow := range fn.Flows {
+				if flow.To == right.ID && flow.Kind == "arithmetic" {
+					operands++
+				}
+			}
+			if operands == 2 {
+				return
+			}
+		}
+	}
+	t.Error("the `ids.length > 24 * 30` comparison has no computed right operand")
 }
 
 // A `try` states three things, and the corpus written for it is where each one is

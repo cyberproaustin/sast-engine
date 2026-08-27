@@ -30,8 +30,8 @@ FUNCTION_NODES = (ast.FunctionDef, ast.AsyncFunctionDef)
 # as straight-line code again without saying so.
 TRY_NODES = tuple(node for node in (ast.Try, getattr(ast, "TryStar", None)) if node is not None)
 
-# Statements whose control flow the block builder does not express. A loop's back edge is
-# never emitted and a `match`'s arms all appear to run. Inside one of these,
+# Statements whose control flow the block builder does not express. A `match`'s arms all
+# appear to run. Inside one of these,
 # `self.current` names a block that would claim an edge is unavoidable when it is not --
 # so a flow lowered here states no block at all, and the core keeps it. The bias goes one
 # way on purpose: a flow with no position is kept, a flow with a wrong position could be
@@ -43,9 +43,6 @@ TRY_NODES = tuple(node for node in (ast.Try, getattr(ast, "TryStar", None)) if n
 UNMODELLED_STATEMENTS = tuple(
     node
     for node in (
-        ast.For,
-        ast.AsyncFor,
-        ast.While,
         getattr(ast, "Match", None),
     )
     if node is not None
@@ -1748,9 +1745,13 @@ class FunctionLowerer:
         self.writes: list[dict] = []
         self.blocks: list[dict] = []
         self._b = 0
-        # Depth inside statements the block graph does not model; see
-        # UNMODELLED_STATEMENTS and `add_flow`.
+        # Depth inside positions reaching-definitions has not been measured over. A
+        # match still has no arm graph. Loops now have blocks, but their flows remain
+        # deliberately unplaced until narrowing the conservative exclusion is measured
+        # as a separate change.
         self.unmodelled = 0
+        self.loop_targets: list[tuple[str, str]] = []
+        self.comparison_operand = 0
         self.entry_block = self.new_block(node)
         self.current = self.entry_block
         self.params: list[dict] = []
@@ -1805,6 +1806,21 @@ class FunctionLowerer:
         block = self.block_at(bid)
         return bool(block) and block.get("terminator") in ("return", "throw")
 
+    def path_exists(self, src: str, dst: str) -> bool:
+        if src == dst:
+            return True
+        seen: set[str] = set()
+        queue = list((self.block_at(src) or {}).get("successors", []))
+        while queue:
+            bid = queue.pop(0)
+            if bid == dst:
+                return True
+            if bid in seen:
+                continue
+            seen.add(bid)
+            queue.extend((self.block_at(bid) or {}).get("successors", []))
+        return False
+
     def new_value(self, kind: str, node: ast.AST, **extra: Any) -> str:
         vid = f"{self.id}$v{self._v}"
         self._v += 1
@@ -1827,8 +1843,8 @@ class FunctionLowerer:
     def write_block(self) -> str | None:
         """Where a write sits in the block graph, on the same terms as a flow.
 
-        A loop body and a `match` arm are positions the graph does not express, so the
-        frontend states none and a judgement that needs one declines to be made.
+        Loop bodies retain the conservative reachdef boundary while it is measured
+        separately; a `match` arm still has no graph position at all.
         """
         return None if self.unmodelled else self.current
 
@@ -1899,12 +1915,10 @@ class FunctionLowerer:
         }
 
     def walk(self, node: ast.AST) -> None:
-        # A loop runs its body an unknown number of times and a `match` chooses between
-        # arms, and the block graph says neither: both are lowered straight-line into the
-        # enclosing block. The walk is unchanged; what is suppressed is the CLAIM that a
-        # flow inside one of them sits at a known point in the control-flow graph, which
-        # the core would otherwise read as licence to kill an earlier definition of the
-        # same name. `try` was here until the block builder learned to express it.
+        # A `match` still chooses between arms the graph does not express. The walk is
+        # unchanged; what is suppressed is the CLAIM that a flow inside one sits at a
+        # known position. Loops suppress their flows locally for the same conservative
+        # reachdef boundary while still emitting their own graph below.
         if isinstance(node, UNMODELLED_STATEMENTS):
             self.unmodelled += 1
             try:
@@ -2030,7 +2044,47 @@ class FunctionLowerer:
         # The flow kind is "property" rather than "enclose" because that is the direction
         # it goes -- an element comes OUT of the collection, and it comes out whole.
         if isinstance(node, (ast.For, ast.AsyncFor)):
+            before = self.current
+            self.unmodelled += 1
             src = self.expr(node.iter)
+            self.unmodelled -= 1
+            if src is None:
+                src = self.new_value("local", node.iter, name=ast.unparse(node.iter))
+
+            # A written, non-empty collection runs the body at least once. This matters
+            # independently of its upper bound: rate-limit-scope mounts its control by
+            # walking `[limiter_methods]`, and an optional first iteration would turn a
+            # control the program certainly installs into one it might skip. The first
+            # body is the loop header; the continuation check carries the optional edge
+            # after it, which is the same graph a do/while has for the same reason.
+            guaranteed_first = (
+                isinstance(node.iter, (ast.List, ast.Tuple, ast.Set))
+                and any(not isinstance(element, ast.Starred) for element in node.iter.elts)
+            )
+            body = self.new_block(node)
+            after = self.new_block(node)
+            else_block = self.new_block(node) if node.orelse else after
+            if guaranteed_first:
+                header = body
+                continuation = self.new_block(node)
+                self.link(before, body)
+                self.terminate(continuation, "branch")
+                self.link(continuation, body)
+                self.link(continuation, else_block)
+            else:
+                header = self.new_block(node)
+                continuation = header
+                self.link(before, header)
+                self.terminate(header, "branch")
+                self.link(header, body)
+                self.link(header, else_block)
+            header_block = self.block_at(header)
+            if header_block is not None:
+                header_block["loopHeader"] = True
+                header_block["loopBound"] = src
+            self.current = body
+            self.loop_targets.append((continuation, after))
+            self.unmodelled += 1
             modules: list[str] = []
             if isinstance(node.iter, (ast.List, ast.Tuple, ast.Set)):
                 for item in node.iter.elts:
@@ -2046,8 +2100,71 @@ class FunctionLowerer:
                 if self.is_module:
                     self.mod.module_scope[target.id] = vid
                 self.add_flow(src, vid, "property", node)
-            for stmt in list(node.body) + list(node.orelse):
+            for stmt in node.body:
                 self.walk(stmt)
+            self.unmodelled -= 1
+            self.loop_targets.pop()
+            if self.path_exists(body, self.current):
+                self.link(self.current, continuation)
+
+            if node.orelse:
+                self.current = else_block
+                self.unmodelled += 1
+                for stmt in node.orelse:
+                    self.walk(stmt)
+                self.unmodelled -= 1
+                self.link(self.current, after)
+            self.current = after
+            return
+
+        if isinstance(node, ast.While):
+            header = self.new_block(node)
+            self.link(self.current, header)
+            self.current = header
+            self.unmodelled += 1
+            bound = self.expr(node.test)
+            self.unmodelled -= 1
+            if bound is None:
+                bound = self.new_value("local", node.test, name=ast.unparse(node.test))
+            header_block = self.block_at(header)
+            if header_block is not None:
+                header_block["loopHeader"] = True
+                header_block["loopBound"] = bound
+            self.terminate(header, "branch")
+
+            body = self.new_block(node)
+            after = self.new_block(node)
+            else_block = self.new_block(node) if node.orelse else after
+            self.link(header, body)
+            self.link(header, else_block)
+            self.current = body
+            self.loop_targets.append((header, after))
+            self.unmodelled += 1
+            for stmt in node.body:
+                self.walk(stmt)
+            self.unmodelled -= 1
+            self.loop_targets.pop()
+            if self.path_exists(body, self.current):
+                self.link(self.current, header)
+
+            if node.orelse:
+                self.current = else_block
+                self.unmodelled += 1
+                for stmt in node.orelse:
+                    self.walk(stmt)
+                self.unmodelled -= 1
+                self.link(self.current, after)
+            self.current = after
+            return
+
+        if isinstance(node, ast.Break) and self.loop_targets:
+            self.link(self.current, self.loop_targets[-1][1])
+            self.current = self.new_block(node)
+            return
+
+        if isinstance(node, ast.Continue) and self.loop_targets:
+            self.link(self.current, self.loop_targets[-1][0])
+            self.current = self.new_block(node)
             return
 
         if isinstance(node, (ast.Global, ast.Nonlocal)):
@@ -2307,6 +2424,30 @@ class FunctionLowerer:
             self.add_flow(self.expr(node.right), vid, "binary", node)
             return vid
 
+        if self.comparison_operand and isinstance(
+            node,
+            ast.BinOp,
+        ) and isinstance(
+            node.op,
+            (
+                ast.Sub,
+                ast.Mult,
+                ast.Div,
+                ast.FloorDiv,
+                ast.Pow,
+                ast.LShift,
+                ast.RShift,
+                ast.BitOr,
+                ast.BitXor,
+                ast.BitAnd,
+                ast.MatMult,
+            ),
+        ):
+            vid = self.new_value("local", node, name="arithmetic")
+            self.add_flow(self.expr(node.left), vid, "arithmetic", node)
+            self.add_flow(self.expr(node.right), vid, "arithmetic", node)
+            return vid
+
         # A relational test is a fact in its own right.
         # `not x` produces a boolean, so nothing flows out of it -- but its OPERAND still
         # has to be lowered, because that is where the calls are. `if not PATTERN.match(
@@ -2323,10 +2464,18 @@ class FunctionLowerer:
             return None
 
         if isinstance(node, ast.Compare):
-            left = self.expr(node.left)
+            self.comparison_operand += 1
+            try:
+                left = self.expr(node.left)
+            finally:
+                self.comparison_operand -= 1
             vid = self.new_value("local", node, name="comparison")
             for op, comparator in zip(node.ops, node.comparators):
-                right = self.expr(comparator)
+                self.comparison_operand += 1
+                try:
+                    right = self.expr(comparator)
+                finally:
+                    self.comparison_operand -= 1
                 if left and right:
                     self.comparisons.append(
                         {

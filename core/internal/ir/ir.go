@@ -296,9 +296,9 @@ type Write struct {
 	// programs sit in different places in the graph, and only one of them is downstream
 	// of a rejection.
 	//
-	// Absent is a refusal, never a default — a write inside a loop body or a switch arm
-	// is at a position the block graph does not express, and a judgement that needs the
-	// position declines to be made rather than guessing at it.
+	// Absent is a refusal, never a default. Switch arms have no graph position; loop-body
+	// writes retain the same refusal until narrowing the analyses that consume this field
+	// has been measured separately from emitting the repetition itself.
 	Block string `json:"block,omitempty"`
 
 	// Scope says how far the destination reaches, for a write whose danger is not what
@@ -329,6 +329,15 @@ type Block struct {
 	Successors []string `json:"successors,omitempty"`
 	Terminator string   `json:"terminator,omitempty"`
 	Loc        Loc      `json:"loc"`
+
+	// LoopHeader marks the entry to a repetition. The back edge is not duplicated in
+	// another vocabulary: it is the ordinary successor from the repeating region back
+	// to this block, so every graph algorithm sees the same edge.
+	LoopHeader bool `json:"loopHeader,omitempty"`
+	// LoopBound is the value whose extent or truth decides whether the loop repeats.
+	// Empty means the language construct wrote no such expression, as in `for (;;)`,
+	// and is a refusal rather than a claim that the repetition is unbounded.
+	LoopBound string `json:"loopBound,omitempty"`
 }
 
 // Param is a formal parameter bound to a value node.
@@ -409,12 +418,11 @@ type Flow struct {
 	// that stopped existing fifty lines earlier. `Call` already carries this field for
 	// the same reason; an assignment needed it too.
 	//
-	// EMPTY IS A REFUSAL, NEVER A DEFAULT. A frontend must leave this unset wherever the
-	// block graph does not express when the edge runs -- inside a loop body, whose back
-	// edge neither frontend emits, or inside a `switch`, whose arms are lowered
-	// straight-line. The core reads an absent block as "position unknown" and keeps the
-	// flow, which is the only safe direction for a security tool: a false negative costs
-	// more than a false positive (ADR-003).
+	// EMPTY IS A REFUSAL, NEVER A DEFAULT. Switch arms have no graph position. Loop-body
+	// flows retain the refusal until reachdef's use of the new cycles has been measured as
+	// a separate change. The core reads an absent block as "position unknown" and keeps
+	// the flow, which is the only safe direction for a security tool: a false negative
+	// costs more than a false positive (ADR-003).
 	Block string `json:"block,omitempty"`
 }
 
