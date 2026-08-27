@@ -34,8 +34,9 @@
 // killed one. Everything else is left alone, including:
 //
 //   - a flow with no block, which is how both frontends decline to place an edge they
-//     cannot vouch for -- inside a loop body, whose back edge is not emitted, and inside
-//     a `switch`, whose arms are lowered straight-line;
+//     cannot vouch for -- inside a `switch`, whose arms are lowered straight-line, and
+//     inside a loop while narrowing this pass over the new cycles remains a separately
+//     measured change;
 //   - a value whose definitions do not all sit in one function, which is what a closure
 //     capturing a variable looks like and which no ordering here would be sound over;
 //   - a definition or a use in a block that is not reachable from the function's entry;

@@ -1,4 +1,4 @@
-# Program IR — v0.17.0
+# Program IR — v0.18.0
 
 The IR is the contract between language frontends and the core (ADR-001). A frontend
 lowers a codebase into this shape and stops. The core consumes only this shape and
@@ -12,7 +12,7 @@ could not be expressed without it. Nothing is added in anticipation.
 
 ```jsonc
 {
-  "irVersion": "0.17.0",
+  "irVersion": "0.18.0",
   "frontend": { "name": "typescript", "version": "0.1.0", "capabilities": { ... } },
   "modules":     [ ... ],
   "functions":   [ ... ],
@@ -123,11 +123,11 @@ req.body`, replaces it ten lines later with the verified event, and logs the ver
 one; without a block on each edge the core reported the log as caller-controlled with a
 path back to a value that had stopped existing.
 
-**An absent `block` is a refusal, never a default.** A frontend must leave it unset
-wherever the block graph does not express when the edge runs: inside a loop body, whose
-back edge neither frontend emits, and inside a `switch`, whose arms are lowered
-straight-line. The core reads an absent block as "position unknown" and keeps the flow,
-which is the only safe direction -- a dropped flow is a missed weakness (ADR-003).
+**An absent `block` is a refusal, never a default.** `switch` arms remain unset because
+their graph is straight-line. Loop-body flows also remain unset while narrowing
+reaching-definitions over the new cycles is measured as a separate change. The core reads
+an absent block as "position unknown" and keeps the flow, which is the only safe direction
+-- a dropped flow is a missed weakness (ADR-003).
 
 ### Calls
 
@@ -318,9 +318,9 @@ writes on the same line of two programs sit in different places in the graph, an
 of them is downstream of a rejection.
 
 **An absent `block` is a refusal, never a default**, and for the same reason it is on a
-flow: a write inside a loop body or a switch arm is at a position the block graph does not
-express. A judgement that needs the position is not made there rather than being made on a
-guess (ADR-003).
+flow. Switch arms have no graph position; loop bodies retain the refusal until the
+analyses consuming it have been measured over cycles. A judgement that needs an unstated
+position is not made there rather than being made on a guess (ADR-003).
 
 Deliberately NOT fed into taint propagation. Whether a value read back out of an object
 should carry what was written into it is a field-sensitivity question this project measured
@@ -358,6 +358,28 @@ decide anything?** Two handlers can compare the same values with the same operat
 the same position, and one enforces while the other does not — the difference is
 whether control can leave early. Positional information cannot express that; a
 successor graph can.
+
+### Repetitions (added in 0.18.0)
+
+```jsonc
+"blocks": [
+  { "id": "...$b2", "successors": ["...$b3", "...$b4"],
+    "terminator": "branch", "loopHeader": true, "loopBound": "...$v7", "loc": {...} },
+  { "id": "...$b3", "successors": ["...$b2"], "loc": {...} }
+]
+```
+
+`loopHeader` marks the entry to a repetition. Its back edge is the ordinary successor
+from the repeating region to that header, rather than a second edge list that could
+disagree with the CFG. `loopBound` names the value whose extent or truth decides whether
+another iteration runs: the iterable in a `for ... of`/Python `for`, and the condition in
+a classic `for` or `while`. It is absent when the source wrote no expression, such as
+`for (;;)`. The frontend states these language facts; it does not decide whether a bound
+is sufficient or attacker-controlled.
+
+Arithmetic expressions used as comparison operands carry `arithmetic` flows from their
+operands. This keeps a computed side such as `num > 24 * 30` in the IR without calling
+numeric calculation text concatenation or widening ordinary dataflow as a side effect.
 
 Terminators are `branch`, `return`, `throw`, or absent. Frontends that cannot build a
 graph set `controlFlow: false`, and policies needing it are reported as unevaluated

@@ -67,6 +67,38 @@ const SELECTION_OPERATORS = new Set<ts.SyntaxKind>([
   ts.SyntaxKind.AmpersandAmpersandToken,
 ]);
 
+// Numeric calculation is not text composition. It still carries magnitude from both
+// operands, but a distinct flow kind keeps `24 * 30` visible without making an injection
+// analysis describe it as concatenation.
+const ARITHMETIC_OPERATORS = new Set<ts.SyntaxKind>([
+  ts.SyntaxKind.MinusToken,
+  ts.SyntaxKind.AsteriskToken,
+  ts.SyntaxKind.SlashToken,
+  ts.SyntaxKind.PercentToken,
+  ts.SyntaxKind.AsteriskAsteriskToken,
+  ts.SyntaxKind.LessThanLessThanToken,
+  ts.SyntaxKind.GreaterThanGreaterThanToken,
+  ts.SyntaxKind.GreaterThanGreaterThanGreaterThanToken,
+  ts.SyntaxKind.AmpersandToken,
+  ts.SyntaxKind.BarToken,
+  ts.SyntaxKind.CaretToken,
+]);
+
+const isComparisonOperand = (node: ts.Expression): boolean => {
+  let child: ts.Node = node;
+  let parent = node.parent;
+  while (parent && ts.isParenthesizedExpression(parent)) {
+    child = parent;
+    parent = parent.parent;
+  }
+  return !!(
+    parent &&
+    ts.isBinaryExpression(parent) &&
+    COMPARISON_OPERATORS.has(parent.operatorToken.kind) &&
+    (parent.left === child || parent.right === child)
+  );
+};
+
 /** Values the language provides under a name, with nothing written down. */
 const LANGUAGE_VALUES = new Set(["NaN", "Infinity", "undefined"]);
 
@@ -1174,6 +1206,19 @@ function lowerFunction(
     const t = blockAt(id)?.terminator;
     return t === "return" || t === "throw";
   };
+  const pathExists = (from: string, to: string): boolean => {
+    if (from === to) return true;
+    const seen = new Set<string>();
+    const queue = [...(blockAt(from)?.successors ?? [])];
+    while (queue.length) {
+      const id = queue.shift()!;
+      if (id === to) return true;
+      if (seen.has(id)) continue;
+      seen.add(id);
+      queue.push(...(blockAt(id)?.successors ?? []));
+    }
+    return false;
+  };
 
   const entryBlock = newBlock(node);
   let current = entryBlock;
@@ -1228,23 +1273,25 @@ function lowerFunction(
     return { type: symbol.getName() };
   };
 
-  // Statements the block builder does not model: a loop, whose back edge is never
-  // emitted, and a `switch`, whose arms are lowered as if they all ran. Inside one of
-  // these, `current` names a block that claims an edge is unavoidable when it is not,
-  // and the reaching-definition analysis in the core would read that claim as licence to
-  // kill an earlier definition. So the frontend declines to state a position at all.
+  // Statements the block builder does not model. A `switch` has no arm graph yet, so
+  // its flows still decline to state a position. Loop blocks now exist, but their flows
+  // remain unplaced until reaching-definitions is measured separately: emitting a fact
+  // about repetition does not by itself authorise an analysis to drop a flow it kept.
   //
   // The bias is deliberate and it only goes one way: a flow with no block is kept by the
   // core, a flow with a wrong block could be dropped, and a dropped flow is a missed
   // weakness (ADR-003).
   let unmodelled = 0;
+  const loopExtents = new Map<ts.Node, string>();
+  let switchDepth = 0;
+  const loopTargets: { continueTo: string; breakTo: string; switchDepth: number }[] = [];
 
   const addFlow = (from: string | undefined, to: string, kind: Flow["kind"], loc: Loc): void => {
     if (from && to) flows.push({ from, to, kind, loc, block: unmodelled === 0 ? current : undefined });
   };
 
-  // Where a write sits in the block graph, on the same terms as a flow: a loop body and
-  // a switch arm are positions the graph does not express, so the frontend states none.
+  // Where a write sits in the block graph, on the same terms as a flow. Loop bodies keep
+  // the conservative reachdef boundary above; switch arms still have no graph position.
   const writeBlock = (): string | undefined => (unmodelled === 0 ? current : undefined);
 
   const bind = (name: ts.Identifier, valueId: string): void => {
@@ -1834,6 +1881,18 @@ function lowerFunction(
       return id;
     }
 
+    if (
+      ts.isBinaryExpression(expr) &&
+      ARITHMETIC_OPERATORS.has(expr.operatorToken.kind) &&
+      isComparisonOperand(expr)
+    ) {
+      const loc = locOf(sf, expr);
+      const id = newValue("local", loc, { name: "arithmetic" });
+      addFlow(lowerExpr(expr.left), id, "arithmetic", loc);
+      addFlow(lowerExpr(expr.right), id, "arithmetic", loc);
+      return id;
+    }
+
     if (ts.isConditionalExpression(expr)) {
       const loc = locOf(sf, expr);
       const id = newValue("local", loc, { name: "ternary" });
@@ -2079,20 +2138,166 @@ function lowerFunction(
     // Nested functions are separate IR functions; their bodies are not inlined here.
     if (n !== node && isFunctionLike(n)) return;
 
-    // A loop body runs an unknown number of times and a switch arm runs or does not,
-    // and the block graph says neither: both are lowered straight-line into the
-    // enclosing block. Walking them exactly as before, with the position claim on any
-    // flow inside suppressed -- see `unmodelled`.
-    if (
-      ts.isForStatement(n) ||
-      ts.isForOfStatement(n) ||
-      ts.isForInStatement(n) ||
-      ts.isWhileStatement(n) ||
-      ts.isDoStatement(n) ||
-      ts.isSwitchStatement(n)
-    ) {
+    if (ts.isForStatement(n)) {
+      if (n.initializer) {
+        if (ts.isVariableDeclarationList(n.initializer)) walk(n.initializer);
+        else lowerExpr(n.initializer);
+      }
+
+      const header = newBlock(n);
+      link(current, header);
+      current = header;
+      let bound: string | undefined;
+      if (n.condition) {
+        unmodelled += 1;
+        bound = lowerExpr(n.condition) ?? newValue("local", locOf(sf, n.condition), { name: n.condition.getText(sf) });
+        unmodelled -= 1;
+        terminate(header, "branch");
+      }
+      const headerBlock = blockAt(header);
+      if (headerBlock) {
+        headerBlock.loopHeader = true;
+        headerBlock.loopBound = bound;
+      }
+
+      const body = newBlock(n.statement);
+      const after = newBlock(n);
+      const step = n.incrementor ? newBlock(n.incrementor) : header;
+      link(header, body);
+      if (n.condition) link(header, after);
+
+      loopTargets.push({ continueTo: step, breakTo: after, switchDepth });
+      current = body;
       unmodelled += 1;
+      walk(n.statement);
+      unmodelled -= 1;
+      loopTargets.pop();
+      if (pathExists(body, current)) link(current, step);
+
+      if (n.incrementor) {
+        current = step;
+        unmodelled += 1;
+        lowerExpr(n.incrementor);
+        unmodelled -= 1;
+        if (pathExists(body, step)) link(step, header);
+      }
+      current = after;
+      return;
+    }
+
+    if (ts.isForOfStatement(n) || ts.isForInStatement(n)) {
+      const header = newBlock(n);
+      link(current, header);
+      current = header;
+      unmodelled += 1;
+      const bound = lowerExpr(n.expression) ?? newValue("local", locOf(sf, n.expression), { name: n.expression.getText(sf) });
+      unmodelled -= 1;
+      loopExtents.set(n, bound);
+      const headerBlock = blockAt(header);
+      if (headerBlock) {
+        headerBlock.loopHeader = true;
+        headerBlock.loopBound = bound;
+      }
+      terminate(header, "branch");
+
+      const body = newBlock(n.statement);
+      const after = newBlock(n);
+      link(header, body);
+      link(header, after);
+      loopTargets.push({ continueTo: header, breakTo: after, switchDepth });
+      current = body;
+      unmodelled += 1;
+      walk(n.initializer);
+      walk(n.statement);
+      unmodelled -= 1;
+      loopTargets.pop();
+      if (pathExists(body, current)) link(current, header);
+      current = after;
+      return;
+    }
+
+    if (ts.isWhileStatement(n)) {
+      const header = newBlock(n);
+      link(current, header);
+      current = header;
+      unmodelled += 1;
+      const bound = lowerExpr(n.expression) ?? newValue("local", locOf(sf, n.expression), { name: n.expression.getText(sf) });
+      unmodelled -= 1;
+      const headerBlock = blockAt(header);
+      if (headerBlock) {
+        headerBlock.loopHeader = true;
+        headerBlock.loopBound = bound;
+      }
+      terminate(header, "branch");
+
+      const body = newBlock(n.statement);
+      const after = newBlock(n);
+      link(header, body);
+      link(header, after);
+      loopTargets.push({ continueTo: header, breakTo: after, switchDepth });
+      current = body;
+      unmodelled += 1;
+      walk(n.statement);
+      unmodelled -= 1;
+      loopTargets.pop();
+      if (pathExists(body, current)) link(current, header);
+      current = after;
+      return;
+    }
+
+    if (ts.isDoStatement(n)) {
+      const header = newBlock(n);
+      const body = newBlock(n.statement);
+      const condition = newBlock(n.expression);
+      const after = newBlock(n);
+      link(current, header);
+      link(header, body);
+      const headerBlock = blockAt(header);
+      if (headerBlock) headerBlock.loopHeader = true;
+
+      loopTargets.push({ continueTo: condition, breakTo: after, switchDepth });
+      current = body;
+      unmodelled += 1;
+      walk(n.statement);
+      unmodelled -= 1;
+      loopTargets.pop();
+      if (pathExists(body, current)) link(current, condition);
+
+      current = condition;
+      unmodelled += 1;
+      const bound = lowerExpr(n.expression) ?? newValue("local", locOf(sf, n.expression), { name: n.expression.getText(sf) });
+      unmodelled -= 1;
+      if (headerBlock) headerBlock.loopBound = bound;
+      terminate(condition, "branch");
+      link(condition, header);
+      link(condition, after);
+      current = after;
+      return;
+    }
+
+    if (
+      ts.isBreakStatement(n) &&
+      !n.label &&
+      loopTargets.length &&
+      loopTargets[loopTargets.length - 1].switchDepth === switchDepth
+    ) {
+      link(current, loopTargets[loopTargets.length - 1].breakTo);
+      current = newBlock(n);
+      return;
+    }
+    if (ts.isContinueStatement(n) && !n.label && loopTargets.length) {
+      link(current, loopTargets[loopTargets.length - 1].continueTo);
+      current = newBlock(n);
+      return;
+    }
+
+    // Switch arms still run as straight-line code in this graph. Keep their flows
+    // deliberately unplaced until the graph can state which arm selected them.
+    if (ts.isSwitchStatement(n)) {
+      unmodelled += 1;
+      switchDepth += 1;
       ts.forEachChild(n, walk);
+      switchDepth -= 1;
       unmodelled -= 1;
       return;
     }
@@ -2122,7 +2327,7 @@ function lowerFunction(
       const init = n.initializer
         ? lowerExpr(n.initializer)
         : iterated
-          ? lowerExpr(iterated)
+          ? loopExtents.get(n.parent.parent) ?? lowerExpr(iterated)
           : undefined;
       const kind = n.initializer || !iterated ? "assign" : "property";
 
