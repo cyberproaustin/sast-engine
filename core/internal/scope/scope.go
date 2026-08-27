@@ -26,6 +26,17 @@
 // -- a lookup carrying both, or a comparison between them. Existence is not one of them:
 // `featureExists(name)` proves the row is there and says nothing about who owns it, and a
 // call carrying only the unauthorized key relates it to nothing.
+//
+// TWO OPERANDS, not one. Everything above needs the caller's scope to have arrived in the
+// REQUEST, because a request key is the only thing it can compare a request key against.
+// A very common shape puts the scope somewhere else entirely: the authentication layer
+// established it, the handler holds it inside a context object, and the check it makes is
+// `may I act here` rather than `may I act on THIS`. What is still comparable there is the
+// ACCESSOR -- `ctx.repo` answered the permission question and `ctx.systemRepo` performed
+// the operation, two accessors of one context, and whatever the first one's answer covered
+// the second one does not carry. That relation lives in authority.go; it is the same
+// judgement about the same two calls, with a different operand, which is why it is a rule
+// of this kind rather than a kind of its own (ADR-016).
 package scope
 
 import (
@@ -53,6 +64,20 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 		// control-flow graph, and a rule that cannot be evaluated reports nothing rather
 		// than reporting a guess (ADR-003).
 		if len(rule.Requires.Missing(d.Frontend.Capabilities)) > 0 {
+			continue
+		}
+		// The authority relation needs no identity SOURCE, and that is the point of it.
+		// Its operand is the accessor a check interrogated, which is present whether or
+		// not this engine has a rule that names the caller's identity in this framework
+		// -- medplum has no such rule and no identity anywhere in the program, which is
+		// why every judgement that relates a record to the caller is unevaluated there.
+		if len(rule.Authorizes) > 0 {
+			for i := range d.EntryPoints {
+				ep := &d.EntryPoints[i]
+				if fn := ix.FuncByID[ep.FunctionID]; fn != nil {
+					out = append(out, judgeAuthority(ix, fn, ep, rule)...)
+				}
+			}
 			continue
 		}
 		identity := byClass[rule.IdentityClass]
@@ -92,7 +117,7 @@ func judge(ix *ir.Index, fn *ir.Function, ep *ir.EntryPoint, rule model.ScopeRul
 	if len(keys) == 0 {
 		return nil
 	}
-	carries := propagate(fn, keys)
+	carries := propagate(fn.Flows, fn.Calls, keys)
 
 	// Every enforced check in the handler, taken together. A handler that asks two
 	// questions -- `canCreateTeamWebsite(auth, teamId)` and `canCreateWebsite(auth)` --
@@ -337,7 +362,7 @@ func containerOf(values map[string]*ir.Value, params, parsed map[string]bool, v 
 // structure on the way. `updateReport(reportId, { websiteId })` hands over one identifier
 // and writes another one into the row, and those are different claims about the same
 // call.
-func propagate(fn *ir.Function, keys map[string]requestKey) map[string]map[string]string {
+func propagate(flows []ir.Flow, calls []*ir.Call, keys map[string]requestKey) map[string]map[string]string {
 	carries := make(map[string]map[string]string, len(keys))
 	add := func(to, key, container string) bool {
 		if to == "" {
@@ -366,7 +391,7 @@ func propagate(fn *ir.Function, keys map[string]requestKey) map[string]map[strin
 	// pairs, which is what makes the loop terminate rather than a hop limit.
 	for changed := true; changed; {
 		changed = false
-		for _, f := range fn.Flows {
+		for _, f := range flows {
 			// A property READ off a value does not inherit what the value carries: a
 			// field of a record fetched by one key is not that key.
 			if f.Kind == "property" {
@@ -382,7 +407,7 @@ func propagate(fn *ir.Function, keys map[string]requestKey) map[string]map[strin
 				}
 			}
 		}
-		for _, c := range fn.Calls {
+		for _, c := range calls {
 			if c.ResultID == "" {
 				continue
 			}

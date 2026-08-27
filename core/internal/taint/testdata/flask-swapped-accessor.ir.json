@@ -1,0 +1,3634 @@
+{
+  "irVersion": "0.18.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi",
+        "django",
+        "tornado"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "app.py",
+      "path": "app.py"
+    },
+    {
+      "id": "context.py",
+      "path": "context.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "app.py#<module>:0:0",
+      "name": "<module>",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The same weakness in the language where the caller's key is not a property read.\n\nNothing in this file spells `request.something.id`. A Flask or Django route binds its\nsegments to ARGUMENTS -- `/records/<record_id>` arrives as `record_id` -- so an analysis\nthat only recognises a property read off a request object is silent on every handler\nPython ever wrote, and this corpus is what says otherwise.\n\nThe parameter counts as a key because the registered ROUTE PATH interpolates its name.\nThat is the anchor, not the spelling: frameworks inject plenty of arguments whose names\nend in `id`, and only the ones the path names came from the caller.\n"
+        },
+        {
+          "id": "app.py#<module>:0:0$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 7
+          },
+          "name": "flask.Flask"
+        },
+        {
+          "id": "app.py#<module>:0:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 1
+          },
+          "name": "app"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#<module>:0:0$v1",
+          "to": "app.py#<module>:0:0$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 1
+          },
+          "block": "app.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#<module>:0:0$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 7
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.Flask",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#<module>:0:0$v1",
+          "block": "app.py#<module>:0:0$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "app.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#rotate:25:1",
+      "name": "rotate",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 25,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "record_id",
+          "valueId": "app.py#rotate:25:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#rotate:25:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 12
+          },
+          "name": "record_id"
+        },
+        {
+          "id": "app.py#rotate:25:1$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 11
+          },
+          "name": "local"
+        },
+        {
+          "id": "app.py#rotate:25:1$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 5
+          },
+          "name": "ctx"
+        },
+        {
+          "id": "app.py#rotate:25:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 12
+          },
+          "base": "app.py#rotate:25:1$v2",
+          "path": "repo",
+          "name": "repo"
+        },
+        {
+          "id": "app.py#rotate:25:1$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 12
+          },
+          "name": "ctx.repo.is_tenant_admin"
+        },
+        {
+          "id": "app.py#rotate:25:1$v5",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 16
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "app.py#rotate:25:1$v6",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 24
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "error",
+              "valueId": "app.py#rotate:25:1$v7"
+            }
+          ]
+        },
+        {
+          "id": "app.py#rotate:25:1$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 34
+          },
+          "literal": "forbidden"
+        },
+        {
+          "id": "app.py#rotate:25:1$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 16
+          },
+          "name": "flask.jsonify"
+        },
+        {
+          "id": "app.py#rotate:25:1$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 49
+          },
+          "literal": "403"
+        },
+        {
+          "id": "app.py#rotate:25:1$v10",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 42
+          },
+          "literal": "Client"
+        },
+        {
+          "id": "app.py#rotate:25:1$v11",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 14
+          },
+          "base": "app.py#rotate:25:1$v2",
+          "path": "system_repo",
+          "name": "system_repo"
+        },
+        {
+          "id": "app.py#rotate:25:1$v12",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 14
+          },
+          "name": "ctx.system_repo.read_record"
+        },
+        {
+          "id": "app.py#rotate:25:1$v13",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 5
+          },
+          "name": "record"
+        },
+        {
+          "id": "app.py#rotate:25:1$v14",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 5
+          },
+          "name": "ctx.system_repo.update_record"
+        },
+        {
+          "id": "app.py#rotate:25:1$v15",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 20
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "ok",
+              "valueId": "app.py#rotate:25:1$v16"
+            }
+          ]
+        },
+        {
+          "id": "app.py#rotate:25:1$v16",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 27
+          },
+          "literal": "true"
+        },
+        {
+          "id": "app.py#rotate:25:1$v17",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 12
+          },
+          "name": "flask.jsonify"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#rotate:25:1$v1",
+          "to": "app.py#rotate:25:1$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 5
+          },
+          "block": "app.py#rotate:25:1$b0"
+        },
+        {
+          "from": "app.py#rotate:25:1$v2",
+          "to": "app.py#rotate:25:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 12
+          },
+          "block": "app.py#rotate:25:1$b0"
+        },
+        {
+          "from": "app.py#rotate:25:1$v7",
+          "to": "app.py#rotate:25:1$v6",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 24
+          },
+          "block": "app.py#rotate:25:1$b1"
+        },
+        {
+          "from": "app.py#rotate:25:1$v8",
+          "to": "app.py#rotate:25:1$v5",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 16
+          },
+          "block": "app.py#rotate:25:1$b1"
+        },
+        {
+          "from": "app.py#rotate:25:1$v9",
+          "to": "app.py#rotate:25:1$v5",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 16
+          },
+          "block": "app.py#rotate:25:1$b1"
+        },
+        {
+          "from": "app.py#rotate:25:1$v2",
+          "to": "app.py#rotate:25:1$v11",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 14
+          },
+          "block": "app.py#rotate:25:1$b3"
+        },
+        {
+          "from": "app.py#rotate:25:1$v12",
+          "to": "app.py#rotate:25:1$v13",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 5
+          },
+          "block": "app.py#rotate:25:1$b3"
+        },
+        {
+          "from": "app.py#rotate:25:1$v16",
+          "to": "app.py#rotate:25:1$v15",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 20
+          },
+          "block": "app.py#rotate:25:1$b3"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#rotate:25:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 11
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "context.py#get_authenticated_context:37:1",
+            "resolution": "resolved",
+            "name": "get_authenticated_context"
+          },
+          "args": [],
+          "resultValueId": "app.py#rotate:25:1$v1",
+          "block": "app.py#rotate:25:1$b0",
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#rotate:25:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "ctx.repo.is_tenant_admin",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "app.py#rotate:25:1$v4",
+          "block": "app.py#rotate:25:1$b0",
+          "method": "is_tenant_admin",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#rotate:25:1$v3"
+        },
+        {
+          "id": "app.py#rotate:25:1$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.jsonify",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#rotate:25:1$v6"
+            }
+          ],
+          "resultValueId": "app.py#rotate:25:1$v8",
+          "block": "app.py#rotate:25:1$b1",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#rotate:25:1$c3",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 14
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "ctx.system_repo.read_record",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#rotate:25:1$v10"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#rotate:25:1$v0"
+            }
+          ],
+          "resultValueId": "app.py#rotate:25:1$v12",
+          "block": "app.py#rotate:25:1$b3",
+          "method": "read_record",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "Client"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#rotate:25:1$v11"
+        },
+        {
+          "id": "app.py#rotate:25:1$c4",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "ctx.system_repo.update_record",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#rotate:25:1$v13"
+            }
+          ],
+          "resultValueId": "app.py#rotate:25:1$v14",
+          "block": "app.py#rotate:25:1$b3",
+          "method": "update_record",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#rotate:25:1$v11"
+        },
+        {
+          "id": "app.py#rotate:25:1$c5",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.jsonify",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#rotate:25:1$v15"
+            }
+          ],
+          "resultValueId": "app.py#rotate:25:1$v17",
+          "block": "app.py#rotate:25:1$b3",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "app.py#rotate:25:1$v5",
+        "app.py#rotate:25:1$v17"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#rotate:25:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#rotate:25:1$b0",
+          "successors": [
+            "app.py#rotate:25:1$b1",
+            "app.py#rotate:25:1$b3"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 1
+          },
+          "terminator": "branch"
+        },
+        {
+          "id": "app.py#rotate:25:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#rotate:25:1$b2",
+          "successors": [
+            "app.py#rotate:25:1$b3"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 9
+          }
+        },
+        {
+          "id": "app.py#rotate:25:1$b3",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#rotate:25:1$b4",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#retire:38:1",
+      "name": "retire",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 38,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "record_id",
+          "valueId": "app.py#retire:38:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#retire:38:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 38,
+            "column": 12
+          },
+          "name": "record_id"
+        },
+        {
+          "id": "app.py#retire:38:1$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 39,
+            "column": 11
+          },
+          "name": "local"
+        },
+        {
+          "id": "app.py#retire:38:1$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 39,
+            "column": 5
+          },
+          "name": "ctx"
+        },
+        {
+          "id": "app.py#retire:38:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 40,
+            "column": 12
+          },
+          "base": "app.py#retire:38:1$v2",
+          "path": "repo",
+          "name": "repo"
+        },
+        {
+          "id": "app.py#retire:38:1$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 40,
+            "column": 12
+          },
+          "name": "ctx.repo.is_tenant_admin"
+        },
+        {
+          "id": "app.py#retire:38:1$v5",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 16
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "app.py#retire:38:1$v6",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 24
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "error",
+              "valueId": "app.py#retire:38:1$v7"
+            }
+          ]
+        },
+        {
+          "id": "app.py#retire:38:1$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 34
+          },
+          "literal": "forbidden"
+        },
+        {
+          "id": "app.py#retire:38:1$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 16
+          },
+          "name": "flask.jsonify"
+        },
+        {
+          "id": "app.py#retire:38:1$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 49
+          },
+          "literal": "403"
+        },
+        {
+          "id": "app.py#retire:38:1$v10",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 35
+          },
+          "literal": "Client"
+        },
+        {
+          "id": "app.py#retire:38:1$v11",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 14
+          },
+          "name": "ctx.repo.read_record"
+        },
+        {
+          "id": "app.py#retire:38:1$v12",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 5
+          },
+          "name": "record"
+        },
+        {
+          "id": "app.py#retire:38:1$v13",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 5
+          },
+          "base": "app.py#retire:38:1$v2",
+          "path": "system_repo",
+          "name": "system_repo"
+        },
+        {
+          "id": "app.py#retire:38:1$v14",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 5
+          },
+          "name": "ctx.system_repo.update_record"
+        },
+        {
+          "id": "app.py#retire:38:1$v15",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 44,
+            "column": 20
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "ok",
+              "valueId": "app.py#retire:38:1$v16"
+            }
+          ]
+        },
+        {
+          "id": "app.py#retire:38:1$v16",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 44,
+            "column": 27
+          },
+          "literal": "true"
+        },
+        {
+          "id": "app.py#retire:38:1$v17",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 44,
+            "column": 12
+          },
+          "name": "flask.jsonify"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#retire:38:1$v1",
+          "to": "app.py#retire:38:1$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 39,
+            "column": 5
+          },
+          "block": "app.py#retire:38:1$b0"
+        },
+        {
+          "from": "app.py#retire:38:1$v2",
+          "to": "app.py#retire:38:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 40,
+            "column": 12
+          },
+          "block": "app.py#retire:38:1$b0"
+        },
+        {
+          "from": "app.py#retire:38:1$v7",
+          "to": "app.py#retire:38:1$v6",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 24
+          },
+          "block": "app.py#retire:38:1$b1"
+        },
+        {
+          "from": "app.py#retire:38:1$v8",
+          "to": "app.py#retire:38:1$v5",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 16
+          },
+          "block": "app.py#retire:38:1$b1"
+        },
+        {
+          "from": "app.py#retire:38:1$v9",
+          "to": "app.py#retire:38:1$v5",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 16
+          },
+          "block": "app.py#retire:38:1$b1"
+        },
+        {
+          "from": "app.py#retire:38:1$v11",
+          "to": "app.py#retire:38:1$v12",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 5
+          },
+          "block": "app.py#retire:38:1$b3"
+        },
+        {
+          "from": "app.py#retire:38:1$v2",
+          "to": "app.py#retire:38:1$v13",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 5
+          },
+          "block": "app.py#retire:38:1$b3"
+        },
+        {
+          "from": "app.py#retire:38:1$v16",
+          "to": "app.py#retire:38:1$v15",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 44,
+            "column": 20
+          },
+          "block": "app.py#retire:38:1$b3"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#retire:38:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 39,
+            "column": 11
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "context.py#get_authenticated_context:37:1",
+            "resolution": "resolved",
+            "name": "get_authenticated_context"
+          },
+          "args": [],
+          "resultValueId": "app.py#retire:38:1$v1",
+          "block": "app.py#retire:38:1$b0",
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#retire:38:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 40,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "ctx.repo.is_tenant_admin",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "app.py#retire:38:1$v4",
+          "block": "app.py#retire:38:1$b0",
+          "method": "is_tenant_admin",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#retire:38:1$v3"
+        },
+        {
+          "id": "app.py#retire:38:1$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.jsonify",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#retire:38:1$v6"
+            }
+          ],
+          "resultValueId": "app.py#retire:38:1$v8",
+          "block": "app.py#retire:38:1$b1",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#retire:38:1$c3",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 14
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "ctx.repo.read_record",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#retire:38:1$v10"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#retire:38:1$v0"
+            }
+          ],
+          "resultValueId": "app.py#retire:38:1$v11",
+          "block": "app.py#retire:38:1$b3",
+          "method": "read_record",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "Client"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#retire:38:1$v3"
+        },
+        {
+          "id": "app.py#retire:38:1$c4",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "ctx.system_repo.update_record",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#retire:38:1$v12"
+            }
+          ],
+          "resultValueId": "app.py#retire:38:1$v14",
+          "block": "app.py#retire:38:1$b3",
+          "method": "update_record",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#retire:38:1$v13"
+        },
+        {
+          "id": "app.py#retire:38:1$c5",
+          "loc": {
+            "file": "app.py",
+            "line": 44,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.jsonify",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#retire:38:1$v15"
+            }
+          ],
+          "resultValueId": "app.py#retire:38:1$v17",
+          "block": "app.py#retire:38:1$b3",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "app.py#retire:38:1$v5",
+        "app.py#retire:38:1$v17"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#retire:38:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#retire:38:1$b0",
+          "successors": [
+            "app.py#retire:38:1$b1",
+            "app.py#retire:38:1$b3"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 38,
+            "column": 1
+          },
+          "terminator": "branch"
+        },
+        {
+          "id": "app.py#retire:38:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 40,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#retire:38:1$b2",
+          "successors": [
+            "app.py#retire:38:1$b3"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 9
+          }
+        },
+        {
+          "id": "app.py#retire:38:1$b3",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 40,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#retire:38:1$b4",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 44,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#touch:50:1",
+      "name": "touch",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 50,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "record_id",
+          "valueId": "app.py#touch:50:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#touch:50:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 50,
+            "column": 11
+          },
+          "name": "record_id"
+        },
+        {
+          "id": "app.py#touch:50:1$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 11
+          },
+          "name": "local"
+        },
+        {
+          "id": "app.py#touch:50:1$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 5
+          },
+          "name": "ctx"
+        },
+        {
+          "id": "app.py#touch:50:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 12
+          },
+          "base": "app.py#touch:50:1$v2",
+          "path": "repo",
+          "name": "repo"
+        },
+        {
+          "id": "app.py#touch:50:1$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 12
+          },
+          "name": "ctx.repo.is_tenant_admin"
+        },
+        {
+          "id": "app.py#touch:50:1$v5",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 16
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "app.py#touch:50:1$v6",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 24
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "error",
+              "valueId": "app.py#touch:50:1$v7"
+            }
+          ]
+        },
+        {
+          "id": "app.py#touch:50:1$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 34
+          },
+          "literal": "forbidden"
+        },
+        {
+          "id": "app.py#touch:50:1$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 16
+          },
+          "name": "flask.jsonify"
+        },
+        {
+          "id": "app.py#touch:50:1$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 49
+          },
+          "literal": "403"
+        },
+        {
+          "id": "app.py#touch:50:1$v10",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 54,
+            "column": 28
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "id",
+              "valueId": "app.py#touch:50:1$v0"
+            }
+          ]
+        },
+        {
+          "id": "app.py#touch:50:1$v11",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 54,
+            "column": 5
+          },
+          "name": "ctx.repo.update_record"
+        },
+        {
+          "id": "app.py#touch:50:1$v12",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 55,
+            "column": 20
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "ok",
+              "valueId": "app.py#touch:50:1$v13"
+            }
+          ]
+        },
+        {
+          "id": "app.py#touch:50:1$v13",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 55,
+            "column": 27
+          },
+          "literal": "true"
+        },
+        {
+          "id": "app.py#touch:50:1$v14",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 55,
+            "column": 12
+          },
+          "name": "flask.jsonify"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#touch:50:1$v1",
+          "to": "app.py#touch:50:1$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 5
+          },
+          "block": "app.py#touch:50:1$b0"
+        },
+        {
+          "from": "app.py#touch:50:1$v2",
+          "to": "app.py#touch:50:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 12
+          },
+          "block": "app.py#touch:50:1$b0"
+        },
+        {
+          "from": "app.py#touch:50:1$v7",
+          "to": "app.py#touch:50:1$v6",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 24
+          },
+          "block": "app.py#touch:50:1$b1"
+        },
+        {
+          "from": "app.py#touch:50:1$v8",
+          "to": "app.py#touch:50:1$v5",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 16
+          },
+          "block": "app.py#touch:50:1$b1"
+        },
+        {
+          "from": "app.py#touch:50:1$v9",
+          "to": "app.py#touch:50:1$v5",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 16
+          },
+          "block": "app.py#touch:50:1$b1"
+        },
+        {
+          "from": "app.py#touch:50:1$v0",
+          "to": "app.py#touch:50:1$v10",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 54,
+            "column": 28
+          },
+          "block": "app.py#touch:50:1$b3"
+        },
+        {
+          "from": "app.py#touch:50:1$v13",
+          "to": "app.py#touch:50:1$v12",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 55,
+            "column": 20
+          },
+          "block": "app.py#touch:50:1$b3"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#touch:50:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 11
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "context.py#get_authenticated_context:37:1",
+            "resolution": "resolved",
+            "name": "get_authenticated_context"
+          },
+          "args": [],
+          "resultValueId": "app.py#touch:50:1$v1",
+          "block": "app.py#touch:50:1$b0",
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#touch:50:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "ctx.repo.is_tenant_admin",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "app.py#touch:50:1$v4",
+          "block": "app.py#touch:50:1$b0",
+          "method": "is_tenant_admin",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#touch:50:1$v3"
+        },
+        {
+          "id": "app.py#touch:50:1$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.jsonify",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#touch:50:1$v6"
+            }
+          ],
+          "resultValueId": "app.py#touch:50:1$v8",
+          "block": "app.py#touch:50:1$b1",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#touch:50:1$c3",
+          "loc": {
+            "file": "app.py",
+            "line": 54,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "ctx.repo.update_record",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#touch:50:1$v10"
+            }
+          ],
+          "resultValueId": "app.py#touch:50:1$v11",
+          "block": "app.py#touch:50:1$b3",
+          "method": "update_record",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#touch:50:1$v3"
+        },
+        {
+          "id": "app.py#touch:50:1$c4",
+          "loc": {
+            "file": "app.py",
+            "line": 55,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.jsonify",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#touch:50:1$v12"
+            }
+          ],
+          "resultValueId": "app.py#touch:50:1$v14",
+          "block": "app.py#touch:50:1$b3",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "app.py#touch:50:1$v5",
+        "app.py#touch:50:1$v14"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#touch:50:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#touch:50:1$b0",
+          "successors": [
+            "app.py#touch:50:1$b1",
+            "app.py#touch:50:1$b3"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 50,
+            "column": 1
+          },
+          "terminator": "branch"
+        },
+        {
+          "id": "app.py#touch:50:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#touch:50:1$b2",
+          "successors": [
+            "app.py#touch:50:1$b3"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 9
+          }
+        },
+        {
+          "id": "app.py#touch:50:1$b3",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#touch:50:1$b4",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 55,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#rename:61:1",
+      "name": "rename",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 61,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "record_id",
+          "valueId": "app.py#rename:61:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#rename:61:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 61,
+            "column": 12
+          },
+          "name": "record_id"
+        },
+        {
+          "id": "app.py#rename:61:1$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 62,
+            "column": 11
+          },
+          "name": "local"
+        },
+        {
+          "id": "app.py#rename:61:1$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 62,
+            "column": 5
+          },
+          "name": "ctx"
+        },
+        {
+          "id": "app.py#rename:61:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 63,
+            "column": 12
+          },
+          "base": "app.py#rename:61:1$v2",
+          "path": "repo",
+          "name": "repo"
+        },
+        {
+          "id": "app.py#rename:61:1$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 63,
+            "column": 12
+          },
+          "name": "ctx.repo.is_tenant_admin"
+        },
+        {
+          "id": "app.py#rename:61:1$v5",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 64,
+            "column": 16
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "app.py#rename:61:1$v6",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 64,
+            "column": 24
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "error",
+              "valueId": "app.py#rename:61:1$v7"
+            }
+          ]
+        },
+        {
+          "id": "app.py#rename:61:1$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 64,
+            "column": 34
+          },
+          "literal": "forbidden"
+        },
+        {
+          "id": "app.py#rename:61:1$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 64,
+            "column": 16
+          },
+          "name": "flask.jsonify"
+        },
+        {
+          "id": "app.py#rename:61:1$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 64,
+            "column": 49
+          },
+          "literal": "403"
+        },
+        {
+          "id": "app.py#rename:61:1$v10",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 42
+          },
+          "literal": "Client"
+        },
+        {
+          "id": "app.py#rename:61:1$v11",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 63
+          },
+          "base": "app.py#rename:61:1$v2",
+          "path": "tenant",
+          "name": "tenant"
+        },
+        {
+          "id": "app.py#rename:61:1$v12",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 14
+          },
+          "base": "app.py#rename:61:1$v2",
+          "path": "system_repo",
+          "name": "system_repo"
+        },
+        {
+          "id": "app.py#rename:61:1$v13",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 14
+          },
+          "name": "ctx.system_repo.read_record"
+        },
+        {
+          "id": "app.py#rename:61:1$v14",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 5
+          },
+          "name": "record"
+        },
+        {
+          "id": "app.py#rename:61:1$v15",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 66,
+            "column": 5
+          },
+          "name": "ctx.system_repo.update_record"
+        },
+        {
+          "id": "app.py#rename:61:1$v16",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 67,
+            "column": 20
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "ok",
+              "valueId": "app.py#rename:61:1$v17"
+            }
+          ]
+        },
+        {
+          "id": "app.py#rename:61:1$v17",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 67,
+            "column": 27
+          },
+          "literal": "true"
+        },
+        {
+          "id": "app.py#rename:61:1$v18",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 67,
+            "column": 12
+          },
+          "name": "flask.jsonify"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#rename:61:1$v1",
+          "to": "app.py#rename:61:1$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 62,
+            "column": 5
+          },
+          "block": "app.py#rename:61:1$b0"
+        },
+        {
+          "from": "app.py#rename:61:1$v2",
+          "to": "app.py#rename:61:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 63,
+            "column": 12
+          },
+          "block": "app.py#rename:61:1$b0"
+        },
+        {
+          "from": "app.py#rename:61:1$v7",
+          "to": "app.py#rename:61:1$v6",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 64,
+            "column": 24
+          },
+          "block": "app.py#rename:61:1$b1"
+        },
+        {
+          "from": "app.py#rename:61:1$v8",
+          "to": "app.py#rename:61:1$v5",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 64,
+            "column": 16
+          },
+          "block": "app.py#rename:61:1$b1"
+        },
+        {
+          "from": "app.py#rename:61:1$v9",
+          "to": "app.py#rename:61:1$v5",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 64,
+            "column": 16
+          },
+          "block": "app.py#rename:61:1$b1"
+        },
+        {
+          "from": "app.py#rename:61:1$v2",
+          "to": "app.py#rename:61:1$v11",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 63
+          },
+          "block": "app.py#rename:61:1$b3"
+        },
+        {
+          "from": "app.py#rename:61:1$v2",
+          "to": "app.py#rename:61:1$v12",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 14
+          },
+          "block": "app.py#rename:61:1$b3"
+        },
+        {
+          "from": "app.py#rename:61:1$v13",
+          "to": "app.py#rename:61:1$v14",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 5
+          },
+          "block": "app.py#rename:61:1$b3"
+        },
+        {
+          "from": "app.py#rename:61:1$v17",
+          "to": "app.py#rename:61:1$v16",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 67,
+            "column": 20
+          },
+          "block": "app.py#rename:61:1$b3"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#rename:61:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 62,
+            "column": 11
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "context.py#get_authenticated_context:37:1",
+            "resolution": "resolved",
+            "name": "get_authenticated_context"
+          },
+          "args": [],
+          "resultValueId": "app.py#rename:61:1$v1",
+          "block": "app.py#rename:61:1$b0",
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#rename:61:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 63,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "ctx.repo.is_tenant_admin",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "app.py#rename:61:1$v4",
+          "block": "app.py#rename:61:1$b0",
+          "method": "is_tenant_admin",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#rename:61:1$v3"
+        },
+        {
+          "id": "app.py#rename:61:1$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 64,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.jsonify",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#rename:61:1$v6"
+            }
+          ],
+          "resultValueId": "app.py#rename:61:1$v8",
+          "block": "app.py#rename:61:1$b1",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#rename:61:1$c3",
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 14
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "ctx.system_repo.read_record",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#rename:61:1$v10"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#rename:61:1$v0"
+            },
+            {
+              "index": 2,
+              "valueId": "app.py#rename:61:1$v11"
+            }
+          ],
+          "resultValueId": "app.py#rename:61:1$v13",
+          "block": "app.py#rename:61:1$b3",
+          "method": "read_record",
+          "argCount": 3,
+          "argLiterals": {
+            "0": "Client"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#rename:61:1$v12"
+        },
+        {
+          "id": "app.py#rename:61:1$c4",
+          "loc": {
+            "file": "app.py",
+            "line": 66,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "ctx.system_repo.update_record",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#rename:61:1$v14"
+            }
+          ],
+          "resultValueId": "app.py#rename:61:1$v15",
+          "block": "app.py#rename:61:1$b3",
+          "method": "update_record",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#rename:61:1$v12"
+        },
+        {
+          "id": "app.py#rename:61:1$c5",
+          "loc": {
+            "file": "app.py",
+            "line": 67,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.jsonify",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#rename:61:1$v16"
+            }
+          ],
+          "resultValueId": "app.py#rename:61:1$v18",
+          "block": "app.py#rename:61:1$b3",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "app.py#rename:61:1$v5",
+        "app.py#rename:61:1$v18"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#rename:61:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#rename:61:1$b0",
+          "successors": [
+            "app.py#rename:61:1$b1",
+            "app.py#rename:61:1$b3"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 61,
+            "column": 1
+          },
+          "terminator": "branch"
+        },
+        {
+          "id": "app.py#rename:61:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 63,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#rename:61:1$b2",
+          "successors": [
+            "app.py#rename:61:1$b3"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 64,
+            "column": 9
+          }
+        },
+        {
+          "id": "app.py#rename:61:1$b3",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 63,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#rename:61:1$b4",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 67,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#warm:74:1",
+      "name": "warm",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 74,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "record_id",
+          "valueId": "app.py#warm:74:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#warm:74:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 74,
+            "column": 10
+          },
+          "name": "record_id"
+        },
+        {
+          "id": "app.py#warm:74:1$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 75,
+            "column": 11
+          },
+          "name": "local"
+        },
+        {
+          "id": "app.py#warm:74:1$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 75,
+            "column": 5
+          },
+          "name": "ctx"
+        },
+        {
+          "id": "app.py#warm:74:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 76,
+            "column": 12
+          },
+          "base": "app.py#warm:74:1$v2",
+          "path": "cache",
+          "name": "cache"
+        },
+        {
+          "id": "app.py#warm:74:1$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 76,
+            "column": 12
+          },
+          "name": "ctx.cache.has"
+        },
+        {
+          "id": "app.py#warm:74:1$v5",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 77,
+            "column": 16
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "app.py#warm:74:1$v6",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 77,
+            "column": 24
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "error",
+              "valueId": "app.py#warm:74:1$v7"
+            }
+          ]
+        },
+        {
+          "id": "app.py#warm:74:1$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 77,
+            "column": 34
+          },
+          "literal": "not found"
+        },
+        {
+          "id": "app.py#warm:74:1$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 77,
+            "column": 16
+          },
+          "name": "flask.jsonify"
+        },
+        {
+          "id": "app.py#warm:74:1$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 77,
+            "column": 49
+          },
+          "literal": "404"
+        },
+        {
+          "id": "app.py#warm:74:1$v10",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 78,
+            "column": 35
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "id",
+              "valueId": "app.py#warm:74:1$v0"
+            }
+          ]
+        },
+        {
+          "id": "app.py#warm:74:1$v11",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 78,
+            "column": 5
+          },
+          "base": "app.py#warm:74:1$v2",
+          "path": "system_repo",
+          "name": "system_repo"
+        },
+        {
+          "id": "app.py#warm:74:1$v12",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 78,
+            "column": 5
+          },
+          "name": "ctx.system_repo.update_record"
+        },
+        {
+          "id": "app.py#warm:74:1$v13",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 79,
+            "column": 20
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "ok",
+              "valueId": "app.py#warm:74:1$v14"
+            }
+          ]
+        },
+        {
+          "id": "app.py#warm:74:1$v14",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 79,
+            "column": 27
+          },
+          "literal": "true"
+        },
+        {
+          "id": "app.py#warm:74:1$v15",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 79,
+            "column": 12
+          },
+          "name": "flask.jsonify"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#warm:74:1$v1",
+          "to": "app.py#warm:74:1$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 75,
+            "column": 5
+          },
+          "block": "app.py#warm:74:1$b0"
+        },
+        {
+          "from": "app.py#warm:74:1$v2",
+          "to": "app.py#warm:74:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 76,
+            "column": 12
+          },
+          "block": "app.py#warm:74:1$b0"
+        },
+        {
+          "from": "app.py#warm:74:1$v7",
+          "to": "app.py#warm:74:1$v6",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 77,
+            "column": 24
+          },
+          "block": "app.py#warm:74:1$b1"
+        },
+        {
+          "from": "app.py#warm:74:1$v8",
+          "to": "app.py#warm:74:1$v5",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 77,
+            "column": 16
+          },
+          "block": "app.py#warm:74:1$b1"
+        },
+        {
+          "from": "app.py#warm:74:1$v9",
+          "to": "app.py#warm:74:1$v5",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 77,
+            "column": 16
+          },
+          "block": "app.py#warm:74:1$b1"
+        },
+        {
+          "from": "app.py#warm:74:1$v0",
+          "to": "app.py#warm:74:1$v10",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 78,
+            "column": 35
+          },
+          "block": "app.py#warm:74:1$b3"
+        },
+        {
+          "from": "app.py#warm:74:1$v2",
+          "to": "app.py#warm:74:1$v11",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 78,
+            "column": 5
+          },
+          "block": "app.py#warm:74:1$b3"
+        },
+        {
+          "from": "app.py#warm:74:1$v14",
+          "to": "app.py#warm:74:1$v13",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 79,
+            "column": 20
+          },
+          "block": "app.py#warm:74:1$b3"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#warm:74:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 75,
+            "column": 11
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "context.py#get_authenticated_context:37:1",
+            "resolution": "resolved",
+            "name": "get_authenticated_context"
+          },
+          "args": [],
+          "resultValueId": "app.py#warm:74:1$v1",
+          "block": "app.py#warm:74:1$b0",
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#warm:74:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 76,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "ctx.cache.has",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#warm:74:1$v0"
+            }
+          ],
+          "resultValueId": "app.py#warm:74:1$v4",
+          "block": "app.py#warm:74:1$b0",
+          "method": "has",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#warm:74:1$v3"
+        },
+        {
+          "id": "app.py#warm:74:1$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 77,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.jsonify",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#warm:74:1$v6"
+            }
+          ],
+          "resultValueId": "app.py#warm:74:1$v8",
+          "block": "app.py#warm:74:1$b1",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#warm:74:1$c3",
+          "loc": {
+            "file": "app.py",
+            "line": 78,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "ctx.system_repo.update_record",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#warm:74:1$v10"
+            }
+          ],
+          "resultValueId": "app.py#warm:74:1$v12",
+          "block": "app.py#warm:74:1$b3",
+          "method": "update_record",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#warm:74:1$v11"
+        },
+        {
+          "id": "app.py#warm:74:1$c4",
+          "loc": {
+            "file": "app.py",
+            "line": 79,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.jsonify",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#warm:74:1$v13"
+            }
+          ],
+          "resultValueId": "app.py#warm:74:1$v15",
+          "block": "app.py#warm:74:1$b3",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "app.py#warm:74:1$v5",
+        "app.py#warm:74:1$v15"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#warm:74:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#warm:74:1$b0",
+          "successors": [
+            "app.py#warm:74:1$b1",
+            "app.py#warm:74:1$b3"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 74,
+            "column": 1
+          },
+          "terminator": "branch"
+        },
+        {
+          "id": "app.py#warm:74:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 76,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#warm:74:1$b2",
+          "successors": [
+            "app.py#warm:74:1$b3"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 77,
+            "column": 9
+          }
+        },
+        {
+          "id": "app.py#warm:74:1$b3",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 76,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#warm:74:1$b4",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 79,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "context.py#<module>:0:0",
+      "name": "<module>",
+      "module": "context.py",
+      "loc": {
+        "file": "context.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "context.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "context.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The request context, and the two accessors that hang off it.\n\n`repo` is built for the caller and cannot see outside the tenant they belong to.\n`system_repo` is built with the server's own authority and can see everything. Reaching\nfor the second one is not the defect -- writing a field the caller must not be able to set\nis exactly what it is for. Which one the permission question was asked about is.\n"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "context.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "context.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "context.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "context.py#get_authenticated_context:37:1",
+      "name": "get_authenticated_context",
+      "module": "context.py",
+      "loc": {
+        "file": "context.py",
+        "line": 37,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "context.py#get_authenticated_context:37:1$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "context.py",
+            "line": 38,
+            "column": 5
+          },
+          "literal": "Fetched the way frameworks with request-local storage hand it over: no argument,\n    because the request is already in scope somewhere else."
+        },
+        {
+          "id": "context.py#get_authenticated_context:37:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "context.py",
+            "line": 40,
+            "column": 27
+          },
+          "literal": "tenant-1"
+        },
+        {
+          "id": "context.py#get_authenticated_context:37:1$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "context.py",
+            "line": 40,
+            "column": 12
+          },
+          "name": "RequestContext"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "context.py#get_authenticated_context:37:1$c0",
+          "loc": {
+            "file": "context.py",
+            "line": 40,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "RequestContext",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "context.py#get_authenticated_context:37:1$v1"
+            }
+          ],
+          "resultValueId": "context.py#get_authenticated_context:37:1$v2",
+          "block": "context.py#get_authenticated_context:37:1$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "tenant-1"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "context.py#get_authenticated_context:37:1$v2"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "context.py#get_authenticated_context:37:1$b0",
+      "blocks": [
+        {
+          "id": "context.py#get_authenticated_context:37:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "context.py",
+            "line": 37,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "context.py#get_authenticated_context:37:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "context.py",
+            "line": 40,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "context.py#__init__:11:5",
+      "name": "__init__",
+      "module": "context.py",
+      "loc": {
+        "file": "context.py",
+        "line": 11,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "context.py#__init__:11:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "tenant_id",
+          "valueId": "context.py#__init__:11:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "context.py#__init__:11:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "context.py",
+            "line": 11,
+            "column": 18
+          },
+          "name": "self"
+        },
+        {
+          "id": "context.py#__init__:11:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "context.py",
+            "line": 11,
+            "column": 24
+          },
+          "name": "tenant_id"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "context.py",
+            "line": 12,
+            "column": 9
+          },
+          "base": "context.py#__init__:11:5$v0",
+          "path": "tenant_id",
+          "from": "context.py#__init__:11:5$v1",
+          "block": "context.py#__init__:11:5$b0"
+        }
+      ],
+      "entryBlock": "context.py#__init__:11:5$b0",
+      "blocks": [
+        {
+          "id": "context.py#__init__:11:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "context.py",
+            "line": 11,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "context.py#is_tenant_admin:14:5",
+      "name": "is_tenant_admin",
+      "module": "context.py",
+      "loc": {
+        "file": "context.py",
+        "line": 14,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "context.py#is_tenant_admin:14:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "context.py#is_tenant_admin:14:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "context.py",
+            "line": 14,
+            "column": 25
+          },
+          "name": "self"
+        },
+        {
+          "id": "context.py#is_tenant_admin:14:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "context.py",
+            "line": 15,
+            "column": 16
+          },
+          "base": "context.py#is_tenant_admin:14:5$v0",
+          "path": "tenant_id",
+          "name": "tenant_id"
+        },
+        {
+          "id": "context.py#is_tenant_admin:14:5$v2",
+          "kind": "local",
+          "loc": {
+            "file": "context.py",
+            "line": 15,
+            "column": 16
+          },
+          "name": "comparison"
+        },
+        {
+          "id": "context.py#is_tenant_admin:14:5$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "context.py",
+            "line": 15,
+            "column": 38
+          }
+        }
+      ],
+      "flows": [
+        {
+          "from": "context.py#is_tenant_admin:14:5$v0",
+          "to": "context.py#is_tenant_admin:14:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "context.py",
+            "line": 15,
+            "column": 16
+          },
+          "block": "context.py#is_tenant_admin:14:5$b0"
+        }
+      ],
+      "calls": [],
+      "returns": [
+        "context.py#is_tenant_admin:14:5$v2"
+      ],
+      "comparisons": [
+        {
+          "left": "context.py#is_tenant_admin:14:5$v1",
+          "right": "context.py#is_tenant_admin:14:5$v3",
+          "op": "IsNot",
+          "block": "context.py#is_tenant_admin:14:5$b0",
+          "loc": {
+            "file": "context.py",
+            "line": 15,
+            "column": 16
+          }
+        }
+      ],
+      "writes": [],
+      "entryBlock": "context.py#is_tenant_admin:14:5$b0",
+      "blocks": [
+        {
+          "id": "context.py#is_tenant_admin:14:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "context.py",
+            "line": 14,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "context.py#is_tenant_admin:14:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "context.py",
+            "line": 15,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "context.py#read_record:17:5",
+      "name": "read_record",
+      "module": "context.py",
+      "loc": {
+        "file": "context.py",
+        "line": 17,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "context.py#read_record:17:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "kind",
+          "valueId": "context.py#read_record:17:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "record_id",
+          "valueId": "context.py#read_record:17:5$v2"
+        },
+        {
+          "index": 3,
+          "name": "within",
+          "valueId": "context.py#read_record:17:5$v3"
+        }
+      ],
+      "values": [
+        {
+          "id": "context.py#read_record:17:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "context.py",
+            "line": 17,
+            "column": 21
+          },
+          "name": "self"
+        },
+        {
+          "id": "context.py#read_record:17:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "context.py",
+            "line": 17,
+            "column": 27
+          },
+          "name": "kind"
+        },
+        {
+          "id": "context.py#read_record:17:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "context.py",
+            "line": 17,
+            "column": 33
+          },
+          "name": "record_id"
+        },
+        {
+          "id": "context.py#read_record:17:5$v3",
+          "kind": "param",
+          "loc": {
+            "file": "context.py",
+            "line": 17,
+            "column": 44
+          },
+          "name": "within"
+        },
+        {
+          "id": "context.py#read_record:17:5$v4",
+          "kind": "local",
+          "loc": {
+            "file": "context.py",
+            "line": 18,
+            "column": 16
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "id",
+              "valueId": "context.py#read_record:17:5$v2"
+            },
+            {
+              "key": "kind",
+              "valueId": "context.py#read_record:17:5$v1"
+            },
+            {
+              "key": "tenant",
+              "valueId": "context.py#read_record:17:5$v5"
+            }
+          ]
+        },
+        {
+          "id": "context.py#read_record:17:5$v5",
+          "kind": "property",
+          "loc": {
+            "file": "context.py",
+            "line": 18,
+            "column": 58
+          },
+          "base": "context.py#read_record:17:5$v0",
+          "path": "tenant_id",
+          "name": "tenant_id"
+        }
+      ],
+      "flows": [
+        {
+          "from": "context.py#read_record:17:5$v2",
+          "to": "context.py#read_record:17:5$v4",
+          "kind": "enclose",
+          "loc": {
+            "file": "context.py",
+            "line": 18,
+            "column": 16
+          },
+          "block": "context.py#read_record:17:5$b0"
+        },
+        {
+          "from": "context.py#read_record:17:5$v1",
+          "to": "context.py#read_record:17:5$v4",
+          "kind": "enclose",
+          "loc": {
+            "file": "context.py",
+            "line": 18,
+            "column": 16
+          },
+          "block": "context.py#read_record:17:5$b0"
+        },
+        {
+          "from": "context.py#read_record:17:5$v0",
+          "to": "context.py#read_record:17:5$v5",
+          "kind": "property",
+          "loc": {
+            "file": "context.py",
+            "line": 18,
+            "column": 58
+          },
+          "block": "context.py#read_record:17:5$b0"
+        },
+        {
+          "from": "context.py#read_record:17:5$v5",
+          "to": "context.py#read_record:17:5$v4",
+          "kind": "enclose",
+          "loc": {
+            "file": "context.py",
+            "line": 18,
+            "column": 16
+          },
+          "block": "context.py#read_record:17:5$b0"
+        }
+      ],
+      "calls": [],
+      "returns": [
+        "context.py#read_record:17:5$v4"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "context.py#read_record:17:5$b0",
+      "blocks": [
+        {
+          "id": "context.py#read_record:17:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "context.py",
+            "line": 17,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "context.py#read_record:17:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "context.py",
+            "line": 18,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "context.py#update_record:20:5",
+      "name": "update_record",
+      "module": "context.py",
+      "loc": {
+        "file": "context.py",
+        "line": 20,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "context.py#update_record:20:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "record",
+          "valueId": "context.py#update_record:20:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "context.py#update_record:20:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "context.py",
+            "line": 20,
+            "column": 23
+          },
+          "name": "self"
+        },
+        {
+          "id": "context.py#update_record:20:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "context.py",
+            "line": 20,
+            "column": 29
+          },
+          "name": "record"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [
+        "context.py#update_record:20:5$v1"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "context.py#update_record:20:5$b0",
+      "blocks": [
+        {
+          "id": "context.py#update_record:20:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "context.py",
+            "line": 20,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "context.py#update_record:20:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "context.py",
+            "line": 21,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "context.py#has:25:5",
+      "name": "has",
+      "module": "context.py",
+      "loc": {
+        "file": "context.py",
+        "line": 25,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "context.py#has:25:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "key",
+          "valueId": "context.py#has:25:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "context.py#has:25:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "context.py",
+            "line": 25,
+            "column": 13
+          },
+          "name": "self"
+        },
+        {
+          "id": "context.py#has:25:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "context.py",
+            "line": 25,
+            "column": 19
+          },
+          "name": "key"
+        },
+        {
+          "id": "context.py#has:25:5$v2",
+          "kind": "local",
+          "loc": {
+            "file": "context.py",
+            "line": 26,
+            "column": 16
+          },
+          "name": "comparison"
+        },
+        {
+          "id": "context.py#has:25:5$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "context.py",
+            "line": 26,
+            "column": 23
+          },
+          "literal": ""
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [
+        "context.py#has:25:5$v2"
+      ],
+      "comparisons": [
+        {
+          "left": "context.py#has:25:5$v1",
+          "right": "context.py#has:25:5$v3",
+          "op": "NotEq",
+          "block": "context.py#has:25:5$b0",
+          "loc": {
+            "file": "context.py",
+            "line": 26,
+            "column": 16
+          }
+        }
+      ],
+      "writes": [],
+      "entryBlock": "context.py#has:25:5$b0",
+      "blocks": [
+        {
+          "id": "context.py#has:25:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "context.py",
+            "line": 25,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "context.py#has:25:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "context.py",
+            "line": 26,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "context.py#__init__:30:5",
+      "name": "__init__",
+      "module": "context.py",
+      "loc": {
+        "file": "context.py",
+        "line": 30,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "context.py#__init__:30:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "tenant_id",
+          "valueId": "context.py#__init__:30:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "context.py#__init__:30:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "context.py",
+            "line": 30,
+            "column": 18
+          },
+          "name": "self"
+        },
+        {
+          "id": "context.py#__init__:30:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "context.py",
+            "line": 30,
+            "column": 24
+          },
+          "name": "tenant_id"
+        },
+        {
+          "id": "context.py#__init__:30:5$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "context.py",
+            "line": 31,
+            "column": 21
+          },
+          "name": "Repository"
+        },
+        {
+          "id": "context.py#__init__:30:5$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "context.py",
+            "line": 32,
+            "column": 39
+          }
+        },
+        {
+          "id": "context.py#__init__:30:5$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "context.py",
+            "line": 32,
+            "column": 28
+          },
+          "name": "Repository"
+        },
+        {
+          "id": "context.py#__init__:30:5$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "context.py",
+            "line": 33,
+            "column": 22
+          },
+          "name": "Cache"
+        },
+        {
+          "id": "context.py#__init__:30:5$v6",
+          "kind": "local",
+          "loc": {
+            "file": "context.py",
+            "line": 34,
+            "column": 23
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "id",
+              "valueId": "context.py#__init__:30:5$v1"
+            }
+          ]
+        }
+      ],
+      "flows": [
+        {
+          "from": "context.py#__init__:30:5$v1",
+          "to": "context.py#__init__:30:5$v6",
+          "kind": "enclose",
+          "loc": {
+            "file": "context.py",
+            "line": 34,
+            "column": 23
+          },
+          "block": "context.py#__init__:30:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "context.py#__init__:30:5$c0",
+          "loc": {
+            "file": "context.py",
+            "line": 31,
+            "column": 21
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "Repository",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "context.py#__init__:30:5$v1"
+            }
+          ],
+          "resultValueId": "context.py#__init__:30:5$v2",
+          "block": "context.py#__init__:30:5$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "context.py#__init__:30:5$c1",
+          "loc": {
+            "file": "context.py",
+            "line": 32,
+            "column": 28
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "Repository",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "context.py#__init__:30:5$v3"
+            }
+          ],
+          "resultValueId": "context.py#__init__:30:5$v4",
+          "block": "context.py#__init__:30:5$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "null"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "context.py#__init__:30:5$c2",
+          "loc": {
+            "file": "context.py",
+            "line": 33,
+            "column": 22
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "Cache",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "context.py#__init__:30:5$v5",
+          "block": "context.py#__init__:30:5$b0",
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "context.py",
+            "line": 31,
+            "column": 9
+          },
+          "base": "context.py#__init__:30:5$v0",
+          "path": "repo",
+          "from": "context.py#__init__:30:5$v2",
+          "block": "context.py#__init__:30:5$b0"
+        },
+        {
+          "loc": {
+            "file": "context.py",
+            "line": 32,
+            "column": 9
+          },
+          "base": "context.py#__init__:30:5$v0",
+          "path": "system_repo",
+          "from": "context.py#__init__:30:5$v4",
+          "block": "context.py#__init__:30:5$b0"
+        },
+        {
+          "loc": {
+            "file": "context.py",
+            "line": 33,
+            "column": 9
+          },
+          "base": "context.py#__init__:30:5$v0",
+          "path": "cache",
+          "from": "context.py#__init__:30:5$v5",
+          "block": "context.py#__init__:30:5$b0"
+        },
+        {
+          "loc": {
+            "file": "context.py",
+            "line": 34,
+            "column": 9
+          },
+          "base": "context.py#__init__:30:5$v0",
+          "path": "tenant",
+          "from": "context.py#__init__:30:5$v6",
+          "block": "context.py#__init__:30:5$b0"
+        }
+      ],
+      "entryBlock": "context.py#__init__:30:5$b0",
+      "blocks": [
+        {
+          "id": "context.py#__init__:30:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "context.py",
+            "line": 30,
+            "column": 5
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "app.py#rotate:25:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "POST",
+        "path": "/records/<record_id>/rotate",
+        "mount": "app"
+      }
+    },
+    {
+      "functionId": "app.py#retire:38:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "POST",
+        "path": "/records/<record_id>/retire",
+        "mount": "app"
+      }
+    },
+    {
+      "functionId": "app.py#touch:50:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "POST",
+        "path": "/records/<record_id>/touch",
+        "mount": "app"
+      }
+    },
+    {
+      "functionId": "app.py#rename:61:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "POST",
+        "path": "/records/<record_id>/rename",
+        "mount": "app"
+      }
+    },
+    {
+      "functionId": "app.py#warm:74:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "POST",
+        "path": "/records/<record_id>/warm",
+        "mount": "app"
+      }
+    }
+  ],
+  "views": [],
+  "renders": []
+}
