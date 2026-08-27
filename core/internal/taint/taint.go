@@ -168,6 +168,170 @@ func enclosed(path []Hop) bool {
 	return false
 }
 
+// argvEnclosed includes collection extension as well as an ordinary element enclosure.
+// `cmd.extend(shlex.split(query))` contributes several independent argv elements even
+// though the frontend cannot name how many the split returned.
+func argvEnclosed(path []Hop) bool {
+	for _, h := range path {
+		if h.Kind == "enclose" || h.Kind == "append" || h.Kind == "extend" {
+			return true
+		}
+	}
+	return false
+}
+
+// argvProtected proves one of the structural exceptions to argument injection on the
+// particular witness path: the tainted element follows a literal `--`, begins with a
+// program-authored non-dash prefix, or belongs to a program whose model says it has no
+// option grammar. Absence of proof is deliberately not proof of danger for shell text;
+// callers reach this only after the channel established a list enclosure.
+func (e *engine) argvProtected(argvID string) bool {
+	cur := argvID
+	seen := map[string]bool{}
+	program := ""
+	for cur != "" && !seen[cur] {
+		seen[cur] = true
+		ed, ok := e.pred[cur]
+		if !ok {
+			break
+		}
+		// Removing every leading dash proves the same property as a literal prefix, but
+		// without composing a larger string. The literal matters: lstrip() with no
+		// argument removes whitespace, and lstrip("_") says nothing about options.
+		method := ""
+		literals := ed.literals
+		if producer := e.callByResult[cur]; producer != nil {
+			method = producer.Method
+			literals = producer.ArgLiterals
+		}
+		if (method == "lstrip" || method == "strip" || strings.HasSuffix(ed.symbol, ".lstrip") ||
+			strings.HasSuffix(ed.symbol, ".strip")) && literals[0] == "-" {
+			return true
+		}
+		switch ed.kind {
+		case "enclose", "append", "extend":
+			if program == "" {
+				program = e.firstArgLiteral(cur, map[string]bool{})
+			}
+			if e.literalSeparatorBefore(cur, ed.from) {
+				return true
+			}
+			// append inserts one element. An ordinary enclosure names one element too;
+			// extend inserts a collection whose members are examined on the next step.
+			if ed.kind != "extend" && e.nonDashPrefix(ed.from) {
+				return true
+			}
+		}
+		cur = ed.from
+	}
+	return program != "" && e.m.ArgvProgramHasNoOptions(program)
+}
+
+// literalSeparatorBefore asks an ordering question over one list construction. An
+// assigned or previously extended sequence is flattened because its members precede the
+// new member; a nested sequence enclosed as one element is not flattened into valid argv.
+func (e *engine) literalSeparatorBefore(container, member string) bool {
+	for _, f := range e.flowEdgesInto[container] {
+		if f.From == member {
+			return false
+		}
+		switch f.Kind {
+		case "enclose", "append":
+			if v := e.ix.ValueByID[f.From]; v != nil && v.Kind == ir.ValueLiteral && v.Literal == "--" {
+				return true
+			}
+		case "assign", "extend":
+			if e.sequenceContainsLiteral(f.From, "--", map[string]bool{}) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+func (e *engine) sequenceContainsLiteral(id, want string, seen map[string]bool) bool {
+	if id == "" || seen[id] {
+		return false
+	}
+	seen[id] = true
+	if v := e.ix.ValueByID[id]; v != nil && v.Kind == ir.ValueLiteral {
+		return v.Literal == want
+	}
+	for _, f := range e.flowEdgesInto[id] {
+		switch f.Kind {
+		case "assign", "enclose", "append", "extend":
+			if e.sequenceContainsLiteral(f.From, want, seen) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// nonDashPrefix proves that composition fixes the beginning of this ONE argv element.
+// A prefix beginning with '-' still names an option and is intentionally not accepted;
+// a dynamic prefix is unknown and therefore cannot establish the exception.
+func (e *engine) nonDashPrefix(element string) bool {
+	cur := element
+	seen := map[string]bool{}
+	for cur != "" && !seen[cur] {
+		seen[cur] = true
+		ed, ok := e.pred[cur]
+		if !ok {
+			return false
+		}
+		if ed.kind == "binary" || ed.kind == "template" {
+			prefix := ""
+			for _, f := range e.flowEdgesInto[cur] {
+				if f.From == ed.from {
+					return prefix != "" && prefix[0] != '-'
+				}
+				lit, ok := e.literalThroughAssignments(f.From, map[string]bool{})
+				if !ok {
+					return false
+				}
+				prefix += lit
+			}
+		}
+		cur = ed.from
+	}
+	return false
+}
+
+func (e *engine) literalThroughAssignments(id string, seen map[string]bool) (string, bool) {
+	if id == "" || seen[id] {
+		return "", false
+	}
+	seen[id] = true
+	if v := e.ix.ValueByID[id]; v != nil && v.Kind == ir.ValueLiteral {
+		return v.Literal, true
+	}
+	from := e.assignedFrom[id]
+	if from == "" {
+		return "", false
+	}
+	return e.literalThroughAssignments(from, seen)
+}
+
+func (e *engine) firstArgLiteral(id string, seen map[string]bool) string {
+	if id == "" || seen[id] {
+		return ""
+	}
+	seen[id] = true
+	if v := e.ix.ValueByID[id]; v != nil && v.Kind == ir.ValueLiteral {
+		return v.Literal
+	}
+	for _, f := range e.flowEdgesInto[id] {
+		switch f.Kind {
+		case "assign", "enclose", "append", "extend":
+			if literal := e.firstArgLiteral(f.From, seen); literal != "" {
+				return literal
+			}
+		}
+	}
+	return ""
+}
+
 // projected reports whether something was READ OUT of this value's source on the way
 // here. The IR already records a property read as its own flow kind, so the third
 // structural question needed no new fact to ask.
@@ -408,7 +572,11 @@ type engine struct {
 	// it. The forward direction follows one witness; this one finds the SIBLINGS, which
 	// is where the literal halves of a concatenation are.
 	flowsInto map[string][]string
-	returns   map[string][]string // function ID -> returned value IDs
+	// flowEdgesInto retains kind and source order for argv. A literal `--` only protects
+	// elements after it, and reducing this graph to an unordered set would turn that
+	// ordering guarantee into a guess.
+	flowEdgesInto map[string][]ir.Flow
+	returns       map[string][]string // function ID -> returned value IDs
 	// recordFields marks a value as a RECORD HANDLE and names the columns of it that
 	// carry the class: the answer a store gave, before any field has been read out of it.
 	//
@@ -484,22 +652,23 @@ func Analyze(d *ir.IR, m model.Model) Result {
 
 	for _, class := range m.Classifications {
 		e := &engine{
-			ix:           ix,
-			m:            m,
-			class:        class,
-			tainted:      make(map[string]bool),
-			pred:         make(map[string]edge),
-			viaTransform: make(map[string]bool),
-			seeds:        make(map[string]seed),
-			skipped:      make(map[string][]string),
-			saidUnjudged: make(map[string]bool),
-			argUses:      make(map[string][]*ir.Call),
-			receiverUses: make(map[string][]*ir.Call),
-			callByResult: make(map[string]*ir.Call),
-			assignedFrom: make(map[string]string),
-			flowsInto:    make(map[string][]string),
-			returns:      make(map[string][]string),
-			recordFields: make(map[string][]string),
+			ix:            ix,
+			m:             m,
+			class:         class,
+			tainted:       make(map[string]bool),
+			pred:          make(map[string]edge),
+			viaTransform:  make(map[string]bool),
+			seeds:         make(map[string]seed),
+			skipped:       make(map[string][]string),
+			saidUnjudged:  make(map[string]bool),
+			argUses:       make(map[string][]*ir.Call),
+			receiverUses:  make(map[string][]*ir.Call),
+			callByResult:  make(map[string]*ir.Call),
+			assignedFrom:  make(map[string]string),
+			flowsInto:     make(map[string][]string),
+			flowEdgesInto: make(map[string][]ir.Flow),
+			returns:       make(map[string][]string),
+			recordFields:  make(map[string][]string),
 		}
 		e.programInjects = programInjectsIdentity(ix)
 		e.build()
@@ -638,6 +807,7 @@ func (e *engine) build() {
 				e.assignedFrom[f.To] = f.From
 			}
 			e.flowsInto[f.To] = append(e.flowsInto[f.To], f.From)
+			e.flowEdgesInto[f.To] = append(e.flowEdgesInto[f.To], f)
 		}
 	}
 }
@@ -699,8 +869,52 @@ func (e *engine) seedSources(prior map[string]*engine) {
 			e.seedByEntryCallProperty(rule)
 		case model.MatchStoreRead:
 			e.seedByStoreRead(rule, prior)
+		case model.MatchFunctionParamProperty:
+			e.seedByFunctionParamProperty(rule)
 		default:
 			e.seedByEntryParamProperty(rule)
+		}
+	}
+}
+
+// seedByFunctionParamProperty marks data arriving at a named privileged lifecycle
+// boundary whose caller is framework dispatch rather than an ordinary resolved call.
+// It is intentionally exact on the function name, parameter position and property;
+// treating every parameter of every lifecycle hook as caller data would manufacture a
+// second request model beside the frontend's enumerated one.
+func (e *engine) seedByFunctionParamProperty(rule model.SourceRule) {
+	for _, fn := range e.ix.IR.Functions {
+		if fn.Name != rule.Function {
+			continue
+		}
+		param, ok := paramAt(fn, rule.ParamIndex)
+		if !ok {
+			continue
+		}
+		if len(rule.Paths) == 0 {
+			entry, anchored := enclosingEntry(e.ix, fn)
+			e.seeds[param.ValueID] = seed{
+				label: param.Name, entryPoint: entry, anchored: anchored, loc: e.locOf(param.ValueID),
+			}
+			e.markTainted(param.ValueID, edge{
+				desc:       fmt.Sprintf("source: %s (%s)", param.Name, e.class.Label),
+				loc:        e.locOf(param.ValueID),
+				resolution: ir.Resolved,
+			})
+			continue
+		}
+		for _, v := range fn.Values {
+			if v.Kind != ir.ValueProperty || v.Base != param.ValueID || !matchesPath(v.Path, rule.Paths) {
+				continue
+			}
+			label := fmt.Sprintf("%s.%s", param.Name, v.Path)
+			entry, anchored := enclosingEntry(e.ix, fn)
+			e.seeds[v.ID] = seed{label: label, entryPoint: entry, anchored: anchored, loc: v.Loc}
+			e.markTainted(v.ID, edge{
+				desc:       fmt.Sprintf("source: %s (%s)", label, e.class.Label),
+				loc:        v.Loc,
+				resolution: ir.Resolved,
+			})
 		}
 	}
 }
@@ -2175,6 +2389,15 @@ func (e *engine) buildFinding(c *ir.Call, ch model.Channel, p model.Policy, arg 
 	// A value that became a FIELD of something is not the caller's object being handed
 	// over whole. `update({ name: req.body.name })` names the field it writes.
 	if ch.RequiresUnenclosed && enclosed(path) {
+		return Finding{}, false
+	}
+	// A process argument is dangerous because it became one member of argv, not merely
+	// because a list-shaped value reached Popen. This also leaves shell interpretation
+	// on its existing composition rule: one flow cannot satisfy both shapes by accident.
+	if ch.RequiresEnclosure && !argvEnclosed(path) {
+		return Finding{}, false
+	}
+	if ch.Context == "argv" && e.argvProtected(arg.ValueID) {
 		return Finding{}, false
 	}
 

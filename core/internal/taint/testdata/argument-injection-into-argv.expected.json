@@ -1,0 +1,30 @@
+{
+  "corpus": "argument-injection-into-argv",
+  "description": "Argument injection without a shell. Three positives pin direct list augmentation, shlex.split and str.split: each can create a dash-leading argv element, and checking only the final shlex result does not validate its siblings. Two negatives pin the exceptions the rule can prove from the vector itself: a literal -- before the caller's element, and removing every leading dash from that element.",
+  "expected": [
+    {
+      "cwe": "CWE-88",
+      "sinkFile": "app.py",
+      "sinkLine": 21,
+      "sourceLabel": "flask.request.args.name",
+      "confidence": "high",
+      "note": "a username can become a useradd option through list augmentation"
+    },
+    {
+      "cwe": "CWE-88",
+      "sinkFile": "app.py",
+      "sinkLine": 32,
+      "sourceLabel": "flask.request.args.query",
+      "confidence": "high",
+      "note": "shlex.split creates several arguments; validating only parts[-1] says nothing about the preceding elements"
+    },
+    {
+      "cwe": "CWE-88",
+      "sinkFile": "app.py",
+      "sinkLine": 41,
+      "sourceLabel": "flask.request.args.words",
+      "confidence": "low",
+      "note": "str.split creates several independently interpreted arguments too"
+    }
+  ]
+}

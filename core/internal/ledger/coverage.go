@@ -243,16 +243,8 @@ var claims = map[string]Claim{
 	"CWE-276": {State: Partial, Reason: "a file or directory mode written into the call with the world-writable BIT set, which is the actual rule rather than a list of bad numbers -- 0o777, 0o666 and 0o1777 are wrong for the same reason. A mode computed at runtime is not matched",
 		By: []string{"world-writable"}},
 
-	// Built, measured, and withdrawn in the same sitting. Argument injection is real --
-	// `spawn("git", ["clone", url])` with a url of `--upload-pack=...` runs a command of
-	// the caller's choosing with no shell anywhere -- but the shape that detects it is
-	// the shape of the RECOMMENDED FIX for command injection, and this engine already
-	// decided that on purpose: there is a fixture route called /ping-safe and a test
-	// asserting that a tainted argument array to execFile is not injection. Both failed
-	// within seconds of the rule existing. A tool that reports the remediation it would
-	// otherwise advise is a tool people switch off, so the miss is deliberate and the
-	// reasoning is here rather than in a commit nobody reads.
-	"CWE-88": {State: NotBuilt, Reason: "untrusted data reaching the argument LIST of an exec that takes one. Detectable and not reported: the shape is indistinguishable from execFile and spawn being used correctly, which is what this engine tells people to do instead of building a shell string. Deciding it properly means knowing which options the named program accepts, which is not in the source"},
+	"CWE-88": {State: Partial, Reason: "untrusted data reaching an element of a Python process argument list where it may be parsed as an option. A literal end-of-options separator, a value proven not to begin with a dash, and programs explicitly known to have no option surface are excluded; commands outside the described subprocess APIs are a stated miss",
+		By: []string{"untrusted-to-interpreter", "process-argument-to-argv"}},
 	"CWE-1236": {State: Partial, Reason: "untrusted data written into a CSV a spreadsheet will later interpret, where a cell beginning with a formula character runs on the machine of whoever opens it. The named writers only, and nothing is claimed about whether the application prefixes cells to defuse them, because no such convention is modelled",
 		By: []string{"untrusted-to-spreadsheet"}},
 

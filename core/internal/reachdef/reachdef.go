@@ -191,6 +191,13 @@ func (s *splitter) definitionsOf(v *ir.Value, owned map[string]*ir.Value, graph 
 			return nil, false
 		}
 		f := site.fn.Flows[site.index]
+		// A collection mutation adds a member; it does not replace the collection's
+		// earlier members. Treating append/extend as definitions let SSA discard the
+		// literal `--` already in an argv list, so the safe construction became
+		// indistinguishable from one with no end-of-options marker.
+		if f.Kind == "append" || f.Kind == "extend" {
+			return nil, false
+		}
 		// No block: the frontend declined to place this edge. Keeping every flow is the
 		// only safe reading of that (ADR-003).
 		if f.Block == "" || !graph.Reachable(f.Block) {

@@ -1994,6 +1994,16 @@ class FunctionLowerer:
             self.expr(node.value)
             return
 
+        # A list augmented in place keeps its identity. JupyterHub builds the privileged
+        # user-creation argv this way; dropping the right-hand side made the username cease
+        # to exist at the exact statement that inserted it.
+        if isinstance(node, ast.AugAssign) and isinstance(node.target, ast.Name):
+            dst = self.scope.get(node.target.id)
+            src = self.expr(node.value)
+            if dst and self.local_types.get(node.target.id) == "list":
+                self.add_flow(src, dst, "extend", node)
+            return
+
         # Conditions are not statements and are never reached on their own. The test
         # belongs to the block that branches on it.
         if isinstance(node, ast.If):
@@ -2487,6 +2497,39 @@ class FunctionLowerer:
         if receiver:
             call["receiverValueId"] = receiver
         self.calls.append(call)
+
+        # append/extend mutate the list object rather than returning its new contents. The
+        # result-value flow therefore cannot carry an inserted caller value to a later
+        # Popen; the receiver itself is the value that gained an element.
+        if (receiver and receiver_type == "list" and method in ("append", "extend")
+                and args):
+            self.add_flow(args[0]["valueId"], receiver, method, node)
+
+        # Thread(target=f, args=(...)) invokes f with the tuple's members. SearxNG hands
+        # its completed argv to Popen across exactly this boundary, and representing only
+        # the Thread object disconnected the callback from the data it receives.
+        if callee.get("symbol") == "threading.Thread":
+            target = next((kw.value for kw in node.keywords if kw.arg == "target"), None)
+            packed = next((kw.value for kw in node.keywords if kw.arg == "args"), None)
+            if target is not None and isinstance(packed, (ast.Tuple, ast.List)):
+                probe = ast.Call(func=target, args=[], keywords=[])
+                ast.copy_location(probe, target)
+                callback = self.resolve_callee(probe)
+                if callback.get("kind") == "local":
+                    callback_args = []
+                    for index, element in enumerate(packed.elts):
+                        value_id = self.expr(element)
+                        if value_id:
+                            callback_args.append({"index": index, "valueId": value_id})
+                    self.calls.append({
+                        "id": f"{self.id}$c{self._c}",
+                        "loc": loc_of(self.mod.module, node),
+                        "callee": callback,
+                        "args": callback_args,
+                        "argCount": len(packed.elts),
+                        "block": self.current,
+                    })
+                    self._c += 1
 
         # Exactly `render_template`. `render_template_string` takes the template SOURCE
         # rather than a name, and is a different weakness with its own rule (CWE-1336).
