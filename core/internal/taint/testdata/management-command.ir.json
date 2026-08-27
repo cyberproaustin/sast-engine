@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.16.0",
+  "irVersion": "0.17.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -260,8 +260,8 @@
               "valueId": "commands.py#add_arguments:30:5$v2"
             },
             {
-              "index": 1,
-              "valueId": "commands.py#add_arguments:30:5$v3"
+              "valueId": "commands.py#add_arguments:30:5$v3",
+              "name": "help"
             }
           ],
           "resultValueId": "commands.py#add_arguments:30:5$v4",
@@ -295,8 +295,8 @@
               "valueId": "commands.py#add_arguments:30:5$v5"
             },
             {
-              "index": 1,
-              "valueId": "commands.py#add_arguments:30:5$v6"
+              "valueId": "commands.py#add_arguments:30:5$v6",
+              "name": "default"
             }
           ],
           "resultValueId": "commands.py#add_arguments:30:5$v7",
@@ -659,8 +659,8 @@
               "valueId": "commands.py#add_arguments:46:5$v2"
             },
             {
-              "index": 1,
-              "valueId": "commands.py#add_arguments:46:5$v3"
+              "valueId": "commands.py#add_arguments:46:5$v3",
+              "name": "default"
             }
           ],
           "resultValueId": "commands.py#add_arguments:46:5$v4",
@@ -852,8 +852,8 @@
               "valueId": "commands.py#handle:56:5$v2"
             },
             {
-              "index": 1,
-              "valueId": "commands.py#handle:56:5$v5"
+              "valueId": "commands.py#handle:56:5$v5",
+              "name": "shell"
             }
           ],
           "resultValueId": "commands.py#handle:56:5$v7",

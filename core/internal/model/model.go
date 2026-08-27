@@ -213,6 +213,11 @@ type Channel struct {
 	Method               string
 	ReceiverIsEntryParam int
 	ArgIndex             []int
+	// RequiredKeyword maps keyword spellings to the ArgIndex they bind for this
+	// external API. A named argument still cannot answer a positional question in the
+	// IR: this exception exists only because the channel's external symbol supplies
+	// the missing signature fact.
+	RequiredKeyword map[string]int
 
 	// RequiresExternalReceiver marks a channel that describes an operation on
 	// something OUTSIDE this process — a store whose records outlive the request and
@@ -1675,28 +1680,32 @@ func builtin() Model {
 			{
 				ID: "object-deserializer", Visibility: "internal", Context: "deserialize",
 				Symbol: "pickle.load", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE:       "CWE-502",
-				Rationale: "pickle reconstructs arbitrary objects by calling their constructors",
+				RequiredKeyword: map[string]int{"file": 0},
+				CWE:             "CWE-502",
+				Rationale:       "pickle reconstructs arbitrary objects by calling their constructors",
 			},
 			{
 				// yaml.load without an explicit safe loader constructs Python objects.
 				// yaml.safe_load is a different symbol and is deliberately absent.
 				ID: "object-deserializer", Visibility: "internal", Context: "deserialize",
 				Symbol: "yaml.load", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE:       "CWE-502",
-				Rationale: "yaml.load constructs Python objects unless given a safe loader",
+				RequiredKeyword: map[string]int{"stream": 0},
+				CWE:             "CWE-502",
+				Rationale:       "yaml.load constructs Python objects unless given a safe loader",
 			},
 			{
 				ID: "object-deserializer", Visibility: "internal", Context: "deserialize",
 				Symbol: "yaml.unsafe_load", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE:       "CWE-502",
-				Rationale: "the name is the documentation: this loader constructs whatever the document names",
+				RequiredKeyword: map[string]int{"stream": 0},
+				CWE:             "CWE-502",
+				Rationale:       "the name is the documentation: this loader constructs whatever the document names",
 			},
 			{
 				ID: "object-deserializer", Visibility: "internal", Context: "deserialize",
 				Symbol: "yaml.full_load", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE:       "CWE-502",
-				Rationale: "the full loader constructs arbitrary Python objects",
+				RequiredKeyword: map[string]int{"stream": 0},
+				CWE:             "CWE-502",
+				Rationale:       "the full loader constructs arbitrary Python objects",
 			},
 			{
 				ID: "object-deserializer", Visibility: "internal", Context: "deserialize",
@@ -1707,20 +1716,23 @@ func builtin() Model {
 			{
 				ID: "object-deserializer", Visibility: "internal", Context: "deserialize",
 				Symbol: "jsonpickle.decode", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE:       "CWE-502",
-				Rationale: "jsonpickle reconstructs objects by importing the classes the document names",
+				RequiredKeyword: map[string]int{"string": 0},
+				CWE:             "CWE-502",
+				Rationale:       "jsonpickle reconstructs objects by importing the classes the document names",
 			},
 			{
 				ID: "object-deserializer", Visibility: "internal", Context: "deserialize",
 				Symbol: "dill.loads", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE:       "CWE-502",
-				Rationale: "dill extends pickle and reconstructs arbitrary objects the same way",
+				RequiredKeyword: map[string]int{"str": 0},
+				CWE:             "CWE-502",
+				Rationale:       "dill extends pickle and reconstructs arbitrary objects the same way",
 			},
 			{
 				ID: "object-deserializer", Visibility: "internal", Context: "deserialize",
 				Symbol: "shelve.open", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE:       "CWE-502",
-				Rationale: "a shelf is a pickle file, so opening one the caller named unpickles what it holds",
+				RequiredKeyword: map[string]int{"filename": 0},
+				CWE:             "CWE-502",
+				Rationale:       "a shelf is a pickle file, so opening one the caller named unpickles what it holds",
 			},
 
 			// Where an outbound request GOES, as opposed to what it carries. The same
@@ -2094,6 +2106,7 @@ func builtin() Model {
 			{
 				ID: "outbound-destination", Visibility: "internal", Context: "url",
 				Symbol: "requests.patch", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiredKeyword:      map[string]int{"url": 0},
 				CWE:                  "CWE-918",
 				RequiresWholeValue:   true,
 				AllowsComposedPrefix: true,
@@ -2102,6 +2115,7 @@ func builtin() Model {
 			{
 				ID: "outbound-destination", Visibility: "internal", Context: "url",
 				Symbol: "requests.options", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiredKeyword:      map[string]int{"url": 0},
 				CWE:                  "CWE-918",
 				RequiresWholeValue:   true,
 				AllowsComposedPrefix: true,
@@ -2110,6 +2124,7 @@ func builtin() Model {
 			{
 				ID: "outbound-destination", Visibility: "internal", Context: "url",
 				Symbol: "httpx.request", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiredKeyword:      map[string]int{"url": 0},
 				CWE:                  "CWE-918",
 				RequiresWholeValue:   true,
 				AllowsComposedPrefix: true,
@@ -2118,6 +2133,7 @@ func builtin() Model {
 			{
 				ID: "outbound-destination", Visibility: "internal", Context: "url",
 				Symbol: "httpx.put", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiredKeyword:      map[string]int{"url": 0},
 				CWE:                  "CWE-918",
 				RequiresWholeValue:   true,
 				AllowsComposedPrefix: true,
@@ -2126,6 +2142,7 @@ func builtin() Model {
 			{
 				ID: "outbound-destination", Visibility: "internal", Context: "url",
 				Symbol: "httpx.delete", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiredKeyword:      map[string]int{"url": 0},
 				CWE:                  "CWE-918",
 				RequiresWholeValue:   true,
 				AllowsComposedPrefix: true,
@@ -2134,6 +2151,7 @@ func builtin() Model {
 			{
 				ID: "outbound-destination", Visibility: "internal", Context: "url",
 				Symbol: "aiohttp.ClientSession.get", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiredKeyword:      map[string]int{"url": 0},
 				CWE:                  "CWE-918",
 				RequiresWholeValue:   true,
 				AllowsComposedPrefix: true,
@@ -2142,6 +2160,7 @@ func builtin() Model {
 			{
 				ID: "outbound-destination", Visibility: "internal", Context: "url",
 				Symbol: "aiohttp.ClientSession.post", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiredKeyword:      map[string]int{"url": 0},
 				CWE:                  "CWE-918",
 				RequiresWholeValue:   true,
 				AllowsComposedPrefix: true,
@@ -2158,6 +2177,7 @@ func builtin() Model {
 			{
 				ID: "outbound-destination", Visibility: "internal", Context: "url",
 				Symbol: "requests.get", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiredKeyword:      map[string]int{"url": 0},
 				CWE:                  "CWE-918",
 				RequiresWholeValue:   true,
 				AllowsComposedPrefix: true,
@@ -2166,6 +2186,7 @@ func builtin() Model {
 			{
 				ID: "outbound-destination", Visibility: "internal", Context: "url",
 				Symbol: "requests.post", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiredKeyword:      map[string]int{"url": 0},
 				CWE:                  "CWE-918",
 				RequiresWholeValue:   true,
 				AllowsComposedPrefix: true,
@@ -2174,6 +2195,7 @@ func builtin() Model {
 			{
 				ID: "outbound-destination", Visibility: "internal", Context: "url",
 				Symbol: "requests.put", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiredKeyword:      map[string]int{"url": 0},
 				CWE:                  "CWE-918",
 				RequiresWholeValue:   true,
 				AllowsComposedPrefix: true,
@@ -2182,6 +2204,7 @@ func builtin() Model {
 			{
 				ID: "outbound-destination", Visibility: "internal", Context: "url",
 				Symbol: "requests.delete", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiredKeyword:      map[string]int{"url": 0},
 				CWE:                  "CWE-918",
 				RequiresWholeValue:   true,
 				AllowsComposedPrefix: true,
@@ -2190,6 +2213,7 @@ func builtin() Model {
 			{
 				ID: "outbound-destination", Visibility: "internal", Context: "url",
 				Symbol: "requests.head", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiredKeyword:      map[string]int{"url": 0},
 				CWE:                  "CWE-918",
 				RequiresWholeValue:   true,
 				AllowsComposedPrefix: true,
@@ -2198,6 +2222,7 @@ func builtin() Model {
 			{
 				ID: "outbound-destination", Visibility: "internal", Context: "url",
 				Symbol: "urllib.request.urlopen", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiredKeyword:      map[string]int{"url": 0},
 				CWE:                  "CWE-918",
 				RequiresWholeValue:   true,
 				AllowsComposedPrefix: true,
@@ -2206,6 +2231,7 @@ func builtin() Model {
 			{
 				ID: "outbound-destination", Visibility: "internal", Context: "url",
 				Symbol: "httpx.get", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiredKeyword:      map[string]int{"url": 0},
 				CWE:                  "CWE-918",
 				RequiresWholeValue:   true,
 				AllowsComposedPrefix: true,
@@ -2214,6 +2240,7 @@ func builtin() Model {
 			{
 				ID: "outbound-destination", Visibility: "internal", Context: "url",
 				Symbol: "httpx.post", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				RequiredKeyword:      map[string]int{"url": 0},
 				CWE:                  "CWE-918",
 				RequiresWholeValue:   true,
 				AllowsComposedPrefix: true,
@@ -2391,14 +2418,16 @@ func builtin() Model {
 			{
 				ID: "outbound-url", Visibility: "internal", Context: "url-query",
 				Symbol: "requests.get", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE:       "CWE-598",
-				Rationale: "the first argument is the URL this request is sent to",
+				RequiredKeyword: map[string]int{"url": 0},
+				CWE:             "CWE-598",
+				Rationale:       "the first argument is the URL this request is sent to",
 			},
 			{
 				ID: "outbound-url", Visibility: "internal", Context: "url-query",
 				Symbol: "requests.post", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE:       "CWE-598",
-				Rationale: "the first argument is the URL this request is sent to",
+				RequiredKeyword: map[string]int{"url": 0},
+				CWE:             "CWE-598",
+				Rationale:       "the first argument is the URL this request is sent to",
 			},
 			{
 				ID: "outbound-url", Visibility: "internal", Context: "url-query",
@@ -2783,17 +2812,19 @@ func builtin() Model {
 			},
 			{
 				ID: "plaintext-outbound-body", Visibility: "thirdparty", Context: "plaintext-url",
-				Symbol: "requests.post", ReceiverIsEntryParam: -1, ArgIndex: []int{1, -1},
-				Qualifiers: []ArgCondition{{ArgIndex: 0, AnyOf: []string{"http://"}, Substring: true}},
-				CWE:        "CWE-319",
-				Rationale:  "the destination is written into the call as a plaintext URL",
+				Symbol: "requests.post", ReceiverIsEntryParam: -1, ArgIndex: []int{1},
+				RequiredKeyword: map[string]int{"data": 1, "json": 1},
+				Qualifiers:      []ArgCondition{{ArgIndex: 0, AnyOf: []string{"http://"}, Substring: true}},
+				CWE:             "CWE-319",
+				Rationale:       "the destination is written into the call as a plaintext URL",
 			},
 			{
 				ID: "plaintext-outbound-body", Visibility: "thirdparty", Context: "plaintext-url",
-				Symbol: "requests.put", ReceiverIsEntryParam: -1, ArgIndex: []int{1, -1},
-				Qualifiers: []ArgCondition{{ArgIndex: 0, AnyOf: []string{"http://"}, Substring: true}},
-				CWE:        "CWE-319",
-				Rationale:  "the destination is written into the call as a plaintext URL",
+				Symbol: "requests.put", ReceiverIsEntryParam: -1, ArgIndex: []int{1},
+				RequiredKeyword: map[string]int{"data": 1, "json": 1},
+				Qualifiers:      []ArgCondition{{ArgIndex: 0, AnyOf: []string{"http://"}, Substring: true}},
+				CWE:             "CWE-319",
+				Rationale:       "the destination is written into the call as a plaintext URL",
 			},
 
 			// The VALUE of a cookie. Whatever goes here is stored on a machine the
@@ -3393,20 +3424,23 @@ func builtin() Model {
 			{
 				ID: "filesystem-path", Visibility: "internal", Context: "path",
 				Symbol: "builtins.open", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE:       "CWE-22",
-				Rationale: "the first argument names the file this opens",
+				RequiredKeyword: map[string]int{"file": 0},
+				CWE:             "CWE-22",
+				Rationale:       "the first argument names the file this opens",
 			},
 			{
 				ID: "filesystem-path", Visibility: "internal", Context: "path",
 				Symbol: "os.remove", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE:       "CWE-22",
-				Rationale: "the first argument names the file this deletes",
+				RequiredKeyword: map[string]int{"path": 0},
+				CWE:             "CWE-22",
+				Rationale:       "the first argument names the file this deletes",
 			},
 			{
 				ID: "filesystem-path", Visibility: "internal", Context: "path",
 				Symbol: "flask.send_file", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE:       "CWE-22",
-				Rationale: "the first argument names the file sent to the caller",
+				RequiredKeyword: map[string]int{"path_or_file": 0},
+				CWE:             "CWE-22",
+				Rationale:       "the first argument names the file sent to the caller",
 			},
 			{
 				ID: "shell-command", Visibility: "internal", Context: "shell",
@@ -3937,55 +3971,64 @@ func builtin() Model {
 			{
 				ID: "shell-command", Visibility: "internal", Context: "shell",
 				Symbol: "subprocess.run", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE: "CWE-78", RequiresComposition: true,
+				RequiredKeyword: map[string]int{"args": 0},
+				CWE:             "CWE-78", RequiresComposition: true,
 				Rationale: "a composed string passed here is run by the shell",
 			},
 			{
 				ID: "shell-command", Visibility: "internal", Context: "shell",
 				Symbol: "subprocess.call", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE: "CWE-78", RequiresComposition: true,
+				RequiredKeyword: map[string]int{"args": 0},
+				CWE:             "CWE-78", RequiresComposition: true,
 				Rationale: "a composed string passed here is run by the shell",
 			},
 			{
 				ID: "shell-command", Visibility: "internal", Context: "shell",
 				Symbol: "subprocess.check_output", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE: "CWE-78", RequiresComposition: true,
+				RequiredKeyword: map[string]int{"args": 0},
+				CWE:             "CWE-78", RequiresComposition: true,
 				Rationale: "a composed string passed here is run by the shell",
 			},
 			{
 				ID: "shell-command", Visibility: "internal", Context: "shell",
 				Symbol: "subprocess.Popen", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE: "CWE-78", RequiresComposition: true,
+				RequiredKeyword: map[string]int{"args": 0},
+				CWE:             "CWE-78", RequiresComposition: true,
 				Rationale: "a composed string passed here is run by the shell",
 			},
 			{
 				ID: "process-arguments", Visibility: "internal", Context: "argv",
 				Symbol: "subprocess.run", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE: "CWE-88", RequiresEnclosure: true,
+				RequiredKeyword: map[string]int{"args": 0},
+				CWE:             "CWE-88", RequiresEnclosure: true,
 				Rationale: "each list element is interpreted independently as a process argument",
 			},
 			{
 				ID: "process-arguments", Visibility: "internal", Context: "argv",
 				Symbol: "subprocess.call", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE: "CWE-88", RequiresEnclosure: true,
+				RequiredKeyword: map[string]int{"args": 0},
+				CWE:             "CWE-88", RequiresEnclosure: true,
 				Rationale: "each list element is interpreted independently as a process argument",
 			},
 			{
 				ID: "process-arguments", Visibility: "internal", Context: "argv",
 				Symbol: "subprocess.check_output", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE: "CWE-88", RequiresEnclosure: true,
+				RequiredKeyword: map[string]int{"args": 0},
+				CWE:             "CWE-88", RequiresEnclosure: true,
 				Rationale: "each list element is interpreted independently as a process argument",
 			},
 			{
 				ID: "process-arguments", Visibility: "internal", Context: "argv",
 				Symbol: "subprocess.check_call", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE: "CWE-88", RequiresEnclosure: true,
+				RequiredKeyword: map[string]int{"args": 0},
+				CWE:             "CWE-88", RequiresEnclosure: true,
 				Rationale: "each list element is interpreted independently as a process argument",
 			},
 			{
 				ID: "process-arguments", Visibility: "internal", Context: "argv",
 				Symbol: "subprocess.Popen", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				CWE: "CWE-88", RequiresEnclosure: true,
+				RequiredKeyword: map[string]int{"args": 0},
+				CWE:             "CWE-88", RequiresEnclosure: true,
 				Rationale: "each list element is interpreted independently as a process argument",
 			},
 			{
@@ -4118,27 +4161,31 @@ func builtin() Model {
 			},
 			{
 				ID: "outbound-http", Visibility: "thirdparty",
-				Symbol: "requests.post", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, -1},
-				Qualifiers: []ArgCondition{{ArgIndex: 0, Substring: true, NoneOf: []string{"http://"}}},
-				Rationale:  "leaves this trust boundary for a system we do not control",
+				Symbol: "requests.post", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1},
+				RequiredKeyword: map[string]int{"data": 1, "json": 1, "url": 0},
+				Qualifiers:      []ArgCondition{{ArgIndex: 0, Substring: true, NoneOf: []string{"http://"}}},
+				Rationale:       "leaves this trust boundary for a system we do not control",
 			},
 			{
 				ID: "outbound-http", Visibility: "thirdparty",
-				Symbol: "requests.put", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, -1},
-				Qualifiers: []ArgCondition{{ArgIndex: 0, Substring: true, NoneOf: []string{"http://"}}},
-				Rationale:  "leaves this trust boundary for a system we do not control",
+				Symbol: "requests.put", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1},
+				RequiredKeyword: map[string]int{"data": 1, "json": 1, "url": 0},
+				Qualifiers:      []ArgCondition{{ArgIndex: 0, Substring: true, NoneOf: []string{"http://"}}},
+				Rationale:       "leaves this trust boundary for a system we do not control",
 			},
 			{
 				ID: "outbound-http", Visibility: "thirdparty",
-				Symbol: "requests.patch", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, -1},
-				Qualifiers: []ArgCondition{{ArgIndex: 0, Substring: true, NoneOf: []string{"http://"}}},
-				Rationale:  "leaves this trust boundary for a system we do not control",
+				Symbol: "requests.patch", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1},
+				RequiredKeyword: map[string]int{"data": 1, "json": 1, "url": 0},
+				Qualifiers:      []ArgCondition{{ArgIndex: 0, Substring: true, NoneOf: []string{"http://"}}},
+				Rationale:       "leaves this trust boundary for a system we do not control",
 			},
 			{
 				ID: "outbound-http", Visibility: "thirdparty",
-				Symbol: "httpx.post", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1, -1},
-				Qualifiers: []ArgCondition{{ArgIndex: 0, Substring: true, NoneOf: []string{"http://"}}},
-				Rationale:  "leaves this trust boundary for a system we do not control",
+				Symbol: "httpx.post", ReceiverIsEntryParam: -1, ArgIndex: []int{0, 1},
+				RequiredKeyword: map[string]int{"content": 1, "data": 1, "files": 1, "json": 1, "url": 0},
+				Qualifiers:      []ArgCondition{{ArgIndex: 0, Substring: true, NoneOf: []string{"http://"}}},
+				Rationale:       "leaves this trust boundary for a system we do not control",
 			},
 		},
 

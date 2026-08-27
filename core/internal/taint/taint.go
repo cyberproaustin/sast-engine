@@ -1843,12 +1843,8 @@ func (e *engine) collect(all map[string]*engine, caps ir.Capabilities) []Finding
 				if len(reaching) == 0 && ch.RequiresUntrustedReceiver {
 					reaching = []int{receiverArgIndex}
 				}
-				for _, idx := range reaching {
-					arg, ok := argAt(c, idx)
-					if idx == receiverArgIndex {
-						arg, ok = ir.Arg{Index: receiverArgIndex, ValueID: c.ReceiverID}, c.ReceiverID != ""
-					}
-					if !ok || !e.tainted[arg.ValueID] {
+				for _, arg := range channelArgs(c, ch, reaching) {
+					if !e.tainted[arg.ValueID] {
 						continue
 					}
 					for _, p := range policies {
@@ -3086,6 +3082,43 @@ func argAt(c *ir.Call, index int) (ir.Arg, bool) {
 		}
 	}
 	return ir.Arg{}, false
+}
+
+// channelArgs returns the values an external channel declares as its input. Keyword
+// names are signature facts supplied by that symbol's model; without that declaration
+// Arg.At keeps refusing to infer a position from a name.
+func channelArgs(c *ir.Call, ch model.Channel, indexes []int) []ir.Arg {
+	var out []ir.Arg
+	for _, a := range c.Args {
+		for _, index := range indexes {
+			if index == receiverArgIndex {
+				continue
+			}
+			if a.At(index) {
+				out = append(out, a)
+				break
+			}
+		}
+		index, declared := ch.RequiredKeyword[a.Name]
+		if ch.Symbol == "" || a.Name == "" || !declared || !containsIndex(indexes, index) {
+			continue
+		}
+		a.Index = index
+		out = append(out, a)
+	}
+	if containsIndex(indexes, receiverArgIndex) && c.ReceiverID != "" {
+		out = append(out, ir.Arg{Index: receiverArgIndex, ValueID: c.ReceiverID})
+	}
+	return out
+}
+
+func containsIndex(list []int, want int) bool {
+	for _, index := range list {
+		if index == want {
+			return true
+		}
+	}
+	return false
 }
 
 func contains(list []string, want string) bool {

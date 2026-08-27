@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.16.0",
+  "irVersion": "0.17.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -241,8 +241,8 @@
           },
           "args": [
             {
-              "index": 0,
-              "valueId": "app.py#import_document:8:1$v0"
+              "valueId": "app.py#import_document:8:1$v0",
+              "name": "huge_tree"
             }
           ],
           "resultValueId": "app.py#import_document:8:1$v2",
@@ -475,8 +475,8 @@
           },
           "args": [
             {
-              "index": 0,
-              "valueId": "app.py#import_guarded:17:1$v0"
+              "valueId": "app.py#import_guarded:17:1$v0",
+              "name": "resolve_entities"
             }
           ],
           "resultValueId": "app.py#import_guarded:17:1$v2",
