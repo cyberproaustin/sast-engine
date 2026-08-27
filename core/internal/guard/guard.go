@@ -22,6 +22,7 @@ package guard
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/cyberproaustin/sast-engine/core/internal/cfg"
@@ -68,6 +69,10 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 			if len(rule.Checks) > 0 || rule.Limiter != nil {
 				continue
 			}
+			if rule.LateFileMode != nil {
+				out = append(out, lateFileMode(ix, fn, g, rule)...)
+				continue
+			}
 			if len(rule.Constructs) > 0 {
 				out = append(out, discardedConstruction(ix, fn, rule)...)
 				continue
@@ -89,6 +94,155 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 		}
 	}
 	return out
+}
+
+// lateFileMode joins the three lines that make the defect: a path opened in a creating
+// mode, data written through that exact handle, and the same path restricted only later.
+// The chmod is also the evidence that this is intended to be a private file, which keeps
+// ordinary file creation outside the rule without guessing from local variable names.
+func lateFileMode(ix *ir.Index, fn *ir.Function, g *cfg.Graph, rule model.GuardRule) []taint.Finding {
+	if _, ok := taint.EntryOf(ix, fn); !ok {
+		return nil
+	}
+	shape := rule.LateFileMode
+	var out []taint.Finding
+	for _, opened := range fn.Calls {
+		if !lifecycleNameIn(opened.Callee.Symbol, shape.OpenSymbols) || !createsAtUmask(opened) {
+			continue
+		}
+		path := callArg(opened, 0)
+		if path == "" || opened.ResultID == "" {
+			continue
+		}
+		for _, write := range fn.Calls {
+			if !lifecycleNameIn(write.Method, shape.WriteMethods) ||
+				!sameAssignedValue(fn, opened.ResultID, write.ReceiverID) ||
+				!ordered(g, opened, write) {
+				continue
+			}
+			for _, chmod := range fn.Calls {
+				if !lifecycleNameIn(chmod.Callee.Symbol, shape.ChmodSymbols) ||
+					!sameAssignedValue(fn, path, callArg(chmod, 0)) ||
+					!modeIs(chmod, shape.PrivateMode) || !ordered(g, write, chmod) {
+					continue
+				}
+				out = append(out, lateFileModeFinding(ix, fn, opened, write, chmod, rule))
+				break
+			}
+			break
+		}
+	}
+	return out
+}
+
+func createsAtUmask(c *ir.Call) bool {
+	mode, ok := c.ArgLiterals[1]
+	if !ok || !strings.ContainsAny(strings.ToLower(mode), "wax") {
+		return false
+	}
+	// An opener is precisely where Python lets the caller create with explicit mode
+	// bits. Its value may be opaque and still defeats the claim that creation used only
+	// the process umask.
+	for index, literal := range c.ArgLiterals {
+		if index < 0 && strings.HasPrefix(strings.ToLower(literal), "opener=") {
+			return false
+		}
+	}
+	return true
+}
+
+func callArg(c *ir.Call, index int) string {
+	for _, a := range c.Args {
+		if a.Index == index {
+			return a.ValueID
+		}
+	}
+	return ""
+}
+
+func lifecycleNameIn(got string, wants []string) bool {
+	for _, want := range wants {
+		if strings.EqualFold(got, want) {
+			return true
+		}
+	}
+	return false
+}
+
+func modeIs(c *ir.Call, want int) bool {
+	literal, ok := c.ArgLiterals[1]
+	if !ok {
+		return false
+	}
+	n, err := strconv.ParseInt(strings.TrimSpace(literal), 0, 64)
+	return err == nil && int(n) == want
+}
+
+func ordered(g *cfg.Graph, before, after *ir.Call) bool {
+	if before.Block == "" || after.Block == "" || !g.Reachable(before.Block) || !g.Reachable(after.Block) {
+		return false
+	}
+	if before.Block == after.Block {
+		return before.Loc.Line < after.Loc.Line ||
+			(before.Loc.Line == after.Loc.Line && before.Loc.Column < after.Loc.Column)
+	}
+	return g.Reaches(before.Block, after.Block)
+}
+
+func sameAssignedValue(fn *ir.Function, left, right string) bool {
+	if left == "" || right == "" {
+		return false
+	}
+	seen := map[string]bool{left: true}
+	for changed := true; changed; {
+		changed = false
+		for _, f := range fn.Flows {
+			if f.Kind != "assign" {
+				continue
+			}
+			if seen[f.From] && !seen[f.To] {
+				seen[f.To], changed = true, true
+			}
+			if seen[f.To] && !seen[f.From] {
+				seen[f.From], changed = true, true
+			}
+		}
+	}
+	return seen[right]
+}
+
+func lateFileModeFinding(ix *ir.Index, fn *ir.Function, opened, write, chmod *ir.Call, rule model.GuardRule) taint.Finding {
+	ep, _ := taint.EntryOf(ix, fn)
+	entry := ep.Kind
+	if module := ep.Detail["module"]; module != "" {
+		entry += " " + module
+	} else if method, path := ep.Detail["method"], ep.Detail["path"]; method != "" || path != "" {
+		entry = strings.TrimSpace(method + " " + path)
+	}
+	return taint.Finding{
+		Analysis:      rule.ID,
+		DataClass:     "private-file",
+		ChannelID:     rule.ID,
+		Class:         rule.Finding,
+		CWE:           rule.CWE,
+		Message:       rule.Reason,
+		Confidence:    taint.High,
+		SourceLoc:     write.Loc,
+		SourceLabel:   callName(ix, write),
+		SinkLoc:       opened.Loc,
+		SinkFunction:  fn.Name,
+		SinkSymbol:    opened.Callee.Symbol,
+		SinkRational:  rule.Rationale,
+		EntryPoint:    entry,
+		EntryAnchored: true,
+		EntryTrust:    ep.TrustLevel(),
+		InTestModule:  ix.InTestModule(opened.Loc),
+		Path: []taint.Hop{
+			{Loc: opened.Loc, Description: "file is created with the process umask", Resolution: ir.Resolved},
+			{Loc: write.Loc, Description: "private data is written through that handle", Resolution: ir.Resolved},
+			{Loc: chmod.Loc, Description: "the same path is restricted to 0o600 only afterwards", Resolution: ir.Resolved},
+		},
+	}
 }
 
 // repeatingCallback reports a refusal written inside a listener the source will call

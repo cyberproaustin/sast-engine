@@ -157,6 +157,10 @@ var corpora = []string{
 	"forwarded-registrar",
 	"route-registry-loop",
 	"flask-url-rule-alias",
+	"secret-file-created-before-chmod",
+	"non-constant-time-secret-comparison",
+	"membership-test-not-a-comparison",
+	"regex-capture-arity-not-checked",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {

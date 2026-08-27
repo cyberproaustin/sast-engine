@@ -1,0 +1,1034 @@
+{
+  "irVersion": "0.16.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi",
+        "django",
+        "tornado"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "app.py",
+      "path": "app.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "app.py#<module>:0:0",
+      "name": "<module>",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "Membership has two roles that the operator itself cannot distinguish.\n\nBoth weak digests below are written identically.  A denial-list membership establishes\nwhether the value is blocked; a cache membership asks whether work was already done.\nThe annotated module globals are intentional: losing that binding was why the SearXNG\ncomparison did not reach the IR when this gap was first measured.\n"
+        },
+        {
+          "id": "app.py#<module>:0:0$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 7
+          },
+          "name": "flask.Flask"
+        },
+        {
+          "id": "app.py#<module>:0:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 1
+          },
+          "name": "app"
+        },
+        {
+          "id": "app.py#<module>:0:0$v3",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 24
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "app.py#<module>:0:0$v4",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 1
+          },
+          "name": "blacklist"
+        },
+        {
+          "id": "app.py#<module>:0:0$v5",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 25
+          },
+          "name": "{dict}"
+        },
+        {
+          "id": "app.py#<module>:0:0$v6",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 1
+          },
+          "name": "cache"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#<module>:0:0$v1",
+          "to": "app.py#<module>:0:0$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 1
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v3",
+          "to": "app.py#<module>:0:0$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 14,
+            "column": 1
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v5",
+          "to": "app.py#<module>:0:0$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 1
+          },
+          "block": "app.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#<module>:0:0$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 7
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.Flask",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#<module>:0:0$v1",
+          "block": "app.py#<module>:0:0$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "app.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#blocked:19:1",
+      "name": "blocked",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 19,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#blocked:19:1$v0",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 23
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#blocked:19:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 23
+          },
+          "base": "app.py#blocked:19:1$v0",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "app.py#blocked:19:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 23
+          },
+          "name": "host",
+          "base": "app.py#blocked:19:1$v1",
+          "path": "args.host"
+        },
+        {
+          "id": "app.py#blocked:19:1$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 23
+          },
+          "name": "unresolved"
+        },
+        {
+          "id": "app.py#blocked:19:1$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 19
+          },
+          "name": "hashlib.md5"
+        },
+        {
+          "id": "app.py#blocked:19:1$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 19
+          },
+          "name": "unresolved"
+        },
+        {
+          "id": "app.py#blocked:19:1$v6",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 5
+          },
+          "name": "result_hash"
+        },
+        {
+          "id": "app.py#blocked:19:1$v7",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 16
+          },
+          "name": "comparison"
+        },
+        {
+          "id": "app.py#blocked:19:1$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 12
+          },
+          "name": "str"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#blocked:19:1$v0",
+          "to": "app.py#blocked:19:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 23
+          },
+          "block": "app.py#blocked:19:1$b0"
+        },
+        {
+          "from": "app.py#blocked:19:1$v1",
+          "to": "app.py#blocked:19:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 23
+          },
+          "block": "app.py#blocked:19:1$b0"
+        },
+        {
+          "from": "app.py#blocked:19:1$v5",
+          "to": "app.py#blocked:19:1$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 5
+          },
+          "block": "app.py#blocked:19:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#blocked:19:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 23
+          },
+          "callee": {
+            "kind": "unresolved",
+            "resolution": "dynamic-unresolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#blocked:19:1$v3",
+          "block": "app.py#blocked:19:1$b0",
+          "method": "encode",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#blocked:19:1$v2"
+        },
+        {
+          "id": "app.py#blocked:19:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 19
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "hashlib.md5",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#blocked:19:1$v3"
+            }
+          ],
+          "resultValueId": "app.py#blocked:19:1$v4",
+          "block": "app.py#blocked:19:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#blocked:19:1$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 19
+          },
+          "callee": {
+            "kind": "unresolved",
+            "resolution": "dynamic-unresolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#blocked:19:1$v5",
+          "block": "app.py#blocked:19:1$b0",
+          "method": "hexdigest",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#blocked:19:1$v4"
+        },
+        {
+          "id": "app.py#blocked:19:1$c3",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "str",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#blocked:19:1$v7"
+            }
+          ],
+          "resultValueId": "app.py#blocked:19:1$v8",
+          "block": "app.py#blocked:19:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "app.py#blocked:19:1$v8"
+      ],
+      "comparisons": [
+        {
+          "left": "app.py#blocked:19:1$v6",
+          "right": "app.py#<module>:0:0$v4",
+          "op": "NotIn",
+          "block": "app.py#blocked:19:1$b0",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 16
+          }
+        }
+      ],
+      "writes": [],
+      "entryBlock": "app.py#blocked:19:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#blocked:19:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#blocked:19:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#cached:26:1",
+      "name": "cached",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 26,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#cached:26:1$v0",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 23
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#cached:26:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 23
+          },
+          "base": "app.py#cached:26:1$v0",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "app.py#cached:26:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 23
+          },
+          "name": "host",
+          "base": "app.py#cached:26:1$v1",
+          "path": "args.host"
+        },
+        {
+          "id": "app.py#cached:26:1$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 23
+          },
+          "name": "unresolved"
+        },
+        {
+          "id": "app.py#cached:26:1$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 19
+          },
+          "name": "hashlib.md5"
+        },
+        {
+          "id": "app.py#cached:26:1$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 19
+          },
+          "name": "unresolved"
+        },
+        {
+          "id": "app.py#cached:26:1$v6",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 5
+          },
+          "name": "result_hash"
+        },
+        {
+          "id": "app.py#cached:26:1$v7",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 16
+          },
+          "name": "comparison"
+        },
+        {
+          "id": "app.py#cached:26:1$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 12
+          },
+          "name": "str"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#cached:26:1$v0",
+          "to": "app.py#cached:26:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 23
+          },
+          "block": "app.py#cached:26:1$b0"
+        },
+        {
+          "from": "app.py#cached:26:1$v1",
+          "to": "app.py#cached:26:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 23
+          },
+          "block": "app.py#cached:26:1$b0"
+        },
+        {
+          "from": "app.py#cached:26:1$v5",
+          "to": "app.py#cached:26:1$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 5
+          },
+          "block": "app.py#cached:26:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#cached:26:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 23
+          },
+          "callee": {
+            "kind": "unresolved",
+            "resolution": "dynamic-unresolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#cached:26:1$v3",
+          "block": "app.py#cached:26:1$b0",
+          "method": "encode",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#cached:26:1$v2"
+        },
+        {
+          "id": "app.py#cached:26:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 19
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "hashlib.md5",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#cached:26:1$v3"
+            }
+          ],
+          "resultValueId": "app.py#cached:26:1$v4",
+          "block": "app.py#cached:26:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#cached:26:1$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 19
+          },
+          "callee": {
+            "kind": "unresolved",
+            "resolution": "dynamic-unresolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#cached:26:1$v5",
+          "block": "app.py#cached:26:1$b0",
+          "method": "hexdigest",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#cached:26:1$v4"
+        },
+        {
+          "id": "app.py#cached:26:1$c3",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "str",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#cached:26:1$v7"
+            }
+          ],
+          "resultValueId": "app.py#cached:26:1$v8",
+          "block": "app.py#cached:26:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "app.py#cached:26:1$v8"
+      ],
+      "comparisons": [
+        {
+          "left": "app.py#cached:26:1$v6",
+          "right": "app.py#<module>:0:0$v6",
+          "op": "In",
+          "block": "app.py#cached:26:1$b0",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 16
+          }
+        }
+      ],
+      "writes": [],
+      "entryBlock": "app.py#cached:26:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#cached:26:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#cached:26:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#strong:34:1",
+      "name": "strong",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 34,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#strong:34:1$v0",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 26
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#strong:34:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 26
+          },
+          "base": "app.py#strong:34:1$v0",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "app.py#strong:34:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 26
+          },
+          "name": "host",
+          "base": "app.py#strong:34:1$v1",
+          "path": "args.host"
+        },
+        {
+          "id": "app.py#strong:34:1$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 26
+          },
+          "name": "unresolved"
+        },
+        {
+          "id": "app.py#strong:34:1$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 19
+          },
+          "name": "hashlib.sha256"
+        },
+        {
+          "id": "app.py#strong:34:1$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 19
+          },
+          "name": "unresolved"
+        },
+        {
+          "id": "app.py#strong:34:1$v6",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 5
+          },
+          "name": "result_hash"
+        },
+        {
+          "id": "app.py#strong:34:1$v7",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 16
+          },
+          "name": "comparison"
+        },
+        {
+          "id": "app.py#strong:34:1$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 12
+          },
+          "name": "str"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#strong:34:1$v0",
+          "to": "app.py#strong:34:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 26
+          },
+          "block": "app.py#strong:34:1$b0"
+        },
+        {
+          "from": "app.py#strong:34:1$v1",
+          "to": "app.py#strong:34:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 26
+          },
+          "block": "app.py#strong:34:1$b0"
+        },
+        {
+          "from": "app.py#strong:34:1$v5",
+          "to": "app.py#strong:34:1$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 5
+          },
+          "block": "app.py#strong:34:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#strong:34:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 26
+          },
+          "callee": {
+            "kind": "unresolved",
+            "resolution": "dynamic-unresolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#strong:34:1$v3",
+          "block": "app.py#strong:34:1$b0",
+          "method": "encode",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#strong:34:1$v2"
+        },
+        {
+          "id": "app.py#strong:34:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 19
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "hashlib.sha256",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#strong:34:1$v3"
+            }
+          ],
+          "resultValueId": "app.py#strong:34:1$v4",
+          "block": "app.py#strong:34:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#strong:34:1$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 19
+          },
+          "callee": {
+            "kind": "unresolved",
+            "resolution": "dynamic-unresolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#strong:34:1$v5",
+          "block": "app.py#strong:34:1$b0",
+          "method": "hexdigest",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#strong:34:1$v4"
+        },
+        {
+          "id": "app.py#strong:34:1$c3",
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "str",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#strong:34:1$v7"
+            }
+          ],
+          "resultValueId": "app.py#strong:34:1$v8",
+          "block": "app.py#strong:34:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "app.py#strong:34:1$v8"
+      ],
+      "comparisons": [
+        {
+          "left": "app.py#strong:34:1$v6",
+          "right": "app.py#<module>:0:0$v4",
+          "op": "In",
+          "block": "app.py#strong:34:1$b0",
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 16
+          }
+        }
+      ],
+      "writes": [],
+      "entryBlock": "app.py#strong:34:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#strong:34:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#strong:34:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 5
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "app.py#blocked:19:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/blocked"
+      }
+    },
+    {
+      "functionId": "app.py#cached:26:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/cached"
+      }
+    },
+    {
+      "functionId": "app.py#strong:34:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/strong"
+      }
+    }
+  ],
+  "views": [],
+  "renders": []
+}
