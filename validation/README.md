@@ -59,3 +59,13 @@ comparison.
 Both scoring and the loop merger flag exact repeated reason text as template reasoning. The
 warning says `N verdicts share one reason; treat as N=1 data point`, and the loop keeps that
 warning in `template-reasons.txt` so final synthesis and collection cannot drop it.
+
+## Where the verdicts are
+
+`verdicts.json` is not in this repository. It records findings judged true in named third-party
+projects, each with the reasoning that makes the judgement credible, and that reasoning is what
+makes the file a disclosure rather than a score.
+
+The file this describes exists and the loop depends on it; it lives outside the repository
+alongside the rest of the loop's working files. What is public is the design: a fingerprint that
+survives reformatting, an append-only record, and a verdict that is never asked for twice.
