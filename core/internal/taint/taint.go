@@ -552,6 +552,14 @@ type Classified struct {
 	// secret. The flow analysis already answers this for its own sinks; the same answer
 	// is recorded here so the analyses that read comparisons and writes can ask it too.
 	Projected map[string]bool
+	// Enclosed marks a value the classification became a PART of, rather than became.
+	//
+	// Projected's structural twin, and the other half of "is this value the classified
+	// thing itself". `{ ...login, scope }` carries a scope the caller asked for and is
+	// not that scope, and the object travels everywhere the field does -- medplum's
+	// reached a null check eight frames down in an unrelated module, which was then
+	// reported as a branch trusting the caller's claim.
+	Enclosed map[string]bool
 }
 
 // Origin is where a classified value entered the program, in the terms a finding needs.
@@ -599,6 +607,9 @@ type edge struct {
 	// call into code that is not in this tree and that this model says nothing about, so
 	// whether the value survives it was never established, only presumed.
 	assumed bool
+	// site is the call that BOUND this value, for a parameter. It is what makes the
+	// return hop able to leave through the frame the taint arrived in.
+	site string
 }
 
 type engine struct {
@@ -791,6 +802,7 @@ func Analyze(d *ir.IR, m model.Model) Result {
 		// it happens here once rather than at every call site that might need it.
 		origins := make(map[string]Origin, len(e.tainted))
 		proj := make(map[string]bool)
+		encl := make(map[string]bool)
 		for id := range e.tainted {
 			if sd, ok := e.seeds[id]; ok {
 				origins[id] = as(sd)
@@ -799,6 +811,9 @@ func Analyze(d *ir.IR, m model.Model) Result {
 			path, from := e.tracePath(id)
 			if projected(path) {
 				proj[id] = true
+			}
+			if enclosed(path) {
+				encl[id] = true
 			}
 			if from != "" {
 				if sd, ok := e.seeds[from]; ok {
@@ -827,6 +842,8 @@ func Analyze(d *ir.IR, m model.Model) Result {
 		fold(values, e.tainted)
 		folded := make(map[string]bool, len(proj))
 		fold(folded, proj)
+		foldedEnclosed := make(map[string]bool, len(encl))
+		fold(foldedEnclosed, encl)
 		foldedSeeds := make(map[string]bool, len(seeds))
 		fold(foldedSeeds, seeds)
 		for id, o := range origins {
@@ -836,7 +853,9 @@ func Analyze(d *ir.IR, m model.Model) Result {
 				}
 			}
 		}
-		res.ByClass[name] = Classified{Values: values, Origin: origins, Projected: folded, Seeds: foldedSeeds}
+		res.ByClass[name] = Classified{
+			Values: values, Origin: origins, Projected: folded, Enclosed: foldedEnclosed, Seeds: foldedSeeds,
+		}
 	}
 
 	seen := map[string]bool{}
@@ -1610,15 +1629,49 @@ func (e *engine) propagate() {
 			//
 			// The condition is not context sensitivity, which is a much larger thing. It
 			// is the cheapest half of it: if the taint arrived through a PARAMETER, only
-			// the call sites that passed something tainted receive the answer. Taint that
-			// arose inside the function -- it read a request global, it opened a file --
+			// the call site it arrived THROUGH receives the answer. Taint that arose
+			// inside the function -- it read a request global, it opened a file --
 			// belongs to every caller, and is untouched.
-			fromParam := e.taintEnteredViaParam(fn, id)
+			//
+			// "Every site that passes something tainted" was the earlier condition, and
+			// it does not compose into a program path. A value entered medplum's
+			// `updateResourceImpl` at repo.ts:628 and left through the return at
+			// repo.ts:1000, a call in a different method that this execution never made.
+			// Every hop is a real IR edge and the chain is a frame the program never had,
+			// so the flow names a sink whose file has no call relationship with the
+			// source's: 8 of medplum's 42 reported flows were built that way, and a
+			// gating CWE-601 that entered `getClientRedirectUri` at oauth/authorize.ts:78
+			// and returned at auth/external.ts:130 was reported under the wrong entry
+			// point. The entering site is already recorded, because the engine commits to
+			// one witness per value (see markTainted), so asking for it costs nothing.
+			entered, param, fromParam := e.taintEnteredViaParam(fn, id)
 			for _, site := range e.ix.CallSitesOf[fn.ID] {
 				if site.ResultID == "" {
 					continue
 				}
-				if fromParam && !e.callSitePassesTaint(site) {
+				if fromParam && entered != "" && site.ID != entered {
+					// A second caller of the same function. It never built the frame this
+					// value came out of, so the chain through that frame is not its
+					// evidence -- but it did hand the function something classified at the
+					// parameter that reaches the return, and the answer it gets back is
+					// derived from that. The hop is recorded against ITS OWN argument, so
+					// nothing stops carrying taint and every printed chain stays a path the
+					// program can take.
+					from, ok := e.passedAtParam(site, fn, param)
+					if !ok {
+						continue
+					}
+					e.carriesRecord(from, site.ResultID)
+					e.markTainted(site.ResultID, edge{
+						from:       from,
+						desc:       fmt.Sprintf("through %s()", fn.Name),
+						kind:       "return",
+						loc:        site.Loc,
+						resolution: site.Callee.Resolution,
+					})
+					continue
+				}
+				if fromParam && entered == "" && !e.callSitePassesTaint(site) {
 					continue
 				}
 				e.carriesRecord(id, site.ResultID)
@@ -1665,29 +1718,51 @@ func (e *engine) recordHopCarries(from string, f ir.Flow) (carry bool, stillReco
 }
 
 // taintEnteredViaParam reports whether this value's taint came in through one of the
-// function's own parameters, as opposed to arising inside it.
-func (e *engine) taintEnteredViaParam(fn *ir.Function, id string) bool {
-	params := make(map[string]bool, len(fn.Params))
+// function's own parameters, as opposed to arising inside it, and names the call that
+// bound it there.
+//
+// The site is empty when the parameter is where the classification STARTED -- a handler's
+// request object, a framework-injected input -- because no call delivered it, and when
+// the binding hop was not an argument (a callback parameter the receiver filled in).
+func (e *engine) taintEnteredViaParam(fn *ir.Function, id string) (site string, param int, ok bool) {
+	params := make(map[string]int, len(fn.Params))
 	for _, p := range fn.Params {
-		params[p.ValueID] = true
+		params[p.ValueID] = p.Index
 	}
 	if len(params) == 0 {
-		return false
+		return "", 0, false
 	}
 	seen := map[string]bool{}
 	cur := id
 	for hops := 0; hops < 64 && cur != "" && !seen[cur]; hops++ {
 		seen[cur] = true
-		if params[cur] {
-			return true
+		ed, has := e.pred[cur]
+		if index, isParam := params[cur]; isParam {
+			if !has {
+				return "", index, true
+			}
+			return ed.site, index, true
 		}
-		ed, ok := e.pred[cur]
-		if !ok {
-			return false
+		if !has {
+			return "", 0, false
 		}
 		cur = ed.from
 	}
-	return false
+	return "", 0, false
+}
+
+// passedAtParam names the classified value this call site handed to one parameter of the
+// callee. It is what a second caller's own evidence for the answer looks like.
+func (e *engine) passedAtParam(site *ir.Call, fn *ir.Function, index int) (string, bool) {
+	for _, a := range site.Args {
+		if a.ValueID == "" || !a.Binds(fn, index) {
+			continue
+		}
+		if e.tainted[a.ValueID] {
+			return a.ValueID, true
+		}
+	}
+	return "", false
 }
 
 // callSitePassesTaint reports whether this call site handed the callee anything already
@@ -1739,6 +1814,7 @@ func (e *engine) throughCall(argValueID string, c *ir.Call) {
 				kind:       "call",
 				loc:        c.Loc,
 				resolution: c.Callee.Resolution,
+				site:       c.ID,
 			})
 		default:
 			// A promise's continuation is not an ordinary unresolved call. `resolve(v)`

@@ -106,6 +106,12 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 				if rule.RequiresUnprojected && carrying.Projected[side] {
 					continue
 				}
+				// Nor is the structure it was put INTO. An object carrying a field the
+				// caller filled in travels everywhere the field does, and a helper that
+				// null-checks the object is not deciding anything about the caller.
+				if rule.RequiresUnenclosed && carrying.Enclosed[side] {
+					continue
+				}
 				// A particular derivation of the classified value, named by the property
 				// leaf or by the function that produced it -- and taken of the classified
 				// value ITSELF rather than of anything the program later computed from

@@ -1,0 +1,14 @@
+{
+  "corpus": "return-to-the-calling-site",
+  "description": "A return leaves through the call that was made, not through every call the function has. `pick` returns its first argument; `/report` passes a request value there and `/label` passes a constant there and the request value at the argument that goes nowhere. Both call sites hand the helper something classified, and the engine used to read that as permission to send the answer to both -- so the value that entered `pick` at line 27 came back out at line 33, in a frame this execution never built. Every hop of that chain is a real edge and the chain is not a program path: the printed flow read `passed as argument 0 to pick()` at line 27 followed by `returned from pick()` at line 33, and cited `req.query.title`, which does not occur anywhere in `labelHandler`. This is the shape that produced 9 of medplum's 42 reported flows, one of them a gating CWE-601 that entered `getClientRedirectUri` at oauth/authorize.ts:78 and returned at auth/external.ts:130 -- two files with no call between them. One positive, and the second route is the whole corpus: what must NOT be reported is a sink whose only tainted input arrived through somebody else's call.",
+  "expected": [
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "app.js",
+      "sinkLine": 27,
+      "sourceLabel": "req.query.title",
+      "confidence": "medium",
+      "note": "the request value enters `pick` at this call and comes back at this call; the interprocedural hop must survive, because refusing the return outright is the other way to make line 33 quiet"
+    }
+  ]
+}
