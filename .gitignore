@@ -18,15 +18,14 @@ __pycache__/
 # without it the ledger cannot compile.
 catalog/cwec_v*.xml
 
-# Maintainer reports and the log of what was sent.
+# The review loop's own working files.
 #
-# A drafted report contains the full path to an unfixed weakness in somebody else's software,
-# written to be readable. Publishing one is a disclosure, made by us on our schedule rather than
-# the maintainer's, and it makes a nonsense of having reported it privately an hour earlier.
-# This was learned by doing it: eight reports were committed to a public repository minutes
-# after they were submitted through private channels.
+# This is how the engine was validated, not part of what it is. The artifacts name which
+# repositories were scanned, what was found in them, and where -- and a finding in somebody
+# else's unfixed software is theirs to disclose, not ours. Eight drafted reports were pushed to
+# this repository minutes after the same findings went to maintainers privately, which is what
+# taught us to draw the line here rather than file by file.
 #
-# The template is tracked because it contains no findings. Nothing else here is.
-loop/reports/*
-!loop/reports/TEMPLATE.md
-!loop/reports/README.md
+# The method is public and lives in docs/review-loop.md, which describes the whole process and
+# names no weakness in anybody's software. The harness that runs it stays local.
+loop/
