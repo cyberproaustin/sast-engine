@@ -215,6 +215,7 @@ export function detectExpressRoutes(
               chained,
               consts,
               fastifyNames.has(root.text) ? "fastify" : "express",
+              root.text,
               chained === undefined
                 ? loopExpansion(node, consts, program?.resolveRegistry, registered)
                 : undefined,
@@ -784,6 +785,7 @@ function routesFrom(
   chainPath: string | undefined,
   consts: Map<string, ts.Expression>,
   framework: string,
+  mount: string,
   loopPaths: string[] | undefined,
   resolveFunction: ResolveFunction,
   locOf: (node: ts.Node) => { file: string; line: number; column: number },
@@ -850,6 +852,7 @@ function routesFrom(
       method: method.toUpperCase(),
       path: joinRoute(prefix, address) || "/",
       module: locOf(call).file,
+      mount,
     };
     if (written) detail.handler = written;
     return {

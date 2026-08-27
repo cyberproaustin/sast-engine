@@ -1,0 +1,14 @@
+{
+  "corpus": "django-session-identity-change",
+  "description": "The wger shape and its unsafe counterpart. django_login is the identity change that matters in the first function, and Django rotates the session key as part of that operation; the namespaced trainer.identity write after it is only application metadata. The second function invokes an application login over the request without an intrinsic or explicit rotation, so only that identity-change call is session fixation.",
+  "expected": [
+    {
+      "cwe": "CWE-384",
+      "sinkFile": "app.py",
+      "sinkLine": 27,
+      "sourceLabel": "project.auth.login",
+      "confidence": "high",
+      "note": "the application changes the request's authenticated identity and never rotates its session identifier"
+    }
+  ]
+}

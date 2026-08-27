@@ -1,0 +1,342 @@
+{
+  "irVersion": "0.18.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi",
+        "django",
+        "tornado"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "app.py",
+      "path": "app.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "app.py#<module>:0:0",
+      "name": "<module>",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "Session fixation is an identity transition whose old identifier survives.\n\nThe first function is wger's shape: Django changes the authenticated identity and rotates\nthe session key inside ``login``, then the application remembers the prior user in its own\nnamespaced session field. That metadata write is neither half of the defect.\n\nThe second function calls an application login operation over the same request but does\nnot rotate. Only that identity change is a finding.\n"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "app.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#switch_user:15:1",
+      "name": "switch_user",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 15,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "app.py#switch_user:15:1$v0"
+        },
+        {
+          "index": 1,
+          "name": "user",
+          "valueId": "app.py#switch_user:15:1$v1"
+        },
+        {
+          "index": 2,
+          "name": "original_user_pk",
+          "valueId": "app.py#switch_user:15:1$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#switch_user:15:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 17
+          },
+          "name": "request"
+        },
+        {
+          "id": "app.py#switch_user:15:1$v1",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 26
+          },
+          "name": "user"
+        },
+        {
+          "id": "app.py#switch_user:15:1$v2",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 32
+          },
+          "name": "original_user_pk"
+        },
+        {
+          "id": "app.py#switch_user:15:1$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 33
+          },
+          "literal": "django.contrib.auth.backends.ModelBackend"
+        },
+        {
+          "id": "app.py#switch_user:15:1$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 5
+          },
+          "name": "django.contrib.auth.login"
+        },
+        {
+          "id": "app.py#switch_user:15:1$v5",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 5
+          },
+          "base": "app.py#switch_user:15:1$v0",
+          "path": "session",
+          "name": "session"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#switch_user:15:1$v0",
+          "to": "app.py#switch_user:15:1$v5",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 5
+          },
+          "block": "app.py#switch_user:15:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#switch_user:15:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.contrib.auth.login",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#switch_user:15:1$v0"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#switch_user:15:1$v1"
+            },
+            {
+              "index": 2,
+              "valueId": "app.py#switch_user:15:1$v3"
+            }
+          ],
+          "resultValueId": "app.py#switch_user:15:1$v4",
+          "block": "app.py#switch_user:15:1$b0",
+          "argCount": 3,
+          "argLiterals": {
+            "2": "django.contrib.auth.backends.ModelBackend"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 5
+          },
+          "base": "app.py#switch_user:15:1$v5",
+          "path": "trainer.identity",
+          "from": "app.py#switch_user:15:1$v2",
+          "block": "app.py#switch_user:15:1$b0"
+        }
+      ],
+      "entryBlock": "app.py#switch_user:15:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#switch_user:15:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 15,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#switch_user_without_rotation:24:1",
+      "name": "switch_user_without_rotation",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 24,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "app.py#switch_user_without_rotation:24:1$v0"
+        },
+        {
+          "index": 1,
+          "name": "user",
+          "valueId": "app.py#switch_user_without_rotation:24:1$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#switch_user_without_rotation:24:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 24,
+            "column": 34
+          },
+          "name": "request"
+        },
+        {
+          "id": "app.py#switch_user_without_rotation:24:1$v1",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 24,
+            "column": 43
+          },
+          "name": "user"
+        },
+        {
+          "id": "app.py#switch_user_without_rotation:24:1$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 5
+          },
+          "name": "project.auth.login"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "app.py#switch_user_without_rotation:24:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "project.auth.login",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#switch_user_without_rotation:24:1$v0"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#switch_user_without_rotation:24:1$v1"
+            }
+          ],
+          "resultValueId": "app.py#switch_user_without_rotation:24:1$v2",
+          "block": "app.py#switch_user_without_rotation:24:1$b0",
+          "argCount": 2,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#switch_user_without_rotation:24:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#switch_user_without_rotation:24:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 24,
+            "column": 1
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [],
+  "views": [],
+  "renders": []
+}

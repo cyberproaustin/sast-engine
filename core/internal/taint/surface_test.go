@@ -284,6 +284,24 @@ func TestConventionFindsDeviationFromPeers(t *testing.T) {
 	}
 }
 
+// A mount is an author-written comparison boundary. medplum declares publicRoutes and
+// protectedRoutes in one file; comparing across those bindings produced CWE-306's only
+// two findings in twenty repositories, both on deliberately public metadata handlers.
+func TestConventionComparesOnlyWithinMount(t *testing.T) {
+	res := runScan(t, "mounted-auth-comparison")
+	inferred := inferredOnly(res.Expectation.Findings)
+	if len(inferred) != 1 {
+		t.Fatalf("want only the protected-mount deviation, got %d: %+v", len(inferred), inferred)
+	}
+	f := inferred[0]
+	if f.EntryPoint != "GET /Medication" || f.CWE != "CWE-306" {
+		t.Errorf("want CWE-306 on GET /Medication, got %+v", f)
+	}
+	if f.Peers != 4 || f.Conforming != 3 {
+		t.Errorf("want 3 of 4 protected-mount peers conforming, got %d of %d", f.Conforming, f.Peers)
+	}
+}
+
 // Detection must not depend on recognizing the control by name (ADR-010). These are
 // in-house middleware; the engine classifies them only as a convenience.
 func TestConventionDoesNotDependOnNameRecognition(t *testing.T) {

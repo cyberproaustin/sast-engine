@@ -48,6 +48,22 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 
 	var out []taint.Finding
 	for _, fn := range d.Functions {
+		for _, rule := range m.Stores {
+			if len(rule.IdentityCalls) == 0 {
+				continue
+			}
+			for _, c := range fn.Calls {
+				if !identityChangeCall(ix, c, rule) || intrinsicIdentityRotation(ix, c, rule) {
+					continue
+				}
+				if rot.reaches(fn.ID, rule.AbsentCall) || rot.reachesIntrinsic(fn.ID, ix, rule) {
+					continue
+				}
+				out = append(out, identityCallFinding(ix, fn, c, rule))
+			}
+		}
+	}
+	for _, fn := range d.Functions {
 		servesRequest := reachedFromEntry(ix, fn)
 		for _, w := range fn.Writes {
 			if w.From == "" {
@@ -71,6 +87,9 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 					continue
 				}
 				if len(rule.Path) > 0 && !pathMatches(w.Path, rule.Path) {
+					continue
+				}
+				if rule.DirectPath && strings.Contains(w.Path, ".") {
 					continue
 				}
 				if pathMatches(w.Path, rule.NotPath) {
@@ -100,7 +119,7 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 				// A rule about what did NOT happen beside the write needs no
 				// classification either: the write is the event.
 				if len(rule.AbsentCall) > 0 {
-					if rot.reaches(fn.ID, rule.AbsentCall) {
+					if rot.reaches(fn.ID, rule.AbsentCall) || rot.reachesIntrinsic(fn.ID, ix, rule) {
 						continue
 					}
 					out = append(out, finding(ix, fn, w, rule, taint.Origin{Label: writtenLabel(ix, w)}))
@@ -416,7 +435,8 @@ func upperByte(b byte) bool { return b >= 'A' && b <= 'Z' }
 // and an argument from silence has to be quiet whenever there is any reason to be.
 type rotation struct {
 	methods map[string]map[string]bool // function -> lowercased methods it calls
-	out     map[string][]string        // function -> functions it passes on or calls
+	calls   map[string][]*ir.Call
+	out     map[string][]string // function -> functions it passes on or calls
 	callers map[string][]string
 	isEntry map[string]bool
 }
@@ -424,6 +444,7 @@ type rotation struct {
 func newRotation(d *ir.IR, ix *ir.Index) *rotation {
 	r := &rotation{
 		methods: map[string]map[string]bool{},
+		calls:   map[string][]*ir.Call{},
 		out:     map[string][]string{},
 		callers: map[string][]string{},
 		isEntry: map[string]bool{},
@@ -434,6 +455,7 @@ func newRotation(d *ir.IR, ix *ir.Index) *rotation {
 	for _, fn := range d.Functions {
 		called := map[string]bool{}
 		for _, c := range fn.Calls {
+			r.calls[fn.ID] = append(r.calls[fn.ID], c)
 			if c.Method != "" {
 				called[strings.ToLower(c.Method)] = true
 			}
@@ -472,7 +494,32 @@ func newRotation(d *ir.IR, ix *ir.Index) *rotation {
 // has nothing to do with this one -- so an ascent stops at an entry point. A request
 // begins at its handler, and whatever the module around it does is not part of it.
 func (r *rotation) reaches(id string, want []string) bool {
-	if r.down(id, want, map[string]bool{}, 3) {
+	return r.reachesWhere(id, func(fn string) bool {
+		for _, w := range want {
+			if r.methods[fn][strings.ToLower(w)] {
+				return true
+			}
+		}
+		return false
+	})
+}
+
+// reachesIntrinsic is the same graph question for an identity API whose own contract
+// rotates. Kept separate from the name-only companion calls so an unrelated `login`
+// cannot make a direct principal assignment look safe.
+func (r *rotation) reachesIntrinsic(id string, ix *ir.Index, rule model.StoreRule) bool {
+	return r.reachesWhere(id, func(fn string) bool {
+		for _, c := range r.calls[fn] {
+			if intrinsicIdentityRotation(ix, c, rule) {
+				return true
+			}
+		}
+		return false
+	})
+}
+
+func (r *rotation) reachesWhere(id string, matches func(string) bool) bool {
+	if r.downWhere(id, matches, map[string]bool{}, 3) {
 		return true
 	}
 	seen := map[string]bool{id: true}
@@ -488,7 +535,7 @@ func (r *rotation) reaches(id string, want []string) bool {
 					continue
 				}
 				seen[c] = true
-				if r.down(c, want, map[string]bool{}, 3) {
+				if r.downWhere(c, matches, map[string]bool{}, 3) {
 					return true
 				}
 				next = append(next, c)
@@ -499,20 +546,71 @@ func (r *rotation) reaches(id string, want []string) bool {
 	return false
 }
 
-func (r *rotation) down(id string, want []string, seen map[string]bool, depth int) bool {
+func (r *rotation) downWhere(id string, matches func(string) bool, seen map[string]bool, depth int) bool {
 	if depth < 0 || seen[id] {
 		return false
 	}
 	seen[id] = true
-	for _, w := range want {
-		if r.methods[id][strings.ToLower(w)] {
+	if matches(id) {
+		return true
+	}
+	for _, n := range r.out[id] {
+		if r.downWhere(n, matches, seen, depth-1) {
 			return true
 		}
 	}
-	for _, n := range r.out[id] {
-		if r.down(n, want, seen, depth-1) {
+	return false
+}
+
+func identityChangeCall(ix *ir.Index, c *ir.Call, rule model.StoreRule) bool {
+	name := strings.ToLower(lastSegment(calleeName(c)))
+	matched := false
+	for _, want := range rule.IdentityCalls {
+		if name == strings.ToLower(want) {
+			matched = true
+			break
+		}
+	}
+	if !matched {
+		return false
+	}
+	if c.Method != "" {
+		return requestValue(ix, c.ReceiverID)
+	}
+	if len(c.Args) == 0 {
+		return false
+	}
+	return requestValue(ix, c.Args[0].ValueID)
+}
+
+func intrinsicIdentityRotation(ix *ir.Index, c *ir.Call, rule model.StoreRule) bool {
+	for _, symbol := range rule.IntrinsicRotationSymbols {
+		if c.Callee.Symbol == symbol {
 			return true
 		}
+	}
+	if !requestValue(ix, c.ReceiverID) {
+		return false
+	}
+	for _, method := range rule.IntrinsicRotationMethods {
+		if strings.EqualFold(c.Method, method) {
+			return true
+		}
+	}
+	return false
+}
+
+func requestValue(ix *ir.Index, id string) bool {
+	for depth := 0; id != "" && depth < 5; depth++ {
+		v := ix.ValueByID[id]
+		if v == nil {
+			return false
+		}
+		name := strings.ToLower(v.Name)
+		if name == "req" || name == "request" {
+			return true
+		}
+		id = v.Base
 	}
 	return false
 }
@@ -658,6 +756,40 @@ func finding(ix *ir.Index, fn *ir.Function, w ir.Write, rule model.StoreRule, o 
 			Resolution:  ir.Resolved,
 		}},
 	}
+}
+
+func identityCallFinding(ix *ir.Index, fn *ir.Function, c *ir.Call, rule model.StoreRule) taint.Finding {
+	name := calleeName(c)
+	f := taint.Finding{
+		Analysis:     rule.ID,
+		DataClass:    "identity-change",
+		ChannelID:    rule.ID,
+		Class:        rule.Finding,
+		CWE:          rule.CWE,
+		Message:      rule.Reason,
+		Confidence:   taint.High,
+		SourceLoc:    c.Loc,
+		SourceLabel:  name,
+		InTestModule: ix.InTestModule(c.Loc),
+		SinkLoc:      c.Loc,
+		SinkFunction: fn.Name,
+		SinkSymbol:   name,
+		SinkArgIndex: -1,
+		SinkRational: rule.Rationale,
+		Path: []taint.Hop{{
+			Loc:         c.Loc,
+			Description: fmt.Sprintf("%s() changes the request's authenticated identity", name),
+			Resolution:  c.Callee.Resolution,
+		}},
+	}
+	if ep, ok := taint.EntryOf(ix, fn); ok {
+		f.EntryPoint = taint.EntryLabel(*ep)
+		f.EntryMethod = ep.Detail["method"]
+		f.EntryPath = ep.Detail["path"]
+		f.EntryAnchored = true
+		f.EntryTrust = ep.TrustLevel()
+	}
+	return f
 }
 
 // --- Retention: how many entries the caller can make the process keep ----------------
