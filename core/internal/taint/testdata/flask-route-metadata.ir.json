@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.16.0",
+  "irVersion": "0.17.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -227,8 +227,8 @@
           },
           "args": [
             {
-              "index": 0,
-              "valueId": "api.py#<module>:0:0$v6"
+              "valueId": "api.py#<module>:0:0$v6",
+              "name": "prefix"
             }
           ],
           "resultValueId": "api.py#<module>:0:0$v7",
@@ -619,8 +619,8 @@
               "valueId": "app.py#<module>:0:0$v3"
             },
             {
-              "index": 2,
-              "valueId": "app.py#<module>:0:0$v4"
+              "valueId": "app.py#<module>:0:0$v4",
+              "name": "url_prefix"
             }
           ],
           "resultValueId": "app.py#<module>:0:0$v5",
@@ -972,8 +972,8 @@
               "valueId": "app.py#search:31:1$v7"
             },
             {
-              "index": 1,
-              "valueId": "app.py#search:31:1$v11"
+              "valueId": "app.py#search:31:1$v11",
+              "name": "shell"
             }
           ],
           "resultValueId": "app.py#search:31:1$v13",
@@ -1250,8 +1250,8 @@
               "valueId": "app.py#purge:50:1$v1"
             },
             {
-              "index": 1,
-              "valueId": "app.py#purge:50:1$v6"
+              "valueId": "app.py#purge:50:1$v6",
+              "name": "shell"
             }
           ],
           "resultValueId": "app.py#purge:50:1$v8",

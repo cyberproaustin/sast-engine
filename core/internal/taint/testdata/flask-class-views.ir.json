@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.16.0",
+  "irVersion": "0.17.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -317,8 +317,8 @@
               "valueId": "app.py#register:33:1$v1"
             },
             {
-              "index": 1,
-              "valueId": "app.py#register:33:1$v3"
+              "valueId": "app.py#register:33:1$v3",
+              "name": "view_func"
             }
           ],
           "resultValueId": "app.py#register:33:1$v4",
@@ -577,8 +577,8 @@
               "valueId": "app.py#get:20:5$v1"
             },
             {
-              "index": 1,
-              "valueId": "app.py#get:20:5$v6"
+              "valueId": "app.py#get:20:5$v6",
+              "name": "shell"
             }
           ],
           "resultValueId": "app.py#get:20:5$v8",

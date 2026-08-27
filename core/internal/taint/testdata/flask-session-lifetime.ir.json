@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.16.0",
+  "irVersion": "0.17.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -324,16 +324,16 @@
               "valueId": "app.py#login:9:1$v6"
             },
             {
-              "index": 2,
-              "valueId": "app.py#login:9:1$v7"
+              "valueId": "app.py#login:9:1$v7",
+              "name": "httponly"
             },
             {
-              "index": 2,
-              "valueId": "app.py#login:9:1$v8"
+              "valueId": "app.py#login:9:1$v8",
+              "name": "secure"
             },
             {
-              "index": 2,
-              "valueId": "app.py#login:9:1$v9"
+              "valueId": "app.py#login:9:1$v9",
+              "name": "max_age"
             }
           ],
           "resultValueId": "app.py#login:9:1$v10",
@@ -596,16 +596,16 @@
               "valueId": "app.py#login_short:19:1$v6"
             },
             {
-              "index": 2,
-              "valueId": "app.py#login_short:19:1$v7"
+              "valueId": "app.py#login_short:19:1$v7",
+              "name": "httponly"
             },
             {
-              "index": 2,
-              "valueId": "app.py#login_short:19:1$v8"
+              "valueId": "app.py#login_short:19:1$v8",
+              "name": "secure"
             },
             {
-              "index": 2,
-              "valueId": "app.py#login_short:19:1$v9"
+              "valueId": "app.py#login_short:19:1$v9",
+              "name": "max_age"
             }
           ],
           "resultValueId": "app.py#login_short:19:1$v10",
@@ -798,8 +798,8 @@
               "valueId": "app.py#theme:27:1$v4"
             },
             {
-              "index": 2,
-              "valueId": "app.py#theme:27:1$v5"
+              "valueId": "app.py#theme:27:1$v5",
+              "name": "max_age"
             }
           ],
           "resultValueId": "app.py#theme:27:1$v6",

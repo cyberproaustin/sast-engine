@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.16.0",
+  "irVersion": "0.17.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -457,8 +457,8 @@
               "valueId": "app.py#hello_safe:16:1$v0"
             },
             {
-              "index": 1,
-              "valueId": "app.py#hello_safe:16:1$v3"
+              "valueId": "app.py#hello_safe:16:1$v3",
+              "name": "name"
             }
           ],
           "resultValueId": "app.py#hello_safe:16:1$v4",

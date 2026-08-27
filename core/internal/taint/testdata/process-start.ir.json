@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.16.0",
+  "irVersion": "0.17.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -85,6 +85,16 @@
         },
         {
           "id": "devscripts/release.py#<module>:0:0$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "devscripts/release.py",
+            "line": 24,
+            "column": 4
+          },
+          "literal": "true"
+        },
+        {
+          "id": "devscripts/release.py#<module>:0:0$v4",
           "kind": "call-result",
           "loc": {
             "file": "devscripts/release.py",
@@ -110,7 +120,7 @@
             "name": "publish"
           },
           "args": [],
-          "resultValueId": "devscripts/release.py#<module>:0:0$v3",
+          "resultValueId": "devscripts/release.py#<module>:0:0$v4",
           "block": "devscripts/release.py#<module>:0:0$b1",
           "enumeratedOptions": [
             -1
@@ -118,7 +128,19 @@
         }
       ],
       "returns": [],
-      "comparisons": [],
+      "comparisons": [
+        {
+          "left": "devscripts/release.py#<module>:0:0$v1",
+          "right": "devscripts/release.py#<module>:0:0$v3",
+          "op": "truthy",
+          "block": "devscripts/release.py#<module>:0:0$b0",
+          "loc": {
+            "file": "devscripts/release.py",
+            "line": 24,
+            "column": 4
+          }
+        }
+      ],
       "writes": [],
       "entryBlock": "devscripts/release.py#<module>:0:0$b0",
       "blocks": [
@@ -253,8 +275,8 @@
               "valueId": "devscripts/release.py#publish:20:1$v0"
             },
             {
-              "index": 1,
-              "valueId": "devscripts/release.py#publish:20:1$v2"
+              "valueId": "devscripts/release.py#publish:20:1$v2",
+              "name": "json"
             }
           ],
           "resultValueId": "devscripts/release.py#publish:20:1$v4",
@@ -369,6 +391,16 @@
         },
         {
           "id": "hub/app.py#<module>:0:0$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 72,
+            "column": 4
+          },
+          "literal": "true"
+        },
+        {
+          "id": "hub/app.py#<module>:0:0$v5",
           "kind": "global",
           "loc": {
             "file": "hub/app.py",
@@ -378,19 +410,19 @@
           "name": "hub.app"
         },
         {
-          "id": "hub/app.py#<module>:0:0$v5",
+          "id": "hub/app.py#<module>:0:0$v6",
           "kind": "property",
           "loc": {
             "file": "hub/app.py",
             "line": 75,
             "column": 5
           },
-          "base": "hub/app.py#<module>:0:0$v4",
+          "base": "hub/app.py#<module>:0:0$v5",
           "path": "Hub",
           "name": "Hub"
         },
         {
-          "id": "hub/app.py#<module>:0:0$v6",
+          "id": "hub/app.py#<module>:0:0$v7",
           "kind": "call-result",
           "loc": {
             "file": "hub/app.py",
@@ -402,8 +434,8 @@
       ],
       "flows": [
         {
-          "from": "hub/app.py#<module>:0:0$v4",
-          "to": "hub/app.py#<module>:0:0$v5",
+          "from": "hub/app.py#<module>:0:0$v5",
+          "to": "hub/app.py#<module>:0:0$v6",
           "kind": "property",
           "loc": {
             "file": "hub/app.py",
@@ -427,17 +459,29 @@
             "resolution": "probable"
           },
           "args": [],
-          "resultValueId": "hub/app.py#<module>:0:0$v6",
+          "resultValueId": "hub/app.py#<module>:0:0$v7",
           "block": "hub/app.py#<module>:0:0$b1",
           "method": "launch",
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "hub/app.py#<module>:0:0$v5"
+          "receiverValueId": "hub/app.py#<module>:0:0$v6"
         }
       ],
       "returns": [],
-      "comparisons": [],
+      "comparisons": [
+        {
+          "left": "hub/app.py#<module>:0:0$v2",
+          "right": "hub/app.py#<module>:0:0$v4",
+          "op": "truthy",
+          "block": "hub/app.py#<module>:0:0$b0",
+          "loc": {
+            "file": "hub/app.py",
+            "line": 72,
+            "column": 4
+          }
+        }
+      ],
       "writes": [],
       "entryBlock": "hub/app.py#<module>:0:0$b0",
       "blocks": [
@@ -991,8 +1035,8 @@
               "valueId": "hub/app.py#report_boot:57:5$v1"
             },
             {
-              "index": 1,
-              "valueId": "hub/app.py#report_boot:57:5$v3"
+              "valueId": "hub/app.py#report_boot:57:5$v3",
+              "name": "json"
             }
           ],
           "resultValueId": "hub/app.py#report_boot:57:5$v5",
@@ -1556,8 +1600,8 @@
               "valueId": "tools.py#dump_environment:17:1$v0"
             },
             {
-              "index": 1,
-              "valueId": "tools.py#dump_environment:17:1$v2"
+              "valueId": "tools.py#dump_environment:17:1$v2",
+              "name": "json"
             }
           ],
           "resultValueId": "tools.py#dump_environment:17:1$v4",

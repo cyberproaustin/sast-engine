@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.16.0",
+  "irVersion": "0.17.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -227,12 +227,12 @@
               "valueId": "app.py#search:8:1$v0"
             },
             {
-              "index": 1,
-              "valueId": "app.py#search:8:1$v3"
+              "valueId": "app.py#search:8:1$v3",
+              "name": "query"
             },
             {
-              "index": 1,
-              "valueId": "app.py#search:8:1$v4"
+              "valueId": "app.py#search:8:1$v4",
+              "name": "count"
             }
           ],
           "resultValueId": "app.py#search:8:1$v5",
@@ -406,8 +406,8 @@
               "valueId": "app.py#profile:16:1$v0"
             },
             {
-              "index": 1,
-              "valueId": "app.py#profile:16:1$v1"
+              "valueId": "app.py#profile:16:1$v1",
+              "name": "user"
             }
           ],
           "resultValueId": "app.py#profile:16:1$v5",
@@ -513,8 +513,8 @@
               "valueId": "app.py#about:21:1$v0"
             },
             {
-              "index": 1,
-              "valueId": "app.py#about:21:1$v1"
+              "valueId": "app.py#about:21:1$v1",
+              "name": "updated"
             }
           ],
           "resultValueId": "app.py#about:21:1$v2",
@@ -639,7 +639,6 @@
               "valueId": "app.py#report:27:1$v0"
             },
             {
-              "index": 1,
               "valueId": "app.py#report:27:1$v1"
             }
           ],
@@ -964,8 +963,8 @@
               "valueId": "app.py#comment:40:1$v0"
             },
             {
-              "index": 1,
-              "valueId": "app.py#comment:40:1$v4"
+              "valueId": "app.py#comment:40:1$v4",
+              "name": "body"
             }
           ],
           "resultValueId": "app.py#comment:40:1$v5",

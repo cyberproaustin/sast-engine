@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.16.0",
+  "irVersion": "0.17.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -2908,8 +2908,8 @@
               "valueId": "handlers/pages.py#get:35:5$v2"
             },
             {
-              "index": 1,
-              "valueId": "handlers/pages.py#get:35:5$v6"
+              "valueId": "handlers/pages.py#get:35:5$v6",
+              "name": "shell"
             }
           ],
           "resultValueId": "handlers/pages.py#get:35:5$v8",
