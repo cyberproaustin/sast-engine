@@ -1,0 +1,22 @@
+{
+  "corpus": "graphene-schema",
+  "description": "An application that answers hundreds of separately addressable operations at ONE address. A Graphene schema registers nothing: `checkout_create_from_order = CheckoutCreateFromOrder.Field()` is a class attribute, the only route the URLconf carries is the single view that serves every operation, and a frontend that enumerates that view and stops says the application has one entry point when it has three hundred. saleor lowered to 29 entry points, of which the whole GraphQL API was one; with the schema read it lowers to 447, and the 418 operations match its own checked-in `schema.graphql` field for field with nothing invented. The two positives are the two halves of the idiom. A MUTATION is answered by `perform_mutation`, whose positional-only framework arguments come first and whose GraphQL arguments arrive as keyword-only parameters -- there is no request object anywhere in the signature, so the parameter itself is the origin, and the positional-only ones had to start being lowered at all before `info` resolved to anything. A QUERY is answered by a method NAMED for the field on the type that declares it, which is the only link between a `graphene.Field` and the code behind it. The negatives are what the shape costs read loosely. `ReportType.title` is a `graphene.Field` on a `graphene.ObjectType` and is a RESULT, not an operation: every mutation payload in a Graphene application is an ObjectType too, so the shape cannot tell them apart and what does is that somebody composed the class into `graphene.Schema`. `rebuildReports` runs a shell command with nothing the caller can steer. And `archiveReport` holds no weakness at all -- it is here because `Meta.permissions` is the only thing a Graphene schema has that says who may call an operation, and an operation that declares none is only visible against the ones beside it.",
+  "expected": [
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "mutations.py",
+      "sinkLine": 30,
+      "sourceLabel": "name",
+      "confidence": "high",
+      "note": "a GraphQL argument, bound to a keyword-only parameter of `perform_mutation`; the operation is `checkoutCreateFromOrder`-style camelCase because that is the name the schema publishes and the snake spelling answers nothing"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "reports.py",
+      "sinkLine": 8,
+      "sourceLabel": "slug",
+      "confidence": "high",
+      "note": "a query field, reached through the `resolve_<field>` method Graphene dispatches by name, and out of the schema module into a helper"
+    }
+  ]
+}

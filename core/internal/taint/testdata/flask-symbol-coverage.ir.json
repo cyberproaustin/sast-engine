@@ -15,6 +15,7 @@
         "fastapi",
         "django",
         "drf",
+        "graphene",
         "tornado"
       ]
     }
@@ -2070,7 +2071,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/ping"
+        "path": "/ping",
+        "mount": "app"
       }
     },
     {
@@ -2079,7 +2081,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/restore"
+        "path": "/restore",
+        "mount": "app"
       }
     },
     {
@@ -2088,7 +2091,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/fetch"
+        "path": "/fetch",
+        "mount": "app"
       }
     },
     {
@@ -2097,7 +2101,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/download"
+        "path": "/download",
+        "mount": "app"
       }
     },
     {
@@ -2106,7 +2111,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/render"
+        "path": "/render",
+        "mount": "app"
       }
     },
     {
@@ -2115,7 +2121,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/digest"
+        "path": "/digest",
+        "mount": "app"
       }
     },
     {
@@ -2124,7 +2131,8 @@
       "framework": "flask",
       "detail": {
         "method": "POST",
-        "path": "/subscribe"
+        "path": "/subscribe",
+        "mount": "app"
       }
     },
     {
@@ -2133,7 +2141,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/page/<slug>"
+        "path": "/page/<slug>",
+        "mount": "app"
       }
     }
   ],

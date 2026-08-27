@@ -15,6 +15,7 @@
         "fastapi",
         "django",
         "drf",
+        "graphene",
         "tornado"
       ]
     }
@@ -3659,7 +3660,8 @@
       "framework": "flask",
       "detail": {
         "method": "POST",
-        "path": "/webhook"
+        "path": "/webhook",
+        "mount": "app"
       }
     },
     {
@@ -3668,7 +3670,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/artifact"
+        "path": "/artifact",
+        "mount": "app"
       }
     },
     {
@@ -3677,7 +3680,8 @@
       "framework": "flask",
       "detail": {
         "method": "POST",
-        "path": "/account/password"
+        "path": "/account/password",
+        "mount": "app"
       }
     },
     {
@@ -3686,7 +3690,8 @@
       "framework": "flask",
       "detail": {
         "method": "POST",
-        "path": "/login"
+        "path": "/login",
+        "mount": "app"
       }
     },
     {
@@ -3695,7 +3700,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/report"
+        "path": "/report",
+        "mount": "app"
       }
     },
     {
@@ -3704,7 +3710,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/thumbnail"
+        "path": "/thumbnail",
+        "mount": "app"
       }
     },
     {
@@ -3713,7 +3720,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/avatar"
+        "path": "/avatar",
+        "mount": "app"
       }
     }
   ],

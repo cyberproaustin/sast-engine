@@ -15,6 +15,7 @@
         "fastapi",
         "django",
         "drf",
+        "graphene",
         "tornado"
       ]
     }
@@ -854,7 +855,8 @@
       "framework": "flask",
       "detail": {
         "method": "POST",
-        "path": "/login"
+        "path": "/login",
+        "mount": "app"
       }
     },
     {
@@ -863,7 +865,8 @@
       "framework": "flask",
       "detail": {
         "method": "POST",
-        "path": "/login-short"
+        "path": "/login-short",
+        "mount": "app"
       }
     },
     {
@@ -872,7 +875,8 @@
       "framework": "flask",
       "detail": {
         "method": "POST",
-        "path": "/theme"
+        "path": "/theme",
+        "mount": "app"
       }
     }
   ],

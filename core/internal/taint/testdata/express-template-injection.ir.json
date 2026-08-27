@@ -1,6 +1,6 @@
 {
   "irVersion": "0.19.0",
-  "frontend": {"name":"typescript","version":"0.1.0","capabilities":{"typeChecker":true,"interprocedural":true,"crossModule":true,"controlFlow":true,"templates":false,"frameworkModels":["express","nestjs"]}},
+  "frontend": {"name":"typescript","version":"0.1.0","capabilities":{"typeChecker":true,"interprocedural":true,"crossModule":true,"controlFlow":true,"templates":false,"frameworkModels":["express","nestjs","trpc","ts-rest"]}},
   "modules": [
     {"id":"app.js","path":"app.js"}
   ],
@@ -10,7 +10,7 @@
     {"id":"app.js#<anonymous>:15:18","name":"<anonymous>","module":"app.js","loc":{"file":"app.js","line":15,"column":18},"params":[{"index":0,"name":"req","valueId":"app.js#<anonymous>:15:18$v0"},{"index":1,"name":"res","valueId":"app.js#<anonymous>:15:18$v1"}],"values":[{"id":"app.js#<anonymous>:15:18$v0","kind":"param","loc":{"file":"app.js","line":15,"column":19},"name":"req"},{"id":"app.js#<anonymous>:15:18$v1","kind":"param","loc":{"file":"app.js","line":15,"column":24},"name":"res"},{"id":"app.js#<anonymous>:15:18$v2","kind":"local","loc":{"file":"app.js","line":24,"column":17},"name":"{object}"},{"id":"app.js#<anonymous>:15:18$v3","kind":"literal","loc":{"file":"app.js","line":24,"column":26},"literal":"Home"},{"id":"app.js#<anonymous>:15:18$v4","kind":"call-result","loc":{"file":"app.js","line":24,"column":12},"name":"unresolved"},{"id":"app.js#<anonymous>:15:18$v5","kind":"call-result","loc":{"file":"app.js","line":24,"column":3},"name":"res.send"}],"flows":[{"from":"app.js#<anonymous>:15:18$v3","to":"app.js#<anonymous>:15:18$v2","kind":"enclose","loc":{"file":"app.js","line":24,"column":26},"block":"app.js#<anonymous>:15:18$b0"}],"calls":[{"id":"app.js#<anonymous>:15:18$c0","loc":{"file":"app.js","line":24,"column":12},"callee":{"kind":"unresolved","resolution":"dynamic-unresolved","name":"PAGE"},"args":[{"index":0,"valueId":"app.js#<anonymous>:15:18$v2"}],"argLiterals":{"-1":"title=Home"},"argCount":1,"enumeratedOptions":[0],"resultValueId":"app.js#<anonymous>:15:18$v4","block":"app.js#<anonymous>:15:18$b0"},{"id":"app.js#<anonymous>:15:18$c1","loc":{"file":"app.js","line":24,"column":3},"callee":{"kind":"external","symbol":"res.send","resolution":"probable","name":"send"},"args":[{"index":0,"valueId":"app.js#<anonymous>:15:18$v4"}],"method":"send","receiverValueId":"app.js#<anonymous>:15:18$v1","argCount":1,"resultValueId":"app.js#<anonymous>:15:18$v5","block":"app.js#<anonymous>:15:18$b0"}],"returns":[],"comparisons":[],"entryBlock":"app.js#<anonymous>:15:18$b0","blocks":[{"id":"app.js#<anonymous>:15:18$b0","successors":[],"loc":{"file":"app.js","line":15,"column":18}}]}
   ],
   "entryPoints": [
-    {"functionId":"app.js#<anonymous>:8:21","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/preview","module":"app.js"},"loc":{"file":"app.js","line":8,"column":1},"middleware":[]},
-    {"functionId":"app.js#<anonymous>:15:18","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/page","module":"app.js"},"loc":{"file":"app.js","line":15,"column":1},"middleware":[]}
+    {"functionId":"app.js#<anonymous>:8:21","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/preview","module":"app.js","mount":"app"},"loc":{"file":"app.js","line":8,"column":1},"middleware":[]},
+    {"functionId":"app.js#<anonymous>:15:18","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/page","module":"app.js","mount":"app"},"loc":{"file":"app.js","line":15,"column":1},"middleware":[]}
   ]
 }

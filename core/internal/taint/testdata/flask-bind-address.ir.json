@@ -15,6 +15,7 @@
         "fastapi",
         "django",
         "drf",
+        "graphene",
         "tornado"
       ]
     }
@@ -504,7 +505,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/"
+        "path": "/",
+        "mount": "app"
       }
     }
   ],

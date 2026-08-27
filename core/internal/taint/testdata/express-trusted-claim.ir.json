@@ -1,6 +1,6 @@
 {
   "irVersion": "0.19.0",
-  "frontend": {"name":"typescript","version":"0.1.0","capabilities":{"typeChecker":true,"interprocedural":true,"crossModule":true,"controlFlow":true,"templates":false,"frameworkModels":["express","nestjs"]}},
+  "frontend": {"name":"typescript","version":"0.1.0","capabilities":{"typeChecker":true,"interprocedural":true,"crossModule":true,"controlFlow":true,"templates":false,"frameworkModels":["express","nestjs","trpc","ts-rest"]}},
   "modules": [
     {"id":"app.js","path":"app.js"}
   ],
@@ -13,9 +13,9 @@
     {"id":"app.js#purgeEverything:44:1","name":"purgeEverything","module":"app.js","loc":{"file":"app.js","line":44,"column":1},"params":[],"values":[],"flows":[],"calls":[],"returns":[],"comparisons":[],"entryBlock":"app.js#purgeEverything:44:1$b0","blocks":[{"id":"app.js#purgeEverything:44:1$b0","successors":[],"loc":{"file":"app.js","line":44,"column":1}}]}
   ],
   "entryPoints": [
-    {"functionId":"app.js#<anonymous>:5:26","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/admin/purge","module":"app.js"},"loc":{"file":"app.js","line":5,"column":1},"middleware":[]},
-    {"functionId":"app.js#<anonymous>:15:33","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/admin/purge-cookie","module":"app.js"},"loc":{"file":"app.js","line":15,"column":1},"middleware":[]},
-    {"functionId":"app.js#<anonymous>:25:34","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/admin/purge-checked","module":"app.js"},"loc":{"file":"app.js","line":25,"column":1},"middleware":[]},
-    {"functionId":"app.js#<anonymous>:35:20","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/search","module":"app.js"},"loc":{"file":"app.js","line":35,"column":1},"middleware":[]}
+    {"functionId":"app.js#<anonymous>:5:26","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/admin/purge","module":"app.js","mount":"app"},"loc":{"file":"app.js","line":5,"column":1},"middleware":[]},
+    {"functionId":"app.js#<anonymous>:15:33","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/admin/purge-cookie","module":"app.js","mount":"app"},"loc":{"file":"app.js","line":15,"column":1},"middleware":[]},
+    {"functionId":"app.js#<anonymous>:25:34","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/admin/purge-checked","module":"app.js","mount":"app"},"loc":{"file":"app.js","line":25,"column":1},"middleware":[]},
+    {"functionId":"app.js#<anonymous>:35:20","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/search","module":"app.js","mount":"app"},"loc":{"file":"app.js","line":35,"column":1},"middleware":[]}
   ]
 }

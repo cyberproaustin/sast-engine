@@ -15,6 +15,7 @@
         "fastapi",
         "django",
         "drf",
+        "graphene",
         "tornado"
       ]
     }
@@ -1572,7 +1573,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/user"
+        "path": "/user",
+        "mount": "app"
       }
     },
     {
@@ -1581,7 +1583,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/user-by-id"
+        "path": "/user-by-id",
+        "mount": "app"
       }
     },
     {
@@ -1590,7 +1593,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/all-users"
+        "path": "/all-users",
+        "mount": "app"
       }
     },
     {
@@ -1599,7 +1603,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/user-fstring"
+        "path": "/user-fstring",
+        "mount": "app"
       }
     },
     {
@@ -1608,7 +1613,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/greeting"
+        "path": "/greeting",
+        "mount": "app"
       }
     }
   ],

@@ -15,6 +15,7 @@
         "fastapi",
         "django",
         "drf",
+        "graphene",
         "tornado"
       ]
     }
@@ -1813,7 +1814,8 @@
       "framework": "fastapi",
       "detail": {
         "method": "GET",
-        "path": "/api/v1/items"
+        "path": "/api/v1/items",
+        "mount": "router"
       }
     },
     {
@@ -1822,7 +1824,8 @@
       "framework": "fastapi",
       "detail": {
         "method": "POST",
-        "path": "/api/v1/items"
+        "path": "/api/v1/items",
+        "mount": "router"
       }
     },
     {
@@ -1831,7 +1834,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/search"
+        "path": "/search",
+        "mount": "app"
       }
     },
     {
@@ -1840,7 +1844,8 @@
       "framework": "flask",
       "detail": {
         "method": "POST",
-        "path": "/search"
+        "path": "/search",
+        "mount": "app"
       }
     },
     {
@@ -1849,7 +1854,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/health"
+        "path": "/health",
+        "mount": "app"
       }
     },
     {
@@ -1858,7 +1864,8 @@
       "framework": "flask",
       "detail": {
         "method": "POST",
-        "path": "/admin/purge"
+        "path": "/admin/purge",
+        "mount": "admin"
       }
     },
     {
@@ -1867,7 +1874,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/hub/whoami"
+        "path": "/hub/whoami",
+        "mount": "app"
       }
     },
     {
@@ -1876,7 +1884,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "<unresolved:_runtime_prefix>/callback"
+        "path": "<unresolved:_runtime_prefix>/callback",
+        "mount": "app"
       }
     }
   ],

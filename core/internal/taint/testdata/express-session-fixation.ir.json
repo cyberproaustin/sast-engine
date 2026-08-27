@@ -1,6 +1,6 @@
 {
   "irVersion": "0.19.0",
-  "frontend": {"name":"typescript","version":"0.1.0","capabilities":{"typeChecker":true,"interprocedural":true,"crossModule":true,"controlFlow":true,"templates":false,"frameworkModels":["express","nestjs"]}},
+  "frontend": {"name":"typescript","version":"0.1.0","capabilities":{"typeChecker":true,"interprocedural":true,"crossModule":true,"controlFlow":true,"templates":false,"frameworkModels":["express","nestjs","trpc","ts-rest"]}},
   "modules": [
     {"id":"app.js","path":"app.js"}
   ],
@@ -23,12 +23,12 @@
     {"id":"app.js#describe:76:1","name":"describe","module":"app.js","loc":{"file":"app.js","line":76,"column":1},"params":[{"index":0,"name":"uid","valueId":"app.js#describe:76:1$v0"}],"values":[{"id":"app.js#describe:76:1$v0","kind":"param","loc":{"file":"app.js","line":76,"column":19},"name":"uid"},{"id":"app.js#describe:76:1$v1","kind":"local","loc":{"file":"app.js","line":76,"column":33},"name":"{object}"}],"flows":[{"from":"app.js#describe:76:1$v0","to":"app.js#describe:76:1$v1","kind":"enclose","loc":{"file":"app.js","line":76,"column":35},"block":"app.js#describe:76:1$b0"}],"calls":[],"returns":["app.js#describe:76:1$v1"],"comparisons":[],"entryBlock":"app.js#describe:76:1$b0","blocks":[{"id":"app.js#describe:76:1$b0","successors":[],"loc":{"file":"app.js","line":76,"column":1},"terminator":"return"},{"id":"app.js#describe:76:1$b1","successors":[],"loc":{"file":"app.js","line":76,"column":26}}]}
   ],
   "entryPoints": [
-    {"functionId":"app.js#<anonymous>:9:20","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/login","module":"app.js"},"loc":{"file":"app.js","line":9,"column":1},"middleware":[]},
-    {"functionId":"app.js#<anonymous>:17:27","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/login-helper","module":"app.js"},"loc":{"file":"app.js","line":17,"column":1},"middleware":[]},
-    {"functionId":"app.js#<anonymous>:28:28","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/login-rotated","module":"app.js"},"loc":{"file":"app.js","line":28,"column":1},"middleware":[]},
-    {"functionId":"app.js#<anonymous>:38:28","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/login-promise","module":"app.js"},"loc":{"file":"app.js","line":38,"column":1},"middleware":[]},
-    {"functionId":"app.js#<anonymous>:51:21","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/logout","module":"app.js"},"loc":{"file":"app.js","line":51,"column":1},"middleware":[]},
-    {"functionId":"app.js#<anonymous>:58:26","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/admin/logins","module":"app.js"},"loc":{"file":"app.js","line":58,"column":1},"middleware":[]},
-    {"functionId":"app.js#<anonymous>:68:19","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/cart","module":"app.js"},"loc":{"file":"app.js","line":68,"column":1},"middleware":[]}
+    {"functionId":"app.js#<anonymous>:9:20","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/login","module":"app.js","mount":"app"},"loc":{"file":"app.js","line":9,"column":1},"middleware":[]},
+    {"functionId":"app.js#<anonymous>:17:27","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/login-helper","module":"app.js","mount":"app"},"loc":{"file":"app.js","line":17,"column":1},"middleware":[]},
+    {"functionId":"app.js#<anonymous>:28:28","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/login-rotated","module":"app.js","mount":"app"},"loc":{"file":"app.js","line":28,"column":1},"middleware":[]},
+    {"functionId":"app.js#<anonymous>:38:28","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/login-promise","module":"app.js","mount":"app"},"loc":{"file":"app.js","line":38,"column":1},"middleware":[]},
+    {"functionId":"app.js#<anonymous>:51:21","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/logout","module":"app.js","mount":"app"},"loc":{"file":"app.js","line":51,"column":1},"middleware":[]},
+    {"functionId":"app.js#<anonymous>:58:26","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/admin/logins","module":"app.js","mount":"app"},"loc":{"file":"app.js","line":58,"column":1},"middleware":[]},
+    {"functionId":"app.js#<anonymous>:68:19","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/cart","module":"app.js","mount":"app"},"loc":{"file":"app.js","line":68,"column":1},"middleware":[]}
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.18.0",
+  "irVersion": "0.19.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -14,6 +14,8 @@
         "flask-appbuilder",
         "fastapi",
         "django",
+        "drf",
+        "graphene",
         "tornado"
       ]
     }
@@ -3233,7 +3235,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/download"
+        "path": "/download",
+        "mount": "app"
       }
     },
     {
@@ -3242,7 +3245,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/artifact"
+        "path": "/artifact",
+        "mount": "app"
       }
     },
     {
@@ -3251,7 +3255,8 @@
       "framework": "flask",
       "detail": {
         "method": "POST",
-        "path": "/login"
+        "path": "/login",
+        "mount": "app"
       }
     },
     {
@@ -3260,7 +3265,8 @@
       "framework": "flask",
       "detail": {
         "method": "POST",
-        "path": "/context"
+        "path": "/context",
+        "mount": "app"
       }
     },
     {
@@ -3269,7 +3275,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/preview"
+        "path": "/preview",
+        "mount": "app"
       }
     },
     {
@@ -3278,10 +3285,12 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/report"
+        "path": "/report",
+        "mount": "app"
       }
     }
   ],
+  "declaredViews": [],
   "views": [],
   "renders": []
 }

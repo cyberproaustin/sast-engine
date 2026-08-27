@@ -1,6 +1,6 @@
 {
   "irVersion": "0.19.0",
-  "frontend": {"name":"typescript","version":"0.1.0","capabilities":{"typeChecker":true,"interprocedural":true,"crossModule":true,"controlFlow":true,"templates":false,"frameworkModels":["express","nestjs"]}},
+  "frontend": {"name":"typescript","version":"0.1.0","capabilities":{"typeChecker":true,"interprocedural":true,"crossModule":true,"controlFlow":true,"templates":false,"frameworkModels":["express","nestjs","trpc","ts-rest"]}},
   "modules": [
     {"id":"platform.ts","path":"platform.ts"},
     {"id":"app.ts","path":"app.ts"},
@@ -30,8 +30,8 @@
     {"id":"scripts/watch.ts#rebuild:14:1","name":"rebuild","module":"scripts/watch.ts","loc":{"file":"scripts/watch.ts","line":14,"column":1},"params":[],"values":[{"id":"scripts/watch.ts#rebuild:14:1$v0","kind":"call-result","loc":{"file":"scripts/watch.ts","line":15,"column":8},"name":"Date.now"}],"flows":[],"calls":[{"id":"scripts/watch.ts#rebuild:14:1$c0","loc":{"file":"scripts/watch.ts","line":15,"column":8},"callee":{"kind":"external","symbol":"Date.now","resolution":"resolved","name":"now"},"args":[],"method":"now","receiverType":"DateConstructor","receiverTypeOrigin":"builtin","resultValueId":"scripts/watch.ts#rebuild:14:1$v0","block":"scripts/watch.ts#rebuild:14:1$b0"}],"returns":[],"comparisons":[],"entryBlock":"scripts/watch.ts#rebuild:14:1$b0","blocks":[{"id":"scripts/watch.ts#rebuild:14:1$b0","successors":[],"loc":{"file":"scripts/watch.ts","line":14,"column":1}}]}
   ],
   "entryPoints": [
-    {"functionId":"app.ts#<anonymous>:13:19","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/jobs","module":"app.ts"},"loc":{"file":"app.ts","line":13,"column":1},"middleware":[]},
-    {"functionId":"app.ts#<anonymous>:19:23","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/webhooks","module":"app.ts"},"loc":{"file":"app.ts","line":19,"column":1},"middleware":[]},
+    {"functionId":"app.ts#<anonymous>:13:19","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/jobs","module":"app.ts","mount":"app"},"loc":{"file":"app.ts","line":13,"column":1},"middleware":[]},
+    {"functionId":"app.ts#<anonymous>:19:23","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/webhooks","module":"app.ts","mount":"app"},"loc":{"file":"app.ts","line":19,"column":1},"middleware":[]},
     {"functionId":"jobs.ts#<anonymous>:24:23","kind":"scheduled-job","trust":"internal","detail":{"trigger":"Cron","module":"jobs.ts","schedule":"0 3 * * *"},"loc":{"file":"jobs.ts","line":24,"column":1}},
     {"functionId":"jobs.ts#<anonymous>:33:13","kind":"scheduled-job","trust":"internal","detail":{"trigger":"setInterval","module":"jobs.ts","schedule":"60000"},"loc":{"file":"jobs.ts","line":33,"column":1}},
     {"functionId":"jobs.ts#<anonymous>:44:24","kind":"event-consumer","trust":"internal","detail":{"trigger":"on","event":"job-finished","bus":"EventEmitter","module":"jobs.ts"},"loc":{"file":"jobs.ts","line":44,"column":1}},

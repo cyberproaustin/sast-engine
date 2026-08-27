@@ -15,6 +15,7 @@
         "fastapi",
         "django",
         "drf",
+        "graphene",
         "tornado"
       ]
     }
@@ -874,7 +875,8 @@
       "framework": "flask",
       "detail": {
         "method": "POST",
-        "path": "/enroll"
+        "path": "/enroll",
+        "mount": "app"
       }
     },
     {
@@ -883,7 +885,8 @@
       "framework": "flask",
       "detail": {
         "method": "POST",
-        "path": "/enroll-safe"
+        "path": "/enroll-safe",
+        "mount": "app"
       }
     }
   ],

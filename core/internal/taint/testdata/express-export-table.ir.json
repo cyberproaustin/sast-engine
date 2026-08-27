@@ -1,6 +1,6 @@
 {
   "irVersion": "0.19.0",
-  "frontend": {"name":"typescript","version":"0.1.0","capabilities":{"typeChecker":true,"interprocedural":true,"crossModule":true,"controlFlow":true,"templates":false,"frameworkModels":["express","nestjs"]}},
+  "frontend": {"name":"typescript","version":"0.1.0","capabilities":{"typeChecker":true,"interprocedural":true,"crossModule":true,"controlFlow":true,"templates":false,"frameworkModels":["express","nestjs","trpc","ts-rest"]}},
   "modules": [
     {"id":"db.js","path":"db.js"},
     {"id":"products.js","path":"products.js"},
@@ -22,8 +22,8 @@
     {"id":"app.js#<anonymous>:27:32","name":"<anonymous>","module":"app.js","loc":{"file":"app.js","line":27,"column":32},"params":[{"index":0,"name":"row","valueId":"app.js#<anonymous>:27:32$v0"}],"values":[{"id":"app.js#<anonymous>:27:32$v0","kind":"param","loc":{"file":"app.js","line":27,"column":33},"name":"row"},{"id":"app.js#<anonymous>:27:32$v1","kind":"call-result","loc":{"file":"app.js","line":27,"column":41},"name":"res.json"}],"flows":[],"calls":[{"id":"app.js#<anonymous>:27:32$c0","loc":{"file":"app.js","line":27,"column":41},"callee":{"kind":"external","symbol":"res.json","resolution":"probable","name":"json"},"args":[{"index":0,"valueId":"app.js#<anonymous>:27:32$v0"}],"method":"json","receiverValueId":"app.js#<anonymous>:25:26$v1","argCount":1,"resultValueId":"app.js#<anonymous>:27:32$v1","block":"app.js#<anonymous>:27:32$b0"}],"returns":["app.js#<anonymous>:27:32$v1"],"comparisons":[],"entryBlock":"app.js#<anonymous>:27:32$b0","blocks":[{"id":"app.js#<anonymous>:27:32$b0","successors":[],"loc":{"file":"app.js","line":27,"column":32}}]}
   ],
   "entryPoints": [
-    {"functionId":"app.js#<anonymous>:11:21","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/product","module":"app.js"},"loc":{"file":"app.js","line":11,"column":1},"middleware":[]},
-    {"functionId":"app.js#<anonymous>:19:28","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/product-either","module":"app.js"},"loc":{"file":"app.js","line":19,"column":1},"middleware":[]},
-    {"functionId":"app.js#<anonymous>:25:26","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/product-safe","module":"app.js"},"loc":{"file":"app.js","line":25,"column":1},"middleware":[]}
+    {"functionId":"app.js#<anonymous>:11:21","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/product","module":"app.js","mount":"app"},"loc":{"file":"app.js","line":11,"column":1},"middleware":[]},
+    {"functionId":"app.js#<anonymous>:19:28","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/product-either","module":"app.js","mount":"app"},"loc":{"file":"app.js","line":19,"column":1},"middleware":[]},
+    {"functionId":"app.js#<anonymous>:25:26","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/product-safe","module":"app.js","mount":"app"},"loc":{"file":"app.js","line":25,"column":1},"middleware":[]}
   ]
 }

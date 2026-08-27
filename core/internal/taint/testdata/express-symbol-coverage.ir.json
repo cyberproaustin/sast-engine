@@ -1,6 +1,6 @@
 {
   "irVersion": "0.19.0",
-  "frontend": {"name":"typescript","version":"0.1.0","capabilities":{"typeChecker":true,"interprocedural":true,"crossModule":true,"controlFlow":true,"templates":false,"frameworkModels":["express","nestjs"]}},
+  "frontend": {"name":"typescript","version":"0.1.0","capabilities":{"typeChecker":true,"interprocedural":true,"crossModule":true,"controlFlow":true,"templates":false,"frameworkModels":["express","nestjs","trpc","ts-rest"]}},
   "modules": [
     {"id":"sanitizer.ts","path":"sanitizer.ts"},
     {"id":"app.ts","path":"app.ts"}
@@ -24,15 +24,15 @@
     {"id":"app.ts#element:89:1","name":"element","module":"app.ts","loc":{"file":"app.ts","line":89,"column":1},"params":[],"values":[{"id":"app.ts#element:89:1$v0","kind":"local","loc":{"file":"app.ts","line":90,"column":10},"name":"{object}"}],"flows":[],"calls":[],"returns":["app.ts#element:89:1$v0"],"comparisons":[],"entryBlock":"app.ts#element:89:1$b0","blocks":[{"id":"app.ts#element:89:1$b0","successors":[],"loc":{"file":"app.ts","line":89,"column":1},"terminator":"return"},{"id":"app.ts#element:89:1$b1","successors":[],"loc":{"file":"app.ts","line":90,"column":3}}]}
   ],
   "entryPoints": [
-    {"functionId":"app.ts#<anonymous>:23:19","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/proxy","module":"app.ts"},"loc":{"file":"app.ts","line":23,"column":1},"middleware":[]},
-    {"functionId":"app.ts#<anonymous>:29:24","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/proxy-http","module":"app.ts"},"loc":{"file":"app.ts","line":29,"column":1},"middleware":[]},
-    {"functionId":"app.ts#<anonymous>:34:18","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/run","module":"app.ts"},"loc":{"file":"app.ts","line":34,"column":1},"middleware":[]},
-    {"functionId":"app.ts#<anonymous>:41:21","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/append","module":"app.ts"},"loc":{"file":"app.ts","line":41,"column":1},"middleware":[]},
-    {"functionId":"app.ts#<anonymous>:46:25","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/render-ejs","module":"app.ts"},"loc":{"file":"app.ts","line":46,"column":1},"middleware":[]},
-    {"functionId":"app.ts#<anonymous>:51:30","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/render-nunjucks","module":"app.ts"},"loc":{"file":"app.ts","line":51,"column":1},"middleware":[]},
-    {"functionId":"app.ts#<anonymous>:56:19","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/greet","module":"app.ts"},"loc":{"file":"app.ts","line":56,"column":1},"middleware":[]},
-    {"functionId":"app.ts#<anonymous>:64:19","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/calc","module":"app.ts"},"loc":{"file":"app.ts","line":64,"column":1},"middleware":[]},
-    {"functionId":"app.ts#<anonymous>:71:21","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/trusted","module":"app.ts"},"loc":{"file":"app.ts","line":71,"column":1},"middleware":[]},
-    {"functionId":"app.ts#<anonymous>:78:25","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/render-note","module":"app.ts"},"loc":{"file":"app.ts","line":78,"column":1},"middleware":[]}
+    {"functionId":"app.ts#<anonymous>:23:19","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/proxy","module":"app.ts","mount":"app"},"loc":{"file":"app.ts","line":23,"column":1},"middleware":[]},
+    {"functionId":"app.ts#<anonymous>:29:24","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/proxy-http","module":"app.ts","mount":"app"},"loc":{"file":"app.ts","line":29,"column":1},"middleware":[]},
+    {"functionId":"app.ts#<anonymous>:34:18","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/run","module":"app.ts","mount":"app"},"loc":{"file":"app.ts","line":34,"column":1},"middleware":[]},
+    {"functionId":"app.ts#<anonymous>:41:21","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/append","module":"app.ts","mount":"app"},"loc":{"file":"app.ts","line":41,"column":1},"middleware":[]},
+    {"functionId":"app.ts#<anonymous>:46:25","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/render-ejs","module":"app.ts","mount":"app"},"loc":{"file":"app.ts","line":46,"column":1},"middleware":[]},
+    {"functionId":"app.ts#<anonymous>:51:30","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/render-nunjucks","module":"app.ts","mount":"app"},"loc":{"file":"app.ts","line":51,"column":1},"middleware":[]},
+    {"functionId":"app.ts#<anonymous>:56:19","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/greet","module":"app.ts","mount":"app"},"loc":{"file":"app.ts","line":56,"column":1},"middleware":[]},
+    {"functionId":"app.ts#<anonymous>:64:19","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/calc","module":"app.ts","mount":"app"},"loc":{"file":"app.ts","line":64,"column":1},"middleware":[]},
+    {"functionId":"app.ts#<anonymous>:71:21","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/trusted","module":"app.ts","mount":"app"},"loc":{"file":"app.ts","line":71,"column":1},"middleware":[]},
+    {"functionId":"app.ts#<anonymous>:78:25","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/render-note","module":"app.ts","mount":"app"},"loc":{"file":"app.ts","line":78,"column":1},"middleware":[]}
   ]
 }

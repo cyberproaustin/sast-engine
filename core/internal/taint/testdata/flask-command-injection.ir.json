@@ -15,6 +15,7 @@
         "fastapi",
         "django",
         "drf",
+        "graphene",
         "tornado"
       ]
     }
@@ -995,7 +996,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/ping"
+        "path": "/ping",
+        "mount": "app"
       }
     },
     {
@@ -1004,7 +1006,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/orders/<order_id>"
+        "path": "/orders/<order_id>",
+        "mount": "app"
       }
     },
     {
@@ -1013,7 +1016,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/status"
+        "path": "/status",
+        "mount": "app"
       }
     }
   ],

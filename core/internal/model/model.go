@@ -1489,6 +1489,32 @@ func builtin() Model {
 						ParamIndex: 1,
 						Paths:      []string{"user", "auth", "session"},
 					},
+					// A GraphQL resolver is handed the request inside `info.context`,
+					// which for a Django-hosted schema IS the HttpRequest -- so the
+					// caller's identity is `info.context.user`, and an application
+					// authenticated by token puts the App there instead.
+					//
+					// Two parameter positions because a resolver is written both ways and
+					// neither spelling is wrong: `perform_mutation(cls, _root, info)` puts
+					// it third and `mutate(root, info)` puts it second. Naming both costs
+					// nothing -- the other parameter at each index is a root or an
+					// argument map, and neither has a `context` to read.
+					{
+						Match:      MatchEntryParamProperty,
+						Framework:  "graphene",
+						EntryKind:  "graphql-operation",
+						ParamIndex: 1,
+						Paths:      []string{"context"},
+						LeafEquals: []string{"user", "app", "auth", "requestor"},
+					},
+					{
+						Match:      MatchEntryParamProperty,
+						Framework:  "graphene",
+						EntryKind:  "graphql-operation",
+						ParamIndex: 2,
+						Paths:      []string{"context"},
+						LeafEquals: []string{"user", "app", "auth", "requestor"},
+					},
 					// Tornado hangs it off the HANDLER rather than off the request, so
 					// the identity is `self.current_user` and `self` is the verb
 					// method's first parameter. Same judgement, different plumbing

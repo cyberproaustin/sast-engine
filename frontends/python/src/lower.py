@@ -19,6 +19,7 @@ import re
 from typing import Any
 
 from declarative import declared_views
+from graphene_schema import caller_supplied_params, graphene_entry_points
 from templates import index_templates, resolve_template
 
 IR_VERSION = "0.19.0"
@@ -682,8 +683,13 @@ class ModuleLowerer:
                  templates: dict | None = None, resource_paths: dict[str, str] | None = None,
                  django_prefixes: dict[str, str] | None = None,
                  class_members: dict[str, dict[str, str]] | None = None,
-                 base_members: dict[str, dict[str, str]] | None = None):
+                 base_members: dict[str, dict[str, str]] | None = None,
+                 graphql_resolvers: set[int] | None = None):
         self.module = module_id(root, path)
+        # Resolver bodies a GraphQL schema dispatches into, decided program-wide because
+        # the registration and the resolver are never in the same file. Their parameters
+        # are the arguments a caller named.
+        self.graphql_resolvers = graphql_resolvers or set()
         # Every view under the root, read once for the whole program.
         self.templates = templates or {}
         self.tree = tree
@@ -1902,13 +1908,30 @@ class FunctionLowerer:
         # parameters are values a person typed at a shell. `self` is not one of them.
         operator = id(self.node) in self.mod.operator_inputs
 
+        # A GraphQL resolver is handed the caller's arguments BY NAME. There is no request
+        # object to read a property off, so the parameter itself is the origin -- the same
+        # judgement, and the same value kind, that an injected NestJS parameter already
+        # carries (ADR-004). The framework's own parameters are excluded by name, because
+        # `info` is the framework's and `id` is the caller's.
+        graphql = (caller_supplied_params(self.node)
+                   if id(self.node) in self.mod.graphql_resolvers else set())
+
         def param_kind(name: str) -> str:
+            if name in graphql:
+                return "untrusted-param"
             return "operator-param" if operator and name not in ("self", "cls") else "param"
 
         # Keyword-only parameters participate in name binding even though they have no
         # positional slot in Python source. Keeping them in the declared parameter list
         # is what lets a local `f(value=x)` bind exactly when `value` follows `*`.
-        for index, arg in enumerate((*self.node.args.args, *self.node.args.kwonlyargs)):
+        # Positional-only parameters were absent entirely, and a parameter this frontend
+        # does not bind is a value that vanishes: `perform_mutation(cls, _root, info, /,
+        # *, id)` is how every one of saleor's 315 GraphQL mutations is written, and
+        # `info.context.user` inside one lowered to nothing at all because `info` resolved
+        # to no value. They come FIRST in the call's positional order, which is what makes
+        # the index a rule can name mean what the source says.
+        for index, arg in enumerate(
+                (*self.node.args.posonlyargs, *self.node.args.args, *self.node.args.kwonlyargs)):
             vid = self.new_value(param_kind(arg.arg), arg, name=arg.arg)
             self.scope[arg.arg] = vid
             self.params.append({"index": index, "name": arg.arg, "valueId": vid})
@@ -3318,8 +3341,19 @@ def lower_program(root: str, files: list[str]) -> dict:
          if not is_test_module(module_id(root, path))],
         lambda module, node: f"{module}#{node.name}:{node.lineno}:{node.col_offset + 1}")
 
+    # The GraphQL schema, resolved before any module is lowered and for the same reason the
+    # URLconfs are: `schema.py` names a mutation class it never defines, and the module that
+    # defines one never learns it was registered. A test module is left out because a test
+    # composes whatever schema it wants to exercise and none of that is served.
+    production = [(module_id(root, path), tree) for path, tree in trees
+                  if not is_test_module(module_id(root, path))]
+    graphql_entries, graphql_resolvers = graphene_entry_points(
+        production,
+        lambda module, node: f"{module}#{node.name}:{node.lineno}:{node.col_offset + 1}")
+
     lowerers = [ModuleLowerer(root, path, tree, defs, templates, resource_paths,
-                              django_prefixes, class_members, base_members)
+                              django_prefixes, class_members, base_members,
+                              graphql_resolvers)
                 for path, tree in trees]
     provenance = module_provenance(root, trees)
 
@@ -3342,6 +3376,7 @@ def lower_program(root: str, files: list[str]) -> dict:
         functions.extend(lowerer.functions)
         entry_points.extend(lowerer.entry_points)
         renders.extend(lowerer.renders)
+    entry_points.extend(graphql_entries)
 
     # The views, with the graph between them resolved to ids here rather than left as the
     # names they were written with. Which file a name reaches is a question about this
@@ -3397,8 +3432,13 @@ def lower_program(root: str, files: list[str]) -> dict:
                 # second declares attributes the framework reads and writes no handler at
                 # all. Claiming "django" covered both would have reported an analysis of
                 # declarative views as clean on a program whose views were never read.
+                # `graphene` is named apart from `django` for the reason `drf` is
+                # (ADR-003). A GraphQL schema is a third idiom: the URLconf registers one
+                # view and the operations behind it are class attributes no route mentions,
+                # so a scan of a Django application WITHOUT a schema must report the
+                # graphene judgements NOT EVALUATED rather than silently clean.
                 "frameworkModels": ["flask", "flask-appbuilder", "fastapi", "django",
-                                    "drf", "tornado"],
+                                    "drf", "graphene", "tornado"],
             },
         },
         "modules": modules,

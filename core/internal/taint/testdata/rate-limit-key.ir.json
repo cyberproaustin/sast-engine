@@ -1,6 +1,6 @@
 {
   "irVersion": "0.19.0",
-  "frontend": {"name":"typescript","version":"0.1.0","capabilities":{"typeChecker":true,"interprocedural":true,"crossModule":true,"controlFlow":true,"templates":false,"frameworkModels":["express","nestjs"]}},
+  "frontend": {"name":"typescript","version":"0.1.0","capabilities":{"typeChecker":true,"interprocedural":true,"crossModule":true,"controlFlow":true,"templates":false,"frameworkModels":["express","nestjs","trpc","ts-rest"]}},
   "modules": [
     {"id":"app.ts","path":"app.ts"}
   ],
@@ -11,7 +11,7 @@
     {"id":"app.ts#<anonymous>:29:23","name":"<anonymous>","module":"app.ts","loc":{"file":"app.ts","line":29,"column":23},"params":[{"index":0,"name":"_req","valueId":"app.ts#<anonymous>:29:23$v0"},{"index":1,"name":"res","valueId":"app.ts#<anonymous>:29:23$v1"}],"values":[{"id":"app.ts#<anonymous>:29:23$v0","kind":"param","loc":{"file":"app.ts","line":29,"column":24},"name":"_req"},{"id":"app.ts#<anonymous>:29:23$v1","kind":"param","loc":{"file":"app.ts","line":29,"column":30},"name":"res"},{"id":"app.ts#<anonymous>:29:23$v2","kind":"literal","loc":{"file":"app.ts","line":29,"column":47},"literal":"ok"},{"id":"app.ts#<anonymous>:29:23$v3","kind":"call-result","loc":{"file":"app.ts","line":29,"column":38},"name":"res.send"}],"flows":[],"calls":[{"id":"app.ts#<anonymous>:29:23$c0","loc":{"file":"app.ts","line":29,"column":38},"callee":{"kind":"external","symbol":"res.send","resolution":"probable","name":"send"},"args":[{"index":0,"valueId":"app.ts#<anonymous>:29:23$v2"}],"method":"send","receiverValueId":"app.ts#<anonymous>:29:23$v1","argLiterals":{"0":"ok"},"argCount":1,"resultValueId":"app.ts#<anonymous>:29:23$v3","block":"app.ts#<anonymous>:29:23$b0"}],"returns":["app.ts#<anonymous>:29:23$v3"],"comparisons":[],"entryBlock":"app.ts#<anonymous>:29:23$b0","blocks":[{"id":"app.ts#<anonymous>:29:23$b0","successors":[],"loc":{"file":"app.ts","line":29,"column":23}}]}
   ],
   "entryPoints": [
-    {"functionId":"app.ts#<anonymous>:20:20","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/login","module":"app.ts"},"loc":{"file":"app.ts","line":20,"column":1},"middleware":[]},
-    {"functionId":"app.ts#<anonymous>:29:23","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/account","module":"app.ts"},"loc":{"file":"app.ts","line":29,"column":1},"middleware":[]}
+    {"functionId":"app.ts#<anonymous>:20:20","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/login","module":"app.ts","mount":"app"},"loc":{"file":"app.ts","line":20,"column":1},"middleware":[]},
+    {"functionId":"app.ts#<anonymous>:29:23","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/account","module":"app.ts","mount":"keyed"},"loc":{"file":"app.ts","line":29,"column":1},"middleware":[]}
   ]
 }
