@@ -214,6 +214,15 @@ send. No bulk submissions and no more than one report per repository per batch.
 
 ### What the report says
 
+**The canonical template is `loop/reports/TEMPLATE.md`, and it is fixed rather than advisory.**
+It is the shape of the first report that actually went out, GHSA-j32x-65f3-7hv8 to umami, read
+line by line before it was sent. The single most important thing in it: **prose, never labelled
+sections.** A person explaining something they found writes paragraphs; a tool emits `What
+happens` and `Impact` headers, and a maintainer can tell the difference in about two seconds.
+
+Written by a subagent to that template, then read by me line by line before it is sent. Nothing
+goes out that I have not read.
+
 Written by a subagent to the template below, then read by me line by line before it is sent.
 Nothing goes out that I have not read.
 
