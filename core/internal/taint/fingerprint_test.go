@@ -61,7 +61,7 @@ func TestSiblingsOfOneRuleAtOneSinkAreNotOneFinding(t *testing.T) {
 // orphans every verdict at once, and a test that computed the expectation the same way
 // the code does would agree with the mistake.
 // The constant below is a BASELINE, not a truth: it pins today's computation so a future
-// change to it cannot silently orphan validation/verdicts.json, which holds 131 verdicts
+// change to it cannot silently orphan the verdict ledger, which holds 131 verdicts
 // keyed by fingerprint.
 //
 // It was written with a value that was already stale, and the resulting failure was read as

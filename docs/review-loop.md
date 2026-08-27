@@ -9,7 +9,7 @@ them ours, none of them chosen by popularity, each one read three times by parti
 not share a failure mode, with every disagreement investigated against the source and the
 answer written down permanently.
 
-The output of the loop is not a score. It is `loop-issues.md`, the list of things the
+The output of the loop is not a score. It is `loop/issues.md`, the list of things the
 engine cannot yet say, and the fixtures extracted from real code that prove each one.
 
 ---
@@ -143,13 +143,13 @@ report rather than me reading the findings.
 
 ### Stage 5. Record, before anything is deleted
 
-**The verdict ledger.** Findings append to `validation/verdicts.json`, which already exists,
+**The verdict ledger.** Findings append to `loop/validation/verdicts.json`, which already exists,
 already holds 61 hand-adjudicated verdicts, and is already fingerprint-keyed and
 append-only. Loop verdicts carry `"by": "codex+claude"` so a later reader can tell how each
 one was reached. A verdict recorded once is never asked for again, which is what makes
 precision a number that moves rather than an impression.
 
-**`loop-issues.md`.** Every tool defect, deduplicated by fingerprint, with a recurrence
+**`loop/issues.md`.** Every tool defect, deduplicated by fingerprint, with a recurrence
 count. One entry per distinct defect, not per repository, because six repositories hitting
 the same gap is one fix and the count is what tells us it is urgent.
 
@@ -279,7 +279,7 @@ want anything clarified, cyberproaustin@gmail.com.
 
 Every report is logged in `loop/reports/` with its channel, date, and any reply. A
 maintainer telling us we are wrong is one of the most valuable results available, and it
-goes into `loop-issues.md` as a `FALSE` entry.
+goes into `loop/issues.md` as a `FALSE` entry.
 
 ---
 
@@ -405,7 +405,7 @@ scanned by two different engines, and the batch would measure nothing.
 
 ### At the boundary
 
-1. Read `loop-issues.md`, grouped by recurrence count. Six repositories hitting one gap
+1. Read `loop/issues.md`, grouped by recurrence count. Six repositories hitting one gap
    outranks one repository hitting six. Recurrence sets the ORDER, never the cut: everything
    gets done.
 2. Fix in that order. Every fix lands with the fixture extracted from the real code that
@@ -441,11 +441,11 @@ a percentage, and it is the only artifact here that compounds.
 ## Where everything lives
 
 ```
-loop-issues.md              the defect list, deduplicated, recurrence-counted
+loop/issues.md           the defect list, deduplicated, recurrence-counted
 loop/manifest.tsv           the hundred: url, sha, spdx, language, framework, batch, status
 loop/runs/<repo>/           findings-engine.sarif, findings-review.json,
                             adjudication.json, codex-report.md, meta.json
 loop/reports/               maintainer reports, channel, date, reply
-validation/verdicts.json    the permanent verdict ledger (existing, append-only)
+loop/validation/         the verdict ledger and its tooling, kept out of this repository
 testdata/<fixture>/         minimized reproductions extracted before deletion
 ```
