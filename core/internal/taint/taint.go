@@ -1686,6 +1686,12 @@ func (e *engine) collect(all map[string]*engine, caps ir.Capabilities) []Finding
 				if len(ch.ReceiverFrom) > 0 && !e.receiverMadeBy(c, ch.ReceiverFrom) {
 					continue
 				}
+				// The negative form preserves a broad method channel unless receiver
+				// provenance positively identifies a different operation. Unknown is not
+				// excluded: a missing producer is no basis for dropping an ORM update.
+				if len(ch.ReceiverNotFrom) > 0 && e.receiverMadeBy(c, ch.ReceiverNotFrom) {
+					continue
+				}
 				// The language's own containers are not stores of shared records.
 				// Only a positive answer disqualifies: a frontend that cannot type
 				// its receivers leaves this empty, and empty is not "not builtin".
