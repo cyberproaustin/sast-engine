@@ -422,30 +422,7 @@
       ],
       "returns": [],
       "comparisons": [],
-      "writes": [
-        {
-          "loc": {
-            "file": "admin.py",
-            "line": 15,
-            "column": 5
-          },
-          "path": "regex",
-          "from": "admin.py#<module>:0:0$v1",
-          "block": "admin.py#<module>:0:0$b0",
-          "scope": "module"
-        },
-        {
-          "loc": {
-            "file": "admin.py",
-            "line": 22,
-            "column": 5
-          },
-          "path": "list_display",
-          "from": "admin.py#<module>:0:0$v3",
-          "block": "admin.py#<module>:0:0$b0",
-          "scope": "module"
-        }
-      ],
+      "writes": [],
       "entryBlock": "admin.py#<module>:0:0$b0",
       "blocks": [
         {
@@ -1790,30 +1767,7 @@
       ],
       "returns": [],
       "comparisons": [],
-      "writes": [
-        {
-          "loc": {
-            "file": "front/models.py",
-            "line": 5,
-            "column": 5
-          },
-          "path": "code",
-          "from": "front/models.py#<module>:0:0$v1",
-          "block": "front/models.py#<module>:0:0$b0",
-          "scope": "module"
-        },
-        {
-          "loc": {
-            "file": "front/models.py",
-            "line": 6,
-            "column": 5
-          },
-          "path": "name",
-          "from": "front/models.py#<module>:0:0$v4",
-          "block": "front/models.py#<module>:0:0$b0",
-          "scope": "module"
-        }
-      ],
+      "writes": [],
       "entryBlock": "front/models.py#<module>:0:0$b0",
       "blocks": [
         {
