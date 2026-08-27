@@ -7563,10 +7563,10 @@ type StoreRule struct {
 
 	// FromLiteral requires the value WRITTEN to have been written into the source.
 	//
-	// This is the one rule kind here that needs no classification: a key written into the
-	// source is in every clone of the repository whatever it came from, and the test is
-	// the same one the call-shape rules use -- being a literal IS the defect, and a value
-	// read from the environment is not one and never matches.
+	// The destination name narrows what the value is FOR; the literal still has to be a
+	// value capable of filling that role. A key written into the source is in every clone
+	// of the repository, while a value read from the environment is not written down and
+	// never matches.
 	FromLiteral bool
 
 	// NotPath excludes keys another rule already claims, so two rules can describe the
@@ -8240,11 +8240,13 @@ func builtinStores() []StoreRule {
 			// are how a Flask application is misconfigured, and the key is then in every
 			// clone of the repository and in its history after somebody changes it.
 			//
-			// Matched by a WORD in the key rather than by its whole name, because
-			// configuration keys are compound and an exact list is wrong at the first
-			// application that adds a suffix. `csrf` is excluded for the reason the cookie
-			// rules exclude it: a double-submit token contains the word and is not a
-			// secret.
+			// The identifier and value are a conjunction. A WORD in the key narrows what
+			// the value is for, because configuration keys are compound and an exact list
+			// is wrong at the first application that adds a suffix. The value must still
+			// be capable of serving as the credential: healthchecks' measured
+			// `email_password_status = "success"` is not. `csrf` is excluded for the
+			// reason the cookie rules exclude it: a double-submit token contains the word
+			// and is not a secret.
 			ID: "hardcoded-secret", Class: "", FromLiteral: true,
 			// No "token". Measured across twenty-eight repositories: every configuration key
 			// holding that word held an OAuth endpoint URL, a header name or a form field,

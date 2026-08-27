@@ -94,8 +94,10 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 					out = append(out, finding(ix, fn, w, rule, taint.Origin{Label: writtenLabel(ix, w)}))
 					continue
 				}
-				// A rule about what was WRITTEN DOWN needs no classification: being a
-				// literal is the defect, and a value read from the environment is not one.
+				// A rule about what was WRITTEN DOWN starts with the value itself. The
+				// destination name has already narrowed its role above; neither half can
+				// decide the finding alone. A value read from the environment is not a
+				// literal and never reaches this judgement.
 				if rule.FromLiteral {
 					v := ix.ValueByID[w.From]
 					// The same bar the literal analysis applies, for the same reason
@@ -218,17 +220,56 @@ func pathMatches(path string, want []string) bool {
 	return false
 }
 
-// containsWord reports whether an access path contains one of these words, ignoring case
-// and separators, so `SECRET_KEY_HMAC` and `secretKey` both contain `secret`.
+// containsWord reports whether an access path contains one of these identifier words,
+// ignoring case and recognising separator and camel-case boundaries. The boundary is the
+// evidence: `SECRET_KEY_HMAC` and `secretKey` name a secret, while the Adobe glyph name
+// `ideographicsecretcircle` measured in pdfjs merely contains the same letters.
 func containsWord(path string, words []string) bool {
-	lower := strings.ToLower(path)
 	for _, w := range words {
-		if strings.Contains(lower, strings.ToLower(w)) {
+		if containsIdentifierWord(path, w) {
 			return true
 		}
 	}
 	return false
 }
+
+func containsIdentifierWord(s, want string) bool {
+	lower, word := strings.ToLower(s), strings.ToLower(want)
+	if word == "" {
+		return false
+	}
+	for i := 0; i+len(word) <= len(lower); i++ {
+		if lower[i:i+len(word)] == word && identifierBoundary(s, i) &&
+			identifierBoundary(s, i+len(word)) {
+			return true
+		}
+	}
+	return false
+}
+
+// identifierBoundary recognises both punctuation and the case transition in `secretKey`.
+// The acronym case is why the byte after the boundary is read too: `APISecret` begins a
+// new word where two capitals are followed by a lower-case letter.
+func identifierBoundary(s string, at int) bool {
+	if at <= 0 || at >= len(s) {
+		return true
+	}
+	left, right := s[at-1], s[at]
+	if !identifierByte(left) || !identifierByte(right) {
+		return true
+	}
+	if lowerByte(left) && upperByte(right) {
+		return true
+	}
+	return upperByte(left) && upperByte(right) && at+1 < len(s) && lowerByte(s[at+1])
+}
+
+func identifierByte(b byte) bool {
+	return lowerByte(b) || upperByte(b) || b >= '0' && b <= '9'
+}
+
+func lowerByte(b byte) bool { return b >= 'a' && b <= 'z' }
+func upperByte(b byte) bool { return b >= 'A' && b <= 'Z' }
 
 // rotation answers whether a function is anywhere near a particular call.
 //
@@ -406,12 +447,15 @@ func writtenLabel(ix *ir.Index, w ir.Write) string {
 	return w.Path
 }
 
-// meaningfulSecret rejects the values that are a placeholder rather than a key. A config
-// key set to None, to the empty string or to a flag is a key that is not set.
+// meaningfulSecret rejects values whose meaning is visible and is not a credential. A
+// configuration name narrows the question to values used as secrets; it does not answer
+// it. A key set to None, to a flag, or to a closed status value is not a key.
 func meaningfulSecret(literal string) bool {
 	v := strings.TrimSpace(strings.ToLower(literal))
 	switch v {
-	case "", "none", "null", "true", "false", "0", "1", "undefined", "changeme":
+	case "", "none", "null", "true", "false", "0", "1", "undefined", "changeme",
+		"ok", "success", "failure", "failed", "error", "pending", "unknown",
+		"valid", "invalid", "ready", "complete", "completed", "enabled", "disabled":
 		return false
 	}
 	if len(v) < 4 {

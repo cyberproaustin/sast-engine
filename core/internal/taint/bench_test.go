@@ -148,6 +148,7 @@ var corpora = []string{
 	"argument-injection-into-argv",
 	"rate-limit-key",
 	"rate-limit-scope",
+	"secret-identifier-role",
 	"python-try-except",
 }
 
