@@ -370,8 +370,17 @@ def index_templates(root: str) -> dict[str, Template]:
     return out
 
 
-def resolve_template(index: dict[str, Template], name: str) -> Template | None:
+def resolve_template(index: dict[str, Template], name: str, relative_to: str | None = None) -> Template | None:
     """The template a render call names.
+
+    `relative_to` is the template doing the naming, for the half of the resolution that
+    happens between two views. A loader root is some ANCESTOR directory of the file that
+    names the target, which is the one thing about the search path that is true without
+    reading the configuration: `share/jupyterhub/templates/home.html` extending
+    `page.html` means the `page.html` beside it, not one of the two others in the tree,
+    and `searx/templates/simple/results.html` including `simple/elements/infobox.html`
+    means the one under its own parent. Without this, every template in a project holding
+    more than one `page.html` resolved to nothing.
 
     Flask resolves a view name against a search path that is configuration rather than
     source, so matching on a path SUFFIX covers it without modelling that configuration:
@@ -386,6 +395,19 @@ def resolve_template(index: dict[str, Template], name: str) -> Template | None:
     if ".." in name:
         return None
     wanted = name.lstrip("./")
+    if relative_to:
+        parts = relative_to.split("/")[:-1]
+        while parts:
+            candidate = "/".join(parts) + "/" + wanted
+            # A view that extends its own NAME is extending the one the loader finds
+            # further along the search path, never itself -- an application overriding a
+            # framework's `page.html` writes exactly that, and answering with the file we
+            # started from would be a cycle rather than a resolution.
+            if candidate in index and candidate != relative_to:
+                return index[candidate]
+            parts.pop()
+        if wanted in index and wanted != relative_to:
+            return index[wanted]
     matches = [t for p, t in index.items() if p == wanted or p.endswith("/" + wanted)]
     if len(matches) == 1:
         return matches[0]

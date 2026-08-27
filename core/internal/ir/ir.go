@@ -33,6 +33,12 @@ type IR struct {
 	// together, which is a shape real applications do not have.
 	Views   []View   `json:"views,omitempty"`
 	Renders []Render `json:"renders,omitempty"`
+
+	// ViewsJoined records that the core has already written this document's template
+	// sinks into it. Deliberately not serialized: it is a fact about this process's copy
+	// of the program, and a scan run twice over one document would otherwise report
+	// every interpolation twice.
+	ViewsJoined bool `json:"-"`
 }
 
 // View is one template: what it writes into the page, and which other templates it
@@ -44,7 +50,7 @@ type View struct {
 	// them, with THIS view's context.
 	Extends []string `json:"extends,omitempty"`
 	// Includes are the views this one draws in, likewise with its own context.
-	Includes []Include `json:"includes,omitempty"`
+	Includes []Include  `json:"includes,omitempty"`
 	Reads    []ViewRead `json:"reads,omitempty"`
 }
 

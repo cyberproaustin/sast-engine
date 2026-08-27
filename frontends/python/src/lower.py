@@ -1204,22 +1204,31 @@ class ModuleLowerer:
                 continue
             # `view_func` is Flask's third parameter, so it arrives either by keyword or
             # as the third positional argument: add_url_rule(rule, endpoint, view_func).
+            #
+            # And it is an EXPRESSION, not a name. `view_func=favicons.favicon_proxy` is
+            # how one application registers the only route it declares this way, and a
+            # test for `ast.Name` refused it -- so the same helper the other registrars
+            # use resolves it here, which is what makes `views.index` work too.
             ref = None
             for kw in node.keywords:
-                if kw.arg == "view_func" and isinstance(kw.value, ast.Name):
-                    ref = kw.value.id
-            if ref is None and len(node.args) >= 3 and isinstance(node.args[2], ast.Name):
-                ref = node.args[2].id
+                if kw.arg == "view_func":
+                    ref = kw.value
+            if ref is None and len(node.args) >= 3:
+                ref = node.args[2]
             if ref is None:
                 continue
 
             # A class-based view registered this way gets its path from here; its methods
             # are already entry points by the framework's verb contract.
-            if ref in self.view_classes:
+            if isinstance(ref, ast.Name) and ref.id in self.view_classes:
                 continue
-            target = self.global_defs.get(f"{self.module}:{ref}")
-            if not target:
-                continue
+            # A route whose handler does not resolve STILL EXISTS. `favicon_proxy` is
+            # re-exported through a package `__init__`, which this frontend's definition
+            # table does not follow, and dropping the route on that account hides an
+            # address the application answers at -- the one thing the enumerated surface
+            # must never do (ADR-009). The TypeScript side already emits these with no
+            # function; this is the same judgement.
+            target = self._function_reference(ref)
             paths = self._paths_in(node)
             path = paths[0] if paths else (
                 self.path_text(node.args[0]) if node.args else unresolved_path())
@@ -1227,7 +1236,7 @@ class ModuleLowerer:
             # makes, and GET was being applied over the top of it here too.
             for method in self._declared_methods(node):
                 out.append({
-                    "functionId": target,
+                    "functionId": target or "",
                     "kind": "http-route",
                     "framework": "flask",
                     "detail": {"method": method, "path": path},
@@ -3059,13 +3068,13 @@ def lower_program(root: str, files: list[str]) -> dict:
         if not template.reads and not template.extends and not template.includes:
             continue
         view: dict[str, Any] = {"id": template.module}
-        parents = [resolve_template(templates, name) for name in template.extends]
+        parents = [resolve_template(templates, name, template.module) for name in template.extends]
         parents = [p.module for p in parents if p is not None]
         if parents:
             view["extends"] = parents
         includes = []
         for entry in template.includes:
-            target = resolve_template(templates, entry["view"])
+            target = resolve_template(templates, entry["view"], template.module)
             if target is None:
                 continue
             includes.append({"view": target.module,
