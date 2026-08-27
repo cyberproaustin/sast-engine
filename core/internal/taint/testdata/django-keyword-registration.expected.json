@@ -1,0 +1,22 @@
+{
+  "corpus": "django-keyword-registration",
+  "description": "A Django route registered with keyword arguments is the same registration as one written positionally, and the detector read only node.args. Measured on doccano: 51 of its registrations name their arguments and 22 do not, and the engine enumerated 6 entry points of a 78-route application. This is the same mistake as reading an argument's position when it was written as a keyword, one level up, and it has now cost a surface twice. The findings here exist only because the keyword-written routes are enumerated, so a regression removes them rather than merely changing a count. The negative is a path() call with no view: nothing answers there, so it is not a registration.",
+  "expected": [
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "views.py",
+      "sinkLine": 10,
+      "sourceLabel": "request.GET",
+      "confidence": "high",
+      "note": "reached from the positional path and from the keyword-written re_path"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "views.py",
+      "sinkLine": 20,
+      "sourceLabel": "request.POST",
+      "confidence": "high",
+      "note": "a class-based view registered with route= and view=, expanded to its post method"
+    }
+  ]
+}

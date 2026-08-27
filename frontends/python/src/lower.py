@@ -456,6 +456,27 @@ def dotted_module(module: str) -> str:
     return module[:-3].replace("/", ".") if module.endswith(".py") else module
 
 
+def django_call_args(node: ast.Call) -> tuple[ast.AST | None, ast.AST | None]:
+    """The route and the view of a `path()` call, written either way.
+
+    Django's own tutorial writes `path("x/", views.x)` and its own documentation writes
+    `path(route="x/", view=views.x)`, and a great many projects use the second. Reading only
+    node.args enumerated 6 entry points of a 78-route application: 51 of doccano's
+    registrations name their arguments and 22 do not.
+
+    This is the same mistake as reading an argument's position when it was written as a
+    keyword, one level up -- there in a channel, here in a route detector -- and it has now
+    cost a surface twice.
+    """
+    kw = {k.arg: k.value for k in node.keywords if k.arg}
+    route = kw.get("route") or kw.get("pattern")
+    view = kw.get("view")
+    if route is None and node.args:
+        route = node.args[0]
+    if view is None and len(node.args) > 1:
+        view = node.args[1]
+    return route, view
+
 def django_route_text(node: ast.AST) -> str | None:
     """The literal part of a route, which is all of it except where a setting is in it.
 
@@ -1324,7 +1345,19 @@ class ModuleLowerer:
     def _function_reference(self, node: ast.AST) -> str | None:
         """The function a route registration POINTS AT, named or imported."""
         if isinstance(node, ast.Name):
-            return self.global_defs.get(f"{self.module}:{node.id}")
+            local = self.global_defs.get(f"{self.module}:{node.id}")
+            if local:
+                return local
+            # A name this module IMPORTED. `from .views import plain_view` and then
+            # `path("x/", plain_view)` is how Django's own tutorial registers a function
+            # view, and resolving only the current module's globals missed every one of
+            # them -- while `SomeClass.as_view()` resolved, because that is an attribute
+            # access and took the branch below.
+            origin = self.imports.get(node.id)
+            if origin:
+                return self.global_defs.get(f"import:{origin}.{node.id}") or \
+                       self.global_defs.get(f"import:{origin}")
+            return None
         if isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name):
             # `views.index`, where `views` is a module this file imported.
             module = self.imports.get(node.value.id)
@@ -1351,12 +1384,14 @@ class ModuleLowerer:
         for node in ast.walk(self.tree):
             if not isinstance(node, ast.Call) or not isinstance(node.func, ast.Name):
                 continue
-            if node.func.id not in DJANGO_REGISTRARS or len(node.args) < 2:
+            if node.func.id not in DJANGO_REGISTRARS:
                 continue
-            route = django_route_text(node.args[0])
+            route_node, view = django_call_args(node)
+            if route_node is None or view is None:
+                continue
+            route = django_route_text(route_node)
             if route is None:
                 continue
-            view = node.args[1]
             # An `include(...)` has no handler of its own: the routes it mounts are
             # registered where they are DEFINED, and they pick this prefix up there.
             if django_included(view) is not None:
