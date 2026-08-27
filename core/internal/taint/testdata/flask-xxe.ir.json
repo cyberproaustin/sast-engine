@@ -15,6 +15,7 @@
         "fastapi",
         "django",
         "drf",
+        "graphene",
         "tornado"
       ]
     }

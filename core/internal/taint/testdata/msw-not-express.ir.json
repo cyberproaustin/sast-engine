@@ -1,6 +1,6 @@
 {
   "irVersion": "0.19.0",
-  "frontend": {"name":"typescript","version":"0.1.0","capabilities":{"typeChecker":true,"interprocedural":true,"crossModule":true,"controlFlow":true,"templates":false,"frameworkModels":["express","nestjs"]}},
+  "frontend": {"name":"typescript","version":"0.1.0","capabilities":{"typeChecker":true,"interprocedural":true,"crossModule":true,"controlFlow":true,"templates":false,"frameworkModels":["express","nestjs","trpc","ts-rest"]}},
   "modules": [
     {"id":"shared.ts","path":"shared.ts"},
     {"id":"MkThing.stories.impl.ts","path":"MkThing.stories.impl.ts","unreferenced":true},
@@ -37,9 +37,9 @@
     {"id":"server.ts#<anonymous>:6:26","name":"<anonymous>","module":"server.ts","loc":{"file":"server.ts","line":6,"column":26},"params":[{"index":0,"name":"request","valueId":"server.ts#<anonymous>:6:26$v0"},{"index":1,"name":"reply","valueId":"server.ts#<anonymous>:6:26$v1"}],"values":[{"id":"server.ts#<anonymous>:6:26$v0","kind":"param","loc":{"file":"server.ts","line":6,"column":33},"name":"request"},{"id":"server.ts#<anonymous>:6:26$v1","kind":"param","loc":{"file":"server.ts","line":6,"column":42},"name":"reply"},{"id":"server.ts#<anonymous>:6:26$v2","kind":"local","loc":{"file":"server.ts","line":7,"column":23},"name":"{object}"},{"id":"server.ts#<anonymous>:6:26$v3","kind":"call-result","loc":{"file":"server.ts","line":7,"column":12},"name":"reply.send"}],"flows":[],"calls":[{"id":"server.ts#<anonymous>:6:26$c0","loc":{"file":"server.ts","line":7,"column":12},"callee":{"kind":"external","symbol":"reply.send","resolution":"probable","name":"send"},"args":[{"index":0,"valueId":"server.ts#<anonymous>:6:26$v2"}],"method":"send","receiverValueId":"server.ts#<anonymous>:6:26$v1","argLiterals":{"-1":"up=true"},"argCount":1,"enumeratedOptions":[0],"resultValueId":"server.ts#<anonymous>:6:26$v3","block":"server.ts#<anonymous>:6:26$b0"}],"returns":["server.ts#<anonymous>:6:26$v3"],"comparisons":[],"entryBlock":"server.ts#<anonymous>:6:26$b0","blocks":[{"id":"server.ts#<anonymous>:6:26$b0","successors":[],"loc":{"file":"server.ts","line":6,"column":26},"terminator":"return"},{"id":"server.ts#<anonymous>:6:26$b1","successors":[],"loc":{"file":"server.ts","line":7,"column":5}}]}
   ],
   "entryPoints": [
-    {"functionId":"api.ts#<anonymous>:8:20","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/health","module":"api.ts"},"loc":{"file":"api.ts","line":8,"column":1},"middleware":[]},
-    {"functionId":"app.js#<anonymous>:8:20","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/users","module":"app.js"},"loc":{"file":"app.js","line":8,"column":1},"middleware":[]},
-    {"functionId":"routes.js#<anonymous>:4:26","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/things","module":"routes.js"},"loc":{"file":"routes.js","line":4,"column":3},"middleware":[]},
-    {"functionId":"server.ts#<anonymous>:6:26","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/status","module":"server.ts"},"loc":{"file":"server.ts","line":6,"column":3},"middleware":[]}
+    {"functionId":"api.ts#<anonymous>:8:20","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/health","module":"api.ts","mount":"app"},"loc":{"file":"api.ts","line":8,"column":1},"middleware":[]},
+    {"functionId":"app.js#<anonymous>:8:20","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/users","module":"app.js","mount":"app"},"loc":{"file":"app.js","line":8,"column":1},"middleware":[]},
+    {"functionId":"routes.js#<anonymous>:4:26","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/things","module":"routes.js","mount":"router"},"loc":{"file":"routes.js","line":4,"column":3},"middleware":[]},
+    {"functionId":"server.ts#<anonymous>:6:26","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/status","module":"server.ts","mount":"fastify"},"loc":{"file":"server.ts","line":6,"column":3},"middleware":[]}
   ]
 }

@@ -1,0 +1,14 @@
+{
+  "corpus": "trpc-router",
+  "description": "A router that registers nothing. There is no `app.post(path, handler)` anywhere in a tRPC application: a procedure is a value built by a builder chain, and the address it answers at is the key it is filed under joined to the keys of every router that object is nested inside -- keys that live in files which never mention each other's contents. Nothing in the source spells an address out, so the Express model saw nothing, the file-route model saw nothing, and one production application enumerated 62 entry points over 274 procedures while its own completeness banner reported 76 functions reading caller input that no entry point could reach. The one positive is what proves the enumeration carries dataflow as well as a row: the caller names a report and the name is interpolated into a shell command, three files away from where the address is composed. The negatives are what the shape costs if it is read loosely. A procedure whose command is written out in full is not a weakness, so the seed alone cannot be what reports. A receiver called `queryClient` with a method called `mutation` is NOT a procedure -- the terminal name is shared with every cache and query client in the ecosystem, and what separates them is the BUILDER in front of it. And `status`, built from the unauthenticated `procedure` where its two peers are built from `authenticatedProcedure`, carries no weakness at all: it is here so that the builder is recorded as a control on the route, which is the only thing in a tRPC codebase that says who may call a procedure.",
+  "expected": [
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "reports.ts",
+      "sinkLine": 16,
+      "sourceLabel": "input",
+      "confidence": "high",
+      "note": "the address is `POST /report/export` from the procedure's own openapi metadata, and `report.export` from the two router keys; neither is written in the file that holds the handler"
+    }
+  ]
+}

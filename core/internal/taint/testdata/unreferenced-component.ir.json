@@ -1,6 +1,6 @@
 {
   "irVersion": "0.19.0",
-  "frontend": {"name":"typescript","version":"0.1.0","capabilities":{"typeChecker":true,"interprocedural":true,"crossModule":true,"controlFlow":true,"templates":false,"frameworkModels":["express","nestjs"]}},
+  "frontend": {"name":"typescript","version":"0.1.0","capabilities":{"typeChecker":true,"interprocedural":true,"crossModule":true,"controlFlow":true,"templates":false,"frameworkModels":["express","nestjs","trpc","ts-rest"]}},
   "modules": [
     {"id":"lib/legacy.ts","path":"lib/legacy.ts","unreferenced":true},
     {"id":"lib/preview.ts","path":"lib/preview.ts"},
@@ -27,6 +27,6 @@
     {"id":"ui/OrphanPanel.tsx#openSettings:7:24","name":"openSettings","module":"ui/OrphanPanel.tsx","loc":{"file":"ui/OrphanPanel.tsx","line":7,"column":24},"params":[],"values":[{"id":"ui/OrphanPanel.tsx#openSettings:7:24$v0","kind":"literal","loc":{"file":"ui/OrphanPanel.tsx","line":8,"column":17},"literal":"https://settings.example.com"},{"id":"ui/OrphanPanel.tsx#openSettings:7:24$v1","kind":"literal","loc":{"file":"ui/OrphanPanel.tsx","line":8,"column":49},"literal":"_blank"},{"id":"ui/OrphanPanel.tsx#openSettings:7:24$v2","kind":"call-result","loc":{"file":"ui/OrphanPanel.tsx","line":8,"column":5},"name":"window.open"}],"flows":[],"calls":[{"id":"ui/OrphanPanel.tsx#openSettings:7:24$c0","loc":{"file":"ui/OrphanPanel.tsx","line":8,"column":5},"callee":{"kind":"external","symbol":"window.open","resolution":"resolved","name":"open"},"args":[{"index":0,"valueId":"ui/OrphanPanel.tsx#openSettings:7:24$v0"},{"index":1,"valueId":"ui/OrphanPanel.tsx#openSettings:7:24$v1"}],"method":"open","argLiterals":{"0":"https://settings.example.com","1":"_blank"},"argCount":2,"resultValueId":"ui/OrphanPanel.tsx#openSettings:7:24$v2","block":"ui/OrphanPanel.tsx#openSettings:7:24$b0"}],"returns":[],"comparisons":[],"entryBlock":"ui/OrphanPanel.tsx#openSettings:7:24$b0","blocks":[{"id":"ui/OrphanPanel.tsx#openSettings:7:24$b0","successors":[],"loc":{"file":"ui/OrphanPanel.tsx","line":7,"column":24}}]}
   ],
   "entryPoints": [
-    {"functionId":"server.ts#<anonymous>:13:21","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/preview","module":"server.ts"},"loc":{"file":"server.ts","line":13,"column":1},"middleware":[]}
+    {"functionId":"server.ts#<anonymous>:13:21","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/preview","module":"server.ts","mount":"app"},"loc":{"file":"server.ts","line":13,"column":1},"middleware":[]}
   ]
 }

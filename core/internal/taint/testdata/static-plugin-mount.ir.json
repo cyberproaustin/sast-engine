@@ -1,6 +1,6 @@
 {
   "irVersion": "0.19.0",
-  "frontend": {"name":"typescript","version":"0.1.0","capabilities":{"typeChecker":true,"interprocedural":true,"crossModule":true,"controlFlow":true,"templates":false,"frameworkModels":["express","nestjs"]}},
+  "frontend": {"name":"typescript","version":"0.1.0","capabilities":{"typeChecker":true,"interprocedural":true,"crossModule":true,"controlFlow":true,"templates":false,"frameworkModels":["express","nestjs","trpc","ts-rest"]}},
   "modules": [
     {"id":"server.ts","path":"server.ts"}
   ],
@@ -14,6 +14,6 @@
     {"functionId":"","kind":"static-mount","framework":"fastify","detail":{"path":"/files/thumbs/","root":"thumbnails"},"loc":{"file":"server.ts","line":16,"column":3}},
     {"functionId":"","kind":"static-mount","framework":"fastify","detail":{"path":"/assets/","root":"ASSETS"},"loc":{"file":"server.ts","line":29,"column":3}},
     {"functionId":"","kind":"static-mount","framework":"fastify","detail":{"path":"/","root":"uploads"},"loc":{"file":"server.ts","line":37,"column":3}},
-    {"functionId":"server.ts#<anonymous>:65:27","kind":"http-route","framework":"fastify","detail":{"method":"GET","path":"/healthz","module":"server.ts"},"loc":{"file":"server.ts","line":65,"column":3},"middleware":[]}
+    {"functionId":"server.ts#<anonymous>:65:27","kind":"http-route","framework":"fastify","detail":{"method":"GET","path":"/healthz","module":"server.ts","mount":"fastify"},"loc":{"file":"server.ts","line":65,"column":3},"middleware":[]}
   ]
 }

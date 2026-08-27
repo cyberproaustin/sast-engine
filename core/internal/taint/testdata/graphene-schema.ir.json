@@ -1,0 +1,2359 @@
+{
+  "irVersion": "0.19.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi",
+        "django",
+        "drf",
+        "graphene",
+        "tornado"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "mutations.py",
+      "path": "mutations.py"
+    },
+    {
+      "id": "permissions.py",
+      "path": "permissions.py"
+    },
+    {
+      "id": "reports.py",
+      "path": "reports.py"
+    },
+    {
+      "id": "schema.py",
+      "path": "schema.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "mutations.py#<module>:0:0",
+      "name": "<module>",
+      "module": "mutations.py",
+      "loc": {
+        "file": "mutations.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "mutations.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "mutations.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The mutations, in the file that never learns it was registered."
+        },
+        {
+          "id": "mutations.py#<module>:0:0$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "mutations.py",
+            "line": 11,
+            "column": 5
+          },
+          "literal": "A caller-named report, exported through a shell.\n\n    The signature is the one every Graphene application above a certain size writes:\n    positional-only framework arguments, then the GraphQL arguments as keyword-only\n    parameters. There is no request object anywhere in it -- the caller's values ARE the\n    parameters, which is why the parameter is the origin.\n    "
+        },
+        {
+          "id": "mutations.py#<module>:0:0$v2",
+          "kind": "global",
+          "loc": {
+            "file": "mutations.py",
+            "line": 19,
+            "column": 10
+          },
+          "name": "graphene"
+        },
+        {
+          "id": "mutations.py#<module>:0:0$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "mutations.py",
+            "line": 19,
+            "column": 10
+          },
+          "name": "graphene.Boolean"
+        },
+        {
+          "id": "mutations.py#<module>:0:0$v4",
+          "kind": "local",
+          "loc": {
+            "file": "mutations.py",
+            "line": 19,
+            "column": 5
+          },
+          "name": "ok"
+        },
+        {
+          "id": "mutations.py#<module>:0:0$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "mutations.py",
+            "line": 22,
+            "column": 41
+          },
+          "literal": "true"
+        },
+        {
+          "id": "mutations.py#<module>:0:0$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "mutations.py",
+            "line": 22,
+            "column": 16
+          },
+          "name": "graphene.String"
+        },
+        {
+          "id": "mutations.py#<module>:0:0$v7",
+          "kind": "local",
+          "loc": {
+            "file": "mutations.py",
+            "line": 22,
+            "column": 9
+          },
+          "name": "name"
+        },
+        {
+          "id": "mutations.py#<module>:0:0$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "mutations.py",
+            "line": 25,
+            "column": 23
+          },
+          "literal": "Export a report."
+        },
+        {
+          "id": "mutations.py#<module>:0:0$v9",
+          "kind": "local",
+          "loc": {
+            "file": "mutations.py",
+            "line": 25,
+            "column": 9
+          },
+          "name": "description"
+        },
+        {
+          "id": "mutations.py#<module>:0:0$v10",
+          "kind": "local",
+          "loc": {
+            "file": "mutations.py",
+            "line": 26,
+            "column": 23
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "mutations.py#<module>:0:0$v11",
+          "kind": "global",
+          "loc": {
+            "file": "mutations.py",
+            "line": 26,
+            "column": 24
+          },
+          "name": "permissions.ReportPermissions"
+        },
+        {
+          "id": "mutations.py#<module>:0:0$v12",
+          "kind": "property",
+          "loc": {
+            "file": "mutations.py",
+            "line": 26,
+            "column": 24
+          },
+          "base": "mutations.py#<module>:0:0$v11",
+          "path": "MANAGE_REPORTS",
+          "name": "MANAGE_REPORTS"
+        },
+        {
+          "id": "mutations.py#<module>:0:0$v13",
+          "kind": "local",
+          "loc": {
+            "file": "mutations.py",
+            "line": 26,
+            "column": 9
+          },
+          "name": "permissions"
+        },
+        {
+          "id": "mutations.py#<module>:0:0$v14",
+          "kind": "literal",
+          "loc": {
+            "file": "mutations.py",
+            "line": 35,
+            "column": 5
+          },
+          "literal": "The same shape with nothing the caller can steer, and a declared permission."
+        },
+        {
+          "id": "mutations.py#<module>:0:0$v15",
+          "kind": "call-result",
+          "loc": {
+            "file": "mutations.py",
+            "line": 37,
+            "column": 10
+          },
+          "name": "graphene.Boolean"
+        },
+        {
+          "id": "mutations.py#<module>:0:0$v16",
+          "kind": "local",
+          "loc": {
+            "file": "mutations.py",
+            "line": 37,
+            "column": 5
+          },
+          "name": "ok"
+        },
+        {
+          "id": "mutations.py#<module>:0:0$v17",
+          "kind": "literal",
+          "loc": {
+            "file": "mutations.py",
+            "line": 40,
+            "column": 23
+          },
+          "literal": "Rebuild every report."
+        },
+        {
+          "id": "mutations.py#<module>:0:0$v18",
+          "kind": "local",
+          "loc": {
+            "file": "mutations.py",
+            "line": 40,
+            "column": 9
+          },
+          "name": "description"
+        },
+        {
+          "id": "mutations.py#<module>:0:0$v19",
+          "kind": "local",
+          "loc": {
+            "file": "mutations.py",
+            "line": 41,
+            "column": 23
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "mutations.py#<module>:0:0$v20",
+          "kind": "local",
+          "loc": {
+            "file": "mutations.py",
+            "line": 41,
+            "column": 9
+          },
+          "name": "permissions"
+        },
+        {
+          "id": "mutations.py#<module>:0:0$v21",
+          "kind": "literal",
+          "loc": {
+            "file": "mutations.py",
+            "line": 50,
+            "column": 5
+          },
+          "literal": "Declares no permission where its two siblings do, and does nothing dangerous.\n\n    Here for the CONTROL, not for a weakness: `Meta.permissions` is the only thing a\n    Graphene schema has that says who may call an operation, and its absence is only\n    visible against the operations beside it.\n    "
+        },
+        {
+          "id": "mutations.py#<module>:0:0$v22",
+          "kind": "call-result",
+          "loc": {
+            "file": "mutations.py",
+            "line": 57,
+            "column": 10
+          },
+          "name": "graphene.Boolean"
+        },
+        {
+          "id": "mutations.py#<module>:0:0$v23",
+          "kind": "local",
+          "loc": {
+            "file": "mutations.py",
+            "line": 57,
+            "column": 5
+          },
+          "name": "ok"
+        },
+        {
+          "id": "mutations.py#<module>:0:0$v24",
+          "kind": "literal",
+          "loc": {
+            "file": "mutations.py",
+            "line": 60,
+            "column": 42
+          },
+          "literal": "true"
+        },
+        {
+          "id": "mutations.py#<module>:0:0$v25",
+          "kind": "call-result",
+          "loc": {
+            "file": "mutations.py",
+            "line": 60,
+            "column": 21
+          },
+          "name": "graphene.ID"
+        },
+        {
+          "id": "mutations.py#<module>:0:0$v26",
+          "kind": "local",
+          "loc": {
+            "file": "mutations.py",
+            "line": 60,
+            "column": 9
+          },
+          "name": "report_id"
+        },
+        {
+          "id": "mutations.py#<module>:0:0$v27",
+          "kind": "literal",
+          "loc": {
+            "file": "mutations.py",
+            "line": 63,
+            "column": 23
+          },
+          "literal": "Archive a report."
+        },
+        {
+          "id": "mutations.py#<module>:0:0$v28",
+          "kind": "local",
+          "loc": {
+            "file": "mutations.py",
+            "line": 63,
+            "column": 9
+          },
+          "name": "description"
+        }
+      ],
+      "flows": [
+        {
+          "from": "mutations.py#<module>:0:0$v3",
+          "to": "mutations.py#<module>:0:0$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "mutations.py",
+            "line": 19,
+            "column": 5
+          },
+          "block": "mutations.py#<module>:0:0$b0"
+        },
+        {
+          "from": "mutations.py#<module>:0:0$v6",
+          "to": "mutations.py#<module>:0:0$v7",
+          "kind": "assign",
+          "loc": {
+            "file": "mutations.py",
+            "line": 22,
+            "column": 9
+          },
+          "block": "mutations.py#<module>:0:0$b0"
+        },
+        {
+          "from": "mutations.py#<module>:0:0$v8",
+          "to": "mutations.py#<module>:0:0$v9",
+          "kind": "assign",
+          "loc": {
+            "file": "mutations.py",
+            "line": 25,
+            "column": 9
+          },
+          "block": "mutations.py#<module>:0:0$b0"
+        },
+        {
+          "from": "mutations.py#<module>:0:0$v11",
+          "to": "mutations.py#<module>:0:0$v12",
+          "kind": "property",
+          "loc": {
+            "file": "mutations.py",
+            "line": 26,
+            "column": 24
+          },
+          "block": "mutations.py#<module>:0:0$b0"
+        },
+        {
+          "from": "mutations.py#<module>:0:0$v12",
+          "to": "mutations.py#<module>:0:0$v10",
+          "kind": "enclose",
+          "loc": {
+            "file": "mutations.py",
+            "line": 26,
+            "column": 23
+          },
+          "block": "mutations.py#<module>:0:0$b0"
+        },
+        {
+          "from": "mutations.py#<module>:0:0$v10",
+          "to": "mutations.py#<module>:0:0$v13",
+          "kind": "assign",
+          "loc": {
+            "file": "mutations.py",
+            "line": 26,
+            "column": 9
+          },
+          "block": "mutations.py#<module>:0:0$b0"
+        },
+        {
+          "from": "mutations.py#<module>:0:0$v15",
+          "to": "mutations.py#<module>:0:0$v16",
+          "kind": "assign",
+          "loc": {
+            "file": "mutations.py",
+            "line": 37,
+            "column": 5
+          },
+          "block": "mutations.py#<module>:0:0$b0"
+        },
+        {
+          "from": "mutations.py#<module>:0:0$v17",
+          "to": "mutations.py#<module>:0:0$v18",
+          "kind": "assign",
+          "loc": {
+            "file": "mutations.py",
+            "line": 40,
+            "column": 9
+          },
+          "block": "mutations.py#<module>:0:0$b0"
+        },
+        {
+          "from": "mutations.py#<module>:0:0$v12",
+          "to": "mutations.py#<module>:0:0$v19",
+          "kind": "enclose",
+          "loc": {
+            "file": "mutations.py",
+            "line": 41,
+            "column": 23
+          },
+          "block": "mutations.py#<module>:0:0$b0"
+        },
+        {
+          "from": "mutations.py#<module>:0:0$v19",
+          "to": "mutations.py#<module>:0:0$v20",
+          "kind": "assign",
+          "loc": {
+            "file": "mutations.py",
+            "line": 41,
+            "column": 9
+          },
+          "block": "mutations.py#<module>:0:0$b0"
+        },
+        {
+          "from": "mutations.py#<module>:0:0$v22",
+          "to": "mutations.py#<module>:0:0$v23",
+          "kind": "assign",
+          "loc": {
+            "file": "mutations.py",
+            "line": 57,
+            "column": 5
+          },
+          "block": "mutations.py#<module>:0:0$b0"
+        },
+        {
+          "from": "mutations.py#<module>:0:0$v25",
+          "to": "mutations.py#<module>:0:0$v26",
+          "kind": "assign",
+          "loc": {
+            "file": "mutations.py",
+            "line": 60,
+            "column": 9
+          },
+          "block": "mutations.py#<module>:0:0$b0"
+        },
+        {
+          "from": "mutations.py#<module>:0:0$v27",
+          "to": "mutations.py#<module>:0:0$v28",
+          "kind": "assign",
+          "loc": {
+            "file": "mutations.py",
+            "line": 63,
+            "column": 9
+          },
+          "block": "mutations.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "mutations.py#<module>:0:0$c0",
+          "loc": {
+            "file": "mutations.py",
+            "line": 19,
+            "column": 10
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "graphene.Boolean",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "mutations.py#<module>:0:0$v3",
+          "block": "mutations.py#<module>:0:0$b0",
+          "method": "Boolean",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "mutations.py#<module>:0:0$v2"
+        },
+        {
+          "id": "mutations.py#<module>:0:0$c1",
+          "loc": {
+            "file": "mutations.py",
+            "line": 22,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "graphene.String",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "valueId": "mutations.py#<module>:0:0$v5",
+              "name": "required"
+            }
+          ],
+          "resultValueId": "mutations.py#<module>:0:0$v6",
+          "block": "mutations.py#<module>:0:0$b0",
+          "method": "String",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "required=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "mutations.py#<module>:0:0$v2"
+        },
+        {
+          "id": "mutations.py#<module>:0:0$c2",
+          "loc": {
+            "file": "mutations.py",
+            "line": 37,
+            "column": 10
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "graphene.Boolean",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "mutations.py#<module>:0:0$v15",
+          "block": "mutations.py#<module>:0:0$b0",
+          "method": "Boolean",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "mutations.py#<module>:0:0$v2"
+        },
+        {
+          "id": "mutations.py#<module>:0:0$c3",
+          "loc": {
+            "file": "mutations.py",
+            "line": 57,
+            "column": 10
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "graphene.Boolean",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "mutations.py#<module>:0:0$v22",
+          "block": "mutations.py#<module>:0:0$b0",
+          "method": "Boolean",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "mutations.py#<module>:0:0$v2"
+        },
+        {
+          "id": "mutations.py#<module>:0:0$c4",
+          "loc": {
+            "file": "mutations.py",
+            "line": 60,
+            "column": 21
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "graphene.ID",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "valueId": "mutations.py#<module>:0:0$v24",
+              "name": "required"
+            }
+          ],
+          "resultValueId": "mutations.py#<module>:0:0$v25",
+          "block": "mutations.py#<module>:0:0$b0",
+          "method": "ID",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "required=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "mutations.py#<module>:0:0$v2"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "mutations.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "mutations.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "mutations.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "mutations.py#perform_mutation:29:5",
+      "name": "perform_mutation",
+      "module": "mutations.py",
+      "loc": {
+        "file": "mutations.py",
+        "line": 29,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "cls",
+          "valueId": "mutations.py#perform_mutation:29:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "_root",
+          "valueId": "mutations.py#perform_mutation:29:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "info",
+          "valueId": "mutations.py#perform_mutation:29:5$v2"
+        },
+        {
+          "index": 3,
+          "name": "name",
+          "valueId": "mutations.py#perform_mutation:29:5$v3"
+        }
+      ],
+      "values": [
+        {
+          "id": "mutations.py#perform_mutation:29:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "mutations.py",
+            "line": 29,
+            "column": 26
+          },
+          "name": "cls"
+        },
+        {
+          "id": "mutations.py#perform_mutation:29:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "mutations.py",
+            "line": 29,
+            "column": 31
+          },
+          "name": "_root"
+        },
+        {
+          "id": "mutations.py#perform_mutation:29:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "mutations.py",
+            "line": 29,
+            "column": 38
+          },
+          "name": "info"
+        },
+        {
+          "id": "mutations.py#perform_mutation:29:5$v3",
+          "kind": "untrusted-param",
+          "loc": {
+            "file": "mutations.py",
+            "line": 29,
+            "column": 50
+          },
+          "name": "name"
+        },
+        {
+          "id": "mutations.py#perform_mutation:29:5$v4",
+          "kind": "local",
+          "loc": {
+            "file": "mutations.py",
+            "line": 30,
+            "column": 19
+          },
+          "name": "concat"
+        },
+        {
+          "id": "mutations.py#perform_mutation:29:5$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "mutations.py",
+            "line": 30,
+            "column": 19
+          },
+          "literal": "report-tool --export "
+        },
+        {
+          "id": "mutations.py#perform_mutation:29:5$v6",
+          "kind": "global",
+          "loc": {
+            "file": "mutations.py",
+            "line": 30,
+            "column": 9
+          },
+          "name": "os"
+        },
+        {
+          "id": "mutations.py#perform_mutation:29:5$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "mutations.py",
+            "line": 30,
+            "column": 9
+          },
+          "name": "os.system"
+        },
+        {
+          "id": "mutations.py#perform_mutation:29:5$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "mutations.py",
+            "line": 31,
+            "column": 23
+          },
+          "literal": "true"
+        },
+        {
+          "id": "mutations.py#perform_mutation:29:5$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "mutations.py",
+            "line": 31,
+            "column": 16
+          },
+          "name": "cls"
+        }
+      ],
+      "flows": [
+        {
+          "from": "mutations.py#perform_mutation:29:5$v5",
+          "to": "mutations.py#perform_mutation:29:5$v4",
+          "kind": "binary",
+          "loc": {
+            "file": "mutations.py",
+            "line": 30,
+            "column": 19
+          },
+          "block": "mutations.py#perform_mutation:29:5$b0"
+        },
+        {
+          "from": "mutations.py#perform_mutation:29:5$v3",
+          "to": "mutations.py#perform_mutation:29:5$v4",
+          "kind": "binary",
+          "loc": {
+            "file": "mutations.py",
+            "line": 30,
+            "column": 19
+          },
+          "block": "mutations.py#perform_mutation:29:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "mutations.py#perform_mutation:29:5$c0",
+          "loc": {
+            "file": "mutations.py",
+            "line": 30,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "os.system",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "mutations.py#perform_mutation:29:5$v4"
+            }
+          ],
+          "resultValueId": "mutations.py#perform_mutation:29:5$v7",
+          "block": "mutations.py#perform_mutation:29:5$b0",
+          "method": "system",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "mutations.py#perform_mutation:29:5$v6"
+        },
+        {
+          "id": "mutations.py#perform_mutation:29:5$c1",
+          "loc": {
+            "file": "mutations.py",
+            "line": 31,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cls",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "valueId": "mutations.py#perform_mutation:29:5$v8",
+              "name": "ok"
+            }
+          ],
+          "resultValueId": "mutations.py#perform_mutation:29:5$v9",
+          "block": "mutations.py#perform_mutation:29:5$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "ok=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "mutations.py#perform_mutation:29:5$v9"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "mutations.py#perform_mutation:29:5$b0",
+      "blocks": [
+        {
+          "id": "mutations.py#perform_mutation:29:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "mutations.py",
+            "line": 29,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "mutations.py#perform_mutation:29:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "mutations.py",
+            "line": 31,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "mutations.py#perform_mutation:44:5",
+      "name": "perform_mutation",
+      "module": "mutations.py",
+      "loc": {
+        "file": "mutations.py",
+        "line": 44,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "cls",
+          "valueId": "mutations.py#perform_mutation:44:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "_root",
+          "valueId": "mutations.py#perform_mutation:44:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "info",
+          "valueId": "mutations.py#perform_mutation:44:5$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "mutations.py#perform_mutation:44:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "mutations.py",
+            "line": 44,
+            "column": 26
+          },
+          "name": "cls"
+        },
+        {
+          "id": "mutations.py#perform_mutation:44:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "mutations.py",
+            "line": 44,
+            "column": 31
+          },
+          "name": "_root"
+        },
+        {
+          "id": "mutations.py#perform_mutation:44:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "mutations.py",
+            "line": 44,
+            "column": 38
+          },
+          "name": "info"
+        },
+        {
+          "id": "mutations.py#perform_mutation:44:5$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "mutations.py",
+            "line": 45,
+            "column": 19
+          },
+          "literal": "report-tool --rebuild"
+        },
+        {
+          "id": "mutations.py#perform_mutation:44:5$v4",
+          "kind": "global",
+          "loc": {
+            "file": "mutations.py",
+            "line": 45,
+            "column": 9
+          },
+          "name": "os"
+        },
+        {
+          "id": "mutations.py#perform_mutation:44:5$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "mutations.py",
+            "line": 45,
+            "column": 9
+          },
+          "name": "os.system"
+        },
+        {
+          "id": "mutations.py#perform_mutation:44:5$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "mutations.py",
+            "line": 46,
+            "column": 23
+          },
+          "literal": "true"
+        },
+        {
+          "id": "mutations.py#perform_mutation:44:5$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "mutations.py",
+            "line": 46,
+            "column": 16
+          },
+          "name": "cls"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "mutations.py#perform_mutation:44:5$c0",
+          "loc": {
+            "file": "mutations.py",
+            "line": 45,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "os.system",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "mutations.py#perform_mutation:44:5$v3"
+            }
+          ],
+          "resultValueId": "mutations.py#perform_mutation:44:5$v5",
+          "block": "mutations.py#perform_mutation:44:5$b0",
+          "method": "system",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "report-tool --rebuild"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "mutations.py#perform_mutation:44:5$v4"
+        },
+        {
+          "id": "mutations.py#perform_mutation:44:5$c1",
+          "loc": {
+            "file": "mutations.py",
+            "line": 46,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cls",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "valueId": "mutations.py#perform_mutation:44:5$v6",
+              "name": "ok"
+            }
+          ],
+          "resultValueId": "mutations.py#perform_mutation:44:5$v7",
+          "block": "mutations.py#perform_mutation:44:5$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "ok=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "mutations.py#perform_mutation:44:5$v7"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "mutations.py#perform_mutation:44:5$b0",
+      "blocks": [
+        {
+          "id": "mutations.py#perform_mutation:44:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "mutations.py",
+            "line": 44,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "mutations.py#perform_mutation:44:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "mutations.py",
+            "line": 46,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "mutations.py#perform_mutation:66:5",
+      "name": "perform_mutation",
+      "module": "mutations.py",
+      "loc": {
+        "file": "mutations.py",
+        "line": 66,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "cls",
+          "valueId": "mutations.py#perform_mutation:66:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "_root",
+          "valueId": "mutations.py#perform_mutation:66:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "info",
+          "valueId": "mutations.py#perform_mutation:66:5$v2"
+        },
+        {
+          "index": 3,
+          "name": "report_id",
+          "valueId": "mutations.py#perform_mutation:66:5$v3"
+        }
+      ],
+      "values": [
+        {
+          "id": "mutations.py#perform_mutation:66:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "mutations.py",
+            "line": 66,
+            "column": 26
+          },
+          "name": "cls"
+        },
+        {
+          "id": "mutations.py#perform_mutation:66:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "mutations.py",
+            "line": 66,
+            "column": 31
+          },
+          "name": "_root"
+        },
+        {
+          "id": "mutations.py#perform_mutation:66:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "mutations.py",
+            "line": 66,
+            "column": 38
+          },
+          "name": "info"
+        },
+        {
+          "id": "mutations.py#perform_mutation:66:5$v3",
+          "kind": "untrusted-param",
+          "loc": {
+            "file": "mutations.py",
+            "line": 66,
+            "column": 50
+          },
+          "name": "report_id"
+        },
+        {
+          "id": "mutations.py#perform_mutation:66:5$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "mutations.py",
+            "line": 67,
+            "column": 23
+          },
+          "literal": "true"
+        },
+        {
+          "id": "mutations.py#perform_mutation:66:5$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "mutations.py",
+            "line": 67,
+            "column": 16
+          },
+          "name": "cls"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "mutations.py#perform_mutation:66:5$c0",
+          "loc": {
+            "file": "mutations.py",
+            "line": 67,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cls",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "valueId": "mutations.py#perform_mutation:66:5$v4",
+              "name": "ok"
+            }
+          ],
+          "resultValueId": "mutations.py#perform_mutation:66:5$v5",
+          "block": "mutations.py#perform_mutation:66:5$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "ok=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "mutations.py#perform_mutation:66:5$v5"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "mutations.py#perform_mutation:66:5$b0",
+      "blocks": [
+        {
+          "id": "mutations.py#perform_mutation:66:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "mutations.py",
+            "line": 66,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "mutations.py#perform_mutation:66:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "mutations.py",
+            "line": 67,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "permissions.py#<module>:0:0",
+      "name": "<module>",
+      "module": "permissions.py",
+      "loc": {
+        "file": "permissions.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "permissions.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "permissions.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The permission constants a mutation names in its `Meta`."
+        },
+        {
+          "id": "permissions.py#<module>:0:0$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "permissions.py",
+            "line": 7,
+            "column": 22
+          },
+          "literal": "report.manage_reports"
+        },
+        {
+          "id": "permissions.py#<module>:0:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "permissions.py",
+            "line": 7,
+            "column": 5
+          },
+          "name": "MANAGE_REPORTS"
+        },
+        {
+          "id": "permissions.py#<module>:0:0$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "permissions.py",
+            "line": 8,
+            "column": 20
+          },
+          "literal": "report.view_reports"
+        },
+        {
+          "id": "permissions.py#<module>:0:0$v4",
+          "kind": "local",
+          "loc": {
+            "file": "permissions.py",
+            "line": 8,
+            "column": 5
+          },
+          "name": "VIEW_REPORTS"
+        }
+      ],
+      "flows": [
+        {
+          "from": "permissions.py#<module>:0:0$v1",
+          "to": "permissions.py#<module>:0:0$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "permissions.py",
+            "line": 7,
+            "column": 5
+          },
+          "block": "permissions.py#<module>:0:0$b0"
+        },
+        {
+          "from": "permissions.py#<module>:0:0$v3",
+          "to": "permissions.py#<module>:0:0$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "permissions.py",
+            "line": 8,
+            "column": 5
+          },
+          "block": "permissions.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "permissions.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "permissions.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "permissions.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "reports.py#<module>:0:0",
+      "name": "<module>",
+      "module": "reports.py",
+      "loc": {
+        "file": "reports.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "reports.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "reports.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "What a query resolver reaches."
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "reports.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "reports.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "reports.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "reports.py#find_report:6:1",
+      "name": "find_report",
+      "module": "reports.py",
+      "loc": {
+        "file": "reports.py",
+        "line": 6,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "slug",
+          "valueId": "reports.py#find_report:6:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "reports.py#find_report:6:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "reports.py",
+            "line": 6,
+            "column": 17
+          },
+          "name": "slug"
+        },
+        {
+          "id": "reports.py#find_report:6:1$v1",
+          "kind": "local",
+          "loc": {
+            "file": "reports.py",
+            "line": 8,
+            "column": 36
+          },
+          "name": "concat"
+        },
+        {
+          "id": "reports.py#find_report:6:1$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "reports.py",
+            "line": 8,
+            "column": 36
+          },
+          "literal": "report-tool --find "
+        },
+        {
+          "id": "reports.py#find_report:6:1$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "reports.py",
+            "line": 8,
+            "column": 72
+          },
+          "literal": "true"
+        },
+        {
+          "id": "reports.py#find_report:6:1$v4",
+          "kind": "global",
+          "loc": {
+            "file": "reports.py",
+            "line": 8,
+            "column": 12
+          },
+          "name": "subprocess"
+        },
+        {
+          "id": "reports.py#find_report:6:1$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "reports.py",
+            "line": 8,
+            "column": 12
+          },
+          "name": "subprocess.check_output"
+        }
+      ],
+      "flows": [
+        {
+          "from": "reports.py#find_report:6:1$v2",
+          "to": "reports.py#find_report:6:1$v1",
+          "kind": "binary",
+          "loc": {
+            "file": "reports.py",
+            "line": 8,
+            "column": 36
+          },
+          "block": "reports.py#find_report:6:1$b0"
+        },
+        {
+          "from": "reports.py#find_report:6:1$v0",
+          "to": "reports.py#find_report:6:1$v1",
+          "kind": "binary",
+          "loc": {
+            "file": "reports.py",
+            "line": 8,
+            "column": 36
+          },
+          "block": "reports.py#find_report:6:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "reports.py#find_report:6:1$c0",
+          "loc": {
+            "file": "reports.py",
+            "line": 8,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "subprocess.check_output",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "reports.py#find_report:6:1$v1"
+            },
+            {
+              "valueId": "reports.py#find_report:6:1$v3",
+              "name": "shell"
+            }
+          ],
+          "resultValueId": "reports.py#find_report:6:1$v5",
+          "block": "reports.py#find_report:6:1$b0",
+          "method": "check_output",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "shell=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "reports.py#find_report:6:1$v4"
+        }
+      ],
+      "returns": [
+        "reports.py#find_report:6:1$v5"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "reports.py#find_report:6:1$b0",
+      "blocks": [
+        {
+          "id": "reports.py#find_report:6:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "reports.py",
+            "line": 6,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "reports.py#find_report:6:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "reports.py",
+            "line": 8,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "schema.py#<module>:0:0",
+      "name": "<module>",
+      "module": "schema.py",
+      "loc": {
+        "file": "schema.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "schema.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "schema.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The schema: class attributes, and not one call that registers anything.\n\nEvery operation this application answers is an assignment in a class body. There is no\n`path(...)`, no decorator and no registrar; the only route a URLconf carries is the single\nview that serves all of them, and enumerating that view and stopping is how an application\nwith hundreds of separately addressable operations reads as having one entry point.\n"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "schema.py",
+            "line": 17,
+            "column": 5
+          },
+          "literal": "A schema TYPE, not a root. Its fields are results, not operations.\n\n    The class is an `ObjectType` exactly as the roots below are, and its `title` reads\n    letter for letter like a registration. What separates them is not the shape: it is\n    that nobody composed this class into the schema.\n    "
+        },
+        {
+          "id": "schema.py#<module>:0:0$v2",
+          "kind": "global",
+          "loc": {
+            "file": "schema.py",
+            "line": 24,
+            "column": 13
+          },
+          "name": "graphene"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "schema.py",
+            "line": 24,
+            "column": 13
+          },
+          "name": "graphene.String"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v4",
+          "kind": "local",
+          "loc": {
+            "file": "schema.py",
+            "line": 24,
+            "column": 5
+          },
+          "name": "title"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v5",
+          "kind": "property",
+          "loc": {
+            "file": "schema.py",
+            "line": 25,
+            "column": 33
+          },
+          "base": "schema.py#<module>:0:0$v2",
+          "path": "String",
+          "name": "String"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "schema.py",
+            "line": 25,
+            "column": 19
+          },
+          "name": "graphene.List"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v7",
+          "kind": "local",
+          "loc": {
+            "file": "schema.py",
+            "line": 25,
+            "column": 5
+          },
+          "name": "permissions"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "schema.py",
+            "line": 29,
+            "column": 46
+          },
+          "name": "graphene.String"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "schema.py",
+            "line": 29,
+            "column": 14
+          },
+          "name": "graphene.Field"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v10",
+          "kind": "local",
+          "loc": {
+            "file": "schema.py",
+            "line": 29,
+            "column": 5
+          },
+          "name": "report"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v11",
+          "kind": "global",
+          "loc": {
+            "file": "schema.py",
+            "line": 37,
+            "column": 21
+          },
+          "name": "mutations.ExportReport"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v12",
+          "kind": "call-result",
+          "loc": {
+            "file": "schema.py",
+            "line": 37,
+            "column": 21
+          },
+          "name": "mutations.ExportReport.Field"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v13",
+          "kind": "local",
+          "loc": {
+            "file": "schema.py",
+            "line": 37,
+            "column": 5
+          },
+          "name": "export_report"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v14",
+          "kind": "global",
+          "loc": {
+            "file": "schema.py",
+            "line": 38,
+            "column": 23
+          },
+          "name": "mutations.RebuildReports"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v15",
+          "kind": "call-result",
+          "loc": {
+            "file": "schema.py",
+            "line": 38,
+            "column": 23
+          },
+          "name": "mutations.RebuildReports.Field"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v16",
+          "kind": "local",
+          "loc": {
+            "file": "schema.py",
+            "line": 38,
+            "column": 5
+          },
+          "name": "rebuild_reports"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v17",
+          "kind": "global",
+          "loc": {
+            "file": "schema.py",
+            "line": 39,
+            "column": 22
+          },
+          "name": "mutations.ArchiveReport"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v18",
+          "kind": "call-result",
+          "loc": {
+            "file": "schema.py",
+            "line": 39,
+            "column": 22
+          },
+          "name": "mutations.ArchiveReport.Field"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v19",
+          "kind": "local",
+          "loc": {
+            "file": "schema.py",
+            "line": 39,
+            "column": 5
+          },
+          "name": "archive_report"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v20",
+          "kind": "call-result",
+          "loc": {
+            "file": "schema.py",
+            "line": 50,
+            "column": 10
+          },
+          "name": "graphene.Schema"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v21",
+          "kind": "local",
+          "loc": {
+            "file": "schema.py",
+            "line": 50,
+            "column": 1
+          },
+          "name": "schema"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v22",
+          "kind": "local",
+          "loc": {
+            "file": "schema.py",
+            "line": 52,
+            "column": 14
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v23",
+          "kind": "global",
+          "loc": {
+            "file": "schema.py",
+            "line": 52,
+            "column": 15
+          },
+          "name": "permissions.ReportPermissions"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v24",
+          "kind": "property",
+          "loc": {
+            "file": "schema.py",
+            "line": 52,
+            "column": 15
+          },
+          "base": "schema.py#<module>:0:0$v23",
+          "path": "VIEW_REPORTS",
+          "name": "VIEW_REPORTS"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v25",
+          "kind": "local",
+          "loc": {
+            "file": "schema.py",
+            "line": 52,
+            "column": 1
+          },
+          "name": "VISIBLE_TO"
+        }
+      ],
+      "flows": [
+        {
+          "from": "schema.py#<module>:0:0$v3",
+          "to": "schema.py#<module>:0:0$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "schema.py",
+            "line": 24,
+            "column": 5
+          },
+          "block": "schema.py#<module>:0:0$b0"
+        },
+        {
+          "from": "schema.py#<module>:0:0$v2",
+          "to": "schema.py#<module>:0:0$v5",
+          "kind": "property",
+          "loc": {
+            "file": "schema.py",
+            "line": 25,
+            "column": 33
+          },
+          "block": "schema.py#<module>:0:0$b0"
+        },
+        {
+          "from": "schema.py#<module>:0:0$v6",
+          "to": "schema.py#<module>:0:0$v7",
+          "kind": "assign",
+          "loc": {
+            "file": "schema.py",
+            "line": 25,
+            "column": 5
+          },
+          "block": "schema.py#<module>:0:0$b0"
+        },
+        {
+          "from": "schema.py#<module>:0:0$v9",
+          "to": "schema.py#<module>:0:0$v10",
+          "kind": "assign",
+          "loc": {
+            "file": "schema.py",
+            "line": 29,
+            "column": 5
+          },
+          "block": "schema.py#<module>:0:0$b0"
+        },
+        {
+          "from": "schema.py#<module>:0:0$v12",
+          "to": "schema.py#<module>:0:0$v13",
+          "kind": "assign",
+          "loc": {
+            "file": "schema.py",
+            "line": 37,
+            "column": 5
+          },
+          "block": "schema.py#<module>:0:0$b0"
+        },
+        {
+          "from": "schema.py#<module>:0:0$v15",
+          "to": "schema.py#<module>:0:0$v16",
+          "kind": "assign",
+          "loc": {
+            "file": "schema.py",
+            "line": 38,
+            "column": 5
+          },
+          "block": "schema.py#<module>:0:0$b0"
+        },
+        {
+          "from": "schema.py#<module>:0:0$v18",
+          "to": "schema.py#<module>:0:0$v19",
+          "kind": "assign",
+          "loc": {
+            "file": "schema.py",
+            "line": 39,
+            "column": 5
+          },
+          "block": "schema.py#<module>:0:0$b0"
+        },
+        {
+          "from": "schema.py#<module>:0:0$v20",
+          "to": "schema.py#<module>:0:0$v21",
+          "kind": "assign",
+          "loc": {
+            "file": "schema.py",
+            "line": 50,
+            "column": 1
+          },
+          "block": "schema.py#<module>:0:0$b0"
+        },
+        {
+          "from": "schema.py#<module>:0:0$v23",
+          "to": "schema.py#<module>:0:0$v24",
+          "kind": "property",
+          "loc": {
+            "file": "schema.py",
+            "line": 52,
+            "column": 15
+          },
+          "block": "schema.py#<module>:0:0$b0"
+        },
+        {
+          "from": "schema.py#<module>:0:0$v24",
+          "to": "schema.py#<module>:0:0$v22",
+          "kind": "enclose",
+          "loc": {
+            "file": "schema.py",
+            "line": 52,
+            "column": 14
+          },
+          "block": "schema.py#<module>:0:0$b0"
+        },
+        {
+          "from": "schema.py#<module>:0:0$v22",
+          "to": "schema.py#<module>:0:0$v25",
+          "kind": "assign",
+          "loc": {
+            "file": "schema.py",
+            "line": 52,
+            "column": 1
+          },
+          "block": "schema.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "schema.py#<module>:0:0$c0",
+          "loc": {
+            "file": "schema.py",
+            "line": 24,
+            "column": 13
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "graphene.String",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "schema.py#<module>:0:0$v3",
+          "block": "schema.py#<module>:0:0$b0",
+          "method": "String",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "schema.py#<module>:0:0$v2"
+        },
+        {
+          "id": "schema.py#<module>:0:0$c1",
+          "loc": {
+            "file": "schema.py",
+            "line": 25,
+            "column": 19
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "graphene.List",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "schema.py#<module>:0:0$v5"
+            }
+          ],
+          "resultValueId": "schema.py#<module>:0:0$v6",
+          "block": "schema.py#<module>:0:0$b0",
+          "method": "List",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "schema.py#<module>:0:0$v2"
+        },
+        {
+          "id": "schema.py#<module>:0:0$c2",
+          "loc": {
+            "file": "schema.py",
+            "line": 29,
+            "column": 46
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "graphene.String",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "schema.py#<module>:0:0$v8",
+          "block": "schema.py#<module>:0:0$b0",
+          "method": "String",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "schema.py#<module>:0:0$v2"
+        },
+        {
+          "id": "schema.py#<module>:0:0$c3",
+          "loc": {
+            "file": "schema.py",
+            "line": 29,
+            "column": 14
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "graphene.Field",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "valueId": "schema.py#<module>:0:0$v8",
+              "name": "slug"
+            }
+          ],
+          "resultValueId": "schema.py#<module>:0:0$v9",
+          "block": "schema.py#<module>:0:0$b0",
+          "method": "Field",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "slug=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "schema.py#<module>:0:0$v2"
+        },
+        {
+          "id": "schema.py#<module>:0:0$c4",
+          "loc": {
+            "file": "schema.py",
+            "line": 37,
+            "column": 21
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "mutations.ExportReport.Field",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "schema.py#<module>:0:0$v12",
+          "block": "schema.py#<module>:0:0$b0",
+          "method": "Field",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "schema.py#<module>:0:0$v11"
+        },
+        {
+          "id": "schema.py#<module>:0:0$c5",
+          "loc": {
+            "file": "schema.py",
+            "line": 38,
+            "column": 23
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "mutations.RebuildReports.Field",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "schema.py#<module>:0:0$v15",
+          "block": "schema.py#<module>:0:0$b0",
+          "method": "Field",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "schema.py#<module>:0:0$v14"
+        },
+        {
+          "id": "schema.py#<module>:0:0$c6",
+          "loc": {
+            "file": "schema.py",
+            "line": 39,
+            "column": 22
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "mutations.ArchiveReport.Field",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "schema.py#<module>:0:0$v18",
+          "block": "schema.py#<module>:0:0$b0",
+          "method": "Field",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "schema.py#<module>:0:0$v17"
+        },
+        {
+          "id": "schema.py#<module>:0:0$c7",
+          "loc": {
+            "file": "schema.py",
+            "line": 50,
+            "column": 10
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "graphene.Schema",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "schema.py#<module>:0:0$v20",
+          "block": "schema.py#<module>:0:0$b0",
+          "method": "Schema",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "query=?",
+            "-2": "mutation=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "schema.py#<module>:0:0$v2"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "schema.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "schema.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "schema.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "schema.py#resolve_report:32:5",
+      "name": "resolve_report",
+      "module": "schema.py",
+      "loc": {
+        "file": "schema.py",
+        "line": 32,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "root",
+          "valueId": "schema.py#resolve_report:32:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "info",
+          "valueId": "schema.py#resolve_report:32:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "slug",
+          "valueId": "schema.py#resolve_report:32:5$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "schema.py#resolve_report:32:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "schema.py",
+            "line": 32,
+            "column": 24
+          },
+          "name": "root"
+        },
+        {
+          "id": "schema.py#resolve_report:32:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "schema.py",
+            "line": 32,
+            "column": 30
+          },
+          "name": "info"
+        },
+        {
+          "id": "schema.py#resolve_report:32:5$v2",
+          "kind": "untrusted-param",
+          "loc": {
+            "file": "schema.py",
+            "line": 32,
+            "column": 36
+          },
+          "name": "slug"
+        },
+        {
+          "id": "schema.py#resolve_report:32:5$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "schema.py",
+            "line": 33,
+            "column": 16
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "schema.py#resolve_report:32:5$c0",
+          "loc": {
+            "file": "schema.py",
+            "line": 33,
+            "column": 16
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "reports.py#find_report:6:1",
+            "resolution": "resolved",
+            "name": "find_report"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "schema.py#resolve_report:32:5$v2"
+            }
+          ],
+          "resultValueId": "schema.py#resolve_report:32:5$v3",
+          "block": "schema.py#resolve_report:32:5$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "schema.py#resolve_report:32:5$v3"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "schema.py#resolve_report:32:5$b0",
+      "blocks": [
+        {
+          "id": "schema.py#resolve_report:32:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "schema.py",
+            "line": 32,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "schema.py#resolve_report:32:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "schema.py",
+            "line": 33,
+            "column": 9
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "mutations.py#perform_mutation:29:5",
+      "kind": "graphql-operation",
+      "framework": "graphene",
+      "detail": {
+        "method": "MUTATION",
+        "path": "exportReport",
+        "module": "mutations.py",
+        "mount": "ReportMutations",
+        "handler": "ExportReport"
+      },
+      "loc": {
+        "file": "schema.py",
+        "line": 37,
+        "column": 21
+      },
+      "middleware": [
+        {
+          "symbol": "Meta.permissions",
+          "name": "Meta.permissions=ReportPermissions.MANAGE_REPORTS",
+          "scope": "route",
+          "loc": {
+            "file": "mutations.py",
+            "line": 26,
+            "column": 23
+          }
+        }
+      ]
+    },
+    {
+      "functionId": "mutations.py#perform_mutation:44:5",
+      "kind": "graphql-operation",
+      "framework": "graphene",
+      "detail": {
+        "method": "MUTATION",
+        "path": "rebuildReports",
+        "module": "mutations.py",
+        "mount": "ReportMutations",
+        "handler": "RebuildReports"
+      },
+      "loc": {
+        "file": "schema.py",
+        "line": 38,
+        "column": 23
+      },
+      "middleware": [
+        {
+          "symbol": "Meta.permissions",
+          "name": "Meta.permissions=ReportPermissions.MANAGE_REPORTS",
+          "scope": "route",
+          "loc": {
+            "file": "mutations.py",
+            "line": 41,
+            "column": 23
+          }
+        }
+      ]
+    },
+    {
+      "functionId": "mutations.py#perform_mutation:66:5",
+      "kind": "graphql-operation",
+      "framework": "graphene",
+      "detail": {
+        "method": "MUTATION",
+        "path": "archiveReport",
+        "module": "mutations.py",
+        "mount": "ReportMutations",
+        "handler": "ArchiveReport"
+      },
+      "loc": {
+        "file": "schema.py",
+        "line": 39,
+        "column": 22
+      }
+    },
+    {
+      "functionId": "schema.py#resolve_report:32:5",
+      "kind": "graphql-operation",
+      "framework": "graphene",
+      "detail": {
+        "method": "QUERY",
+        "path": "report",
+        "module": "schema.py",
+        "mount": "ReportQueries"
+      },
+      "loc": {
+        "file": "schema.py",
+        "line": 29,
+        "column": 14
+      }
+    }
+  ],
+  "declaredViews": [],
+  "views": [],
+  "renders": []
+}

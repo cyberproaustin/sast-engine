@@ -1,6 +1,6 @@
 {
   "irVersion": "0.19.0",
-  "frontend": {"name":"typescript","version":"0.1.0","capabilities":{"typeChecker":true,"interprocedural":true,"crossModule":true,"controlFlow":true,"templates":false,"frameworkModels":["express","nestjs"]}},
+  "frontend": {"name":"typescript","version":"0.1.0","capabilities":{"typeChecker":true,"interprocedural":true,"crossModule":true,"controlFlow":true,"templates":false,"frameworkModels":["express","nestjs","trpc","ts-rest"]}},
   "modules": [
     {"id":"db.js","path":"db.js"},
     {"id":"app.js","path":"app.js"}
@@ -19,11 +19,11 @@
     {"id":"app.js#allowed:83:1","name":"allowed","module":"app.js","loc":{"file":"app.js","line":83,"column":1},"params":[{"index":0,"name":"req","valueId":"app.js#allowed:83:1$v0"}],"values":[{"id":"app.js#allowed:83:1$v0","kind":"param","loc":{"file":"app.js","line":83,"column":24},"name":"req"},{"id":"app.js#allowed:83:1$v1","kind":"property","loc":{"file":"app.js","line":84,"column":18},"base":"app.js#allowed:83:1$v0","path":"body","name":"body"},{"id":"app.js#allowed:83:1$v2","kind":"call-result","loc":{"file":"app.js","line":84,"column":10},"name":"Boolean"}],"flows":[{"from":"app.js#allowed:83:1$v0","to":"app.js#allowed:83:1$v1","kind":"property","loc":{"file":"app.js","line":84,"column":18},"block":"app.js#allowed:83:1$b0"}],"calls":[{"id":"app.js#allowed:83:1$c0","loc":{"file":"app.js","line":84,"column":10},"callee":{"kind":"external","symbol":"Boolean","resolution":"resolved","name":"Boolean"},"args":[{"index":0,"valueId":"app.js#allowed:83:1$v1"}],"argCount":1,"resultValueId":"app.js#allowed:83:1$v2","block":"app.js#allowed:83:1$b0"}],"returns":["app.js#allowed:83:1$v2"],"comparisons":[],"entryBlock":"app.js#allowed:83:1$b0","blocks":[{"id":"app.js#allowed:83:1$b0","successors":[],"loc":{"file":"app.js","line":83,"column":1},"terminator":"return"},{"id":"app.js#allowed:83:1$b1","successors":[],"loc":{"file":"app.js","line":84,"column":3}}]}
   ],
   "entryPoints": [
-    {"functionId":"app.js#<anonymous>:14:20","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/users","module":"app.js"},"loc":{"file":"app.js","line":14,"column":1},"middleware":[]},
-    {"functionId":"app.js#<anonymous>:25:29","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/users-returned","module":"app.js"},"loc":{"file":"app.js","line":25,"column":1},"middleware":[]},
-    {"functionId":"app.js#<anonymous>:34:25","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/users-else","module":"app.js"},"loc":{"file":"app.js","line":34,"column":1},"middleware":[]},
-    {"functionId":"app.js#<anonymous>:46:27","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/users-raised","module":"app.js"},"loc":{"file":"app.js","line":46,"column":1},"middleware":[]},
-    {"functionId":"app.js#<anonymous>:57:27","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/users-caught","module":"app.js"},"loc":{"file":"app.js","line":57,"column":1},"middleware":[]},
-    {"functionId":"app.js#<anonymous>:72:23","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/status-ok","module":"app.js"},"loc":{"file":"app.js","line":72,"column":1},"middleware":[]}
+    {"functionId":"app.js#<anonymous>:14:20","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/users","module":"app.js","mount":"app"},"loc":{"file":"app.js","line":14,"column":1},"middleware":[]},
+    {"functionId":"app.js#<anonymous>:25:29","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/users-returned","module":"app.js","mount":"app"},"loc":{"file":"app.js","line":25,"column":1},"middleware":[]},
+    {"functionId":"app.js#<anonymous>:34:25","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/users-else","module":"app.js","mount":"app"},"loc":{"file":"app.js","line":34,"column":1},"middleware":[]},
+    {"functionId":"app.js#<anonymous>:46:27","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/users-raised","module":"app.js","mount":"app"},"loc":{"file":"app.js","line":46,"column":1},"middleware":[]},
+    {"functionId":"app.js#<anonymous>:57:27","kind":"http-route","framework":"express","detail":{"method":"POST","path":"/users-caught","module":"app.js","mount":"app"},"loc":{"file":"app.js","line":57,"column":1},"middleware":[]},
+    {"functionId":"app.js#<anonymous>:72:23","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/status-ok","module":"app.js","mount":"app"},"loc":{"file":"app.js","line":72,"column":1},"middleware":[]}
   ]
 }

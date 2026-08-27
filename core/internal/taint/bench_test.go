@@ -132,6 +132,8 @@ var corpora = []string{
 	"next-pages-router",
 	"tsconfig-path-alias",
 	"tornado-urlspec",
+	"graphene-schema",
+	"trpc-router",
 	"reassignment-kills-taint",
 	"weak-hash-by-use",
 	"client-identifier",

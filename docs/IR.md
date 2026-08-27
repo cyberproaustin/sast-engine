@@ -47,6 +47,16 @@ whose requirements are not met and reports **not applicable** — never "clean."
 | `controlFlow` | Basic blocks and their successors were built |
 | `frameworkModels` | Framework models applied during lowering |
 
+One name per REGISTRATION IDIOM, not one per ecosystem. `trpc` is named apart from
+`express`, `ts-rest` apart from both, and `graphene` apart from `django` and `drf`, because
+each is a different way of putting a handler on the wire and a frontend that models one and
+not the other is not silent about the other by being right about it. That is what lets a
+scan of an application built on an unmodelled idiom report NOT EVALUATED instead of clean
+(ADR-003).
+
+Named today: `express`, `nestjs`, `trpc`, `ts-rest` (TypeScript); `flask`,
+`flask-appbuilder`, `fastapi`, `django`, `drf`, `graphene`, `tornado` (Python).
+
 ## Functions
 
 A function is the unit of intraprocedural dataflow.
@@ -403,8 +413,16 @@ without a core change.
 }
 ```
 
-Known kinds today: `http-route`, `scheduled-job`, `event-consumer`, `cli-command`,
-`process-start`. Reserved by convention: `server-action`, `queue-consumer`.
+Known kinds today: `http-route`, `graphql-operation`, `scheduled-job`, `event-consumer`,
+`cli-command`, `process-start`. Reserved by convention: `server-action`, `queue-consumer`.
+
+`graphql-operation` is a kind of its own because a GraphQL schema is not a set of
+addresses. Every mutation and query a Graphene or Apollo schema exposes answers at the ONE
+URL the router registers, and each is separately invoked by NAME in the request body -- so
+counting them as routes would tell an operator the application serves four hundred
+addresses when it serves one. `detail.method` is `MUTATION` or `QUERY` and `detail.path` is
+the field name as the schema publishes it (`checkoutCreateFromOrder`), which is the pair a
+reader can check against the schema they have.
 
 ### `trust` (added in 0.15.0)
 

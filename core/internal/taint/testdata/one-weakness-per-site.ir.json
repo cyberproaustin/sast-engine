@@ -1,6 +1,6 @@
 {
   "irVersion": "0.19.0",
-  "frontend": {"name":"typescript","version":"0.1.0","capabilities":{"typeChecker":true,"interprocedural":true,"crossModule":true,"controlFlow":true,"templates":false,"frameworkModels":["express","nestjs"]}},
+  "frontend": {"name":"typescript","version":"0.1.0","capabilities":{"typeChecker":true,"interprocedural":true,"crossModule":true,"controlFlow":true,"templates":false,"frameworkModels":["express","nestjs","trpc","ts-rest"]}},
   "modules": [
     {"id":"app.js","path":"app.js"}
   ],
@@ -11,6 +11,6 @@
     {"id":"app.js#duplicatedFixture:22:1","name":"duplicatedFixture","module":"app.js","loc":{"file":"app.js","line":22,"column":1},"params":[],"values":[{"id":"app.js#duplicatedFixture:22:1$v0","kind":"literal","loc":{"file":"app.js","line":23,"column":17},"literal":"https://user:password@example.com/path"},{"id":"app.js#duplicatedFixture:22:1$v1","kind":"local","loc":{"file":"app.js","line":23,"column":9},"name":"input"},{"id":"app.js#duplicatedFixture:22:1$v2","kind":"literal","loc":{"file":"app.js","line":24,"column":20},"literal":"https://user:password@example.com/path"},{"id":"app.js#duplicatedFixture:22:1$v3","kind":"local","loc":{"file":"app.js","line":24,"column":9},"name":"expected"},{"id":"app.js#duplicatedFixture:22:1$v4","kind":"local","loc":{"file":"app.js","line":25,"column":10},"name":"comparison"}],"flows":[{"from":"app.js#duplicatedFixture:22:1$v0","to":"app.js#duplicatedFixture:22:1$v1","kind":"assign","loc":{"file":"app.js","line":23,"column":9},"block":"app.js#duplicatedFixture:22:1$b0"},{"from":"app.js#duplicatedFixture:22:1$v2","to":"app.js#duplicatedFixture:22:1$v3","kind":"assign","loc":{"file":"app.js","line":24,"column":9},"block":"app.js#duplicatedFixture:22:1$b0"}],"calls":[],"returns":["app.js#duplicatedFixture:22:1$v4"],"comparisons":[{"left":"app.js#duplicatedFixture:22:1$v1","right":"app.js#duplicatedFixture:22:1$v3","op":"===","block":"app.js#duplicatedFixture:22:1$b0","loc":{"file":"app.js","line":25,"column":10}}],"entryBlock":"app.js#duplicatedFixture:22:1$b0","blocks":[{"id":"app.js#duplicatedFixture:22:1$b0","successors":[],"loc":{"file":"app.js","line":22,"column":1},"terminator":"return"},{"id":"app.js#duplicatedFixture:22:1$b1","successors":[],"loc":{"file":"app.js","line":25,"column":3}}]}
   ],
   "entryPoints": [
-    {"functionId":"app.js#<anonymous>:14:19","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/badge","module":"app.js"},"loc":{"file":"app.js","line":14,"column":1},"middleware":[]}
+    {"functionId":"app.js#<anonymous>:14:19","kind":"http-route","framework":"express","detail":{"method":"GET","path":"/badge","module":"app.js","mount":"app"},"loc":{"file":"app.js","line":14,"column":1},"middleware":[]}
   ]
 }

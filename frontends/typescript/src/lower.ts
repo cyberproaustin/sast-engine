@@ -38,6 +38,8 @@ import {
   detectHelperRoutes,
 } from "./fileroutes.ts";
 import type { ImportRef } from "./express.ts";
+import { TrpcProgram } from "./trpc.ts";
+import { TsRestProgram } from "./tsrest.ts";
 import {
   definedParamDecorators,
   detectNestRoutes,
@@ -540,6 +542,12 @@ export function lowerProgram(opts: LowerOptions): IRDoc {
   const definedDecorators = new Set<string>();
   const pluginPrefixes = new Map<string, string>();
   const dispatchers = new Set<string>();
+  // Two registrars whose addresses are stated in a file OTHER than the one holding the
+  // handler. A tRPC procedure's address is the keys of every router it is nested inside,
+  // and a ts-rest handler's is in the contract its implementation is checked against, so
+  // both have to read the whole program before either can name a route.
+  const trpc = new TrpcProgram(checker);
+  const tsRest = new TsRestProgram(checker);
   // Which parameters hold a connection a caller outside the process opened. Program-wide
   // because a server accepts the connection in one file and hands it to ten others.
   const connections = connectionParameters(sources, checker);
@@ -550,6 +558,10 @@ export function lowerProgram(opts: LowerOptions): IRDoc {
     // another, so which classes those are has to be known before any file is read.
     for (const name of messagePortDispatchers(sf)) dispatchers.add(name);
     collectPluginPrefixes(sf, resolveFunction, pluginPrefixes);
+    if (!isTestModule(moduleIdOf(opts.rootDir, sf.fileName))) {
+      trpc.collect(sf);
+      tsRest.collect(sf);
+    }
   }
   // Which mount a registration is served under, when the mount is stated by whoever
   // registered the function it lives in. Walks OUT from the call rather than in from
@@ -629,6 +641,8 @@ export function lowerProgram(opts: LowerOptions): IRDoc {
       entryPoints.push(...detectHelperRoutes(sf, resolveFunction, (n) => locOf(sf, n)));
       entryPoints.push(...detectDescribedRoutes(sf, resolveFunction, (n) => locOf(sf, n)));
       entryPoints.push(...detectForwardedRoutes(sf, resolveFunction, (n) => locOf(sf, n)));
+      entryPoints.push(...trpc.entryPoints(sf, resolveFunction, (n) => locOf(sf, n)));
+      entryPoints.push(...tsRest.entryPoints(sf, resolveFunction, (n) => locOf(sf, n)));
       // Not a route: a timer or a bus runs these, and only the process itself can.
       entryPoints.push(...detectBackgroundEntries(sf, checker, resolveFunction, (n) => locOf(sf, n), dispatchers, connections));
     }
@@ -651,6 +665,41 @@ export function lowerProgram(opts: LowerOptions): IRDoc {
     }
   }
 
+  // A tRPC handler takes ONE parameter and destructures it: `async ({ ctx, input }) =>`.
+  // `input` is what the caller sent, and it is not a property of a named parameter, so no
+  // entry-parameter rule can reach it -- the frontend says which binding it is, exactly as
+  // it does for an injected NestJS parameter, and the core's existing value-kind rule does
+  // the rest with no new model entry.
+  //
+  // `ctx` is deliberately NOT marked as the caller's identity, and the reason is a
+  // measurement rather than a doubt about what it holds. It does hold the identity the
+  // procedure's middleware established. Marking it turned documenso from honestly NOT
+  // EVALUATED for `unowned-record-access` into 41 findings, and every one read was false:
+  // thirty were `adminProcedure` routes under `admin-router/`, where an administrator
+  // acting on any organisation is the design and there is no owner to compare against; the
+  // rest were lookups keyed by a one-time TOKEN -- `complete-team-email-verification`,
+  // `decline-organisation-member-invite` -- where the key IS the capability, plus one probe
+  // the author had already named `unsafeEnvelope` before performing the scoped operation
+  // under it. None was the CWE-639 this work was aimed at, and that one is blocked further
+  // down the call graph anyway.
+  //
+  // The same trade is already recorded against n8n in the CWE-639 ledger entry: a broad
+  // identity source makes a whole program judgeable and the judgements land on routes that
+  // have no owner. The relation this rule needs is between a request key and the caller;
+  // what a tRPC admin route has instead is an authorization in ROUTE MIDDLEWARE, which the
+  // rule states plainly that it cannot see.
+  for (const ep of entryPoints) {
+    if (ep.framework !== "trpc") continue;
+    const fn = functionByID.get(ep.functionId);
+    if (!fn) continue;
+    for (const value of fn.values) {
+      if (value.kind !== "param") continue;
+      if ((value.path ?? value.name ?? "").split(".")[0] === "input") {
+        value.kind = "untrusted-param";
+      }
+    }
+  }
+
   return {
     irVersion: IR_VERSION,
     frontend: {
@@ -662,7 +711,11 @@ export function lowerProgram(opts: LowerOptions): IRDoc {
         crossModule: true,
         controlFlow: true,
         templates: templates.all.length > 0,
-        frameworkModels: ["express", "nestjs"],
+        // Each registrar is named separately, and it has to be (ADR-003). A scan of an
+        // Express application must report the tRPC and ts-rest judgements NOT EVALUATED
+        // rather than silently clean, and the only thing that can say so is what this
+        // frontend claims to have read.
+        frameworkModels: ["express", "nestjs", "trpc", "ts-rest"],
       },
     },
     modules,

@@ -15,6 +15,7 @@
         "fastapi",
         "django",
         "drf",
+        "graphene",
         "tornado"
       ]
     }
@@ -109,19 +110,7 @@
       ],
       "returns": [],
       "comparisons": [],
-      "writes": [
-        {
-          "loc": {
-            "file": "app.py",
-            "line": 17,
-            "column": 1
-          },
-          "path": "app",
-          "from": "app.py#<module>:0:0$v1",
-          "block": "app.py#<module>:0:0$b0",
-          "scope": "module"
-        }
-      ],
+      "writes": [],
       "entryBlock": "app.py#<module>:0:0$b0",
       "blocks": [
         {
