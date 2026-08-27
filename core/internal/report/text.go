@@ -772,7 +772,20 @@ func writeTaintFinding(b *strings.Builder, f taint.Finding) {
 		if h.Resolution != "" && h.Resolution != ir.Resolved {
 			marker = fmt.Sprintf("  <%s>", h.Resolution)
 		}
+		if h.Assumed {
+			marker += "  <assumed>"
+		}
 		fmt.Fprintf(b, "    %d. %-28s %s%s\n", i+1, h.Loc.String(), h.Description, marker)
+	}
+
+	// The difference between a path that was followed and a path that was presumed. The
+	// flow is still reported -- an unknown callee has no known semantics, and assuming
+	// the taint dies there would lose real findings -- and a reader who has to decide
+	// this one now knows which line to go and read.
+	if len(f.Assumptions) > 0 {
+		fmt.Fprintf(b, "  assumed, not established: taint is presumed to survive %s\n",
+			strings.Join(f.Assumptions, ", "))
+		fmt.Fprintf(b, "    nothing in this tree implements it and nothing in this model describes it\n")
 	}
 
 	fmt.Fprintf(b, "  sanitizers considered: ")

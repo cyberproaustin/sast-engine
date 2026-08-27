@@ -167,6 +167,9 @@ var corpora = []string{
 	"response-context",
 	"url-context",
 	"template-context-elsewhere",
+	"promise-resolution",
+	"absent-dependency",
+	"upstream-response",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {

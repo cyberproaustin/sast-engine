@@ -54,16 +54,128 @@ import "strings"
 // the findings they make possible are asserted by fixture and have not yet been observed
 // in the wild.
 //
+// --- three questions about how a value MOVES ------------------------------------------
+//
+// One propagation direction, one source family, and one label. All three were measured
+// over the same ten production repositories before they landed, and the numbers are below
+// because two of them are small and one of them is zero.
+//
+// A PROMISE CARRIES ITS VALUE OUT. A CallbackRule carried a class from a receiver INTO a
+// callback's parameter, which is how `.forEach` and `.then` work and is the wrong
+// direction for the construct Node is actually built out of. `new Promise(resolve => ...)`
+// discards its executor's return value, and everything the promise will ever carry was
+// handed to a continuation -- routinely from a callback several frames deeper, since
+// bridging a callback API is the reason to write `new Promise` by hand at all. So every
+// value computed inside an executor was invisible to every classification, and the helper
+// that computed it read as a clean wrapper. This is a DIRECTION rather than a rule, so it
+// was measured on all corpora and all ten repositories rather than on the one that
+// produced it: it changed exactly one finding anywhere, pdfjs `test/downloadutils.mjs`:110
+// -- an MD5 computed in a `stream.on("end", ...)` handler, resolved, awaited, and compared
+// against a recorded digest. That is the first time the weak-digest rule has fired on
+// anything outside a fixture, and the entry that asked for this said so in those words.
+// The continuation is bound by NAME, to a parameter of a specific executor, within that
+// executor's own call graph and unshadowed; a call the frontend resolved is a different
+// function that happens to share the name and is not matched.
+//
+//	NOT CAUGHT: `reject`, deliberately -- a rejected value arrives at a catch handler
+//	through control flow the IR does not carry, and delivering it to the await's result
+//	would be wrong about where the value went rather than merely incomplete. Nor a
+//	promise built by a wrapper (`util.promisify`, a deferred object) instead of by the
+//	constructor, nor a continuation stored in a variable and called from a function the
+//	executor's call graph does not reach.
+//
+// A RESPONSE IS TEXT SOMEBODY ELSE WROTE. Only request-derived values were sources, so an
+// application parsing an upstream service's answer was parsing somebody else's bytes and
+// the engine saw a clean local value. `upstream-response` is a class of its own rather
+// than more request taint, for the reason the stored class is: what makes it worth
+// reporting differs. A request is sent by a stranger and this is not necessarily -- an
+// application routinely calls a service it operates itself -- and the engine cannot read a
+// URL and say whose host it names. It therefore declines to guess and narrows the DENIED
+// SET instead, and the narrowing was measured rather than assumed. Widened experimentally
+// to every context the first-order class denies, it added nine findings to pdfjs (a
+// `console.warn`, two build scripts that download Mozilla's translations, vendored WASM
+// glue), one to linkwarden (a Content-Type echoed from a favicon service) and one to
+// uptime-kuma (an axios result reaching `console.log`) -- every one of which turns on
+// whose service it was. It also added eight to searxng, all
+// `lxml.etree.fromstring(resp.content)` in engine modules, which do not: this model
+// ALREADY asserts that pairing for a document a caller sent, on the grounds that lxml's
+// default parser expands entities and the call supplied no parser of its own, and a parser
+// does not care who wrote what it was handed. So the shipped set is the interpreter
+// contexts plus the XML parser, minus LDAP, and the eight searxng findings are the whole
+// of what this family produces on production code today.
+//
+//	  LDAP is subtracted for a reason worth writing down, because it is about a channel
+//	  rather than about this class: the LDAP filter channel matches the METHOD NAME `search`
+//	  on a receiver it requires to be external, and a frontend that cannot type receivers
+//	  leaves that unanswerable -- correctly not the same as "not builtin" -- so in Python
+//	  `re.search(pattern, url)` matches it at reduced confidence. That produced the one
+//	  wrong finding this family made anywhere, yt-dlp `extractor/common.py`:2686, and it was
+//	  wrong about the SINK and not about the source. Pairing a second class with a channel
+//	  that already misreads a stdlib call multiplies a known imprecision, so an upstream
+//	  response reaching a real LDAP filter is a stated miss until that channel can tell `re`
+//	  from a directory connection.
+//
+//		It does not contradict the client-role judgement. That rule says a key this program
+//		PRESENTS to a third party is that party's public configuration and not this program's
+//		secret; this one says the answer that party sends BACK is that party's text. Both rest
+//		on the third party being outside the trust boundary, and no value is ever both --
+//		`testdata/upstream-response` holds both directions of one call and asserts both.
+//		NOT CAUGHT: an application's OWN wrapper around its HTTP client. yt-dlp routes every
+//		one of its ~7,900 extractors through `self._download_webpage` and
+//		`self._download_json`, 1,354 call sites of two methods that exist only in that
+//		program, and nothing in a policy document can currently tell the model about them --
+//		which is the missing capability, not the missing names. The stdlib and the four
+//		common clients are declared, and `urlopen` is matched on its last segment because
+//		every spelling of it opens a URL. Also not caught: the second family the entry named,
+//		a value read out of a PARSED DOCUMENT -- a PDF dictionary accessor, a deserializer
+//		applied to a file a caller handed in -- because `dict.get(...)` is not a name a
+//		general model can claim.
+//
+// TAINT THROUGH A DEPENDENCY THAT IS NOT IN THE TREE: DECIDED, AND IT KEEPS FLOWING.
+// An unresolved call into a package with no source here propagates taint from its
+// arguments to its result, and it will continue to. The precedent that looked like it
+// pointed the other way does not: a store read stopped taking taint from its argument
+// because a lookup ANSWERS WITH WHAT WAS STORED, which is a fact about that operation.
+// An arbitrary unread callee offers no fact at all, and narrowing on the absence of one
+// would make the engine quietest exactly where it knows least. The risks are not
+// symmetric either -- assuming taint survives costs precision, assuming it dies costs
+// recall, and recall is what this engine is short of.
+//
+//	What changed is that the assumption is now NAMED. `Model.Attests` asks whether
+//	anything in this model has a statement about a call -- a channel, a transform, a
+//	store, a classification, a shape -- and a hop into code that is not in the tree and
+//	that the model has never heard of is recorded as `Hop.Assumed` and listed in
+//	`Finding.Assumptions`, which the report prints as "assumed, not established". The
+//	discriminator is deliberately not a name and not a lockfile: it asks what this model
+//	covers, so it stays right as the model grows and needs no registry and no guess about
+//	which directory a dependency was vendored into. Measured, it is selective rather than
+//	blanket: 20 of the 91 findings across the ten repositories carry an assumption and 71
+//	do not, and on uptime-kuma it is 5 of 14 -- four `badge-maker.makeBadge`, one
+//	`feed.Feed`. It names language builtins this model has never described
+//	(`Promise.reject`, `URL`, `decodeURIComponent`) alongside unread packages, and that is
+//	the accurate reading rather than a lapse: what was checked is that nothing here
+//	implements the call and nothing in this model describes it, which is equally true of
+//	both, and the printed sentence says exactly that and no more.
+//	It changes no verdict and no gate, and that is the decision rather than an omission:
+//	all seven of the original badge findings were adjudicated DISPUTED, which means
+//	unanswerable, and they were unanswerable because the report never said which hop the
+//	question was about. Naming it is what a reader needed; suppressing it would have
+//	answered a question nobody could answer.
+//	NOT CAUGHT: the consolidation the same entry asked for -- one finding about
+//	`makeBadge` with several reaching routes. Those are four distinct sinks in four
+//	distinct handlers, and merging findings across functions is the per-branch
+//	duplication entry's work, not this one's.
+//
 // A claim without a reason is not accepted. See TestEveryClaimStatesItsReason.
 var claims = map[string]Claim{
 	"CWE-78": {State: Asserted, Reason: "untrusted data reaching a described command API, across functions and modules -- including a value that never came from a request at all. A Django management command's `handle` is an entry point whose parameters argparse fills in from what a person typed, so `os.system(\"ping \" + host)` in a command is the same defect it is in a route and is claimed as one. It is reported at warning and does not gate, because the trust says an operator supplied it: whoever can run `manage.py` already has the host, and failing a build on that would claim a stranger could. `**options` is a parameter as much as a named one, so an option read out of it is covered too. What is NOT covered is the argument parser itself: the declared names are recorded on the entry point as evidence and no value is taken from `add_arguments`, because argparse hands the value to the handler and that is where it is classified",
-		By: []string{"untrusted-to-interpreter"}},
+		By: []string{"untrusted-to-interpreter", "upstream-response-to-interpreter"}},
 	"CWE-73": {State: Asserted, Reason: "untrusted data choosing the executable a process launches",
-		By: []string{"untrusted-to-interpreter"}},
+		By: []string{"untrusted-to-interpreter", "upstream-response-to-interpreter"}},
 	"CWE-95": {State: Asserted, Reason: "untrusted data reaching a language evaluator: eval, Function, Python exec",
-		By: []string{"untrusted-to-interpreter"}},
+		By: []string{"untrusted-to-interpreter", "upstream-response-to-interpreter"}},
 	"CWE-89": {State: Partial, Reason: "untrusted data COMPOSED into the statement argument of a described SQL API, where composed means composed into the value THIS sink receives rather than anywhere in its history. A parameterized call cannot match, because the channel names only the interpreted argument. Known imprecision: `execute` is also what a CQRS bus and a SQLAlchemy Session are called on, and neither takes a statement string -- telling them apart needs the receiver's type, which one frontend supplies patchily and the other not at all, so those report at reduced confidence rather than being excluded A recall audit named one shape this cannot reach: pg-promise calls its query methods `one`, `many`, `any` and `none`, which are 2020 call sites across the clean corpus and almost none of them a query -- and the receiver that would tell them apart is the result of calling the result of a require, a callee the frontend does not resolve. A pg-promise application is analysed for everything else and silent about its SQL. A value a LOOKUP returned is no longer taken to be the key the lookup was given. A read from a store answers with what was WRITTEN there, so an ORM query, a cache `get` and `localStorage.getItem` propagate nothing from their criteria into their result -- which removed six false positives across two repositories with no true finding lost, among them a 49-hop path from an ActivityPub queue processor onto raw SQL. Reads are recognised either by a method name that belongs to one library's data-access API, by a receiver the frontend typed as a container, or by a receiver that says in its own spelling what it is; `fastify.get`, `axios.get` and `Array.prototype.find` match none of those and are untouched. The READ half is now claimed in the place where a store is actually read back: a scheduled job and an event-bus consumer are entry points, so a cron job reading a column an earlier request wrote and interpolating it into SQL is anchored and gates -- the trust travels with the write, and that write was a remote caller's",
-		By: []string{"untrusted-to-interpreter", "stored-to-interpreter"}},
+		By: []string{"untrusted-to-interpreter", "upstream-response-to-interpreter", "stored-to-interpreter"}},
 	// Subsumes the variants that name a PAYLOAD spelling -- script tags, script in an
 	// attribute, alternate identifier characters. The rule proves untrusted data reaches
 	// a response body parsed as markup and never inspects what the data says, so those
@@ -162,7 +274,7 @@ var claims = map[string]Claim{
 			"consumer are entry points, which is where a store is read back long after " +
 			"the request that filled it, and it is the write's trust the finding carries " +
 			"rather than the timer's",
-		By:       []string{"untrusted-to-interpreter", "markup-assignment", "stored-to-interpreter", "untrusted-url-target"},
+		By:       []string{"untrusted-to-interpreter", "markup-assignment", "stored-to-interpreter", "untrusted-url-target", "upstream-response-to-interpreter"},
 		Subsumes: true,
 	},
 	"CWE-116": {State: Partial, Reason: "caller data composed after a fixed URL prefix in an href, src or action attribute/property, without an encoder for URL-component syntax. This is deliberately not SSRF: the program-written prefix fixes the host, while an unencoded slash, question mark, fragment or dot segment can still change the resource. Quoted URL-valued template attributes and direct DOM property assignments only; helper expressions and unquoted attributes are left unclaimed rather than guessed",
@@ -275,10 +387,10 @@ var claims = map[string]Claim{
 		By: []string{"expectations", "unbounded-retention-by-caller-key", "refusal-inside-a-repeating-callback", "expensive-entry-outside-rate-limiter", "rate-limit-key-from-trusted-forwarding-header"}},
 
 	"CWE-1336": {State: Partial, Reason: "untrusted data reaching a call that COMPILES a template. Every engine described here exposes property access and method calls to the template text, which is why this ends in code execution rather than in mangled markup. A template loaded from disk and rendered WITH untrusted data is not this weakness and is not reported",
-		By: []string{"untrusted-to-interpreter"}},
+		By: []string{"untrusted-to-interpreter", "upstream-response-to-interpreter"}},
 
 	"CWE-611": {State: Partial, Reason: "untrusted data reaching an XML parser that resolves external entities. The two libraries described have opposite defaults and are treated accordingly: libxmljs resolves only when the call passes `noent`, so the call is read for it, while lxml's default parser resolves and is named outright. Nothing is claimed about parsers that are safe by default and can be made unsafe by configuration this engine cannot see",
-		By: []string{"untrusted-to-xml-parser"}},
+		By: []string{"untrusted-to-xml-parser", "upstream-response-to-interpreter"}},
 
 	"CWE-915": {State: Partial, Reason: "the caller's object handed to a record writer WHOLE rather than field by field, which is a question about structure in the same way SQL injection is a question about text: a value that became a FIELD of something is not the caller's object. Matched only where the symbol leaves no room for doubt. `update`, `create` and `save` were tried and withdrawn -- `save` is what an uploaded file is written with, `update` is already how a record is selected by its identifier, and a dictionary has all three -- so ORM-specific spellings of this weakness are a stated miss",
 		By: []string{"untrusted-to-record-fields"}},
@@ -289,7 +401,7 @@ var claims = map[string]Claim{
 		By: []string{"predictable-iv"}},
 
 	"CWE-470": {State: Partial, Reason: "untrusted data naming a module for the runtime to load, which runs it. Requires a WHOLE value, which is a trade rather than a safety argument: `require(\"./handlers/\" + name)` is what every plugin loader looks like and reporting them all would make the rule unusable, but a leaf containing `../` escapes the fixed directory and is missed",
-		By: []string{"untrusted-to-interpreter"}},
+		By: []string{"untrusted-to-interpreter", "upstream-response-to-interpreter"}},
 	"CWE-1321": {State: Partial, Reason: "the caller's object merged into another by a function that walks NESTED keys, so a `__proto__` key in it reaches the prototype every object inherits from. The named deep-merge helpers only; a merge written by hand is a loop over keys and is not matched",
 		By: []string{"untrusted-to-record-fields"}},
 
@@ -299,7 +411,7 @@ var claims = map[string]Claim{
 		By: []string{"world-writable"}},
 
 	"CWE-88": {State: Partial, Reason: "untrusted data reaching an element of a Python process argument list where it may be parsed as an option. A literal end-of-options separator, a value proven not to begin with a dash, and programs explicitly known to have no option surface are excluded; commands outside the described subprocess APIs are a stated miss",
-		By: []string{"untrusted-to-interpreter", "process-argument-to-argv"}},
+		By: []string{"untrusted-to-interpreter", "upstream-response-to-interpreter", "process-argument-to-argv"}},
 	"CWE-1236": {State: Partial, Reason: "untrusted data written into a CSV a spreadsheet will later interpret, where a cell beginning with a formula character runs on the machine of whoever opens it. The named writers only, and nothing is claimed about whether the application prefixes cells to defuse them, because no such convention is modelled",
 		By: []string{"untrusted-to-spreadsheet"}},
 
@@ -344,9 +456,9 @@ var claims = map[string]Claim{
 		By: []string{"no-hostname-check"}},
 
 	"CWE-90": {State: Partial, Reason: "untrusted data COMPOSED into an LDAP filter, where a `*` in the wrong place turns a check for one user into a match for any. Composition is required to keep the rule precise on the common shape, and unlike SQL it costs a real miss: an LDAP filter ARGUMENT passed whole is the whole filter, not a parameter, so the caller writing all of it is not reported",
-		By: []string{"untrusted-to-interpreter"}},
+		By: []string{"untrusted-to-interpreter", "upstream-response-to-interpreter"}},
 	"CWE-643": {State: Partial, Reason: "untrusted data composed into an XPath expression, which selects whichever nodes the caller names rather than the ones the application meant. The named evaluation APIs only",
-		By: []string{"untrusted-to-interpreter"}},
+		By: []string{"untrusted-to-interpreter", "upstream-response-to-interpreter"}},
 	"CWE-757": {State: Partial, Reason: "an obsolete TLS version named in the call, either requested outright or accepted as a floor. Only versions written as literals; a version read from configuration is not matched, and nothing is claimed about what a peer actually negotiates",
 		By: []string{"obsolete-tls"}},
 

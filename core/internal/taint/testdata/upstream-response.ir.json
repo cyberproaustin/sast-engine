@@ -1,0 +1,3068 @@
+{
+  "irVersion": "0.16.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi",
+        "django",
+        "tornado"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "app.py",
+      "path": "app.py"
+    },
+    {
+      "id": "engine_module.py",
+      "path": "engine_module.py"
+    },
+    {
+      "id": "engine_xml.py",
+      "path": "engine_xml.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "app.py#<module>:0:0",
+      "name": "<module>",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "A response is text somebody else wrote.\n\nEvery value here arrives from a service on the other end of a network call, and the\nprogram treats each one differently. What separates the findings from the silence is the\nDESTINATION: a response that is interpreted is dangerous whoever runs the service that\nsent it, and a response that is logged or handed onward is an integration.\n\nThe last handler is the other direction of the same call, and it is here so the two\njudgements can be read together: the key this program presents to the upstream is that\nupstream's public configuration and not this program's secret, which is what the client\nrole rule already decides. Nothing about seeding the ANSWER changes what the REQUEST said.\n"
+        },
+        {
+          "id": "app.py#<module>:0:0$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 7
+          },
+          "name": "flask.Flask"
+        },
+        {
+          "id": "app.py#<module>:0:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 1
+          },
+          "name": "app"
+        },
+        {
+          "id": "app.py#<module>:0:0$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 15
+          },
+          "literal": "AIzaSyD8xK2mPqR7vN4wL9jH3sT6yU1bC5dF0gE"
+        },
+        {
+          "id": "app.py#<module>:0:0$v4",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 1
+          },
+          "name": "CATALOG_KEY"
+        },
+        {
+          "id": "app.py#<module>:0:0$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 18
+          },
+          "literal": "sk_live_51H8xQ2eZvKYlo2C0Dj4TgHqW"
+        },
+        {
+          "id": "app.py#<module>:0:0$v6",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 1
+          },
+          "name": "CATALOG_SECRET"
+        },
+        {
+          "id": "app.py#<module>:0:0$v7",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 7
+          },
+          "name": "logging"
+        },
+        {
+          "id": "app.py#<module>:0:0$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 7
+          },
+          "name": "logging.getLogger"
+        },
+        {
+          "id": "app.py#<module>:0:0$v9",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 1
+          },
+          "name": "log"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#<module>:0:0$v1",
+          "to": "app.py#<module>:0:0$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 1
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v3",
+          "to": "app.py#<module>:0:0$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 1
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v5",
+          "to": "app.py#<module>:0:0$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 1
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v8",
+          "to": "app.py#<module>:0:0$v9",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 1
+          },
+          "block": "app.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#<module>:0:0$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 7
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.Flask",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#<module>:0:0$v1",
+          "block": "app.py#<module>:0:0$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#<module>:0:0$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 7
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "logging.getLogger",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#<module>:0:0$v8",
+          "block": "app.py#<module>:0:0$b0",
+          "method": "getLogger",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#<module>:0:0$v7"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "app.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#import_catalog:33:1",
+      "name": "import_catalog",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 33,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#import_catalog:33:1$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 25
+          },
+          "literal": "https://catalog.example.com/v1/items"
+        },
+        {
+          "id": "app.py#import_catalog:33:1$v1",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 12
+          },
+          "name": "requests"
+        },
+        {
+          "id": "app.py#import_catalog:33:1$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 12
+          },
+          "name": "requests.get"
+        },
+        {
+          "id": "app.py#import_catalog:33:1$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 12
+          },
+          "name": "unresolved"
+        },
+        {
+          "id": "app.py#import_catalog:33:1$v4",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 5
+          },
+          "name": "body"
+        },
+        {
+          "id": "app.py#import_catalog:33:1$v5",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 15
+          },
+          "name": "concat"
+        },
+        {
+          "id": "app.py#import_catalog:33:1$v6",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 15
+          },
+          "name": "concat"
+        },
+        {
+          "id": "app.py#import_catalog:33:1$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 15
+          },
+          "literal": "convert "
+        },
+        {
+          "id": "app.py#import_catalog:33:1$v8",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 28
+          },
+          "name": "thumbnail",
+          "base": "app.py#import_catalog:33:1$v4",
+          "path": "thumbnail"
+        },
+        {
+          "id": "app.py#import_catalog:33:1$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 48
+          },
+          "literal": " /var/cache/thumb.png"
+        },
+        {
+          "id": "app.py#import_catalog:33:1$v10",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 5
+          },
+          "name": "os"
+        },
+        {
+          "id": "app.py#import_catalog:33:1$v11",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 5
+          },
+          "name": "os.system"
+        },
+        {
+          "id": "app.py#import_catalog:33:1$v12",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 12
+          },
+          "literal": "ok"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#import_catalog:33:1$v3",
+          "to": "app.py#import_catalog:33:1$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 5
+          },
+          "block": "app.py#import_catalog:33:1$b0"
+        },
+        {
+          "from": "app.py#import_catalog:33:1$v7",
+          "to": "app.py#import_catalog:33:1$v6",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 15
+          },
+          "block": "app.py#import_catalog:33:1$b0"
+        },
+        {
+          "from": "app.py#import_catalog:33:1$v4",
+          "to": "app.py#import_catalog:33:1$v8",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 28
+          },
+          "block": "app.py#import_catalog:33:1$b0"
+        },
+        {
+          "from": "app.py#import_catalog:33:1$v8",
+          "to": "app.py#import_catalog:33:1$v6",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 15
+          },
+          "block": "app.py#import_catalog:33:1$b0"
+        },
+        {
+          "from": "app.py#import_catalog:33:1$v6",
+          "to": "app.py#import_catalog:33:1$v5",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 15
+          },
+          "block": "app.py#import_catalog:33:1$b0"
+        },
+        {
+          "from": "app.py#import_catalog:33:1$v9",
+          "to": "app.py#import_catalog:33:1$v5",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 15
+          },
+          "block": "app.py#import_catalog:33:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#import_catalog:33:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "requests.get",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#import_catalog:33:1$v0"
+            }
+          ],
+          "resultValueId": "app.py#import_catalog:33:1$v2",
+          "block": "app.py#import_catalog:33:1$b0",
+          "method": "get",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "https://catalog.example.com/v1/items"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#import_catalog:33:1$v1"
+        },
+        {
+          "id": "app.py#import_catalog:33:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 12
+          },
+          "callee": {
+            "kind": "unresolved",
+            "resolution": "dynamic-unresolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#import_catalog:33:1$v3",
+          "block": "app.py#import_catalog:33:1$b0",
+          "method": "json",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#import_catalog:33:1$v2"
+        },
+        {
+          "id": "app.py#import_catalog:33:1$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "os.system",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#import_catalog:33:1$v5"
+            }
+          ],
+          "resultValueId": "app.py#import_catalog:33:1$v11",
+          "block": "app.py#import_catalog:33:1$b0",
+          "method": "system",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#import_catalog:33:1$v10"
+        }
+      ],
+      "returns": [
+        "app.py#import_catalog:33:1$v12"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#import_catalog:33:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#import_catalog:33:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#import_catalog:33:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#sync_catalog:41:1",
+      "name": "sync_catalog",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 41,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#sync_catalog:41:1$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 25
+          },
+          "literal": "https://catalog.example.com/v1/items"
+        },
+        {
+          "id": "app.py#sync_catalog:41:1$v1",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 12
+          },
+          "name": "requests"
+        },
+        {
+          "id": "app.py#sync_catalog:41:1$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 12
+          },
+          "name": "requests.get"
+        },
+        {
+          "id": "app.py#sync_catalog:41:1$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 12
+          },
+          "name": "unresolved"
+        },
+        {
+          "id": "app.py#sync_catalog:41:1$v4",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 5
+          },
+          "name": "body"
+        },
+        {
+          "id": "app.py#sync_catalog:41:1$v5",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 11
+          },
+          "name": "flask.g"
+        },
+        {
+          "id": "app.py#sync_catalog:41:1$v6",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 11
+          },
+          "base": "app.py#sync_catalog:41:1$v5",
+          "path": "db",
+          "name": "db"
+        },
+        {
+          "id": "app.py#sync_catalog:41:1$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 11
+          },
+          "name": "flask.g.db.cursor"
+        },
+        {
+          "id": "app.py#sync_catalog:41:1$v8",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 5
+          },
+          "name": "cur"
+        },
+        {
+          "id": "app.py#sync_catalog:41:1$v9",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 17
+          },
+          "name": "concat"
+        },
+        {
+          "id": "app.py#sync_catalog:41:1$v10",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 17
+          },
+          "name": "concat"
+        },
+        {
+          "id": "app.py#sync_catalog:41:1$v11",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 17
+          },
+          "literal": "INSERT INTO items (sku) VALUES ('"
+        },
+        {
+          "id": "app.py#sync_catalog:41:1$v12",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 55
+          },
+          "name": "sku",
+          "base": "app.py#sync_catalog:41:1$v4",
+          "path": "sku"
+        },
+        {
+          "id": "app.py#sync_catalog:41:1$v13",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 69
+          },
+          "literal": "')"
+        },
+        {
+          "id": "app.py#sync_catalog:41:1$v14",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 5
+          },
+          "name": "cur.execute"
+        },
+        {
+          "id": "app.py#sync_catalog:41:1$v15",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 46,
+            "column": 12
+          },
+          "literal": "ok"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#sync_catalog:41:1$v3",
+          "to": "app.py#sync_catalog:41:1$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 5
+          },
+          "block": "app.py#sync_catalog:41:1$b0"
+        },
+        {
+          "from": "app.py#sync_catalog:41:1$v5",
+          "to": "app.py#sync_catalog:41:1$v6",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 11
+          },
+          "block": "app.py#sync_catalog:41:1$b0"
+        },
+        {
+          "from": "app.py#sync_catalog:41:1$v7",
+          "to": "app.py#sync_catalog:41:1$v8",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 5
+          },
+          "block": "app.py#sync_catalog:41:1$b0"
+        },
+        {
+          "from": "app.py#sync_catalog:41:1$v11",
+          "to": "app.py#sync_catalog:41:1$v10",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 17
+          },
+          "block": "app.py#sync_catalog:41:1$b0"
+        },
+        {
+          "from": "app.py#sync_catalog:41:1$v4",
+          "to": "app.py#sync_catalog:41:1$v12",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 55
+          },
+          "block": "app.py#sync_catalog:41:1$b0"
+        },
+        {
+          "from": "app.py#sync_catalog:41:1$v12",
+          "to": "app.py#sync_catalog:41:1$v10",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 17
+          },
+          "block": "app.py#sync_catalog:41:1$b0"
+        },
+        {
+          "from": "app.py#sync_catalog:41:1$v10",
+          "to": "app.py#sync_catalog:41:1$v9",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 17
+          },
+          "block": "app.py#sync_catalog:41:1$b0"
+        },
+        {
+          "from": "app.py#sync_catalog:41:1$v13",
+          "to": "app.py#sync_catalog:41:1$v9",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 17
+          },
+          "block": "app.py#sync_catalog:41:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#sync_catalog:41:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "requests.get",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#sync_catalog:41:1$v0"
+            }
+          ],
+          "resultValueId": "app.py#sync_catalog:41:1$v2",
+          "block": "app.py#sync_catalog:41:1$b0",
+          "method": "get",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "https://catalog.example.com/v1/items"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#sync_catalog:41:1$v1"
+        },
+        {
+          "id": "app.py#sync_catalog:41:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 12
+          },
+          "callee": {
+            "kind": "unresolved",
+            "resolution": "dynamic-unresolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#sync_catalog:41:1$v3",
+          "block": "app.py#sync_catalog:41:1$b0",
+          "method": "json",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#sync_catalog:41:1$v2"
+        },
+        {
+          "id": "app.py#sync_catalog:41:1$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 11
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.g.db.cursor",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "app.py#sync_catalog:41:1$v7",
+          "block": "app.py#sync_catalog:41:1$b0",
+          "method": "cursor",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#sync_catalog:41:1$v6"
+        },
+        {
+          "id": "app.py#sync_catalog:41:1$c3",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cur.execute",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#sync_catalog:41:1$v9"
+            }
+          ],
+          "resultValueId": "app.py#sync_catalog:41:1$v14",
+          "block": "app.py#sync_catalog:41:1$b0",
+          "method": "execute",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#sync_catalog:41:1$v8"
+        }
+      ],
+      "returns": [
+        "app.py#sync_catalog:41:1$v15"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#sync_catalog:41:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#sync_catalog:41:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#sync_catalog:41:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 46,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#audit_catalog:50:1",
+      "name": "audit_catalog",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 50,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#audit_catalog:50:1$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 25
+          },
+          "literal": "https://catalog.example.com/v1/items"
+        },
+        {
+          "id": "app.py#audit_catalog:50:1$v1",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 12
+          },
+          "name": "requests"
+        },
+        {
+          "id": "app.py#audit_catalog:50:1$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 12
+          },
+          "name": "requests.get"
+        },
+        {
+          "id": "app.py#audit_catalog:50:1$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 12
+          },
+          "name": "unresolved"
+        },
+        {
+          "id": "app.py#audit_catalog:50:1$v4",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 5
+          },
+          "name": "body"
+        },
+        {
+          "id": "app.py#audit_catalog:50:1$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 14
+          },
+          "literal": "catalog returned %s"
+        },
+        {
+          "id": "app.py#audit_catalog:50:1$v6",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 37
+          },
+          "name": "sku",
+          "base": "app.py#audit_catalog:50:1$v4",
+          "path": "sku"
+        },
+        {
+          "id": "app.py#audit_catalog:50:1$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 5
+          },
+          "name": "log.info"
+        },
+        {
+          "id": "app.py#audit_catalog:50:1$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 54,
+            "column": 12
+          },
+          "literal": "ok"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#audit_catalog:50:1$v3",
+          "to": "app.py#audit_catalog:50:1$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 5
+          },
+          "block": "app.py#audit_catalog:50:1$b0"
+        },
+        {
+          "from": "app.py#audit_catalog:50:1$v4",
+          "to": "app.py#audit_catalog:50:1$v6",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 37
+          },
+          "block": "app.py#audit_catalog:50:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#audit_catalog:50:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "requests.get",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#audit_catalog:50:1$v0"
+            }
+          ],
+          "resultValueId": "app.py#audit_catalog:50:1$v2",
+          "block": "app.py#audit_catalog:50:1$b0",
+          "method": "get",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "https://catalog.example.com/v1/items"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#audit_catalog:50:1$v1"
+        },
+        {
+          "id": "app.py#audit_catalog:50:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 12
+          },
+          "callee": {
+            "kind": "unresolved",
+            "resolution": "dynamic-unresolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#audit_catalog:50:1$v3",
+          "block": "app.py#audit_catalog:50:1$b0",
+          "method": "json",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#audit_catalog:50:1$v2"
+        },
+        {
+          "id": "app.py#audit_catalog:50:1$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "log.info",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#audit_catalog:50:1$v5"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#audit_catalog:50:1$v6"
+            }
+          ],
+          "resultValueId": "app.py#audit_catalog:50:1$v7",
+          "block": "app.py#audit_catalog:50:1$b0",
+          "method": "info",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "catalog returned %s"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#<module>:0:0$v9"
+        }
+      ],
+      "returns": [
+        "app.py#audit_catalog:50:1$v8"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#audit_catalog:50:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#audit_catalog:50:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 50,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#audit_catalog:50:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 54,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#mirror_catalog:58:1",
+      "name": "mirror_catalog",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 58,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#mirror_catalog:58:1$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 59,
+            "column": 25
+          },
+          "literal": "https://catalog.example.com/v1/items"
+        },
+        {
+          "id": "app.py#mirror_catalog:58:1$v1",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 59,
+            "column": 12
+          },
+          "name": "requests"
+        },
+        {
+          "id": "app.py#mirror_catalog:58:1$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 59,
+            "column": 12
+          },
+          "name": "requests.get"
+        },
+        {
+          "id": "app.py#mirror_catalog:58:1$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 59,
+            "column": 12
+          },
+          "name": "unresolved"
+        },
+        {
+          "id": "app.py#mirror_catalog:58:1$v4",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 59,
+            "column": 5
+          },
+          "name": "body"
+        },
+        {
+          "id": "app.py#mirror_catalog:58:1$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 61,
+            "column": 19
+          },
+          "literal": "https://mirror.example.com/v1/items"
+        },
+        {
+          "id": "app.py#mirror_catalog:58:1$v6",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 61,
+            "column": 63
+          },
+          "name": "{dict}"
+        },
+        {
+          "id": "app.py#mirror_catalog:58:1$v7",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 61,
+            "column": 71
+          },
+          "name": "sku",
+          "base": "app.py#mirror_catalog:58:1$v4",
+          "path": "sku"
+        },
+        {
+          "id": "app.py#mirror_catalog:58:1$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 61,
+            "column": 5
+          },
+          "name": "requests.post"
+        },
+        {
+          "id": "app.py#mirror_catalog:58:1$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 62,
+            "column": 12
+          },
+          "literal": "ok"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#mirror_catalog:58:1$v3",
+          "to": "app.py#mirror_catalog:58:1$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 59,
+            "column": 5
+          },
+          "block": "app.py#mirror_catalog:58:1$b0"
+        },
+        {
+          "from": "app.py#mirror_catalog:58:1$v4",
+          "to": "app.py#mirror_catalog:58:1$v7",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 61,
+            "column": 71
+          },
+          "block": "app.py#mirror_catalog:58:1$b0"
+        },
+        {
+          "from": "app.py#mirror_catalog:58:1$v7",
+          "to": "app.py#mirror_catalog:58:1$v6",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 61,
+            "column": 63
+          },
+          "block": "app.py#mirror_catalog:58:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#mirror_catalog:58:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 59,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "requests.get",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#mirror_catalog:58:1$v0"
+            }
+          ],
+          "resultValueId": "app.py#mirror_catalog:58:1$v2",
+          "block": "app.py#mirror_catalog:58:1$b0",
+          "method": "get",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "https://catalog.example.com/v1/items"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#mirror_catalog:58:1$v1"
+        },
+        {
+          "id": "app.py#mirror_catalog:58:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 59,
+            "column": 12
+          },
+          "callee": {
+            "kind": "unresolved",
+            "resolution": "dynamic-unresolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#mirror_catalog:58:1$v3",
+          "block": "app.py#mirror_catalog:58:1$b0",
+          "method": "json",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#mirror_catalog:58:1$v2"
+        },
+        {
+          "id": "app.py#mirror_catalog:58:1$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 61,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "requests.post",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#mirror_catalog:58:1$v5"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#mirror_catalog:58:1$v6"
+            }
+          ],
+          "resultValueId": "app.py#mirror_catalog:58:1$v8",
+          "block": "app.py#mirror_catalog:58:1$b0",
+          "method": "post",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "https://mirror.example.com/v1/items",
+            "-1": "json=?",
+            "-1001": "json.sku=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#mirror_catalog:58:1$v1"
+        }
+      ],
+      "returns": [
+        "app.py#mirror_catalog:58:1$v9"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#mirror_catalog:58:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#mirror_catalog:58:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 58,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#mirror_catalog:58:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 62,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#lookup_item:66:1",
+      "name": "lookup_item",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 66,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#lookup_item:66:1$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 71,
+            "column": 9
+          },
+          "literal": "https://catalog.example.com/v1/lookup"
+        },
+        {
+          "id": "app.py#lookup_item:66:1$v1",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 72,
+            "column": 16
+          },
+          "name": "{dict}"
+        },
+        {
+          "id": "app.py#lookup_item:66:1$v2",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 72,
+            "column": 44
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#lookup_item:66:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 72,
+            "column": 44
+          },
+          "base": "app.py#lookup_item:66:1$v2",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "app.py#lookup_item:66:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 72,
+            "column": 44
+          },
+          "name": "sku",
+          "base": "app.py#lookup_item:66:1$v3",
+          "path": "args.sku"
+        },
+        {
+          "id": "app.py#lookup_item:66:1$v5",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 70,
+            "column": 12
+          },
+          "name": "requests"
+        },
+        {
+          "id": "app.py#lookup_item:66:1$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 70,
+            "column": 12
+          },
+          "name": "requests.get"
+        },
+        {
+          "id": "app.py#lookup_item:66:1$v7",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 70,
+            "column": 5
+          },
+          "name": "resp"
+        },
+        {
+          "id": "app.py#lookup_item:66:1$v8",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 74,
+            "column": 12
+          },
+          "base": "app.py#lookup_item:66:1$v7",
+          "path": "text",
+          "name": "text"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#<module>:0:0$v4",
+          "to": "app.py#lookup_item:66:1$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 72,
+            "column": 16
+          },
+          "block": "app.py#lookup_item:66:1$b0"
+        },
+        {
+          "from": "app.py#lookup_item:66:1$v2",
+          "to": "app.py#lookup_item:66:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 72,
+            "column": 44
+          },
+          "block": "app.py#lookup_item:66:1$b0"
+        },
+        {
+          "from": "app.py#lookup_item:66:1$v3",
+          "to": "app.py#lookup_item:66:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 72,
+            "column": 44
+          },
+          "block": "app.py#lookup_item:66:1$b0"
+        },
+        {
+          "from": "app.py#lookup_item:66:1$v4",
+          "to": "app.py#lookup_item:66:1$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 72,
+            "column": 16
+          },
+          "block": "app.py#lookup_item:66:1$b0"
+        },
+        {
+          "from": "app.py#lookup_item:66:1$v6",
+          "to": "app.py#lookup_item:66:1$v7",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 70,
+            "column": 5
+          },
+          "block": "app.py#lookup_item:66:1$b0"
+        },
+        {
+          "from": "app.py#lookup_item:66:1$v7",
+          "to": "app.py#lookup_item:66:1$v8",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 74,
+            "column": 12
+          },
+          "block": "app.py#lookup_item:66:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#lookup_item:66:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 70,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "requests.get",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#lookup_item:66:1$v0"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#lookup_item:66:1$v1"
+            }
+          ],
+          "resultValueId": "app.py#lookup_item:66:1$v6",
+          "block": "app.py#lookup_item:66:1$b0",
+          "method": "get",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "https://catalog.example.com/v1/lookup",
+            "-1": "params=?",
+            "-1001": "params.key=?",
+            "-1002": "params.sku=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#lookup_item:66:1$v5"
+        }
+      ],
+      "returns": [
+        "app.py#lookup_item:66:1$v8"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#lookup_item:66:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#lookup_item:66:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 66,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#lookup_item:66:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 74,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#private_lookup:78:1",
+      "name": "private_lookup",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 78,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#private_lookup:78:1$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 85,
+            "column": 9
+          },
+          "literal": "https://catalog.example.com/v1/private"
+        },
+        {
+          "id": "app.py#private_lookup:78:1$v1",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 86,
+            "column": 17
+          },
+          "name": "{dict}"
+        },
+        {
+          "id": "app.py#private_lookup:78:1$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 86,
+            "column": 35
+          },
+          "name": "f-string"
+        },
+        {
+          "id": "app.py#private_lookup:78:1$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 86,
+            "column": 35
+          },
+          "literal": "Bearer "
+        },
+        {
+          "id": "app.py#private_lookup:78:1$v4",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 84,
+            "column": 12
+          },
+          "name": "requests"
+        },
+        {
+          "id": "app.py#private_lookup:78:1$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 84,
+            "column": 12
+          },
+          "name": "requests.get"
+        },
+        {
+          "id": "app.py#private_lookup:78:1$v6",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 84,
+            "column": 5
+          },
+          "name": "resp"
+        },
+        {
+          "id": "app.py#private_lookup:78:1$v7",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 88,
+            "column": 12
+          },
+          "base": "app.py#private_lookup:78:1$v6",
+          "path": "text",
+          "name": "text"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#private_lookup:78:1$v3",
+          "to": "app.py#private_lookup:78:1$v2",
+          "kind": "template",
+          "loc": {
+            "file": "app.py",
+            "line": 86,
+            "column": 35
+          },
+          "block": "app.py#private_lookup:78:1$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v6",
+          "to": "app.py#private_lookup:78:1$v2",
+          "kind": "template",
+          "loc": {
+            "file": "app.py",
+            "line": 86,
+            "column": 35
+          },
+          "block": "app.py#private_lookup:78:1$b0"
+        },
+        {
+          "from": "app.py#private_lookup:78:1$v2",
+          "to": "app.py#private_lookup:78:1$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 86,
+            "column": 17
+          },
+          "block": "app.py#private_lookup:78:1$b0"
+        },
+        {
+          "from": "app.py#private_lookup:78:1$v5",
+          "to": "app.py#private_lookup:78:1$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 84,
+            "column": 5
+          },
+          "block": "app.py#private_lookup:78:1$b0"
+        },
+        {
+          "from": "app.py#private_lookup:78:1$v6",
+          "to": "app.py#private_lookup:78:1$v7",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 88,
+            "column": 12
+          },
+          "block": "app.py#private_lookup:78:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#private_lookup:78:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 84,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "requests.get",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#private_lookup:78:1$v0"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#private_lookup:78:1$v1"
+            }
+          ],
+          "resultValueId": "app.py#private_lookup:78:1$v5",
+          "block": "app.py#private_lookup:78:1$b0",
+          "method": "get",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "https://catalog.example.com/v1/private",
+            "-1": "headers=?",
+            "-1001": "headers.Authorization=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#private_lookup:78:1$v4"
+        }
+      ],
+      "returns": [
+        "app.py#private_lookup:78:1$v7"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#private_lookup:78:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#private_lookup:78:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 78,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#private_lookup:78:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 88,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "engine_module.py#<module>:0:0",
+      "name": "<module>",
+      "module": "engine_module.py",
+      "loc": {
+        "file": "engine_module.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "engine_module.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The other way a response arrives: framework dispatch.\n\nA SearxNG engine module never calls the network itself. The framework builds the request\nin `search(query, params)` and hands the answer to `response(resp)`, and no resolvable\ncall edge joins the two -- which is why the hook signature IS the trust boundary. The\nfirst half of that contract is already in the model; this is the second.\n"
+        },
+        {
+          "id": "engine_module.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 10,
+            "column": 14
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "engine_module.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 10,
+            "column": 15
+          },
+          "literal": "general"
+        },
+        {
+          "id": "engine_module.py#<module>:0:0$v3",
+          "kind": "local",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 10,
+            "column": 1
+          },
+          "name": "categories"
+        }
+      ],
+      "flows": [
+        {
+          "from": "engine_module.py#<module>:0:0$v2",
+          "to": "engine_module.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 10,
+            "column": 14
+          },
+          "block": "engine_module.py#<module>:0:0$b0"
+        },
+        {
+          "from": "engine_module.py#<module>:0:0$v1",
+          "to": "engine_module.py#<module>:0:0$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 10,
+            "column": 1
+          },
+          "block": "engine_module.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "engine_module.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "engine_module.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "engine_module.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "engine_module.py#request:13:1",
+      "name": "request",
+      "module": "engine_module.py",
+      "loc": {
+        "file": "engine_module.py",
+        "line": 13,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "query",
+          "valueId": "engine_module.py#request:13:1$v0"
+        },
+        {
+          "index": 1,
+          "name": "params",
+          "valueId": "engine_module.py#request:13:1$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "engine_module.py#request:13:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 13,
+            "column": 13
+          },
+          "name": "query"
+        },
+        {
+          "id": "engine_module.py#request:13:1$v1",
+          "kind": "param",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 13,
+            "column": 20
+          },
+          "name": "params"
+        },
+        {
+          "id": "engine_module.py#request:13:1$v2",
+          "kind": "local",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 14,
+            "column": 21
+          },
+          "name": "concat"
+        },
+        {
+          "id": "engine_module.py#request:13:1$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 14,
+            "column": 21
+          },
+          "literal": "https://upstream.example.com/search?q="
+        }
+      ],
+      "flows": [
+        {
+          "from": "engine_module.py#request:13:1$v3",
+          "to": "engine_module.py#request:13:1$v2",
+          "kind": "binary",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 14,
+            "column": 21
+          },
+          "block": "engine_module.py#request:13:1$b0"
+        },
+        {
+          "from": "engine_module.py#request:13:1$v0",
+          "to": "engine_module.py#request:13:1$v2",
+          "kind": "binary",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 14,
+            "column": 21
+          },
+          "block": "engine_module.py#request:13:1$b0"
+        }
+      ],
+      "calls": [],
+      "returns": [
+        "engine_module.py#request:13:1$v1"
+      ],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "engine_module.py",
+            "line": 14,
+            "column": 5
+          },
+          "base": "engine_module.py#request:13:1$v1",
+          "path": "url",
+          "from": "engine_module.py#request:13:1$v2",
+          "block": "engine_module.py#request:13:1$b0"
+        }
+      ],
+      "entryBlock": "engine_module.py#request:13:1$b0",
+      "blocks": [
+        {
+          "id": "engine_module.py#request:13:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "engine_module.py",
+            "line": 13,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "engine_module.py#request:13:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "engine_module.py",
+            "line": 15,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "engine_module.py#response:18:1",
+      "name": "response",
+      "module": "engine_module.py",
+      "loc": {
+        "file": "engine_module.py",
+        "line": 18,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "resp",
+          "valueId": "engine_module.py#response:18:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "engine_module.py#response:18:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 18,
+            "column": 14
+          },
+          "name": "resp"
+        },
+        {
+          "id": "engine_module.py#response:18:1$v1",
+          "kind": "local",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 19,
+            "column": 15
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "engine_module.py#response:18:1$v2",
+          "kind": "local",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 19,
+            "column": 5
+          },
+          "name": "results"
+        },
+        {
+          "id": "engine_module.py#response:18:1$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 20,
+            "column": 17
+          },
+          "name": "resp.json"
+        },
+        {
+          "id": "engine_module.py#response:18:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 20,
+            "column": 17
+          },
+          "name": "results",
+          "base": "engine_module.py#response:18:1$v3",
+          "path": "results"
+        },
+        {
+          "id": "engine_module.py#response:18:1$v5",
+          "kind": "local",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 20,
+            "column": 9
+          },
+          "name": "item"
+        },
+        {
+          "id": "engine_module.py#response:18:1$v6",
+          "kind": "local",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 22,
+            "column": 19
+          },
+          "name": "concat"
+        },
+        {
+          "id": "engine_module.py#response:18:1$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 22,
+            "column": 19
+          },
+          "literal": "fetch-thumb "
+        },
+        {
+          "id": "engine_module.py#response:18:1$v8",
+          "kind": "property",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 22,
+            "column": 36
+          },
+          "name": "thumbnail",
+          "base": "engine_module.py#response:18:1$v5",
+          "path": "thumbnail"
+        },
+        {
+          "id": "engine_module.py#response:18:1$v9",
+          "kind": "global",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 22,
+            "column": 9
+          },
+          "name": "os"
+        },
+        {
+          "id": "engine_module.py#response:18:1$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 22,
+            "column": 9
+          },
+          "name": "os.system"
+        },
+        {
+          "id": "engine_module.py#response:18:1$v11",
+          "kind": "local",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 23,
+            "column": 24
+          },
+          "name": "{dict}"
+        },
+        {
+          "id": "engine_module.py#response:18:1$v12",
+          "kind": "property",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 23,
+            "column": 34
+          },
+          "name": "title",
+          "base": "engine_module.py#response:18:1$v5",
+          "path": "title"
+        },
+        {
+          "id": "engine_module.py#response:18:1$v13",
+          "kind": "property",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 23,
+            "column": 56
+          },
+          "name": "url",
+          "base": "engine_module.py#response:18:1$v5",
+          "path": "url"
+        },
+        {
+          "id": "engine_module.py#response:18:1$v14",
+          "kind": "call-result",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 23,
+            "column": 9
+          },
+          "name": "results.append"
+        }
+      ],
+      "flows": [
+        {
+          "from": "engine_module.py#response:18:1$v1",
+          "to": "engine_module.py#response:18:1$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 19,
+            "column": 5
+          },
+          "block": "engine_module.py#response:18:1$b0"
+        },
+        {
+          "from": "engine_module.py#response:18:1$v3",
+          "to": "engine_module.py#response:18:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 20,
+            "column": 17
+          }
+        },
+        {
+          "from": "engine_module.py#response:18:1$v4",
+          "to": "engine_module.py#response:18:1$v5",
+          "kind": "property",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 20,
+            "column": 5
+          }
+        },
+        {
+          "from": "engine_module.py#response:18:1$v7",
+          "to": "engine_module.py#response:18:1$v6",
+          "kind": "binary",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 22,
+            "column": 19
+          }
+        },
+        {
+          "from": "engine_module.py#response:18:1$v5",
+          "to": "engine_module.py#response:18:1$v8",
+          "kind": "property",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 22,
+            "column": 36
+          }
+        },
+        {
+          "from": "engine_module.py#response:18:1$v8",
+          "to": "engine_module.py#response:18:1$v6",
+          "kind": "binary",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 22,
+            "column": 19
+          }
+        },
+        {
+          "from": "engine_module.py#response:18:1$v5",
+          "to": "engine_module.py#response:18:1$v12",
+          "kind": "property",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 23,
+            "column": 34
+          }
+        },
+        {
+          "from": "engine_module.py#response:18:1$v12",
+          "to": "engine_module.py#response:18:1$v11",
+          "kind": "enclose",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 23,
+            "column": 24
+          }
+        },
+        {
+          "from": "engine_module.py#response:18:1$v5",
+          "to": "engine_module.py#response:18:1$v13",
+          "kind": "property",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 23,
+            "column": 56
+          }
+        },
+        {
+          "from": "engine_module.py#response:18:1$v13",
+          "to": "engine_module.py#response:18:1$v11",
+          "kind": "enclose",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 23,
+            "column": 24
+          }
+        },
+        {
+          "from": "engine_module.py#response:18:1$v11",
+          "to": "engine_module.py#response:18:1$v2",
+          "kind": "append",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 23,
+            "column": 9
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "engine_module.py#response:18:1$c0",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 20,
+            "column": 17
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "resp.json",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "engine_module.py#response:18:1$v3",
+          "block": "engine_module.py#response:18:1$b0",
+          "method": "json",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "engine_module.py#response:18:1$v0"
+        },
+        {
+          "id": "engine_module.py#response:18:1$c1",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 22,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "os.system",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "engine_module.py#response:18:1$v6"
+            }
+          ],
+          "resultValueId": "engine_module.py#response:18:1$v10",
+          "block": "engine_module.py#response:18:1$b0",
+          "method": "system",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "engine_module.py#response:18:1$v9"
+        },
+        {
+          "id": "engine_module.py#response:18:1$c2",
+          "loc": {
+            "file": "engine_module.py",
+            "line": 23,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "results.append",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "engine_module.py#response:18:1$v11"
+            }
+          ],
+          "resultValueId": "engine_module.py#response:18:1$v14",
+          "block": "engine_module.py#response:18:1$b0",
+          "method": "append",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverType": "list",
+          "receiverTypeOrigin": "builtin",
+          "receiverValueId": "engine_module.py#response:18:1$v2"
+        }
+      ],
+      "returns": [
+        "engine_module.py#response:18:1$v2"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "engine_module.py#response:18:1$b0",
+      "blocks": [
+        {
+          "id": "engine_module.py#response:18:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "engine_module.py",
+            "line": 18,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "engine_module.py#response:18:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "engine_module.py",
+            "line": 24,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "engine_xml.py#<module>:0:0",
+      "name": "<module>",
+      "module": "engine_xml.py",
+      "loc": {
+        "file": "engine_xml.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "engine_xml.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The same hook, a second syntax.\n\nEight of searxng's engine modules are this line, one per upstream that speaks XML, and\nthe pairing it makes is one this model already asserts for a document a CALLER sent:\nlxml's default parser expands entities and this call supplies no parser of its own. A\nparser does not care who wrote the document it was handed.\n"
+        },
+        {
+          "id": "engine_xml.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 10,
+            "column": 14
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "engine_xml.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 10,
+            "column": 15
+          },
+          "literal": "science"
+        },
+        {
+          "id": "engine_xml.py#<module>:0:0$v3",
+          "kind": "local",
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 10,
+            "column": 1
+          },
+          "name": "categories"
+        }
+      ],
+      "flows": [
+        {
+          "from": "engine_xml.py#<module>:0:0$v2",
+          "to": "engine_xml.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 10,
+            "column": 14
+          },
+          "block": "engine_xml.py#<module>:0:0$b0"
+        },
+        {
+          "from": "engine_xml.py#<module>:0:0$v1",
+          "to": "engine_xml.py#<module>:0:0$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 10,
+            "column": 1
+          },
+          "block": "engine_xml.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "engine_xml.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "engine_xml.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "engine_xml.py#request:13:1",
+      "name": "request",
+      "module": "engine_xml.py",
+      "loc": {
+        "file": "engine_xml.py",
+        "line": 13,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "query",
+          "valueId": "engine_xml.py#request:13:1$v0"
+        },
+        {
+          "index": 1,
+          "name": "params",
+          "valueId": "engine_xml.py#request:13:1$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "engine_xml.py#request:13:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 13,
+            "column": 13
+          },
+          "name": "query"
+        },
+        {
+          "id": "engine_xml.py#request:13:1$v1",
+          "kind": "param",
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 13,
+            "column": 20
+          },
+          "name": "params"
+        },
+        {
+          "id": "engine_xml.py#request:13:1$v2",
+          "kind": "local",
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 14,
+            "column": 21
+          },
+          "name": "concat"
+        },
+        {
+          "id": "engine_xml.py#request:13:1$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 14,
+            "column": 21
+          },
+          "literal": "https://feeds.example.com/atom?q="
+        }
+      ],
+      "flows": [
+        {
+          "from": "engine_xml.py#request:13:1$v3",
+          "to": "engine_xml.py#request:13:1$v2",
+          "kind": "binary",
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 14,
+            "column": 21
+          },
+          "block": "engine_xml.py#request:13:1$b0"
+        },
+        {
+          "from": "engine_xml.py#request:13:1$v0",
+          "to": "engine_xml.py#request:13:1$v2",
+          "kind": "binary",
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 14,
+            "column": 21
+          },
+          "block": "engine_xml.py#request:13:1$b0"
+        }
+      ],
+      "calls": [],
+      "returns": [
+        "engine_xml.py#request:13:1$v1"
+      ],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 14,
+            "column": 5
+          },
+          "base": "engine_xml.py#request:13:1$v1",
+          "path": "url",
+          "from": "engine_xml.py#request:13:1$v2",
+          "block": "engine_xml.py#request:13:1$b0"
+        }
+      ],
+      "entryBlock": "engine_xml.py#request:13:1$b0",
+      "blocks": [
+        {
+          "id": "engine_xml.py#request:13:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 13,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "engine_xml.py#request:13:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 15,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "engine_xml.py#response:18:1",
+      "name": "response",
+      "module": "engine_xml.py",
+      "loc": {
+        "file": "engine_xml.py",
+        "line": 18,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "resp",
+          "valueId": "engine_xml.py#response:18:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "engine_xml.py#response:18:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 18,
+            "column": 14
+          },
+          "name": "resp"
+        },
+        {
+          "id": "engine_xml.py#response:18:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 20,
+            "column": 28
+          },
+          "base": "engine_xml.py#response:18:1$v0",
+          "path": "content",
+          "name": "content"
+        },
+        {
+          "id": "engine_xml.py#response:18:1$v2",
+          "kind": "global",
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 20,
+            "column": 11
+          },
+          "name": "lxml.etree"
+        },
+        {
+          "id": "engine_xml.py#response:18:1$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 20,
+            "column": 11
+          },
+          "name": "lxml.etree.fromstring"
+        },
+        {
+          "id": "engine_xml.py#response:18:1$v4",
+          "kind": "local",
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 20,
+            "column": 5
+          },
+          "name": "dom"
+        },
+        {
+          "id": "engine_xml.py#response:18:1$v5",
+          "kind": "local",
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 21,
+            "column": 12
+          },
+          "name": "[comprehension]"
+        },
+        {
+          "id": "engine_xml.py#response:18:1$v6",
+          "kind": "local",
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 21,
+            "column": 38
+          },
+          "name": "node"
+        },
+        {
+          "id": "engine_xml.py#response:18:1$v7",
+          "kind": "local",
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 21,
+            "column": 13
+          },
+          "name": "{dict}"
+        },
+        {
+          "id": "engine_xml.py#response:18:1$v8",
+          "kind": "property",
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 21,
+            "column": 23
+          },
+          "base": "engine_xml.py#response:18:1$v6",
+          "path": "text",
+          "name": "text"
+        }
+      ],
+      "flows": [
+        {
+          "from": "engine_xml.py#response:18:1$v0",
+          "to": "engine_xml.py#response:18:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 20,
+            "column": 28
+          },
+          "block": "engine_xml.py#response:18:1$b0"
+        },
+        {
+          "from": "engine_xml.py#response:18:1$v3",
+          "to": "engine_xml.py#response:18:1$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 20,
+            "column": 5
+          },
+          "block": "engine_xml.py#response:18:1$b0"
+        },
+        {
+          "from": "engine_xml.py#response:18:1$v4",
+          "to": "engine_xml.py#response:18:1$v6",
+          "kind": "property",
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 21,
+            "column": 12
+          },
+          "block": "engine_xml.py#response:18:1$b0"
+        },
+        {
+          "from": "engine_xml.py#response:18:1$v6",
+          "to": "engine_xml.py#response:18:1$v8",
+          "kind": "property",
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 21,
+            "column": 23
+          },
+          "block": "engine_xml.py#response:18:1$b0"
+        },
+        {
+          "from": "engine_xml.py#response:18:1$v8",
+          "to": "engine_xml.py#response:18:1$v7",
+          "kind": "enclose",
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 21,
+            "column": 13
+          },
+          "block": "engine_xml.py#response:18:1$b0"
+        },
+        {
+          "from": "engine_xml.py#response:18:1$v7",
+          "to": "engine_xml.py#response:18:1$v5",
+          "kind": "enclose",
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 21,
+            "column": 12
+          },
+          "block": "engine_xml.py#response:18:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "engine_xml.py#response:18:1$c0",
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 20,
+            "column": 11
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "lxml.etree.fromstring",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "engine_xml.py#response:18:1$v1"
+            }
+          ],
+          "resultValueId": "engine_xml.py#response:18:1$v3",
+          "block": "engine_xml.py#response:18:1$b0",
+          "method": "fromstring",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "engine_xml.py#response:18:1$v2"
+        }
+      ],
+      "returns": [
+        "engine_xml.py#response:18:1$v5"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "engine_xml.py#response:18:1$b0",
+      "blocks": [
+        {
+          "id": "engine_xml.py#response:18:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 18,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "engine_xml.py#response:18:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 21,
+            "column": 5
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "app.py#import_catalog:33:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/import"
+      }
+    },
+    {
+      "functionId": "app.py#sync_catalog:41:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/sync"
+      }
+    },
+    {
+      "functionId": "app.py#audit_catalog:50:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/audit"
+      }
+    },
+    {
+      "functionId": "app.py#mirror_catalog:58:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/mirror"
+      }
+    },
+    {
+      "functionId": "app.py#lookup_item:66:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/lookup"
+      }
+    },
+    {
+      "functionId": "app.py#private_lookup:78:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/private"
+      }
+    }
+  ],
+  "views": [],
+  "renders": []
+}
