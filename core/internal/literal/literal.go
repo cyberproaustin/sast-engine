@@ -79,6 +79,15 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 				if !rule.Matches(text) {
 					continue
 				}
+				// A PEM banner used as a predicate is a FORMAT TEST, not a private
+				// key. misskey's PKCS#1 migration asks whether a stored key includes
+				// this exact banner; the previous shape-only judgement reported the
+				// banner as though the repository held the bytes beneath it. Keep this
+				// at the operand, where both facts are known. A complete PEM block and
+				// the same banner merely assigned to a value still report.
+				if rule.ID == "private-key-block" && testedPEMBanner(fn, v, text) {
+					break
+				}
 				// The question the shape cannot answer: does THIS program rely on the
 				// value being secret? A literal the program only ever hands to somebody
 				// else's service to say which client it is is that service's public
@@ -111,6 +120,36 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 		}
 	}
 	return out
+}
+
+// testedPEMBanner reports the one third role a credential-shaped literal can play:
+// text the program is trying to recognise. It is deliberately limited to an exact PEM
+// banner. Suppressing an arbitrary provider token merely because it appears in an
+// equality or substring test would hide the authentication that compares a caller's
+// credential against a value written in the source.
+func testedPEMBanner(fn *ir.Function, v *ir.Value, text string) bool {
+	if strings.ContainsAny(text, "\r\n") || !strings.HasPrefix(text, "-----BEGIN ") ||
+		!strings.HasSuffix(text, " PRIVATE KEY-----") {
+		return false
+	}
+	for _, cmp := range fn.Comparisons {
+		if cmp.Left == v.ID || cmp.Right == v.ID {
+			return true
+		}
+	}
+	for _, c := range fn.Calls {
+		switch strings.ToLower(c.Method) {
+		case "includes", "contains", "startswith", "endswith":
+		default:
+			continue
+		}
+		for _, a := range c.Args {
+			if a.ValueID == v.ID {
+				return true
+			}
+		}
+	}
+	return false
 }
 
 // regexCaptureFindings reports only the statically impossible half of capture access: an
