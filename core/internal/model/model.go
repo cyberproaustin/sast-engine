@@ -8674,11 +8674,38 @@ type ScopeRule struct {
 	// line and is not this one.
 	Mutations []string
 
+	// Selects are the leading words that make a call an operation on a record that
+	// ALREADY EXISTS, in either direction. The accessor relation uses this where the key
+	// relation uses Mutations, because there the operation word carries most of the
+	// narrowing and here it carries almost none: what narrows the accessor relation is
+	// that a check interrogated one accessor of a context and the operation went through
+	// another one. Measured across ten production repositories, the read words in this
+	// list added no finding the write words had not already produced.
+	Selects []string
+
 	// ChosenContainers are the request containers whose contents the CALLER decided.
 	// A key taken from one of these is not a scope: being told which project to check
 	// the caller against is not authorization, it is a parameter. A key from the route
 	// or from established identity is, because the route is what the request addressed.
 	ChosenContainers []string
+
+	// Authorizes are the words that make a call an authorization QUESTION when it was
+	// handed no identity value to ask about. Its presence selects the other relation
+	// this analysis can state -- between the accessor a check interrogated and the
+	// accessor an operation went through -- and its absence leaves the rule on the
+	// relation between two request keys.
+	//
+	// A name list, and it has to be one. In the key relation, what makes a call an
+	// authorization question is that the caller's identity was handed to it; here
+	// nothing is handed over at all, because the identity is already inside the object
+	// being asked -- `ctx.repo.isProjectAdmin()` takes no arguments and is the whole
+	// check. With no value to recognise, the name is the only evidence left, and a
+	// rule that accepted any boolean-returning guard would read `if (!cache.has(k))`
+	// as an authorization.
+	//
+	// Matched against WORDS of the method name, split on camel case, so `isProjectAdmin`
+	// and `is_project_admin` are one name and `administer` is not `admin`.
+	Authorizes []string
 
 	// Requires are the capabilities this rule needs. Deciding that a check GATES the
 	// operation rather than merely preceding it is a control-flow question.
@@ -8707,6 +8734,80 @@ func builtinScopes() []ScopeRule {
 			Finding:          "Authorization scoped to a different record",
 			Reason:           "the handler proved the caller may act on one record and then wrote to another one the caller also chose, with nothing relating the two",
 			Rationale:        "a store write whose key was never the key the permission check asked about",
+		},
+		{
+			// The same relation with the other operand. The rule above can only relate
+			// two REQUEST keys, and the shape it cannot state is the one where the
+			// caller's scope was never a request key at all: the authentication layer
+			// established it, the handler holds it in a context object, and the check it
+			// makes is `am I allowed here` rather than `am I allowed on THIS`.
+			//
+			//	if (!ctx.repo.isSuperAdmin() && !ctx.repo.isProjectAdmin())
+			//	    return [forbidden];                      // asked ctx.repo
+			//	const systemRepo = ctx.systemRepo;           // used ctx.systemRepo
+			//	await systemRepo.withTransaction(async (txRepo) => {
+			//	    let app = await txRepo.readResource('ClientApplication', req.params.id);
+			//	    app = await txRepo.updateResource({...app, secret: generateSecret(32)});
+			//
+			// Two accessors hang off one context. One of them answered the permission
+			// question and the other performed the operation, so whatever the first one's
+			// answer was scoped to, the second one does not carry -- and the record it
+			// reaches was named by the caller. That is medplum's rotate-secret handler,
+			// where `ctx.repo` is bound to the caller's project and `ctx.systemRepo` is
+			// constructed with `superAdmin: true`, and a project administrator of any
+			// project can rotate and read back the secret of any client application.
+			//
+			// Nothing here knows which accessor is the privileged one and nothing needs
+			// to: the defect is the SWAP. A handler that asks and acts through the same
+			// accessor is silent whichever one it picked, and the one that asks about A
+			// and acts through B has proved nothing about B whichever way the privilege
+			// runs.
+			//
+			// The two rules partition rather than overlap: this one requires the check to
+			// have been handed no request key, which is exactly the case the rule above
+			// declines with "a check handed no key at all is not scoped to a record".
+			ID: "authorization-through-a-different-accessor",
+			// Names what the finding is ABOUT, and is not a precondition here. The rule
+			// above declines any program where no identity source exists, because it has
+			// nothing to recognise a check by; this one recognises the check by its
+			// receiver and its name, so it still speaks where the engine has no rule for
+			// the framework's identity. medplum is exactly that program -- `no source for
+			// actor-identity in this program` is the engine's own verdict on it, and the
+			// finding this rule reports there is the only one any ownership judgement
+			// makes in the whole repository.
+			IdentityClass: "actor-identity",
+			KeyWords:      []string{"id", "ids", "uuid", "guid"},
+			// Reads AND writes, where the rule above is writes only, and the widening
+			// was measured before it was written down (ADR-015).
+			//
+			// The rule above excludes reads because a read outside the authorized scope
+			// is a different claim, and that exclusion is what keeps it quiet. Here the
+			// same widening costs nothing: adding all eleven read words to this list
+			// produced ZERO additional findings across the ten production repositories
+			// this engine is measured on. It moved the one finding it has -- from the
+			// update on line 58 of medplum's rotate-secret handler to the read on line 56
+			// that fetched the record for it. The accessor swap is doing the narrowing,
+			// so the operation word narrows almost nothing on top of it.
+			//
+			// A read is also the whole weakness for the shape this rule exists to catch.
+			// A handler that fetches another tenant's row through an accessor nobody
+			// asked about has disclosed it; whether it went on to write is incidental.
+			Selects: []string{
+				"update", "delete", "remove", "destroy", "patch", "archive",
+				"restore", "rename", "revoke", "disable", "detach", "unlink", "move",
+				"read", "get", "find", "fetch", "load", "select", "query", "list",
+				"search", "view", "show",
+			},
+			Authorizes: []string{
+				"admin", "superuser", "owner", "owns", "member", "staff",
+				"permission", "permissions", "permitted", "authorized", "authorize",
+				"allowed", "privileged", "role", "roles", "forbidden",
+			},
+			Requires:  Requirements{ControlFlow: true},
+			CWE:       "CWE-639",
+			Finding:   "Authorization asked one accessor and the operation used another",
+			Reason:    "the handler asked one accessor of its request context whether the caller may act, and then acted through a different accessor of the same context on a record the caller named, so whatever the check established does not cover what the operation reached",
+			Rationale: "a record operation performed through a sibling accessor of the context whose other accessor answered the permission check, keyed by a request field, with nothing relating that record to the caller's context",
 		},
 	}
 }

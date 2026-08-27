@@ -1,0 +1,22 @@
+{
+  "corpus": "swapped-accessor",
+  "description": "A check about one accessor, and an operation through another. Every handler here authorizes before it acts, and every one authorizes by IDENTITY rather than by record -- `isProjectAdmin()` asks whether the caller administers the project their context was built for and is handed no identifier at all -- so the scope that question established is not a value in the request but the context object the authentication layer put the caller inside. The rule that relates two request keys has nothing to compare here and correctly says nothing about all eight. What separates the two findings from the six clean routes is which accessor of that context did the work: `ctx.repo` cannot see outside the caller's project, `ctx.systemRepo` was built with the server's own authority and can see everything, and a handler that asks the first for permission and then selects a caller-named record through the second has proved nothing about what it reached. That is medplum's rotate-secret handler, confirmed against source, where an administrator of any project reaches a client application in any other. The second finding is the same weakness with no callback in it, because a callback is where the shape usually hides and not what makes it a defect. The six clean routes are what make the rule usable: the record fetched THROUGH the accessor the check was about and only then written through the elevated one, which is the fix; a selection carrying the caller's own scope; a handler that asks and acts through the same accessor; a check handed the record itself, which the other rule is better placed to judge; a guard on a sibling accessor that is not an authorization question at all, which is what the name list exists for; and a check on an object that is not the context, because two unrelated objects are not two accessors of one thing.",
+  "expected": [
+    {
+      "cwe": "CWE-639",
+      "sinkFile": "app.ts",
+      "sinkLine": 46,
+      "sourceLabel": "req.params.id",
+      "confidence": "medium",
+      "note": "medplum's rotate-secret handler with the names shortened: any project administrator is admitted, and the client application is then read through the repository built with the server's own authority, keyed by the route id, with nothing asking whether it belongs to the caller's project. The operation sits inside a transaction callback, which is where this kind of code lives -- the handler returned long before the closure was constructed, so the check above still governs it"
+    },
+    {
+      "cwe": "CWE-639",
+      "sinkFile": "app.ts",
+      "sinkLine": 62,
+      "sourceLabel": "req.params.id",
+      "confidence": "medium",
+      "note": "the same weakness written flat. A callback is where the shape usually hides, not what makes it one"
+    }
+  ]
+}

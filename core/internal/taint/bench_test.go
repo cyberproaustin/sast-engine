@@ -181,6 +181,8 @@ var corpora = []string{
 	"claim-enclosed-in-an-object",
 	"digest-compared-against-what",
 	"identity-is-not-a-resource",
+	"swapped-accessor",
+	"flask-swapped-accessor",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {

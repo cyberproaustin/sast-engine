@@ -1,0 +1,14 @@
+{
+  "corpus": "flask-swapped-accessor",
+  "description": "The same relation in the language where the caller's key is not a property read, and that is the whole reason this corpus exists beside the TypeScript one. Nothing here spells `request.something.id`: a Flask or Django route binds its segments to ARGUMENTS, so `/records/<record_id>` arrives as a parameter, and an analysis that only recognises a property read off a request object is inert on every handler Python ever wrote -- measurably so, because the rule reported nothing on this shape until the parameter counted. What makes a parameter count is that the registered ROUTE PATH interpolates its name, not that the name ends in `id`: frameworks inject plenty of arguments spelled that way and only the ones the path names came from the caller. The one finding is the swap -- a check about `ctx.repo`, which cannot see outside the caller's tenant, and a read through `ctx.system_repo`, which can see everything, keyed by the segment the caller chose. The four clean routes are the ones that make it usable: the record fetched THROUGH the accessor the check was about and only then written through the elevated one, which is the fix; a selection carrying the caller's own tenant; a handler that asks and acts through the same accessor; and a guard on a sibling accessor that is not an authorization question at all. Adding the parameter as a key cost nothing where it was measured: zero additional findings across ten production repositories and one held-out application.",
+  "expected": [
+    {
+      "cwe": "CWE-639",
+      "sinkFile": "app.py",
+      "sinkLine": 29,
+      "sourceLabel": "route.record_id",
+      "confidence": "medium",
+      "note": "the check admits any tenant administrator and names no record; the read then goes through the repository built with the server's own authority, keyed by the segment the caller chose, so an administrator of any tenant reaches a record in any other"
+    }
+  ]
+}
