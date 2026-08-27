@@ -15,6 +15,7 @@ import (
 // Corpora are regenerated with `make testdata`. Adding a corpus here is how a new
 // capability gets a permanent regression check.
 var corpora = []string{
+	"anchored-regex-guard",
 	"express-command-injection",
 	"one-weakness-per-site",
 	"express-async",

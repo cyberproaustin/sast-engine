@@ -1,0 +1,46 @@
+{
+  "corpus": "anchored-regex-guard",
+  "description": "A full-string regex is a path sanitizer only when three independent proofs meet: every top-level alternative is anchored at both ends; the parser can prove that the accepted language contains neither a slash, a backslash nor a double dot; and regex failure is the branch that leaves, so success is the only branch from which sendFile is reachable. Two negatives are the production shape written with String.match and RegExp.test. Four positives hold one boundary wrong at a time: an unanchored substring match, reversed branch polarity, a rejection that reconverges with the sink, and a backreference outside the parser's proved language that genuinely admits traversal. The last case records the security-tool failure direction explicitly: unsupported regex syntax keeps the finding.",
+  "expected": [
+    {
+      "cwe": "CWE-22",
+      "sinkFile": "app.ts",
+      "sinkLine": 33,
+      "sourceLabel": "req.params.path",
+      "confidence": "medium",
+      "note": "the regex matches a substring, so ../../deadbeef.png reaches the sink"
+    },
+    {
+      "cwe": "CWE-22",
+      "sinkFile": "app.ts",
+      "sinkLine": 41,
+      "sourceLabel": "req.params.path",
+      "confidence": "medium",
+      "note": "the successful match returns and the rejected language reaches sendFile; polarity cannot be inferred from an unlabelled graph"
+    },
+    {
+      "cwe": "CWE-22",
+      "sinkFile": "app.ts",
+      "sinkLine": 48,
+      "sourceLabel": "req.params.path",
+      "confidence": "medium",
+      "note": "both branch outcomes reach sendFile, so the response written on failure constrains nothing"
+    },
+    {
+      "cwe": "CWE-22",
+      "sinkFile": "app.ts",
+      "sinkLine": 56,
+      "sourceLabel": "req.params.path",
+      "confidence": "medium",
+      "note": "the parser refuses the backreference and the pattern admits ../../.png, so no sanitizer is credited"
+    },
+    {
+      "cwe": "CWE-698",
+      "sinkFile": "app.ts",
+      "sinkLine": 47,
+      "sourceLabel": "res.sendFile",
+      "confidence": "high",
+      "note": "the failure response is not returned, so the handler carries on into the operation it explicitly refused"
+    }
+  ]
+}

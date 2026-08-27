@@ -20,7 +20,7 @@ from typing import Any
 
 from templates import index_templates, resolve_template
 
-IR_VERSION = "0.15.0"
+IR_VERSION = "0.16.0"
 FRONTEND_VERSION = "0.1.0"
 
 FUNCTION_NODES = (ast.FunctionDef, ast.AsyncFunctionDef)

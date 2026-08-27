@@ -157,6 +157,35 @@ func (g *Graph) ControlDependsOn(block, branch string) bool {
 	return reaches && avoids
 }
 
+// SelectedBySuccessor reports whether target is reachable through exactly the named
+// successor of branch.
+//
+// ControlDependsOn deliberately ignores polarity: it answers whether a branch decides
+// an operation, not WHICH answer permits it. A validation guard needs the second fact.
+// `if (!allow(x)) return; use(x)` is safe and `if (allow(x)) return; use(x)` is not,
+// although their unlabelled graphs are identical. The frontend states which condition
+// result selects successor zero; this method verifies that the other side is the only
+// side from which the operation can be reached.
+func (g *Graph) SelectedBySuccessor(target, branch string, selected int) bool {
+	b, ok := g.blocks[branch]
+	if !ok || selected < 0 || selected >= len(b.Successors) || len(b.Successors) < 2 {
+		return false
+	}
+	for i, successor := range b.Successors {
+		reaches := successor == target || g.Reaches(successor, target)
+		if i == selected {
+			if !reaches {
+				return false
+			}
+			continue
+		}
+		if reaches {
+			return false
+		}
+	}
+	return true
+}
+
 // IsGuard reports whether a branch decides that the handler may STOP: some path out
 // of it leaves the function without rejoining the main line.
 //

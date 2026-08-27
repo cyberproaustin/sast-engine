@@ -1,6 +1,9 @@
 package model
 
-import "strings"
+import (
+	"strconv"
+	"strings"
+)
 
 // A small parser for regular-expression syntax, enough to answer one question: can two
 // repetitions in this pattern claim the same input?
@@ -102,21 +105,26 @@ type reNode struct {
 	kind nodeKind
 	set  charSet    // nodeChar
 	alts [][]reNode // nodeGroup: one sequence per branch
+	zero byte       // nodeZero: '^' or '$' for an anchor, zero for another assertion
 
 	// How the quantifier on this node behaves. `unbounded` is the only kind that can
 	// make two repetitions compete for the same input: a fixed count has one way to
 	// match and `?` has two.
 	unbounded bool
 	optional  bool
+	// multiple says two or more copies of this node may be adjacent. ReDoS only cares
+	// about unbounded repetition; proving that `[.]{2}` can produce `..` also needs the
+	// fixed-count case.
+	multiple bool
 }
 
 // parseRegex reads a pattern into alternatives of sequences. It is deliberately partial:
 // anything it cannot read makes it give up, and giving up means the caller says nothing
 // rather than guessing.
 func parseRegex(pattern string) ([][]reNode, bool) {
-	p := strings.TrimPrefix(pattern, "/")
-	if i := strings.LastIndexByte(p, '/'); i > 0 && isFlags(p[i+1:]) {
-		p = p[:i] // drop the flags of a JavaScript literal
+	p, _, ok := regexBody(pattern)
+	if !ok {
+		return nil, false
 	}
 	pos := 0
 	alts, ok := parseAlts(p, &pos)
@@ -126,6 +134,25 @@ func parseRegex(pattern string) ([][]reNode, bool) {
 	return alts, true
 }
 
+// regexBody separates a JavaScript literal from its flags. A leading slash without a
+// closing delimiter is not treated as pattern text: a sanitizer must not recover from
+// malformed syntax more generously than the language does.
+func regexBody(pattern string) (body, flags string, ok bool) {
+	if !strings.HasPrefix(pattern, "/") {
+		return pattern, "", true
+	}
+	i := strings.LastIndexByte(pattern[1:], '/')
+	if i < 0 {
+		return "", "", false
+	}
+	i++
+	flags = pattern[i+1:]
+	if !isFlags(flags) {
+		return "", "", false
+	}
+	return pattern[1:i], flags, true
+}
+
 func isFlags(s string) bool {
 	for _, c := range s {
 		if !strings.ContainsRune("dgimsuvy", c) {
@@ -133,6 +160,137 @@ func isFlags(s string) bool {
 		}
 	}
 	return true
+}
+
+// AnchoredRegexExcludes reports whether every string accepted by pattern excludes each
+// forbidden fragment. False means either the fragment may occur OR the parser could not
+// prove that it cannot; callers use this as a sanitizer, so those cases must be the same
+// answer.
+//
+// This deliberately proves a small language rather than recognising familiar pattern
+// text. Both anchors must apply to every top-level alternative, flags are refused, and
+// the character-set parser supplies the alphabet. Single dangerous characters and
+// two-character syntax such as `..` are supported; longer syntax is unproved.
+func AnchoredRegexExcludes(pattern string, forbidden ...string) bool {
+	body, flags, ok := regexBody(pattern)
+	if !ok || flags != "" {
+		return false
+	}
+	pos := 0
+	alts, ok := parseAlts(body, &pos)
+	if !ok || pos != len(body) || !fullyAnchored(alts) {
+		return false
+	}
+	for _, fragment := range forbidden {
+		if len(fragment) < 1 || len(fragment) > 2 {
+			return false
+		}
+		s := summarizeAlts(alts, fragment)
+		if s.contains || finalLineTerminatorCanProduce(s, fragment) {
+			return false
+		}
+	}
+	return true
+}
+
+func fullyAnchored(alts [][]reNode) bool {
+	for _, seq := range alts {
+		if len(seq) < 2 || !plainAnchor(seq[0], '^') || !plainAnchor(seq[len(seq)-1], '$') {
+			return false
+		}
+	}
+	return len(alts) > 0
+}
+
+func plainAnchor(n reNode, want byte) bool {
+	return n.kind == nodeZero && n.zero == want && !n.optional && !n.multiple && !n.unbounded
+}
+
+// regexSummary is the part of a regular language needed to prove the absence of one
+// fragment no longer than two bytes. first and last make adjacency across concatenated
+// nodes and repeated groups visible without enumerating the language.
+type regexSummary struct {
+	nullable bool
+	first    charSet
+	last     charSet
+	contains bool
+}
+
+func summarizeAlts(alts [][]reNode, fragment string) regexSummary {
+	var out regexSummary
+	for _, seq := range alts {
+		s := summarizeSeq(seq, fragment)
+		out.first.union(s.first)
+		out.last.union(s.last)
+		out.nullable = out.nullable || s.nullable
+		out.contains = out.contains || s.contains
+	}
+	return out
+}
+
+func summarizeSeq(seq []reNode, fragment string) regexSummary {
+	out := regexSummary{nullable: true}
+	for _, n := range seq {
+		right := summarizeNode(n, fragment)
+		next := regexSummary{
+			nullable: out.nullable && right.nullable,
+			contains: out.contains || right.contains || joinsFragment(out.last, right.first, fragment),
+		}
+		next.first = out.first
+		if out.nullable {
+			next.first.union(right.first)
+		}
+		next.last = right.last
+		if right.nullable {
+			next.last.union(out.last)
+		}
+		out = next
+	}
+	return out
+}
+
+func summarizeNode(n reNode, fragment string) regexSummary {
+	switch n.kind {
+	case nodeZero:
+		return regexSummary{nullable: true}
+	case nodeChar:
+		s := regexSummary{nullable: n.optional, first: n.set, last: n.set}
+		if len(fragment) == 1 {
+			s.contains = n.set.ascii[fragment[0]]
+		} else if n.multiple {
+			s.contains = joinsFragment(n.set, n.set, fragment)
+		}
+		return s
+	case nodeGroup:
+		s := summarizeAlts(n.alts, fragment)
+		if n.multiple && joinsFragment(s.last, s.first, fragment) {
+			s.contains = true
+		}
+		s.nullable = s.nullable || n.optional
+		return s
+	default:
+		return regexSummary{}
+	}
+}
+
+func joinsFragment(left, right charSet, fragment string) bool {
+	return len(fragment) == 2 && left.ascii[fragment[0]] && right.ascii[fragment[1]]
+}
+
+// JavaScript's `$` also matches immediately before a final line terminator. The pattern
+// therefore accepts an otherwise excluded CR or LF at the end; forgetting that would
+// turn the most common anchored spelling into an unsound header/log sanitizer.
+func finalLineTerminatorCanProduce(s regexSummary, fragment string) bool {
+	endings := []string{"\n", "\r", "\r\n"}
+	for _, ending := range endings {
+		if strings.Contains(ending, fragment) {
+			return true
+		}
+		if len(fragment) == 2 && s.last.ascii[fragment[0]] && ending[0] == fragment[1] {
+			return true
+		}
+	}
+	return false
 }
 
 func parseAlts(p string, pos *int) ([][]reNode, bool) {
@@ -193,7 +351,7 @@ func parseAtom(p string, pos *int) (reNode, bool) {
 		return parseClass(p, pos)
 	case '^', '$':
 		*pos++
-		return reNode{kind: nodeZero}, true
+		return reNode{kind: nodeZero, zero: c}, true
 	case '.':
 		*pos++
 		var s charSet
@@ -391,10 +549,10 @@ func readQuantifier(p string, pos *int, n *reNode) {
 	}
 	switch p[*pos] {
 	case '*':
-		n.unbounded, n.optional = true, true
+		n.unbounded, n.optional, n.multiple = true, true, true
 		*pos++
 	case '+':
-		n.unbounded = true
+		n.unbounded, n.multiple = true, true
 		*pos++
 	case '?':
 		n.optional = true
@@ -410,6 +568,7 @@ func readQuantifier(p string, pos *int, n *reNode) {
 		}
 		n.unbounded = unboundedBrace(p, *pos)
 		n.optional = strings.HasPrefix(body, "0,") || body == "0"
+		n.multiple = braceCanRepeat(body)
 		*pos += end + 1
 	default:
 		return
@@ -419,6 +578,19 @@ func readQuantifier(p string, pos *int, n *reNode) {
 	if *pos < len(p) && (p[*pos] == '?' || p[*pos] == '+') {
 		*pos++
 	}
+}
+
+func braceCanRepeat(body string) bool {
+	lo, hi, hasComma := strings.Cut(body, ",")
+	if !hasComma {
+		n, err := strconv.Atoi(lo)
+		return err == nil && n >= 2
+	}
+	if hi == "" {
+		return true
+	}
+	n, err := strconv.Atoi(hi)
+	return err == nil && n >= 2
 }
 
 func isCount(body string) bool {
