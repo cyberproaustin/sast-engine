@@ -105,6 +105,9 @@ func differ(ix *ir.Index, weak, strong *profile, rule model.GuardRule) (taint.Fi
 	})
 
 	for _, p := range paths {
+		if !callerChose(p, rule) {
+			continue
+		}
 		if weak.checked[p] != nil || !weak.reads[p] {
 			continue
 		}
@@ -122,6 +125,41 @@ func differ(ix *ir.Index, weak, strong *profile, rule model.GuardRule) (taint.Fi
 		return siblingFinding(ix, weak, strong, p, use, strong.checked[p], rule), true
 	}
 	return taint.Finding{}, false
+}
+
+// callerChose reports whether a path names a value the CALLER picked, which is the only
+// thing the differential is entitled to be anchored on.
+//
+// The comparison claims something about one RESOURCE: two handlers, one value the caller
+// chose to name it, and only one of them asking whether the caller may have it. Two
+// things this used to accept are not that value.
+//
+// The request CONTAINER is not a value. `request` is every field the caller sent together
+// with whatever the framework installed on it, so two functions that both take it have
+// nothing in particular in common, and a call handed the whole request has not been asked
+// a question about anything. Saleor's graphql/context.py is what that admitted: three
+// functions that BUILD the request's identity, compared against the get_user that reads
+// it, because `authenticate(request=request)` counted as a check they had skipped -- and
+// a function that PRODUCES the identity cannot be required to have already consumed it.
+//
+// A part the SERVER wrote is not a value the caller picked either. `request.user` is the
+// authentication layer's answer about who is calling: a handler consulting it has named
+// no resource, and a handler that does not consult it has skipped nothing a caller could
+// have chosen. Four of paperless-ngx's findings were anchored there.
+//
+// The check may still be a question about those -- `hasPermission(req.user, projectId)`
+// asks about both -- and the deeper-first ordering in differ means the finding is stated
+// over the resource rather than over the identity.
+func callerChose(path string, rule model.GuardRule) bool {
+	dot := strings.IndexByte(path, '.')
+	if dot < 0 {
+		return false
+	}
+	part := path[dot+1:]
+	if next := strings.IndexByte(part, '.'); next >= 0 {
+		part = part[:next]
+	}
+	return !matchesName(part, "", rule.Establishes)
 }
 
 func holdsAll(reads map[string]bool, want map[string]bool) bool {

@@ -1,0 +1,14 @@
+{
+  "corpus": "identity-is-not-a-resource",
+  "description": "A sibling differential is a claim about one RESOURCE -- two handlers, one value the caller chose to name it, and only one of them asking whether the caller may have it -- and the value is the whole of it. Measured across ten production repositories the comparison produced seven findings and an independent reader judged none of them worth reporting, and all seven were anchored on something no caller picked. One positive: two views on one report, `report_id` and `project_id` both out of the request, nothing relating them, and the read path asking whether the report belongs to the project while the write path takes the same two values and does not. Six negatives in two shapes, both taken from production. Saleor's graphql/context.py is three of them: the functions that BUILD the request's identity, compared against the `get_user` that reads it, over the request CONTAINER -- which is not a value at all but every field the caller sent together with whatever the framework hung on it, so two functions that both take it have nothing in particular in common. `authenticate(request=request)` is where the identity comes from rather than a guard the three skipped, and a function that produces the identity cannot be required to have already consumed it. Paperless-ngx's is the other: a read path and a write path that differ over `request.user`, which is the authentication layer's answer about who is calling. A handler consulting it has named no resource and a handler that does not has skipped nothing a caller could choose. The two shapes share a module with the positive on purpose: every one of the six is also a candidate sibling for the read path that DOES check, and the anchor is what keeps them apart.",
+  "expected": [
+    {
+      "cwe": "CWE-862",
+      "sinkFile": "app.py",
+      "sinkLine": 43,
+      "sourceLabel": "request.GET.project_id",
+      "confidence": "high",
+      "note": "the write path passes the caller's project_id to the store without the belongs-to-project question its sibling read path asks about the very same value"
+    }
+  ]
+}

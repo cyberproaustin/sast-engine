@@ -1,0 +1,38 @@
+{
+  "corpus": "digest-compared-against-what",
+  "description": "Five weak digests, five equality tests, written the same way each time, and what is on the OTHER SIDE decides which of them is a weakness and which weakness it is. `weak-hash-by-use` settled that the algorithm's name is not the judgement and the use is; this corpus is the next question down, because the use here is an equality test in all five cases. Measured across ten production repositories the rule that read the operator alone produced four findings and an independent reader judged every one not worth reporting. Three are the negatives, shape for shape: medplum addresses Redis's script cache by a Lua script's SHA-1 and tests the NUMERIC reply for 1, so the class rode through an unresolved call into a value that is not a digest and never was; linkding names a preview file after the MD5 of its URL and compares the NAME with the one on the record, and a filename a digest was built into is a filename; and the cache key is the contrast the whole judgement rests on -- identical call, identical algorithm, nothing decided by the answer. The fourth was mitmproxy's htpasswd verifier and it is why this corpus exists rather than a narrowing: there IS a weakness on that line and the collision rule was naming the wrong one, because a SHA-1 collision does not produce a second password for a digest somebody else chose. The line is reported and reported differently -- one unsalted pass of a fast function is insufficient computational effort, which the unsalted-hash channel independently says about the same call, and the corpus asserts both because a corpus that hid one would be asserting the absence of a finding that is there.",
+  "expected": [
+    {
+      "cwe": "CWE-328",
+      "sinkFile": "app.py",
+      "sinkLine": 49,
+      "sourceLabel": "hashlib.md5()",
+      "confidence": "high",
+      "note": "the equality test IS the authorisation: whoever presents a signature matching this digest is served the document, and a second input that hashes the same is served it too"
+    },
+    {
+      "cwe": "CWE-328",
+      "sinkFile": "app.py",
+      "sinkLine": 61,
+      "sourceLabel": "hashlib.md5()",
+      "confidence": "high",
+      "note": "a computed digest against one recorded in the source. The recorded side is written down AS a digest, which is what separates it from the numeric reply the /context negative compares -- both are literals and only one is evidence that digests are what the comparison is about"
+    },
+    {
+      "cwe": "CWE-759",
+      "sinkFile": "app.py",
+      "sinkLine": 80,
+      "sourceLabel": "flask.request.form.password",
+      "confidence": "low",
+      "note": "the caller's password through a call that takes the data and nothing else. Low because the path crosses .encode(), which this frontend cannot resolve (ADR-005) -- the judgement is certain and the call graph is not"
+    },
+    {
+      "cwe": "CWE-916",
+      "sinkFile": "app.py",
+      "sinkLine": 82,
+      "sourceLabel": "hashlib.sha1()",
+      "confidence": "high",
+      "note": "the reclassification. mitmproxy's htpasswd verifier line for line, past the five-character format prefix -- reported because the stored value is a single unsalted pass of a fast digest, and NOT reported as a collision, because finding two inputs that hash alike gives nobody a password for a digest they did not choose"
+    }
+  ]
+}

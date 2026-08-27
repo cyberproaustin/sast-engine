@@ -1,0 +1,2850 @@
+{
+  "irVersion": "0.18.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi",
+        "django",
+        "tornado"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "app.py",
+      "path": "app.py"
+    },
+    {
+      "id": "auth.py",
+      "path": "auth.py"
+    },
+    {
+      "id": "reports.py",
+      "path": "reports.py"
+    },
+    {
+      "id": "urls.py",
+      "path": "urls.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "app.py#<module>:0:0",
+      "name": "<module>",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "A sibling differential is a claim about one RESOURCE, and two things are not one.\n\nThe comparison this corpus is about says: two handlers, one value the caller chose to name\na resource, and only one of them asks whether the caller may have it. The engine cannot\nknow what check ought to guard an operation and does not have to, because the program\nwrote one down on the path beside this one over the very same value.\n\nThe value is the whole of it. Measured across ten production repositories the comparison\nproduced seven findings and an independent reader judged none of them worth reporting, and\nall seven were anchored on something no caller picked.\n\nThree were saleor's graphql/context.py, which the negatives below reproduce: the three\nfunctions that BUILD the request's identity, compared against the one that reads it, over\n`request` itself. `authenticate(request=request)` is not a guard those three skipped -- it\nis where the identity comes FROM, and a function that produces it cannot be required to\nhave already consumed it. The container is what let the comparison be stated at all: it is\nnot a value, it is every field the caller sent together with whatever the framework hung\non it, so two functions that both take it have nothing in particular in common.\n\nFour were paperless-ngx, anchored on `request.user`. That is the authentication layer's\nanswer about who is calling. A handler consulting it has named no resource, and a handler\nthat does not consult it has skipped nothing a caller could have chosen.\n"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "app.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#get_report:28:1",
+      "name": "get_report",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 28,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "app.py#get_report:28:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#get_report:28:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 16
+          },
+          "name": "request"
+        },
+        {
+          "id": "app.py#get_report:28:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 32,
+            "column": 17
+          },
+          "base": "app.py#get_report:28:1$v0",
+          "path": "GET",
+          "name": "GET"
+        },
+        {
+          "id": "app.py#get_report:28:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 32,
+            "column": 17
+          },
+          "name": "report_id",
+          "base": "app.py#get_report:28:1$v1",
+          "path": "GET.report_id"
+        },
+        {
+          "id": "app.py#get_report:28:1$v3",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 32,
+            "column": 5
+          },
+          "name": "report_id"
+        },
+        {
+          "id": "app.py#get_report:28:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 18
+          },
+          "name": "project_id",
+          "base": "app.py#get_report:28:1$v1",
+          "path": "GET.project_id"
+        },
+        {
+          "id": "app.py#get_report:28:1$v5",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 5
+          },
+          "name": "project_id"
+        },
+        {
+          "id": "app.py#get_report:28:1$v6",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 5
+          },
+          "name": "reports"
+        },
+        {
+          "id": "app.py#get_report:28:1$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 5
+          },
+          "name": "local"
+        },
+        {
+          "id": "app.py#get_report:28:1$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 12
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#get_report:28:1$v0",
+          "to": "app.py#get_report:28:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 32,
+            "column": 17
+          },
+          "block": "app.py#get_report:28:1$b0"
+        },
+        {
+          "from": "app.py#get_report:28:1$v1",
+          "to": "app.py#get_report:28:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 32,
+            "column": 17
+          },
+          "block": "app.py#get_report:28:1$b0"
+        },
+        {
+          "from": "app.py#get_report:28:1$v2",
+          "to": "app.py#get_report:28:1$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 32,
+            "column": 5
+          },
+          "block": "app.py#get_report:28:1$b0"
+        },
+        {
+          "from": "app.py#get_report:28:1$v1",
+          "to": "app.py#get_report:28:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 18
+          },
+          "block": "app.py#get_report:28:1$b0"
+        },
+        {
+          "from": "app.py#get_report:28:1$v4",
+          "to": "app.py#get_report:28:1$v5",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 5
+          },
+          "block": "app.py#get_report:28:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#get_report:28:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 5
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "reports.py#validate_report_belongs_to_project:4:1",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#get_report:28:1$v3"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#get_report:28:1$v5"
+            }
+          ],
+          "resultValueId": "app.py#get_report:28:1$v7",
+          "block": "app.py#get_report:28:1$b0",
+          "method": "validate_report_belongs_to_project",
+          "argCount": 2,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#get_report:28:1$v6"
+        },
+        {
+          "id": "app.py#get_report:28:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 12
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "reports.py#read:8:1",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#get_report:28:1$v3"
+            }
+          ],
+          "resultValueId": "app.py#get_report:28:1$v8",
+          "block": "app.py#get_report:28:1$b0",
+          "method": "read",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#get_report:28:1$v6"
+        }
+      ],
+      "returns": [
+        "app.py#get_report:28:1$v8"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#get_report:28:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#get_report:28:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 28,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#get_report:28:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#update_report:38:1",
+      "name": "update_report",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 38,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "app.py#update_report:38:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#update_report:38:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 38,
+            "column": 19
+          },
+          "name": "request"
+        },
+        {
+          "id": "app.py#update_report:38:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 17
+          },
+          "base": "app.py#update_report:38:1$v0",
+          "path": "GET",
+          "name": "GET"
+        },
+        {
+          "id": "app.py#update_report:38:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 17
+          },
+          "name": "report_id",
+          "base": "app.py#update_report:38:1$v1",
+          "path": "GET.report_id"
+        },
+        {
+          "id": "app.py#update_report:38:1$v3",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 5
+          },
+          "name": "report_id"
+        },
+        {
+          "id": "app.py#update_report:38:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 18
+          },
+          "name": "project_id",
+          "base": "app.py#update_report:38:1$v1",
+          "path": "GET.project_id"
+        },
+        {
+          "id": "app.py#update_report:38:1$v5",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 5
+          },
+          "name": "project_id"
+        },
+        {
+          "id": "app.py#update_report:38:1$v6",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 48
+          },
+          "base": "app.py#update_report:38:1$v0",
+          "path": "POST",
+          "name": "POST"
+        },
+        {
+          "id": "app.py#update_report:38:1$v7",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 48
+          },
+          "name": "body",
+          "base": "app.py#update_report:38:1$v6",
+          "path": "POST.body"
+        },
+        {
+          "id": "app.py#update_report:38:1$v8",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 12
+          },
+          "name": "reports"
+        },
+        {
+          "id": "app.py#update_report:38:1$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 12
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#update_report:38:1$v0",
+          "to": "app.py#update_report:38:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 17
+          },
+          "block": "app.py#update_report:38:1$b0"
+        },
+        {
+          "from": "app.py#update_report:38:1$v1",
+          "to": "app.py#update_report:38:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 17
+          },
+          "block": "app.py#update_report:38:1$b0"
+        },
+        {
+          "from": "app.py#update_report:38:1$v2",
+          "to": "app.py#update_report:38:1$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 5
+          },
+          "block": "app.py#update_report:38:1$b0"
+        },
+        {
+          "from": "app.py#update_report:38:1$v1",
+          "to": "app.py#update_report:38:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 18
+          },
+          "block": "app.py#update_report:38:1$b0"
+        },
+        {
+          "from": "app.py#update_report:38:1$v4",
+          "to": "app.py#update_report:38:1$v5",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 5
+          },
+          "block": "app.py#update_report:38:1$b0"
+        },
+        {
+          "from": "app.py#update_report:38:1$v0",
+          "to": "app.py#update_report:38:1$v6",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 48
+          },
+          "block": "app.py#update_report:38:1$b0"
+        },
+        {
+          "from": "app.py#update_report:38:1$v6",
+          "to": "app.py#update_report:38:1$v7",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 48
+          },
+          "block": "app.py#update_report:38:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#update_report:38:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 12
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "reports.py#save:12:1",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#update_report:38:1$v3"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#update_report:38:1$v5"
+            },
+            {
+              "index": 2,
+              "valueId": "app.py#update_report:38:1$v7"
+            }
+          ],
+          "resultValueId": "app.py#update_report:38:1$v9",
+          "block": "app.py#update_report:38:1$b0",
+          "method": "save",
+          "argCount": 3,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#update_report:38:1$v8"
+        }
+      ],
+      "returns": [
+        "app.py#update_report:38:1$v9"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#update_report:38:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#update_report:38:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 38,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#update_report:38:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#get_user:46:1",
+      "name": "get_user",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 46,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "app.py#get_user:46:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#get_user:46:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 46,
+            "column": 14
+          },
+          "name": "request"
+        },
+        {
+          "id": "app.py#get_user:46:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 29
+          },
+          "literal": "_cached_user"
+        },
+        {
+          "id": "app.py#get_user:46:1$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 12
+          },
+          "name": "hasattr"
+        },
+        {
+          "id": "app.py#get_user:46:1$v3",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 32
+          },
+          "name": "auth"
+        },
+        {
+          "id": "app.py#get_user:46:1$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 32
+          },
+          "name": "local"
+        },
+        {
+          "id": "app.py#get_user:46:1$v5",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 12
+          },
+          "base": "app.py#get_user:46:1$v0",
+          "path": "_cached_user",
+          "name": "_cached_user"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#get_user:46:1$v0",
+          "to": "app.py#get_user:46:1$v5",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 12
+          },
+          "block": "app.py#get_user:46:1$b2"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#get_user:46:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "hasattr",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#get_user:46:1$v0"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#get_user:46:1$v1"
+            }
+          ],
+          "resultValueId": "app.py#get_user:46:1$v2",
+          "block": "app.py#get_user:46:1$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "1": "_cached_user"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#get_user:46:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 32
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "auth.py#authenticate:6:1",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "valueId": "app.py#get_user:46:1$v0",
+              "name": "request"
+            }
+          ],
+          "resultValueId": "app.py#get_user:46:1$v4",
+          "block": "app.py#get_user:46:1$b1",
+          "method": "authenticate",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "request=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#get_user:46:1$v3"
+        }
+      ],
+      "returns": [
+        "app.py#get_user:46:1$v5"
+      ],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 9
+          },
+          "base": "app.py#get_user:46:1$v0",
+          "path": "_cached_user",
+          "from": "app.py#get_user:46:1$v4",
+          "block": "app.py#get_user:46:1$b1"
+        }
+      ],
+      "entryBlock": "app.py#get_user:46:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#get_user:46:1$b0",
+          "successors": [
+            "app.py#get_user:46:1$b1",
+            "app.py#get_user:46:1$b2"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 46,
+            "column": 1
+          },
+          "terminator": "branch"
+        },
+        {
+          "id": "app.py#get_user:46:1$b1",
+          "successors": [
+            "app.py#get_user:46:1$b2"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 5
+          }
+        },
+        {
+          "id": "app.py#get_user:46:1$b2",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#get_user:46:1$b3",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#set_decoded_auth_token:56:1",
+      "name": "set_decoded_auth_token",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 56,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "app.py#set_decoded_auth_token:56:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#set_decoded_auth_token:56:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 56,
+            "column": 28
+          },
+          "name": "request"
+        },
+        {
+          "id": "app.py#set_decoded_auth_token:56:1$v1",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 60,
+            "column": 13
+          },
+          "name": "auth"
+        },
+        {
+          "id": "app.py#set_decoded_auth_token:56:1$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 60,
+            "column": 13
+          },
+          "name": "local"
+        },
+        {
+          "id": "app.py#set_decoded_auth_token:56:1$v3",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 60,
+            "column": 5
+          },
+          "name": "token"
+        },
+        {
+          "id": "app.py#set_decoded_auth_token:56:1$v4",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 61,
+            "column": 34
+          },
+          "name": "conditional"
+        },
+        {
+          "id": "app.py#set_decoded_auth_token:56:1$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 61,
+            "column": 34
+          },
+          "name": "local"
+        },
+        {
+          "id": "app.py#set_decoded_auth_token:56:1$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 61,
+            "column": 67
+          }
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#set_decoded_auth_token:56:1$v2",
+          "to": "app.py#set_decoded_auth_token:56:1$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 60,
+            "column": 5
+          },
+          "block": "app.py#set_decoded_auth_token:56:1$b0"
+        },
+        {
+          "from": "app.py#set_decoded_auth_token:56:1$v5",
+          "to": "app.py#set_decoded_auth_token:56:1$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 61,
+            "column": 34
+          },
+          "block": "app.py#set_decoded_auth_token:56:1$b0"
+        },
+        {
+          "from": "app.py#set_decoded_auth_token:56:1$v6",
+          "to": "app.py#set_decoded_auth_token:56:1$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 61,
+            "column": 34
+          },
+          "block": "app.py#set_decoded_auth_token:56:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#set_decoded_auth_token:56:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 60,
+            "column": 13
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "auth.py#token_from_request:10:1",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#set_decoded_auth_token:56:1$v0"
+            }
+          ],
+          "resultValueId": "app.py#set_decoded_auth_token:56:1$v2",
+          "block": "app.py#set_decoded_auth_token:56:1$b0",
+          "method": "token_from_request",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#set_decoded_auth_token:56:1$v1"
+        },
+        {
+          "id": "app.py#set_decoded_auth_token:56:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 61,
+            "column": 34
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "auth.py#decode:14:1",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#set_decoded_auth_token:56:1$v3"
+            }
+          ],
+          "resultValueId": "app.py#set_decoded_auth_token:56:1$v5",
+          "block": "app.py#set_decoded_auth_token:56:1$b0",
+          "method": "decode",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#set_decoded_auth_token:56:1$v1"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 61,
+            "column": 5
+          },
+          "base": "app.py#set_decoded_auth_token:56:1$v0",
+          "path": "decoded_auth_token",
+          "from": "app.py#set_decoded_auth_token:56:1$v4",
+          "block": "app.py#set_decoded_auth_token:56:1$b0"
+        }
+      ],
+      "entryBlock": "app.py#set_decoded_auth_token:56:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#set_decoded_auth_token:56:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 56,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#set_app_on_context:64:1",
+      "name": "set_app_on_context",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 64,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "app.py#set_app_on_context:64:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#set_app_on_context:64:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 64,
+            "column": 24
+          },
+          "name": "request"
+        },
+        {
+          "id": "app.py#set_app_on_context:64:1$v1",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 68,
+            "column": 8
+          },
+          "name": "either"
+        },
+        {
+          "id": "app.py#set_app_on_context:64:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 68,
+            "column": 8
+          },
+          "base": "app.py#set_app_on_context:64:1$v0",
+          "path": "path",
+          "name": "path"
+        },
+        {
+          "id": "app.py#set_app_on_context:64:1$v3",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 68,
+            "column": 8
+          },
+          "name": "comparison"
+        },
+        {
+          "id": "app.py#set_app_on_context:64:1$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 68,
+            "column": 24
+          },
+          "literal": "/graphql/"
+        },
+        {
+          "id": "app.py#set_app_on_context:64:1$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 68,
+            "column": 61
+          },
+          "literal": "app"
+        },
+        {
+          "id": "app.py#set_app_on_context:64:1$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 68,
+            "column": 44
+          },
+          "name": "hasattr"
+        },
+        {
+          "id": "app.py#set_app_on_context:64:1$v7",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 69,
+            "column": 23
+          },
+          "name": "auth"
+        },
+        {
+          "id": "app.py#set_app_on_context:64:1$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 69,
+            "column": 23
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#set_app_on_context:64:1$v0",
+          "to": "app.py#set_app_on_context:64:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 68,
+            "column": 8
+          },
+          "block": "app.py#set_app_on_context:64:1$b0"
+        },
+        {
+          "from": "app.py#set_app_on_context:64:1$v3",
+          "to": "app.py#set_app_on_context:64:1$v1",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 68,
+            "column": 8
+          },
+          "block": "app.py#set_app_on_context:64:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#set_app_on_context:64:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 68,
+            "column": 44
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "hasattr",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#set_app_on_context:64:1$v0"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#set_app_on_context:64:1$v5"
+            }
+          ],
+          "resultValueId": "app.py#set_app_on_context:64:1$v6",
+          "block": "app.py#set_app_on_context:64:1$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "1": "app"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#set_app_on_context:64:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 69,
+            "column": 23
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "auth.py#app_for:18:1",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#set_app_on_context:64:1$v0"
+            }
+          ],
+          "resultValueId": "app.py#set_app_on_context:64:1$v8",
+          "block": "app.py#set_app_on_context:64:1$b1",
+          "method": "app_for",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#set_app_on_context:64:1$v7"
+        }
+      ],
+      "returns": [],
+      "comparisons": [
+        {
+          "left": "app.py#set_app_on_context:64:1$v2",
+          "right": "app.py#set_app_on_context:64:1$v4",
+          "op": "Eq",
+          "block": "app.py#set_app_on_context:64:1$b0",
+          "loc": {
+            "file": "app.py",
+            "line": 68,
+            "column": 8
+          }
+        }
+      ],
+      "writes": [
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 69,
+            "column": 9
+          },
+          "base": "app.py#set_app_on_context:64:1$v0",
+          "path": "app",
+          "from": "app.py#set_app_on_context:64:1$v8",
+          "block": "app.py#set_app_on_context:64:1$b1"
+        }
+      ],
+      "entryBlock": "app.py#set_app_on_context:64:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#set_app_on_context:64:1$b0",
+          "successors": [
+            "app.py#set_app_on_context:64:1$b1",
+            "app.py#set_app_on_context:64:1$b2"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 64,
+            "column": 1
+          },
+          "terminator": "branch"
+        },
+        {
+          "id": "app.py#set_app_on_context:64:1$b1",
+          "successors": [
+            "app.py#set_app_on_context:64:1$b2"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 68,
+            "column": 5
+          }
+        },
+        {
+          "id": "app.py#set_app_on_context:64:1$b2",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 68,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#set_auth_on_context:72:1",
+      "name": "set_auth_on_context",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 72,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "app.py#set_auth_on_context:72:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#set_auth_on_context:72:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 72,
+            "column": 25
+          },
+          "name": "request"
+        },
+        {
+          "id": "app.py#set_auth_on_context:72:1$v1",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 76,
+            "column": 8
+          },
+          "name": "either"
+        },
+        {
+          "id": "app.py#set_auth_on_context:72:1$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 76,
+            "column": 25
+          },
+          "literal": "app"
+        },
+        {
+          "id": "app.py#set_auth_on_context:72:1$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 76,
+            "column": 8
+          },
+          "name": "hasattr"
+        },
+        {
+          "id": "app.py#set_auth_on_context:72:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 76,
+            "column": 36
+          },
+          "base": "app.py#set_auth_on_context:72:1$v0",
+          "path": "app",
+          "name": "app"
+        },
+        {
+          "id": "app.py#set_auth_on_context:72:1$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 76,
+            "column": 8
+          },
+          "literal": "true"
+        },
+        {
+          "id": "app.py#set_auth_on_context:72:1$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 77,
+            "column": 24
+          }
+        },
+        {
+          "id": "app.py#set_auth_on_context:72:1$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 79,
+            "column": 20
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#set_auth_on_context:72:1$v3",
+          "to": "app.py#set_auth_on_context:72:1$v1",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 76,
+            "column": 8
+          },
+          "block": "app.py#set_auth_on_context:72:1$b0"
+        },
+        {
+          "from": "app.py#set_auth_on_context:72:1$v0",
+          "to": "app.py#set_auth_on_context:72:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 76,
+            "column": 36
+          },
+          "block": "app.py#set_auth_on_context:72:1$b0"
+        },
+        {
+          "from": "app.py#set_auth_on_context:72:1$v4",
+          "to": "app.py#set_auth_on_context:72:1$v1",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 76,
+            "column": 8
+          },
+          "block": "app.py#set_auth_on_context:72:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#set_auth_on_context:72:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 76,
+            "column": 8
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "hasattr",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#set_auth_on_context:72:1$v0"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#set_auth_on_context:72:1$v2"
+            }
+          ],
+          "resultValueId": "app.py#set_auth_on_context:72:1$v3",
+          "block": "app.py#set_auth_on_context:72:1$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "1": "app"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#set_auth_on_context:72:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 79,
+            "column": 20
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "app.py#get_user:46:1",
+            "resolution": "resolved",
+            "name": "get_user"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#set_auth_on_context:72:1$v0"
+            }
+          ],
+          "resultValueId": "app.py#set_auth_on_context:72:1$v7",
+          "block": "app.py#set_auth_on_context:72:1$b3",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "comparisons": [
+        {
+          "left": "app.py#set_auth_on_context:72:1$v1",
+          "right": "app.py#set_auth_on_context:72:1$v5",
+          "op": "truthy",
+          "block": "app.py#set_auth_on_context:72:1$b0",
+          "loc": {
+            "file": "app.py",
+            "line": 76,
+            "column": 8
+          }
+        }
+      ],
+      "writes": [
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 77,
+            "column": 9
+          },
+          "base": "app.py#set_auth_on_context:72:1$v0",
+          "path": "user",
+          "from": "app.py#set_auth_on_context:72:1$v6",
+          "block": "app.py#set_auth_on_context:72:1$b1"
+        },
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 79,
+            "column": 5
+          },
+          "base": "app.py#set_auth_on_context:72:1$v0",
+          "path": "user",
+          "from": "app.py#set_auth_on_context:72:1$v7",
+          "block": "app.py#set_auth_on_context:72:1$b3"
+        }
+      ],
+      "entryBlock": "app.py#set_auth_on_context:72:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#set_auth_on_context:72:1$b0",
+          "successors": [
+            "app.py#set_auth_on_context:72:1$b1",
+            "app.py#set_auth_on_context:72:1$b3"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 72,
+            "column": 1
+          },
+          "terminator": "branch"
+        },
+        {
+          "id": "app.py#set_auth_on_context:72:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 76,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#set_auth_on_context:72:1$b2",
+          "successors": [
+            "app.py#set_auth_on_context:72:1$b3"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 78,
+            "column": 9
+          }
+        },
+        {
+          "id": "app.py#set_auth_on_context:72:1$b3",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 76,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#get_owned_documents:82:1",
+      "name": "get_owned_documents",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 82,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "app.py#get_owned_documents:82:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#get_owned_documents:82:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 82,
+            "column": 25
+          },
+          "name": "request"
+        },
+        {
+          "id": "app.py#get_owned_documents:82:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 85,
+            "column": 43
+          },
+          "base": "app.py#get_owned_documents:82:1$v0",
+          "path": "user",
+          "name": "user"
+        },
+        {
+          "id": "app.py#get_owned_documents:82:1$v2",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 85,
+            "column": 12
+          },
+          "name": "reports"
+        },
+        {
+          "id": "app.py#get_owned_documents:82:1$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 85,
+            "column": 12
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#get_owned_documents:82:1$v0",
+          "to": "app.py#get_owned_documents:82:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 85,
+            "column": 43
+          },
+          "block": "app.py#get_owned_documents:82:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#get_owned_documents:82:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 85,
+            "column": 12
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "reports.py#permitted_document_ids:16:1",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#get_owned_documents:82:1$v1"
+            }
+          ],
+          "resultValueId": "app.py#get_owned_documents:82:1$v3",
+          "block": "app.py#get_owned_documents:82:1$b0",
+          "method": "permitted_document_ids",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#get_owned_documents:82:1$v2"
+        }
+      ],
+      "returns": [
+        "app.py#get_owned_documents:82:1$v3"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#get_owned_documents:82:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#get_owned_documents:82:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 82,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#get_owned_documents:82:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 85,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#update_document:88:1",
+      "name": "update_document",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 88,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "app.py#update_document:88:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#update_document:88:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 88,
+            "column": 21
+          },
+          "name": "request"
+        },
+        {
+          "id": "app.py#update_document:88:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 93,
+            "column": 35
+          },
+          "base": "app.py#update_document:88:1$v0",
+          "path": "user",
+          "name": "user"
+        },
+        {
+          "id": "app.py#update_document:88:1$v2",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 93,
+            "column": 12
+          },
+          "name": "reports"
+        },
+        {
+          "id": "app.py#update_document:88:1$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 93,
+            "column": 12
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#update_document:88:1$v0",
+          "to": "app.py#update_document:88:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 93,
+            "column": 35
+          },
+          "block": "app.py#update_document:88:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#update_document:88:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 93,
+            "column": 12
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "reports.py#touch_document:20:1",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#update_document:88:1$v1"
+            }
+          ],
+          "resultValueId": "app.py#update_document:88:1$v3",
+          "block": "app.py#update_document:88:1$b0",
+          "method": "touch_document",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#update_document:88:1$v2"
+        }
+      ],
+      "returns": [
+        "app.py#update_document:88:1$v3"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#update_document:88:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#update_document:88:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 88,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#update_document:88:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 93,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "auth.py#<module>:0:0",
+      "name": "<module>",
+      "module": "auth.py",
+      "loc": {
+        "file": "auth.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "auth.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "auth.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The authentication layer the context builders call. Bodies are deliberately empty:\nwhat this corpus is about is which of these a function calls, not what any of them does.\n"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "auth.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "auth.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "auth.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "auth.py#authenticate:6:1",
+      "name": "authenticate",
+      "module": "auth.py",
+      "loc": {
+        "file": "auth.py",
+        "line": 6,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "auth.py#authenticate:6:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "auth.py#authenticate:6:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "auth.py",
+            "line": 6,
+            "column": 18
+          },
+          "name": "request"
+        },
+        {
+          "id": "auth.py#authenticate:6:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "auth.py",
+            "line": 7,
+            "column": 12
+          }
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [
+        "auth.py#authenticate:6:1$v1"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "auth.py#authenticate:6:1$b0",
+      "blocks": [
+        {
+          "id": "auth.py#authenticate:6:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "auth.py",
+            "line": 6,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "auth.py#authenticate:6:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "auth.py",
+            "line": 7,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "auth.py#token_from_request:10:1",
+      "name": "token_from_request",
+      "module": "auth.py",
+      "loc": {
+        "file": "auth.py",
+        "line": 10,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "auth.py#token_from_request:10:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "auth.py#token_from_request:10:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "auth.py",
+            "line": 10,
+            "column": 24
+          },
+          "name": "request"
+        },
+        {
+          "id": "auth.py#token_from_request:10:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "auth.py",
+            "line": 11,
+            "column": 12
+          },
+          "literal": ""
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [
+        "auth.py#token_from_request:10:1$v1"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "auth.py#token_from_request:10:1$b0",
+      "blocks": [
+        {
+          "id": "auth.py#token_from_request:10:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "auth.py",
+            "line": 10,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "auth.py#token_from_request:10:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "auth.py",
+            "line": 11,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "auth.py#decode:14:1",
+      "name": "decode",
+      "module": "auth.py",
+      "loc": {
+        "file": "auth.py",
+        "line": 14,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "token",
+          "valueId": "auth.py#decode:14:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "auth.py#decode:14:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "auth.py",
+            "line": 14,
+            "column": 12
+          },
+          "name": "token"
+        },
+        {
+          "id": "auth.py#decode:14:1$v1",
+          "kind": "local",
+          "loc": {
+            "file": "auth.py",
+            "line": 15,
+            "column": 12
+          },
+          "name": "{dict}"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [
+        "auth.py#decode:14:1$v1"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "auth.py#decode:14:1$b0",
+      "blocks": [
+        {
+          "id": "auth.py#decode:14:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "auth.py",
+            "line": 14,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "auth.py#decode:14:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "auth.py",
+            "line": 15,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "auth.py#app_for:18:1",
+      "name": "app_for",
+      "module": "auth.py",
+      "loc": {
+        "file": "auth.py",
+        "line": 18,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "auth.py#app_for:18:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "auth.py#app_for:18:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "auth.py",
+            "line": 18,
+            "column": 13
+          },
+          "name": "request"
+        },
+        {
+          "id": "auth.py#app_for:18:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "auth.py",
+            "line": 19,
+            "column": 12
+          }
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [
+        "auth.py#app_for:18:1$v1"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "auth.py#app_for:18:1$b0",
+      "blocks": [
+        {
+          "id": "auth.py#app_for:18:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "auth.py",
+            "line": 18,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "auth.py#app_for:18:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "auth.py",
+            "line": 19,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "reports.py#<module>:0:0",
+      "name": "<module>",
+      "module": "reports.py",
+      "loc": {
+        "file": "reports.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "reports.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "reports.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The collaborator both handlers talk to."
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "reports.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "reports.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "reports.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "reports.py#validate_report_belongs_to_project:4:1",
+      "name": "validate_report_belongs_to_project",
+      "module": "reports.py",
+      "loc": {
+        "file": "reports.py",
+        "line": 4,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "report_id",
+          "valueId": "reports.py#validate_report_belongs_to_project:4:1$v0"
+        },
+        {
+          "index": 1,
+          "name": "project_id",
+          "valueId": "reports.py#validate_report_belongs_to_project:4:1$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "reports.py#validate_report_belongs_to_project:4:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "reports.py",
+            "line": 4,
+            "column": 40
+          },
+          "name": "report_id"
+        },
+        {
+          "id": "reports.py#validate_report_belongs_to_project:4:1$v1",
+          "kind": "param",
+          "loc": {
+            "file": "reports.py",
+            "line": 4,
+            "column": 51
+          },
+          "name": "project_id"
+        },
+        {
+          "id": "reports.py#validate_report_belongs_to_project:4:1$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "reports.py",
+            "line": 5,
+            "column": 12
+          },
+          "literal": "true"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [
+        "reports.py#validate_report_belongs_to_project:4:1$v2"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "reports.py#validate_report_belongs_to_project:4:1$b0",
+      "blocks": [
+        {
+          "id": "reports.py#validate_report_belongs_to_project:4:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "reports.py",
+            "line": 4,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "reports.py#validate_report_belongs_to_project:4:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "reports.py",
+            "line": 5,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "reports.py#read:8:1",
+      "name": "read",
+      "module": "reports.py",
+      "loc": {
+        "file": "reports.py",
+        "line": 8,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "report_id",
+          "valueId": "reports.py#read:8:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "reports.py#read:8:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "reports.py",
+            "line": 8,
+            "column": 10
+          },
+          "name": "report_id"
+        },
+        {
+          "id": "reports.py#read:8:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "reports.py",
+            "line": 9,
+            "column": 12
+          },
+          "literal": ""
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [
+        "reports.py#read:8:1$v1"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "reports.py#read:8:1$b0",
+      "blocks": [
+        {
+          "id": "reports.py#read:8:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "reports.py",
+            "line": 8,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "reports.py#read:8:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "reports.py",
+            "line": 9,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "reports.py#save:12:1",
+      "name": "save",
+      "module": "reports.py",
+      "loc": {
+        "file": "reports.py",
+        "line": 12,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "report_id",
+          "valueId": "reports.py#save:12:1$v0"
+        },
+        {
+          "index": 1,
+          "name": "project_id",
+          "valueId": "reports.py#save:12:1$v1"
+        },
+        {
+          "index": 2,
+          "name": "body",
+          "valueId": "reports.py#save:12:1$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "reports.py#save:12:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "reports.py",
+            "line": 12,
+            "column": 10
+          },
+          "name": "report_id"
+        },
+        {
+          "id": "reports.py#save:12:1$v1",
+          "kind": "param",
+          "loc": {
+            "file": "reports.py",
+            "line": 12,
+            "column": 21
+          },
+          "name": "project_id"
+        },
+        {
+          "id": "reports.py#save:12:1$v2",
+          "kind": "param",
+          "loc": {
+            "file": "reports.py",
+            "line": 12,
+            "column": 33
+          },
+          "name": "body"
+        },
+        {
+          "id": "reports.py#save:12:1$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "reports.py",
+            "line": 13,
+            "column": 12
+          },
+          "literal": ""
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [
+        "reports.py#save:12:1$v3"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "reports.py#save:12:1$b0",
+      "blocks": [
+        {
+          "id": "reports.py#save:12:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "reports.py",
+            "line": 12,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "reports.py#save:12:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "reports.py",
+            "line": 13,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "reports.py#permitted_document_ids:16:1",
+      "name": "permitted_document_ids",
+      "module": "reports.py",
+      "loc": {
+        "file": "reports.py",
+        "line": 16,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "user",
+          "valueId": "reports.py#permitted_document_ids:16:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "reports.py#permitted_document_ids:16:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "reports.py",
+            "line": 16,
+            "column": 28
+          },
+          "name": "user"
+        },
+        {
+          "id": "reports.py#permitted_document_ids:16:1$v1",
+          "kind": "local",
+          "loc": {
+            "file": "reports.py",
+            "line": 17,
+            "column": 12
+          },
+          "name": "[sequence]"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [
+        "reports.py#permitted_document_ids:16:1$v1"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "reports.py#permitted_document_ids:16:1$b0",
+      "blocks": [
+        {
+          "id": "reports.py#permitted_document_ids:16:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "reports.py",
+            "line": 16,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "reports.py#permitted_document_ids:16:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "reports.py",
+            "line": 17,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "reports.py#touch_document:20:1",
+      "name": "touch_document",
+      "module": "reports.py",
+      "loc": {
+        "file": "reports.py",
+        "line": 20,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "user",
+          "valueId": "reports.py#touch_document:20:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "reports.py#touch_document:20:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "reports.py",
+            "line": 20,
+            "column": 20
+          },
+          "name": "user"
+        },
+        {
+          "id": "reports.py#touch_document:20:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "reports.py",
+            "line": 21,
+            "column": 12
+          }
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [
+        "reports.py#touch_document:20:1$v1"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "reports.py#touch_document:20:1$b0",
+      "blocks": [
+        {
+          "id": "reports.py#touch_document:20:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "reports.py",
+            "line": 20,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "reports.py#touch_document:20:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "reports.py",
+            "line": 21,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "urls.py#<module>:0:0",
+      "name": "<module>",
+      "module": "urls.py",
+      "loc": {
+        "file": "urls.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "urls.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The two routes the differential is stated between. The context builders below them are\nregistered nowhere, which is also true of saleor's: they run for every request, before\nanybody knows whose it is.\n"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "urls.py",
+            "line": 9,
+            "column": 15
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 10,
+            "column": 10
+          },
+          "literal": "reports/"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v3",
+          "kind": "global",
+          "loc": {
+            "file": "urls.py",
+            "line": 10,
+            "column": 22
+          },
+          "name": "app"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v4",
+          "kind": "property",
+          "loc": {
+            "file": "urls.py",
+            "line": 10,
+            "column": 22
+          },
+          "base": "urls.py#<module>:0:0$v3",
+          "path": "get_report",
+          "name": "get_report"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 10,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 11,
+            "column": 10
+          },
+          "literal": "reports/save/"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v7",
+          "kind": "property",
+          "loc": {
+            "file": "urls.py",
+            "line": 11,
+            "column": 27
+          },
+          "base": "urls.py#<module>:0:0$v3",
+          "path": "update_report",
+          "name": "update_report"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 11,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v9",
+          "kind": "local",
+          "loc": {
+            "file": "urls.py",
+            "line": 9,
+            "column": 1
+          },
+          "name": "urlpatterns"
+        }
+      ],
+      "flows": [
+        {
+          "from": "urls.py#<module>:0:0$v3",
+          "to": "urls.py#<module>:0:0$v4",
+          "kind": "property",
+          "loc": {
+            "file": "urls.py",
+            "line": 10,
+            "column": 22
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "urls.py#<module>:0:0$v5",
+          "to": "urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 9,
+            "column": 15
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "urls.py#<module>:0:0$v3",
+          "to": "urls.py#<module>:0:0$v7",
+          "kind": "property",
+          "loc": {
+            "file": "urls.py",
+            "line": 11,
+            "column": 27
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "urls.py#<module>:0:0$v8",
+          "to": "urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 9,
+            "column": 15
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "urls.py#<module>:0:0$v1",
+          "to": "urls.py#<module>:0:0$v9",
+          "kind": "assign",
+          "loc": {
+            "file": "urls.py",
+            "line": 9,
+            "column": 1
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "urls.py#<module>:0:0$c0",
+          "loc": {
+            "file": "urls.py",
+            "line": 10,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v4",
+              "functionId": "app.py#get_report:28:1"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v5",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "reports/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c1",
+          "loc": {
+            "file": "urls.py",
+            "line": 11,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v6"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v7",
+              "functionId": "app.py#update_report:38:1"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v8",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "reports/save/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "urls.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "urls.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "urls.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "app.py#get_report:28:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/reports/"
+      }
+    },
+    {
+      "functionId": "app.py#update_report:38:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/reports/save/"
+      }
+    }
+  ],
+  "views": [],
+  "renders": []
+}
