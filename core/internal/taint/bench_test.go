@@ -146,6 +146,8 @@ var corpora = []string{
 	"unreferenced-component",
 	"python-inherited-method",
 	"argument-injection-into-argv",
+	"rate-limit-key",
+	"rate-limit-scope",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {

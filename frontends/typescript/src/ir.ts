@@ -85,6 +85,8 @@ export type Resolution = "resolved" | "probable" | "dynamic-unresolved";
 export interface Callee {
   kind: "local" | "external" | "unresolved";
   functionId?: string;
+  /** Finite targets of an indirect call whose runtime selection is not known. */
+  possibleFunctionIds?: string[];
   symbol?: string;
   resolution: Resolution;
   /** What the call was WRITTEN as, independently of what it resolved to. */

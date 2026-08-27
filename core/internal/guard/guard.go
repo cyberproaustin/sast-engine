@@ -38,7 +38,10 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 	ix := ir.NewIndex(d)
 	stops := neverReturns(d)
 
-	var out []taint.Finding
+	// Two rule shapes answer over the whole program rather than one function at a time:
+	// a limiter's coverage is a fact about which routes it admits, and a sibling
+	// differential needs both paths in view at once.
+	out := analyzeLimiters(d, m)
 	for _, rule := range m.Guards {
 		if len(rule.Checks) > 0 {
 			out = append(out, siblingDifferential(ix, d, rule)...)
@@ -61,7 +64,8 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 		}
 
 		for _, rule := range m.Guards {
-			if len(rule.Checks) > 0 {
+			// Both of these were answered above, over the whole program.
+			if len(rule.Checks) > 0 || rule.Limiter != nil {
 				continue
 			}
 			if len(rule.Constructs) > 0 {
@@ -534,6 +538,9 @@ func callName(ix *ir.Index, c *ir.Call) string {
 	// A local call carries no symbol, so the name is on the function it resolved to.
 	if fn := ix.FuncByID[c.Callee.FunctionID]; fn != nil && fn.Name != "" {
 		return fn.Name
+	}
+	if c.Callee.Name != "" {
+		return c.Callee.Name
 	}
 	return "the work it was refusing"
 }

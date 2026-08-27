@@ -1,0 +1,14 @@
+{
+  "corpus": "rate-limit-key",
+  "description": "express-rate-limit defaults its bucket key to req.ip. That key is caller-selectable when the application trusts every forwarded proxy hop, and disabling the library's validation removes the configuration check that would reject the combination. The positive has all three facts in configuration. A second limiter under the same proxy setting supplies keyGenerator and stays silent, proving the rule compares the key rather than reporting trust proxy by itself.",
+  "expected": [
+    {
+      "cwe": "CWE-770",
+      "sinkFile": "app.ts",
+      "sinkLine": 12,
+      "sourceLabel": "default req.ip bucket key",
+      "confidence": "high",
+      "note": "the limiter keeps the default req.ip key, trusts every forwarded hop, and explicitly disables express-rate-limit's validation"
+    }
+  ]
+}
