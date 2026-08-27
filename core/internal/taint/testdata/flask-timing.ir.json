@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.16.0",
+  "irVersion": "0.17.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -609,13 +609,23 @@
           "kind": "literal",
           "loc": {
             "file": "app.py",
+            "line": 27,
+            "column": 8
+          },
+          "literal": "true"
+        },
+        {
+          "id": "app.py#webhook_safe:21:1$v12",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
             "line": 28,
             "column": 16
           },
           "literal": "ok"
         },
         {
-          "id": "app.py#webhook_safe:21:1$v12",
+          "id": "app.py#webhook_safe:21:1$v13",
           "kind": "local",
           "loc": {
             "file": "app.py",
@@ -625,7 +635,7 @@
           "name": "[sequence]"
         },
         {
-          "id": "app.py#webhook_safe:21:1$v13",
+          "id": "app.py#webhook_safe:21:1$v14",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -635,7 +645,7 @@
           "literal": "bad signature"
         },
         {
-          "id": "app.py#webhook_safe:21:1$v14",
+          "id": "app.py#webhook_safe:21:1$v15",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -691,8 +701,8 @@
           "block": "app.py#webhook_safe:21:1$b0"
         },
         {
-          "from": "app.py#webhook_safe:21:1$v13",
-          "to": "app.py#webhook_safe:21:1$v12",
+          "from": "app.py#webhook_safe:21:1$v14",
+          "to": "app.py#webhook_safe:21:1$v13",
           "kind": "enclose",
           "loc": {
             "file": "app.py",
@@ -702,8 +712,8 @@
           "block": "app.py#webhook_safe:21:1$b3"
         },
         {
-          "from": "app.py#webhook_safe:21:1$v14",
-          "to": "app.py#webhook_safe:21:1$v12",
+          "from": "app.py#webhook_safe:21:1$v15",
+          "to": "app.py#webhook_safe:21:1$v13",
           "kind": "enclose",
           "loc": {
             "file": "app.py",
@@ -805,10 +815,22 @@
         }
       ],
       "returns": [
-        "app.py#webhook_safe:21:1$v11",
-        "app.py#webhook_safe:21:1$v12"
+        "app.py#webhook_safe:21:1$v12",
+        "app.py#webhook_safe:21:1$v13"
       ],
-      "comparisons": [],
+      "comparisons": [
+        {
+          "left": "app.py#webhook_safe:21:1$v10",
+          "right": "app.py#webhook_safe:21:1$v11",
+          "op": "truthy",
+          "block": "app.py#webhook_safe:21:1$b0",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 8
+          }
+        }
+      ],
       "writes": [],
       "entryBlock": "app.py#webhook_safe:21:1$b0",
       "blocks": [

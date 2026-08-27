@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.16.0",
+  "irVersion": "0.17.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -81,13 +81,23 @@
           "kind": "literal",
           "loc": {
             "file": "app.py",
+            "line": 21,
+            "column": 4
+          },
+          "literal": "true"
+        },
+        {
+          "id": "app.py#<module>:0:0$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
             "line": 23,
             "column": 18
           },
           "literal": "0.0.0.0"
         },
         {
-          "id": "app.py#<module>:0:0$v5",
+          "id": "app.py#<module>:0:0$v6",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -97,7 +107,7 @@
           "literal": "8080"
         },
         {
-          "id": "app.py#<module>:0:0$v6",
+          "id": "app.py#<module>:0:0$v7",
           "kind": "literal",
           "loc": {
             "file": "app.py",
@@ -107,7 +117,7 @@
           "literal": "true"
         },
         {
-          "id": "app.py#<module>:0:0$v7",
+          "id": "app.py#<module>:0:0$v8",
           "kind": "call-result",
           "loc": {
             "file": "app.py",
@@ -165,19 +175,19 @@
           },
           "args": [
             {
-              "index": 0,
-              "valueId": "app.py#<module>:0:0$v4"
+              "valueId": "app.py#<module>:0:0$v5",
+              "name": "host"
             },
             {
-              "index": 0,
-              "valueId": "app.py#<module>:0:0$v5"
+              "valueId": "app.py#<module>:0:0$v6",
+              "name": "port"
             },
             {
-              "index": 0,
-              "valueId": "app.py#<module>:0:0$v6"
+              "valueId": "app.py#<module>:0:0$v7",
+              "name": "debug"
             }
           ],
-          "resultValueId": "app.py#<module>:0:0$v7",
+          "resultValueId": "app.py#<module>:0:0$v8",
           "block": "app.py#<module>:0:0$b1",
           "method": "run",
           "argCount": 3,
@@ -193,7 +203,19 @@
         }
       ],
       "returns": [],
-      "comparisons": [],
+      "comparisons": [
+        {
+          "left": "app.py#<module>:0:0$v2",
+          "right": "app.py#<module>:0:0$v4",
+          "op": "truthy",
+          "block": "app.py#<module>:0:0$b0",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 4
+          }
+        }
+      ],
       "writes": [],
       "entryBlock": "app.py#<module>:0:0$b0",
       "blocks": [
@@ -349,8 +371,8 @@
               "valueId": "app.py#upstream:8:1$v0"
             },
             {
-              "index": 1,
-              "valueId": "app.py#upstream:8:1$v1"
+              "valueId": "app.py#upstream:8:1$v1",
+              "name": "verify"
             }
           ],
           "resultValueId": "app.py#upstream:8:1$v3",
@@ -512,8 +534,8 @@
               "valueId": "app.py#upstream_strict:15:1$v0"
             },
             {
-              "index": 1,
-              "valueId": "app.py#upstream_strict:15:1$v1"
+              "valueId": "app.py#upstream_strict:15:1$v1",
+              "name": "timeout"
             }
           ],
           "resultValueId": "app.py#upstream_strict:15:1$v3",
