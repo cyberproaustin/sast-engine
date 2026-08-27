@@ -175,7 +175,7 @@ func derivedVia(ix *ir.Index, resultOf map[string]*ir.Call, v *ir.Value, names [
 	}
 	if c := resultOf[v.ID]; c != nil && matchesName(c.Callee.Symbol, names) {
 		for _, a := range c.Args {
-			if a.Index == 0 {
+			if a.At(0) {
 				return a.ValueID, true
 			}
 		}

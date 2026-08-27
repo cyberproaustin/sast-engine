@@ -166,7 +166,7 @@ func lastDot(s string) string {
 // agreeing as soon as a function copies it into a local.
 func boundAtModuleScope(ix *ir.Index, c *ir.Call, index int) bool {
 	for _, a := range c.Args {
-		if a.Index != index || a.ValueID == "" {
+		if !a.At(index) || a.ValueID == "" {
 			continue
 		}
 		owner := ix.OwnerOfValue[a.ValueID]

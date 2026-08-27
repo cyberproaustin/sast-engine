@@ -423,13 +423,36 @@ type Callee struct {
 	Name string `json:"name,omitempty"`
 }
 
-// Arg binds a positional argument to a value node. FunctionID is set when the
-// argument is a function value, which is what makes higher-order propagation
-// (callbacks, promise continuations) expressible.
+// Arg binds an argument to a value node. A positional argument has Index; a keyword
+// argument has Name. FunctionID is set when the argument is a function value, which is
+// what makes higher-order propagation (callbacks, promise continuations) expressible.
 type Arg struct {
-	Index      int    `json:"index"`
+	Index      int    `json:"index,omitempty"`
+	Name       string `json:"name,omitempty"`
 	ValueID    string `json:"valueId,omitempty"`
 	FunctionID string `json:"functionId,omitempty"`
+}
+
+// At reports whether this is a positional argument at index. A named argument must not
+// answer a positional question: until a callee is known, its position is not known.
+func (a Arg) At(index int) bool {
+	return a.Name == "" && a.Index == index
+}
+
+// BoundParam resolves this argument against a known callee's declaration.
+func (a Arg) BoundParam(fn *Function) (Param, bool) {
+	for _, p := range fn.Params {
+		if (a.Name != "" && p.Name == a.Name) || (a.Name == "" && p.Index == a.Index) {
+			return p, true
+		}
+	}
+	return Param{}, false
+}
+
+// Binds reports whether this argument binds a known callee parameter.
+func (a Arg) Binds(fn *Function, index int) bool {
+	p, ok := a.BoundParam(fn)
+	return ok && p.Index == index
 }
 
 // UnknownLiteral marks an option whose key was read and whose value was not written
@@ -529,7 +552,7 @@ func (c Call) OptionsEnumerated(index int) bool {
 // HasArg reports whether an argument was passed at this position at all.
 func (c Call) HasArg(index int) bool {
 	for _, a := range c.Args {
-		if a.Index == index {
+		if a.At(index) {
 			return true
 		}
 	}

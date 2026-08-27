@@ -349,7 +349,7 @@ func leafPath(p string) string {
 // the argument rather than at the call generally.
 func argCarrying(use *ir.Call, weak *profile, path string) int {
 	for _, a := range use.Args {
-		if weak.carries[a.ValueID][path] {
+		if a.Name == "" && weak.carries[a.ValueID][path] {
 			return a.Index
 		}
 	}
