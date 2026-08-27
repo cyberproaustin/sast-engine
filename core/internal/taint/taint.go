@@ -1079,7 +1079,7 @@ func (e *engine) callCarries(c *ir.Call, index int) bool {
 		if a.ValueID == "" || !e.tainted[a.ValueID] {
 			continue
 		}
-		if index < 0 || a.Index == index {
+		if index < 0 || a.At(index) {
 			return true
 		}
 	}
@@ -1563,14 +1563,18 @@ func (e *engine) throughCall(argValueID string, c *ir.Call) {
 			if callee == nil {
 				continue
 			}
-			param, ok := paramAt(callee, a.Index)
+			param, ok := a.BoundParam(callee)
 			if !ok {
 				continue
+			}
+			binding := fmt.Sprintf("argument %d", a.Index)
+			if a.Name != "" {
+				binding = fmt.Sprintf("argument `%s`", a.Name)
 			}
 			e.carriesRecord(argValueID, param.ValueID)
 			e.markTainted(param.ValueID, edge{
 				from: argValueID,
-				desc: fmt.Sprintf("passed as argument %d to %s()", a.Index, callee.Name),
+				desc: fmt.Sprintf("passed as %s to %s()", binding, callee.Name),
 				// The callee's own NAME, so a sanitizer can recognise a transform an
 				// application defined for itself. novu writes its own `escapeRegExp` and
 				// interpolates the result into a pattern, which is the correct way to
@@ -2014,7 +2018,7 @@ func (e *engine) passedAt(fn *ir.Function, index, depth int) string {
 	for _, site := range e.ix.CallSitesOf[fn.ID] {
 		var passed string
 		for _, a := range site.Args {
-			if a.Index == index {
+			if a.Binds(fn, index) {
 				passed = a.ValueID
 			}
 		}
@@ -2192,7 +2196,7 @@ func (e *engine) patternAt(c *ir.Call, index int) string {
 			return lit
 		}
 		for _, a := range c.Args {
-			if a.Index == index {
+			if a.At(index) {
 				id = a.ValueID
 			}
 		}
@@ -2211,7 +2215,7 @@ func (e *engine) patternAt(c *ir.Call, index int) string {
 				return lit
 			}
 			for _, a := range c.Args {
-				if a.Index == 0 {
+				if a.At(0) {
 					id = a.ValueID
 				}
 			}
@@ -2823,7 +2827,7 @@ func paramAt(fn *ir.Function, index int) (ir.Param, bool) {
 
 func argAt(c *ir.Call, index int) (ir.Arg, bool) {
 	for _, a := range c.Args {
-		if a.Index == index {
+		if a.At(index) {
 			return a, true
 		}
 	}

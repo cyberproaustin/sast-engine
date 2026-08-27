@@ -196,20 +196,12 @@ func keywordArgs(c *ir.Call, ix *ir.Index) map[string]string {
 	if len(names) == 0 {
 		return out
 	}
-	// Keyword arguments are lowered at one position, in the order they were written.
-	var values []string
+	// The name on the argument is the binding. Reconstructing it from the order of
+	// separately recorded literals was necessary only while every keyword shared one
+	// fabricated positional index.
 	for _, a := range c.Args {
-		if a.ValueID != "" {
-			values = append(values, a.ValueID)
-		}
-	}
-	if len(values) < len(names) {
-		return out
-	}
-	tail := values[len(values)-len(names):]
-	for i, name := range names {
-		if ix.ValueByID[tail[i]] != nil {
-			out[name] = tail[i]
+		if a.Name != "" && a.ValueID != "" && ix.ValueByID[a.ValueID] != nil {
+			out[a.Name] = a.ValueID
 		}
 	}
 	return out

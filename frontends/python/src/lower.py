@@ -20,7 +20,7 @@ from typing import Any
 
 from templates import index_templates, resolve_template
 
-IR_VERSION = "0.16.0"
+IR_VERSION = "0.17.0"
 FRONTEND_VERSION = "0.1.0"
 
 FUNCTION_NODES = (ast.FunctionDef, ast.AsyncFunctionDef)
@@ -1841,7 +1841,10 @@ class FunctionLowerer:
         def param_kind(name: str) -> str:
             return "operator-param" if operator and name not in ("self", "cls") else "param"
 
-        for index, arg in enumerate(self.node.args.args):
+        # Keyword-only parameters participate in name binding even though they have no
+        # positional slot in Python source. Keeping them in the declared parameter list
+        # is what lets a local `f(value=x)` bind exactly when `value` follows `*`.
+        for index, arg in enumerate((*self.node.args.args, *self.node.args.kwonlyargs)):
             vid = self.new_value(param_kind(arg.arg), arg, name=arg.arg)
             self.scope[arg.arg] = vid
             self.params.append({"index": index, "name": arg.arg, "valueId": vid})
@@ -2564,7 +2567,15 @@ class FunctionLowerer:
         for offset, kw in enumerate(node.keywords):
             vid = self.expr(kw.value)
             if vid:
-                entry: dict[str, Any] = {"index": len(node.args), "valueId": vid}
+                # A keyword has no positional index until a callee declaration gives it
+                # one. Recording the first keyword at len(args) made `login_error=` bind
+                # to `self` in a method call with no positional arguments, and every
+                # later keyword claimed the same false position. Keep the name: the core
+                # can bind it exactly for a local callee and refuses a positional claim
+                # for an unresolved one.
+                entry: dict[str, Any] = {"valueId": vid}
+                if kw.arg:
+                    entry["name"] = kw.arg
                 fid = self.function_ref(kw.value)
                 if fid:
                     entry["functionId"] = fid

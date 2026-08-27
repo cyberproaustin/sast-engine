@@ -1,0 +1,14 @@
+{
+  "corpus": "keyword-argument-binding",
+  "description": "A method call with no positional arguments passes caller data in two keywords. The first, login_error, must not bind parameter zero (`self`) and turn the receiver's application-owned hub.base_url into caller data. The second must not share that first keyword's position: it binds the parameter named username and reaches the command sink. The single expected finding therefore holds precision and recall together -- an extra redirect finding exposes the false self binding, while a missing command finding exposes a keyword that was dropped instead of bound by name.",
+  "expected": [
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "app.py",
+      "sinkLine": 29,
+      "sourceLabel": "self.request.body",
+      "confidence": "medium",
+      "note": "the second keyword binds the third declared parameter by name; it must not share the first keyword's fabricated position or disappear when that position is removed"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 // Program IR — the wire contract with the core (docs/IR.md, ADR-001).
 // Types only. This file must stay a mirror of the spec, not of the TypeScript AST.
 
-export const IR_VERSION = "0.16.0";
+export const IR_VERSION = "0.17.0";
 
 export interface Loc {
   file: string;
@@ -94,7 +94,10 @@ export interface Callee {
 }
 
 export interface Arg {
-  index: number;
+  /** Positional index; absent for a named argument. */
+  index?: number;
+  /** Keyword name; absent for a positional argument. */
+  name?: string;
   valueId?: string;
   /** Set when the argument is a function value (callback, promise continuation). */
   functionId?: string;

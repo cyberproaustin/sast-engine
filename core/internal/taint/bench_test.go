@@ -128,6 +128,7 @@ var corpora = []string{
 	"reassignment-kills-taint",
 	"weak-hash-by-use",
 	"client-identifier",
+	"keyword-argument-binding",
 	"sibling-guard-differential",
 	"regex-complexity",
 	"unowned-record-access",

@@ -1,0 +1,609 @@
+{
+  "irVersion": "0.17.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi",
+        "django",
+        "tornado"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "app.py",
+      "path": "app.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "app.py#<module>:0:0",
+      "name": "<module>",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "Keyword arguments bind by declaration name, never by where keywords begin.\n\nThe first keyword in a method call with no positional arguments used to arrive at\nparameter zero, and parameter zero is `self`. That made a request body become the\nreceiver: reading `self.hub.base_url` below then looked like reading caller data.\n\nThe second keyword shared the same wrong position, so merely removing the false receiver\nflow would trade a false positive for a false negative. The command sink holds the other\nhalf of the contract: `username` must reach the parameter named `username`, despite being\nthe second keyword and the third declared parameter.\n"
+        },
+        {
+          "id": "app.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 31
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "app.py#<module>:0:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 32
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "app.py#<module>:0:0$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 33
+          },
+          "literal": "/login"
+        },
+        {
+          "id": "app.py#<module>:0:0$v4",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 15
+          },
+          "name": "tornado.web"
+        },
+        {
+          "id": "app.py#<module>:0:0$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 15
+          },
+          "name": "tornado.web.Application"
+        },
+        {
+          "id": "app.py#<module>:0:0$v6",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 1
+          },
+          "name": "application"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#<module>:0:0$v3",
+          "to": "app.py#<module>:0:0$v2",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 32
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v2",
+          "to": "app.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 31
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v5",
+          "to": "app.py#<module>:0:0$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 1
+          },
+          "block": "app.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#<module>:0:0$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 15
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "tornado.web.Application",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#<module>:0:0$v1"
+            }
+          ],
+          "resultValueId": "app.py#<module>:0:0$v5",
+          "block": "app.py#<module>:0:0$b0",
+          "method": "Application",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#<module>:0:0$v4"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "app.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#post:18:5",
+      "name": "post",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 18,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "app.py#post:18:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#post:18:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 18,
+            "column": 14
+          },
+          "name": "self"
+        },
+        {
+          "id": "app.py#post:18:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 20
+          },
+          "base": "app.py#post:18:5$v0",
+          "path": "request.body",
+          "name": "request.body"
+        },
+        {
+          "id": "app.py#post:18:5$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 9
+          },
+          "name": "supplied"
+        },
+        {
+          "id": "app.py#post:18:5$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 16
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#post:18:5$v0",
+          "to": "app.py#post:18:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 20
+          },
+          "block": "app.py#post:18:5$b0"
+        },
+        {
+          "from": "app.py#post:18:5$v1",
+          "to": "app.py#post:18:5$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 9
+          },
+          "block": "app.py#post:18:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#post:18:5$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 16
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "app.py#_render:22:5",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "valueId": "app.py#post:18:5$v2",
+              "name": "login_error"
+            },
+            {
+              "valueId": "app.py#post:18:5$v2",
+              "name": "username"
+            }
+          ],
+          "resultValueId": "app.py#post:18:5$v3",
+          "block": "app.py#post:18:5$b0",
+          "method": "_render",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "login_error=?",
+            "-2": "username=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#post:18:5$v0"
+        }
+      ],
+      "returns": [
+        "app.py#post:18:5$v3"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#post:18:5$b0",
+      "blocks": [
+        {
+          "id": "app.py#post:18:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 18,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#post:18:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#_render:22:5",
+      "name": "_render",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 22,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "app.py#_render:22:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "login_error",
+          "valueId": "app.py#_render:22:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "username",
+          "valueId": "app.py#_render:22:5$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#_render:22:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 17
+          },
+          "name": "self"
+        },
+        {
+          "id": "app.py#_render:22:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 26
+          },
+          "name": "login_error"
+        },
+        {
+          "id": "app.py#_render:22:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 44
+          },
+          "name": "username"
+        },
+        {
+          "id": "app.py#_render:22:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 23
+          },
+          "base": "app.py#_render:22:5$v0",
+          "path": "hub.base_url",
+          "name": "hub.base_url"
+        },
+        {
+          "id": "app.py#_render:22:5$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 9
+          },
+          "name": "self.redirect"
+        },
+        {
+          "id": "app.py#_render:22:5$v5",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 24
+          },
+          "name": "concat"
+        },
+        {
+          "id": "app.py#_render:22:5$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 24
+          },
+          "literal": "echo "
+        },
+        {
+          "id": "app.py#_render:22:5$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 50
+          },
+          "literal": "true"
+        },
+        {
+          "id": "app.py#_render:22:5$v8",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 9
+          },
+          "name": "subprocess"
+        },
+        {
+          "id": "app.py#_render:22:5$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 9
+          },
+          "name": "subprocess.run"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#_render:22:5$v0",
+          "to": "app.py#_render:22:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 23
+          },
+          "block": "app.py#_render:22:5$b0"
+        },
+        {
+          "from": "app.py#_render:22:5$v6",
+          "to": "app.py#_render:22:5$v5",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 24
+          },
+          "block": "app.py#_render:22:5$b0"
+        },
+        {
+          "from": "app.py#_render:22:5$v2",
+          "to": "app.py#_render:22:5$v5",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 24
+          },
+          "block": "app.py#_render:22:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#_render:22:5$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "self.redirect",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#_render:22:5$v3"
+            }
+          ],
+          "resultValueId": "app.py#_render:22:5$v4",
+          "block": "app.py#_render:22:5$b0",
+          "method": "redirect",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#_render:22:5$v0"
+        },
+        {
+          "id": "app.py#_render:22:5$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "subprocess.run",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#_render:22:5$v5"
+            },
+            {
+              "valueId": "app.py#_render:22:5$v7",
+              "name": "shell"
+            }
+          ],
+          "resultValueId": "app.py#_render:22:5$v9",
+          "block": "app.py#_render:22:5$b0",
+          "method": "run",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "shell=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#_render:22:5$v8"
+        }
+      ],
+      "returns": [
+        "app.py#_render:22:5$v1"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#_render:22:5$b0",
+      "blocks": [
+        {
+          "id": "app.py#_render:22:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#_render:22:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 9
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "app.py#post:18:5",
+      "kind": "http-route",
+      "framework": "tornado",
+      "detail": {
+        "method": "POST",
+        "path": "/login"
+      }
+    }
+  ],
+  "views": [],
+  "renders": []
+}
