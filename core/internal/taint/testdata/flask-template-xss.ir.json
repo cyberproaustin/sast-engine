@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.15.0",
+  "irVersion": "0.16.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -182,36 +182,6 @@
             "column": 12
           },
           "name": "flask.render_template"
-        },
-        {
-          "id": "app.py#search:8:1$v6",
-          "kind": "call-result",
-          "loc": {
-            "file": "templates/results.html",
-            "line": 2,
-            "column": 21
-          },
-          "name": "<template>.unescaped"
-        },
-        {
-          "id": "app.py#search:8:1$v7",
-          "kind": "call-result",
-          "loc": {
-            "file": "templates/results.html",
-            "line": 3,
-            "column": 39
-          },
-          "name": "<template>.escaped"
-        },
-        {
-          "id": "app.py#search:8:1$v8",
-          "kind": "call-result",
-          "loc": {
-            "file": "templates/results.html",
-            "line": 4,
-            "column": 32
-          },
-          "name": "<template>.escaped"
         }
       ],
       "flows": [
@@ -276,72 +246,6 @@
           "enumeratedOptions": [
             -1
           ]
-        },
-        {
-          "id": "app.py#search:8:1$c1",
-          "loc": {
-            "file": "templates/results.html",
-            "line": 2,
-            "column": 21
-          },
-          "callee": {
-            "kind": "external",
-            "symbol": "<template>.unescaped",
-            "resolution": "resolved"
-          },
-          "args": [
-            {
-              "index": 0,
-              "valueId": "app.py#search:8:1$v3"
-            }
-          ],
-          "argCount": 1,
-          "resultValueId": "app.py#search:8:1$v6",
-          "block": "app.py#search:8:1$b0"
-        },
-        {
-          "id": "app.py#search:8:1$c2",
-          "loc": {
-            "file": "templates/results.html",
-            "line": 3,
-            "column": 39
-          },
-          "callee": {
-            "kind": "external",
-            "symbol": "<template>.escaped",
-            "resolution": "resolved"
-          },
-          "args": [
-            {
-              "index": 0,
-              "valueId": "app.py#search:8:1$v3"
-            }
-          ],
-          "argCount": 1,
-          "resultValueId": "app.py#search:8:1$v7",
-          "block": "app.py#search:8:1$b0"
-        },
-        {
-          "id": "app.py#search:8:1$c3",
-          "loc": {
-            "file": "templates/results.html",
-            "line": 4,
-            "column": 32
-          },
-          "callee": {
-            "kind": "external",
-            "symbol": "<template>.escaped",
-            "resolution": "resolved"
-          },
-          "args": [
-            {
-              "index": 0,
-              "valueId": "app.py#search:8:1$v4"
-            }
-          ],
-          "argCount": 1,
-          "resultValueId": "app.py#search:8:1$v8",
-          "block": "app.py#search:8:1$b0"
         }
       ],
       "returns": [
@@ -446,28 +350,6 @@
             "column": 12
           },
           "name": "flask.render_template"
-        },
-        {
-          "id": "app.py#profile:16:1$v6",
-          "kind": "property",
-          "loc": {
-            "file": "templates/profile.html",
-            "line": 2,
-            "column": 7
-          },
-          "base": "app.py#profile:16:1$v1",
-          "path": "name",
-          "name": "name"
-        },
-        {
-          "id": "app.py#profile:16:1$v7",
-          "kind": "call-result",
-          "loc": {
-            "file": "templates/profile.html",
-            "line": 2,
-            "column": 7
-          },
-          "name": "<template>.unescaped"
         }
       ],
       "flows": [
@@ -501,17 +383,6 @@
             "file": "app.py",
             "line": 17,
             "column": 49
-          },
-          "block": "app.py#profile:16:1$b0"
-        },
-        {
-          "from": "app.py#profile:16:1$v1",
-          "to": "app.py#profile:16:1$v6",
-          "kind": "property",
-          "loc": {
-            "file": "templates/profile.html",
-            "line": 2,
-            "column": 7
           },
           "block": "app.py#profile:16:1$b0"
         }
@@ -550,28 +421,6 @@
           "enumeratedOptions": [
             -1
           ]
-        },
-        {
-          "id": "app.py#profile:16:1$c1",
-          "loc": {
-            "file": "templates/profile.html",
-            "line": 2,
-            "column": 7
-          },
-          "callee": {
-            "kind": "external",
-            "symbol": "<template>.unescaped",
-            "resolution": "resolved"
-          },
-          "args": [
-            {
-              "index": 0,
-              "valueId": "app.py#profile:16:1$v6"
-            }
-          ],
-          "argCount": 1,
-          "resultValueId": "app.py#profile:16:1$v7",
-          "block": "app.py#profile:16:1$b0"
         }
       ],
       "returns": [
@@ -642,16 +491,6 @@
             "column": 12
           },
           "name": "flask.render_template"
-        },
-        {
-          "id": "app.py#about:21:1$v3",
-          "kind": "call-result",
-          "loc": {
-            "file": "templates/about.html",
-            "line": 1,
-            "column": 12
-          },
-          "name": "<template>.escaped"
         }
       ],
       "flows": [],
@@ -688,28 +527,6 @@
           "enumeratedOptions": [
             -1
           ]
-        },
-        {
-          "id": "app.py#about:21:1$c1",
-          "loc": {
-            "file": "templates/about.html",
-            "line": 1,
-            "column": 12
-          },
-          "callee": {
-            "kind": "external",
-            "symbol": "<template>.escaped",
-            "resolution": "resolved"
-          },
-          "args": [
-            {
-              "index": 0,
-              "valueId": "app.py#about:21:1$v1"
-            }
-          ],
-          "argCount": 1,
-          "resultValueId": "app.py#about:21:1$v3",
-          "block": "app.py#about:21:1$b0"
         }
       ],
       "returns": [
@@ -794,7 +611,8 @@
           "callee": {
             "kind": "local",
             "functionId": "app.py#build_context:35:1",
-            "resolution": "resolved"
+            "resolution": "resolved",
+            "name": "build_context"
           },
           "args": [],
           "resultValueId": "app.py#report:27:1$v1",
@@ -1076,16 +894,6 @@
             "column": 12
           },
           "name": "flask.render_template"
-        },
-        {
-          "id": "app.py#comment:40:1$v6",
-          "kind": "call-result",
-          "loc": {
-            "file": "templates/comment.html",
-            "line": 1,
-            "column": 22
-          },
-          "name": "<template>.unescaped"
         }
       ],
       "flows": [
@@ -1170,28 +978,6 @@
           "enumeratedOptions": [
             -1
           ]
-        },
-        {
-          "id": "app.py#comment:40:1$c2",
-          "loc": {
-            "file": "templates/comment.html",
-            "line": 1,
-            "column": 22
-          },
-          "callee": {
-            "kind": "external",
-            "symbol": "<template>.unescaped",
-            "resolution": "resolved"
-          },
-          "args": [
-            {
-              "index": 0,
-              "valueId": "app.py#comment:40:1$v4"
-            }
-          ],
-          "argCount": 1,
-          "resultValueId": "app.py#comment:40:1$v6",
-          "block": "app.py#comment:40:1$b0"
         }
       ],
       "returns": [
@@ -1268,6 +1054,182 @@
         "method": "GET",
         "path": "/comment"
       }
+    }
+  ],
+  "views": [
+    {
+      "id": "templates/results.html",
+      "reads": [
+        {
+          "path": "query",
+          "escaped": false,
+          "loc": {
+            "file": "templates/results.html",
+            "line": 2,
+            "column": 21
+          },
+          "removedAt": {
+            "file": "templates/results.html",
+            "line": 2,
+            "column": 30
+          }
+        },
+        {
+          "path": "query",
+          "escaped": true,
+          "loc": {
+            "file": "templates/results.html",
+            "line": 3,
+            "column": 39
+          }
+        },
+        {
+          "path": "count",
+          "escaped": true,
+          "loc": {
+            "file": "templates/results.html",
+            "line": 4,
+            "column": 32
+          }
+        }
+      ]
+    },
+    {
+      "id": "templates/about.html",
+      "reads": [
+        {
+          "path": "updated",
+          "escaped": true,
+          "loc": {
+            "file": "templates/about.html",
+            "line": 1,
+            "column": 12
+          }
+        }
+      ]
+    },
+    {
+      "id": "templates/comment.html",
+      "reads": [
+        {
+          "path": "body",
+          "escaped": false,
+          "loc": {
+            "file": "templates/comment.html",
+            "line": 1,
+            "column": 22
+          },
+          "removedAt": {
+            "file": "templates/comment.html",
+            "line": 1,
+            "column": 30
+          }
+        }
+      ]
+    },
+    {
+      "id": "templates/profile.html",
+      "reads": [
+        {
+          "path": "user.name",
+          "escaped": false,
+          "loc": {
+            "file": "templates/profile.html",
+            "line": 2,
+            "column": 7
+          },
+          "removedAt": {
+            "file": "templates/profile.html",
+            "line": 2,
+            "column": 19
+          }
+        }
+      ]
+    }
+  ],
+  "renders": [
+    {
+      "functionId": "app.py#search:8:1",
+      "loc": {
+        "file": "app.py",
+        "line": 12,
+        "column": 12
+      },
+      "block": "app.py#search:8:1$b0",
+      "view": "templates/results.html",
+      "name": "results.html",
+      "bindings": [
+        {
+          "name": "query",
+          "valueId": "app.py#search:8:1$v3"
+        },
+        {
+          "name": "count",
+          "valueId": "app.py#search:8:1$v4"
+        }
+      ]
+    },
+    {
+      "functionId": "app.py#profile:16:1",
+      "loc": {
+        "file": "app.py",
+        "line": 17,
+        "column": 12
+      },
+      "block": "app.py#profile:16:1$b0",
+      "view": "templates/profile.html",
+      "name": "profile.html",
+      "bindings": [
+        {
+          "name": "user",
+          "valueId": "app.py#profile:16:1$v1"
+        }
+      ]
+    },
+    {
+      "functionId": "app.py#about:21:1",
+      "loc": {
+        "file": "app.py",
+        "line": 23,
+        "column": 12
+      },
+      "block": "app.py#about:21:1$b0",
+      "view": "templates/about.html",
+      "name": "about.html",
+      "bindings": [
+        {
+          "name": "updated",
+          "valueId": "app.py#about:21:1$v1"
+        }
+      ]
+    },
+    {
+      "functionId": "app.py#report:27:1",
+      "loc": {
+        "file": "app.py",
+        "line": 32,
+        "column": 12
+      },
+      "block": "app.py#report:27:1$b0",
+      "view": "templates/results.html",
+      "name": "results.html"
+    },
+    {
+      "functionId": "app.py#comment:40:1",
+      "loc": {
+        "file": "app.py",
+        "line": 43,
+        "column": 12
+      },
+      "block": "app.py#comment:40:1$b0",
+      "view": "templates/comment.html",
+      "name": "comment.html",
+      "bindings": [
+        {
+          "name": "body",
+          "valueId": "app.py#comment:40:1$v4"
+        }
+      ]
     }
   ]
 }

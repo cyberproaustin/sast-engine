@@ -61,15 +61,53 @@ _MARKUP = re.compile(r"\bMarkup\s*\(")
 _SUBSCRIPT = re.compile(r"\[[\"']([^\"'\]]+)[\"']\]")
 _INDEX = re.compile(r"\[(?:\d+|[A-Za-z_]\w*)\]")
 
+# The template GRAPH. A view is rarely rendered alone: it names a parent whose blocks it
+# fills, and it pulls other files in. Both directions carry the SAME context by default in
+# Jinja and in Django, which is why a variable a handler never mentions in the render call
+# it wrote can still be read three files away.
+#
+# Only a name written as a string literal is followed. `{% include get_template(x) %}` is
+# a view chosen at runtime and answering it would mean guessing which file (ADR-003).
+_EXTENDS = re.compile(r"\{%-?\s*extends\s+(['\"])([^'\"]+)\1")
+_INCLUDE = re.compile(r"\{%-?\s*include\s+(['\"])([^'\"]+)\1")
+
+# `{% for x in items %}` binds a name to an ELEMENT of something the context supplied.
+# This engine is not field-sensitive about elements -- `items[0].name` and `items[3].name`
+# normalize to the same read -- so the loop variable normalizes to the sequence, which is
+# what makes `{{ infobox.content }}` inside `{% for infobox in infoboxes %}` a read of
+# `infoboxes.content` and connects it to the render call that passed the list.
+#
+# Only a simple `name in path` header. A tuple target, a filtered sequence and a call are
+# each a case where the element is not the sequence.
+_FOR = re.compile(r"\{%-?\s*for\s+([A-Za-z_]\w*)\s+in\s+([A-Za-z_][\w.]*)\s*-?%\}")
+_FOR_ANY = re.compile(r"\{%-?\s*for\s")
+_ENDFOR = re.compile(r"\{%-?\s*endfor\s*-?%\}")
+
+# Where a `<script>` element begins and ends.
+#
+# A script element is not markup and is not a JavaScript string either: the HTML parser
+# ends it at the first `</script` whatever the JavaScript around it says, so a value
+# escaped for a JavaScript string still closes the element. Recording the context is what
+# lets an encoder be judged against the place the value actually lands.
+_SCRIPT_OPEN = re.compile(r"<\s*script\b", re.I)
+_SCRIPT_CLOSE = re.compile(r"<\s*/\s*script\s*>", re.I)
+
+# The contexts an interpolation can sit in, as far as this frontend is willing to say.
+CONTEXT_MARKUP = "markup"
+CONTEXT_SCRIPT = "script"
+
 
 class Template:
     """One view, and what it writes into the page."""
 
-    __slots__ = ("module", "reads")
+    __slots__ = ("module", "reads", "extends", "includes")
 
-    def __init__(self, module: str, reads: list[dict]):
+    def __init__(self, module: str, reads: list[dict],
+                 extends: list[str] | None = None, includes: list[str] | None = None):
         self.module = module
         self.reads = reads
+        self.extends = extends or []
+        self.includes = includes or []
 
 
 def _position_of(source: str, offset: int) -> tuple[int, int]:
@@ -102,12 +140,32 @@ def _is_marked_safe(body: str) -> bool:
     BEFORE `safe` settles it the other way: the value was escaped, and `safe` only stops it
     being escaped a second time.
     """
-    chain = _STRING_ARG.sub("", _strip_markers(body))
+    return _safe_marker(body) is not None
+
+
+def _safe_marker(body: str) -> int | None:
+    """Where the `| safe` that turns the engine's escaping OFF is written, as an offset
+    into `body`, or None when nothing removes it.
+
+    The offset exists because an absent encoder and a REMOVED one are different facts
+    about a line. Autoescaping is on, so `{{ x }}` is a decision nobody made; `{{ x|safe }}`
+    is a decision somebody wrote down, and a finding that can point at the words is a
+    finding a reader can act on without hunting for them. `Markup(...)` removes it too and
+    has no filter to point at, which is why the answer is an offset into this body rather
+    than a promise that one exists.
+    """
+    stripped = _strip_markers(body)
+    # The leading whitespace the strip removed, so an offset is an offset into `body`.
+    shift = body.find(stripped) if stripped else 0
+    chain = _STRING_ARG.sub(lambda m: " " * len(m.group(0)), stripped)
     safe = _SAFE_FILTER.search(chain)
     if safe is None:
-        return bool(_MARKUP.search(chain))
+        markup = _MARKUP.search(chain)
+        return None if markup is None else shift + markup.start()
     escape = _ESCAPE_FILTER.search(chain)
-    return escape is None or escape.start() > safe.start()
+    if escape is not None and escape.start() < safe.start():
+        return None
+    return shift + safe.start()
 
 
 def _blank_span(source: str, start: int, stop: int) -> str:
@@ -162,20 +220,130 @@ def _autoescape_off_regions(source: str) -> list[tuple[int, int]]:
     return out
 
 
+def _script_regions(source: str) -> list[tuple[int, int]]:
+    """Character ranges INSIDE a `<script>` element.
+
+    Scanned linearly for the same reason `_blank` is: a lazy span between two delimiters
+    rescans from every opener, and a template is an input an attacker may have written.
+    An unclosed `<script>` ends the scan rather than swallowing the rest of the file --
+    the browser would run everything after it, but claiming a context from a tag nobody
+    closed is a guess, and the quiet direction is the right one here.
+    """
+    out: list[tuple[int, int]] = []
+    i = 0
+    while True:
+        m = _SCRIPT_OPEN.search(source, i)
+        if m is None:
+            break
+        gt = source.find(">", m.end())
+        if gt == -1:
+            break
+        close = _SCRIPT_CLOSE.search(source, gt + 1)
+        if close is None:
+            break
+        out.append((gt + 1, close.start()))
+        i = close.end()
+    return out
+
+
+def _loop_bindings(source: str) -> list[tuple[int, int, str, str]]:
+    """Every `{% for x in items %}` block, as (start, stop, name, sequence).
+
+    The stop is the matching `{% endfor %}`, found by counting nesting, so an inner loop
+    does not close an outer one.
+    """
+    out: list[tuple[int, int, str, str]] = []
+    # Every `for` and every `endfor` in source order; a `for` pushes and an `endfor` pops.
+    # A `for` header this frontend cannot read still pushes, so that its `endfor` does not
+    # close somebody else's loop -- with the name left empty, which binds nothing.
+    events: list[tuple[int, int, str, str, int]] = []
+    for m in _FOR_ANY.finditer(source):
+        named = _FOR.match(source, m.start())
+        if named is not None:
+            events.append((m.start(), 0, named.group(1), named.group(2), named.end()))
+        else:
+            events.append((m.start(), 0, "", "", m.end()))
+    events += [(m.start(), 1, "", "", m.end()) for m in _ENDFOR.finditer(source)]
+    events.sort()
+    stack: list[tuple[int, str, str, int]] = []
+    for start, kind, name, sequence, end in events:
+        if kind == 0:
+            stack.append((start, name, sequence, end))
+        elif stack:
+            _, name, sequence, end = stack.pop()
+            if name:
+                out.append((end, start, name, sequence))
+    # A loop nobody closed runs to the end of the file, which is what the engine does too.
+    for _, name, sequence, end in stack:
+        if name:
+            out.append((end, len(source), name, sequence))
+    return out
+
+
+def _rebind(path: str, offset: int, loops: list[tuple[int, int, str, str]]) -> str:
+    """The path a read denotes once the loops enclosing it are resolved.
+
+    `{{ infobox.content }}` inside `{% for infobox in infoboxes %}` reads a field of an
+    ELEMENT of `infoboxes`, and this engine is deliberately not field-sensitive about
+    elements -- `items[0].name` and `items[3].name` already normalize to one read -- so the
+    element normalizes to the sequence and the read becomes `infoboxes.content`. That is
+    what connects an interpolation to the render call that passed the list, across the
+    include boundary where the loop variable does not exist at all.
+
+    Innermost first, and repeated, because a loop's sequence can itself be a loop
+    variable: `{% for a in xs %}{% for b in a.ys %}`.
+    """
+    for start, stop, name, sequence in sorted(
+        (l for l in loops if l[0] <= offset < l[1]), key=lambda l: -l[0]
+    ):
+        head, _, rest = path.partition(".")
+        if head == name:
+            path = sequence + ("." + rest if rest else "")
+    return path
+
+
 def parse_template(module: str, source: str) -> Template:
     text = _blank(source)
     off = _autoescape_off_regions(text)
+    scripts = _script_regions(text)
+    loops = _loop_bindings(text)
     reads = []
     for m in _INTERPOLATION.finditer(text):
         body = m.group(1)
         path = _normalize(body)
         if path is None:
             continue
+        path = _rebind(path, m.start(), loops)
         in_off_block = any(a <= m.start() < b for a, b in off)
-        escaped = not in_off_block and not _is_marked_safe(body)
+        marker = _safe_marker(body)
+        escaped = not in_off_block and marker is None
         line, column = _position_of(source, m.start())
-        reads.append({"path": path, "escaped": escaped, "line": line, "column": column})
-    return Template(module, reads)
+        read = {"path": path, "escaped": escaped, "line": line, "column": column}
+        if any(a <= m.start() < b for a, b in scripts):
+            read["context"] = CONTEXT_SCRIPT
+        if marker is not None:
+            # `{{` is two characters wide and the body starts after it.
+            mline, mcolumn = _position_of(source, m.start() + 2 + marker)
+            read["removedAt"] = {"file": module, "line": mline, "column": mcolumn}
+        reads.append(read)
+    # An include inherits the loops it sits inside, and that is the whole of what connects
+    # `{{ infobox.content }}` in one file to `infoboxes=` in a render call in another:
+    # results.html includes the element template from inside `{% for infobox in infoboxes %}`,
+    # so the included file's free `infobox` is an element of the caller's `infoboxes`.
+    includes = []
+    for m in _INCLUDE.finditer(text):
+        rebind = {
+            name: sequence
+            for start, stop, name, sequence in loops
+            if start <= m.start() < stop
+        }
+        includes.append({"view": m.group(2), "rebind": rebind} if rebind else {"view": m.group(2)})
+    return Template(
+        module,
+        reads,
+        extends=[name for _, name in _EXTENDS.findall(text)],
+        includes=includes,
+    )
 
 
 def index_templates(root: str) -> dict[str, Template]:

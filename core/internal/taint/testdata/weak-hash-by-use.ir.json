@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.15.0",
+  "irVersion": "0.16.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -982,7 +982,8 @@
           "callee": {
             "kind": "local",
             "functionId": "app.py#_release_bytes:30:1",
-            "resolution": "resolved"
+            "resolution": "resolved",
+            "name": "_release_bytes"
           },
           "args": [],
           "resultValueId": "app.py#artifact:49:1$v0",
@@ -1238,7 +1239,8 @@
           "callee": {
             "kind": "local",
             "functionId": "store.py#set_password:16:1",
-            "resolution": "resolved"
+            "resolution": "resolved",
+            "name": "set_password"
           },
           "args": [
             {
@@ -1651,7 +1653,8 @@
           "callee": {
             "kind": "local",
             "functionId": "app.py#authorize:113:1",
-            "resolution": "resolved"
+            "resolution": "resolved",
+            "name": "authorize"
           },
           "args": [
             {
@@ -2259,7 +2262,8 @@
           "callee": {
             "kind": "local",
             "functionId": "store.py#cache_path:26:1",
-            "resolution": "resolved"
+            "resolution": "resolved",
+            "name": "cache_path"
           },
           "args": [
             {
@@ -3711,5 +3715,7 @@
         "path": "/avatar"
       }
     }
-  ]
+  ],
+  "views": [],
+  "renders": []
 }

@@ -30,7 +30,12 @@ import type {
 } from "./ir.ts";
 import { detectExpressRoutes } from "./express.ts";
 import { detectBackgroundEntries } from "./background.ts";
-import { detectDescribedRoutes, detectFileRoutes, detectHelperRoutes } from "./fileroutes.ts";
+import {
+  detectDescribedRoutes,
+  detectFileRoutes,
+  detectForwardedRoutes,
+  detectHelperRoutes,
+} from "./fileroutes.ts";
 import type { ImportRef } from "./express.ts";
 import {
   definedParamDecorators,
@@ -561,6 +566,7 @@ export function lowerProgram(opts: LowerOptions): IRDoc {
       entryPoints.push(...detectFileRoutes(sf, moduleId, resolveFunction, (n) => locOf(sf, n)));
       entryPoints.push(...detectHelperRoutes(sf, resolveFunction, (n) => locOf(sf, n)));
       entryPoints.push(...detectDescribedRoutes(sf, resolveFunction, (n) => locOf(sf, n)));
+      entryPoints.push(...detectForwardedRoutes(sf, resolveFunction, (n) => locOf(sf, n)));
       // Not a route: a timer or a bus runs these, and only the process itself can.
       entryPoints.push(...detectBackgroundEntries(sf, checker, resolveFunction, (n) => locOf(sf, n)));
     }

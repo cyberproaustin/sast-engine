@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.15.0",
+  "irVersion": "0.16.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -412,16 +412,6 @@
             "column": 12
           },
           "name": "flask.render_template"
-        },
-        {
-          "id": "app.py#hello_safe:16:1$v5",
-          "kind": "call-result",
-          "loc": {
-            "file": "templates/hello.html",
-            "line": 1,
-            "column": 11
-          },
-          "name": "<template>.escaped"
         }
       ],
       "flows": [
@@ -481,28 +471,6 @@
           "enumeratedOptions": [
             -1
           ]
-        },
-        {
-          "id": "app.py#hello_safe:16:1$c1",
-          "loc": {
-            "file": "templates/hello.html",
-            "line": 1,
-            "column": 11
-          },
-          "callee": {
-            "kind": "external",
-            "symbol": "<template>.escaped",
-            "resolution": "resolved"
-          },
-          "args": [
-            {
-              "index": 0,
-              "valueId": "app.py#hello_safe:16:1$v3"
-            }
-          ],
-          "argCount": 1,
-          "resultValueId": "app.py#hello_safe:16:1$v5",
-          "block": "app.py#hello_safe:16:1$b0"
         }
       ],
       "returns": [
@@ -915,6 +883,41 @@
         "method": "GET",
         "path": "/greeting"
       }
+    }
+  ],
+  "views": [
+    {
+      "id": "templates/hello.html",
+      "reads": [
+        {
+          "path": "name",
+          "escaped": true,
+          "loc": {
+            "file": "templates/hello.html",
+            "line": 1,
+            "column": 11
+          }
+        }
+      ]
+    }
+  ],
+  "renders": [
+    {
+      "functionId": "app.py#hello_safe:16:1",
+      "loc": {
+        "file": "app.py",
+        "line": 19,
+        "column": 12
+      },
+      "block": "app.py#hello_safe:16:1$b0",
+      "view": "templates/hello.html",
+      "name": "hello.html",
+      "bindings": [
+        {
+          "name": "name",
+          "valueId": "app.py#hello_safe:16:1$v3"
+        }
+      ]
     }
   ]
 }
