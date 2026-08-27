@@ -367,6 +367,36 @@ precisely the interesting case: it means either a rule is missing, a seeding str
 missing, or the IR does not carry a fact it needs. All three are buildable, and all three are
 the point.
 
+### A confirmed miss IS a defect
+
+**Every finding the review got right and the engine did not is a defect on the list, closed
+the same two ways as any other.** This is the rule the loop exists for and it is the easiest
+one to lose, because a miss does not look like a defect. It looks like a vulnerability report
+waiting to be written -- the finding is real, a maintainer would want it, and sending it feels
+like progress. It is not progress for the engine. Sending somebody else's finding under our
+name while the engine still cannot see it is how a scanner's disclosure record comes to be
+about the reviewer rather than the scanner.
+
+Batch 2 is the measured case. Forty-two confirmed findings the engine walked past, and the
+first thing I did with them was sort them into a disclosure queue. Of the eight reports sent
+in batch 1, six were review-only, INCLUDING the one a maintainer confirmed and fixed.
+
+So: **no report goes out for a finding the engine misses until the engine has been made to
+find it, or the miss has been measured and withdrawn with numbers.** The order is not
+negotiable and it is not about credit. A miss is the only evidence we get that is not
+self-generated, and spending it on a report instead of on the engine wastes the expensive
+half of the loop.
+
+Fix the capability, not the instance. The test that it is a capability rather than a pattern
+match on the repository that exposed it: it fires on an application nobody looked at while
+building it, and stays silent where the shape is deliberate. A rule that finds the case it was
+written against and nothing else has closed no defect -- it has recorded one in Go.
+
+Cluster before dispatching. Forty-two misses were four shapes and one of them was over half of
+them; sixteen object-level authorization findings came down to three properties of a single
+rule that already existed for exactly that weakness. Root-causing them one at a time would
+have produced sixteen special cases instead of three capabilities.
+
 ### What we are converging on
 
 The two readers should agree. When an independent security review finds something and the
