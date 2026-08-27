@@ -68,6 +68,19 @@ def archives():
     return jsonify({"error": "archive unavailable"})
 
 
+@app.route("/status")
+def status():
+    # NEGATIVE, and the smallest version of the shape the exception edge must never be
+    # hung on. The body is one `return` and nothing else, so the block it lowers to
+    # leaves the function -- and an edge to the handler drawn from THAT block says a
+    # response is followed by a second response. Python writes this handler more often
+    # than it writes any other.
+    try:
+        return jsonify(fetch_status())
+    except OSError:
+        return jsonify({"error": "status unavailable"})
+
+
 @app.route("/reports")
 def reports():
     # NEGATIVE -- a bare `finally` with no handler at all. The finally runs on every path
@@ -98,6 +111,10 @@ def create_archive(name):
 
 def connect():
     return g.db
+
+
+def fetch_status():
+    return {"ok": True}
 
 
 def fetch_reports(conn):

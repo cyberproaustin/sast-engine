@@ -13,6 +13,7 @@ import (
 	"github.com/cyberproaustin/sast-engine/core/internal/callshape"
 	"github.com/cyberproaustin/sast-engine/core/internal/decision"
 	"github.com/cyberproaustin/sast-engine/core/internal/expectation"
+	"github.com/cyberproaustin/sast-engine/core/internal/flow"
 	"github.com/cyberproaustin/sast-engine/core/internal/guard"
 	"github.com/cyberproaustin/sast-engine/core/internal/ir"
 	"github.com/cyberproaustin/sast-engine/core/internal/literal"
@@ -88,6 +89,12 @@ type Exemption struct {
 // which means the team has declared nothing — a state the report names explicitly
 // rather than treating as an empty ruleset.
 func Run(d *ir.IR, m model.Model, p *policy.Policy) Result {
+	// The views come first, because a template sink is IR and everything below reads
+	// IR. A server-rendered application decides its escaping in a file the language's
+	// compiler never saw, and joining that file to the values a handler passed is a
+	// program-wide question no single call site can answer (flow.JoinViews).
+	flow.JoinViews(d)
+
 	s := surface.Build(d, m, p)
 	t := taint.Analyze(d, m)
 	// Dataflow reaches the same operation through syntactically different branches in

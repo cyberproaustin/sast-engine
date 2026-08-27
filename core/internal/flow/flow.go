@@ -54,9 +54,10 @@ type Report struct {
 // over one IR and a second pass would double every finding.
 func JoinViews(d *ir.IR) Report {
 	rep := Report{Views: len(d.Views), Renders: len(d.Renders)}
-	if len(d.Views) == 0 || len(d.Renders) == 0 || d.joined() {
+	if len(d.Views) == 0 || len(d.Renders) == 0 || d.ViewsJoined {
 		return rep
 	}
+	d.ViewsJoined = true
 
 	views := make(map[string]*ir.View, len(d.Views))
 	ids := make([]string, 0, len(d.Views))
@@ -79,10 +80,6 @@ func JoinViews(d *ir.IR) Report {
 	}
 	return rep
 }
-
-// joined reports whether this document already carries the calls a join writes. The
-// marker is the call ids, which nothing but this package produces.
-func (d *ir.IR) joined() bool { return false }
 
 // --- resolving a render to a view ----------------------------------------
 
