@@ -134,6 +134,7 @@ var corpora = []string{
 	"flask-route-metadata",
 	"second-order-taint",
 	"non-first-party-code",
+	"argument-injection-into-argv",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {
