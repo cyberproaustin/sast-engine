@@ -552,6 +552,16 @@ type Classified struct {
 	// secret. The flow analysis already answers this for its own sinks; the same answer
 	// is recorded here so the analyses that read comparisons and writes can ask it too.
 	Projected map[string]bool
+	// Composed marks a value the classification was built INTO rather than one it is.
+	//
+	// The structural twin of Projected, read the other way round: a projection takes a
+	// field out of what the class reached, and a composition puts what the class reached
+	// into something larger. `f"{md5(url).hexdigest()}{extension}"` is a filename that
+	// contains a digest and is not one, and a comparison against it decides whether the
+	// file changed rather than whether two inputs are the same. The channels that require
+	// a whole value already ask this of a flow path; the same answer is recorded here so
+	// the comparison and write analyses can ask it too.
+	Composed map[string]bool
 }
 
 // Origin is where a classified value entered the program, in the terms a finding needs.
@@ -791,6 +801,7 @@ func Analyze(d *ir.IR, m model.Model) Result {
 		// it happens here once rather than at every call site that might need it.
 		origins := make(map[string]Origin, len(e.tainted))
 		proj := make(map[string]bool)
+		comp := make(map[string]bool)
 		for id := range e.tainted {
 			if sd, ok := e.seeds[id]; ok {
 				origins[id] = as(sd)
@@ -799,6 +810,9 @@ func Analyze(d *ir.IR, m model.Model) Result {
 			path, from := e.tracePath(id)
 			if projected(path) {
 				proj[id] = true
+			}
+			if composedIntoText(path) {
+				comp[id] = true
 			}
 			if from != "" {
 				if sd, ok := e.seeds[from]; ok {
@@ -827,6 +841,8 @@ func Analyze(d *ir.IR, m model.Model) Result {
 		fold(values, e.tainted)
 		folded := make(map[string]bool, len(proj))
 		fold(folded, proj)
+		foldedComposed := make(map[string]bool, len(comp))
+		fold(foldedComposed, comp)
 		foldedSeeds := make(map[string]bool, len(seeds))
 		fold(foldedSeeds, seeds)
 		for id, o := range origins {
@@ -836,7 +852,10 @@ func Analyze(d *ir.IR, m model.Model) Result {
 				}
 			}
 		}
-		res.ByClass[name] = Classified{Values: values, Origin: origins, Projected: folded, Seeds: foldedSeeds}
+		res.ByClass[name] = Classified{
+			Values: values, Origin: origins, Projected: folded,
+			Composed: foldedComposed, Seeds: foldedSeeds,
+		}
 	}
 
 	seen := map[string]bool{}

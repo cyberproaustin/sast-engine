@@ -106,6 +106,11 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 				if rule.RequiresUnprojected && carrying.Projected[side] {
 					continue
 				}
+				// Nor is a larger string the classified value was built into. A filename
+				// that contains a digest is a filename.
+				if rule.RequiresWholeValue && carrying.Composed[side] {
+					continue
+				}
 				// A particular derivation of the classified value, named by the property
 				// leaf or by the function that produced it -- and taken of the classified
 				// value ITSELF rather than of anything the program later computed from
@@ -130,7 +135,18 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 				if len(rule.OtherNamed) > 0 && !namedOneOf(ix, other, rule.OtherNamed) {
 					continue
 				}
-				if len(rule.OtherNameContains) > 0 && !nameContainsOneOf(ix.ValueByID[other], rule.OtherNameContains) {
+				if len(rule.OtherNameContains) > 0 && !nameContainsOneOf(ix, other, rule.OtherNameContains) {
+					continue
+				}
+				// A name that says a different rule owns this line.
+				if len(rule.OtherNameExcept) > 0 && nameContainsOneOf(ix, other, rule.OtherNameExcept) {
+					continue
+				}
+				// A recorded digest is written down as a digest. Anything else written
+				// down is not one, and the class arriving there says nothing about the
+				// value that is actually being compared.
+				if rule.OtherWrittenDigest && writtenDown(ix.ValueByID[other]) &&
+					!writtenAsDigest(ix.ValueByID[other]) {
 					continue
 				}
 				if rule.OtherNotLiteral && writtenDown(ix.ValueByID[other]) {
@@ -167,7 +183,16 @@ func carriesAnyClass(byClass map[string]taint.Classified, id string, classes []s
 // nameContainsOneOf reads the name the program gave a value, with separators removed so
 // ahmia_blacklist and ahmiaBlacklist are the same evidence. Used only after the other
 // operand has independently been classified, never to turn a name into a finding alone.
-func nameContainsOneOf(v *ir.Value, wants []string) bool {
+//
+// An anonymous subscript is read through to what it was taken of, which is the reading
+// the store analysis already takes: `pwhash[5:]` and `pwhash` are the same value and only
+// one of them has a name. Without it mitmproxy's stored password hash -- sliced past its
+// `{SHA}` prefix on the line that compares it -- has no name at all.
+func nameContainsOneOf(ix *ir.Index, id string, wants []string) bool {
+	v := ix.ValueByID[id]
+	for v != nil && v.Path == "" && v.Name == "[index]" && v.Base != "" {
+		v = ix.ValueByID[v.Base]
+	}
 	if v == nil {
 		return false
 	}
@@ -262,6 +287,34 @@ func writtenDown(v *ir.Value) bool {
 		return true
 	}
 	return false
+}
+
+// writtenAsDigest reports whether a literal is a digest somebody recorded.
+//
+// A digest written into source is hex, and there is no other way anybody writes one down:
+// every algorithm this rule classifies produces at least 128 bits and every recording of
+// one is its hex. The length floor is sixteen characters rather than a per-algorithm
+// width, because truncated digests are recorded too and the question here is only whether
+// the author wrote down a digest or something else entirely.
+//
+// A digest recorded in base64 -- which is how Apache writes an htpasswd SHA-1 -- is not
+// matched, and that is a stated miss rather than an oversight: base64 admits every
+// ordinary word and matching it would make this test accept the literals it exists to
+// refuse.
+func writtenAsDigest(v *ir.Value) bool {
+	if v == nil || v.Kind != ir.ValueLiteral {
+		return false
+	}
+	lit := strings.TrimSpace(v.Literal)
+	if len(lit) < 16 {
+		return false
+	}
+	for _, r := range strings.ToLower(lit) {
+		if (r < '0' || r > '9') && (r < 'a' || r > 'f') {
+			return false
+		}
+	}
+	return true
 }
 
 // absentValue reports whether a value is the language's way of writing NOTHING: an empty

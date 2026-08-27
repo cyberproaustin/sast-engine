@@ -7878,6 +7878,37 @@ type DecisionRule struct {
 	// Four findings in one production repository were exactly that.
 	RequiresUnprojected bool
 
+	// RequiresWholeValue forbids the judgement for a value the classification was built
+	// INTO rather than one it is.
+	//
+	// The mirror image of RequiresUnprojected, and the digest rules need both.
+	// `f"{md5(url).hexdigest()}{extension}"` is a filename that CONTAINS a digest, and
+	// linkding compares one against the filename already on the record to decide whether
+	// to write the row again -- a question about whether the preview changed, not about
+	// whether two inputs are the same one. The channel that judges an unsalted hash has
+	// asked this of a flow path since it was written; a comparison is entitled to the
+	// same reading.
+	RequiresWholeValue bool
+
+	// OtherWrittenDigest requires that where the other side is WRITTEN INTO THE SOURCE,
+	// it is written as a digest -- a run of hex long enough to be one.
+	//
+	// A digest compared against a recorded digest is the clearest case the rule has, and
+	// the recorded one is a hex constant. A digest compared against a NUMBER is not a
+	// comparison of digests at all, whatever the classification says arrived there:
+	// medplum hands a script's SHA-1 to Redis EVALSHA and tests the numeric reply for 1,
+	// and the class rode through an unresolved call into a value that is not a digest and
+	// never was. Narrower than refusing every literal, which would throw away the
+	// recorded-checksum case that is the rule's plainest true finding. A digest written
+	// in base64 is not matched and is a stated miss.
+	OtherWrittenDigest bool
+
+	// OtherNameExcept refuses the judgement when the other operand's name says it is
+	// something a different rule has a better answer for. The name is read through an
+	// anonymous subscript, because `pwhash[5:]` and `pwhash` are the same value and only
+	// one of them has a name.
+	OtherNameExcept []string
+
 	// SideVia narrows to a classified side that is a particular DERIVATION of the
 	// classified value, named by the property leaf or the function that produced it.
 	//
@@ -8069,17 +8100,79 @@ func builtinDecisions() []DecisionRule {
 			// membership is not, so the miss is stated here rather than paid for at every
 			// cache in the corpus.
 			//
-			// The other side may be anything, a literal included: a digest compared
-			// against one written into the source is a recorded checksum, which is the
-			// clearest case there is.
+			// The other side may be a literal: a digest compared against one written into
+			// the source is a recorded checksum, which is the clearest case there is. It
+			// has to be written as a DIGEST, though, and three of the four findings this
+			// rule produced across ten production repositories are why the operator alone
+			// was never enough to say what a comparison decides.
+			//
+			// medplum derives a Lua script's SHA-1 so it can address Redis's script cache
+			// with it, hands it to EVALSHA, and tests the numeric reply for 1. The
+			// classification rode through the unresolved call into a value that is not a
+			// digest and never was, and OtherWrittenDigest is what says so: `=== 1` is not
+			// a comparison of digests whatever arrived on the other side.
+			//
+			// linkding names a preview file after the MD5 of its URL, and compares the
+			// name against the one already on the record to decide whether to write the
+			// row again. The digest is a PART of that name -- `f"{hash}{extension}"` --
+			// so the value compared is a filename that contains a digest rather than a
+			// digest, which is the same distinction the unsalted-hash channel has drawn
+			// since it was written and is what RequiresWholeValue asks here.
+			//
+			// mitmproxy's htpasswd verifier is the third and it is a real weakness named
+			// wrongly, so it is handed to the rule below rather than silenced: a stored
+			// password hash is not defeated by finding a collision, and saying that a
+			// second input passes the check as readily as the right one is false there.
 			ID: "weak-digest-compared", Class: "weak-digest",
 			Ops:                 []string{"==", "===", "!=", "!==", "Eq", "NotEq"},
 			RequiresUnprojected: true,
+			RequiresWholeValue:  true,
 			OtherNotAbsent:      true,
+			OtherWrittenDigest:  true,
+			OtherNameExcept:     []string{"password", "passwd", "pwhash", "pwd"},
 			CWE:                 "CWE-328",
 			Finding:             "Broken digest compared as proof",
 			Reason:              "the comparison decides that two things are the same because their digests are, and this algorithm is broken against collision -- so a second input passes the check as readily as the right one",
 			Rationale:           "a digest from a broken algorithm is what the comparison decides on",
+		},
+		{
+			// The weakness the collision rule was reporting the wrong number for. A
+			// submitted password is put through a plain digest and the result is compared
+			// with the one on the account: the comparison is the program saying that this
+			// digest IS the account's password verifier.
+			//
+			// Collision resistance is not what fails here and mitmproxy's reviewer was
+			// right to say so -- finding two inputs with the same digest does not produce
+			// a second password for a digest somebody else chose. What fails is the
+			// construction: a single unsalted pass of a function built to be fast is
+			// answered by a rainbow table for the passwords anybody has already tabulated
+			// and by a GPU for the rest, and the salt has nowhere to go because the call
+			// takes the password and nothing else.
+			//
+			// Named by the other operand, because the digest side says only that a hash
+			// happened and the stored side is where the program says what the hash was
+			// FOR -- the same reading, and the same four spellings, the store rule uses
+			// for a password field. The exclusions are that rule's too: a reset URL, a
+			// password POLICY and a confirmation field all carry the word and none of
+			// them is a verifier.
+			//
+			// Scoped to the digests already classified as broken against collision, which
+			// is narrower than the weakness: a password verified against an unsalted
+			// SHA-256 is exactly as wrong and is not matched here, because the class that
+			// would carry it also carries HMACs and random bytes, and an HMAC of a
+			// password under a server-held key is a different construction with a
+			// different answer.
+			ID: "password-verified-by-plain-digest", Class: "weak-digest",
+			Ops:                 []string{"==", "===", "!=", "!==", "Eq", "NotEq"},
+			RequiresUnprojected: true,
+			RequiresWholeValue:  true,
+			OtherNotAbsent:      true,
+			OtherNameContains:   []string{"password", "passwd", "pwhash", "pwd"},
+			OtherNameExcept:     []string{"policy", "url", "link", "reset", "confirm", "repeat", "csrf", "xsrf", "hint", "expire", "changed", "last"},
+			CWE:                 "CWE-916",
+			Finding:             "Password verified against a plain unsalted digest",
+			Reason:              "the stored value this password is checked against is a single pass of a fast digest with nowhere to put a salt, so whoever takes the store answers the common passwords from a table and the rest at the speed of the hardware",
+			Rationale:           "a digest is compared against the value the program stores as a password",
 		},
 		{
 			// Membership is a security decision only when the container says it is a
@@ -8090,6 +8183,7 @@ func builtinDecisions() []DecisionRule {
 			Ops:                 []string{"In", "NotIn"},
 			OtherNameContains:   []string{"blacklist", "blocklist", "denylist"},
 			RequiresUnprojected: true,
+			RequiresWholeValue:  true,
 			CWE:                 "CWE-328",
 			Finding:             "Broken digest tested against a denial list",
 			Reason:              "membership makes this digest the identity of the blocked value, and collisions let a second value make the same decision",
@@ -8424,12 +8518,19 @@ type GuardRule struct {
 	// use is a log line was not operated on, so there is nothing a missing check would
 	// have protected. Containers names the parameters that hold a request, because a
 	// value with no request under it is not something a caller chose.
-	Checks     []string
-	Retrieves  []string
-	Reads      []string
-	Mutates    []string
-	Records    []string
-	Containers []string
+	//
+	// Establishes names the parts of a request the SERVER wrote onto it. The comparison
+	// is anchored on ONE value the caller picked to name a resource, and an identity the
+	// authentication layer installed is not one: `request.user` is that layer's answer
+	// about who is calling, so a handler consulting it has named no resource and a
+	// handler that does not consult it has skipped nothing the caller could choose.
+	Checks      []string
+	Retrieves   []string
+	Reads       []string
+	Mutates     []string
+	Records     []string
+	Containers  []string
+	Establishes []string
 
 	CWE       string
 	Finding   string
@@ -8707,6 +8808,19 @@ func builtinGuards() []GuardRule {
 			//   the weak path holds every value the check consumed, because a check it
 			//     has no arguments for is a different question, not a missing one;
 			//   the weak path does something with the value other than log it.
+			//
+			// The first of those four was stated here and not enforced: the analysis
+			// accepted the request CONTAINER and every attribute of it as the value, and
+			// seven findings across ten production repositories were exactly what that
+			// admits. An independent reader judged none of them worth reporting. Three
+			// were saleor's graphql/context.py, where the three functions that BUILD the
+			// request's identity were compared against the get_user that reads it over
+			// `request` itself -- `authenticate(request=request)` read as an authorization
+			// guard those three had skipped, when a function that PRODUCES the identity
+			// cannot be required to have already consumed it. Four were paperless-ngx,
+			// anchored on `request.user`, which is the framework's answer about who is
+			// calling rather than anything a caller picked. Establishes names that second
+			// shape; the container is refused outright, because it is not a value at all.
 			ID:        "sibling-guard-differential",
 			Checks:    []string{"validate", "verify", "authoriz", "authenticat", "permission", "permitted", "allowed", "hasaccess", "canaccess", "checkaccess", "belongsto", "isowner", "owns", "forbidden"},
 			Retrieves: []string{"get", "fetch", "find", "list", "load", "read", "select", "query"},
@@ -8720,10 +8834,15 @@ func builtinGuards() []GuardRule {
 			},
 			Records:    []string{"log", "logger", "debug", "info", "warn", "warning", "error", "trace", "console", "print"},
 			Containers: []string{"req", "request", "ctx", "context"},
-			CWE:        "CWE-862",
-			Finding:    "A check the sibling path makes and this one does not",
-			Reason:     "the read path on this resource asks whether the caller's value is the one it claims to be, and this write path takes the same value out of the same request and does not ask",
-			Rationale:  "a request value a sibling read path passes to a validation or authorization call, used here by a write path that passes it to no such call",
+			// What an authentication layer hangs on a request, in the four spellings the
+			// corpus holds: Django and DRF's `request.user` and `request.auth`, saleor's
+			// `request.app`, and the session every framework keys off a cookie. Not
+			// `cookies` and not `headers` -- the caller writes both of those.
+			Establishes: []string{"user", "auth", "app", "session"},
+			CWE:         "CWE-862",
+			Finding:     "A check the sibling path makes and this one does not",
+			Reason:      "the read path on this resource asks whether the caller's value is the one it claims to be, and this write path takes the same value out of the same request and does not ask",
+			Rationale:   "a request value a sibling read path passes to a validation or authorization call, used here by a write path that passes it to no such call",
 		},
 	}
 }

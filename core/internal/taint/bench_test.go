@@ -175,6 +175,8 @@ var corpora = []string{
 	"promise-resolution",
 	"absent-dependency",
 	"upstream-response",
+	"digest-compared-against-what",
+	"identity-is-not-a-resource",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {
