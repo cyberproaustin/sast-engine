@@ -5875,6 +5875,11 @@ type CallShape struct {
 	// not the confidence of a call the frontend resolved correctly.
 	ConfigurationEnabled bool
 
+	// ExcludeTestModule keeps an absence in test-only setup from being treated as a
+	// deployment default. Tests routinely issue deliberately short-lived-in-practice
+	// tokens without an expiry; no application caller can ever receive them.
+	ExcludeTestModule bool
+
 	CWE       string
 	Finding   string
 	Reason    string
@@ -6650,12 +6655,12 @@ func builtinCallShapes() []CallShape {
 			// there is no revocation in a signed token, so the only thing that ends one is
 			// the clock, and this one has no clock.
 			//
-			// An ABSENCE rule, so it only speaks where the option keys were actually
-			// enumerated. Options built in another function are unknowable and are passed
-			// over in silence.
+			// An ABSENCE rule, so it only speaks where every place an expiry can be written
+			// was enumerated. An inline payload with no `exp` makes an omitted options
+			// argument knowable; a payload built elsewhere does not.
 			ID: "unexpiring-token", Symbol: "jsonwebtoken.sign",
 			RequiredKeyword: "expiresIn", RequiredAnyOf: []string{"expiresIn", "exp"},
-			OptionsArg: 2, OptionsMustBeWritten: true, AlsoEnumerated: []int{0},
+			OptionsArg: 2, AlsoEnumerated: []int{0}, ExcludeTestModule: true,
 			CWE:       "CWE-613",
 			Finding:   "Signed token issued with no expiry",
 			Reason:    "a signed token carries no revocation of its own, so unless the server keeps state to check it against, the only thing that ends one is its expiry",
@@ -7744,6 +7749,12 @@ type StoreRule struct {
 	// never matches.
 	FromLiteral bool
 
+	// FromLiteralFallback also accepts a literal on the default side of `X || literal`.
+	// The option is then a literal precisely when X is absent, which is the deployment
+	// state a default describes. Kept separate from FromLiteral because following every
+	// assignment to any literal would turn ordinary computed configuration into a secret.
+	FromLiteralFallback bool
+
 	// NotPath excludes keys another rule already claims, so two rules can describe the
 	// same destination at different granularities without reporting one line twice.
 	NotPath []string
@@ -8486,7 +8497,7 @@ func builtinStores() []StoreRule {
 			// `email_password_status = "success"` is not. `csrf` is excluded for the
 			// reason the cookie rules exclude it: a double-submit token contains the word
 			// and is not a secret.
-			ID: "hardcoded-secret", Class: "", FromLiteral: true,
+			ID: "hardcoded-secret", Class: "", FromLiteral: true, FromLiteralFallback: true,
 			// No "token". Measured across twenty-eight repositories: every configuration key
 			// holding that word held an OAuth endpoint URL, a header name or a form field,
 			// and not one held a secret. The word names the THING a key is for far more

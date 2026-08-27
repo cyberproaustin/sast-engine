@@ -1,0 +1,22 @@
+{
+  "corpus": "absent-security-option",
+  "description": "Security-relevant defaults are judged only where the surrounding configuration makes the absence knowable: an inline JWT payload enumerates every possible claim, and a named secret option visibly falls back to a literal. Payloads built elsewhere are silent.",
+  "expected": [
+    {
+      "cwe": "CWE-798",
+      "sinkFile": "app.js",
+      "sinkLine": 7,
+      "sourceLabel": "\"super-secret\"",
+      "confidence": "high",
+      "note": "the fallback is selected exactly when SESSION_SECRET is absent, and the neighbouring port option shows this is application configuration"
+    },
+    {
+      "cwe": "CWE-613",
+      "sinkFile": "app.js",
+      "sinkLine": 13,
+      "sourceLabel": "\"no expiresIn\"",
+      "confidence": "high",
+      "note": "the inline payload enumerates its claims and has no exp; the omitted options argument therefore proves there is no expiresIn either"
+    }
+  ]
+}
