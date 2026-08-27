@@ -144,6 +144,7 @@ var corpora = []string{
 	"literal-return-summary",
 	"unreferenced-component",
 	"python-inherited-method",
+	"argument-injection-into-argv",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {
