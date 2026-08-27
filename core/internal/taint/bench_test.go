@@ -134,6 +134,8 @@ var corpora = []string{
 	"flask-route-metadata",
 	"second-order-taint",
 	"non-first-party-code",
+	"rate-limit-key",
+	"rate-limit-scope",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {

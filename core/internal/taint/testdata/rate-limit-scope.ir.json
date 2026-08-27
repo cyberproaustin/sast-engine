@@ -1,0 +1,2643 @@
+{
+  "irVersion": "0.16.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi",
+        "django",
+        "tornado"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "app.py",
+      "path": "app.py"
+    },
+    {
+      "id": "autocomplete_backends.py",
+      "path": "autocomplete_backends.py"
+    },
+    {
+      "id": "limiter_methods.py",
+      "path": "limiter_methods.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "app.py#<module>:0:0",
+      "name": "<module>",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "A limiter's presence says nothing about the routes its predicate admits.\n\nThe application has one mounted limiter, which is the evidence that makes the two\npositives worth reporting. The search route performs the same outbound work and is\nsilent because its path is admitted. The autocomplete route is outside that predicate.\nThe export route exercises the framework distinction: Flask ``request.args`` is the\nquery string and ``request.form`` is the POST body, so equal field names do not make the\nlimiter's query predicate cover the body-selected request.\n"
+        },
+        {
+          "id": "app.py#<module>:0:0$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 7
+          },
+          "name": "flask.Flask"
+        },
+        {
+          "id": "app.py#<module>:0:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 1
+          },
+          "name": "app"
+        },
+        {
+          "id": "app.py#<module>:0:0$v3",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 25
+          },
+          "name": "{dict}"
+        },
+        {
+          "id": "app.py#<module>:0:0$v4",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 15
+          },
+          "name": "autocomplete_backends"
+        },
+        {
+          "id": "app.py#<module>:0:0$v5",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 15
+          },
+          "base": "app.py#<module>:0:0$v4",
+          "path": "remote",
+          "name": "remote"
+        },
+        {
+          "id": "app.py#<module>:0:0$v6",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 15
+          },
+          "base": "app.py#<module>:0:0$v4",
+          "path": "mirror",
+          "name": "mirror"
+        },
+        {
+          "id": "app.py#<module>:0:0$v7",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 1
+          },
+          "name": "AUTOCOMPLETE_BACKENDS"
+        },
+        {
+          "id": "app.py#<module>:0:0$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 40,
+            "column": 1
+          },
+          "name": "app.before_request"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#<module>:0:0$v1",
+          "to": "app.py#<module>:0:0$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 1
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v4",
+          "to": "app.py#<module>:0:0$v5",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 15
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v5",
+          "to": "app.py#<module>:0:0$v3",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 25
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v4",
+          "to": "app.py#<module>:0:0$v6",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 21,
+            "column": 15
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v6",
+          "to": "app.py#<module>:0:0$v3",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 25
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v3",
+          "to": "app.py#<module>:0:0$v7",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 1
+          },
+          "block": "app.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#<module>:0:0$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 7
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.Flask",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#<module>:0:0$v1",
+          "block": "app.py#<module>:0:0$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#<module>:0:0$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 40,
+            "column": 1
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "app.before_request",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "functionId": "app.py#limiter_hook:30:1"
+            }
+          ],
+          "resultValueId": "app.py#<module>:0:0$v8",
+          "block": "app.py#<module>:0:0$b0",
+          "method": "before_request",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#<module>:0:0$v2"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "app.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#search_autocomplete:25:1",
+      "name": "search_autocomplete",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 25,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "name",
+          "valueId": "app.py#search_autocomplete:25:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#search_autocomplete:25:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 25
+          },
+          "name": "name"
+        },
+        {
+          "id": "app.py#search_autocomplete:25:1$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 15
+          },
+          "name": "AUTOCOMPLETE_BACKENDS.get"
+        },
+        {
+          "id": "app.py#search_autocomplete:25:1$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 5
+          },
+          "name": "backend"
+        },
+        {
+          "id": "app.py#search_autocomplete:25:1$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 12
+          },
+          "name": "unresolved"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#search_autocomplete:25:1$v1",
+          "to": "app.py#search_autocomplete:25:1$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 5
+          },
+          "block": "app.py#search_autocomplete:25:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#search_autocomplete:25:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 15
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "AUTOCOMPLETE_BACKENDS.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#search_autocomplete:25:1$v0"
+            }
+          ],
+          "resultValueId": "app.py#search_autocomplete:25:1$v1",
+          "block": "app.py#search_autocomplete:25:1$b0",
+          "method": "get",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#<module>:0:0$v7"
+        },
+        {
+          "id": "app.py#search_autocomplete:25:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 12
+          },
+          "callee": {
+            "kind": "unresolved",
+            "possibleFunctionIds": [
+              "autocomplete_backends.py#remote:4:1",
+              "autocomplete_backends.py#mirror:9:1"
+            ],
+            "resolution": "resolved",
+            "name": "backend"
+          },
+          "args": [],
+          "resultValueId": "app.py#search_autocomplete:25:1$v3",
+          "block": "app.py#search_autocomplete:25:1$b0",
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "app.py#search_autocomplete:25:1$v3"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#search_autocomplete:25:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#search_autocomplete:25:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#search_autocomplete:25:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#limiter_hook:30:1",
+      "name": "limiter_hook",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 30,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#limiter_hook:30:1$v0",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 8
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 8
+          },
+          "base": "app.py#limiter_hook:30:1$v0",
+          "path": "path",
+          "name": "path"
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 8
+          },
+          "name": "comparison"
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 24
+          },
+          "literal": "/search"
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$v4",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 32,
+            "column": 23
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$v5",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 32,
+            "column": 24
+          },
+          "name": "limiter_methods"
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$v6",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 32,
+            "column": 13
+          },
+          "name": "method"
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 13
+          },
+          "name": "unresolved"
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$v8",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 8
+          },
+          "name": "either"
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$v9",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 8
+          },
+          "name": "comparison"
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$v10",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 24
+          },
+          "literal": "/export"
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$v11",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 55
+          },
+          "literal": "format"
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$v12",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 38
+          },
+          "base": "app.py#limiter_hook:30:1$v0",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$v13",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 38
+          },
+          "name": "flask.request.args.get"
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$v14",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 38
+          },
+          "name": "comparison"
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$v15",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 68
+          },
+          "literal": "json"
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$v16",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 9
+          },
+          "name": "local"
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$v17",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 8
+          },
+          "name": "either"
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$v18",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 8
+          },
+          "name": "comparison"
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$v19",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 24
+          },
+          "literal": "/query-export"
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$v20",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 61
+          },
+          "literal": "format"
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$v21",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 44
+          },
+          "name": "flask.request.args.get"
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$v22",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 44
+          },
+          "name": "comparison"
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$v23",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 74
+          },
+          "literal": "json"
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$v24",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 9
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#limiter_hook:30:1$v0",
+          "to": "app.py#limiter_hook:30:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 8
+          },
+          "block": "app.py#limiter_hook:30:1$b0"
+        },
+        {
+          "from": "app.py#limiter_hook:30:1$v5",
+          "to": "app.py#limiter_hook:30:1$v4",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 32,
+            "column": 23
+          }
+        },
+        {
+          "from": "app.py#limiter_hook:30:1$v4",
+          "to": "app.py#limiter_hook:30:1$v6",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 32,
+            "column": 9
+          }
+        },
+        {
+          "from": "app.py#limiter_hook:30:1$v9",
+          "to": "app.py#limiter_hook:30:1$v8",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 8
+          },
+          "block": "app.py#limiter_hook:30:1$b2"
+        },
+        {
+          "from": "app.py#limiter_hook:30:1$v0",
+          "to": "app.py#limiter_hook:30:1$v12",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 38
+          },
+          "block": "app.py#limiter_hook:30:1$b2"
+        },
+        {
+          "from": "app.py#limiter_hook:30:1$v14",
+          "to": "app.py#limiter_hook:30:1$v8",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 8
+          },
+          "block": "app.py#limiter_hook:30:1$b2"
+        },
+        {
+          "from": "app.py#limiter_hook:30:1$v18",
+          "to": "app.py#limiter_hook:30:1$v17",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 8
+          },
+          "block": "app.py#limiter_hook:30:1$b4"
+        },
+        {
+          "from": "app.py#limiter_hook:30:1$v22",
+          "to": "app.py#limiter_hook:30:1$v17",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 8
+          },
+          "block": "app.py#limiter_hook:30:1$b4"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#limiter_hook:30:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 13
+          },
+          "callee": {
+            "kind": "unresolved",
+            "possibleFunctionIds": [
+              "limiter_methods.py#filter_request:5:1"
+            ],
+            "resolution": "resolved",
+            "name": "filter_request"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#limiter_hook:30:1$v0"
+            }
+          ],
+          "resultValueId": "app.py#limiter_hook:30:1$v7",
+          "block": "app.py#limiter_hook:30:1$b1",
+          "method": "filter_request",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#limiter_hook:30:1$v6"
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 38
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.request.args.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#limiter_hook:30:1$v11"
+            }
+          ],
+          "resultValueId": "app.py#limiter_hook:30:1$v13",
+          "block": "app.py#limiter_hook:30:1$b2",
+          "method": "get",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "format"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#limiter_hook:30:1$v12"
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 9
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "limiter_methods.py#filter_request:5:1",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#limiter_hook:30:1$v0"
+            }
+          ],
+          "resultValueId": "app.py#limiter_hook:30:1$v16",
+          "block": "app.py#limiter_hook:30:1$b3",
+          "method": "filter_request",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#limiter_hook:30:1$v5"
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$c3",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 44
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.request.args.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#limiter_hook:30:1$v20"
+            }
+          ],
+          "resultValueId": "app.py#limiter_hook:30:1$v21",
+          "block": "app.py#limiter_hook:30:1$b4",
+          "method": "get",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "format"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#limiter_hook:30:1$v12"
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$c4",
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 9
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "limiter_methods.py#filter_request:5:1",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#limiter_hook:30:1$v0"
+            }
+          ],
+          "resultValueId": "app.py#limiter_hook:30:1$v24",
+          "block": "app.py#limiter_hook:30:1$b5",
+          "method": "filter_request",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#limiter_hook:30:1$v5"
+        }
+      ],
+      "returns": [],
+      "comparisons": [
+        {
+          "left": "app.py#limiter_hook:30:1$v1",
+          "right": "app.py#limiter_hook:30:1$v3",
+          "op": "Eq",
+          "block": "app.py#limiter_hook:30:1$b0",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 8
+          }
+        },
+        {
+          "left": "app.py#limiter_hook:30:1$v1",
+          "right": "app.py#limiter_hook:30:1$v10",
+          "op": "Eq",
+          "block": "app.py#limiter_hook:30:1$b2",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 8
+          }
+        },
+        {
+          "left": "app.py#limiter_hook:30:1$v13",
+          "right": "app.py#limiter_hook:30:1$v15",
+          "op": "Eq",
+          "block": "app.py#limiter_hook:30:1$b2",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 38
+          }
+        },
+        {
+          "left": "app.py#limiter_hook:30:1$v1",
+          "right": "app.py#limiter_hook:30:1$v19",
+          "op": "Eq",
+          "block": "app.py#limiter_hook:30:1$b4",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 8
+          }
+        },
+        {
+          "left": "app.py#limiter_hook:30:1$v21",
+          "right": "app.py#limiter_hook:30:1$v23",
+          "op": "Eq",
+          "block": "app.py#limiter_hook:30:1$b4",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 44
+          }
+        }
+      ],
+      "writes": [],
+      "entryBlock": "app.py#limiter_hook:30:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#limiter_hook:30:1$b0",
+          "successors": [
+            "app.py#limiter_hook:30:1$b1",
+            "app.py#limiter_hook:30:1$b2"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 1
+          },
+          "terminator": "branch"
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$b1",
+          "successors": [
+            "app.py#limiter_hook:30:1$b2"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 5
+          }
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$b2",
+          "successors": [
+            "app.py#limiter_hook:30:1$b3",
+            "app.py#limiter_hook:30:1$b4"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 5
+          },
+          "terminator": "branch"
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$b3",
+          "successors": [
+            "app.py#limiter_hook:30:1$b4"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 5
+          }
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$b4",
+          "successors": [
+            "app.py#limiter_hook:30:1$b5",
+            "app.py#limiter_hook:30:1$b6"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 5
+          },
+          "terminator": "branch"
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$b5",
+          "successors": [
+            "app.py#limiter_hook:30:1$b6"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 5
+          }
+        },
+        {
+          "id": "app.py#limiter_hook:30:1$b6",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#search:44:1",
+      "name": "search",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 44,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#search:44:1$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 26
+          },
+          "literal": "https://search.example.test/query"
+        },
+        {
+          "id": "app.py#search:44:1$v1",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 13
+          },
+          "name": "requests"
+        },
+        {
+          "id": "app.py#search:44:1$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 13
+          },
+          "name": "requests.get"
+        },
+        {
+          "id": "app.py#search:44:1$v3",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 5
+          },
+          "name": "reply"
+        },
+        {
+          "id": "app.py#search:44:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 46,
+            "column": 12
+          },
+          "base": "app.py#search:44:1$v3",
+          "path": "text",
+          "name": "text"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#search:44:1$v2",
+          "to": "app.py#search:44:1$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 5
+          },
+          "block": "app.py#search:44:1$b0"
+        },
+        {
+          "from": "app.py#search:44:1$v3",
+          "to": "app.py#search:44:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 46,
+            "column": 12
+          },
+          "block": "app.py#search:44:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#search:44:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 13
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "requests.get",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#search:44:1$v0"
+            }
+          ],
+          "resultValueId": "app.py#search:44:1$v2",
+          "block": "app.py#search:44:1$b0",
+          "method": "get",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "https://search.example.test/query"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#search:44:1$v1"
+        }
+      ],
+      "returns": [
+        "app.py#search:44:1$v4"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#search:44:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#search:44:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 44,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#search:44:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 46,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#autocompleter:50:1",
+      "name": "autocompleter",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 50,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#autocompleter:50:1$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 49
+          },
+          "literal": "backend"
+        },
+        {
+          "id": "app.py#autocompleter:50:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 60
+          },
+          "literal": "remote"
+        },
+        {
+          "id": "app.py#autocompleter:50:1$v2",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 32
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#autocompleter:50:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 32
+          },
+          "base": "app.py#autocompleter:50:1$v2",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "app.py#autocompleter:50:1$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 32
+          },
+          "name": "flask.request.args.get"
+        },
+        {
+          "id": "app.py#autocompleter:50:1$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 12
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#autocompleter:50:1$v2",
+          "to": "app.py#autocompleter:50:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 32
+          },
+          "block": "app.py#autocompleter:50:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#autocompleter:50:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 32
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.request.args.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#autocompleter:50:1$v0"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#autocompleter:50:1$v1"
+            }
+          ],
+          "resultValueId": "app.py#autocompleter:50:1$v4",
+          "block": "app.py#autocompleter:50:1$b0",
+          "method": "get",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "backend",
+            "1": "remote"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#autocompleter:50:1$v3"
+        },
+        {
+          "id": "app.py#autocompleter:50:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 12
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "app.py#search_autocomplete:25:1",
+            "resolution": "resolved",
+            "name": "search_autocomplete"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#autocompleter:50:1$v4"
+            }
+          ],
+          "resultValueId": "app.py#autocompleter:50:1$v5",
+          "block": "app.py#autocompleter:50:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "app.py#autocompleter:50:1$v5"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#autocompleter:50:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#autocompleter:50:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 50,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#autocompleter:50:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#export:55:1",
+      "name": "export",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 55,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#export:55:1$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 56,
+            "column": 25
+          },
+          "literal": "format"
+        },
+        {
+          "id": "app.py#export:55:1$v1",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 56,
+            "column": 8
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#export:55:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 56,
+            "column": 8
+          },
+          "base": "app.py#export:55:1$v1",
+          "path": "form",
+          "name": "form"
+        },
+        {
+          "id": "app.py#export:55:1$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 56,
+            "column": 8
+          },
+          "name": "flask.request.form.get"
+        },
+        {
+          "id": "app.py#export:55:1$v4",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 56,
+            "column": 8
+          },
+          "name": "comparison"
+        },
+        {
+          "id": "app.py#export:55:1$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 56,
+            "column": 38
+          },
+          "literal": "json"
+        },
+        {
+          "id": "app.py#export:55:1$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 57,
+            "column": 30
+          },
+          "literal": "https://export.example.test/render"
+        },
+        {
+          "id": "app.py#export:55:1$v7",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 57,
+            "column": 17
+          },
+          "name": "requests"
+        },
+        {
+          "id": "app.py#export:55:1$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 57,
+            "column": 17
+          },
+          "name": "requests.get"
+        },
+        {
+          "id": "app.py#export:55:1$v9",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 57,
+            "column": 9
+          },
+          "name": "reply"
+        },
+        {
+          "id": "app.py#export:55:1$v10",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 58,
+            "column": 16
+          },
+          "base": "app.py#export:55:1$v9",
+          "path": "text",
+          "name": "text"
+        },
+        {
+          "id": "app.py#export:55:1$v11",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 59,
+            "column": 12
+          },
+          "literal": "html"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#export:55:1$v1",
+          "to": "app.py#export:55:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 56,
+            "column": 8
+          },
+          "block": "app.py#export:55:1$b0"
+        },
+        {
+          "from": "app.py#export:55:1$v8",
+          "to": "app.py#export:55:1$v9",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 57,
+            "column": 9
+          },
+          "block": "app.py#export:55:1$b1"
+        },
+        {
+          "from": "app.py#export:55:1$v9",
+          "to": "app.py#export:55:1$v10",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 58,
+            "column": 16
+          },
+          "block": "app.py#export:55:1$b1"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#export:55:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 56,
+            "column": 8
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.request.form.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#export:55:1$v0"
+            }
+          ],
+          "resultValueId": "app.py#export:55:1$v3",
+          "block": "app.py#export:55:1$b0",
+          "method": "get",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "format"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#export:55:1$v2"
+        },
+        {
+          "id": "app.py#export:55:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 57,
+            "column": 17
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "requests.get",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#export:55:1$v6"
+            }
+          ],
+          "resultValueId": "app.py#export:55:1$v8",
+          "block": "app.py#export:55:1$b1",
+          "method": "get",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "https://export.example.test/render"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#export:55:1$v7"
+        }
+      ],
+      "returns": [
+        "app.py#export:55:1$v10",
+        "app.py#export:55:1$v11"
+      ],
+      "comparisons": [
+        {
+          "left": "app.py#export:55:1$v3",
+          "right": "app.py#export:55:1$v5",
+          "op": "Eq",
+          "block": "app.py#export:55:1$b0",
+          "loc": {
+            "file": "app.py",
+            "line": 56,
+            "column": 8
+          }
+        }
+      ],
+      "writes": [],
+      "entryBlock": "app.py#export:55:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#export:55:1$b0",
+          "successors": [
+            "app.py#export:55:1$b1",
+            "app.py#export:55:1$b3"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 55,
+            "column": 1
+          },
+          "terminator": "branch"
+        },
+        {
+          "id": "app.py#export:55:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 56,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#export:55:1$b2",
+          "successors": [
+            "app.py#export:55:1$b3"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 58,
+            "column": 9
+          }
+        },
+        {
+          "id": "app.py#export:55:1$b3",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 56,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#export:55:1$b4",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 59,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#query_export:63:1",
+      "name": "query_export",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 63,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#query_export:63:1$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 64,
+            "column": 25
+          },
+          "literal": "format"
+        },
+        {
+          "id": "app.py#query_export:63:1$v1",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 64,
+            "column": 8
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#query_export:63:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 64,
+            "column": 8
+          },
+          "base": "app.py#query_export:63:1$v1",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "app.py#query_export:63:1$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 64,
+            "column": 8
+          },
+          "name": "flask.request.args.get"
+        },
+        {
+          "id": "app.py#query_export:63:1$v4",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 64,
+            "column": 8
+          },
+          "name": "comparison"
+        },
+        {
+          "id": "app.py#query_export:63:1$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 64,
+            "column": 38
+          },
+          "literal": "json"
+        },
+        {
+          "id": "app.py#query_export:63:1$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 30
+          },
+          "literal": "https://export.example.test/render"
+        },
+        {
+          "id": "app.py#query_export:63:1$v7",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 17
+          },
+          "name": "requests"
+        },
+        {
+          "id": "app.py#query_export:63:1$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 17
+          },
+          "name": "requests.get"
+        },
+        {
+          "id": "app.py#query_export:63:1$v9",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 9
+          },
+          "name": "reply"
+        },
+        {
+          "id": "app.py#query_export:63:1$v10",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 66,
+            "column": 16
+          },
+          "base": "app.py#query_export:63:1$v9",
+          "path": "text",
+          "name": "text"
+        },
+        {
+          "id": "app.py#query_export:63:1$v11",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 67,
+            "column": 12
+          },
+          "literal": "html"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#query_export:63:1$v1",
+          "to": "app.py#query_export:63:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 64,
+            "column": 8
+          },
+          "block": "app.py#query_export:63:1$b0"
+        },
+        {
+          "from": "app.py#query_export:63:1$v8",
+          "to": "app.py#query_export:63:1$v9",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 9
+          },
+          "block": "app.py#query_export:63:1$b1"
+        },
+        {
+          "from": "app.py#query_export:63:1$v9",
+          "to": "app.py#query_export:63:1$v10",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 66,
+            "column": 16
+          },
+          "block": "app.py#query_export:63:1$b1"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#query_export:63:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 64,
+            "column": 8
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.request.args.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#query_export:63:1$v0"
+            }
+          ],
+          "resultValueId": "app.py#query_export:63:1$v3",
+          "block": "app.py#query_export:63:1$b0",
+          "method": "get",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "format"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#query_export:63:1$v2"
+        },
+        {
+          "id": "app.py#query_export:63:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 17
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "requests.get",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#query_export:63:1$v6"
+            }
+          ],
+          "resultValueId": "app.py#query_export:63:1$v8",
+          "block": "app.py#query_export:63:1$b1",
+          "method": "get",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "https://export.example.test/render"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#query_export:63:1$v7"
+        }
+      ],
+      "returns": [
+        "app.py#query_export:63:1$v10",
+        "app.py#query_export:63:1$v11"
+      ],
+      "comparisons": [
+        {
+          "left": "app.py#query_export:63:1$v3",
+          "right": "app.py#query_export:63:1$v5",
+          "op": "Eq",
+          "block": "app.py#query_export:63:1$b0",
+          "loc": {
+            "file": "app.py",
+            "line": 64,
+            "column": 8
+          }
+        }
+      ],
+      "writes": [],
+      "entryBlock": "app.py#query_export:63:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#query_export:63:1$b0",
+          "successors": [
+            "app.py#query_export:63:1$b1",
+            "app.py#query_export:63:1$b3"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 63,
+            "column": 1
+          },
+          "terminator": "branch"
+        },
+        {
+          "id": "app.py#query_export:63:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 64,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#query_export:63:1$b2",
+          "successors": [
+            "app.py#query_export:63:1$b3"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 66,
+            "column": 9
+          }
+        },
+        {
+          "id": "app.py#query_export:63:1$b3",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 64,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#query_export:63:1$b4",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 67,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#healthz:71:1",
+      "name": "healthz",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 71,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#healthz:71:1$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 72,
+            "column": 12
+          },
+          "literal": "ok"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [
+        "app.py#healthz:71:1$v0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#healthz:71:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#healthz:71:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 71,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#healthz:71:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 72,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "autocomplete_backends.py#<module>:0:0",
+      "name": "<module>",
+      "module": "autocomplete_backends.py",
+      "loc": {
+        "file": "autocomplete_backends.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "autocomplete_backends.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "autocomplete_backends.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "autocomplete_backends.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "autocomplete_backends.py#remote:4:1",
+      "name": "remote",
+      "module": "autocomplete_backends.py",
+      "loc": {
+        "file": "autocomplete_backends.py",
+        "line": 4,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "autocomplete_backends.py#remote:4:1$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "autocomplete_backends.py",
+            "line": 5,
+            "column": 26
+          },
+          "literal": "https://suggest.example.test/complete"
+        },
+        {
+          "id": "autocomplete_backends.py#remote:4:1$v1",
+          "kind": "global",
+          "loc": {
+            "file": "autocomplete_backends.py",
+            "line": 5,
+            "column": 13
+          },
+          "name": "requests"
+        },
+        {
+          "id": "autocomplete_backends.py#remote:4:1$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "autocomplete_backends.py",
+            "line": 5,
+            "column": 13
+          },
+          "name": "requests.get"
+        },
+        {
+          "id": "autocomplete_backends.py#remote:4:1$v3",
+          "kind": "local",
+          "loc": {
+            "file": "autocomplete_backends.py",
+            "line": 5,
+            "column": 5
+          },
+          "name": "reply"
+        },
+        {
+          "id": "autocomplete_backends.py#remote:4:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "autocomplete_backends.py",
+            "line": 6,
+            "column": 12
+          },
+          "base": "autocomplete_backends.py#remote:4:1$v3",
+          "path": "text",
+          "name": "text"
+        }
+      ],
+      "flows": [
+        {
+          "from": "autocomplete_backends.py#remote:4:1$v2",
+          "to": "autocomplete_backends.py#remote:4:1$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "autocomplete_backends.py",
+            "line": 5,
+            "column": 5
+          },
+          "block": "autocomplete_backends.py#remote:4:1$b0"
+        },
+        {
+          "from": "autocomplete_backends.py#remote:4:1$v3",
+          "to": "autocomplete_backends.py#remote:4:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "autocomplete_backends.py",
+            "line": 6,
+            "column": 12
+          },
+          "block": "autocomplete_backends.py#remote:4:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "autocomplete_backends.py#remote:4:1$c0",
+          "loc": {
+            "file": "autocomplete_backends.py",
+            "line": 5,
+            "column": 13
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "requests.get",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "autocomplete_backends.py#remote:4:1$v0"
+            }
+          ],
+          "resultValueId": "autocomplete_backends.py#remote:4:1$v2",
+          "block": "autocomplete_backends.py#remote:4:1$b0",
+          "method": "get",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "https://suggest.example.test/complete"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "autocomplete_backends.py#remote:4:1$v1"
+        }
+      ],
+      "returns": [
+        "autocomplete_backends.py#remote:4:1$v4"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "autocomplete_backends.py#remote:4:1$b0",
+      "blocks": [
+        {
+          "id": "autocomplete_backends.py#remote:4:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "autocomplete_backends.py",
+            "line": 4,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "autocomplete_backends.py#remote:4:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "autocomplete_backends.py",
+            "line": 6,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "autocomplete_backends.py#mirror:9:1",
+      "name": "mirror",
+      "module": "autocomplete_backends.py",
+      "loc": {
+        "file": "autocomplete_backends.py",
+        "line": 9,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "autocomplete_backends.py#mirror:9:1$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "autocomplete_backends.py",
+            "line": 10,
+            "column": 26
+          },
+          "literal": "https://mirror.example.test/complete"
+        },
+        {
+          "id": "autocomplete_backends.py#mirror:9:1$v1",
+          "kind": "global",
+          "loc": {
+            "file": "autocomplete_backends.py",
+            "line": 10,
+            "column": 13
+          },
+          "name": "requests"
+        },
+        {
+          "id": "autocomplete_backends.py#mirror:9:1$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "autocomplete_backends.py",
+            "line": 10,
+            "column": 13
+          },
+          "name": "requests.get"
+        },
+        {
+          "id": "autocomplete_backends.py#mirror:9:1$v3",
+          "kind": "local",
+          "loc": {
+            "file": "autocomplete_backends.py",
+            "line": 10,
+            "column": 5
+          },
+          "name": "reply"
+        },
+        {
+          "id": "autocomplete_backends.py#mirror:9:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "autocomplete_backends.py",
+            "line": 11,
+            "column": 12
+          },
+          "base": "autocomplete_backends.py#mirror:9:1$v3",
+          "path": "text",
+          "name": "text"
+        }
+      ],
+      "flows": [
+        {
+          "from": "autocomplete_backends.py#mirror:9:1$v2",
+          "to": "autocomplete_backends.py#mirror:9:1$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "autocomplete_backends.py",
+            "line": 10,
+            "column": 5
+          },
+          "block": "autocomplete_backends.py#mirror:9:1$b0"
+        },
+        {
+          "from": "autocomplete_backends.py#mirror:9:1$v3",
+          "to": "autocomplete_backends.py#mirror:9:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "autocomplete_backends.py",
+            "line": 11,
+            "column": 12
+          },
+          "block": "autocomplete_backends.py#mirror:9:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "autocomplete_backends.py#mirror:9:1$c0",
+          "loc": {
+            "file": "autocomplete_backends.py",
+            "line": 10,
+            "column": 13
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "requests.get",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "autocomplete_backends.py#mirror:9:1$v0"
+            }
+          ],
+          "resultValueId": "autocomplete_backends.py#mirror:9:1$v2",
+          "block": "autocomplete_backends.py#mirror:9:1$b0",
+          "method": "get",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "https://mirror.example.test/complete"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "autocomplete_backends.py#mirror:9:1$v1"
+        }
+      ],
+      "returns": [
+        "autocomplete_backends.py#mirror:9:1$v4"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "autocomplete_backends.py#mirror:9:1$b0",
+      "blocks": [
+        {
+          "id": "autocomplete_backends.py#mirror:9:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "autocomplete_backends.py",
+            "line": 9,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "autocomplete_backends.py#mirror:9:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "autocomplete_backends.py",
+            "line": 11,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "limiter_methods.py#<module>:0:0",
+      "name": "<module>",
+      "module": "limiter_methods.py",
+      "loc": {
+        "file": "limiter_methods.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "limiter_methods.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "limiter_methods.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "limiter_methods.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "limiter_methods.py#incr_sliding_window:1:1",
+      "name": "incr_sliding_window",
+      "module": "limiter_methods.py",
+      "loc": {
+        "file": "limiter_methods.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "bucket",
+          "valueId": "limiter_methods.py#incr_sliding_window:1:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "limiter_methods.py#incr_sliding_window:1:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "limiter_methods.py",
+            "line": 1,
+            "column": 25
+          },
+          "name": "bucket"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [
+        "limiter_methods.py#incr_sliding_window:1:1$v0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "limiter_methods.py#incr_sliding_window:1:1$b0",
+      "blocks": [
+        {
+          "id": "limiter_methods.py#incr_sliding_window:1:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "limiter_methods.py",
+            "line": 1,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "limiter_methods.py#incr_sliding_window:1:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "limiter_methods.py",
+            "line": 2,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "limiter_methods.py#filter_request:5:1",
+      "name": "filter_request",
+      "module": "limiter_methods.py",
+      "loc": {
+        "file": "limiter_methods.py",
+        "line": 5,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "limiter_methods.py#filter_request:5:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "limiter_methods.py#filter_request:5:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "limiter_methods.py",
+            "line": 5,
+            "column": 20
+          },
+          "name": "request"
+        },
+        {
+          "id": "limiter_methods.py#filter_request:5:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "limiter_methods.py",
+            "line": 6,
+            "column": 32
+          },
+          "base": "limiter_methods.py#filter_request:5:1$v0",
+          "path": "remote_addr",
+          "name": "remote_addr"
+        },
+        {
+          "id": "limiter_methods.py#filter_request:5:1$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "limiter_methods.py",
+            "line": 6,
+            "column": 12
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [
+        {
+          "from": "limiter_methods.py#filter_request:5:1$v0",
+          "to": "limiter_methods.py#filter_request:5:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "limiter_methods.py",
+            "line": 6,
+            "column": 32
+          },
+          "block": "limiter_methods.py#filter_request:5:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "limiter_methods.py#filter_request:5:1$c0",
+          "loc": {
+            "file": "limiter_methods.py",
+            "line": 6,
+            "column": 12
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "limiter_methods.py#incr_sliding_window:1:1",
+            "resolution": "resolved",
+            "name": "incr_sliding_window"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "limiter_methods.py#filter_request:5:1$v1"
+            }
+          ],
+          "resultValueId": "limiter_methods.py#filter_request:5:1$v2",
+          "block": "limiter_methods.py#filter_request:5:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "limiter_methods.py#filter_request:5:1$v2"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "limiter_methods.py#filter_request:5:1$b0",
+      "blocks": [
+        {
+          "id": "limiter_methods.py#filter_request:5:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "limiter_methods.py",
+            "line": 5,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "limiter_methods.py#filter_request:5:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "limiter_methods.py",
+            "line": 6,
+            "column": 5
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "app.py#search:44:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/search"
+      }
+    },
+    {
+      "functionId": "app.py#autocompleter:50:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/autocompleter"
+      }
+    },
+    {
+      "functionId": "app.py#export:55:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "POST",
+        "path": "/export"
+      }
+    },
+    {
+      "functionId": "app.py#query_export:63:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/query-export"
+      }
+    },
+    {
+      "functionId": "app.py#healthz:71:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/healthz"
+      }
+    }
+  ]
+}
