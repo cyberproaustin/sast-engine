@@ -725,7 +725,20 @@ type engine struct {
 	resolves map[string][]resolveTarget
 	// attested memoises whether the model has anything to say about a call spelling.
 	attested map[string]bool
-	queue    []string
+	// entryUses maps a value a call site filed under a key of an argument to the call
+	// sites whose callee takes that argument apart. Keyed by the PROPERTY rather than by
+	// the object, because a binding reads one property and the object is enqueued only
+	// once however many of its fields are later classified.
+	entryUses map[string][]destructuredUse
+	queue     []string
+}
+
+// destructuredUse is one value sitting inside an argument that its callee destructures,
+// under the dotted key the call site filed it as.
+type destructuredUse struct {
+	call *ir.Call
+	arg  ir.Arg
+	key  string
 }
 
 // resolveTarget is where a value handed to a continuation actually arrives: the result of
@@ -827,6 +840,7 @@ func Analyze(d *ir.IR, m model.Model) Result {
 			recordFields:  make(map[string][]string),
 			resolves:      resolves,
 			attested:      make(map[string]bool),
+			entryUses:     make(map[string][]destructuredUse),
 		}
 		e.programInjects = programInjectsIdentity(ix)
 		e.build()
@@ -983,6 +997,9 @@ func (e *engine) build() {
 			e.flowEdgesInto[f.To] = append(e.flowEdgesInto[f.To], f)
 		}
 	}
+	// A second pass, because an argument's keys are reached through the assignments the
+	// first pass records.
+	e.indexDestructuredArgs()
 }
 
 // receiverMadeBy reports whether the object a method was called on came out of one of
@@ -1836,6 +1853,13 @@ func (e *engine) propagate() {
 			e.throughCall(id, c)
 		}
 
+		// The same argument, entered by the property. A callee that destructures reads
+		// one field, and the field is what has to be handed over -- not the object it
+		// happens to sit in.
+		for _, u := range e.entryUses[id] {
+			e.throughDestructuredArg(id, u)
+		}
+
 		// A method called ON a row does not answer with a column of it. `row.toJSON()`
 		// and `row.toString()` are the shapes, and neither is a caller reading a field.
 		if !e.hasRecord(id) {
@@ -2006,6 +2030,175 @@ func (e *engine) callSitePassesTaint(c *ir.Call) bool {
 	return false
 }
 
+// throughDestructuredArg propagates one PROPERTY of an argument into the bindings a
+// callee destructures out of it.
+//
+// The property rather than the object, because a call passes one argument and a callee
+// that takes it apart reads several separate things out of it. Driving this from the
+// object would answer the question "is any part of this classified" -- which is true as
+// soon as one field is -- and would put a caller's document id into `teamId` and `userId`
+// alongside the one binding that actually reads it. It would also answer it once: the
+// object is enqueued the first time a field reaches it and never again, so a field
+// classified later in the fixpoint would never be handed over at all.
+func (e *engine) throughDestructuredArg(valueID string, u destructuredUse) {
+	callee := e.ix.FuncByID[u.call.Callee.FunctionID]
+	if callee == nil {
+		return
+	}
+	for _, param := range u.arg.BoundParams(callee) {
+		// A rest element names no single property and takes what is left, so it receives
+		// the argument whole in throughCall. A plain parameter likewise.
+		if !param.Destructured || param.Path == "" {
+			continue
+		}
+		if !e.bindingReads(param.Path, u.key, valueID) {
+			continue
+		}
+		binding := fmt.Sprintf("argument %d", u.arg.Index)
+		if u.arg.Name != "" {
+			binding = fmt.Sprintf("argument `%s`", u.arg.Name)
+		}
+		e.carriesRecord(valueID, param.ValueID)
+		e.markTainted(param.ValueID, edge{
+			from: valueID,
+			desc: fmt.Sprintf("passed as `%s` of %s to %s(), bound as `%s`",
+				u.key, binding, callee.Name, param.Name),
+			symbol:     callee.Name,
+			kind:       "call",
+			loc:        u.call.Loc,
+			resolution: u.call.Callee.Resolution,
+			site:       u.call.ID,
+		})
+	}
+}
+
+// bindingReads reports whether a parameter that destructures `path` out of its argument
+// receives the value the call site filed under `key`.
+func (e *engine) bindingReads(path, key, valueID string) bool {
+	if path == key {
+		return true
+	}
+	// The binding reads INSIDE what this key carries: `{ a: { b } }` given
+	// `f({ a: obj })`. The whole sub-object arrives and the binding takes part of it.
+	if strings.HasPrefix(path, key+".") {
+		// Unless the sub-object's own keys are written down too, in which case the
+		// binding is reached from the exact entry it reads and taking the ancestor as
+		// well would classify every sibling binding beside it.
+		return !e.argShapeStated(valueID)
+	}
+	// This key sits INSIDE what the binding reads: `{ a }` given `f({ a: { b: x } })`.
+	// The binding receives the sub-object, and x is part of it.
+	return strings.HasPrefix(key, path+".")
+}
+
+// objectBehind is the mapping literal a value stands for, following plain assignments.
+//
+// `const opts = { id }; f(opts)` hands over an argument whose own value node carries no
+// keys; the keys are on the literal one name back. Following only assignments, and only
+// while the name has nothing else flowing into it, is what keeps this from answering with
+// a literal that some other branch replaced.
+func (e *engine) objectBehind(id string) *ir.Value {
+	for hops := 0; hops < 4 && id != ""; hops++ {
+		v := e.ix.ValueByID[id]
+		if v == nil {
+			return nil
+		}
+		if len(v.Entries) > 0 {
+			return v
+		}
+		if len(e.flowEdgesInto[id]) != 1 {
+			return nil
+		}
+		id = e.assignedFrom[id]
+	}
+	return nil
+}
+
+// argShapeStated reports whether the source wrote down every key that carries a
+// classified value into this mapping -- an argument, or a mapping nested inside one.
+//
+// A stated shape is what makes narrowing an argument to one property honest. An object
+// literal whose classified content all arrived under written keys can be taken apart: the
+// binding that reads `id` gets what `id` was filed under and nothing else. One that also
+// receives a spread, a computed key, or a merge from somewhere else holds classified data
+// under a name nobody wrote, so no binding can be ruled out and the whole object is handed
+// over instead (ADR-003).
+func (e *engine) argShapeStated(id string) bool {
+	obj := e.objectBehind(id)
+	if obj == nil {
+		return false
+	}
+	filed := make(map[string]bool, len(obj.Entries))
+	for _, entry := range obj.Entries {
+		filed[entry.ValueID] = true
+	}
+	for _, f := range e.flowEdgesInto[obj.ID] {
+		if e.tainted[f.From] && !filed[f.From] {
+			return false
+		}
+	}
+	return true
+}
+
+// indexDestructuredArgs records, for every value a call site files under a key of an
+// argument, which callee bindings could read it.
+//
+// Built once for the program rather than searched at propagation time, because the
+// question is asked from the PROPERTY: whichever field is reached, the bindings that read
+// it must be handed it, whether or not the object around it was reached first.
+func (e *engine) indexDestructuredArgs() {
+	for _, fn := range e.ix.IR.Functions {
+		for _, c := range fn.Calls {
+			if c.Callee.Kind != "local" {
+				continue
+			}
+			callee := e.ix.FuncByID[c.Callee.FunctionID]
+			if callee == nil || !destructures(callee) {
+				continue
+			}
+			for _, a := range c.Args {
+				if a.ValueID == "" {
+					continue
+				}
+				e.indexArgEntries(c, a, e.objectBehind(a.ValueID), "", 0)
+			}
+		}
+	}
+}
+
+func (e *engine) indexArgEntries(c *ir.Call, a ir.Arg, obj *ir.Value, prefix string, depth int) {
+	// Three levels of nesting is what an options object has: `{ id: { type, id } }` is
+	// two, and documenso's deepest call-site option is three. A fourth reaches into
+	// structures no parameter list takes apart by hand.
+	if obj == nil || depth >= 3 {
+		return
+	}
+	for _, entry := range obj.Entries {
+		if entry.Key == "" || entry.ValueID == "" {
+			continue
+		}
+		key := entry.Key
+		if prefix != "" {
+			key = prefix + "." + entry.Key
+		}
+		e.entryUses[entry.ValueID] = append(e.entryUses[entry.ValueID], destructuredUse{
+			call: c, arg: a, key: key,
+		})
+		e.indexArgEntries(c, a, e.objectBehind(entry.ValueID), key, depth+1)
+	}
+}
+
+// destructures reports whether any of this function's parameters binds part of its
+// argument rather than becoming it.
+func destructures(fn *ir.Function) bool {
+	for _, p := range fn.Params {
+		if p.Destructured {
+			return true
+		}
+	}
+	return false
+}
+
 // throughCall propagates taint from a tainted argument into a call site: into the
 // callee's parameter when the target is known, or into the result when it is not.
 func (e *engine) throughCall(argValueID string, c *ir.Call) {
@@ -2019,30 +2212,52 @@ func (e *engine) throughCall(argValueID string, c *ir.Call) {
 			if callee == nil {
 				continue
 			}
-			param, ok := a.BoundParam(callee)
-			if !ok {
-				continue
-			}
 			binding := fmt.Sprintf("argument %d", a.Index)
 			if a.Name != "" {
 				binding = fmt.Sprintf("argument `%s`", a.Name)
 			}
-			e.carriesRecord(argValueID, param.ValueID)
-			e.markTainted(param.ValueID, edge{
-				from: argValueID,
-				desc: fmt.Sprintf("passed as %s to %s()", binding, callee.Name),
-				// The callee's own NAME, so a sanitizer can recognise a transform an
-				// application defined for itself. novu writes its own `escapeRegExp` and
-				// interpolates the result into a pattern, which is the correct way to
-				// search for a literal string -- and every sanitizer here matched imported
-				// symbols only, so a local one was invisible and the flow read as
-				// catastrophic backtracking.
-				symbol:     callee.Name,
-				kind:       "call",
-				loc:        c.Loc,
-				resolution: c.Callee.Resolution,
-				site:       c.ID,
-			})
+			// Every parameter this argument binds, which for a destructuring pattern is
+			// several. `f({ id, teamId })` passes one argument and the callee names two
+			// parts of it; asking only which parameter the argument BECOMES answered
+			// "none" for such a callee, and no argument taint entered it at all.
+			for _, param := range a.BoundParams(callee) {
+				// A binding that names one property does not receive the others. Where
+				// the call site wrote the object down, the entries say which value each
+				// key carries and the classified one reaches only the bindings that read
+				// it -- see throughDestructuredArg, which is driven by the property
+				// rather than by the object and so runs whenever a property is reached,
+				// not only when the object first is.
+				//
+				// The whole object is still handed over when its shape is NOT stated: a
+				// spread, a computed key, or an object built somewhere this analysis
+				// cannot follow leaves keys nobody wrote, and a binding may read one of
+				// them. Handing over the whole is the same approximation an ordinary
+				// parameter already gets, where `opts.other` is classified because
+				// `opts` is (ADR-003).
+				if param.Destructured && param.Path != "" && e.argShapeStated(argValueID) {
+					continue
+				}
+				bound := binding
+				if param.Destructured {
+					bound = fmt.Sprintf("%s, bound as `%s`", binding, param.Name)
+				}
+				e.carriesRecord(argValueID, param.ValueID)
+				e.markTainted(param.ValueID, edge{
+					from: argValueID,
+					desc: fmt.Sprintf("passed as %s to %s()", bound, callee.Name),
+					// The callee's own NAME, so a sanitizer can recognise a transform an
+					// application defined for itself. novu writes its own `escapeRegExp` and
+					// interpolates the result into a pattern, which is the correct way to
+					// search for a literal string -- and every sanitizer here matched imported
+					// symbols only, so a local one was invisible and the flow read as
+					// catastrophic backtracking.
+					symbol:     callee.Name,
+					kind:       "call",
+					loc:        c.Loc,
+					resolution: c.Callee.Resolution,
+					site:       c.ID,
+				})
+			}
 		default:
 			// A promise's continuation is not an ordinary unresolved call. `resolve(v)`
 			// answers its own caller with nothing and answers whoever awaits the promise

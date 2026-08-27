@@ -422,6 +422,26 @@ type Param struct {
 	Index   int    `json:"index"`
 	Name    string `json:"name"`
 	ValueID string `json:"valueId"`
+	// Destructured marks a parameter that binds PART of its argument rather than
+	// becoming it. `f({ id, teamId })` receives one argument and binds two names out of
+	// it, so several destructured parameters share one Index -- which is the whole
+	// reason this flag exists: an index is no longer a unique key.
+	//
+	// A function whose only parameter is an object binding pattern declared NO
+	// parameters at all before, so every argument handed to one bound nothing and
+	// interprocedural taint stopped at the call. The options object is one of the most
+	// common shapes in TypeScript; measured on documenso, 3,239 local call edges landed
+	// on a callee declaring no parameters at all.
+	Destructured bool `json:"destructured,omitempty"`
+	// Path is the property of the argument this parameter reads, dotted for a nested
+	// pattern: `{ id }` reads `id`, `{ a: { b } }` reads `a.b`, `{ id: docId }` reads
+	// `id` under another name.
+	//
+	// Empty on a destructured parameter means the binding takes the argument WHOLE and
+	// no single property names it -- a rest element (`{ ...others }`) is the shape.
+	// Empty is a refusal, never a default: a caller that cannot say which property was
+	// read must fall back to the whole argument (ADR-003).
+	Path string `json:"path,omitempty"`
 }
 
 // ValueKind is an OPEN string, not a closed enum (ADR-001). A frontend may emit kinds
@@ -554,14 +574,50 @@ func (a Arg) At(index int) bool {
 	return a.Name == "" && a.Index == index
 }
 
-// BoundParam resolves this argument against a known callee's declaration.
+// BoundParam resolves this argument against a known callee's declaration: the parameter
+// this argument BECOMES.
+//
+// A destructured parameter is never the answer. Several of them share one index and none
+// of them is the argument -- each is one property read out of it -- so an analysis that
+// asks "which value is this argument inside the callee" has no single answer to give.
+// Ask BoundParams instead.
 func (a Arg) BoundParam(fn *Function) (Param, bool) {
 	for _, p := range fn.Params {
+		if p.Destructured {
+			continue
+		}
 		if (a.Name != "" && p.Name == a.Name) || (a.Name == "" && p.Index == a.Index) {
 			return p, true
 		}
 	}
 	return Param{}, false
+}
+
+// BoundParams is every parameter this argument BINDS, which is not the same question as
+// which parameter it becomes.
+//
+// `f({ id, teamId })` passes one argument and the callee binds two names out of it, each
+// with the property Path it reads. A caller that only ever asked BoundParam saw nothing
+// at all for such a callee, because a function whose only parameter is a binding pattern
+// declares no plain parameter for the argument to become.
+func (a Arg) BoundParams(fn *Function) []Param {
+	var out []Param
+	for _, p := range fn.Params {
+		if a.Name != "" {
+			// A NAMED argument binds a name the callee declared, and a destructured
+			// binding's name is not one: `id` in `{ id }` is a property of the argument,
+			// not a parameter a caller may address. No language lowered here has both
+			// forms, and matching them would invent a binding the callee cannot receive.
+			if !p.Destructured && p.Name == a.Name {
+				out = append(out, p)
+			}
+			continue
+		}
+		if p.Index == a.Index {
+			out = append(out, p)
+		}
+	}
+	return out
 }
 
 // Binds reports whether this argument binds a known callee parameter.

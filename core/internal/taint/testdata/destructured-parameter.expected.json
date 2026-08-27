@@ -1,0 +1,38 @@
+{
+  "corpus": "destructured-parameter",
+  "description": "A function whose only parameter is an object binding pattern declared no parameters at all, so no argument taint ever entered one -- and the options object is the shape most modern TypeScript is written in (measured on documenso: 3239 local call edges landed on a callee declaring no parameters). Four routes assert the taint now crosses: a plain binding, a defaulted binding, a nested and renamed binding, and a spread whose keys nobody wrote. Two assert it crosses into ONE binding rather than all of them: /count and /by-owner file the caller's value under a key no binding on the path to the interpreter reads, and reporting either would mean the fix had traded recall for noise.",
+  "expected": [
+    {
+      "cwe": "CWE-89",
+      "sinkFile": "app.ts",
+      "sinkLine": 30,
+      "sourceLabel": "req.query.q",
+      "confidence": "medium",
+      "note": "the caller's value arrives through a destructured parameter and reaches the statement"
+    },
+    {
+      "cwe": "CWE-89",
+      "sinkFile": "app.ts",
+      "sinkLine": 51,
+      "sourceLabel": "req.query.col",
+      "confidence": "medium",
+      "note": "a defaulted binding is still a binding; the caller supplies the value and the default decides nothing"
+    },
+    {
+      "cwe": "CWE-89",
+      "sinkFile": "app.ts",
+      "sinkLine": 60,
+      "sourceLabel": "req.query.note",
+      "confidence": "medium",
+      "note": "a nested binding read under another name still reads the property the call site filed"
+    },
+    {
+      "cwe": "CWE-89",
+      "sinkFile": "app.ts",
+      "sinkLine": 81,
+      "sourceLabel": "req.query",
+      "confidence": "medium",
+      "note": "a spread leaves keys nobody wrote, so no binding can be ruled out and the whole argument is handed over"
+    }
+  ]
+}

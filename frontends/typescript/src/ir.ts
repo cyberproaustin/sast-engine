@@ -63,6 +63,21 @@ export interface Value {
   path?: string;
   /** The text of a value written into the source, for the kinds that have one. */
   literal?: string;
+  /**
+   * A mapping literal's members, by the key each was filed under. Only a key written as
+   * a literal appears: a computed key names nothing anything downstream can ask for.
+   *
+   * The object flows already say what went IN. This says what each part is CALLED, which
+   * is what lets a callee that destructures its argument be handed the one property it
+   * actually reads instead of everything the object holds.
+   */
+  entries?: Entry[];
+}
+
+/** One member of a mapping, under the name it was filed as. */
+export interface Entry {
+  key: string;
+  valueId: string;
 }
 
 export interface Flow {
@@ -130,6 +145,17 @@ export interface Param {
   index: number;
   name: string;
   valueId: string;
+  /**
+   * Binds PART of the argument rather than becoming it. `f({ id, teamId })` hands over
+   * one argument and the callee binds two names out of it, so several destructured
+   * parameters share one index.
+   */
+  destructured?: boolean;
+  /**
+   * The property of the argument this parameter reads, dotted for a nested pattern.
+   * Absent on a rest element, which takes whatever is left and names no single property.
+   */
+  path?: string;
 }
 
 export interface Comparison {

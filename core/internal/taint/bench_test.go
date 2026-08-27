@@ -195,6 +195,7 @@ var corpora = []string{
 	"rate-limit-key-header",
 	"settings-module-secret",
 	"django-manager-lookup",
+	"destructured-parameter",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {
