@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.16.0",
+  "irVersion": "0.17.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -654,8 +654,8 @@
               "valueId": "app.py#charges:64:1$v0"
             },
             {
-              "index": 1,
-              "valueId": "app.py#charges:64:1$v1"
+              "valueId": "app.py#charges:64:1$v1",
+              "name": "headers"
             }
           ],
           "resultValueId": "app.py#charges:64:1$v5",
@@ -870,12 +870,12 @@
               "valueId": "app.py#thumbnail:75:1$v0"
             },
             {
-              "index": 1,
-              "valueId": "app.py#thumbnail:75:1$v1"
+              "valueId": "app.py#thumbnail:75:1$v1",
+              "name": "params"
             },
             {
-              "index": 1,
-              "valueId": "app.py#thumbnail:75:1$v3"
+              "valueId": "app.py#thumbnail:75:1$v3",
+              "name": "headers"
             }
           ],
           "resultValueId": "app.py#thumbnail:75:1$v6",
@@ -1259,8 +1259,8 @@
               "valueId": "app.py#register:97:1$v0"
             },
             {
-              "index": 1,
-              "valueId": "app.py#register:97:1$v1"
+              "valueId": "app.py#register:97:1$v1",
+              "name": "data"
             }
           ],
           "resultValueId": "app.py#register:97:1$v5",

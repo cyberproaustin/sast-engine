@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.16.0",
+  "irVersion": "0.17.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -340,16 +340,16 @@
               "valueId": "app.py#session:13:1$v6"
             },
             {
-              "index": 2,
-              "valueId": "app.py#session:13:1$v7"
+              "valueId": "app.py#session:13:1$v7",
+              "name": "httponly"
             },
             {
-              "index": 2,
-              "valueId": "app.py#session:13:1$v8"
+              "valueId": "app.py#session:13:1$v8",
+              "name": "secure"
             },
             {
-              "index": 2,
-              "valueId": "app.py#session:13:1$v9"
+              "valueId": "app.py#session:13:1$v9",
+              "name": "samesite"
             }
           ],
           "resultValueId": "app.py#session:13:1$v10",
@@ -843,16 +843,16 @@
               "valueId": "app.py#nonce:32:1$v6"
             },
             {
-              "index": 2,
-              "valueId": "app.py#nonce:32:1$v7"
+              "valueId": "app.py#nonce:32:1$v7",
+              "name": "httponly"
             },
             {
-              "index": 2,
-              "valueId": "app.py#nonce:32:1$v8"
+              "valueId": "app.py#nonce:32:1$v8",
+              "name": "secure"
             },
             {
-              "index": 2,
-              "valueId": "app.py#nonce:32:1$v9"
+              "valueId": "app.py#nonce:32:1$v9",
+              "name": "samesite"
             }
           ],
           "resultValueId": "app.py#nonce:32:1$v10",

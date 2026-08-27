@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.16.0",
+  "irVersion": "0.17.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -419,8 +419,8 @@
           },
           "args": [
             {
-              "index": 0,
-              "valueId": "app.py#build:18:1$v0"
+              "valueId": "app.py#build:18:1$v0",
+              "name": "debug"
             }
           ],
           "resultValueId": "app.py#build:18:1$v2",
@@ -986,8 +986,8 @@
           },
           "args": [
             {
-              "index": 0,
-              "valueId": "sqli/views.py#students:6:1$v4"
+              "valueId": "sqli/views.py#students:6:1$v4",
+              "name": "text"
             }
           ],
           "resultValueId": "sqli/views.py#students:6:1$v6",
@@ -1278,8 +1278,8 @@
           },
           "args": [
             {
-              "index": 0,
-              "valueId": "sqli/views.py#create_student:11:1$v8"
+              "valueId": "sqli/views.py#create_student:11:1$v8",
+              "name": "text"
             }
           ],
           "resultValueId": "sqli/views.py#create_student:11:1$v10",

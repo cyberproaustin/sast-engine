@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.16.0",
+  "irVersion": "0.17.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -143,8 +143,8 @@
               "valueId": "app.py#fetch_insecure:16:1$v0"
             },
             {
-              "index": 1,
-              "valueId": "app.py#fetch_insecure:16:1$v1"
+              "valueId": "app.py#fetch_insecure:16:1$v1",
+              "name": "verify"
             }
           ],
           "resultValueId": "app.py#fetch_insecure:16:1$v3",
@@ -308,16 +308,16 @@
               "valueId": "app.py#fetch_insecure_with_neighbours:20:1$v0"
             },
             {
-              "index": 1,
-              "valueId": "app.py#fetch_insecure_with_neighbours:20:1$v1"
+              "valueId": "app.py#fetch_insecure_with_neighbours:20:1$v1",
+              "name": "timeout"
             },
             {
-              "index": 1,
-              "valueId": "app.py#fetch_insecure_with_neighbours:20:1$v2"
+              "valueId": "app.py#fetch_insecure_with_neighbours:20:1$v2",
+              "name": "headers"
             },
             {
-              "index": 1,
-              "valueId": "app.py#fetch_insecure_with_neighbours:20:1$v4"
+              "valueId": "app.py#fetch_insecure_with_neighbours:20:1$v4",
+              "name": "verify"
             }
           ],
           "resultValueId": "app.py#fetch_insecure_with_neighbours:20:1$v6",
@@ -442,8 +442,8 @@
               "valueId": "app.py#fetch:25:1$v0"
             },
             {
-              "index": 1,
-              "valueId": "app.py#fetch:25:1$v1"
+              "valueId": "app.py#fetch:25:1$v1",
+              "name": "timeout"
             }
           ],
           "resultValueId": "app.py#fetch:25:1$v3",
@@ -580,12 +580,12 @@
               "valueId": "app.py#post_insecure:29:1$v0"
             },
             {
-              "index": 1,
-              "valueId": "app.py#post_insecure:29:1$v1"
+              "valueId": "app.py#post_insecure:29:1$v1",
+              "name": "json"
             },
             {
-              "index": 1,
-              "valueId": "app.py#post_insecure:29:1$v2"
+              "valueId": "app.py#post_insecure:29:1$v2",
+              "name": "verify"
             }
           ],
           "resultValueId": "app.py#post_insecure:29:1$v4",
@@ -770,8 +770,8 @@
               "valueId": "app.py#fetch_nested:33:1$v0"
             },
             {
-              "index": 2,
-              "valueId": "app.py#fetch_nested:33:1$v3"
+              "valueId": "app.py#fetch_nested:33:1$v3",
+              "name": "ssl"
             }
           ],
           "resultValueId": "app.py#fetch_nested:33:1$v6",

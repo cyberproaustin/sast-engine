@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.16.0",
+  "irVersion": "0.17.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -811,8 +811,8 @@
               "valueId": "app.py#login_explicit:25:1$v7"
             },
             {
-              "index": 2,
-              "valueId": "app.py#login_explicit:25:1$v8"
+              "valueId": "app.py#login_explicit:25:1$v8",
+              "name": "httponly"
             }
           ],
           "resultValueId": "app.py#login_explicit:25:1$v9",
@@ -1095,12 +1095,12 @@
               "valueId": "app.py#login_crosssite:33:1$v7"
             },
             {
-              "index": 2,
-              "valueId": "app.py#login_crosssite:33:1$v8"
+              "valueId": "app.py#login_crosssite:33:1$v8",
+              "name": "httponly"
             },
             {
-              "index": 2,
-              "valueId": "app.py#login_crosssite:33:1$v9"
+              "valueId": "app.py#login_crosssite:33:1$v9",
+              "name": "samesite"
             }
           ],
           "resultValueId": "app.py#login_crosssite:33:1$v10",
@@ -1364,7 +1364,6 @@
               "valueId": "app.py#login_spread:41:1$v7"
             },
             {
-              "index": 2,
               "valueId": "app.py#<module>:0:0$v6"
             }
           ],
@@ -1654,16 +1653,16 @@
               "valueId": "app.py#login_correct:50:1$v7"
             },
             {
-              "index": 2,
-              "valueId": "app.py#login_correct:50:1$v8"
+              "valueId": "app.py#login_correct:50:1$v8",
+              "name": "httponly"
             },
             {
-              "index": 2,
-              "valueId": "app.py#login_correct:50:1$v9"
+              "valueId": "app.py#login_correct:50:1$v9",
+              "name": "secure"
             },
             {
-              "index": 2,
-              "valueId": "app.py#login_correct:50:1$v10"
+              "valueId": "app.py#login_correct:50:1$v10",
+              "name": "samesite"
             }
           ],
           "resultValueId": "app.py#login_correct:50:1$v11",

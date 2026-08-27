@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.16.0",
+  "irVersion": "0.17.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -436,12 +436,12 @@
               "valueId": "app.py#<module>:0:0$v6"
             },
             {
-              "index": 1,
-              "valueId": "app.py#<module>:0:0$v7"
+              "valueId": "app.py#<module>:0:0$v7",
+              "name": "methods"
             },
             {
-              "index": 1,
               "valueId": "app.py#<module>:0:0$v11",
+              "name": "view_func",
               "functionId": "handlers.py#report:4:1"
             }
           ],
@@ -477,16 +477,16 @@
               "valueId": "app.py#<module>:0:0$v13"
             },
             {
-              "index": 1,
-              "valueId": "app.py#<module>:0:0$v14"
+              "valueId": "app.py#<module>:0:0$v14",
+              "name": "methods"
             },
             {
-              "index": 1,
-              "valueId": "app.py#<module>:0:0$v16"
+              "valueId": "app.py#<module>:0:0$v16",
+              "name": "endpoint"
             },
             {
-              "index": 1,
-              "valueId": "app.py#<module>:0:0$v18"
+              "valueId": "app.py#<module>:0:0$v18",
+              "name": "view_func"
             }
           ],
           "resultValueId": "app.py#<module>:0:0$v19",
@@ -551,8 +551,8 @@
               "valueId": "app.py#<module>:0:0$v20"
             },
             {
-              "index": 1,
-              "valueId": "app.py#<module>:0:0$v22"
+              "valueId": "app.py#<module>:0:0$v22",
+              "name": "view_func"
             }
           ],
           "resultValueId": "app.py#<module>:0:0$v23",
@@ -756,8 +756,8 @@
               "valueId": "app.py#local_search:24:1$v0"
             },
             {
-              "index": 1,
-              "valueId": "app.py#local_search:24:1$v5"
+              "valueId": "app.py#local_search:24:1$v5",
+              "name": "shell"
             }
           ],
           "resultValueId": "app.py#local_search:24:1$v7",
