@@ -225,7 +225,62 @@
       "calls": [],
       "returns": [],
       "comparisons": [],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "permissions.py",
+            "line": 17,
+            "column": 5
+          },
+          "path": "role_name",
+          "from": "permissions.py#<module>:0:0$v2",
+          "block": "permissions.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "permissions.py",
+            "line": 31,
+            "column": 5
+          },
+          "path": "role_name",
+          "from": "permissions.py#<module>:0:0$v4",
+          "block": "permissions.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "permissions.py",
+            "line": 35,
+            "column": 5
+          },
+          "path": "role_name",
+          "from": "permissions.py#<module>:0:0$v6",
+          "block": "permissions.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "permissions.py",
+            "line": 39,
+            "column": 5
+          },
+          "path": "role_name",
+          "from": "permissions.py#<module>:0:0$v8",
+          "block": "permissions.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "permissions.py",
+            "line": 48,
+            "column": 1
+          },
+          "path": "IsWorkspaceMember",
+          "block": "permissions.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "permissions.py#<module>:0:0$b0",
       "blocks": [
         {
@@ -2815,7 +2870,19 @@
       ],
       "returns": [],
       "comparisons": [],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "urls.py",
+            "line": 24,
+            "column": 1
+          },
+          "path": "urlpatterns",
+          "from": "urls.py#<module>:0:0$v1",
+          "block": "urls.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "urls.py#<module>:0:0$b0",
       "blocks": [
         {
@@ -4072,7 +4139,283 @@
       ],
       "returns": [],
       "comparisons": [],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "views.py",
+            "line": 46,
+            "column": 5
+          },
+          "path": "permission_classes",
+          "from": "views.py#<module>:0:0$v2",
+          "block": "views.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "views.py",
+            "line": 65,
+            "column": 5
+          },
+          "path": "queryset",
+          "from": "views.py#<module>:0:0$v7",
+          "block": "views.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "views.py",
+            "line": 66,
+            "column": 5
+          },
+          "path": "lookup_url_kwarg",
+          "from": "views.py#<module>:0:0$v9",
+          "block": "views.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "views.py",
+            "line": 67,
+            "column": 5
+          },
+          "path": "permission_classes",
+          "from": "views.py#<module>:0:0$v11",
+          "block": "views.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "views.py",
+            "line": 78,
+            "column": 5
+          },
+          "path": "queryset",
+          "from": "views.py#<module>:0:0$v16",
+          "block": "views.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "views.py",
+            "line": 79,
+            "column": 5
+          },
+          "path": "lookup_url_kwarg",
+          "from": "views.py#<module>:0:0$v18",
+          "block": "views.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "views.py",
+            "line": 80,
+            "column": 5
+          },
+          "path": "permission_classes",
+          "from": "views.py#<module>:0:0$v20",
+          "block": "views.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "views.py",
+            "line": 93,
+            "column": 5
+          },
+          "path": "queryset",
+          "from": "views.py#<module>:0:0$v23",
+          "block": "views.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "views.py",
+            "line": 94,
+            "column": 5
+          },
+          "path": "lookup_url_kwarg",
+          "from": "views.py#<module>:0:0$v25",
+          "block": "views.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "views.py",
+            "line": 95,
+            "column": 5
+          },
+          "path": "permission_classes",
+          "from": "views.py#<module>:0:0$v27",
+          "block": "views.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "views.py",
+            "line": 108,
+            "column": 5
+          },
+          "path": "queryset",
+          "from": "views.py#<module>:0:0$v32",
+          "block": "views.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "views.py",
+            "line": 109,
+            "column": 5
+          },
+          "path": "lookup_url_kwarg",
+          "from": "views.py#<module>:0:0$v34",
+          "block": "views.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "views.py",
+            "line": 110,
+            "column": 5
+          },
+          "path": "permission_classes",
+          "from": "views.py#<module>:0:0$v36",
+          "block": "views.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "views.py",
+            "line": 123,
+            "column": 5
+          },
+          "path": "queryset",
+          "from": "views.py#<module>:0:0$v41",
+          "block": "views.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "views.py",
+            "line": 124,
+            "column": 5
+          },
+          "path": "permission_classes",
+          "from": "views.py#<module>:0:0$v43",
+          "block": "views.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "views.py",
+            "line": 140,
+            "column": 5
+          },
+          "path": "permission_classes",
+          "from": "views.py#<module>:0:0$v47",
+          "block": "views.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "views.py",
+            "line": 147,
+            "column": 5
+          },
+          "path": "serializer_class",
+          "from": "views.py#<module>:0:0$v49",
+          "block": "views.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "views.py",
+            "line": 151,
+            "column": 5
+          },
+          "path": "serializer_class",
+          "from": "views.py#<module>:0:0$v51",
+          "block": "views.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "views.py",
+            "line": 162,
+            "column": 5
+          },
+          "path": "lookup_url_kwarg",
+          "from": "views.py#<module>:0:0$v54",
+          "block": "views.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "views.py",
+            "line": 163,
+            "column": 5
+          },
+          "path": "permission_classes",
+          "from": "views.py#<module>:0:0$v56",
+          "block": "views.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "views.py",
+            "line": 172,
+            "column": 5
+          },
+          "path": "queryset",
+          "from": "views.py#<module>:0:0$v61",
+          "block": "views.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "views.py",
+            "line": 191,
+            "column": 5
+          },
+          "path": "permission_classes",
+          "from": "views.py#<module>:0:0$v64",
+          "block": "views.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "views.py",
+            "line": 208,
+            "column": 5
+          },
+          "path": "permission_classes",
+          "from": "views.py#<module>:0:0$v67",
+          "block": "views.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "views.py",
+            "line": 228,
+            "column": 5
+          },
+          "path": "permission_classes",
+          "from": "views.py#<module>:0:0$v70",
+          "block": "views.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "views.py",
+            "line": 247,
+            "column": 5
+          },
+          "path": "permission_classes",
+          "from": "views.py#<module>:0:0$v73",
+          "block": "views.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "views.py#<module>:0:0$b0",
       "blocks": [
         {
@@ -7336,7 +7679,8 @@
       "framework": "django",
       "detail": {
         "method": "ANY",
-        "path": "/workspaces/:workspace_id/documents"
+        "path": "/workspaces/:workspace_id/documents",
+        "pathParams": "int:workspace_id"
       }
     },
     {
@@ -7345,7 +7689,8 @@
       "framework": "django",
       "detail": {
         "method": "ANY",
-        "path": "/workspaces/:workspace_id/folders/:folder_id"
+        "path": "/workspaces/:workspace_id/folders/:folder_id",
+        "pathParams": "int:workspace_id,int:folder_id"
       }
     },
     {
@@ -7354,7 +7699,8 @@
       "framework": "django",
       "detail": {
         "method": "ANY",
-        "path": "/workspaces/:workspace_id/tasks"
+        "path": "/workspaces/:workspace_id/tasks",
+        "pathParams": "int:workspace_id"
       }
     },
     {
@@ -7363,7 +7709,8 @@
       "framework": "django",
       "detail": {
         "method": "DELETE",
-        "path": "/workspaces/:workspace_id/tags"
+        "path": "/workspaces/:workspace_id/tags",
+        "pathParams": "int:workspace_id"
       }
     },
     {
@@ -7372,7 +7719,8 @@
       "framework": "django",
       "detail": {
         "method": "DELETE",
-        "path": "/workspaces/:workspace_id/labels"
+        "path": "/workspaces/:workspace_id/labels",
+        "pathParams": "int:workspace_id"
       }
     },
     {
@@ -7381,7 +7729,8 @@
       "framework": "django",
       "detail": {
         "method": "DELETE",
-        "path": "/workspaces/:workspace_id/attachments"
+        "path": "/workspaces/:workspace_id/attachments",
+        "pathParams": "int:workspace_id"
       }
     },
     {
@@ -7390,7 +7739,8 @@
       "framework": "django",
       "detail": {
         "method": "DELETE",
-        "path": "/workspaces/:workspace_id/shares"
+        "path": "/workspaces/:workspace_id/shares",
+        "pathParams": "int:workspace_id"
       }
     }
   ],

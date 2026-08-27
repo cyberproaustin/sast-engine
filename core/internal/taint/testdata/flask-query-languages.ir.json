@@ -257,7 +257,41 @@
       ],
       "returns": [],
       "comparisons": [],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 5,
+            "column": 1
+          },
+          "path": "app",
+          "from": "app.py#<module>:0:0$v0",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 6,
+            "column": 1
+          },
+          "path": "DIRECTORY",
+          "from": "app.py#<module>:0:0$v4",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 7,
+            "column": 1
+          },
+          "path": "DOC",
+          "from": "app.py#<module>:0:0$v8",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "app.py#<module>:0:0$b0",
       "blocks": [
         {
@@ -1199,7 +1233,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/find"
+        "path": "/find",
+        "mount": "app"
       }
     },
     {
@@ -1208,7 +1243,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/find-bound"
+        "path": "/find-bound",
+        "mount": "app"
       }
     },
     {
@@ -1217,7 +1253,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/lookup"
+        "path": "/lookup",
+        "mount": "app"
       }
     },
     {
@@ -1226,7 +1263,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/lookup-fixed"
+        "path": "/lookup-fixed",
+        "mount": "app"
       }
     }
   ],

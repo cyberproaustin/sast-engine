@@ -245,7 +245,19 @@
       ],
       "returns": [],
       "comparisons": [],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "api.py",
+            "line": 13,
+            "column": 1
+          },
+          "path": "router",
+          "from": "api.py#<module>:0:0$v7",
+          "block": "api.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "api.py#<module>:0:0$b0",
       "blocks": [
         {
@@ -679,7 +691,41 @@
       ],
       "returns": [],
       "comparisons": [],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 18,
+            "column": 1
+          },
+          "path": "app",
+          "from": "app.py#<module>:0:0$v1",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 1
+          },
+          "path": "admin",
+          "from": "app.py#<module>:0:0$v5",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 1
+          },
+          "path": "service_prefix",
+          "from": "app.py#<module>:0:0$v11",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "app.py#<module>:0:0$b0",
       "blocks": [
         {
@@ -1813,7 +1859,8 @@
       "framework": "fastapi",
       "detail": {
         "method": "GET",
-        "path": "/api/v1/items"
+        "path": "/api/v1/items",
+        "mount": "router"
       }
     },
     {
@@ -1822,7 +1869,8 @@
       "framework": "fastapi",
       "detail": {
         "method": "POST",
-        "path": "/api/v1/items"
+        "path": "/api/v1/items",
+        "mount": "router"
       }
     },
     {
@@ -1831,7 +1879,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/search"
+        "path": "/search",
+        "mount": "app"
       }
     },
     {
@@ -1840,7 +1889,8 @@
       "framework": "flask",
       "detail": {
         "method": "POST",
-        "path": "/search"
+        "path": "/search",
+        "mount": "app"
       }
     },
     {
@@ -1849,7 +1899,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/health"
+        "path": "/health",
+        "mount": "app"
       }
     },
     {
@@ -1858,7 +1909,8 @@
       "framework": "flask",
       "detail": {
         "method": "POST",
-        "path": "/admin/purge"
+        "path": "/admin/purge",
+        "mount": "admin"
       }
     },
     {
@@ -1867,7 +1919,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/hub/whoami"
+        "path": "/hub/whoami",
+        "mount": "app"
       }
     },
     {
@@ -1876,7 +1929,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "<unresolved:_runtime_prefix>/callback"
+        "path": "<unresolved:_runtime_prefix>/callback",
+        "mount": "app"
       }
     }
   ],

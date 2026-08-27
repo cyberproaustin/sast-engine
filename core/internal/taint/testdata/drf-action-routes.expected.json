@@ -1,0 +1,22 @@
+{
+  "corpus": "drf-action-routes",
+  "description": "One `router.register` line is six routes and one more for every method carrying `@action`, and only the six were enumerated. The cost is not a missing path: it is a missing ENTRY POINT, which is the thing that anchors a flow to something a stranger can reach, so linkding's `/api/bookmarks/check/` -- a URL out of `request.GET` handed to `requests.get` -- was reported by the engine's own surface report as a function nothing calls by name while the flow behind it sat intact and unanchored. The two positives are the two shapes a decorator writes: a list action served at `<prefix>/<name>/`, and a detail action with an explicit `url_path` served under `<prefix>/<pk>/`. Three negatives draw the lines. One of the standard six proves the extras are added rather than substituted. An action reaching a destination the program wrote itself proves that being routed is not being a weakness. And the near miss is a viewset with the identical decorator that no router registers: nothing routes it, so there is no entry point, and a rule that read the decorator instead of the registration would report it.",
+  "expected": [
+    {
+      "cwe": "CWE-918",
+      "sinkFile": "api.py",
+      "sinkLine": 31,
+      "sourceLabel": "request.GET",
+      "confidence": "medium",
+      "note": "linkding's line. A list action at /bookmarks/check/, whose path exists only in the decorator"
+    },
+    {
+      "cwe": "CWE-918",
+      "sinkFile": "api.py",
+      "sinkLine": 40,
+      "sourceLabel": "request.POST",
+      "confidence": "medium",
+      "note": "a detail action with an explicit url_path, served under the record's own segment"
+    }
+  ]
+}

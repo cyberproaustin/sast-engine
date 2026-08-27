@@ -176,7 +176,30 @@
       ],
       "returns": [],
       "comparisons": [],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 5,
+            "column": 1
+          },
+          "path": "app",
+          "from": "app.py#<module>:0:0$v0",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 6,
+            "column": 1
+          },
+          "path": "conn",
+          "from": "app.py#<module>:0:0$v4",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "app.py#<module>:0:0$b0",
       "blocks": [
         {
@@ -1369,7 +1392,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/search"
+        "path": "/search",
+        "mount": "app"
       }
     },
     {
@@ -1378,7 +1402,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/walrus"
+        "path": "/walrus",
+        "mount": "app"
       }
     },
     {
@@ -1387,7 +1412,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/fixed"
+        "path": "/fixed",
+        "mount": "app"
       }
     },
     {
@@ -1396,7 +1422,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/parameterized"
+        "path": "/parameterized",
+        "mount": "app"
       }
     }
   ],

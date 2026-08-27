@@ -421,7 +421,30 @@
       ],
       "returns": [],
       "comparisons": [],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "admin.py",
+            "line": 15,
+            "column": 5
+          },
+          "path": "regex",
+          "from": "admin.py#<module>:0:0$v1",
+          "block": "admin.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "admin.py",
+            "line": 22,
+            "column": 5
+          },
+          "path": "list_display",
+          "from": "admin.py#<module>:0:0$v3",
+          "block": "admin.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "admin.py#<module>:0:0$b0",
       "blocks": [
         {
@@ -1006,7 +1029,19 @@
       ],
       "returns": [],
       "comparisons": [],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "api/urls.py",
+            "line": 11,
+            "column": 1
+          },
+          "path": "urlpatterns",
+          "from": "api/urls.py#<module>:0:0$v1",
+          "block": "api/urls.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "api/urls.py#<module>:0:0$b0",
       "blocks": [
         {
@@ -1754,7 +1789,30 @@
       ],
       "returns": [],
       "comparisons": [],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "front/models.py",
+            "line": 5,
+            "column": 5
+          },
+          "path": "code",
+          "from": "front/models.py#<module>:0:0$v1",
+          "block": "front/models.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "front/models.py",
+            "line": 6,
+            "column": 5
+          },
+          "path": "name",
+          "from": "front/models.py#<module>:0:0$v4",
+          "block": "front/models.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "front/models.py#<module>:0:0$b0",
       "blocks": [
         {
@@ -1826,7 +1884,19 @@
       "calls": [],
       "returns": [],
       "comparisons": [],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "front/signals.py",
+            "line": 3,
+            "column": 1
+          },
+          "path": "_handlers",
+          "from": "front/signals.py#<module>:0:0$v1",
+          "block": "front/signals.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "front/signals.py#<module>:0:0$b0",
       "blocks": [
         {
@@ -4058,7 +4128,19 @@
       ],
       "returns": [],
       "comparisons": [],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "tests/test_urls.py",
+            "line": 10,
+            "column": 1
+          },
+          "path": "urlpatterns",
+          "from": "tests/test_urls.py#<module>:0:0$v1",
+          "block": "tests/test_urls.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "tests/test_urls.py#<module>:0:0$b0",
       "blocks": [
         {
@@ -5180,7 +5262,41 @@
       ],
       "returns": [],
       "comparisons": [],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "urls.py",
+            "line": 21,
+            "column": 1
+          },
+          "path": "router",
+          "from": "urls.py#<module>:0:0$v2",
+          "block": "urls.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "urls.py",
+            "line": 29,
+            "column": 1
+          },
+          "path": "detail_urls",
+          "from": "urls.py#<module>:0:0$v8",
+          "block": "urls.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "urls.py",
+            "line": 34,
+            "column": 1
+          },
+          "path": "urlpatterns",
+          "from": "urls.py#<module>:0:0$v16",
+          "block": "urls.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "urls.py#<module>:0:0$b0",
       "blocks": [
         {
@@ -5211,7 +5327,8 @@
       "framework": "django",
       "detail": {
         "method": "ANY",
-        "path": "/api/v3/checks/:code/flips/"
+        "path": "/api/v3/checks/:code/flips/",
+        "pathParams": "uuid:code"
       }
     },
     {
@@ -5220,7 +5337,8 @@
       "framework": "django",
       "detail": {
         "method": "ANY",
-        "path": "/api/v3/ping/:code/:n"
+        "path": "/api/v3/ping/:code/:n",
+        "pathParams": ":code,:n,:code,:n"
       }
     },
     {
@@ -5229,7 +5347,8 @@
       "framework": "django",
       "detail": {
         "method": "ANY",
-        "path": "/checks/:code/log/"
+        "path": "/checks/:code/log/",
+        "pathParams": "uuid:code"
       }
     },
     {
@@ -5238,7 +5357,8 @@
       "framework": "django",
       "detail": {
         "method": "ANY",
-        "path": "/checks/:code/ping/:n/"
+        "path": "/checks/:code/ping/:n/",
+        "pathParams": "uuid:code,int:n"
       }
     },
     {
@@ -5256,7 +5376,8 @@
       "framework": "django",
       "detail": {
         "method": "GET",
-        "path": "/checks/:code/edit/"
+        "path": "/checks/:code/edit/",
+        "pathParams": "uuid:code"
       }
     },
     {
@@ -5265,7 +5386,8 @@
       "framework": "django",
       "detail": {
         "method": "POST",
-        "path": "/checks/:code/edit/"
+        "path": "/checks/:code/edit/",
+        "pathParams": "uuid:code"
       }
     },
     {
@@ -5274,7 +5396,8 @@
       "framework": "django",
       "detail": {
         "method": "ANY",
-        "path": "/badge/:slug/"
+        "path": "/badge/:slug/",
+        "pathParams": ":slug,:slug"
       }
     },
     {
@@ -5301,7 +5424,8 @@
       "framework": "django",
       "detail": {
         "method": "GET",
-        "path": "/api/checks/:pk/"
+        "path": "/api/checks/:pk/",
+        "pathParams": ":pk"
       }
     },
     {
@@ -5310,7 +5434,8 @@
       "framework": "django",
       "detail": {
         "method": "PUT",
-        "path": "/api/checks/:pk/"
+        "path": "/api/checks/:pk/",
+        "pathParams": ":pk"
       }
     },
     {
@@ -5319,7 +5444,8 @@
       "framework": "django",
       "detail": {
         "method": "PATCH",
-        "path": "/api/checks/:pk/"
+        "path": "/api/checks/:pk/",
+        "pathParams": ":pk"
       }
     },
     {
@@ -5328,7 +5454,8 @@
       "framework": "django",
       "detail": {
         "method": "DELETE",
-        "path": "/api/checks/:pk/"
+        "path": "/api/checks/:pk/",
+        "pathParams": ":pk"
       }
     }
   ],

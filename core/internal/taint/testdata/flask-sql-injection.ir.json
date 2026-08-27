@@ -109,7 +109,19 @@
       ],
       "returns": [],
       "comparisons": [],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 12,
+            "column": 1
+          },
+          "path": "app",
+          "from": "app.py#<module>:0:0$v1",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "app.py#<module>:0:0$b0",
       "blocks": [
         {
@@ -1572,7 +1584,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/user"
+        "path": "/user",
+        "mount": "app"
       }
     },
     {
@@ -1581,7 +1594,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/user-by-id"
+        "path": "/user-by-id",
+        "mount": "app"
       }
     },
     {
@@ -1590,7 +1604,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/all-users"
+        "path": "/all-users",
+        "mount": "app"
       }
     },
     {
@@ -1599,7 +1614,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/user-fstring"
+        "path": "/user-fstring",
+        "mount": "app"
       }
     },
     {
@@ -1608,7 +1624,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/greeting"
+        "path": "/greeting",
+        "mount": "app"
       }
     }
   ],

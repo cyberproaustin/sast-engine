@@ -185,6 +185,26 @@ func composedIntoText(path []Hop) bool {
 	return false
 }
 
+// resolvedAsReference reports whether the caller's data was handed to a call that
+// resolves a RELATIVE REFERENCE against a base URL on its way to this sink.
+//
+// This is the one thing that makes a composed destination whole again, and the reason is
+// RFC 3986 rather than caution. `urljoin` re-parses its reference: one beginning `//` is
+// a network-path reference and its authority REPLACES the base's. An application that
+// writes `"/" + path` in front of caller data has therefore fixed nothing -- the caller
+// supplies the second slash and chooses the machine -- while the same concatenation
+// handed straight to a client keeps the host in the literal, which is what
+// RequiresWholeValue was written to say. Both readings stay correct because the
+// difference between them is a call the model names.
+func (e *engine) resolvedAsReference(path []Hop) bool {
+	for _, h := range path {
+		if h.HasInputArg && e.m.ResolvesReference(h.Symbol, h.InputArg) {
+			return true
+		}
+	}
+	return false
+}
+
 // enclosed reports whether this value became a PART of a composite on its way here.
 //
 // The structural twin of composition. Where composedIntoText asks whether the caller's
@@ -1028,6 +1048,8 @@ func (e *engine) seedSources(prior map[string]*engine) {
 			e.seedByStoreRead(rule, prior)
 		case model.MatchFunctionParamProperty:
 			e.seedByFunctionParamProperty(rule)
+		case model.MatchRoutePathParam:
+			e.seedByRoutePathParam(rule)
 		default:
 			e.seedByEntryParamProperty(rule)
 		}
@@ -1571,6 +1593,166 @@ func (e *engine) seedByGlobalProperty(rule model.SourceRule) {
 			e.markTainted(v.ID, edge{
 				desc:       fmt.Sprintf("source: %s (%s)", label, e.class.Label),
 				loc:        v.Loc,
+				resolution: ir.Resolved,
+			})
+		}
+	}
+}
+
+// constrainedConverters are the route converters that decide what a capture can HOLD,
+// rather than only where it sits in the path.
+//
+// The engine already says this about the same values arriving another way: numeric
+// coercion is a sanitizer for every context and for the untrusted class, because "a
+// number cannot carry syntax". A route that resolves only for `[0-9]+` has made the same
+// guarantee one step earlier, and it never called the handler at all for anything else.
+// `slug` is here for the same reason and not a weaker one -- `[-a-zA-Z0-9_]+` holds no
+// quote, no slash, no space and no second slash to start an authority with.
+//
+// `str`, `string`, `path` and an absent converter are deliberately not here: Django's
+// `str` is `[^/]+`, which carries a quote and an angle bracket perfectly well.
+var constrainedConverters = map[string]bool{
+	"int": true, "float": true, "uuid": true, "slug": true, "decimal": true,
+}
+
+// routePathParams returns the names a registered path declares as captures whose value
+// the framework does not constrain.
+//
+// Three spellings, because three frameworks write the same thing three ways and the
+// frontends preserve what was written: `:name` (Express, aiohttp, and what the Python
+// frontend normalises a Django pattern to), `<name>` and `<converter:name>` (Flask, and
+// Django's own `path()` before normalisation), `{name}` and `{name:converter}`
+// (Starlette and FastAPI).
+//
+// A normalised Django path has lost its converters, so the frontend records them
+// separately and `spec` carries them when it does. When it does not, the path is read
+// for whatever it still says.
+//
+// Nothing here guesses at a name. A segment that is not one of these forms declares no
+// capture, and a path with no captures produces nothing at all.
+func routePathParams(path, spec string) map[string]bool {
+	out := map[string]bool{}
+	add := func(converter, name string) {
+		name = strings.TrimSpace(name)
+		if name == "" || !isIdentifier(name) || constrainedConverters[converter] {
+			return
+		}
+		out[name] = true
+	}
+	if spec != "" {
+		for _, written := range strings.Split(spec, ",") {
+			converter, name, _ := strings.Cut(written, ":")
+			add(converter, name)
+		}
+		return out
+	}
+	for i := 0; i < len(path); i++ {
+		switch path[i] {
+		case ':':
+			j := i + 1
+			for j < len(path) && isIdentifierByte(path[j]) {
+				j++
+			}
+			add("", path[i+1:j])
+			i = j - 1
+		case '<':
+			j := i + 1
+			for j < len(path) && path[j] != '>' {
+				j++
+			}
+			// A Flask converter is written BEFORE the name: `<int:pk>` names `pk`.
+			converter, inner := "", path[i+1:min(j, len(path))]
+			if k := strings.LastIndexByte(inner, ':'); k >= 0 {
+				converter, inner = inner[:k], inner[k+1:]
+			}
+			add(converter, inner)
+			i = j
+		case '{':
+			j := i + 1
+			for j < len(path) && path[j] != '}' {
+				j++
+			}
+			// Starlette writes it the other way round: `{id:int}` names `id`.
+			converter, inner := "", path[i+1:min(j, len(path))]
+			if k := strings.IndexByte(inner, ':'); k >= 0 {
+				converter, inner = inner[k+1:], inner[:k]
+			}
+			add(converter, inner)
+			i = j
+		}
+	}
+	return out
+}
+
+func isIdentifierByte(b byte) bool {
+	return b == '_' || (b >= 'a' && b <= 'z') || (b >= 'A' && b <= 'Z') || (b >= '0' && b <= '9')
+}
+
+func isIdentifier(s string) bool {
+	if s == "" || (s[0] >= '0' && s[0] <= '9') {
+		return false
+	}
+	for i := 0; i < len(s); i++ {
+		if !isIdentifierByte(s[i]) {
+			return false
+		}
+	}
+	return true
+}
+
+// seedByRoutePathParam marks the handler parameters the ROUTE names.
+//
+// Flask and Django bind a URL capture to the handler's own parameter, and no other
+// seeding strategy can say that: each of them names a property of something the request
+// hands over, and here there is no object -- the parameter IS the caller's string. The
+// consequence was not subtle. `@app.route("/run/<cmd>") def run(cmd)` followed by
+// `subprocess.check_output(cmd, shell=True)` produced nothing whatever.
+//
+// The route is the evidence, and it is exact. A parameter is seeded when the path this
+// handler was REGISTERED at declares a capture of that name, so a hook's `form`, a
+// method's `self` and the request object are never reached -- not because they are
+// excluded by name, but because no path ever names them.
+func (e *engine) seedByRoutePathParam(rule model.SourceRule) {
+	for _, ep := range e.ix.IR.EntryPoints {
+		if rule.EntryKind != ep.Kind {
+			continue
+		}
+		if rule.Framework != "" && ep.Framework != "" && rule.Framework != ep.Framework {
+			continue
+		}
+		fn := e.ix.FuncByID[ep.FunctionID]
+		if fn == nil {
+			continue
+		}
+		captures := routePathParams(ep.Detail["path"], ep.Detail["pathParams"])
+		if len(captures) == 0 {
+			continue
+		}
+		for _, param := range fn.Params {
+			if param.ValueID == "" || !captures[param.Name] {
+				continue
+			}
+			at := fn.Loc
+			if v := e.ix.ValueByID[param.ValueID]; v != nil {
+				at = v.Loc
+			}
+			e.seeds[param.ValueID] = seed{
+				label:      param.Name,
+				entryPoint: describeEntry(ep),
+				method:     ep.Detail["method"],
+				path:       ep.Detail["path"],
+				// Iterated over enumerated entry points, so anything seeded here is
+				// anchored by construction.
+				anchored:         true,
+				unresolvedInputs: ep.UnresolvedParams,
+				loc:              ep.Loc,
+				identityInjected: injectsIdentity(e.ix, &ep),
+				trust:            ep.TrustLevel(),
+			}
+			e.markTainted(param.ValueID, edge{
+				desc: fmt.Sprintf("source: %s (%s, named by the route)",
+					param.Name, e.class.Label),
+				loc:        at,
 				resolution: ir.Resolved,
 			})
 		}
@@ -2825,7 +3007,8 @@ func (e *engine) buildFinding(c *ir.Call, ch model.Channel, p model.Policy, arg 
 	// A destination is chosen, not built. Untrusted data composed into it usually leaves
 	// the caller a path segment rather than a machine to point at.
 	if ch.RequiresWholeValue && composedIntoText(path) &&
-		!(ch.AllowsComposedPrefix && e.taintLeads(arg.ValueID)) {
+		!(ch.AllowsComposedPrefix && e.taintLeads(arg.ValueID)) &&
+		!e.resolvedAsReference(path) {
 		return Finding{}, false
 	}
 

@@ -1,0 +1,2075 @@
+{
+  "irVersion": "0.19.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi",
+        "django",
+        "drf",
+        "tornado"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "app.py",
+      "path": "app.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "app.py#<module>:0:0",
+      "name": "<module>",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "A literal `/` in front of caller data anchors a host, until something re-parses it.\n\n`urljoin` resolves its second argument as a URL REFERENCE, and RFC 3986 says a reference\nbeginning `//` is a network-path reference whose authority REPLACES the base's. So\n`urljoin(\"http://127.0.0.1:4096\", \"/\" + path)` with `path = \"/evil.example/x\"` is\n`http://evil.example/x`, and the prefix the application wrote bought nothing.\n\nOrdinary concatenation is the contrast and it is why the whole-value rule exists: the\nsame `origin + \"/\" + path` handed straight to a client keeps the host in the literal, and\nthe caller is left with a path segment.\n\nThe proxy shape also needs the CALL to be described. A handler that forwards whatever\nmethod arrived cannot call `get`, so it writes `requests.request(method, url)` -- and the\ndestination is the second argument, behind the verb.\n"
+        },
+        {
+          "id": "app.py#<module>:0:0$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 10
+          },
+          "literal": "http://127.0.0.1:4096"
+        },
+        {
+          "id": "app.py#<module>:0:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 1
+          },
+          "name": "ORIGIN"
+        },
+        {
+          "id": "app.py#<module>:0:0$v3",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 15
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "app.py#<module>:0:0$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 66,
+            "column": 13
+          },
+          "literal": "^proxy$"
+        },
+        {
+          "id": "app.py#<module>:0:0$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 66,
+            "column": 37
+          },
+          "literal": "proxy"
+        },
+        {
+          "id": "app.py#<module>:0:0$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 66,
+            "column": 5
+          },
+          "name": "django.urls.re_path"
+        },
+        {
+          "id": "app.py#<module>:0:0$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 67,
+            "column": 13
+          },
+          "literal": "^joined$"
+        },
+        {
+          "id": "app.py#<module>:0:0$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 67,
+            "column": 45
+          },
+          "literal": "joined"
+        },
+        {
+          "id": "app.py#<module>:0:0$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 67,
+            "column": 5
+          },
+          "name": "django.urls.re_path"
+        },
+        {
+          "id": "app.py#<module>:0:0$v10",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 68,
+            "column": 13
+          },
+          "literal": "^concat$"
+        },
+        {
+          "id": "app.py#<module>:0:0$v11",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 68,
+            "column": 45
+          },
+          "literal": "concat"
+        },
+        {
+          "id": "app.py#<module>:0:0$v12",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 68,
+            "column": 5
+          },
+          "name": "django.urls.re_path"
+        },
+        {
+          "id": "app.py#<module>:0:0$v13",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 69,
+            "column": 13
+          },
+          "literal": "^health$"
+        },
+        {
+          "id": "app.py#<module>:0:0$v14",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 69,
+            "column": 53
+          },
+          "literal": "health"
+        },
+        {
+          "id": "app.py#<module>:0:0$v15",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 69,
+            "column": 5
+          },
+          "name": "django.urls.re_path"
+        },
+        {
+          "id": "app.py#<module>:0:0$v16",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 1
+          },
+          "name": "urlpatterns"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#<module>:0:0$v1",
+          "to": "app.py#<module>:0:0$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 1
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v6",
+          "to": "app.py#<module>:0:0$v3",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 15
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v9",
+          "to": "app.py#<module>:0:0$v3",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 15
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v12",
+          "to": "app.py#<module>:0:0$v3",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 15
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v15",
+          "to": "app.py#<module>:0:0$v3",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 15
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v3",
+          "to": "app.py#<module>:0:0$v16",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 1
+          },
+          "block": "app.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#<module>:0:0$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 66,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.re_path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#<module>:0:0$v4"
+            },
+            {
+              "index": 1,
+              "functionId": "app.py#proxy:30:1"
+            },
+            {
+              "valueId": "app.py#<module>:0:0$v5",
+              "name": "name"
+            }
+          ],
+          "resultValueId": "app.py#<module>:0:0$v6",
+          "block": "app.py#<module>:0:0$b0",
+          "argCount": 3,
+          "argLiterals": {
+            "0": "^proxy$",
+            "-1": "name=proxy"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#<module>:0:0$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 67,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.re_path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#<module>:0:0$v7"
+            },
+            {
+              "index": 1,
+              "functionId": "app.py#joined_whole:39:1"
+            },
+            {
+              "valueId": "app.py#<module>:0:0$v8",
+              "name": "name"
+            }
+          ],
+          "resultValueId": "app.py#<module>:0:0$v9",
+          "block": "app.py#<module>:0:0$b0",
+          "argCount": 3,
+          "argLiterals": {
+            "0": "^joined$",
+            "-1": "name=joined"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#<module>:0:0$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 68,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.re_path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#<module>:0:0$v10"
+            },
+            {
+              "index": 1,
+              "functionId": "app.py#concatenated:46:1"
+            },
+            {
+              "valueId": "app.py#<module>:0:0$v11",
+              "name": "name"
+            }
+          ],
+          "resultValueId": "app.py#<module>:0:0$v12",
+          "block": "app.py#<module>:0:0$b0",
+          "argCount": 3,
+          "argLiterals": {
+            "0": "^concat$",
+            "-1": "name=concat"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#<module>:0:0$c3",
+          "loc": {
+            "file": "app.py",
+            "line": 69,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.re_path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#<module>:0:0$v13"
+            },
+            {
+              "index": 1,
+              "functionId": "app.py#base_is_the_caller_s:56:1"
+            },
+            {
+              "valueId": "app.py#<module>:0:0$v14",
+              "name": "name"
+            }
+          ],
+          "resultValueId": "app.py#<module>:0:0$v15",
+          "block": "app.py#<module>:0:0$b0",
+          "argCount": 3,
+          "argLiterals": {
+            "0": "^health$",
+            "-1": "name=health"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 22,
+            "column": 1
+          },
+          "path": "ORIGIN",
+          "from": "app.py#<module>:0:0$v1",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 1
+          },
+          "path": "urlpatterns",
+          "from": "app.py#<module>:0:0$v3",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "app.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "app.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#_proxy_url:25:1",
+      "name": "_proxy_url",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 25,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "path",
+          "valueId": "app.py#_proxy_url:25:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#_proxy_url:25:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 16
+          },
+          "name": "path"
+        },
+        {
+          "id": "app.py#_proxy_url:25:1$v1",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 11
+          },
+          "name": "conditional"
+        },
+        {
+          "id": "app.py#_proxy_url:25:1$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 11
+          },
+          "literal": "/"
+        },
+        {
+          "id": "app.py#_proxy_url:25:1$v3",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 32
+          },
+          "name": "f-string"
+        },
+        {
+          "id": "app.py#_proxy_url:25:1$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 32
+          },
+          "literal": "/"
+        },
+        {
+          "id": "app.py#_proxy_url:25:1$v5",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 5
+          },
+          "name": "rel"
+        },
+        {
+          "id": "app.py#_proxy_url:25:1$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 12
+          },
+          "name": "urllib.parse.urljoin"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#_proxy_url:25:1$v2",
+          "to": "app.py#_proxy_url:25:1$v1",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 11
+          },
+          "block": "app.py#_proxy_url:25:1$b0"
+        },
+        {
+          "from": "app.py#_proxy_url:25:1$v4",
+          "to": "app.py#_proxy_url:25:1$v3",
+          "kind": "template",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 32
+          },
+          "block": "app.py#_proxy_url:25:1$b0"
+        },
+        {
+          "from": "app.py#_proxy_url:25:1$v0",
+          "to": "app.py#_proxy_url:25:1$v3",
+          "kind": "template",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 32
+          },
+          "block": "app.py#_proxy_url:25:1$b0"
+        },
+        {
+          "from": "app.py#_proxy_url:25:1$v3",
+          "to": "app.py#_proxy_url:25:1$v1",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 11
+          },
+          "block": "app.py#_proxy_url:25:1$b0"
+        },
+        {
+          "from": "app.py#_proxy_url:25:1$v1",
+          "to": "app.py#_proxy_url:25:1$v5",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 5
+          },
+          "block": "app.py#_proxy_url:25:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#_proxy_url:25:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "urllib.parse.urljoin",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#<module>:0:0$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#_proxy_url:25:1$v5"
+            }
+          ],
+          "resultValueId": "app.py#_proxy_url:25:1$v6",
+          "block": "app.py#_proxy_url:25:1$b0",
+          "argCount": 2,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "app.py#_proxy_url:25:1$v6"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#_proxy_url:25:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#_proxy_url:25:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#_proxy_url:25:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#proxy:30:1",
+      "name": "proxy",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 30,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "app.py#proxy:30:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#proxy:30:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 11
+          },
+          "name": "request"
+        },
+        {
+          "id": "app.py#proxy:30:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 28
+          },
+          "literal": "path"
+        },
+        {
+          "id": "app.py#proxy:30:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 12
+          },
+          "base": "app.py#proxy:30:1$v0",
+          "path": "GET",
+          "name": "GET"
+        },
+        {
+          "id": "app.py#proxy:30:1$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 12
+          },
+          "name": "request.GET.get"
+        },
+        {
+          "id": "app.py#proxy:30:1$v4",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 5
+          },
+          "name": "path"
+        },
+        {
+          "id": "app.py#proxy:30:1$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 33
+          },
+          "literal": "GET"
+        },
+        {
+          "id": "app.py#proxy:30:1$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 40
+          },
+          "name": "local"
+        },
+        {
+          "id": "app.py#proxy:30:1$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 65
+          },
+          "literal": "true"
+        },
+        {
+          "id": "app.py#proxy:30:1$v8",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 16
+          },
+          "name": "requests"
+        },
+        {
+          "id": "app.py#proxy:30:1$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 16
+          },
+          "name": "requests.request"
+        },
+        {
+          "id": "app.py#proxy:30:1$v10",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 5
+          },
+          "name": "upstream"
+        },
+        {
+          "id": "app.py#proxy:30:1$v11",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 25
+          },
+          "base": "app.py#proxy:30:1$v10",
+          "path": "content",
+          "name": "content"
+        },
+        {
+          "id": "app.py#proxy:30:1$v12",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 12
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#proxy:30:1$v0",
+          "to": "app.py#proxy:30:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 12
+          },
+          "block": "app.py#proxy:30:1$b0"
+        },
+        {
+          "from": "app.py#proxy:30:1$v3",
+          "to": "app.py#proxy:30:1$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 5
+          },
+          "block": "app.py#proxy:30:1$b0"
+        },
+        {
+          "from": "app.py#proxy:30:1$v9",
+          "to": "app.py#proxy:30:1$v10",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 5
+          },
+          "block": "app.py#proxy:30:1$b0"
+        },
+        {
+          "from": "app.py#proxy:30:1$v10",
+          "to": "app.py#proxy:30:1$v11",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 25
+          },
+          "block": "app.py#proxy:30:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#proxy:30:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "request.GET.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#proxy:30:1$v1"
+            }
+          ],
+          "resultValueId": "app.py#proxy:30:1$v3",
+          "block": "app.py#proxy:30:1$b0",
+          "method": "get",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "path"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#proxy:30:1$v2"
+        },
+        {
+          "id": "app.py#proxy:30:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 40
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "app.py#_proxy_url:25:1",
+            "resolution": "resolved",
+            "name": "_proxy_url"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#proxy:30:1$v4"
+            }
+          ],
+          "resultValueId": "app.py#proxy:30:1$v6",
+          "block": "app.py#proxy:30:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#proxy:30:1$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "requests.request",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#proxy:30:1$v5"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#proxy:30:1$v6"
+            },
+            {
+              "valueId": "app.py#proxy:30:1$v7",
+              "name": "stream"
+            }
+          ],
+          "resultValueId": "app.py#proxy:30:1$v9",
+          "block": "app.py#proxy:30:1$b0",
+          "method": "request",
+          "argCount": 3,
+          "argLiterals": {
+            "0": "GET",
+            "-1": "stream=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#proxy:30:1$v8"
+        },
+        {
+          "id": "app.py#proxy:30:1$c3",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#proxy:30:1$v11"
+            }
+          ],
+          "resultValueId": "app.py#proxy:30:1$v12",
+          "block": "app.py#proxy:30:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "app.py#proxy:30:1$v12"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#proxy:30:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#proxy:30:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#proxy:30:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#joined_whole:39:1",
+      "name": "joined_whole",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 39,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "app.py#joined_whole:39:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#joined_whole:39:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 39,
+            "column": 18
+          },
+          "name": "request"
+        },
+        {
+          "id": "app.py#joined_whole:39:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 28
+          },
+          "literal": "path"
+        },
+        {
+          "id": "app.py#joined_whole:39:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 12
+          },
+          "base": "app.py#joined_whole:39:1$v0",
+          "path": "GET",
+          "name": "GET"
+        },
+        {
+          "id": "app.py#joined_whole:39:1$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 12
+          },
+          "name": "request.GET.get"
+        },
+        {
+          "id": "app.py#joined_whole:39:1$v4",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 5
+          },
+          "name": "path"
+        },
+        {
+          "id": "app.py#joined_whole:39:1$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 33
+          },
+          "literal": "GET"
+        },
+        {
+          "id": "app.py#joined_whole:39:1$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 40
+          },
+          "name": "urllib.parse.urljoin"
+        },
+        {
+          "id": "app.py#joined_whole:39:1$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 70
+          },
+          "literal": "true"
+        },
+        {
+          "id": "app.py#joined_whole:39:1$v8",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 16
+          },
+          "name": "requests"
+        },
+        {
+          "id": "app.py#joined_whole:39:1$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 16
+          },
+          "name": "requests.request"
+        },
+        {
+          "id": "app.py#joined_whole:39:1$v10",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 5
+          },
+          "name": "upstream"
+        },
+        {
+          "id": "app.py#joined_whole:39:1$v11",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 25
+          },
+          "base": "app.py#joined_whole:39:1$v10",
+          "path": "content",
+          "name": "content"
+        },
+        {
+          "id": "app.py#joined_whole:39:1$v12",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 12
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#joined_whole:39:1$v0",
+          "to": "app.py#joined_whole:39:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 12
+          },
+          "block": "app.py#joined_whole:39:1$b0"
+        },
+        {
+          "from": "app.py#joined_whole:39:1$v3",
+          "to": "app.py#joined_whole:39:1$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 5
+          },
+          "block": "app.py#joined_whole:39:1$b0"
+        },
+        {
+          "from": "app.py#joined_whole:39:1$v9",
+          "to": "app.py#joined_whole:39:1$v10",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 5
+          },
+          "block": "app.py#joined_whole:39:1$b0"
+        },
+        {
+          "from": "app.py#joined_whole:39:1$v10",
+          "to": "app.py#joined_whole:39:1$v11",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 25
+          },
+          "block": "app.py#joined_whole:39:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#joined_whole:39:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 41,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "request.GET.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#joined_whole:39:1$v1"
+            }
+          ],
+          "resultValueId": "app.py#joined_whole:39:1$v3",
+          "block": "app.py#joined_whole:39:1$b0",
+          "method": "get",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "path"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#joined_whole:39:1$v2"
+        },
+        {
+          "id": "app.py#joined_whole:39:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 40
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "urllib.parse.urljoin",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#<module>:0:0$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#joined_whole:39:1$v4"
+            }
+          ],
+          "resultValueId": "app.py#joined_whole:39:1$v6",
+          "block": "app.py#joined_whole:39:1$b0",
+          "argCount": 2,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#joined_whole:39:1$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "requests.request",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#joined_whole:39:1$v5"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#joined_whole:39:1$v6"
+            },
+            {
+              "valueId": "app.py#joined_whole:39:1$v7",
+              "name": "stream"
+            }
+          ],
+          "resultValueId": "app.py#joined_whole:39:1$v9",
+          "block": "app.py#joined_whole:39:1$b0",
+          "method": "request",
+          "argCount": 3,
+          "argLiterals": {
+            "0": "GET",
+            "-1": "stream=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#joined_whole:39:1$v8"
+        },
+        {
+          "id": "app.py#joined_whole:39:1$c3",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#joined_whole:39:1$v11"
+            }
+          ],
+          "resultValueId": "app.py#joined_whole:39:1$v12",
+          "block": "app.py#joined_whole:39:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "app.py#joined_whole:39:1$v12"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#joined_whole:39:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#joined_whole:39:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 39,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#joined_whole:39:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#concatenated:46:1",
+      "name": "concatenated",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 46,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "app.py#concatenated:46:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#concatenated:46:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 46,
+            "column": 18
+          },
+          "name": "request"
+        },
+        {
+          "id": "app.py#concatenated:46:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 28
+          },
+          "literal": "path"
+        },
+        {
+          "id": "app.py#concatenated:46:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 12
+          },
+          "base": "app.py#concatenated:46:1$v0",
+          "path": "GET",
+          "name": "GET"
+        },
+        {
+          "id": "app.py#concatenated:46:1$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 12
+          },
+          "name": "request.GET.get"
+        },
+        {
+          "id": "app.py#concatenated:46:1$v4",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 5
+          },
+          "name": "path"
+        },
+        {
+          "id": "app.py#concatenated:46:1$v5",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 29
+          },
+          "name": "concat"
+        },
+        {
+          "id": "app.py#concatenated:46:1$v6",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 29
+          },
+          "name": "concat"
+        },
+        {
+          "id": "app.py#concatenated:46:1$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 38
+          },
+          "literal": "/"
+        },
+        {
+          "id": "app.py#concatenated:46:1$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 58
+          },
+          "literal": "10"
+        },
+        {
+          "id": "app.py#concatenated:46:1$v9",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 16
+          },
+          "name": "requests"
+        },
+        {
+          "id": "app.py#concatenated:46:1$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 16
+          },
+          "name": "requests.get"
+        },
+        {
+          "id": "app.py#concatenated:46:1$v11",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 5
+          },
+          "name": "upstream"
+        },
+        {
+          "id": "app.py#concatenated:46:1$v12",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 25
+          },
+          "base": "app.py#concatenated:46:1$v11",
+          "path": "content",
+          "name": "content"
+        },
+        {
+          "id": "app.py#concatenated:46:1$v13",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 12
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#concatenated:46:1$v0",
+          "to": "app.py#concatenated:46:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 12
+          },
+          "block": "app.py#concatenated:46:1$b0"
+        },
+        {
+          "from": "app.py#concatenated:46:1$v3",
+          "to": "app.py#concatenated:46:1$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 5
+          },
+          "block": "app.py#concatenated:46:1$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v2",
+          "to": "app.py#concatenated:46:1$v6",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 29
+          },
+          "block": "app.py#concatenated:46:1$b0"
+        },
+        {
+          "from": "app.py#concatenated:46:1$v7",
+          "to": "app.py#concatenated:46:1$v6",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 29
+          },
+          "block": "app.py#concatenated:46:1$b0"
+        },
+        {
+          "from": "app.py#concatenated:46:1$v6",
+          "to": "app.py#concatenated:46:1$v5",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 29
+          },
+          "block": "app.py#concatenated:46:1$b0"
+        },
+        {
+          "from": "app.py#concatenated:46:1$v4",
+          "to": "app.py#concatenated:46:1$v5",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 29
+          },
+          "block": "app.py#concatenated:46:1$b0"
+        },
+        {
+          "from": "app.py#concatenated:46:1$v10",
+          "to": "app.py#concatenated:46:1$v11",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 5
+          },
+          "block": "app.py#concatenated:46:1$b0"
+        },
+        {
+          "from": "app.py#concatenated:46:1$v11",
+          "to": "app.py#concatenated:46:1$v12",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 25
+          },
+          "block": "app.py#concatenated:46:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#concatenated:46:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "request.GET.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#concatenated:46:1$v1"
+            }
+          ],
+          "resultValueId": "app.py#concatenated:46:1$v3",
+          "block": "app.py#concatenated:46:1$b0",
+          "method": "get",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "path"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#concatenated:46:1$v2"
+        },
+        {
+          "id": "app.py#concatenated:46:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "requests.get",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#concatenated:46:1$v5"
+            },
+            {
+              "valueId": "app.py#concatenated:46:1$v8",
+              "name": "timeout"
+            }
+          ],
+          "resultValueId": "app.py#concatenated:46:1$v10",
+          "block": "app.py#concatenated:46:1$b0",
+          "method": "get",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "timeout=10"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#concatenated:46:1$v9"
+        },
+        {
+          "id": "app.py#concatenated:46:1$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#concatenated:46:1$v12"
+            }
+          ],
+          "resultValueId": "app.py#concatenated:46:1$v13",
+          "block": "app.py#concatenated:46:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "app.py#concatenated:46:1$v13"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#concatenated:46:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#concatenated:46:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 46,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#concatenated:46:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 53,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#base_is_the_caller_s:56:1",
+      "name": "base_is_the_caller_s",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 56,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "app.py#base_is_the_caller_s:56:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#base_is_the_caller_s:56:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 56,
+            "column": 26
+          },
+          "name": "request"
+        },
+        {
+          "id": "app.py#base_is_the_caller_s:56:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 60,
+            "column": 29
+          },
+          "literal": "/health"
+        },
+        {
+          "id": "app.py#base_is_the_caller_s:56:1$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 60,
+            "column": 13
+          },
+          "name": "urllib.parse.urljoin"
+        },
+        {
+          "id": "app.py#base_is_the_caller_s:56:1$v3",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 60,
+            "column": 5
+          },
+          "name": "fixed"
+        },
+        {
+          "id": "app.py#base_is_the_caller_s:56:1$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 61,
+            "column": 33
+          },
+          "literal": "GET"
+        },
+        {
+          "id": "app.py#base_is_the_caller_s:56:1$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 61,
+            "column": 55
+          },
+          "literal": "10"
+        },
+        {
+          "id": "app.py#base_is_the_caller_s:56:1$v6",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 61,
+            "column": 16
+          },
+          "name": "requests"
+        },
+        {
+          "id": "app.py#base_is_the_caller_s:56:1$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 61,
+            "column": 16
+          },
+          "name": "requests.request"
+        },
+        {
+          "id": "app.py#base_is_the_caller_s:56:1$v8",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 61,
+            "column": 5
+          },
+          "name": "upstream"
+        },
+        {
+          "id": "app.py#base_is_the_caller_s:56:1$v9",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 62,
+            "column": 25
+          },
+          "base": "app.py#base_is_the_caller_s:56:1$v8",
+          "path": "content",
+          "name": "content"
+        },
+        {
+          "id": "app.py#base_is_the_caller_s:56:1$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 62,
+            "column": 12
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#base_is_the_caller_s:56:1$v2",
+          "to": "app.py#base_is_the_caller_s:56:1$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 60,
+            "column": 5
+          },
+          "block": "app.py#base_is_the_caller_s:56:1$b0"
+        },
+        {
+          "from": "app.py#base_is_the_caller_s:56:1$v7",
+          "to": "app.py#base_is_the_caller_s:56:1$v8",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 61,
+            "column": 5
+          },
+          "block": "app.py#base_is_the_caller_s:56:1$b0"
+        },
+        {
+          "from": "app.py#base_is_the_caller_s:56:1$v8",
+          "to": "app.py#base_is_the_caller_s:56:1$v9",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 62,
+            "column": 25
+          },
+          "block": "app.py#base_is_the_caller_s:56:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#base_is_the_caller_s:56:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 60,
+            "column": 13
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "urllib.parse.urljoin",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#<module>:0:0$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#base_is_the_caller_s:56:1$v1"
+            }
+          ],
+          "resultValueId": "app.py#base_is_the_caller_s:56:1$v2",
+          "block": "app.py#base_is_the_caller_s:56:1$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "1": "/health"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#base_is_the_caller_s:56:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 61,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "requests.request",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#base_is_the_caller_s:56:1$v4"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#base_is_the_caller_s:56:1$v3"
+            },
+            {
+              "valueId": "app.py#base_is_the_caller_s:56:1$v5",
+              "name": "timeout"
+            }
+          ],
+          "resultValueId": "app.py#base_is_the_caller_s:56:1$v7",
+          "block": "app.py#base_is_the_caller_s:56:1$b0",
+          "method": "request",
+          "argCount": 3,
+          "argLiterals": {
+            "0": "GET",
+            "-1": "timeout=10"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#base_is_the_caller_s:56:1$v6"
+        },
+        {
+          "id": "app.py#base_is_the_caller_s:56:1$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 62,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#base_is_the_caller_s:56:1$v9"
+            }
+          ],
+          "resultValueId": "app.py#base_is_the_caller_s:56:1$v10",
+          "block": "app.py#base_is_the_caller_s:56:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "app.py#base_is_the_caller_s:56:1$v10"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#base_is_the_caller_s:56:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#base_is_the_caller_s:56:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 56,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#base_is_the_caller_s:56:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 62,
+            "column": 5
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "app.py#proxy:30:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/proxy"
+      }
+    },
+    {
+      "functionId": "app.py#joined_whole:39:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/joined"
+      }
+    },
+    {
+      "functionId": "app.py#concatenated:46:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/concat"
+      }
+    },
+    {
+      "functionId": "app.py#base_is_the_caller_s:56:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/health"
+      }
+    }
+  ],
+  "declaredViews": [],
+  "views": [],
+  "renders": []
+}

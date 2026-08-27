@@ -238,7 +238,52 @@
       ],
       "returns": [],
       "comparisons": [],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 1
+          },
+          "path": "app",
+          "from": "app.py#<module>:0:0$v1",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 1
+          },
+          "path": "CATALOG_KEY",
+          "from": "app.py#<module>:0:0$v3",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 1
+          },
+          "path": "CATALOG_SECRET",
+          "from": "app.py#<module>:0:0$v5",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 1
+          },
+          "path": "log",
+          "from": "app.py#<module>:0:0$v8",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "app.py#<module>:0:0$b0",
       "blocks": [
         {
@@ -2033,7 +2078,19 @@
       "calls": [],
       "returns": [],
       "comparisons": [],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "engine_module.py",
+            "line": 10,
+            "column": 1
+          },
+          "path": "categories",
+          "from": "engine_module.py#<module>:0:0$v1",
+          "block": "engine_module.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "engine_module.py#<module>:0:0$b0",
       "blocks": [
         {
@@ -2697,7 +2754,19 @@
       "calls": [],
       "returns": [],
       "comparisons": [],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "engine_xml.py",
+            "line": 10,
+            "column": 1
+          },
+          "path": "categories",
+          "from": "engine_xml.py#<module>:0:0$v1",
+          "block": "engine_xml.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "engine_xml.py#<module>:0:0$b0",
       "blocks": [
         {
@@ -3090,7 +3159,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/import"
+        "path": "/import",
+        "mount": "app"
       }
     },
     {
@@ -3099,7 +3169,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/sync"
+        "path": "/sync",
+        "mount": "app"
       }
     },
     {
@@ -3108,7 +3179,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/audit"
+        "path": "/audit",
+        "mount": "app"
       }
     },
     {
@@ -3117,7 +3189,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/mirror"
+        "path": "/mirror",
+        "mount": "app"
       }
     },
     {
@@ -3126,7 +3199,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/lookup"
+        "path": "/lookup",
+        "mount": "app"
       }
     },
     {
@@ -3135,7 +3209,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/private"
+        "path": "/private",
+        "mount": "app"
       }
     }
   ],

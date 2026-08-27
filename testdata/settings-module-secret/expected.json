@@ -1,0 +1,30 @@
+{
+  "corpus": "settings-module-secret",
+  "description": "A module's top level IS the configuration namespace, in the framework that has no configuration object. The secret rules match a write into something -- `app.config[\"SECRET_KEY\"]`, `app.secret_key` -- because Flask gives them an object; Django gives them none, since `django.conf.settings.SECRET_KEY` reads the module-level name of whichever module the deployment points at. The write has no base and no property, so one of the two largest Python web frameworks had no hardcoded-secret rule that applied to it, and doccano's committed fallback key recorded nothing. The value half is the other spelling of `X || literal`: every library says default with an ARGUMENT rather than an operator, and the argument after the key is the one that means it. Three positives cover the three spellings -- environs' callable, `os.environ.get`, and the `default=` keyword. Five negatives, and the first two are the near misses that decide the rule. `env(\"REAL_SECRET_KEY\")` with no fallback is the CORRECT way to write the line and its key is credential-shaped exactly as the fallbacks are, so admitting the first argument would report the fix the finding recommends; and `graphene.String(description=\"Password.\")` in a class body is saleor's measured case twice over -- a class body is reached from the module's top level and is not part of it, and a keyword that accompanies a value is not one that names a default. The rest are a value incapable of serving as the credential, a key with no credential word, and a CSRF token, which are the same three bars the property-write rule applies. A module-level setting assigned a PLAIN literal is a stated miss, recorded in the model beside the rule: the literal analysis already judges those by shape, and widening this one to claim them reported two lines in this engine's own corpus that no expectation names.",
+  "expected": [
+    {
+      "cwe": "CWE-798",
+      "sinkFile": "settings.py",
+      "sinkLine": 26,
+      "sourceLabel": "\"v8sk33sy82!uw3ty=!jjv5vp7=s2phrzw(m(hrn^f7e_#1h2al\"",
+      "confidence": "high",
+      "note": "doccano's line: the fallback becomes the signing key whenever the deployment supplies nothing, which is what its own image and documented run command both do"
+    },
+    {
+      "cwe": "CWE-798",
+      "sinkFile": "settings.py",
+      "sinkLine": 29,
+      "sourceLabel": "\"django-insecure-9f2h3k4j5l6m7n8o\"",
+      "confidence": "high",
+      "note": "the stdlib spelling of the same shape"
+    },
+    {
+      "cwe": "CWE-798",
+      "sinkFile": "settings.py",
+      "sinkLine": 32,
+      "sourceLabel": "\"hunter2andthensome\"",
+      "confidence": "high",
+      "note": "the keyword spelling, which is what python-decouple and environs both write"
+    }
+  ]
+}

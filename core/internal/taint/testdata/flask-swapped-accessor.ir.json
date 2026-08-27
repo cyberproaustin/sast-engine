@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.18.0",
+  "irVersion": "0.19.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -14,6 +14,7 @@
         "flask-appbuilder",
         "fastapi",
         "django",
+        "drf",
         "tornado"
       ]
     }
@@ -108,7 +109,19 @@
       ],
       "returns": [],
       "comparisons": [],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 17,
+            "column": 1
+          },
+          "path": "app",
+          "from": "app.py#<module>:0:0$v1",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "app.py#<module>:0:0$b0",
       "blocks": [
         {
@@ -3629,6 +3642,7 @@
       }
     }
   ],
+  "declaredViews": [],
   "views": [],
   "renders": []
 }

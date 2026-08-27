@@ -40,6 +40,9 @@ func analyzeLimiters(d *ir.IR, m model.Model) []taint.Finding {
 		if rule.Limiter.BucketKey != nil {
 			out = append(out, analyzeBucketKey(ix, rule)...)
 		}
+		if rule.Limiter.KeyFromHeader != nil {
+			out = append(out, analyzeKeyFromHeader(ix, rule)...)
+		}
 		if len(rule.Limiter.Counters) != 0 {
 			out = append(out, analyzeLimiterCoverage(ix, m, rule)...)
 		}
@@ -99,6 +102,268 @@ func analyzeBucketKey(ix *ir.Index, rule model.GuardRule) []taint.Finding {
 		}
 	}
 	return out
+}
+
+// analyzeKeyFromHeader reports a rate limiter whose key the caller writes.
+//
+// The rule beside this one reads a CONFIGURATION -- express-rate-limit's default key
+// under `app.set("trust proxy", true)` -- and is silent on an application that supplies
+// a key of its own, because neither the library nor the framework setting it names is
+// present. This reads the KEY instead, out of three facts the graph already holds: the
+// module builds a limiter, a function in it is that limiter's key, and the key reaches a
+// forwarding header.
+//
+// Scoped to one module on purpose. A function called `key` is an ordinary thing to write
+// and says nothing on its own; a function called `key` in the file that constructs the
+// limiters is the bucket key, and that is the whole of the claim.
+func analyzeKeyFromHeader(ix *ir.Index, rule model.GuardRule) []taint.Finding {
+	kr := rule.Limiter.KeyFromHeader
+
+	// The noise boundary, and the same one the coverage rule draws: without a limiter
+	// construction in the module, nothing here is about rate limiting at all.
+	limiters := map[string]*ir.Call{}
+	for _, fn := range ix.IR.Functions {
+		for _, call := range fn.Calls {
+			if ix.InTestModule(call.Loc) || !ix.InApplicationSurface(call.Loc) {
+				continue
+			}
+			if !carriesWord(call.Callee.Name, kr.Vocabulary) &&
+				!carriesWord(lastSegment(call.Callee.Symbol), kr.Vocabulary) {
+				continue
+			}
+			if _, seen := limiters[call.Loc.File]; !seen {
+				limiters[call.Loc.File] = call
+			}
+		}
+	}
+	if len(limiters) == 0 {
+		return nil
+	}
+
+	var out []taint.Finding
+	for _, fn := range ix.IR.Functions {
+		constructor := limiters[fn.Loc.File]
+		if constructor == nil || !nameIn(fn.Name, kr.KeyOptions) {
+			continue
+		}
+		if ix.InTestModule(fn.Loc) || !ix.InApplicationSurface(fn.Loc) {
+			continue
+		}
+		read := firstForwardedHeaderRead(ix, fn.ID, kr, moduleScope(ix), map[string]bool{})
+		if read == nil {
+			continue
+		}
+		out = append(out, taint.Finding{
+			Analysis:      rule.ID,
+			Class:         rule.Finding,
+			CWE:           rule.CWE,
+			Message:       rule.Reason,
+			Confidence:    taint.High,
+			SourceLoc:     constructor.Loc,
+			SourceLabel:   fn.Name + " decides the rate-limit bucket",
+			EntryAnchored: true,
+			SinkLoc:       read.Loc,
+			SinkFunction:  fn.ID,
+			SinkSymbol:    "header(" + read.Header + ")",
+			SinkRational:  rule.Rationale,
+			RelatedSites: []taint.Site{{
+				Loc: constructor.Loc,
+			}},
+		})
+	}
+	return out
+}
+
+// headerRead is one place a forwarding header was named, and which one it was.
+type headerRead struct {
+	Loc    ir.Loc
+	Header string
+}
+
+// firstForwardedHeaderRead walks out from the key function looking for a place a
+// forwarding header is named.
+//
+// Names, not accessors. An application reads a header through `headers.get(name)`,
+// `req.headers[name]`, `req.get(name)` and `META["HTTP_X_FORWARDED_FOR"]`, and
+// enumerating those is a list that goes wrong at the next framework -- while the header's
+// own NAME is the same string in all of them. reactive-resume never writes the name at
+// the call at all: it loops over a module-level `TRUSTED_IP_HEADERS` array in another
+// package, so the literal is found by walking the value graph backwards from the
+// argument rather than by reading the call.
+func firstForwardedHeaderRead(ix *ir.Index, root string, kr *model.KeyFromHeaderRule,
+	defined map[string][]string, seen map[string]bool) *headerRead {
+	if seen[root] {
+		return nil
+	}
+	seen[root] = true
+	fn := ix.FuncByID[root]
+	if fn == nil {
+		return nil
+	}
+	// `req.headers["x-forwarded-for"]` is a property rather than a call, and the header
+	// is the last segment of the path.
+	for _, value := range fn.Values {
+		if value.Kind != ir.ValueProperty {
+			continue
+		}
+		if header := matchingHeader(lastSegment(value.Path), kr.ForwardingHeaders); header != "" {
+			return &headerRead{Loc: value.Loc, Header: header}
+		}
+	}
+	for _, call := range fn.Calls {
+		for _, literal := range call.ArgLiterals {
+			if header := matchingHeader(literal, kr.ForwardingHeaders); header != "" {
+				return &headerRead{Loc: call.Loc, Header: header}
+			}
+		}
+		for _, arg := range call.Args {
+			if header := literalBehind(ix, arg.ValueID, kr.ForwardingHeaders, defined); header != "" {
+				return &headerRead{Loc: call.Loc, Header: header}
+			}
+		}
+		for _, target := range callTargets(call) {
+			if read := firstForwardedHeaderRead(ix, target, kr, defined, seen); read != nil {
+				return read
+			}
+		}
+	}
+	return nil
+}
+
+// literalBehind walks the flow graph backwards from a value collecting the literals it
+// was built from, and answers with the first that names a forwarding header.
+//
+// Bounded, and bounded tightly: this runs once per argument of every call reachable from
+// a key function, and a value in a large program is reachable from a great many others.
+func literalBehind(ix *ir.Index, id string, headers []string, defined map[string][]string) string {
+	// The whole walk rather than the first hit, so the header REPORTED is the one the
+	// model names first rather than whichever the value graph reached first. An
+	// application that tries several in turn reads all of them, and a finding that says
+	// `cf-connecting-ip` invites the reader to answer "but we are behind Cloudflare"
+	// about a list whose next entry is `x-forwarded-for`.
+	best := len(headers)
+	seen := map[string]bool{}
+	frontier := []string{id}
+	for depth := 0; depth < 8 && len(frontier) != 0; depth++ {
+		var next []string
+		for _, at := range frontier {
+			if at == "" || seen[at] {
+				continue
+			}
+			seen[at] = true
+			value := ix.ValueByID[at]
+			if value == nil {
+				continue
+			}
+			if at := headerIndex(value.Literal, headers); at < best {
+				best = at
+			}
+			incoming := 0
+			if owner := ix.OwnerOfValue[at]; owner != nil {
+				for _, edge := range owner.Flows {
+					if edge.To == at {
+						incoming++
+						next = append(next, edge.From)
+					}
+				}
+			}
+			// An imported constant is a dangling name. Neither frontend links
+			// `import { TRUSTED_IP_HEADERS } from "..."` to the array the other module
+			// declares, so the reference has a name, no literal and nothing flowing into
+			// it, and a backwards walk stops there -- which is exactly where
+			// reactive-resume keeps its header list. Continuing at the module-level
+			// declaration of that name is resolving the import, and it is done here
+			// rather than in the frontend because linking every imported binding would
+			// change what taint reaches everywhere, which is a larger change than this
+			// rule should make on its own.
+			if incoming == 0 && value.Literal == "" {
+				next = append(next, defined[value.Name]...)
+			}
+		}
+		frontier = next
+	}
+	if best == len(headers) {
+		return ""
+	}
+	return headers[best]
+}
+
+// moduleScope indexes the module-level values of the whole program by the name they were
+// declared under, so a free reference can be resolved to what it names.
+//
+// Module level only, and named values only: a local of the same name in some unrelated
+// function is not what an import resolves to, and `{object}` is the frontend's word for
+// a value with no name at all.
+func moduleScope(ix *ir.Index) map[string][]string {
+	out := map[string][]string{}
+	for _, fn := range ix.IR.Functions {
+		if fn.Name != "<module>" {
+			continue
+		}
+		for _, value := range fn.Values {
+			name := value.Name
+			if name == "" || strings.HasPrefix(name, "{") || strings.HasPrefix(name, "[") {
+				continue
+			}
+			out[name] = append(out[name], value.ID)
+		}
+	}
+	return out
+}
+
+// matchingHeader compares a written string with the header names, ignoring case and the
+// separators a header name is spelled with. `X-Forwarded-For`, `x_forwarded_for` and
+// Django's `HTTP_X_FORWARDED_FOR` are one header written three ways.
+func matchingHeader(written string, headers []string) string {
+	if at := headerIndex(written, headers); at < len(headers) {
+		return headers[at]
+	}
+	return ""
+}
+
+// headerIndex returns the position of the header this string names, or len(headers).
+func headerIndex(written string, headers []string) int {
+	got := normalizeHeader(written)
+	if got == "" {
+		return len(headers)
+	}
+	got = strings.TrimPrefix(got, "http")
+	for i, header := range headers {
+		if got == normalizeHeader(header) {
+			return i
+		}
+	}
+	return len(headers)
+}
+
+func normalizeHeader(s string) string {
+	var b strings.Builder
+	for i := 0; i < len(s); i++ {
+		c := s[i]
+		switch {
+		case c >= 'A' && c <= 'Z':
+			b.WriteByte(c + ('a' - 'A'))
+		case (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9'):
+			b.WriteByte(c)
+		}
+	}
+	return b.String()
+}
+
+// carriesWord reports whether a name contains one of these words once case and the
+// separators a name is written with are removed. The same comparison the CSRF control
+// list uses, and for the same reason: every spelling a project chooses contains the word.
+func carriesWord(name string, words []string) bool {
+	got := normalizeHeader(name)
+	if got == "" {
+		return false
+	}
+	for _, word := range words {
+		if strings.Contains(got, normalizeHeader(word)) {
+			return true
+		}
+	}
+	return false
 }
 
 func analyzeLimiterCoverage(ix *ir.Index, m model.Model, rule model.GuardRule) []taint.Finding {

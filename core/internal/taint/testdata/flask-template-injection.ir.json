@@ -95,7 +95,19 @@
       ],
       "returns": [],
       "comparisons": [],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 3,
+            "column": 1
+          },
+          "path": "app",
+          "from": "app.py#<module>:0:0$v0",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "app.py#<module>:0:0$b0",
       "blocks": [
         {
@@ -855,7 +867,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/hello"
+        "path": "/hello",
+        "mount": "app"
       }
     },
     {
@@ -864,7 +877,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/hello-safe"
+        "path": "/hello-safe",
+        "mount": "app"
       }
     },
     {
@@ -882,7 +896,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/greeting"
+        "path": "/greeting",
+        "mount": "app"
       }
     }
   ],
