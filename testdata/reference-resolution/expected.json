@@ -1,0 +1,22 @@
+{
+  "corpus": "reference-resolution",
+  "description": "A literal `/` written in front of caller data anchors a host, until something re-parses it. `urljoin` resolves its second argument as a URL REFERENCE, and RFC 3986 says one beginning `//` is a network-path reference whose authority replaces the base's -- so `urljoin(origin, \"/\" + path)` hands the caller the second slash and lets them choose the machine. The corpus also holds the CALL half of the same miss: a proxy forwards whatever method arrived and therefore cannot call `get`, so it writes `requests.request(method, url)`, which had no channel for requests at all and pointed at argument zero for httpx -- the verb, never the address. Two positives: the composed reference, which is archivebox's `/opencode/<path>` line for line, and the same resolver with nothing written in front. Two negatives draw the line. The identical composition handed straight to a client stays silent, because nothing re-parses it and the host remains in the literal, which is exactly what the whole-value rule exists to say; and a resolver whose reference is a literal is not a destination the caller chose at all.",
+  "expected": [
+    {
+      "cwe": "CWE-918",
+      "sinkFile": "app.py",
+      "sinkLine": 35,
+      "sourceLabel": "request.GET",
+      "confidence": "medium",
+      "note": "archivebox's proxy: composed behind a literal slash, resolved against a configured origin, forwarded under the caller's method"
+    },
+    {
+      "cwe": "CWE-918",
+      "sinkFile": "app.py",
+      "sinkLine": 42,
+      "sourceLabel": "request.GET",
+      "confidence": "medium",
+      "note": "the same resolver with the reference supplied whole"
+    }
+  ]
+}

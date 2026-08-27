@@ -105,7 +105,19 @@
       ],
       "returns": [],
       "comparisons": [],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 24,
+            "column": 1
+          },
+          "path": "app",
+          "from": "app.py#<module>:0:0$v1",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "app.py#<module>:0:0$b0",
       "blocks": [
         {
@@ -2002,7 +2014,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/search"
+        "path": "/search",
+        "mount": "app"
       }
     },
     {
@@ -2011,7 +2024,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/profile"
+        "path": "/profile",
+        "mount": "app"
       }
     },
     {
@@ -2020,7 +2034,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/dashboard"
+        "path": "/dashboard",
+        "mount": "app"
       }
     },
     {
@@ -2029,7 +2044,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/report"
+        "path": "/report",
+        "mount": "app"
       }
     },
     {
@@ -2038,7 +2054,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/embed"
+        "path": "/embed",
+        "mount": "app"
       }
     },
     {
@@ -2047,7 +2064,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/audit"
+        "path": "/audit",
+        "mount": "app"
       }
     },
     {
@@ -2056,7 +2074,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/about"
+        "path": "/about",
+        "mount": "app"
       }
     }
   ],

@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.18.0",
+  "irVersion": "0.19.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -14,6 +14,7 @@
         "flask-appbuilder",
         "fastapi",
         "django",
+        "drf",
         "tornado"
       ]
     }
@@ -259,7 +260,74 @@
       ],
       "returns": [],
       "comparisons": [],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 1
+          },
+          "path": "app",
+          "from": "app.py#<module>:0:0$v1",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 1
+          },
+          "path": "RECORDED_DIGEST",
+          "from": "app.py#<module>:0:0$v3",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 1
+          },
+          "path": "_LINK_SECRET",
+          "from": "app.py#<module>:0:0$v5",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 37,
+            "column": 1
+          },
+          "path": "CACHE",
+          "from": "app.py#<module>:0:0$v7",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 38,
+            "column": 1
+          },
+          "path": "ACCOUNTS",
+          "from": "app.py#<module>:0:0$v9",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 129,
+            "column": 1
+          },
+          "path": "_COMPARE_AND_SET",
+          "from": "app.py#<module>:0:0$v11",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "app.py#<module>:0:0$b0",
       "blocks": [
         {
@@ -3233,7 +3301,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/download"
+        "path": "/download",
+        "mount": "app"
       }
     },
     {
@@ -3242,7 +3311,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/artifact"
+        "path": "/artifact",
+        "mount": "app"
       }
     },
     {
@@ -3251,7 +3321,8 @@
       "framework": "flask",
       "detail": {
         "method": "POST",
-        "path": "/login"
+        "path": "/login",
+        "mount": "app"
       }
     },
     {
@@ -3260,7 +3331,8 @@
       "framework": "flask",
       "detail": {
         "method": "POST",
-        "path": "/context"
+        "path": "/context",
+        "mount": "app"
       }
     },
     {
@@ -3269,7 +3341,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/preview"
+        "path": "/preview",
+        "mount": "app"
       }
     },
     {
@@ -3278,10 +3351,12 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/report"
+        "path": "/report",
+        "mount": "app"
       }
     }
   ],
+  "declaredViews": [],
   "views": [],
   "renders": []
 }

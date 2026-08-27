@@ -95,7 +95,19 @@
       ],
       "returns": [],
       "comparisons": [],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 4,
+            "column": 1
+          },
+          "path": "app",
+          "from": "app.py#<module>:0:0$v0",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "app.py#<module>:0:0$b0",
       "blocks": [
         {
@@ -523,7 +535,8 @@
       "framework": "flask",
       "detail": {
         "method": "POST",
-        "path": "/import"
+        "path": "/import",
+        "mount": "app"
       }
     },
     {
@@ -532,7 +545,8 @@
       "framework": "flask",
       "detail": {
         "method": "POST",
-        "path": "/import-fixed"
+        "path": "/import-fixed",
+        "mount": "app"
       }
     }
   ],

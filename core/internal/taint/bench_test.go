@@ -185,6 +185,11 @@ var corpora = []string{
 	"identity-is-not-a-resource",
 	"swapped-accessor",
 	"flask-swapped-accessor",
+	"drf-action-routes",
+	"route-parameter-source",
+	"reference-resolution",
+	"rate-limit-key-header",
+	"settings-module-secret",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {

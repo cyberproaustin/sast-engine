@@ -1,0 +1,14 @@
+{
+  "corpus": "rate-limit-key-header",
+  "description": "The same weakness as `rate-limit-key` and the other half of it. That corpus holds the CONFIGURATION reading -- express-rate-limit's default req.ip key, `app.set(\"trust proxy\", true)`, and the library's validation switched off -- which is one library's spelling, and the one the engine found in unleash and reported as GHSA-2g9c-pxxc-3hq7. reactive-resume has the identical weakness and not one of those three facts: it writes its own key, sets no Express trust anywhere, and limits with a package no constructor list had heard of. So this corpus states the KEY instead, out of three facts the graph already holds: the module constructs a rate limiter, by a word in the call's name; a function in it is that limiter's key, by the option it was written under; and that function reaches a read of a forwarding header. The header list lives in an imported module, which is where reactive-resume keeps it and why the value graph alone was not enough -- neither frontend links an imported constant to the module that declares it. Three negatives draw the lines: a key from established identity, which the caller does not choose; a key from `X-Account-ID`, which is caller-supplied and deliberately not claimed, because a key naming an ACCOUNT is one the application means to trust and whether it is authenticated is a different question; and a function called `key` reading the very same header in a module that builds no limiter, which is the noise boundary -- what makes a function a bucket key is the limiter beside it.",
+  "expected": [
+    {
+      "cwe": "CWE-770",
+      "sinkFile": "app.ts",
+      "sinkLine": 25,
+      "sourceLabel": "key decides the rate-limit bucket",
+      "confidence": "high",
+      "note": "reactive-resume's line: the limiter counts against the first entry of a forwarding chain the caller writes"
+    }
+  ]
+}

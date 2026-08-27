@@ -68,6 +68,17 @@ const (
 	// graph cannot resolve: a SearxNG engine's search(query, params), and JupyterHub's
 	// add_system_user(user). The hook contract is the trust boundary in those cases.
 	MatchFunctionParamProperty = "function-param-property"
+	// MatchRoutePathParam: a handler parameter the ROUTE this handler is registered at
+	// declares. `@app.route("/run/<cmd>") def run(cmd)` and Django's
+	// `re_path(r"^opencode/(?P<path>.*)$", proxy)` both bind a URL capture straight to
+	// the handler's own parameter, and no rule above can say that: every other strategy
+	// names a PROPERTY of something, and here the parameter IS the value.
+	//
+	// The route is what makes it exact rather than a guess about positions. A parameter
+	// is caller data when the path this handler is registered at declares a parameter of
+	// that name -- so `self`, the request object, and the `form` a lifecycle hook is
+	// handed are all untouched, with no list of names to maintain.
+	MatchRoutePathParam = "route-path-param"
 	// MatchProperty classifies a property by what the property itself is named, without
 	// claiming anything about the object it was read from. Used only for values whose
 	// role is stated by the leaf -- a stored token or signature compared with caller
@@ -768,12 +779,16 @@ type Model struct {
 	Persistence []StoreAccess
 	Policies    []Policy
 	Sanitizers  []SanitizerRule
-	Callbacks   []CallbackRule
-	Controls    []ControlRule
-	Literals    []LiteralRule
-	ClientRole  ClientRoleRule
-	Guards      []GuardRule
-	Scopes      []ScopeRule
+	// Resolvers are calls that re-parse a value as a URL REFERENCE. They are neither
+	// sanitizers nor channels: they change what a composition MEANS, which is a fact
+	// about the value rather than about where it is going.
+	Resolvers  []ResolverRule
+	Callbacks  []CallbackRule
+	Controls   []ControlRule
+	Literals   []LiteralRule
+	ClientRole ClientRoleRule
+	Guards     []GuardRule
+	Scopes     []ScopeRule
 	// ArgvNoOptionPrograms is deliberately an allowlist rather than a presumption. Most
 	// command-line programs accept options, and an unknown executable therefore proves
 	// nothing about whether a dash-leading argument changes its operation.
@@ -829,6 +844,39 @@ func (m Model) ArgvProgramHasNoOptions(program string) bool {
 	}
 	for _, allowed := range m.ArgvNoOptionPrograms {
 		if program == allowed {
+			return true
+		}
+	}
+	return false
+}
+
+// ResolverRule names a call that resolves a RELATIVE REFERENCE against a base URL, and
+// which argument carries the reference.
+//
+// It exists because a destination channel asks a structural question -- did the caller
+// supply the whole address, or only a segment after a fixed prefix -- and this call is
+// where that question stops having the obvious answer. `urljoin` re-parses what it is
+// handed, and RFC 3986 says a reference beginning `//` is a NETWORK-PATH REFERENCE whose
+// authority replaces the base's. So the literal `/` an application writes in front of
+// caller data does not fix the host the way a literal `https://api.example.com/` does:
+// the caller supplies the second slash and chooses the machine.
+//
+// Nothing here is a claim about danger. It is a claim about what a composition MEANT,
+// and it applies only where a channel was already asking.
+type ResolverRule struct {
+	Symbol string
+	// RefArg is the argument carrying the reference. The BASE argument is deliberately
+	// not listed: caller data in the base is an ordinary whole-value destination and
+	// the channel's own rule already reads it correctly.
+	RefArg int
+	Note   string
+}
+
+// ResolvesReference reports whether this symbol re-parses the given argument as a URL
+// reference, so that a literal prefix written in front of it no longer anchors a host.
+func (m Model) ResolvesReference(symbol string, arg int) bool {
+	for _, r := range m.Resolvers {
+		if r.Symbol == symbol && r.RefArg == arg {
 			return true
 		}
 	}
@@ -1249,6 +1297,26 @@ func builtin() Model {
 						Paths: []string{"GET", "POST", "FILES", "COOKIES", "META", "body", "headers",
 							"path", "path_info", "get_full_path"},
 					},
+					// The captures a route declares, wherever the framework puts them --
+					// and two of the three Python frameworks here put them in the
+					// handler's OWN PARAMETERS, which is a shape none of the rules above
+					// can state. aiohttp has `match_info` and Tornado has `path_args`,
+					// both properties of something the rules name; Flask and Django have
+					// no such object, so `@app.route("/run/<cmd>") def run(cmd)` bound
+					// the caller's string to a bare parameter and nothing classified it.
+					//
+					// Measured: `subprocess.check_output(cmd, shell=True)` one line
+					// below that decorator produced no finding at all, and archivebox's
+					// `/opencode/<path>` proxy is the same shape one framework along.
+					//
+					// The ROUTE decides which parameters those are, which is what keeps
+					// this from becoming "every parameter of every handler". A path that
+					// declares no capture seeds nothing; `self`, the request, and the
+					// `form` a Django lifecycle hook receives are never named by a path
+					// and are never touched. The stated cost is Django's POSITIONAL
+					// groups -- `r"^(\d+)/$"` passes an unnamed capture by position, and
+					// a route that gives it no name gives this rule nothing to match.
+					{Match: MatchRoutePathParam, EntryKind: "http-route"},
 					// Tornado hangs the request off the HANDLER rather than passing it in.
 					// A verb method's first parameter is `self` and the caller's data is
 					// one hop further along, at `self.request` -- so the judgement is the
@@ -2396,14 +2464,31 @@ func builtin() Model {
 				AllowsComposedPrefix: true,
 				Rationale:            "the first argument is the address this request is sent to",
 			},
+			// The verb-as-argument spelling, and the one a PROXY is always written in:
+			// a handler that forwards whatever method arrived cannot call `get`. Both of
+			// these put the destination in the SECOND argument, behind the method --
+			// `requests.request(method, url, ...)` -- and the entry the list already had
+			// named argument zero, which is the verb and never the address. archivebox's
+			// `/opencode/<path>` proxy is `requests.request(method, _proxy_url(...))` and
+			// had no channel at all: `requests.request` was absent from this list, and
+			// the httpx spelling of the same call pointed at the wrong slot.
 			{
 				ID: "outbound-destination", Visibility: "internal", Context: "url",
-				Symbol: "httpx.request", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
-				RequiredKeyword:      map[string]int{"url": 0},
+				Symbol: "requests.request", ReceiverIsEntryParam: -1, ArgIndex: []int{1},
+				RequiredKeyword:      map[string]int{"url": 1},
 				CWE:                  "CWE-918",
 				RequiresWholeValue:   true,
 				AllowsComposedPrefix: true,
-				Rationale:            "the first argument is the address this request is sent to",
+				Rationale:            "the second argument is the address this request is sent to",
+			},
+			{
+				ID: "outbound-destination", Visibility: "internal", Context: "url",
+				Symbol: "httpx.request", ReceiverIsEntryParam: -1, ArgIndex: []int{1},
+				RequiredKeyword:      map[string]int{"url": 1},
+				CWE:                  "CWE-918",
+				RequiresWholeValue:   true,
+				AllowsComposedPrefix: true,
+				Rationale:            "the second argument is the address this request is sent to",
 			},
 			{
 				ID: "outbound-destination", Visibility: "internal", Context: "url",
@@ -5077,6 +5162,37 @@ func builtin() Model {
 				Reason:          "internal failure detail describes the system to people outside it",
 				Finding:         "Sensitive information exposure",
 				CWE:             "CWE-209",
+			},
+		},
+
+		// The calls that resolve a relative reference against a base. Every one of them
+		// re-parses its reference argument, which is what makes a `/` prefix stop
+		// anchoring the host: `urljoin("http://127.0.0.1:8080", "//evil.example/x")` is
+		// `http://evil.example/x`, and an application that writes `"/" + path` has handed
+		// the caller the second slash.
+		//
+		// Measured on archivebox: `/opencode/<path>` builds `f"/{path}"`, joins it onto
+		// the configured origin, and passes the result to `requests.request`. The channel
+		// asked whether the caller supplied a whole destination, read the literal `/` in
+		// front, and correctly answered no -- for a concatenation. This is not one.
+		Resolvers: []ResolverRule{
+			{
+				Symbol: "urllib.parse.urljoin", RefArg: 1,
+				Note: "resolves argument 1 as a URL reference against argument 0, so a reference beginning // replaces the base's host",
+			},
+			{
+				Symbol: "urljoin", RefArg: 1,
+				Note: "resolves argument 1 as a URL reference against argument 0, so a reference beginning // replaces the base's host",
+			},
+			{
+				// The web platform's spelling of the same operation, in the same
+				// argument order reversed: `new URL(reference, base)`.
+				Symbol: "URL", RefArg: 0,
+				Note: "resolves argument 0 as a URL reference against the base in argument 1, so a reference beginning // replaces the base's host",
+			},
+			{
+				Symbol: "url.resolve", RefArg: 1,
+				Note: "resolves argument 1 as a URL reference against argument 0, so a reference beginning // replaces the base's host",
 			},
 		},
 
@@ -8289,6 +8405,23 @@ type StoreRule struct {
 	// assignment to any literal would turn ordinary computed configuration into a secret.
 	FromLiteralFallback bool
 
+	// FromLiteralArgument accepts a literal written as an argument -- other than the
+	// FIRST one -- of the call whose result was written.
+	//
+	// `X || literal` is one spelling of a default and the operator says so; every other
+	// language and library spells it as a lookup with a fallback argument, and the
+	// operator is not there to say anything. `os.environ.get("SECRET_KEY", "abc")`,
+	// `os.getenv(...)`, environs' `env("SECRET_KEY", "abc")` and python-decouple's
+	// `config("SECRET_KEY", default="abc")` are four libraries and one fact.
+	//
+	// The first argument is excluded and that exclusion is the entire rule. It is the
+	// KEY -- the name of the variable being read -- and it is credential-shaped in every
+	// one of these calls, so admitting it would report `SECRET_KEY = env("SECRET_KEY")`,
+	// which is the CORRECT way to write the line. Everything after the key is a default
+	// or an option, in every library that has this shape, which is why this needs to know
+	// none of their names.
+	FromLiteralArgument bool
+
 	// NotPath excludes keys another rule already claims, so two rules can describe the
 	// same destination at different granularities without reporting one line twice.
 	NotPath []string
@@ -8671,11 +8804,68 @@ type LimiterGuard struct {
 	URLMethods        []string
 
 	BucketKey *BucketKeyRule
+	// KeyFromHeader is the same weakness read from the other end. BucketKey above asks
+	// what a limiter's DEFAULT key becomes under a trust setting the application
+	// declared; this asks what an application WROTE when it supplied a key of its own.
+	KeyFromHeader *KeyFromHeaderRule
 }
 
 type RequestAttribute struct {
 	Path      string
 	Transport string // "query" | "body" | "query-or-body"
+}
+
+// KeyFromHeaderRule states when a limiter's bucket key is derived from a header the
+// CALLER writes, rather than from the connection the caller opened.
+//
+// BucketKeyRule beside it reads the same weakness through configuration: a default
+// `req.ip` key, plus `app.set("trust proxy", true)`, plus the limiter's own validation
+// switched off. Those three facts are express-rate-limit's spelling of it, and unleash is
+// where the engine found it -- reported as GHSA-2g9c-pxxc-3hq7.
+//
+// That rule keys on the LIBRARY and on a framework setting. Neither is present in an
+// application that writes its own key: reactive-resume builds
+// `ip:${headers.get("X-Forwarded-For").split(",")[0]}`, has no Express `trust proxy`
+// anywhere, and its limiter comes from a package the list has never heard of. The
+// weakness is identical -- vary the header, get a fresh bucket -- and the rule beside
+// this one could not see it, because it was written about a configuration rather than
+// about the key.
+//
+// So this states the key instead. Three facts, all read off the graph:
+//
+//   - a module CONSTRUCTS a rate limiter, by a word in the name of the call. `csurf`
+//     and `csrfProtection` are matched the same way and for the same reason: every
+//     spelling a project uses contains the word, and an exact list is wrong at the
+//     next library.
+//   - a function in it is the limiter's KEY, by the option it was written under. Both
+//     frontends name an inline function after the property it is assigned to, so
+//     `key: ({context}) => ...` lowers to a function called `key`.
+//   - that function reaches a read of a FORWARDING header.
+//
+// The stated cost: a deployment whose proxy overwrites the header rather than appending
+// to it has a trustworthy value here, and no static reading can tell the two apart. It
+// is the same irreducible uncertainty the configuration rule accepts, and this rule
+// carries one piece of evidence that one does not -- an application is free to read
+// `X-Forwarded-For` for a log line or an audit field, and a value read into the thing
+// that DECIDES a bucket is being trusted rather than recorded.
+type KeyFromHeaderRule struct {
+	// Vocabulary are the words that make a call the construction of a rate limiter.
+	// Compared against the callee name with case and separators removed, so
+	// `createRatelimitMiddleware`, `new MemoryRatelimiter`, `rateLimit` and
+	// `RateLimiterRedis` are one word and four spellings.
+	Vocabulary []string
+	// KeyOptions are the option names a limiter's key function is written under.
+	KeyOptions []string
+	// ForwardingHeaders are the headers that convey a client address across a proxy.
+	// Every one of them is written by whoever is upstream of the application, which on
+	// a direct connection is the caller.
+	//
+	// Deliberately only these. `X-Account-ID` is caller-supplied too and is not here:
+	// a key naming an ACCOUNT is a key the application means to trust, and whether it
+	// is authenticated is a different question with a different answer. These headers
+	// exist to carry an address the transport already knows, which is what makes
+	// believing them a mistake rather than a design.
+	ForwardingHeaders []string
 }
 
 // BucketKeyRule states when a limiter's default key is derived from configuration the
@@ -9018,6 +9208,36 @@ func builtinGuards() []GuardRule {
 			Finding:   "The rate-limit bucket key trusts a client-supplied forwarding chain",
 			Reason:    "the limiter uses its default req.ip key while the application trusts every proxy hop and has disabled the limiter's validation of that configuration",
 			Rationale: "the application configures forwarded addresses as trusted and leaves the limiter bucket keyed by the resulting request IP",
+		},
+		{
+			// The same weakness where the application supplies the key itself. The rule
+			// above reads a configuration -- express-rate-limit's default key under
+			// `trust proxy` -- and found it in unleash, adjudicated true and reported as
+			// GHSA-2g9c-pxxc-3hq7. It is silent on an application that writes its own
+			// key, because neither the library nor the framework setting it names is
+			// there to match: reactive-resume's limiter comes from a package this list
+			// has never heard of, sets no Express trust anywhere, and reads
+			// `X-Forwarded-For` straight out of the request headers. Varying the header
+			// makes a new bucket, which is exactly what the rule above exists to say.
+			ID: "rate-limit-key-from-a-client-supplied-header",
+			Limiter: &LimiterGuard{
+				KeyFromHeader: &KeyFromHeaderRule{
+					Vocabulary: []string{"ratelimit", "throttle", "slowdown", "limiter"},
+					KeyOptions: []string{"key", "keyGenerator", "keyFn", "getKey"},
+					// The headers a proxy writes to carry the address the transport
+					// already knows. On a direct connection there is no proxy and the
+					// caller writes them.
+					ForwardingHeaders: []string{
+						"x-forwarded-for", "x-real-ip", "x-client-ip", "x-cluster-client-ip",
+						"cf-connecting-ip", "cf-connecting-ipv6", "true-client-ip",
+						"fastly-client-ip", "x-forwarded", "forwarded-for", "forwarded",
+					},
+				},
+			},
+			CWE:       "CWE-770",
+			Finding:   "The rate-limit bucket key is a header the caller writes",
+			Reason:    "the value the limiter counts against is read out of a forwarding header, and anyone can send a different one, so each request can land in a bucket of its own",
+			Rationale: "a function supplied as a rate limiter's key reads a header that conveys a client address, which the caller supplies on any connection that is not behind a proxy overwriting it",
 		},
 		{
 			ID:           "rejection-without-return",
@@ -9386,6 +9606,7 @@ func builtinStores() []StoreRule {
 			// reason the cookie rules exclude it: a double-submit token contains the word
 			// and is not a secret.
 			ID: "hardcoded-secret", Class: "", FromLiteral: true, FromLiteralFallback: true,
+			FromLiteralArgument: true,
 			// No "token". Measured across twenty-eight repositories: every configuration key
 			// holding that word held an OAuth endpoint URL, a header name or a form field,
 			// and not one held a secret. The word names the THING a key is for far more
@@ -9397,6 +9618,48 @@ func builtinStores() []StoreRule {
 			Finding:    "Secret written into the source",
 			Reason:     "a key in the source is in every clone of the repository and stays in its history after it is changed",
 			Rationale:  "a configuration key that holds a secret is assigned a value written in the call",
+		},
+		{
+			// The same judgement where the configuration namespace is a MODULE.
+			//
+			// The rule above matches a write into something -- `app.config["SECRET_KEY"]`,
+			// `app.secret_key` -- because in Flask there is an object to write into. A
+			// Django settings module has no object at all: `django.conf.settings.SECRET_KEY`
+			// reads the module-level `SECRET_KEY` of whichever module the deployment names,
+			// so the configuration write is a bare assignment and the rule above could not
+			// see it. That is one of the two largest Python web frameworks having no
+			// hardcoded-secret rule that applies to it, and doccano is the measured case:
+			// `SECRET_KEY = env("SECRET_KEY", "v8sk33sy82!...")` at
+			// backend/config/settings/base.py:29, the same fixed value in the shipped
+			// Dockerfile, and a documented run command that supplies no key of its own.
+			//
+			// The credential words, the exclusions and the bar on the value are all the
+			// same. What differs is only where the program keeps its configuration -- and
+			// one thing more, stated because it was measured rather than chosen.
+			//
+			// FromLiteral is deliberately absent, so a module-level setting assigned a
+			// PLAIN literal is not claimed here. Widened to include it, this rule reported
+			// two lines in the engine's own corpus that no expectation names, and both
+			// readings are instructive: `CATALOG_SECRET = "sk_live_..."` in
+			// upstream-response is already reported by the literal analysis, which judges
+			// the value's SHAPE, so the widening bought a second finding on one line; and
+			// `_LINK_SECRET = "signing-secret-from-the-vault"` in
+			// digest-compared-against-what is a real hardcoded secret in a fixture written
+			// about something else, which is a true reading and still a corpus this rule
+			// has no business changing. The recall cost is stated rather than hidden: a
+			// module-level `X = "some-key"` whose value matches no provider shape is a
+			// miss, and the case this rule exists for -- the value that becomes the
+			// credential precisely when the deployment supplies nothing -- is the one no
+			// other rule could see at all.
+			ID: "hardcoded-secret", Class: "", IntoScope: "module",
+			FromLiteralFallback: true, FromLiteralArgument: true,
+			PathContains: []string{"secret", "password", "passwd", "apikey", "api_key",
+				"private_key", "privatekey", "signing_key", "signingkey"},
+			PathExcept: []string{"csrf", "xsrf", "public", "expire", "header", "name", "field"},
+			CWE:        "CWE-798",
+			Finding:    "Secret written into the source",
+			Reason:     "a key in the source is in every clone of the repository and stays in its history after it is changed",
+			Rationale:  "a module-level setting that holds a secret is assigned a value written in the source",
 		},
 		{
 			// A digest from a broken algorithm written into the field a login will later

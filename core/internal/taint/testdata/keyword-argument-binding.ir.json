@@ -174,7 +174,19 @@
       ],
       "returns": [],
       "comparisons": [],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 1
+          },
+          "path": "application",
+          "from": "app.py#<module>:0:0$v5",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "app.py#<module>:0:0$b0",
       "blocks": [
         {

@@ -217,7 +217,19 @@
           }
         }
       ],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 4,
+            "column": 1
+          },
+          "path": "app",
+          "from": "app.py#<module>:0:0$v0",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "app.py#<module>:0:0$b0",
       "blocks": [
         {
@@ -589,7 +601,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/upstream"
+        "path": "/upstream",
+        "mount": "app"
       }
     },
     {
@@ -598,7 +611,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/upstream-strict"
+        "path": "/upstream-strict",
+        "mount": "app"
       }
     },
     {

@@ -435,7 +435,30 @@
       "calls": [],
       "returns": [],
       "comparisons": [],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 6,
+            "column": 5
+          },
+          "path": "required_scopes",
+          "from": "handlers/api.py#<module>:0:0$v1",
+          "block": "handlers/api.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "handlers/api.py",
+            "line": 27,
+            "column": 1
+          },
+          "path": "default_handlers",
+          "from": "handlers/api.py#<module>:0:0$v5",
+          "block": "handlers/api.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "handlers/api.py#<module>:0:0$b0",
       "blocks": [
         {
@@ -1118,7 +1141,19 @@
       ],
       "returns": [],
       "comparisons": [],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "handlers/base.py",
+            "line": 12,
+            "column": 1
+          },
+          "path": "DB",
+          "from": "handlers/base.py#<module>:0:0$v3",
+          "block": "handlers/base.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "handlers/base.py#<module>:0:0$b0",
       "blocks": [
         {

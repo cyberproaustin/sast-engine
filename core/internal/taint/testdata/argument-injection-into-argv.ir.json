@@ -105,7 +105,19 @@
       ],
       "returns": [],
       "comparisons": [],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 13,
+            "column": 1
+          },
+          "path": "app",
+          "from": "app.py#<module>:0:0$v1",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "app.py#<module>:0:0$b0",
       "blocks": [
         {
@@ -1702,7 +1714,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/account"
+        "path": "/account",
+        "mount": "app"
       }
     },
     {
@@ -1711,7 +1724,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/files"
+        "path": "/files",
+        "mount": "app"
       }
     },
     {
@@ -1720,7 +1734,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/words"
+        "path": "/words",
+        "mount": "app"
       }
     },
     {
@@ -1729,7 +1744,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/account-safe"
+        "path": "/account-safe",
+        "mount": "app"
       }
     },
     {
@@ -1738,7 +1754,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/key-safe"
+        "path": "/key-safe",
+        "mount": "app"
       }
     }
   ],

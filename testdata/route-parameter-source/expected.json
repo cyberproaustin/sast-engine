@@ -1,0 +1,22 @@
+{
+  "corpus": "route-parameter-source",
+  "description": "A URL capture bound straight to the handler's own parameter, which is where Flask and Django's URLconf put it and where no seeding strategy could look. Every other framework modelled here hands the captures over as a property of something and has a rule for it -- aiohttp's match_info, Tornado's path_args, Django's request.GET -- and the two that have no such object were silent about the most ordinary caller input there is: `@app.route(\"/run/<cmd>\") def run(cmd)` with `subprocess.check_output(\"ls \" + cmd, shell=True)` one line below produced nothing whatever. The two positives are the whole destination out of a path and a command line composed from one. Three negatives draw the line, and the first two draw it with the CONVERTER rather than with a name list: `<int:report_id>` resolves only for digits and `<slug:label>` only for `[-a-zA-Z0-9_]+`, so the handler is never called with syntax in either -- the same guarantee the engine already accepts from a numeric coercion, made one step earlier by the router. The third is a parameter with a default that no path names: what makes a value the caller's is the registration, not the signature. Django's POSITIONAL groups are the stated miss, because a route that gives a capture no name gives this rule nothing to match.",
+  "expected": [
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "app.py",
+      "sinkLine": 34,
+      "sourceLabel": "cmd",
+      "confidence": "high",
+      "note": "the capture composed into a command line, which is the shape that was invisible"
+    },
+    {
+      "cwe": "CWE-918",
+      "sinkFile": "app.py",
+      "sinkLine": 26,
+      "sourceLabel": "target",
+      "confidence": "high",
+      "note": "the whole destination out of the path; archivebox's proxy is this one framework along"
+    }
+  ]
+}

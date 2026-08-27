@@ -162,6 +162,13 @@ DJANGO_REGISTRARS = frozenset({"path", "re_path", "url"})
 # route and an Express route can be read by the same eye.
 DJANGO_CONVERTER = re.compile(r"<(?:[^<>:]+:)?([^<>:]+)>")
 
+# The same two spellings read for what they DECLARE rather than rewritten. A normalised
+# path cannot say which converter a capture was written with, and the converter is the
+# only thing that says what the view can be called with: `<uuid:code>` resolves for a
+# UUID and for nothing else.
+DJANGO_CONVERTER_PARTS = re.compile(r"<(?:([^<>:]+):)?([^<>:]+)>")
+DJANGO_NAMED_GROUP = re.compile(r"\(\?P<([^>]+)>")
+
 # The verb a class-based view answers by naming a method after it. Django dispatches
 # `get` to GET exactly as Flask does, so one `as_view()` in a URLconf stands for as many
 # routes as the class has verbs -- and the class is where they are, not the URLconf.
@@ -184,6 +191,47 @@ DRF_ROUTES = (
     ("PATCH", "/<pk>/", "partial_update"),
     ("DELETE", "/<pk>/", "destroy"),
 )
+
+
+def drf_action(member: ast.AST) -> tuple[list[str], bool, str] | None:
+    """`@action(methods=["get"], detail=False)` -- the seventh route of a viewset.
+
+    A router builds the six routes above and one more for EVERY method carrying this
+    decorator, off the same class and in the same `register` call. Only the six were
+    read, and the cost is not a missing path: it is a missing ENTRY POINT, which is what
+    anchors a flow to something a stranger can reach. linkding's `/api/bookmarks/check/`
+    takes a URL out of `request.GET` and fetches it, and the engine's own surface report
+    named `check` under "nothing in the program calls them by name" while the flow
+    sitting behind it was intact and unanchored.
+
+    The path is DRF's own: `url_path` when the decorator writes one, otherwise the method
+    name with underscores turned into dashes, under `/<pk>/` when the action is about a
+    single record. Defaults are the framework's -- GET, and a list action -- because a
+    decorator that omits them still registers a route.
+    """
+    for decorator in getattr(member, "decorator_list", []):
+        if not isinstance(decorator, ast.Call):
+            continue
+        name = (decorator.func.id if isinstance(decorator.func, ast.Name)
+                else getattr(decorator.func, "attr", ""))
+        if name != "action":
+            continue
+        methods, detail = ["GET"], False
+        url_path = member.name.replace("_", "-")
+        for keyword in decorator.keywords:
+            value = keyword.value
+            if keyword.arg == "methods" and isinstance(value, (ast.List, ast.Tuple)):
+                written = [element.value.upper() for element in value.elts
+                           if isinstance(element, ast.Constant)
+                           and isinstance(element.value, str)]
+                methods = written or methods
+            elif keyword.arg == "detail" and isinstance(value, ast.Constant):
+                detail = bool(value.value)
+            elif (keyword.arg == "url_path" and isinstance(value, ast.Constant)
+                  and isinstance(value.value, str)):
+                url_path = value.value
+        return methods, detail, url_path
+    return None
 
 
 # --- Tornado URLSpec --------------------------------------------------------
@@ -588,12 +636,37 @@ def _named_groups(pattern: str) -> str:
     return "".join(out)
 
 
-def django_entry_point(function_id: str, method: str, path: str) -> dict:
+def route_path_params(route: str) -> str:
+    """The captures a route declares, each with the converter it was written with.
+
+    The path `django_route_path` produces has the converter removed -- `<uuid:code>` and
+    `<code>` are both `:code` there, because a path is for reading and for matching one
+    route against another. What the converter SAYS is a separate fact and not one a
+    reader can recover from the normalised path: Django resolves `<uuid:code>` only when
+    the segment is a UUID, so the view is never called with anything else in it.
+
+    Recorded as `converter:name`, with an empty converter where the route wrote none.
+    Which converters constrain a value enough to matter is a judgement, and it is made in
+    the core beside every other judgement about what a value can carry.
+    """
+    written: list[str] = []
+    for match in DJANGO_CONVERTER_PARTS.finditer(route):
+        written.append(f"{match.group(1) or ''}:{match.group(2)}")
+    for match in DJANGO_NAMED_GROUP.finditer(route):
+        written.append(f":{match.group(1)}")
+    return ",".join(written)
+
+
+def django_entry_point(function_id: str, method: str, path: str, route: str = "") -> dict:
+    detail = {"method": method, "path": path}
+    params = route_path_params(route)
+    if params:
+        detail["pathParams"] = params
     return {
         "functionId": function_id,
         "kind": "http-route",
         "framework": "django",
-        "detail": {"method": method, "path": path},
+        "detail": detail,
     }
 
 
@@ -682,7 +755,8 @@ class ModuleLowerer:
                  templates: dict | None = None, resource_paths: dict[str, str] | None = None,
                  django_prefixes: dict[str, str] | None = None,
                  class_members: dict[str, dict[str, str]] | None = None,
-                 base_members: dict[str, dict[str, str]] | None = None):
+                 base_members: dict[str, dict[str, str]] | None = None,
+                 class_actions: dict[str, list[dict]] | None = None):
         self.module = module_id(root, path)
         # Every view under the root, read once for the whole program.
         self.templates = templates or {}
@@ -693,6 +767,10 @@ class ModuleLowerer:
         # write for the class. A class-based view is registered by CLASS and answers by
         # METHOD, so the registration names one thing and the entry points are another.
         self.class_members = class_members or {}
+        # The extra routes each viewset declares with `@action`, by the same key. A
+        # registration names the class; the decorators on its methods are the only place
+        # these paths are written down.
+        self.class_actions = class_actions or {}
         # What a class INHERITS, one level up and resolved across the program. A registered
         # Tornado handler is free to define no verb of its own -- the subclass carries the
         # model and the permission scope and the base carries `get` and `post` -- and
@@ -1398,26 +1476,32 @@ class ModuleLowerer:
             if django_included(view) is not None:
                 continue
             for prefix in self._django_prefixes_of(owners.get(id(node)), mounts):
-                out.extend(self._django_handlers_of(view, django_route_path(prefix + route)))
+                out.extend(self._django_handlers_of(
+                    view, django_route_path(prefix + route), prefix + route))
         return out + self._drf_router_entry_points(mounts)
 
-    def _django_handlers_of(self, view: ast.AST, path: str) -> list[dict]:
-        """The functions one registration reaches, and the verb each of them answers."""
+    def _django_handlers_of(self, view: ast.AST, path: str, route: str = "") -> list[dict]:
+        """The functions one registration reaches, and the verb each of them answers.
+
+        `route` is the registration as it was WRITTEN, carried alongside the normalised
+        path because normalising discards the converters, and a converter is what says
+        whether a capture can hold anything at all.
+        """
         if (isinstance(view, ast.Call) and isinstance(view.func, ast.Attribute)
                 and view.func.attr == "as_view"):
             members = self._django_class_members(view.func.value)
-            found = [django_entry_point(members[verb], verb.upper(), path)
+            found = [django_entry_point(members[verb], verb.upper(), path, route)
                      for verb in DJANGO_VERB_METHODS if verb in members]
             if found:
                 return found
             hook = self._django_hook(members)
-            return [django_entry_point(hook, "ANY", path)] if hook else []
+            return [django_entry_point(hook, "ANY", path, route)] if hook else []
 
         target = self._function_reference(view)
         # ANY, because a URLconf says nothing about the verb: Django calls the function for
         # every one of them and the function decides for itself, usually by reading
         # `request.method`. Naming a verb here would be inventing one.
-        return [django_entry_point(target, "ANY", path)] if target else []
+        return [django_entry_point(target, "ANY", path, route)] if target else []
 
     def _class_key(self, node: ast.AST) -> str | None:
         """The name a class is known by program-wide, out of how a registration wrote it.
@@ -1536,12 +1620,19 @@ class ModuleLowerer:
 
     def _drf_router_entry_points(self,
                                  mounts: dict[str, list[tuple[str, str | None]]]) -> list[dict]:
-        """`router.register("checks", CheckViewSet)` -- six routes written as one line.
+        """`router.register("checks", CheckViewSet)` -- six routes, and the extras.
 
         The prefix has to be a STRING and the class has to be one the program defines with
         something that answers a request: `admin.site.register(Check, CheckAdmin)` and
         `signals.register("check-saved", handler)` are the same word and neither is a
         route, while the registration that IS one always names its path.
+
+        A viewset's `@action` methods are routed by this same call and were not
+        enumerated. The router does not distinguish them: `DefaultRouter` walks the class
+        once and builds a route for each of the six standard actions AND one for every
+        dynamically routed method it finds. Reading six of them and stopping is what left
+        linkding's `/api/bookmarks/check/` -- `request.GET["url"]` to `requests.get` --
+        outside the surface, with the flow intact and nothing to anchor it to.
         """
         out: list[dict] = []
         for node in ast.walk(self.tree):
@@ -1562,8 +1653,19 @@ class ModuleLowerer:
                     target = self._django_hook(members, action)
                     if target:
                         out.append(django_entry_point(target, method,
-                                                      django_route_path(base + suffix)))
+                                                      django_route_path(base + suffix),
+                                                      base + suffix))
+                for extra in self._drf_class_actions(node.args[1]):
+                    suffix = ("/<pk>/" if extra["detail"] else "/") + extra["urlPath"] + "/"
+                    for method in extra["methods"]:
+                        out.append(django_entry_point(
+                            extra["target"], method, django_route_path(base + suffix),
+                            base + suffix))
         return out
+
+    def _drf_class_actions(self, node: ast.AST) -> list[dict]:
+        """The `@action` routes of the viewset a registration names, wherever defined."""
+        return self.class_actions.get(self._class_key(node) or "", [])
 
     # --- Tornado URLSpec --------------------------------------------------
     #
@@ -1776,6 +1878,9 @@ class FunctionLowerer:
         # collide without it, and a colliding id means one function's body is attributed
         # to the other.
         self.id = f"{mod.module}#{self.name}:{lineno}:{col}"
+        # The statements written at the module's own top level, filled in by `lower`.
+        # A class body is reached from there and is not part of it.
+        self.module_level: set[int] = set()
         self.enclosing_class = mod.class_of.get(id(node))
         self.values: list[dict] = []
         self.flows: list[dict] = []
@@ -1894,6 +1999,13 @@ class FunctionLowerer:
         # function of its own lets every analysis kind see it without learning a new
         # shape. The statement walk already stops at function boundaries.
         if self.is_module:
+            # A class body is walked as part of the module -- the statement walk stops at
+            # functions and not at classes -- so "assigned at module level" has to mean the
+            # statement is a direct child of the module and not merely reached from one.
+            # `password = graphene.String(description="Password.")` inside a schema class
+            # is a field declaration and nothing whatever to do with configuration; it was
+            # saleor's one false reading before this distinction existed.
+            self.module_level = {id(stmt) for stmt in self.node.body}
             for stmt in self.node.body:
                 self.walk(stmt)
             return self._result()
@@ -2044,6 +2156,26 @@ class FunctionLowerer:
                             "from": src,
                             "block": self.write_block(),
                             "scope": "process",
+                        })
+                    # A module's own top level is a NAMESPACE, and in Django it is the
+                    # configuration namespace: `django.conf.settings.SECRET_KEY` reads the
+                    # module-level `SECRET_KEY` of the settings module and there is no
+                    # object anywhere in between. Every rule about a configuration write
+                    # was therefore blind to the whole framework -- the secret rules match
+                    # `app.config["SECRET_KEY"]` and `app.secret_key`, and a bare name has
+                    # neither a base nor a property to match, so doccano's committed
+                    # fallback key recorded nothing at all.
+                    #
+                    # Emitted as a write with a SCOPE and no base, because there is no
+                    # base: the destination's identity is how far it reaches, which is what
+                    # `scope` is for and what the process-wide case above already uses.
+                    elif self.is_module and id(node) in self.module_level:
+                        self.writes.append({
+                            "loc": loc_of(self.mod.module, node),
+                            "path": target.id,
+                            "from": src,
+                            "block": self.write_block(),
+                            "scope": "module",
                         })
                     vid = self.new_value("local", target, name=target.id)
                     self.scope[target.id] = vid
@@ -3186,6 +3318,10 @@ def lower_program(root: str, files: list[str]) -> dict:
     # Django registers a class-based view by CLASS and dispatches into it by METHOD, so
     # the registration names one thing and the entry points behind it are another.
     class_members: dict[str, dict[str, str]] = {}
+    # The routes a viewset declares that are NOT one of the standard six, keyed the same
+    # way. `@action` is read where every other member is read, because it is the same
+    # registration: one `router.register` line builds the six and these together.
+    class_actions: dict[str, list[dict]] = {}
     # What each class declares it is, and what every class name in the program holds. A
     # registered Tornado handler is free to define no verb at all and answer entirely in
     # its base, so a registration that stops at the class it names reaches nothing.
@@ -3211,6 +3347,7 @@ def lower_program(root: str, files: list[str]) -> dict:
             # that reaches it.
             elif isinstance(node, ast.ClassDef):
                 members: dict[str, str] = {}
+                actions: list[dict] = []
                 for member in node.body:
                     if isinstance(member, FUNCTION_NODES):
                         fid = f"{mid}#{member.name}:{member.lineno}:{member.col_offset + 1}"
@@ -3220,6 +3357,11 @@ def lower_program(root: str, files: list[str]) -> dict:
                         # the class.
                         defs[f"import:{dotted}.{node.name}.{member.name}"] = fid
                         members[member.name] = fid
+                        route = drf_action(member)
+                        if route is not None:
+                            methods, detail, url_path = route
+                            actions.append({"target": fid, "methods": methods,
+                                            "detail": detail, "urlPath": url_path})
                 # Keyed by the class rather than by the method, because that is what a
                 # URLconf names: `path("x/", Detail.as_view())` says nothing about which
                 # verbs exist, and the class is the only place that does.
@@ -3227,6 +3369,9 @@ def lower_program(root: str, files: list[str]) -> dict:
                     class_members[f"{mid}:{node.name}"] = members
                     class_members[f"import:{dotted}.{node.name}"] = members
                     members_by_name.setdefault(node.name, members)
+                if actions:
+                    class_actions[f"{mid}:{node.name}"] = actions
+                    class_actions[f"import:{dotted}.{node.name}"] = actions
                 # `class UserAPIHandler(APIHandler)` -- the base as it is WRITTEN, whether
                 # that is a bare name or `web.RequestHandler`. Recorded for every class
                 # and not only the ones with methods, because a class that adds nothing to
@@ -3319,7 +3464,8 @@ def lower_program(root: str, files: list[str]) -> dict:
         lambda module, node: f"{module}#{node.name}:{node.lineno}:{node.col_offset + 1}")
 
     lowerers = [ModuleLowerer(root, path, tree, defs, templates, resource_paths,
-                              django_prefixes, class_members, base_members)
+                              django_prefixes, class_members, base_members,
+                              class_actions)
                 for path, tree in trees]
     provenance = module_provenance(root, trees)
 

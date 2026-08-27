@@ -1,0 +1,1676 @@
+{
+  "irVersion": "0.19.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi",
+        "django",
+        "drf",
+        "tornado"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "api.py",
+      "path": "api.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "api.py#<module>:0:0",
+      "name": "<module>",
+      "module": "api.py",
+      "loc": {
+        "file": "api.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "api.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "api.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "A router turns one viewset into six routes, and one more for every `@action`.\n\nThe six were enumerated and the extras were not, which is not a missing path but a\nmissing ENTRY POINT -- and an entry point is what anchors a flow to something a stranger\ncan reach. linkding's `/api/bookmarks/check/` takes a URL out of `request.GET` and fetches\nit, and the engine's own surface report named `check` under \"nothing in the program calls\nthem by name\" while the flow behind it sat there, intact and unanchored.\n\n`DefaultRouter` makes no distinction: it walks the class once and builds a route for each\nstandard action and for each dynamically routed method it finds on the way.\n"
+        },
+        {
+          "id": "api.py#<module>:0:0$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "api.py",
+            "line": 63,
+            "column": 10
+          },
+          "name": "rest_framework.routers.DefaultRouter"
+        },
+        {
+          "id": "api.py#<module>:0:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "api.py",
+            "line": 63,
+            "column": 1
+          },
+          "name": "router"
+        },
+        {
+          "id": "api.py#<module>:0:0$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "api.py",
+            "line": 64,
+            "column": 17
+          },
+          "literal": "bookmarks"
+        },
+        {
+          "id": "api.py#<module>:0:0$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "api.py",
+            "line": 64,
+            "column": 57
+          },
+          "literal": "bookmark"
+        },
+        {
+          "id": "api.py#<module>:0:0$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "api.py",
+            "line": 64,
+            "column": 1
+          },
+          "name": "router.register"
+        }
+      ],
+      "flows": [
+        {
+          "from": "api.py#<module>:0:0$v1",
+          "to": "api.py#<module>:0:0$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "api.py",
+            "line": 63,
+            "column": 1
+          },
+          "block": "api.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "api.py#<module>:0:0$c0",
+          "loc": {
+            "file": "api.py",
+            "line": 63,
+            "column": 10
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "rest_framework.routers.DefaultRouter",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "api.py#<module>:0:0$v1",
+          "block": "api.py#<module>:0:0$b0",
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "api.py#<module>:0:0$c1",
+          "loc": {
+            "file": "api.py",
+            "line": 64,
+            "column": 1
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "router.register",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "api.py#<module>:0:0$v3"
+            },
+            {
+              "valueId": "api.py#<module>:0:0$v4",
+              "name": "basename"
+            }
+          ],
+          "resultValueId": "api.py#<module>:0:0$v5",
+          "block": "api.py#<module>:0:0$b0",
+          "method": "register",
+          "argCount": 3,
+          "argLiterals": {
+            "0": "bookmarks",
+            "-1": "basename=bookmark"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "api.py#<module>:0:0$v2"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "api.py",
+            "line": 63,
+            "column": 1
+          },
+          "path": "router",
+          "from": "api.py#<module>:0:0$v1",
+          "block": "api.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "api.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "api.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "api.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "api.py#list:21:5",
+      "name": "list",
+      "module": "api.py",
+      "loc": {
+        "file": "api.py",
+        "line": 21,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "api.py#list:21:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "request",
+          "valueId": "api.py#list:21:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "api.py#list:21:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "api.py",
+            "line": 21,
+            "column": 14
+          },
+          "name": "self"
+        },
+        {
+          "id": "api.py#list:21:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "api.py",
+            "line": 21,
+            "column": 20
+          },
+          "name": "request"
+        },
+        {
+          "id": "api.py#list:21:5$v2",
+          "kind": "local",
+          "loc": {
+            "file": "api.py",
+            "line": 24,
+            "column": 25
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "bookmarks",
+              "valueId": "api.py#list:21:5$v3"
+            }
+          ]
+        },
+        {
+          "id": "api.py#list:21:5$v3",
+          "kind": "local",
+          "loc": {
+            "file": "api.py",
+            "line": 24,
+            "column": 39
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "api.py#list:21:5$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "api.py",
+            "line": 24,
+            "column": 16
+          },
+          "name": "rest_framework.response.Response"
+        }
+      ],
+      "flows": [
+        {
+          "from": "api.py#list:21:5$v3",
+          "to": "api.py#list:21:5$v2",
+          "kind": "enclose",
+          "loc": {
+            "file": "api.py",
+            "line": 24,
+            "column": 25
+          },
+          "block": "api.py#list:21:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "api.py#list:21:5$c0",
+          "loc": {
+            "file": "api.py",
+            "line": 24,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "rest_framework.response.Response",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "api.py#list:21:5$v2"
+            }
+          ],
+          "resultValueId": "api.py#list:21:5$v4",
+          "block": "api.py#list:21:5$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "api.py#list:21:5$v4"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "api.py#list:21:5$b0",
+      "blocks": [
+        {
+          "id": "api.py#list:21:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "api.py",
+            "line": 21,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "api.py#list:21:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "api.py",
+            "line": 24,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "api.py#check:27:5",
+      "name": "check",
+      "module": "api.py",
+      "loc": {
+        "file": "api.py",
+        "line": 27,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "api.py#check:27:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "request",
+          "valueId": "api.py#check:27:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "api.py#check:27:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "api.py",
+            "line": 27,
+            "column": 15
+          },
+          "name": "self"
+        },
+        {
+          "id": "api.py#check:27:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "api.py",
+            "line": 27,
+            "column": 21
+          },
+          "name": "request"
+        },
+        {
+          "id": "api.py#check:27:5$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "api.py",
+            "line": 30,
+            "column": 31
+          },
+          "literal": "url"
+        },
+        {
+          "id": "api.py#check:27:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "api.py",
+            "line": 30,
+            "column": 15
+          },
+          "base": "api.py#check:27:5$v1",
+          "path": "GET",
+          "name": "GET"
+        },
+        {
+          "id": "api.py#check:27:5$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "api.py",
+            "line": 30,
+            "column": 15
+          },
+          "name": "request.GET.get"
+        },
+        {
+          "id": "api.py#check:27:5$v5",
+          "kind": "local",
+          "loc": {
+            "file": "api.py",
+            "line": 30,
+            "column": 9
+          },
+          "name": "url"
+        },
+        {
+          "id": "api.py#check:27:5$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "api.py",
+            "line": 31,
+            "column": 42
+          },
+          "literal": "10"
+        },
+        {
+          "id": "api.py#check:27:5$v7",
+          "kind": "global",
+          "loc": {
+            "file": "api.py",
+            "line": 31,
+            "column": 16
+          },
+          "name": "requests"
+        },
+        {
+          "id": "api.py#check:27:5$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "api.py",
+            "line": 31,
+            "column": 16
+          },
+          "name": "requests.get"
+        },
+        {
+          "id": "api.py#check:27:5$v9",
+          "kind": "local",
+          "loc": {
+            "file": "api.py",
+            "line": 31,
+            "column": 9
+          },
+          "name": "page"
+        },
+        {
+          "id": "api.py#check:27:5$v10",
+          "kind": "local",
+          "loc": {
+            "file": "api.py",
+            "line": 32,
+            "column": 25
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "title",
+              "valueId": "api.py#check:27:5$v11"
+            }
+          ]
+        },
+        {
+          "id": "api.py#check:27:5$v11",
+          "kind": "property",
+          "loc": {
+            "file": "api.py",
+            "line": 32,
+            "column": 35
+          },
+          "base": "api.py#check:27:5$v9",
+          "path": "text",
+          "name": "text"
+        },
+        {
+          "id": "api.py#check:27:5$v12",
+          "kind": "call-result",
+          "loc": {
+            "file": "api.py",
+            "line": 32,
+            "column": 16
+          },
+          "name": "rest_framework.response.Response"
+        }
+      ],
+      "flows": [
+        {
+          "from": "api.py#check:27:5$v1",
+          "to": "api.py#check:27:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "api.py",
+            "line": 30,
+            "column": 15
+          },
+          "block": "api.py#check:27:5$b0"
+        },
+        {
+          "from": "api.py#check:27:5$v4",
+          "to": "api.py#check:27:5$v5",
+          "kind": "assign",
+          "loc": {
+            "file": "api.py",
+            "line": 30,
+            "column": 9
+          },
+          "block": "api.py#check:27:5$b0"
+        },
+        {
+          "from": "api.py#check:27:5$v8",
+          "to": "api.py#check:27:5$v9",
+          "kind": "assign",
+          "loc": {
+            "file": "api.py",
+            "line": 31,
+            "column": 9
+          },
+          "block": "api.py#check:27:5$b0"
+        },
+        {
+          "from": "api.py#check:27:5$v9",
+          "to": "api.py#check:27:5$v11",
+          "kind": "property",
+          "loc": {
+            "file": "api.py",
+            "line": 32,
+            "column": 35
+          },
+          "block": "api.py#check:27:5$b0"
+        },
+        {
+          "from": "api.py#check:27:5$v11",
+          "to": "api.py#check:27:5$v10",
+          "kind": "enclose",
+          "loc": {
+            "file": "api.py",
+            "line": 32,
+            "column": 25
+          },
+          "block": "api.py#check:27:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "api.py#check:27:5$c0",
+          "loc": {
+            "file": "api.py",
+            "line": 30,
+            "column": 15
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "request.GET.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "api.py#check:27:5$v2"
+            }
+          ],
+          "resultValueId": "api.py#check:27:5$v4",
+          "block": "api.py#check:27:5$b0",
+          "method": "get",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "url"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "api.py#check:27:5$v3"
+        },
+        {
+          "id": "api.py#check:27:5$c1",
+          "loc": {
+            "file": "api.py",
+            "line": 31,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "requests.get",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "api.py#check:27:5$v5"
+            },
+            {
+              "valueId": "api.py#check:27:5$v6",
+              "name": "timeout"
+            }
+          ],
+          "resultValueId": "api.py#check:27:5$v8",
+          "block": "api.py#check:27:5$b0",
+          "method": "get",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "timeout=10"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "api.py#check:27:5$v7"
+        },
+        {
+          "id": "api.py#check:27:5$c2",
+          "loc": {
+            "file": "api.py",
+            "line": 32,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "rest_framework.response.Response",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "api.py#check:27:5$v10"
+            }
+          ],
+          "resultValueId": "api.py#check:27:5$v12",
+          "block": "api.py#check:27:5$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "api.py#check:27:5$v12"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "api.py#check:27:5$b0",
+      "blocks": [
+        {
+          "id": "api.py#check:27:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "api.py",
+            "line": 27,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "api.py#check:27:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "api.py",
+            "line": 32,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "api.py#refetch:35:5",
+      "name": "refetch",
+      "module": "api.py",
+      "loc": {
+        "file": "api.py",
+        "line": 35,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "api.py#refetch:35:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "request",
+          "valueId": "api.py#refetch:35:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "pk",
+          "valueId": "api.py#refetch:35:5$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "api.py#refetch:35:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "api.py",
+            "line": 35,
+            "column": 17
+          },
+          "name": "self"
+        },
+        {
+          "id": "api.py#refetch:35:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "api.py",
+            "line": 35,
+            "column": 23
+          },
+          "name": "request"
+        },
+        {
+          "id": "api.py#refetch:35:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "api.py",
+            "line": 35,
+            "column": 32
+          },
+          "name": "pk"
+        },
+        {
+          "id": "api.py#refetch:35:5$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "api.py",
+            "line": 39,
+            "column": 35
+          },
+          "literal": "target"
+        },
+        {
+          "id": "api.py#refetch:35:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "api.py",
+            "line": 39,
+            "column": 18
+          },
+          "base": "api.py#refetch:35:5$v1",
+          "path": "POST",
+          "name": "POST"
+        },
+        {
+          "id": "api.py#refetch:35:5$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "api.py",
+            "line": 39,
+            "column": 18
+          },
+          "name": "request.POST.get"
+        },
+        {
+          "id": "api.py#refetch:35:5$v6",
+          "kind": "local",
+          "loc": {
+            "file": "api.py",
+            "line": 39,
+            "column": 9
+          },
+          "name": "target"
+        },
+        {
+          "id": "api.py#refetch:35:5$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "api.py",
+            "line": 40,
+            "column": 45
+          },
+          "literal": "10"
+        },
+        {
+          "id": "api.py#refetch:35:5$v8",
+          "kind": "global",
+          "loc": {
+            "file": "api.py",
+            "line": 40,
+            "column": 16
+          },
+          "name": "requests"
+        },
+        {
+          "id": "api.py#refetch:35:5$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "api.py",
+            "line": 40,
+            "column": 16
+          },
+          "name": "requests.get"
+        },
+        {
+          "id": "api.py#refetch:35:5$v10",
+          "kind": "local",
+          "loc": {
+            "file": "api.py",
+            "line": 40,
+            "column": 9
+          },
+          "name": "page"
+        },
+        {
+          "id": "api.py#refetch:35:5$v11",
+          "kind": "local",
+          "loc": {
+            "file": "api.py",
+            "line": 41,
+            "column": 25
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "title",
+              "valueId": "api.py#refetch:35:5$v12"
+            }
+          ]
+        },
+        {
+          "id": "api.py#refetch:35:5$v12",
+          "kind": "property",
+          "loc": {
+            "file": "api.py",
+            "line": 41,
+            "column": 35
+          },
+          "base": "api.py#refetch:35:5$v10",
+          "path": "text",
+          "name": "text"
+        },
+        {
+          "id": "api.py#refetch:35:5$v13",
+          "kind": "call-result",
+          "loc": {
+            "file": "api.py",
+            "line": 41,
+            "column": 16
+          },
+          "name": "rest_framework.response.Response"
+        }
+      ],
+      "flows": [
+        {
+          "from": "api.py#refetch:35:5$v1",
+          "to": "api.py#refetch:35:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "api.py",
+            "line": 39,
+            "column": 18
+          },
+          "block": "api.py#refetch:35:5$b0"
+        },
+        {
+          "from": "api.py#refetch:35:5$v5",
+          "to": "api.py#refetch:35:5$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "api.py",
+            "line": 39,
+            "column": 9
+          },
+          "block": "api.py#refetch:35:5$b0"
+        },
+        {
+          "from": "api.py#refetch:35:5$v9",
+          "to": "api.py#refetch:35:5$v10",
+          "kind": "assign",
+          "loc": {
+            "file": "api.py",
+            "line": 40,
+            "column": 9
+          },
+          "block": "api.py#refetch:35:5$b0"
+        },
+        {
+          "from": "api.py#refetch:35:5$v10",
+          "to": "api.py#refetch:35:5$v12",
+          "kind": "property",
+          "loc": {
+            "file": "api.py",
+            "line": 41,
+            "column": 35
+          },
+          "block": "api.py#refetch:35:5$b0"
+        },
+        {
+          "from": "api.py#refetch:35:5$v12",
+          "to": "api.py#refetch:35:5$v11",
+          "kind": "enclose",
+          "loc": {
+            "file": "api.py",
+            "line": 41,
+            "column": 25
+          },
+          "block": "api.py#refetch:35:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "api.py#refetch:35:5$c0",
+          "loc": {
+            "file": "api.py",
+            "line": 39,
+            "column": 18
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "request.POST.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "api.py#refetch:35:5$v3"
+            }
+          ],
+          "resultValueId": "api.py#refetch:35:5$v5",
+          "block": "api.py#refetch:35:5$b0",
+          "method": "get",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "target"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "api.py#refetch:35:5$v4"
+        },
+        {
+          "id": "api.py#refetch:35:5$c1",
+          "loc": {
+            "file": "api.py",
+            "line": 40,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "requests.get",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "api.py#refetch:35:5$v6"
+            },
+            {
+              "valueId": "api.py#refetch:35:5$v7",
+              "name": "timeout"
+            }
+          ],
+          "resultValueId": "api.py#refetch:35:5$v9",
+          "block": "api.py#refetch:35:5$b0",
+          "method": "get",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "timeout=10"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "api.py#refetch:35:5$v8"
+        },
+        {
+          "id": "api.py#refetch:35:5$c2",
+          "loc": {
+            "file": "api.py",
+            "line": 41,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "rest_framework.response.Response",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "api.py#refetch:35:5$v11"
+            }
+          ],
+          "resultValueId": "api.py#refetch:35:5$v13",
+          "block": "api.py#refetch:35:5$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "api.py#refetch:35:5$v13"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "api.py#refetch:35:5$b0",
+      "blocks": [
+        {
+          "id": "api.py#refetch:35:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "api.py",
+            "line": 35,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "api.py#refetch:35:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "api.py",
+            "line": 41,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "api.py#status:44:5",
+      "name": "status",
+      "module": "api.py",
+      "loc": {
+        "file": "api.py",
+        "line": 44,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "api.py#status:44:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "request",
+          "valueId": "api.py#status:44:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "api.py#status:44:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "api.py",
+            "line": 44,
+            "column": 16
+          },
+          "name": "self"
+        },
+        {
+          "id": "api.py#status:44:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "api.py",
+            "line": 44,
+            "column": 22
+          },
+          "name": "request"
+        },
+        {
+          "id": "api.py#status:44:5$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "api.py",
+            "line": 47,
+            "column": 29
+          },
+          "literal": "https://status.example.test/health"
+        },
+        {
+          "id": "api.py#status:44:5$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "api.py",
+            "line": 47,
+            "column": 75
+          },
+          "literal": "10"
+        },
+        {
+          "id": "api.py#status:44:5$v4",
+          "kind": "global",
+          "loc": {
+            "file": "api.py",
+            "line": 47,
+            "column": 16
+          },
+          "name": "requests"
+        },
+        {
+          "id": "api.py#status:44:5$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "api.py",
+            "line": 47,
+            "column": 16
+          },
+          "name": "requests.get"
+        },
+        {
+          "id": "api.py#status:44:5$v6",
+          "kind": "local",
+          "loc": {
+            "file": "api.py",
+            "line": 47,
+            "column": 9
+          },
+          "name": "page"
+        },
+        {
+          "id": "api.py#status:44:5$v7",
+          "kind": "local",
+          "loc": {
+            "file": "api.py",
+            "line": 48,
+            "column": 25
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "status",
+              "valueId": "api.py#status:44:5$v8"
+            }
+          ]
+        },
+        {
+          "id": "api.py#status:44:5$v8",
+          "kind": "property",
+          "loc": {
+            "file": "api.py",
+            "line": 48,
+            "column": 36
+          },
+          "base": "api.py#status:44:5$v6",
+          "path": "text",
+          "name": "text"
+        },
+        {
+          "id": "api.py#status:44:5$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "api.py",
+            "line": 48,
+            "column": 16
+          },
+          "name": "rest_framework.response.Response"
+        }
+      ],
+      "flows": [
+        {
+          "from": "api.py#status:44:5$v5",
+          "to": "api.py#status:44:5$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "api.py",
+            "line": 47,
+            "column": 9
+          },
+          "block": "api.py#status:44:5$b0"
+        },
+        {
+          "from": "api.py#status:44:5$v6",
+          "to": "api.py#status:44:5$v8",
+          "kind": "property",
+          "loc": {
+            "file": "api.py",
+            "line": 48,
+            "column": 36
+          },
+          "block": "api.py#status:44:5$b0"
+        },
+        {
+          "from": "api.py#status:44:5$v8",
+          "to": "api.py#status:44:5$v7",
+          "kind": "enclose",
+          "loc": {
+            "file": "api.py",
+            "line": 48,
+            "column": 25
+          },
+          "block": "api.py#status:44:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "api.py#status:44:5$c0",
+          "loc": {
+            "file": "api.py",
+            "line": 47,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "requests.get",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "api.py#status:44:5$v2"
+            },
+            {
+              "valueId": "api.py#status:44:5$v3",
+              "name": "timeout"
+            }
+          ],
+          "resultValueId": "api.py#status:44:5$v5",
+          "block": "api.py#status:44:5$b0",
+          "method": "get",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "https://status.example.test/health",
+            "-1": "timeout=10"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "api.py#status:44:5$v4"
+        },
+        {
+          "id": "api.py#status:44:5$c1",
+          "loc": {
+            "file": "api.py",
+            "line": 48,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "rest_framework.response.Response",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "api.py#status:44:5$v7"
+            }
+          ],
+          "resultValueId": "api.py#status:44:5$v9",
+          "block": "api.py#status:44:5$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "api.py#status:44:5$v9"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "api.py#status:44:5$b0",
+      "blocks": [
+        {
+          "id": "api.py#status:44:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "api.py",
+            "line": 44,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "api.py#status:44:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "api.py",
+            "line": 48,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "api.py#probe:53:5",
+      "name": "probe",
+      "module": "api.py",
+      "loc": {
+        "file": "api.py",
+        "line": 53,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "api.py#probe:53:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "request",
+          "valueId": "api.py#probe:53:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "api.py#probe:53:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "api.py",
+            "line": 53,
+            "column": 15
+          },
+          "name": "self"
+        },
+        {
+          "id": "api.py#probe:53:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "api.py",
+            "line": 53,
+            "column": 21
+          },
+          "name": "request"
+        },
+        {
+          "id": "api.py#probe:53:5$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "api.py",
+            "line": 58,
+            "column": 31
+          },
+          "literal": "url"
+        },
+        {
+          "id": "api.py#probe:53:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "api.py",
+            "line": 58,
+            "column": 15
+          },
+          "base": "api.py#probe:53:5$v1",
+          "path": "GET",
+          "name": "GET"
+        },
+        {
+          "id": "api.py#probe:53:5$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "api.py",
+            "line": 58,
+            "column": 15
+          },
+          "name": "request.GET.get"
+        },
+        {
+          "id": "api.py#probe:53:5$v5",
+          "kind": "local",
+          "loc": {
+            "file": "api.py",
+            "line": 58,
+            "column": 9
+          },
+          "name": "url"
+        },
+        {
+          "id": "api.py#probe:53:5$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "api.py",
+            "line": 59,
+            "column": 42
+          },
+          "literal": "10"
+        },
+        {
+          "id": "api.py#probe:53:5$v7",
+          "kind": "global",
+          "loc": {
+            "file": "api.py",
+            "line": 59,
+            "column": 16
+          },
+          "name": "requests"
+        },
+        {
+          "id": "api.py#probe:53:5$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "api.py",
+            "line": 59,
+            "column": 16
+          },
+          "name": "requests.get"
+        },
+        {
+          "id": "api.py#probe:53:5$v9",
+          "kind": "local",
+          "loc": {
+            "file": "api.py",
+            "line": 59,
+            "column": 9
+          },
+          "name": "page"
+        },
+        {
+          "id": "api.py#probe:53:5$v10",
+          "kind": "local",
+          "loc": {
+            "file": "api.py",
+            "line": 60,
+            "column": 25
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "title",
+              "valueId": "api.py#probe:53:5$v11"
+            }
+          ]
+        },
+        {
+          "id": "api.py#probe:53:5$v11",
+          "kind": "property",
+          "loc": {
+            "file": "api.py",
+            "line": 60,
+            "column": 35
+          },
+          "base": "api.py#probe:53:5$v9",
+          "path": "text",
+          "name": "text"
+        },
+        {
+          "id": "api.py#probe:53:5$v12",
+          "kind": "call-result",
+          "loc": {
+            "file": "api.py",
+            "line": 60,
+            "column": 16
+          },
+          "name": "rest_framework.response.Response"
+        }
+      ],
+      "flows": [
+        {
+          "from": "api.py#probe:53:5$v1",
+          "to": "api.py#probe:53:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "api.py",
+            "line": 58,
+            "column": 15
+          },
+          "block": "api.py#probe:53:5$b0"
+        },
+        {
+          "from": "api.py#probe:53:5$v4",
+          "to": "api.py#probe:53:5$v5",
+          "kind": "assign",
+          "loc": {
+            "file": "api.py",
+            "line": 58,
+            "column": 9
+          },
+          "block": "api.py#probe:53:5$b0"
+        },
+        {
+          "from": "api.py#probe:53:5$v8",
+          "to": "api.py#probe:53:5$v9",
+          "kind": "assign",
+          "loc": {
+            "file": "api.py",
+            "line": 59,
+            "column": 9
+          },
+          "block": "api.py#probe:53:5$b0"
+        },
+        {
+          "from": "api.py#probe:53:5$v9",
+          "to": "api.py#probe:53:5$v11",
+          "kind": "property",
+          "loc": {
+            "file": "api.py",
+            "line": 60,
+            "column": 35
+          },
+          "block": "api.py#probe:53:5$b0"
+        },
+        {
+          "from": "api.py#probe:53:5$v11",
+          "to": "api.py#probe:53:5$v10",
+          "kind": "enclose",
+          "loc": {
+            "file": "api.py",
+            "line": 60,
+            "column": 25
+          },
+          "block": "api.py#probe:53:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "api.py#probe:53:5$c0",
+          "loc": {
+            "file": "api.py",
+            "line": 58,
+            "column": 15
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "request.GET.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "api.py#probe:53:5$v2"
+            }
+          ],
+          "resultValueId": "api.py#probe:53:5$v4",
+          "block": "api.py#probe:53:5$b0",
+          "method": "get",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "url"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "api.py#probe:53:5$v3"
+        },
+        {
+          "id": "api.py#probe:53:5$c1",
+          "loc": {
+            "file": "api.py",
+            "line": 59,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "requests.get",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "api.py#probe:53:5$v5"
+            },
+            {
+              "valueId": "api.py#probe:53:5$v6",
+              "name": "timeout"
+            }
+          ],
+          "resultValueId": "api.py#probe:53:5$v8",
+          "block": "api.py#probe:53:5$b0",
+          "method": "get",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "timeout=10"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "api.py#probe:53:5$v7"
+        },
+        {
+          "id": "api.py#probe:53:5$c2",
+          "loc": {
+            "file": "api.py",
+            "line": 60,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "rest_framework.response.Response",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "api.py#probe:53:5$v10"
+            }
+          ],
+          "resultValueId": "api.py#probe:53:5$v12",
+          "block": "api.py#probe:53:5$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "api.py#probe:53:5$v12"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "api.py#probe:53:5$b0",
+      "blocks": [
+        {
+          "id": "api.py#probe:53:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "api.py",
+            "line": 53,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "api.py#probe:53:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "api.py",
+            "line": 60,
+            "column": 9
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "api.py#list:21:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "GET",
+        "path": "/bookmarks/"
+      }
+    },
+    {
+      "functionId": "api.py#check:27:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "GET",
+        "path": "/bookmarks/check/"
+      }
+    },
+    {
+      "functionId": "api.py#refetch:35:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "POST",
+        "path": "/bookmarks/:pk/re-fetch/",
+        "pathParams": ":pk"
+      }
+    },
+    {
+      "functionId": "api.py#status:44:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "GET",
+        "path": "/bookmarks/status/"
+      }
+    }
+  ],
+  "declaredViews": [],
+  "views": [],
+  "renders": []
+}

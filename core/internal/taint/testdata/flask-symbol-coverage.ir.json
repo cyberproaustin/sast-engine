@@ -257,7 +257,41 @@
       ],
       "returns": [],
       "comparisons": [],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 1
+          },
+          "path": "app",
+          "from": "app.py#<module>:0:0$v1",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 25,
+            "column": 1
+          },
+          "path": "EMAIL_RE",
+          "from": "app.py#<module>:0:0$v5",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 1
+          },
+          "path": "SLUG_RE",
+          "from": "app.py#<module>:0:0$v8",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "app.py#<module>:0:0$b0",
       "blocks": [
         {
@@ -2070,7 +2104,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/ping"
+        "path": "/ping",
+        "mount": "app"
       }
     },
     {
@@ -2079,7 +2114,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/restore"
+        "path": "/restore",
+        "mount": "app"
       }
     },
     {
@@ -2088,7 +2124,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/fetch"
+        "path": "/fetch",
+        "mount": "app"
       }
     },
     {
@@ -2097,7 +2134,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/download"
+        "path": "/download",
+        "mount": "app"
       }
     },
     {
@@ -2106,7 +2144,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/render"
+        "path": "/render",
+        "mount": "app"
       }
     },
     {
@@ -2115,7 +2154,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/digest"
+        "path": "/digest",
+        "mount": "app"
       }
     },
     {
@@ -2124,7 +2164,8 @@
       "framework": "flask",
       "detail": {
         "method": "POST",
-        "path": "/subscribe"
+        "path": "/subscribe",
+        "mount": "app"
       }
     },
     {
@@ -2133,7 +2174,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/page/<slug>"
+        "path": "/page/<slug>",
+        "mount": "app"
       }
     }
   ],

@@ -201,7 +201,52 @@
       ],
       "returns": [],
       "comparisons": [],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 1
+          },
+          "path": "app",
+          "from": "app.py#<module>:0:0$v1",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 1
+          },
+          "path": "RECORDED_DIGEST",
+          "from": "app.py#<module>:0:0$v3",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 1
+          },
+          "path": "_SIGNING_KEY",
+          "from": "app.py#<module>:0:0$v5",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 110,
+            "column": 1
+          },
+          "path": "CACHE",
+          "from": "app.py#<module>:0:0$v7",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "app.py#<module>:0:0$b0",
       "blocks": [
         {
@@ -2933,7 +2978,30 @@
       "calls": [],
       "returns": [],
       "comparisons": [],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "store.py",
+            "line": 5,
+            "column": 1
+          },
+          "path": "CACHE_DIR",
+          "from": "store.py#<module>:0:0$v1",
+          "block": "store.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "store.py",
+            "line": 7,
+            "column": 1
+          },
+          "path": "ACCOUNTS",
+          "from": "store.py#<module>:0:0$v3",
+          "block": "store.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "store.py#<module>:0:0$b0",
       "blocks": [
         {
@@ -3659,7 +3727,8 @@
       "framework": "flask",
       "detail": {
         "method": "POST",
-        "path": "/webhook"
+        "path": "/webhook",
+        "mount": "app"
       }
     },
     {
@@ -3668,7 +3737,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/artifact"
+        "path": "/artifact",
+        "mount": "app"
       }
     },
     {
@@ -3677,7 +3747,8 @@
       "framework": "flask",
       "detail": {
         "method": "POST",
-        "path": "/account/password"
+        "path": "/account/password",
+        "mount": "app"
       }
     },
     {
@@ -3686,7 +3757,8 @@
       "framework": "flask",
       "detail": {
         "method": "POST",
-        "path": "/login"
+        "path": "/login",
+        "mount": "app"
       }
     },
     {
@@ -3695,7 +3767,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/report"
+        "path": "/report",
+        "mount": "app"
       }
     },
     {
@@ -3704,7 +3777,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/thumbnail"
+        "path": "/thumbnail",
+        "mount": "app"
       }
     },
     {
@@ -3713,7 +3787,8 @@
       "framework": "flask",
       "detail": {
         "method": "GET",
-        "path": "/avatar"
+        "path": "/avatar",
+        "mount": "app"
       }
     }
   ],

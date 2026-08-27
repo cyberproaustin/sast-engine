@@ -129,7 +129,7 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 				// destination name has already narrowed its role above; neither half can
 				// decide the finding alone. A value read from the environment is not a
 				// literal and never reaches this judgement.
-				if rule.FromLiteral || rule.FromLiteralFallback {
+				if rule.FromLiteral || rule.FromLiteralFallback || rule.FromLiteralArgument {
 					v := ix.ValueByID[w.From]
 					// The same bar the literal analysis applies, for the same reason
 					// and in the same place: a fixture is not a leak, and a REAL key
@@ -139,7 +139,7 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 						literal.IsPlaceholder(strings.TrimSpace(v.Literal)) {
 						continue
 					}
-					if v != nil && v.Kind == ir.ValueLiteral && meaningfulSecret(v.Literal) {
+					if rule.FromLiteral && v != nil && v.Kind == ir.ValueLiteral && meaningfulSecret(v.Literal) {
 						out = append(out, finding(ix, fn, w, rule, taint.Origin{Label: quoted(v.Literal)}))
 						continue
 					}
@@ -157,6 +157,17 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 							// configuration object, just like a literal or call-shape finding.
 							out = append(out, finding(ix, fn, w, rule, taint.Origin{
 								Label: quoted(fallback), Anchored: true,
+							}))
+							continue
+						}
+					}
+					if rule.FromLiteralArgument {
+						if written := literalDefaultArgument(callByResult, w.From); written != "" && meaningfulSecret(written) {
+							if ix.InTestModule(w.Loc) && literal.IsPlaceholder(written) {
+								continue
+							}
+							out = append(out, finding(ix, fn, w, rule, taint.Origin{
+								Label: quoted(written), Anchored: true,
 							}))
 							continue
 						}
@@ -204,6 +215,57 @@ func literalFallback(ix *ir.Index, into map[string][]ir.Flow, id string) string 
 		}
 	}
 	return ""
+}
+
+// literalDefaultArgument returns the literal a call was given as a DEFAULT: an argument
+// written into the call, in any position but the first.
+//
+// It is the other spelling of `X || literal`, and the one every library uses because
+// there is no operator involved. `os.environ.get("SECRET_KEY", "abc")`, environs'
+// `env("SECRET_KEY", "abc")` and python-decouple's `config("SECRET_KEY", default="abc")`
+// all put the deployment's escape hatch in an argument, and the value is the setting
+// precisely when the deployment supplies nothing -- which is what a default means and
+// what a repository-known key IS.
+//
+// Excluding the first argument is what makes this safe rather than clever. In every one
+// of those calls the first argument is the NAME of the variable being read, it is
+// credential-shaped by construction, and admitting it would report
+// `SECRET_KEY = env("SECRET_KEY")` -- which is the correct way to write the line and the
+// only alternative the finding could recommend.
+func literalDefaultArgument(callByResult map[string]*ir.Call, id string) string {
+	call := callByResult[id]
+	if call == nil {
+		return ""
+	}
+	for position, written := range call.ArgLiterals {
+		// A keyword argument is recorded at a negative position as `key=value`, and only
+		// a keyword that NAMES a default is one. Admitting every keyword read
+		// `graphene.String(description="Password.")` -- a schema field declaration in
+		// saleor -- as a credential, which is the difference between a word that says
+		// what a value is FOR and a word that merely accompanies it.
+		if position < 0 {
+			name, value, ok := strings.Cut(written, "=")
+			if ok && value != "" && defaultKeyword(name) {
+				return value
+			}
+			continue
+		}
+		if position > 0 && written != "" {
+			return written
+		}
+	}
+	return ""
+}
+
+// defaultKeyword reports whether a keyword argument names the value used when the lookup
+// finds nothing. `default` is what python-decouple, environs and Django's own settings
+// helpers all call it; `fallback` is configparser's word for the same thing.
+func defaultKeyword(name string) bool {
+	switch strings.ToLower(strings.TrimSpace(name)) {
+	case "default", "fallback", "default_value", "defaultvalue":
+		return true
+	}
+	return false
 }
 
 // composedOnClassifiedPath asks whether the caller's contribution crossed a string
