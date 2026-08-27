@@ -298,6 +298,74 @@ func (g *Graph) Reaches(from, to string) bool {
 	return false
 }
 
+// Repetition is one language-level loop enclosing a block. Bound is the value the
+// frontend says decides its extent; empty means the source wrote no such expression.
+// The header and the ordinary successor graph together carry the back edge, so there is
+// no second edge vocabulary here that can disagree with Reaches.
+type Repetition struct {
+	Header string
+	Bound  string
+}
+
+// Repetitions returns every repetition this block participates in, in frontend order.
+//
+// Merely sharing a strongly connected component with a loop header is not enough.
+// Nested loops put the code after the inner loop in the same component as both headers,
+// even though that code repeats only with the outer loop. The natural loop for a header
+// is its dominance-qualified back edges walked backwards through predecessors; a block
+// reached only by a break is therefore outside it too.
+func (g *Graph) Repetitions(block string) []Repetition {
+	if g == nil || !g.Reachable(block) {
+		return nil
+	}
+	var out []Repetition
+	for _, id := range g.order {
+		header := g.blocks[id]
+		if header == nil || !header.LoopHeader || !g.Reachable(id) {
+			continue
+		}
+		if !g.naturalLoop(id)[block] {
+			continue
+		}
+		out = append(out, Repetition{Header: id, Bound: header.LoopBound})
+	}
+	return out
+}
+
+// naturalLoop returns the marked header plus every block that can reach one of its back
+// edges without leaving the region the header dominates. A predecessor not dominated by
+// the header is the entry edge, not a back edge.
+func (g *Graph) naturalLoop(header string) map[string]bool {
+	members := map[string]bool{}
+	var work []string
+	for _, predecessor := range g.preds[header] {
+		if !g.Reachable(predecessor) || !g.Dominates(header, predecessor) {
+			continue
+		}
+		members[header] = true
+		work = append(work, predecessor)
+	}
+	for len(work) > 0 {
+		id := work[len(work)-1]
+		work = work[:len(work)-1]
+		if members[id] {
+			continue
+		}
+		members[id] = true
+		for _, predecessor := range g.preds[id] {
+			if g.Dominates(header, predecessor) {
+				work = append(work, predecessor)
+			}
+		}
+	}
+	return members
+}
+
+// Repeats reports whether the block participates in any frontend-stated repetition.
+func (g *Graph) Repeats(block string) bool {
+	return len(g.Repetitions(block)) != 0
+}
+
 // computeDominators runs the standard iterative dataflow forward from the entry, over
 // the reachable subgraph only.
 func (g *Graph) computeDominators() {

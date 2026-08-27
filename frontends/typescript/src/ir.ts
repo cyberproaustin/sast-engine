@@ -69,13 +69,13 @@ export interface Flow {
   from: string;
   to: string;
   /** "enclose" = the value became a PART of a structure rather than becoming it. */
-  kind: "assign" | "property" | "template" | "binary" | "return" | "enclose";
+  kind: "assign" | "property" | "template" | "binary" | "arithmetic" | "return" | "enclose";
   loc: Loc;
   /**
-   * The basic block this edge runs in. Left UNSET wherever the block graph does not
-   * express when the edge runs -- inside a loop, whose back edge is not emitted, or
-   * inside a `switch`, whose arms are lowered straight-line. The core reads an absent
-   * block as "position unknown" and keeps the flow.
+   * The basic block this edge runs in. Loop-body flows remain UNSET while the
+   * reaching-definition narrowing over the new cycles is measured separately;
+   * `switch` arms remain unset because their graph is still straight-line. The core
+   * reads an absent block as "position unknown" and keeps the flow.
    */
   block?: string;
 }
@@ -145,6 +145,10 @@ export interface Block {
   successors?: string[];
   terminator?: string;
   loc: Loc;
+  /** The entry to a repetition; its back edge is an ordinary successor to this block. */
+  loopHeader?: boolean;
+  /** The value whose extent or truth decides whether the loop repeats. */
+  loopBound?: string;
 }
 
 export interface Write {
@@ -157,7 +161,7 @@ export interface Write {
    * `path` carries a key written as a literal; the two are never both set.
    */
   key?: string;
-  /** The basic block the write occurs in; unset inside a loop body or a switch arm. */
+  /** Positioned like a flow; loop bodies and switch arms retain the same refusals. */
   block?: string;
   /** How far the destination reaches: "process" for state shared by every request. */
   scope?: string;
