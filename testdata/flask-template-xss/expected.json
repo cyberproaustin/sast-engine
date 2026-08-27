@@ -1,6 +1,6 @@
 {
   "corpus": "flask-template-xss",
-  "description": "The same weakness on the second language, where Jinja2 takes the opposite default: autoescaping is ON, so `{{ x }}` is safe and only an explicit `| safe` opts out. The filter is therefore the whole judgement and there is no one-character difference to miss. The negatives cover the three ways this stays quiet: a value the caller never sent, a context spread from a dictionary built elsewhere -- a stated miss, because naming a file on a guess is worse than saying nothing -- and a value escaped before it reached the view, which is what `escape()` returning Markup is FOR.",
+  "description": "The same weakness on the second language, where Jinja2 takes the opposite default: autoescaping is ON, so `{{ x }}` is safe and only an explicit `| safe` opts out. The filter is therefore the whole judgement and there is no one-character difference to miss. The negatives cover the two ways this stays quiet: a value the caller never sent, and a value escaped before it reached the view, which is what `escape()` returning Markup is FOR. A third handler spreads its context from a dictionary built in another function; that was a stated miss and is now resolved through the mapping's keys, and it reaches the interpolation the first handler already reaches with the same value -- so it is carried as a second site of one weakness rather than as a second finding.",
   "expected": [
     {
       "cwe": "CWE-79",

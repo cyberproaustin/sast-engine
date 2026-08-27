@@ -191,6 +191,16 @@ export function detectExpressRoutes(
           appMiddleware.push(...middlewareFrom(node, "app", resolveFunction, locOf));
           const mount = staticMount(node, consts, locOf);
           if (mount) entryPoints.push(mount);
+        } else if (method === "register") {
+          const mount = pluginStaticMount(
+            node,
+            imports,
+            consts,
+            program?.prefixOf?.(node) ?? "",
+            fastifyNames.has(root.text) ? "fastify" : "express",
+            locOf,
+          );
+          if (mount) entryPoints.push(mount);
         } else if (ROUTE_METHODS.has(method)) {
           // `fastify.register(plugin, { prefix: '/api' })` is a mount stated in another
           // file entirely, and a route recorded without it names an address that answers
@@ -267,6 +277,68 @@ function staticMount(
     detail: { path, ...(root ? { root } : {}) },
     loc: locOf(node),
   };
+}
+
+/**
+ * The same directory, mounted as a PLUGIN: `fastify.register(fastifyStatic, { root, prefix })`.
+ *
+ * A mount written this way is not an argument to `use` and was therefore invisible to the
+ * detector above -- six addresses in one application, the built frontend and its assets
+ * among them, absent from a surface an operator is meant to audit. Same judgement as the
+ * middleware form, different plumbing (ADR-004).
+ *
+ * TWO facts are required and neither is a name at the call site. The plugin has to come
+ * from a package that says what it is (`@fastify/static`, `serve-static`), which is the
+ * provenance evidence the framework label already rests on; and the options have to carry
+ * a `root`, which is the file server's signature and nothing else's.
+ *
+ * `serve: false` is read and is decisive. The same application registers this plugin once
+ * more with a placeholder root purely to decorate `reply.sendFile`, and it serves nothing:
+ * counting it would put the whole server on the surface at `/`, which is exactly the
+ * phantom address ADR-009 is written against.
+ */
+function pluginStaticMount(
+  node: ts.CallExpression,
+  imports: Map<string, ImportRef>,
+  consts: Map<string, ts.Expression>,
+  mountedAt: string,
+  framework: string,
+  locOf: (node: ts.Node) => { file: string; line: number; column: number },
+): EntryPoint | undefined {
+  const plugin = node.arguments[0];
+  const options = node.arguments[1];
+  if (!plugin || !ts.isIdentifier(plugin)) return undefined;
+  if (!options || !ts.isObjectLiteralExpression(options)) return undefined;
+  const ref = imports.get(plugin.text);
+  if (!ref || !isStaticFileModule(ref.module)) return undefined;
+
+  let root = "";
+  let prefix = "";
+  for (const prop of options.properties) {
+    if (!ts.isPropertyAssignment(prop)) continue;
+    const key = ts.isIdentifier(prop.name) || ts.isStringLiteralLike(prop.name) ? prop.name.text : "";
+    if (key === "serve" && prop.initializer.kind === ts.SyntaxKind.FalseKeyword) return undefined;
+    if (key === "root") root = textOfNode(prop.initializer);
+    if (key === "prefix") prefix = pathText(prop.initializer, consts);
+  }
+  if (!root) return undefined;
+
+  // `prefix` defaults to `/` in this plugin, so a mount that omits it serves the whole
+  // tree at the root -- the address is stated by the default rather than by the source.
+  const path = isUnresolvedPath(prefix) ? prefix : joinRoute(mountedAt, prefix || "/");
+  return {
+    functionId: "",
+    kind: "static-mount",
+    framework,
+    detail: { path, root },
+    loc: locOf(node),
+  };
+}
+
+/** A package that says what it serves: `@fastify/static`, `serve-static`, `koa-static`. */
+function isStaticFileModule(module: string): boolean {
+  const name = module.split("/").pop() ?? "";
+  return /(^|-)static(-|$)/.test(name);
 }
 
 /** What an expression was written as, trimmed for a detail field. */

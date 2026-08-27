@@ -22,6 +22,7 @@ var corpora = []string{
 	"clean-express",
 	"express-authz",
 	"express-error-leak",
+	"error-detail-audience",
 	"express-webhook-leak",
 	"express-idor",
 	"express-real-shapes",
@@ -157,6 +158,7 @@ var corpora = []string{
 	"described-route-paths",
 	"forwarded-registrar",
 	"route-registry-loop",
+	"static-plugin-mount",
 	"flask-url-rule-alias",
 	"secret-file-created-before-chmod",
 	"non-constant-time-secret-comparison",
@@ -164,6 +166,7 @@ var corpora = []string{
 	"regex-capture-arity-not-checked",
 	"response-context",
 	"url-context",
+	"template-context-elsewhere",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {

@@ -548,3 +548,54 @@ func assertSurface(t *testing.T, entries []surface.EntryFacts, want map[string]b
 		}
 	}
 }
+
+// A directory served by a PLUGIN. The mount detector read `use` and nothing else, so a
+// framework that mounts its file server with `register` put six directories on the
+// network and none on the surface. The negatives are the whole of the rule's honesty:
+// the same plugin registered with `serve: false` serves nothing.
+func TestStaticPluginMountIsAnAddress(t *testing.T) {
+	res := runScan(t, "static-plugin-mount")
+
+	want := map[string]bool{
+		// Root and prefix, which is what a file server is.
+		"/assets/": true,
+		// No prefix at all: the plugin's default is `/`, and an address stated by a
+		// default is still the address the application answers at.
+		"/": true,
+		// Inside a plugin registered at `/files`, which the mount's own file never
+		// states -- the same prefix that already travels to the routes.
+		"/files/thumbs/": true,
+	}
+
+	got := map[string]bool{}
+	for _, e := range res.Surface.Entries {
+		if e.EntryPoint.Kind != "static-mount" {
+			continue
+		}
+		got[e.Path] = true
+	}
+	for path := range want {
+		if !got[path] {
+			t.Errorf("missing static mount %s", path)
+		}
+	}
+	for path := range got {
+		if !want[path] {
+			t.Errorf("%s was enumerated and is not a directory this application serves", path)
+		}
+	}
+
+	// The route in the same file is untouched by any of it.
+	routes := 0
+	for _, e := range res.Surface.Entries {
+		if e.EntryPoint.Kind == "http-route" {
+			routes++
+			if e.Label() != "GET /healthz" {
+				t.Errorf("want GET /healthz, got %s", e.Label())
+			}
+		}
+	}
+	if routes != 1 {
+		t.Errorf("want 1 route, got %d", routes)
+	}
+}

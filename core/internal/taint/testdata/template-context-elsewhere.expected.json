@@ -1,0 +1,46 @@
+{
+  "corpus": "template-context-elsewhere",
+  "description": "A template's context is a mapping, and the render call is routinely not where it was filled in. Naming every variable at the call is the one shape a frontend can join by itself, and it is the shape an application stops having as soon as it has more than one page. Five positives, each a place where the names and the render are written apart: a dict built above the call and spread into it; a mapping built in another function with `dict(name=value)`; an application-wide render helper that adds a name of its own to whatever view its caller chose, so neither the handler nor the helper contains both halves; a namespace that starts empty and is filled in by an `update` from a shared helper and an `update` from a literal, which is what a base handler's namespace hook is; and a value inside a `<script>` element that went through `json.dumps`, which escapes what ends a JavaScript string and leaves the `<` that ends the element -- reported with the encoder recorded as considered and insufficient for the context it landed in, rather than as no encoder at all. Two negatives hold the line the positives are drawn against: a mapping whose key is the caller's supplies no name at all, because binding a value to a key nobody wrote would attach a finding to whichever interpolation happened to be there; and a mapping that supplies `updated` says nothing about the view's `maintainer`. Silent for the same reason in the middle of the positives: the autoescaped reads beside every unescaped one, and a `<script>` interpolation whose value went through `markupsafe.escape` -- entities are not decoded inside a script element, so a value with no `<` in it cannot end one. Every finding names the `| safe` that removed the encoder as a hop of its own: autoescaping is on, so an unescaped interpolation is a decision somebody wrote down, and this is where.",
+  "expected": [
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "templates/results.html",
+      "sinkLine": 2,
+      "sourceLabel": "flask.request.args.q",
+      "confidence": "high",
+      "note": "the context is one dict built above the call; nothing at the render call says the view's `query` is this key"
+    },
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "templates/profile.html",
+      "sinkLine": 2,
+      "sourceLabel": "flask.request.args.name",
+      "confidence": "high",
+      "note": "the mapping is built in another function, so the name does not exist in the handler at all"
+    },
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "templates/dashboard.html",
+      "sinkLine": 2,
+      "sourceLabel": "flask.request.args",
+      "confidence": "medium",
+      "note": "the render helper binds `banner` for every page it renders, and the handler that chose the view never mentions it. Medium because the caller's value arrives through `.get()`, which the frontend resolves as probable"
+    },
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "templates/report.html",
+      "sinkLine": 1,
+      "sourceLabel": "flask.request.args.who",
+      "confidence": "high",
+      "note": "a namespace that starts empty and is filled in by two updates, one of them from a helper -- the shape of a base handler's namespace hook"
+    },
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "templates/embed.html",
+      "sinkLine": 2,
+      "sourceLabel": "flask.request.args.t",
+      "confidence": "high",
+      "note": "inside a <script> element, where `json.dumps` is recorded as considered and INSUFFICIENT: it escapes what would end a JavaScript string and not the `<` that ends the element"
+    }
+  ]
+}

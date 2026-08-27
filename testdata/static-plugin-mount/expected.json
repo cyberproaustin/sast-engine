@@ -1,0 +1,5 @@
+{
+  "corpus": "static-plugin-mount",
+  "description": "A directory served by a PLUGIN rather than by middleware. `fastify.register(fastifyStatic, { root, prefix })` is not an argument to `use`, so the mount detector never saw it and six addresses of one application -- its built frontend and every asset directory behind it -- were absent from the surface an operator is meant to audit. Two facts are required and neither is a name at the call site: the plugin comes from a package that says what it serves, and the options carry a `root`, which is the file server's signature and nothing else's. The prefix a plugin was registered under applies to the mounts inside it, the same way it already applies to the routes. Three negatives carry the weight: the SAME plugin registered with `serve: false` -- which is how an application gets `reply.sendFile` without serving anything, and counting it would put the whole server on the surface at `/` -- a plugin from a package that serves no files, and a registration of the right package with no root at all.",
+  "expected": []
+}

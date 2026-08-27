@@ -115,8 +115,10 @@ func Run(d *ir.IR, m model.Model, p *policy.Policy) Result {
 	t.Findings = append(t.Findings, guard.Analyze(d, m)...)
 	t.Findings = append(t.Findings, scope.Analyze(d, m, t.ByClass)...)
 	ix := ir.NewIndex(d)
+	authenticated := authenticatedEntries(s)
 	for i := range t.Findings {
 		t.Findings[i].Provenance = ix.ProvenanceOf(t.Findings[i].SinkLoc)
+		t.Findings[i].EntryAuthenticates = authenticated[t.Findings[i].EntryPoint]
 	}
 	unanchorUnreachedModules(ix, d, t.Findings)
 	t.Findings = collapseIdenticalFindings(t.Findings)
@@ -128,6 +130,31 @@ func Run(d *ir.IR, m model.Model, p *policy.Policy) Result {
 		Expectation: expectation.Analyze(d, s, m, p, expectation.DefaultThresholds()),
 		Exempted:    exempted,
 	}
+}
+
+// authenticatedEntries maps the label a finding records for its entry point onto whether
+// that entry point authenticates its caller.
+//
+// The surface decides the fact (surface.EntryFacts.Authenticates) and this only carries
+// it to the findings, so there is one answer and not two -- the same reason Gates is
+// defined once. The join is a string because that is what a finding records: it names its
+// entry point rather than pointing at one.
+//
+// Both spellings are keyed because two exist. The dataflow analysis writes the framework
+// alongside the route ("GET /links [express]"), which is what a reader needs and what the
+// fingerprint has always contained; the analyses that judge a call rather than a flow
+// write the route alone. Keying both is honest about that; teaching one of them to lie
+// about its own labels to make a lookup work would not be.
+func authenticatedEntries(s surface.Surface) map[string]bool {
+	out := map[string]bool{}
+	for _, e := range s.Entries {
+		if !e.Authenticates {
+			continue
+		}
+		out[taint.EntryLabel(e.EntryPoint)] = true
+		out[e.Label()] = true
+	}
+	return out
 }
 
 // unanchorUnreachedModules withdraws the anchoring claim from a finding written in a

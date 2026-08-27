@@ -172,6 +172,10 @@ func SARIF(w io.Writer, scanRes scan.Result, toolVersion string) error {
 				"sanitizers":  sanitizerProps(f),
 				"provenance":  f.Provenance,
 				"entryTrust":  string(f.SourceTrust()),
+				// Published whether or not it changed this finding's rank, because a
+				// consumer reading a note is owed the reason it is a note.
+				"entryAuthenticates": f.EntryAuthenticates,
+				"audienceDecides":    f.AudienceDecides,
 			},
 		})
 	}
@@ -389,6 +393,20 @@ func sanitizerProps(f taint.Finding) []map[string]any {
 func levelFor(f taint.Finding) string {
 	switch {
 	case f.InTestModule || f.Provenance != "":
+		return "note"
+	// A disclosure is the one judgement whose weight IS its audience, and this is the
+	// only place the engine can say so. Nine of linkwarden's twenty-one findings were
+	// CWE-209; eight were adjudicated true and not one was worth reporting, because
+	// every one of them hands a library error string to a caller who already holds the
+	// account. The same rule produced two of the batch's four worth-reporting findings
+	// in uptime-kuma, where the endpoints answer anybody at all. Publishing both at one
+	// rank is what makes a reader stop reading the rule.
+	//
+	// It is not a suppression and it is not scoped to CWE-209 by hand: the policy says
+	// the audience decides (model.Policy.AudienceDecides), the surface says the caller
+	// authenticated, and both have to hold. An injection behind a login is the same
+	// injection and stays exactly where it was.
+	case f.AudienceDecides && f.EntryAuthenticates:
 		return "note"
 	case f.SourceTrust() != ir.Remote:
 		return "warning"

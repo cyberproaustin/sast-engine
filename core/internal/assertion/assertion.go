@@ -124,7 +124,7 @@ func Catalog() []Requirement {
 			Status:     Partial,
 			CWEs:       []string{"CWE-79"},
 			AssertedBy: []string{"untrusted-to-interpreter"},
-			Note:       "detects untrusted data reaching a response body parsed as markup, and records an encoder that addresses the wrong context as insufficient; views are lowered too, so an unescaped interpolation is reported at the template line -- but only where the render call names the view and builds its context in the same place",
+			Note:       "detects untrusted data reaching a response body parsed as markup, and records an encoder that addresses the wrong context as insufficient -- including an encoder for a JavaScript string where the value landed in a <script> element, which the element's own syntax does not accept; views are lowered too, so an unescaped interpolation is reported at the template line, wherever its context was built. The render call no longer has to name the view and build the context in the same place: a mapping handed over whole supplies the view's names through its keys, and the keys are resolved program-wide. A POSITIONAL context object -- Django's third argument, an Express handler's locals built above the call -- is not lowered by either frontend and is the remaining gap",
 		},
 		{
 			ID: "8.2.2", Chapter: "V8 Authorization",

@@ -491,6 +491,21 @@ type Policy struct {
 	// never learns what "registration" is, only that a policy can be exempted.
 	ExemptedBy string
 
+	// AudienceDecides marks a judgement whose weight IS who receives what is disclosed.
+	//
+	// For almost every rule here the audience is beside the point: an injection behind a
+	// login is the same injection, because the attacker's power over the system does not
+	// change with who they are. A DISCLOSURE is the exception -- the whole weakness is
+	// that somebody learned something, so who that somebody is decides how much it
+	// matters. An internal error returned to a stranger describes the system to whoever
+	// asked; the same string returned to a caller who already holds an account describes
+	// it to somebody who is already inside.
+	//
+	// Marked on the policy rather than read off a CWE in the reporter, because the
+	// reporter does not decide what is true. It changes rank only: the finding is
+	// reported either way, and nothing about it stops gating that did not already.
+	AudienceDecides bool
+
 	Reason  string // the judgement, stated plainly, for the finding
 	Finding string // finding class
 	CWE     string
@@ -821,16 +836,55 @@ func (m Model) ClassifyControl(name string) string {
 	if i := strings.LastIndexByte(segment, '.'); i >= 0 {
 		segment = segment[i+1:]
 	}
+	starts := wordStarts(segment)
 	segment = strings.ToLower(segment)
 
 	best, bestLen := "", 0
 	for _, c := range m.Controls {
 		rule := strings.ToLower(c.Name)
-		if len(rule) > bestLen && strings.Contains(segment, rule) {
-			best, bestLen = c.Kind, len(rule)
+		if len(rule) <= bestLen {
+			continue
+		}
+		for _, i := range starts {
+			if strings.HasPrefix(segment[i:], rule) {
+				best, bestLen = c.Kind, len(rule)
+				break
+			}
 		}
 	}
 	return best
+}
+
+// wordStarts is where a word begins inside an identifier: at the front, after a
+// separator, and at a camelCase hump.
+//
+// Containment has to begin at one of these or it reads a control into a word that merely
+// contains one. `unauthorized` contains `authorize` and is the opposite of a control --
+// umami calls it 145 times to WRITE a 401 -- and until control classification could see a
+// locally defined call at all, no repository had produced a name where that mattered. The
+// first tree it was pointed at produced 136 entry points carrying an "authorization
+// control" that answers requests with a refusal.
+//
+// The cost is the shapes that bury a control word mid-word: `reauthorize`, `deauthorize`.
+// Missing a control is a false claim about what is MISSING, which the population analysis
+// discounts anyway (ADR-010); inventing one is a false claim about what is THERE, on the
+// surface, which is the primary output.
+func wordStarts(s string) []int {
+	starts := []int{0}
+	for i := 1; i < len(s); i++ {
+		c := s[i]
+		switch {
+		case c == '_' || c == '-' || c == '$' || c == '.' || c == '/':
+			if i+1 < len(s) {
+				starts = append(starts, i+1)
+			}
+		case c >= 'A' && c <= 'Z' && !(s[i-1] >= 'A' && s[i-1] <= 'Z'):
+			starts = append(starts, i)
+		case c >= 'a' && c <= 'z' && s[i-1] >= '0' && s[i-1] <= '9':
+			starts = append(starts, i)
+		}
+	}
+	return starts
 }
 
 // Builtin returns the shipped model.
@@ -4044,6 +4098,22 @@ func builtin() Model {
 				Rationale: "the template writes this value into the page, escaped",
 			},
 			{
+				// Inside a `<script>` element, which is neither markup nor a JavaScript
+				// string. The HTML parser ends the element at the first `</script`
+				// whatever the JavaScript around it says, and it does NOT decode entities
+				// in there -- so escaping for a JavaScript string leaves the sequence that
+				// ends the element intact, while HTML-escaping happens to remove it.
+				//
+				// A separate context because that is the whole of the difference: the
+				// encoders that answer it are not the encoders that answer a JavaScript
+				// string, and an engine that files both under one name cannot say which
+				// one was reached for.
+				ID: "html-response", Visibility: "public", Context: "script",
+				Symbol: "<template>.script", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-79",
+				Rationale: "the value is written into a <script> element unescaped, where the element ends at the first </script whatever the surrounding JavaScript says",
+			},
+			{
 				ID: "url-target", Visibility: "public", Context: "url-target",
 				Symbol: "<template>.url-target", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
 				CWE:       "CWE-79",
@@ -4161,7 +4231,7 @@ func builtin() Model {
 			{
 				ID:            "untrusted-to-interpreter",
 				Class:         "untrusted-input",
-				DeniedContext: []string{"shell", "argv", "exec-path", "sql", "html", "code", "template", "ldap", "xpath", "url-target", "url-part"},
+				DeniedContext: []string{"shell", "argv", "exec-path", "sql", "html", "script", "code", "template", "ldap", "xpath", "url-target", "url-part"},
 				Reason:        "a caller must not be able to choose what an interpreter executes",
 				Finding:       "Untrusted input reaches an interpreter",
 				CWE:           "CWE-78",
@@ -4185,7 +4255,7 @@ func builtin() Model {
 				// Only the destinations that INTERPRET what they are given are claimed.
 				ID:            "stored-to-interpreter",
 				Class:         "second-order-input",
-				DeniedContext: []string{"shell", "argv", "exec-path", "sql", "html", "code", "template", "ldap", "xpath"},
+				DeniedContext: []string{"shell", "argv", "exec-path", "sql", "html", "script", "code", "template", "ldap", "xpath"},
 				Reason:        "a value one caller stored is read back by another request and interpreted there, so the store is the delivery mechanism rather than the request that arrives with it",
 				Finding:       "Stored input reaches an interpreter",
 				CWE:           "CWE-78",
@@ -4608,7 +4678,7 @@ func builtin() Model {
 				// public too, and putting a credential in one is a different judgement
 				// with a different remedy -- naming visibility here made every cookie
 				// finding report twice under two numbers.
-				DeniedContext:       []string{"http-response", "html"},
+				DeniedContext:       []string{"http-response", "html", "script"},
 				RequiresUnprojected: true,
 				Requires:            Requirements{Interprocedural: true},
 				Reason:              "a credential the caller sent must not come back in the response, where it reaches proxies, caches and browser history that had no reason to hold it",
@@ -4677,7 +4747,7 @@ func builtin() Model {
 				// reported (ADR-016).
 				ID:                    "error-detail-into-markup",
 				Class:                 "internal-error",
-				DeniedContext:         []string{"html", "template"},
+				DeniedContext:         []string{"html", "script", "template"},
 				ClassNamesTheWeakness: true,
 				Reason:                "an error message is where a program repeats back what it was given, so writing one into a page unescaped hands the caller a way to put script there",
 				Finding:               "Error message written into a page unescaped",
@@ -4688,9 +4758,17 @@ func builtin() Model {
 				Class:                 "internal-error",
 				DeniedVisibility:      []string{"public", "thirdparty"},
 				ClassNamesTheWeakness: true,
-				Reason:                "internal failure detail describes the system to people outside it",
-				Finding:               "Sensitive information exposure",
-				CWE:                   "CWE-209",
+				// Who reads the message is what this judgement is about. Nine of
+				// linkwarden's twenty-one findings were this rule; eight were adjudicated
+				// true and not one was worth reporting, because every one of them hands a
+				// library error string to a caller who already owns the account. The same
+				// rule found two of the batch's four worth-reporting findings in
+				// uptime-kuma, where the endpoints answer anybody. Same rule, same
+				// weakness, different audience -- and until now the same rank.
+				AudienceDecides: true,
+				Reason:          "internal failure detail describes the system to people outside it",
+				Finding:         "Sensitive information exposure",
+				CWE:             "CWE-209",
 			},
 		},
 
@@ -5077,24 +5155,24 @@ func builtin() Model {
 			},
 			{
 				Symbol:   "escape-html",
-				Contexts: []string{"html"},
+				Contexts: []string{"html", "script"},
 				Note:     "escapes the five characters that make markup",
 			},
 			{
 				// The same package reached through a default import. A module's identity
 				// is not the name a file happened to bind it to.
 				Symbol:   "escape-html.default",
-				Contexts: []string{"html"},
+				Contexts: []string{"html", "script"},
 				Note:     "escapes the five characters that make markup",
 			},
 			{
 				Symbol:   "he.escape",
-				Contexts: []string{"html"},
+				Contexts: []string{"html", "script"},
 				Note:     "HTML-encodes its input",
 			},
 			{
 				Symbol:   "he.encode",
-				Contexts: []string{"html"},
+				Contexts: []string{"html", "script"},
 				Note:     "HTML-encodes its input",
 			},
 			{
@@ -5108,28 +5186,50 @@ func builtin() Model {
 				// -- so `{{ escape(x) | safe }}` is correct code and the rule has to know
 				// it, or it reports the remedy.
 				Symbol:   "markupsafe.escape",
-				Contexts: []string{"html"},
+				Contexts: []string{"html", "script"},
 				Note:     "escapes the five characters that make markup and returns Markup",
 			},
 			{
 				Symbol:   "flask.escape",
-				Contexts: []string{"html"},
+				Contexts: []string{"html", "script"},
 				Note:     "escapes the five characters that make markup and returns Markup",
 			},
 			{
 				Symbol:   "html.escape",
-				Contexts: []string{"html"},
+				Contexts: []string{"html", "script"},
 				Note:     "HTML-escapes its input",
 			},
 			{
 				Symbol:   "cgi.escape",
-				Contexts: []string{"html"},
+				Contexts: []string{"html", "script"},
 				Note:     "HTML-escapes its input",
 			},
 			{
 				Symbol:   "bleach.clean",
 				Contexts: []string{"html"},
 				Note:     "removes scripting constructs from markup",
+			},
+
+			// Encoders for a JavaScript STRING, which is not the same place as a script
+			// ELEMENT. Each of these escapes the quote and the backslash that would end
+			// the string literal, and none of them escapes `<` or `/` -- so a value that
+			// went through one still carries `</script>`, and the HTML parser ends the
+			// element there whatever the JavaScript around it says.
+			//
+			// Declared even though nothing in this model asks about a JavaScript string
+			// yet, because the point is what they DO NOT clear: without the rule the
+			// engine cannot say that an encoder was reached for and answered the wrong
+			// question, and "considered and insufficient" is a different report from
+			// "nothing was tried" (ADR-006).
+			{
+				Symbol:   "json.dumps",
+				Contexts: []string{"javascript-string"},
+				Note:     "escapes what would end a JavaScript string, and not what ends a <script> element",
+			},
+			{
+				Symbol:   "JSON.stringify",
+				Contexts: []string{"javascript-string"},
+				Note:     "escapes what would end a JavaScript string, and not what ends a <script> element",
 			},
 
 			{
@@ -5172,6 +5272,10 @@ func builtin() Model {
 			{Name: "isAuthenticated", Kind: "authentication"},
 			{Name: "ensureAuthenticated", Kind: "authentication"},
 			{Name: "verifyToken", Kind: "authentication"},
+			// The sibling of the two names above it, and the one linkwarden writes on
+			// the first line of every API route it serves: `verifyUser({req, res})`
+			// resolves the session and answers the request itself when there is none.
+			{Name: "verifyUser", Kind: "authentication"},
 			// Names real frameworks actually use, alongside the generic ones.
 			{Name: "jwtAuth", Kind: "authentication"},
 			{Name: "authGuard", Kind: "authentication"},

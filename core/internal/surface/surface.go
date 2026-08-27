@@ -57,6 +57,30 @@ type EntryFacts struct {
 	Path   string
 
 	Controls []Control
+
+	// Authenticates reports whether an authentication control runs under this entry
+	// point: in its middleware chain, in the handler itself, or in something the
+	// handler calls directly.
+	//
+	// Separate from Controls, and deliberately weaker, because it answers a different
+	// question. Controls is an enumeration of what is ATTACHED to this entry point, and
+	// convention analysis compares those lists across peers (ADR-010) -- a claim that
+	// only holds while every element of the list is genuinely attached here. This is one
+	// bit about the request as a whole: somewhere between arriving and being answered,
+	// the caller was asked who they are.
+	//
+	// One hop below the handler and no further. A Next.js page route dispatches on the
+	// method before doing anything -- `Index` -> `handlePost` -> `verifyUser({req, res})`
+	// -- so a fact that stopped at the handler would miss the shape the convention
+	// produces. Two hops further reaches every helper the application owns, and a static
+	// file mount would come out authenticated because something deep below it eventually
+	// asks who you are.
+	//
+	// It does not ask whether the control DOMINATES anything. Nothing is suppressed on
+	// the strength of it: it lowers the rank of a disclosure whose weight is who receives
+	// it (model.Policy.AudienceDecides), and a claim that cheap does not need
+	// control-flow dominance across a call boundary behind it.
+	Authenticates bool
 }
 
 // Loc is where this entry point lives: its handler when resolved, otherwise the
@@ -332,6 +356,7 @@ func Build(d *ir.IR, m model.Model, p *policy.Policy) Surface {
 			Group:      groupOf(ep, fn),
 		}
 		facts.Controls = controlsOf(ep, fn, m, p)
+		facts.Authenticates = authenticatesCaller(ix, facts.Controls, fn, m, p)
 		if !ix.InApplicationSurface(loc) {
 			if facts.Provenance != "" {
 				nonApplication = append(nonApplication, facts)
@@ -431,14 +456,11 @@ func controlsOf(ep ir.EntryPoint, fn *ir.Function, m model.Model, p *policy.Poli
 
 	if fn != nil {
 		for _, c := range fn.Calls {
-			name := c.Method
-			if name == "" {
-				name = c.Callee.Symbol
-			}
-			kind := classify(name)
+			kind := classify(controlName(c))
 			if kind == "" {
 				continue
 			}
+			name := controlName(c)
 			out = append(out, Control{
 				Ref:    "call:" + name,
 				Name:   name,
@@ -451,6 +473,60 @@ func controlsOf(ep ir.EntryPoint, fn *ir.Function, m model.Model, p *policy.Poli
 	}
 
 	return out
+}
+
+// authenticatesCaller answers EntryFacts.Authenticates: is there an authentication
+// control on this entry point, or one hop below it.
+//
+// The controls already enumerated are read rather than recomputed, so a team's own
+// declaration about its middleware counts here exactly as it counts everywhere else.
+func authenticatesCaller(ix *ir.Index, controls []Control, fn *ir.Function, m model.Model, p *policy.Policy) bool {
+	for _, c := range controls {
+		if c.Kind == "authentication" {
+			return true
+		}
+	}
+	if fn == nil {
+		return false
+	}
+	classify := func(name string) string {
+		if kind := p.ClassifyControl(name); kind != "" {
+			return kind
+		}
+		return m.ClassifyControl(name)
+	}
+	for _, c := range fn.Calls {
+		callee := ix.FuncByID[c.Callee.FunctionID]
+		if callee == nil || callee.ID == fn.ID {
+			continue
+		}
+		for _, below := range callee.Calls {
+			if classify(controlName(below)) == "authentication" {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// controlName is how a call is named when asking whether it is a security control.
+//
+// The written name is the last resort and it is the one that matters most here. A
+// control an application DEFINES ITSELF and calls by name -- `verifyUser({req, res})` --
+// resolves to a local function and carries no external symbol at all, so a lookup that
+// read only the method and the symbol saw an empty string and classified nothing.
+// Measured: across ten unmodified repositories 32 of 1613 entry points carried any
+// control, and linkwarden -- whose every API route calls `verifyUser` or `verifyToken` on
+// its first line -- carried none on any of its 75. The names were in the model the whole
+// time; the call never offered one to compare them against.
+func controlName(c *ir.Call) string {
+	if c.Method != "" {
+		return c.Method
+	}
+	if c.Callee.Symbol != "" {
+		return c.Callee.Symbol
+	}
+	return c.Callee.Name
 }
 
 func displayName(mw ir.MiddlewareRef) string {
