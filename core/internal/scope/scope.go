@@ -26,6 +26,18 @@
 // -- a lookup carrying both, or a comparison between them. Existence is not one of them:
 // `featureExists(name)` proves the row is there and says nothing about who owns it, and a
 // call carrying only the unauthorized key relates it to nothing.
+//
+// The relation does not require either operand to be a CALL, and `declared.go` is the
+// half where neither is. A framework that resolves the record and runs the permission
+// itself leaves an application with nothing to write down but four class attributes, and
+// both operands are in them:
+//
+//	class ExampleDetail(generics.RetrieveUpdateDestroyAPIView):
+//	    queryset = Example.objects.all()                    # every example there is
+//	    lookup_url_kwarg = "example_id"                     # fetched by THIS key
+//	    permission_classes = [IsAuthenticated & IsProjectAdmin]  # checked on THAT one
+//
+// Same question, same answer, no control-flow graph anywhere in it.
 package scope
 
 import (
@@ -39,23 +51,34 @@ import (
 	"github.com/cyberproaustin/sast-engine/core/internal/taint"
 )
 
-// Analyze reports store writes performed outside the scope the handler's own
-// authorization check established.
-func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []taint.Finding {
+// Analyze reports record operations performed outside the scope the handler's own
+// authorization established, and names the rules it could not evaluate.
+//
+// The second return value is not a courtesy. A rule whose whole subject is a declaration
+// one framework makes is skipped wherever that framework was not modelled, and a scan
+// that went quiet about it would be claiming a clean result for a judgement nobody made
+// (ADR-003).
+func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) ([]taint.Finding, []taint.SkippedPolicy) {
 	if len(m.Scopes) == 0 {
-		return nil
+		return nil, nil
 	}
 	ix := ir.NewIndex(d)
 
 	var out []taint.Finding
+	var skipped []taint.SkippedPolicy
 	for _, rule := range m.Scopes {
 		// A judgement about which check GATES which write cannot be made without a
 		// control-flow graph, and a rule that cannot be evaluated reports nothing rather
 		// than reporting a guess (ADR-003).
-		if len(rule.Requires.Missing(d.Frontend.Capabilities)) > 0 {
+		if missing := rule.Requires.Missing(d.Frontend.Capabilities); len(missing) > 0 {
+			skipped = append(skipped, taint.SkippedPolicy{PolicyID: rule.ID, Missing: missing})
 			continue
 		}
 		identity := byClass[rule.IdentityClass]
+		if rule.Declared != nil {
+			out = append(out, judgeDeclared(ix, d, rule, identity)...)
+			continue
+		}
 		if len(identity.Values) == 0 {
 			// A relation to the caller's identity cannot be judged where no identity is
 			// observable, and reporting every write as unscoped would be a statement
@@ -73,7 +96,7 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 		}
 	}
 	sortFindings(out)
-	return out
+	return out, skipped
 }
 
 // judge runs the relation over one handler.

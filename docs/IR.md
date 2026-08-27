@@ -1,4 +1,4 @@
-# Program IR — v0.18.0
+# Program IR — v0.19.0
 
 The IR is the contract between language frontends and the core (ADR-001). A frontend
 lowers a codebase into this shape and stops. The core consumes only this shape and
@@ -12,7 +12,7 @@ could not be expressed without it. Nothing is added in anticipation.
 
 ```jsonc
 {
-  "irVersion": "0.18.0",
+  "irVersion": "0.19.0",
   "frontend": { "name": "typescript", "version": "0.1.0", "capabilities": { ... } },
   "modules":     [ ... ],
   "functions":   [ ... ],
@@ -455,6 +455,76 @@ comparison.
 A frontend should emit a middleware reference even when it cannot resolve the target
 to a function — an unresolved identifier still has a stable name, and comparing chains
 across peers only requires knowing that peers share a binding this one lacks.
+
+## Declared views (added in 0.19.0)
+
+A Django REST Framework view is a class with no request handling in it:
+
+```python
+class ExampleDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Example.objects.all()
+    lookup_url_kwarg = "example_id"
+    permission_classes = [IsAuthenticated & (IsProjectAdmin | IsProjectStaffAndReadOnly)]
+```
+
+The framework reads those three assignments, runs the permission classes, fetches the row
+the URL names, and answers. There is no gate call, no operation call and no function to
+build a control-flow graph over, so every judgement in the core that relates one call to
+another has nothing to look at — and the relation that matters here is exactly that one:
+the permission is scoped to `project_id` and the row is fetched by `example_id`.
+
+`declaredViews` carries the operands. It is a separate fact from `entryPoints` for the
+reason `views` is separate from `renders`: an entry point is a FUNCTION the surface
+reached, and these views have no function at all, so attaching them to one would mean
+inventing it.
+
+```jsonc
+"declaredViews": [
+  {
+    "id": "examples/views/example.py:ExampleDetail",
+    "framework": "drf",
+    "name": "ExampleDetail",
+    "loc": { "file": "examples/views/example.py", "line": 50, "column": 1 },
+    "handlers": ["examples/views/example.py#delete:59:5"],
+    "authorizes": [{ "key": "project_id", "by": "IsProjectAdmin", "loc": { ... } }],
+    "selects":    { "key": "example_id", "by": "lookup_url_kwarg", "loc": { ... } },
+    "constrains": [{ "key": "project_id", "by": "get_queryset",    "loc": { ... } }],
+    "resolves":   [{ "key": "project_id", "by": "project",         "loc": { ... } }],
+    "objectRelation": "IsOwnComment",
+    "target": { "symbol": "Example.objects.all", "loc": { ... } }
+  }
+]
+```
+
+- `authorizes` — the request keys the declared authorization consults, one entry per
+  permission class that consults one. Several, because a view composes permissions and the
+  scope it was authorized against is their union.
+- `selects` — the request key the framework resolves ONE record from. Absent where the
+  view answers about a collection.
+- `constrains` — the request keys the application's own query override narrows by. This is
+  where a correctly scoped view states its relation.
+- `objectRelation` — the declaration that ties the SELECTED record to the caller, when the
+  application made one. DRF's `has_object_permission` is handed the row the framework
+  chose, and a view that declares one has settled the question.
+- `resolves` — the view's own accessors that stand for a request key, `by` naming the
+  accessor. `self.project.examples` in a handler body is a query already narrowed to the
+  authorized project and the body says so nowhere: `project` is a property elsewhere in
+  the class that fetches the row `self.kwargs["project_id"]` names.
+- `handlers` — the view's own methods that answer a request, so a judgement about the
+  declared authorization can reach the bodies it governs. A declaratively authorized view
+  is not always empty: it routinely carries one bulk operation the framework has no
+  opinion about, running under an authorization it never mentions.
+
+Deliberately free of the framework's vocabulary. `lookup_url_kwarg`, `get_queryset` and
+`has_object_permission` are DRF's words for these facts and they stay in the frontend that
+read them; what crosses the IR is which REQUEST KEY each declaration was about, because
+that is the only part a judgement about scope needs and the only part the next framework
+will spell the same way. The `by` field keeps the application's own word so a finding can
+cite the line that made the claim.
+
+A frontend that lowers these declares `drf` in `frameworkModels`, apart from `django`
+(ADR-003): a URLconf and a view class are two different idioms, and a frontend that models
+the first and not the second is not silent about the second because the second is correct.
 
 ## Views and renders (added in 0.16.0)
 
