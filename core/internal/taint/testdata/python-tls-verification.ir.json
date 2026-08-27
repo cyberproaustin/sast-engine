@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.17.0",
+  "irVersion": "0.18.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -233,7 +233,13 @@
             "line": 22,
             "column": 49
           },
-          "name": "{dict}"
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "accept",
+              "valueId": "app.py#fetch_insecure_with_neighbours:20:1$v3"
+            }
+          ]
         },
         {
           "id": "app.py#fetch_insecure_with_neighbours:20:1$v3",
@@ -690,7 +696,17 @@
             "line": 42,
             "column": 44
           },
-          "name": "{dict}"
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "verify",
+              "valueId": "app.py#fetch_nested:33:1$v4"
+            },
+            {
+              "key": "check_hostname",
+              "valueId": "app.py#fetch_nested:33:1$v5"
+            }
+          ]
         },
         {
           "id": "app.py#fetch_nested:33:1$v4",

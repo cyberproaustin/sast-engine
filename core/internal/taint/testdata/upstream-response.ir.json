@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.16.0",
+  "irVersion": "0.18.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -1285,7 +1285,13 @@
             "line": 61,
             "column": 63
           },
-          "name": "{dict}"
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "sku",
+              "valueId": "app.py#mirror_catalog:58:1$v7"
+            }
+          ]
         },
         {
           "id": "app.py#mirror_catalog:58:1$v7",
@@ -1424,8 +1430,8 @@
               "valueId": "app.py#mirror_catalog:58:1$v5"
             },
             {
-              "index": 1,
-              "valueId": "app.py#mirror_catalog:58:1$v6"
+              "valueId": "app.py#mirror_catalog:58:1$v6",
+              "name": "json"
             }
           ],
           "resultValueId": "app.py#mirror_catalog:58:1$v8",
@@ -1500,7 +1506,17 @@
             "line": 72,
             "column": 16
           },
-          "name": "{dict}"
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "key",
+              "valueId": "app.py#<module>:0:0$v4"
+            },
+            {
+              "key": "sku",
+              "valueId": "app.py#lookup_item:66:1$v4"
+            }
+          ]
         },
         {
           "id": "app.py#lookup_item:66:1$v2",
@@ -1666,8 +1682,8 @@
               "valueId": "app.py#lookup_item:66:1$v0"
             },
             {
-              "index": 1,
-              "valueId": "app.py#lookup_item:66:1$v1"
+              "valueId": "app.py#lookup_item:66:1$v1",
+              "name": "params"
             }
           ],
           "resultValueId": "app.py#lookup_item:66:1$v6",
@@ -1743,7 +1759,13 @@
             "line": 86,
             "column": 17
           },
-          "name": "{dict}"
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "Authorization",
+              "valueId": "app.py#private_lookup:78:1$v2"
+            }
+          ]
         },
         {
           "id": "app.py#private_lookup:78:1$v2",
@@ -1884,8 +1906,8 @@
               "valueId": "app.py#private_lookup:78:1$v0"
             },
             {
-              "index": 1,
-              "valueId": "app.py#private_lookup:78:1$v1"
+              "valueId": "app.py#private_lookup:78:1$v1",
+              "name": "headers"
             }
           ],
           "resultValueId": "app.py#private_lookup:78:1$v5",
@@ -2291,7 +2313,17 @@
             "line": 23,
             "column": 24
           },
-          "name": "{dict}"
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "title",
+              "valueId": "engine_module.py#response:18:1$v12"
+            },
+            {
+              "key": "url",
+              "valueId": "engine_module.py#response:18:1$v13"
+            }
+          ]
         },
         {
           "id": "engine_module.py#response:18:1$v12",
@@ -2482,7 +2514,7 @@
             }
           ],
           "resultValueId": "engine_module.py#response:18:1$v10",
-          "block": "engine_module.py#response:18:1$b0",
+          "block": "engine_module.py#response:18:1$b1",
           "method": "system",
           "argCount": 1,
           "enumeratedOptions": [
@@ -2509,7 +2541,7 @@
             }
           ],
           "resultValueId": "engine_module.py#response:18:1$v14",
-          "block": "engine_module.py#response:18:1$b0",
+          "block": "engine_module.py#response:18:1$b1",
           "method": "append",
           "argCount": 1,
           "enumeratedOptions": [
@@ -2529,16 +2561,53 @@
       "blocks": [
         {
           "id": "engine_module.py#response:18:1$b0",
-          "successors": [],
+          "successors": [
+            "engine_module.py#response:18:1$b3"
+          ],
           "loc": {
             "file": "engine_module.py",
             "line": 18,
             "column": 1
+          }
+        },
+        {
+          "id": "engine_module.py#response:18:1$b1",
+          "successors": [
+            "engine_module.py#response:18:1$b3"
+          ],
+          "loc": {
+            "file": "engine_module.py",
+            "line": 20,
+            "column": 5
+          }
+        },
+        {
+          "id": "engine_module.py#response:18:1$b2",
+          "successors": [],
+          "loc": {
+            "file": "engine_module.py",
+            "line": 20,
+            "column": 5
           },
           "terminator": "return"
         },
         {
-          "id": "engine_module.py#response:18:1$b1",
+          "id": "engine_module.py#response:18:1$b3",
+          "successors": [
+            "engine_module.py#response:18:1$b1",
+            "engine_module.py#response:18:1$b2"
+          ],
+          "loc": {
+            "file": "engine_module.py",
+            "line": 20,
+            "column": 5
+          },
+          "terminator": "branch",
+          "loopHeader": true,
+          "loopBound": "engine_module.py#response:18:1$v4"
+        },
+        {
+          "id": "engine_module.py#response:18:1$b4",
           "successors": [],
           "loc": {
             "file": "engine_module.py",
@@ -2866,7 +2935,13 @@
             "line": 21,
             "column": 13
           },
-          "name": "{dict}"
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "title",
+              "valueId": "engine_xml.py#response:18:1$v8"
+            }
+          ]
         },
         {
           "id": "engine_xml.py#response:18:1$v8",

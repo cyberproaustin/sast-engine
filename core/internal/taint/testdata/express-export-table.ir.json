@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.15.0",
+  "irVersion": "0.18.0",
   "frontend": {"name":"typescript","version":"0.1.0","capabilities":{"typeChecker":true,"interprocedural":true,"crossModule":true,"controlFlow":true,"templates":false,"frameworkModels":["express","nestjs"]}},
   "modules": [
     {"id":"db.js","path":"db.js"},
