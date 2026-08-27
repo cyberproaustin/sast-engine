@@ -31,7 +31,7 @@ interface Resolved {
   node?: ts.Node;
 }
 
-/** Files whose exports ARE the handlers. */
+/** Files whose exports ARE API handlers. */
 const ROUTE_FILES = new Set(["route", "+server", "server", "handler"]);
 
 // Ordered, because a handler that dispatches on the method yields a SET of verbs and the
@@ -298,6 +298,36 @@ export function detectFileRoutes(
   const api = pagesApiAt(parts);
   if (api >= 0) return pagesRouterRoutes(sf, moduleId, parts.slice(api), base, resolveFunction, locOf);
 
+  // An App Router page is caller-reachable code, and still not an API handler. Keeping
+  // its kind separate is what lets the surface account for all 59 pages measured in
+  // umami without changing the independently audited 168-route API count (ADR-009).
+  //
+  // `layout` and `default` are deliberately absent. They are components the framework
+  // may render while answering some other address; neither one creates an address of
+  // its own, so adding a row for either would be the same over-count this convention is
+  // meant to correct.
+  const app = appDirAt(parts);
+  if (base === "page" && app >= 0) {
+    const exported = defaultExport(sf);
+    const component = exported ? resolveFunction(exported) : undefined;
+    // The path convention proves that the file is reserved for a page. The resolved
+    // default export proves this particular file actually supplies the component Next
+    // requires. A named helper, a type-only file, and an invalid literal default export
+    // therefore contribute no surface row.
+    if (!exported || !component) return [];
+    return [{
+      functionId: component.id,
+      kind: "rendered-page",
+      framework: "next-app-page",
+      detail: {
+        method: "GET",
+        path: routePath(parts.slice(app + 1)),
+        module: moduleId,
+      },
+      loc: locOf(exported),
+    }];
+  }
+
   if (!ROUTE_FILES.has(base)) return [];
 
   const path = routePath(parts);
@@ -357,6 +387,14 @@ function isExported(stmt: ts.Statement): boolean {
 function pagesApiAt(dirs: string[]): number {
   for (let i = dirs.length - 2; i >= 0; i--) {
     if (dirs[i] === "pages" && dirs[i + 1] === "api") return i + 1;
+  }
+  return -1;
+}
+
+/** The last `app` directory is the router root; an outer one may name a workspace. */
+function appDirAt(dirs: string[]): number {
+  for (let i = dirs.length - 1; i >= 0; i--) {
+    if (dirs[i] === "app") return i;
   }
   return -1;
 }
@@ -466,9 +504,24 @@ function dispatchedVerbs(handler: ts.Node): string[] {
  */
 function routePath(dirs: string[]): string {
   const segments: string[] = [];
-  for (const raw of dirs) {
+  for (let raw of dirs) {
     if (segments.length === 0 && (raw === "src" || raw === "app" || raw === "pages")) continue;
     if (raw.startsWith("(") && raw.endsWith(")")) continue;
+    // Parallel-route slots choose which component fills an existing address; they do
+    // not add a path segment. Interception prefixes likewise describe where Next finds
+    // the component, not text present in the URL.
+    if (raw.startsWith("@")) continue;
+    if (raw.startsWith("(...)")) {
+      segments.length = 0;
+      raw = raw.slice(5);
+    } else {
+      if (raw.startsWith("(.)")) raw = raw.slice(3);
+      while (raw.startsWith("(..)")) {
+        segments.pop();
+        raw = raw.slice(4);
+      }
+    }
+    if (!raw) continue;
     const rest = /^\[\[?\.\.\.(.+?)\]?\]$/.exec(raw);
     if (rest) {
       segments.push("*");

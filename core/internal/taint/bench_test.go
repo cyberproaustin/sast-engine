@@ -16,6 +16,7 @@ import (
 // capability gets a permanent regression check.
 var corpora = []string{
 	"anchored-regex-guard",
+	"app-router-pages",
 	"express-command-injection",
 	"one-weakness-per-site",
 	"express-async",
@@ -131,6 +132,7 @@ var corpora = []string{
 	"client-identifier",
 	"keyword-argument-binding",
 	"sibling-guard-differential",
+	"stored-read-invariant",
 	"regex-complexity",
 	"unowned-record-access",
 	"unbounded-resource",
