@@ -43,6 +43,7 @@ baseline:
 
 test:
 	cd core && go test ./... -count=1
+	python3 loop/bin/test_adjudicate.py
 
 bench:
 	@cd core && go test ./internal/taint/ -run TestCorpusScores -v -count=1 2>&1 | grep -E 'precision|FALSE|DRIFT|FAIL|ok '
