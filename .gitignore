@@ -29,3 +29,15 @@ catalog/cwec_v*.xml
 # The method is public and lives in docs/review-loop.md, which describes the whole process and
 # names no weakness in anybody's software. The harness that runs it stays local.
 loop/
+
+# The verdict ledger and the defect list, for the same reason as loop/.
+#
+# verdicts.json records 57 findings judged TRUE in named third-party repositories, each with the
+# reasoning that makes it credible -- which is what makes it a disclosure. loop-issues.md quotes
+# real code from those repositories while explaining what the engine could not see.
+#
+# Both are how the engine was validated rather than what it is. validation/README.md explains
+# what the ledger does and why a verdict recorded once is never re-asked; the judgements
+# themselves stay local.
+validation/verdicts.json
+loop-issues.md
