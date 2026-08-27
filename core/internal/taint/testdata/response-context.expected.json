@@ -1,0 +1,22 @@
+{
+  "corpus": "response-context",
+  "description": "A response body is judged in the context the program establishes for that response. Object serialization and JSON.stringify are JSON, a dominating text/plain header is text, and a sandbox CSP prevents script execution. Explicit text/html and an otherwise-unqualified string remain markup sinks.",
+  "expected": [
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "app.ts",
+      "sinkLine": 12,
+      "sourceLabel": "req.query.message",
+      "confidence": "medium",
+      "note": "explicit text/html response"
+    },
+    {
+      "cwe": "CWE-79",
+      "sinkFile": "app.ts",
+      "sinkLine": 21,
+      "sourceLabel": "req.query.message",
+      "confidence": "medium",
+      "note": "string response with no context-setting header"
+    }
+  ]
+}

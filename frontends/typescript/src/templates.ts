@@ -48,8 +48,29 @@ export interface Interpolation {
   path: string;
   /** Whether the engine HTML-escapes this one. */
   escaped: boolean;
+  /** Syntax interpreted after HTML parsing, where markup escaping is not sufficient. */
+  context?: "url-target" | "url-part";
   line: number;
   column: number;
+}
+
+const URL_ATTRIBUTE = /\b(?:href|src|action)\s*=\s*(["'])(.*?)\1/gis;
+
+function urlContextAt(source: string, offset: number): "url-target" | "url-part" | undefined {
+  URL_ATTRIBUTE.lastIndex = 0;
+  for (let attr = URL_ATTRIBUTE.exec(source); attr; attr = URL_ATTRIBUTE.exec(source)) {
+    const valueStart = attr.index + attr[0].indexOf(attr[1]) + 1;
+    const valueStop = valueStart + attr[2].length;
+    if (offset < valueStart || offset >= valueStop) continue;
+    const value = attr[2];
+    const reads = [...value.matchAll(/<%[=-][\s\S]*?%>|\{\{\{?[\s\S]*?\}\}\}?|[!#]\{[^}]*\}/g)];
+    if (reads.length !== 1) return "url-part";
+    const read = reads[0];
+    const before = value.slice(0, read.index).trim();
+    const after = value.slice((read.index ?? 0) + read[0].length).trim();
+    return before === "" && after === "" ? "url-target" : "url-part";
+  }
+  return undefined;
 }
 
 export interface Template {
@@ -399,7 +420,13 @@ const EXTRACTORS: Record<string, Extractor> = {
 
 export function parseTemplate(moduleId: string, engine: string, source: string): Template {
   const extract = EXTRACTORS[engine];
-  return { moduleId, engine, reads: extract ? extract(source) : [] };
+  const reads = extract ? extract(source) : [];
+  const starts = lineStartsOf(source);
+  for (const read of reads) {
+    const offset = (starts[read.line - 1] ?? 0) + read.column - 1;
+    read.context = urlContextAt(source, offset);
+  }
+  return { moduleId, engine, reads };
 }
 
 /**

@@ -1577,7 +1577,13 @@ function lowerFunction(
         valueId = newValue("property", at, { base: from, path: rest, name: rest });
         addFlow(from, valueId, "property", at);
       }
-      const symbol = read.escaped ? "<template>.escaped" : "<template>.unescaped";
+      const symbol = read.context === "url-target"
+        ? "<template>.url-target"
+        : read.context === "url-part"
+          ? "<template>.url-part"
+          : read.escaped
+            ? "<template>.escaped"
+            : "<template>.unescaped";
       calls.push({
         id: `${meta.id}$c${callCount++}`,
         loc: at,
@@ -2171,7 +2177,18 @@ function lowerFunction(
     if (ts.isIfStatement(n)) {
       const direct = directCallCondition(n.expression);
       const callsBefore = calls.length;
-      lowerExpr(n.expression);
+      const comparisonsBefore = comparisons.length;
+      const condition = lowerExpr(n.expression);
+      if (condition && comparisons.length === comparisonsBefore) {
+        const loc = locOf(sf, n.expression);
+        comparisons.push({
+          left: condition,
+          right: newValue("literal", loc, { literal: "true" }),
+          op: "truthy",
+          block: current,
+          loc,
+        });
+      }
       if (direct && calls.length > callsBefore) {
         // A call is appended after its receiver and arguments are lowered, so the
         // direct outer call is last. Confirm its location before stating the fact;
