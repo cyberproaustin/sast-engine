@@ -1,0 +1,46 @@
+{
+  "corpus": "workspace-package-name",
+  "description": "A specifier that only the tree's own manifests can explain. `@acme/store/queries/run` is neither a relative path nor a tsconfig alias: it is the NAME `packages/store` publishes itself under, and npm/pnpm/yarn make it resolve by symlinking that directory into `node_modules`. A source checkout has none, so every cross-package call lowered as external and interprocedural dataflow stopped dead at every package boundary -- measured on documenso, 5,646 calls carrying a `@documenso/` symbol, all external, which is the layout of every workspace monorepo rather than one project's quirk. The five positives each cross the boundary by a different mechanism, taken shape for shape from the corpus: a bare package name answered by `main` (documenso); a SUBPATH under a package that declares no `exports`, which is how documenso writes all 5,646; a package whose `exports`, `types`, `module` and `main` all name an unbuilt `dist/` and whose `src/index.ts` is therefore the only followable file left (medplum); an `exports` key whose target is not where any convention would look; and that map's wildcard pattern (reactive-resume). The negatives are what keeps the mapping honest, because a wrong edge fabricates a flow the program never makes. Two packages here publish `@acme/twins`, and nothing in the tree says which one `sweep` meant -- so it resolves to NOTHING and neither shell behind it is reported, rather than the resolver picking whichever manifest it read first. `@acme/absent` is declared by no manifest at all and stays external for the same reason: a workspace mapping states what the tree's OWN names mean, and a resolver that guesses past it invents callees.",
+  "expected": [
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "packages/store/index.ts",
+      "sinkLine": 6,
+      "sourceLabel": "req.query.ids",
+      "confidence": "high",
+      "note": "the bare package name `@acme/store`, answered by the manifest's `main`"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "packages/store/queries/run.ts",
+      "sinkLine": 7,
+      "sourceLabel": "req.query.collection",
+      "confidence": "high",
+      "note": "a subpath with no `exports` map: relative to the package's own directory, which is documenso's shape"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "packages/build-output/src/index.ts",
+      "sinkLine": 10,
+      "sourceLabel": "req.query.name",
+      "confidence": "high",
+      "note": "every declared entry names an unbuilt `dist/`; the package's own `src/index.ts` is the only followable file, which is medplum's shape"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "packages/mapped/src/checks/audit.ts",
+      "sinkLine": 8,
+      "sourceLabel": "req.body.entry",
+      "confidence": "high",
+      "note": "an `exports` key whose target no convention would find"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "packages/mapped/src/checks/reports/monthly.ts",
+      "sinkLine": 7,
+      "sourceLabel": "req.query.period",
+      "confidence": "high",
+      "note": "an `exports` wildcard pattern, which is reactive-resume's shape"
+    }
+  ]
+}

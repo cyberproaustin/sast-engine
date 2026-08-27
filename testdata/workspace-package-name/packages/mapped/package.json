@@ -1,0 +1,7 @@
+{
+  "name": "@acme/mapped",
+  "exports": {
+    "./audit": "./src/checks/audit.ts",
+    "./reports/*": "./src/checks/reports/*.ts"
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "name": "@acme/twins",
+  "main": "./index.ts"
+}
