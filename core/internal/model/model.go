@@ -8431,10 +8431,63 @@ type GuardRule struct {
 	Records    []string
 	Containers []string
 
+	// The fifth shape, and the only one that asks about a control's COVERAGE rather than
+	// about a control's absence. Everything above reads a refusal that was written and
+	// then walked past; this reads one that was written on one way in and not on the way
+	// in beside it, where both ways end at the same operation on the same record.
+	Omits *OmittedControlGuard
+
+	// The sixth shape, and the same hole read from the other end: not an operation the
+	// control does not stand on, but an exit the control's own APPLICATION is not
+	// reachable from, taken from a path on which it was already being built.
+	Discards *DiscardedRestrictionGuard
+
 	CWE       string
 	Finding   string
 	Reason    string
 	Rationale string
+}
+
+// OmittedControlGuard is the vocabulary for a control the program applies unevenly. The
+// analyzer supplies the graph relation -- which paths reach the operation, and which of
+// them the check stands on -- and this states only what a decision, a bookkeeping call
+// and a reshaping call are called.
+type OmittedControlGuard struct {
+	// Decides names the stems of a call that DECIDES whether this caller may have this
+	// record. Deliberately narrower than the sibling differential's Checks: that rule
+	// compares a pair whose direction is known and can afford `validate` and `verify`,
+	// while this one fires wherever two paths converge and would otherwise report every
+	// input-validation asymmetry in a program.
+	Decides []string
+	// Retrieves are the prefixes that disqualify a name from being a decision, because
+	// `getPermissionsForUser` fetches where `hasPermission` judges.
+	Retrieves []string
+	// Records names the calls that only write a value down. Logging a record is not
+	// operating on it, so there is nothing a missing check would have protected.
+	Records []string
+	// Inert names the calls that reshape a value and act on nothing: a finding that
+	// pointed at `json.dumps(event)` would name the wrong line, because the operation is
+	// what the reshaped value was then handed to.
+	Inert []string
+}
+
+// DiscardedRestrictionGuard is the vocabulary for a restriction a function builds and then
+// leaves behind. The analyzer supplies the graph relation -- which exits are reachable
+// from an append and which of them the application is not reachable from -- and this
+// states only what adding, complaining, and restricting are called.
+type DiscardedRestrictionGuard struct {
+	// Appends names the calls that add to a collection.
+	Appends []string
+	// Restricts names the words that say the collection being built NARROWS something,
+	// found on the function that builds it or on the collection itself. The engine cannot
+	// know what an array of things is for, and this is the program's own statement of it;
+	// without it the rule would report every accumulator in every codebase.
+	Restricts []string
+	// Records names the diagnostic calls. A complaint in the exiting block is what
+	// separates failing open from a deliberate allow: medplum's own function returns
+	// early twice out of the same loop over the same accumulator, and the difference
+	// between the bug and the design is that one of them says something is wrong first.
+	Records []string
 }
 
 // LateFileModeGuard is the vocabulary for one file lifecycle. The analyzer supplies
@@ -8724,6 +8777,68 @@ func builtinGuards() []GuardRule {
 			Finding:    "A check the sibling path makes and this one does not",
 			Reason:     "the read path on this resource asks whether the caller's value is the one it claims to be, and this write path takes the same value out of the same request and does not ask",
 			Rationale:  "a request value a sibling read path passes to a validation or authorization call, used here by a write path that passes it to no such call",
+		},
+		{
+			// A control the program HAS, applied on one path and not on the path beside
+			// it, where both paths end at the same operation on the same record.
+			//
+			// The convention analysis already reports an entry point missing what its
+			// peers apply and cannot tell a public route from a forgotten one -- medplum
+			// mounts a public FHIR router beside a protected one deliberately, and the
+			// CWE-306 rule reported it until the design said otherwise. What separates
+			// this from that is CONVERGENCE: the two paths produce the same value and
+			// hand it to the same call, so no design explains guarding one and not the
+			// other. A public route beside a protected one shares no value and no sink
+			// and is never paired.
+			//
+			// Decides is short on purpose. Measured on ten production repositories, the
+			// stem list that also held `validate` and `verify` turned this into a report
+			// on every handler that validates an input on one branch, which is what
+			// correct code looks like; the access stems alone left the two real cases.
+			ID: "control-omitted-on-sibling-path",
+			Omits: &OmittedControlGuard{
+				Decides: []string{
+					"canview", "canaccess", "canread", "canedit", "canwrite", "candelete",
+					"canmanage", "cansee", "canmodify", "canuse", "permission", "permitted",
+					"authoriz", "hasaccess", "checkaccess", "isowner", "ownedby", "belongsto",
+					"isallowed", "allowedto", "mayaccess", "accessible", "visibleto",
+				},
+				Retrieves: []string{"get", "fetch", "find", "list", "load", "read", "select", "query", "build", "make", "create"},
+				Records:   []string{"log", "logger", "debug", "info", "warn", "warning", "error", "trace", "console", "print", "audit", "metric"},
+				Inert: []string{
+					"str", "int", "float", "bool", "len", "list", "dict", "set", "tuple",
+					"dumps", "loads", "stringify", "parse", "format", "join", "split",
+					"strip", "lower", "upper", "repr", "sorted", "reversed", "enumerate",
+					"append", "push", "keys", "values", "items", "type",
+				},
+			},
+			CWE:       "CWE-862",
+			Finding:   "A control the path beside this one applies and this one does not",
+			Reason:    "the program decides whether this caller may have this record on one way in, and the way in beside it reaches the same operation on the same record without deciding anything",
+			Rationale: "an access decision that stands on one path to an operation, where another path defines the same value and reaches that operation with no decision on it",
+		},
+		{
+			// A restriction the program built and then left behind: an exit taken from a
+			// path that had already added to the accumulator, from which the point that
+			// attaches it is not reachable. The function's only product is the effect, so
+			// leaving without it does not narrow the query -- it widens it.
+			//
+			// Restricts is what keeps this from being a general dead-work rule: the
+			// engine cannot know what an array is FOR, and the name the program builds it
+			// under is the only statement of intent in the source. Records is what keeps
+			// it from reporting a deliberate allow -- measured on medplum, the graph
+			// alone cannot tell the invalid-criteria return from the no-criteria return
+			// nine lines below it, and only one of them complains first.
+			ID: "discarded-restriction",
+			Discards: &DiscardedRestrictionGuard{
+				Appends:   []string{"push", "append", "add", "extend", "insert", "concat"},
+				Restricts: []string{"filter", "predicate", "criteria", "restrict", "scope", "permission", "access", "policy", "authoriz", "condition", "constraint", "where", "clause"},
+				Records:   []string{"log", "logger", "warn", "warning", "error", "critical", "exception", "audit"},
+			},
+			CWE:       "CWE-636",
+			Finding:   "A restriction built and abandoned on the way out",
+			Reason:    "this function's only product is the restriction it attaches, and this branch leaves without attaching what it had already built -- so the query it was narrowing runs wide",
+			Rationale: "an accumulated restriction, an exit reachable from the accumulation that the application is not reachable from, and a diagnostic in the exiting block saying the input was wrong",
 		},
 	}
 }

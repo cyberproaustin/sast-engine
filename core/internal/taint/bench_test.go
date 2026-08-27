@@ -136,6 +136,7 @@ var corpora = []string{
 	"credential-literal-tested",
 	"keyword-argument-binding",
 	"sibling-guard-differential",
+	"express-control-coverage",
 	"stored-read-invariant",
 	"regex-complexity",
 	"unowned-record-access",
