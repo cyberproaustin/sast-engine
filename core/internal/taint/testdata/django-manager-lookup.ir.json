@@ -1,0 +1,3670 @@
+{
+  "irVersion": "0.19.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi",
+        "django",
+        "drf",
+        "graphene",
+        "tornado"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "models.py",
+      "path": "models.py"
+    },
+    {
+      "id": "urls.py",
+      "path": "urls.py"
+    },
+    {
+      "id": "views.py",
+      "path": "views.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "models.py#<module>:0:0",
+      "name": "<module>",
+      "module": "models.py",
+      "loc": {
+        "file": "models.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "models.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "models.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The models, so that `Bookmark.objects` is a manager the frontend can render into a\ncallee spelling rather than an unresolved name."
+        },
+        {
+          "id": "models.py#<module>:0:0$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "models.py",
+            "line": 7,
+            "column": 39
+          },
+          "literal": "2048"
+        },
+        {
+          "id": "models.py#<module>:0:0$v2",
+          "kind": "global",
+          "loc": {
+            "file": "models.py",
+            "line": 7,
+            "column": 11
+          },
+          "name": "django.db.models"
+        },
+        {
+          "id": "models.py#<module>:0:0$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "models.py",
+            "line": 7,
+            "column": 11
+          },
+          "name": "django.db.models.CharField"
+        },
+        {
+          "id": "models.py#<module>:0:0$v4",
+          "kind": "local",
+          "loc": {
+            "file": "models.py",
+            "line": 7,
+            "column": 5
+          },
+          "name": "url"
+        },
+        {
+          "id": "models.py#<module>:0:0$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "models.py",
+            "line": 8,
+            "column": 41
+          },
+          "literal": "512"
+        },
+        {
+          "id": "models.py#<module>:0:0$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "models.py",
+            "line": 8,
+            "column": 13
+          },
+          "name": "django.db.models.CharField"
+        },
+        {
+          "id": "models.py#<module>:0:0$v7",
+          "kind": "local",
+          "loc": {
+            "file": "models.py",
+            "line": 8,
+            "column": 5
+          },
+          "name": "title"
+        },
+        {
+          "id": "models.py#<module>:0:0$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "models.py",
+            "line": 9,
+            "column": 31
+          },
+          "literal": "auth.User"
+        },
+        {
+          "id": "models.py#<module>:0:0$v9",
+          "kind": "property",
+          "loc": {
+            "file": "models.py",
+            "line": 9,
+            "column": 54
+          },
+          "base": "models.py#<module>:0:0$v2",
+          "path": "CASCADE",
+          "name": "CASCADE"
+        },
+        {
+          "id": "models.py#<module>:0:0$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "models.py",
+            "line": 9,
+            "column": 13
+          },
+          "name": "django.db.models.ForeignKey"
+        },
+        {
+          "id": "models.py#<module>:0:0$v11",
+          "kind": "local",
+          "loc": {
+            "file": "models.py",
+            "line": 9,
+            "column": 5
+          },
+          "name": "owner"
+        },
+        {
+          "id": "models.py#<module>:0:0$v12",
+          "kind": "literal",
+          "loc": {
+            "file": "models.py",
+            "line": 13,
+            "column": 40
+          },
+          "literal": "128"
+        },
+        {
+          "id": "models.py#<module>:0:0$v13",
+          "kind": "call-result",
+          "loc": {
+            "file": "models.py",
+            "line": 13,
+            "column": 12
+          },
+          "name": "django.db.models.CharField"
+        },
+        {
+          "id": "models.py#<module>:0:0$v14",
+          "kind": "local",
+          "loc": {
+            "file": "models.py",
+            "line": 13,
+            "column": 5
+          },
+          "name": "name"
+        },
+        {
+          "id": "models.py#<module>:0:0$v15",
+          "kind": "literal",
+          "loc": {
+            "file": "models.py",
+            "line": 14,
+            "column": 31
+          },
+          "literal": "auth.User"
+        },
+        {
+          "id": "models.py#<module>:0:0$v16",
+          "kind": "call-result",
+          "loc": {
+            "file": "models.py",
+            "line": 14,
+            "column": 13
+          },
+          "name": "django.db.models.ForeignKey"
+        },
+        {
+          "id": "models.py#<module>:0:0$v17",
+          "kind": "local",
+          "loc": {
+            "file": "models.py",
+            "line": 14,
+            "column": 5
+          },
+          "name": "owner"
+        },
+        {
+          "id": "models.py#<module>:0:0$v18",
+          "kind": "literal",
+          "loc": {
+            "file": "models.py",
+            "line": 18,
+            "column": 41
+          },
+          "literal": "128"
+        },
+        {
+          "id": "models.py#<module>:0:0$v19",
+          "kind": "call-result",
+          "loc": {
+            "file": "models.py",
+            "line": 18,
+            "column": 13
+          },
+          "name": "django.db.models.CharField"
+        },
+        {
+          "id": "models.py#<module>:0:0$v20",
+          "kind": "local",
+          "loc": {
+            "file": "models.py",
+            "line": 18,
+            "column": 5
+          },
+          "name": "label"
+        },
+        {
+          "id": "models.py#<module>:0:0$v21",
+          "kind": "literal",
+          "loc": {
+            "file": "models.py",
+            "line": 19,
+            "column": 30
+          },
+          "literal": "auth.User"
+        },
+        {
+          "id": "models.py#<module>:0:0$v22",
+          "kind": "call-result",
+          "loc": {
+            "file": "models.py",
+            "line": 19,
+            "column": 12
+          },
+          "name": "django.db.models.ForeignKey"
+        },
+        {
+          "id": "models.py#<module>:0:0$v23",
+          "kind": "local",
+          "loc": {
+            "file": "models.py",
+            "line": 19,
+            "column": 5
+          },
+          "name": "user"
+        }
+      ],
+      "flows": [
+        {
+          "from": "models.py#<module>:0:0$v3",
+          "to": "models.py#<module>:0:0$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "models.py",
+            "line": 7,
+            "column": 5
+          },
+          "block": "models.py#<module>:0:0$b0"
+        },
+        {
+          "from": "models.py#<module>:0:0$v6",
+          "to": "models.py#<module>:0:0$v7",
+          "kind": "assign",
+          "loc": {
+            "file": "models.py",
+            "line": 8,
+            "column": 5
+          },
+          "block": "models.py#<module>:0:0$b0"
+        },
+        {
+          "from": "models.py#<module>:0:0$v2",
+          "to": "models.py#<module>:0:0$v9",
+          "kind": "property",
+          "loc": {
+            "file": "models.py",
+            "line": 9,
+            "column": 54
+          },
+          "block": "models.py#<module>:0:0$b0"
+        },
+        {
+          "from": "models.py#<module>:0:0$v10",
+          "to": "models.py#<module>:0:0$v11",
+          "kind": "assign",
+          "loc": {
+            "file": "models.py",
+            "line": 9,
+            "column": 5
+          },
+          "block": "models.py#<module>:0:0$b0"
+        },
+        {
+          "from": "models.py#<module>:0:0$v13",
+          "to": "models.py#<module>:0:0$v14",
+          "kind": "assign",
+          "loc": {
+            "file": "models.py",
+            "line": 13,
+            "column": 5
+          },
+          "block": "models.py#<module>:0:0$b0"
+        },
+        {
+          "from": "models.py#<module>:0:0$v16",
+          "to": "models.py#<module>:0:0$v17",
+          "kind": "assign",
+          "loc": {
+            "file": "models.py",
+            "line": 14,
+            "column": 5
+          },
+          "block": "models.py#<module>:0:0$b0"
+        },
+        {
+          "from": "models.py#<module>:0:0$v19",
+          "to": "models.py#<module>:0:0$v20",
+          "kind": "assign",
+          "loc": {
+            "file": "models.py",
+            "line": 18,
+            "column": 5
+          },
+          "block": "models.py#<module>:0:0$b0"
+        },
+        {
+          "from": "models.py#<module>:0:0$v22",
+          "to": "models.py#<module>:0:0$v23",
+          "kind": "assign",
+          "loc": {
+            "file": "models.py",
+            "line": 19,
+            "column": 5
+          },
+          "block": "models.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "models.py#<module>:0:0$c0",
+          "loc": {
+            "file": "models.py",
+            "line": 7,
+            "column": 11
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.db.models.CharField",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "valueId": "models.py#<module>:0:0$v1",
+              "name": "max_length"
+            }
+          ],
+          "resultValueId": "models.py#<module>:0:0$v3",
+          "block": "models.py#<module>:0:0$b0",
+          "method": "CharField",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "max_length=2048"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "models.py#<module>:0:0$v2"
+        },
+        {
+          "id": "models.py#<module>:0:0$c1",
+          "loc": {
+            "file": "models.py",
+            "line": 8,
+            "column": 13
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.db.models.CharField",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "valueId": "models.py#<module>:0:0$v5",
+              "name": "max_length"
+            }
+          ],
+          "resultValueId": "models.py#<module>:0:0$v6",
+          "block": "models.py#<module>:0:0$b0",
+          "method": "CharField",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "max_length=512"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "models.py#<module>:0:0$v2"
+        },
+        {
+          "id": "models.py#<module>:0:0$c2",
+          "loc": {
+            "file": "models.py",
+            "line": 9,
+            "column": 13
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.db.models.ForeignKey",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "models.py#<module>:0:0$v8"
+            },
+            {
+              "valueId": "models.py#<module>:0:0$v9",
+              "name": "on_delete"
+            }
+          ],
+          "resultValueId": "models.py#<module>:0:0$v10",
+          "block": "models.py#<module>:0:0$b0",
+          "method": "ForeignKey",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "auth.User",
+            "-1": "on_delete=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "models.py#<module>:0:0$v2"
+        },
+        {
+          "id": "models.py#<module>:0:0$c3",
+          "loc": {
+            "file": "models.py",
+            "line": 13,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.db.models.CharField",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "valueId": "models.py#<module>:0:0$v12",
+              "name": "max_length"
+            }
+          ],
+          "resultValueId": "models.py#<module>:0:0$v13",
+          "block": "models.py#<module>:0:0$b0",
+          "method": "CharField",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "max_length=128"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "models.py#<module>:0:0$v2"
+        },
+        {
+          "id": "models.py#<module>:0:0$c4",
+          "loc": {
+            "file": "models.py",
+            "line": 14,
+            "column": 13
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.db.models.ForeignKey",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "models.py#<module>:0:0$v15"
+            },
+            {
+              "valueId": "models.py#<module>:0:0$v9",
+              "name": "on_delete"
+            }
+          ],
+          "resultValueId": "models.py#<module>:0:0$v16",
+          "block": "models.py#<module>:0:0$b0",
+          "method": "ForeignKey",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "auth.User",
+            "-1": "on_delete=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "models.py#<module>:0:0$v2"
+        },
+        {
+          "id": "models.py#<module>:0:0$c5",
+          "loc": {
+            "file": "models.py",
+            "line": 18,
+            "column": 13
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.db.models.CharField",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "valueId": "models.py#<module>:0:0$v18",
+              "name": "max_length"
+            }
+          ],
+          "resultValueId": "models.py#<module>:0:0$v19",
+          "block": "models.py#<module>:0:0$b0",
+          "method": "CharField",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "max_length=128"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "models.py#<module>:0:0$v2"
+        },
+        {
+          "id": "models.py#<module>:0:0$c6",
+          "loc": {
+            "file": "models.py",
+            "line": 19,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.db.models.ForeignKey",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "models.py#<module>:0:0$v21"
+            },
+            {
+              "valueId": "models.py#<module>:0:0$v9",
+              "name": "on_delete"
+            }
+          ],
+          "resultValueId": "models.py#<module>:0:0$v22",
+          "block": "models.py#<module>:0:0$b0",
+          "method": "ForeignKey",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "auth.User",
+            "-1": "on_delete=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "models.py#<module>:0:0$v2"
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "models.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "models.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "models.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "urls.py#<module>:0:0",
+      "name": "<module>",
+      "module": "urls.py",
+      "loc": {
+        "file": "urls.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "urls.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The registrations, so that every view below is an enumerated entry point.\n\nWithout them the handlers are ordinary functions and a judgement about \"the caller\"\nwould have no caller to be about.\n"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "urls.py",
+            "line": 17,
+            "column": 15
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 18,
+            "column": 10
+          },
+          "literal": "bookmarks/<str:bookmark_id>/"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v3",
+          "kind": "global",
+          "loc": {
+            "file": "urls.py",
+            "line": 18,
+            "column": 42
+          },
+          "name": "views.bookmark_detail"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 18,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 19,
+            "column": 10
+          },
+          "literal": "bundles/<str:bundle_id>/"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v6",
+          "kind": "global",
+          "loc": {
+            "file": "urls.py",
+            "line": 19,
+            "column": 38
+          },
+          "name": "views.bundle_detail"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 19,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 20,
+            "column": 10
+          },
+          "literal": "tokens/<str:token_id>/"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v9",
+          "kind": "global",
+          "loc": {
+            "file": "urls.py",
+            "line": 20,
+            "column": 36
+          },
+          "name": "views.token_detail"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 20,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v11",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 21,
+            "column": 10
+          },
+          "literal": "search/"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v12",
+          "kind": "global",
+          "loc": {
+            "file": "urls.py",
+            "line": 21,
+            "column": 21
+          },
+          "name": "views.search"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v13",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 21,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v14",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 22,
+            "column": 10
+          },
+          "literal": "preferences/"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v15",
+          "kind": "global",
+          "loc": {
+            "file": "urls.py",
+            "line": 22,
+            "column": 26
+          },
+          "name": "views.preferences"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v16",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 22,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v17",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 23,
+            "column": 10
+          },
+          "literal": "share/"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v18",
+          "kind": "global",
+          "loc": {
+            "file": "urls.py",
+            "line": 23,
+            "column": 20
+          },
+          "name": "views.share_bookmark"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v19",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 23,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v20",
+          "kind": "local",
+          "loc": {
+            "file": "urls.py",
+            "line": 17,
+            "column": 1
+          },
+          "name": "urlpatterns"
+        }
+      ],
+      "flows": [
+        {
+          "from": "urls.py#<module>:0:0$v4",
+          "to": "urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 17,
+            "column": 15
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "urls.py#<module>:0:0$v7",
+          "to": "urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 17,
+            "column": 15
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "urls.py#<module>:0:0$v10",
+          "to": "urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 17,
+            "column": 15
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "urls.py#<module>:0:0$v13",
+          "to": "urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 17,
+            "column": 15
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "urls.py#<module>:0:0$v16",
+          "to": "urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 17,
+            "column": 15
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "urls.py#<module>:0:0$v19",
+          "to": "urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 17,
+            "column": 15
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "urls.py#<module>:0:0$v1",
+          "to": "urls.py#<module>:0:0$v20",
+          "kind": "assign",
+          "loc": {
+            "file": "urls.py",
+            "line": 17,
+            "column": 1
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "urls.py#<module>:0:0$c0",
+          "loc": {
+            "file": "urls.py",
+            "line": 18,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v3",
+              "functionId": "views.py#bookmark_detail:48:1"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v4",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "bookmarks/<str:bookmark_id>/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c1",
+          "loc": {
+            "file": "urls.py",
+            "line": 19,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v5"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v6",
+              "functionId": "views.py#bundle_detail:37:1"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v7",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "bundles/<str:bundle_id>/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c2",
+          "loc": {
+            "file": "urls.py",
+            "line": 20,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v8"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v9",
+              "functionId": "views.py#token_detail:42:1"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v10",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "tokens/<str:token_id>/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c3",
+          "loc": {
+            "file": "urls.py",
+            "line": 21,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v11"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v12",
+              "functionId": "views.py#search:75:1"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v13",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "search/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c4",
+          "loc": {
+            "file": "urls.py",
+            "line": 22,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v14"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v15",
+              "functionId": "views.py#preferences:87:1"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v16",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "preferences/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c5",
+          "loc": {
+            "file": "urls.py",
+            "line": 23,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v17"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v18",
+              "functionId": "views.py#share_bookmark:61:1"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v19",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "share/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "urls.py",
+            "line": 17,
+            "column": 1
+          },
+          "path": "urlpatterns",
+          "from": "urls.py#<module>:0:0$v1",
+          "block": "urls.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "urls.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "urls.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "urls.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "views.py#<module>:0:0",
+      "name": "<module>",
+      "module": "views.py",
+      "loc": {
+        "file": "views.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "views.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "views.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "`Model.objects.get(pk=...)` \u2014 the shape a record-selector channel was written for,\nmeasured against ten production repositories, and withdrawn.\n\nEvery view here is silent, and the corpus exists to keep it that way. It is the negative\nhalf of a rule that was built and not shipped: `get` is Django's record selector and no\nownership rule could see one, so a channel matching `get` on a `.objects.` receiver was\nwritten, measured, and withdrawn at 0 true findings out of 23 on the application surface\nof five Django applications. Each view below records one of the reasons.\n\nThe near-misses at the bottom are the other half of the same measurement: `get` is\nwritten 10050 times across the corpus's seven Python repositories and only 1675 of those\nare on a manager, so a channel that matched the bare word would be wrong five times out\nof six. Those must stay silent whatever else changes.\n"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "views.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "views.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "views.py#_bundle_for:23:1",
+      "name": "_bundle_for",
+      "module": "views.py",
+      "loc": {
+        "file": "views.py",
+        "line": 23,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "views.py#_bundle_for:23:1$v0"
+        },
+        {
+          "index": 1,
+          "name": "bundle_id",
+          "valueId": "views.py#_bundle_for:23:1$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "views.py#_bundle_for:23:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "views.py",
+            "line": 23,
+            "column": 17
+          },
+          "name": "request"
+        },
+        {
+          "id": "views.py#_bundle_for:23:1$v1",
+          "kind": "param",
+          "loc": {
+            "file": "views.py",
+            "line": 23,
+            "column": 26
+          },
+          "name": "bundle_id"
+        },
+        {
+          "id": "views.py#_bundle_for:23:1$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "views.py",
+            "line": 24,
+            "column": 5
+          },
+          "literal": "The ownership check as applications actually write it.\n\n    The predicate is IN the query -- there is no comparison to find and no guard to\n    evaluate -- and it sits in a helper the handler hands its request to. That is the\n    idiom: linkding writes six of these in one module. `actor-identity` is seeded from a\n    property read on the ENTRY POINT's own parameter, so one frame down there is no\n    identity anywhere and `owner=request.user`, written right here in the call, cannot be\n    seen. Three of linkding's six new findings were this exact function shape, and the\n    query that names the owner is why all three were false.\n    "
+        },
+        {
+          "id": "views.py#_bundle_for:23:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 34,
+            "column": 51
+          },
+          "base": "views.py#_bundle_for:23:1$v0",
+          "path": "user",
+          "name": "user"
+        },
+        {
+          "id": "views.py#_bundle_for:23:1$v4",
+          "kind": "global",
+          "loc": {
+            "file": "views.py",
+            "line": 34,
+            "column": 12
+          },
+          "name": "models.Bundle"
+        },
+        {
+          "id": "views.py#_bundle_for:23:1$v5",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 34,
+            "column": 12
+          },
+          "base": "views.py#_bundle_for:23:1$v4",
+          "path": "objects",
+          "name": "objects"
+        },
+        {
+          "id": "views.py#_bundle_for:23:1$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 34,
+            "column": 12
+          },
+          "name": "models.Bundle.objects.get"
+        }
+      ],
+      "flows": [
+        {
+          "from": "views.py#_bundle_for:23:1$v0",
+          "to": "views.py#_bundle_for:23:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 34,
+            "column": 51
+          },
+          "block": "views.py#_bundle_for:23:1$b0"
+        },
+        {
+          "from": "views.py#_bundle_for:23:1$v4",
+          "to": "views.py#_bundle_for:23:1$v5",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 34,
+            "column": 12
+          },
+          "block": "views.py#_bundle_for:23:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "views.py#_bundle_for:23:1$c0",
+          "loc": {
+            "file": "views.py",
+            "line": 34,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "models.Bundle.objects.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "valueId": "views.py#_bundle_for:23:1$v1",
+              "name": "pk"
+            },
+            {
+              "valueId": "views.py#_bundle_for:23:1$v3",
+              "name": "owner"
+            }
+          ],
+          "resultValueId": "views.py#_bundle_for:23:1$v6",
+          "block": "views.py#_bundle_for:23:1$b0",
+          "method": "get",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "pk=?",
+            "-2": "owner=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "views.py#_bundle_for:23:1$v5"
+        }
+      ],
+      "returns": [
+        "views.py#_bundle_for:23:1$v6"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "views.py#_bundle_for:23:1$b0",
+      "blocks": [
+        {
+          "id": "views.py#_bundle_for:23:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 23,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "views.py#_bundle_for:23:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 34,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "views.py#bundle_detail:37:1",
+      "name": "bundle_detail",
+      "module": "views.py",
+      "loc": {
+        "file": "views.py",
+        "line": 37,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "views.py#bundle_detail:37:1$v0"
+        },
+        {
+          "index": 1,
+          "name": "bundle_id",
+          "valueId": "views.py#bundle_detail:37:1$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "views.py#bundle_detail:37:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "views.py",
+            "line": 37,
+            "column": 19
+          },
+          "name": "request"
+        },
+        {
+          "id": "views.py#bundle_detail:37:1$v1",
+          "kind": "param",
+          "loc": {
+            "file": "views.py",
+            "line": 37,
+            "column": 28
+          },
+          "name": "bundle_id"
+        },
+        {
+          "id": "views.py#bundle_detail:37:1$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 38,
+            "column": 14
+          },
+          "name": "local"
+        },
+        {
+          "id": "views.py#bundle_detail:37:1$v3",
+          "kind": "local",
+          "loc": {
+            "file": "views.py",
+            "line": 38,
+            "column": 5
+          },
+          "name": "bundle"
+        },
+        {
+          "id": "views.py#bundle_detail:37:1$v4",
+          "kind": "local",
+          "loc": {
+            "file": "views.py",
+            "line": 39,
+            "column": 25
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "name",
+              "valueId": "views.py#bundle_detail:37:1$v5"
+            }
+          ]
+        },
+        {
+          "id": "views.py#bundle_detail:37:1$v5",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 39,
+            "column": 34
+          },
+          "base": "views.py#bundle_detail:37:1$v3",
+          "path": "name",
+          "name": "name"
+        },
+        {
+          "id": "views.py#bundle_detail:37:1$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 39,
+            "column": 12
+          },
+          "name": "django.http.JsonResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "views.py#bundle_detail:37:1$v2",
+          "to": "views.py#bundle_detail:37:1$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "views.py",
+            "line": 38,
+            "column": 5
+          },
+          "block": "views.py#bundle_detail:37:1$b0"
+        },
+        {
+          "from": "views.py#bundle_detail:37:1$v3",
+          "to": "views.py#bundle_detail:37:1$v5",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 39,
+            "column": 34
+          },
+          "block": "views.py#bundle_detail:37:1$b0"
+        },
+        {
+          "from": "views.py#bundle_detail:37:1$v5",
+          "to": "views.py#bundle_detail:37:1$v4",
+          "kind": "enclose",
+          "loc": {
+            "file": "views.py",
+            "line": 39,
+            "column": 25
+          },
+          "block": "views.py#bundle_detail:37:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "views.py#bundle_detail:37:1$c0",
+          "loc": {
+            "file": "views.py",
+            "line": 38,
+            "column": 14
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "views.py#_bundle_for:23:1",
+            "resolution": "resolved",
+            "name": "_bundle_for"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "views.py#bundle_detail:37:1$v0"
+            },
+            {
+              "index": 1,
+              "valueId": "views.py#bundle_detail:37:1$v1"
+            }
+          ],
+          "resultValueId": "views.py#bundle_detail:37:1$v2",
+          "block": "views.py#bundle_detail:37:1$b0",
+          "argCount": 2,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "views.py#bundle_detail:37:1$c1",
+          "loc": {
+            "file": "views.py",
+            "line": 39,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.JsonResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "views.py#bundle_detail:37:1$v4"
+            }
+          ],
+          "resultValueId": "views.py#bundle_detail:37:1$v6",
+          "block": "views.py#bundle_detail:37:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "views.py#bundle_detail:37:1$v6"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "views.py#bundle_detail:37:1$b0",
+      "blocks": [
+        {
+          "id": "views.py#bundle_detail:37:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 37,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "views.py#bundle_detail:37:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 39,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "views.py#token_detail:42:1",
+      "name": "token_detail",
+      "module": "views.py",
+      "loc": {
+        "file": "views.py",
+        "line": 42,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "views.py#token_detail:42:1$v0"
+        },
+        {
+          "index": 1,
+          "name": "token_id",
+          "valueId": "views.py#token_detail:42:1$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "views.py#token_detail:42:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "views.py",
+            "line": 42,
+            "column": 18
+          },
+          "name": "request"
+        },
+        {
+          "id": "views.py#token_detail:42:1$v1",
+          "kind": "param",
+          "loc": {
+            "file": "views.py",
+            "line": 42,
+            "column": 27
+          },
+          "name": "token_id"
+        },
+        {
+          "id": "views.py#token_detail:42:1$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "views.py",
+            "line": 43,
+            "column": 5
+          },
+          "literal": "The same relation stated in the handler itself, where identity IS visible."
+        },
+        {
+          "id": "views.py#token_detail:42:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 44,
+            "column": 52
+          },
+          "base": "views.py#token_detail:42:1$v0",
+          "path": "user",
+          "name": "user"
+        },
+        {
+          "id": "views.py#token_detail:42:1$v4",
+          "kind": "global",
+          "loc": {
+            "file": "views.py",
+            "line": 44,
+            "column": 13
+          },
+          "name": "models.ApiToken"
+        },
+        {
+          "id": "views.py#token_detail:42:1$v5",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 44,
+            "column": 13
+          },
+          "base": "views.py#token_detail:42:1$v4",
+          "path": "objects",
+          "name": "objects"
+        },
+        {
+          "id": "views.py#token_detail:42:1$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 44,
+            "column": 13
+          },
+          "name": "models.ApiToken.objects.get"
+        },
+        {
+          "id": "views.py#token_detail:42:1$v7",
+          "kind": "local",
+          "loc": {
+            "file": "views.py",
+            "line": 44,
+            "column": 5
+          },
+          "name": "token"
+        },
+        {
+          "id": "views.py#token_detail:42:1$v8",
+          "kind": "local",
+          "loc": {
+            "file": "views.py",
+            "line": 45,
+            "column": 25
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "label",
+              "valueId": "views.py#token_detail:42:1$v9"
+            }
+          ]
+        },
+        {
+          "id": "views.py#token_detail:42:1$v9",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 45,
+            "column": 35
+          },
+          "base": "views.py#token_detail:42:1$v7",
+          "path": "label",
+          "name": "label"
+        },
+        {
+          "id": "views.py#token_detail:42:1$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 45,
+            "column": 12
+          },
+          "name": "django.http.JsonResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "views.py#token_detail:42:1$v0",
+          "to": "views.py#token_detail:42:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 44,
+            "column": 52
+          },
+          "block": "views.py#token_detail:42:1$b0"
+        },
+        {
+          "from": "views.py#token_detail:42:1$v4",
+          "to": "views.py#token_detail:42:1$v5",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 44,
+            "column": 13
+          },
+          "block": "views.py#token_detail:42:1$b0"
+        },
+        {
+          "from": "views.py#token_detail:42:1$v6",
+          "to": "views.py#token_detail:42:1$v7",
+          "kind": "assign",
+          "loc": {
+            "file": "views.py",
+            "line": 44,
+            "column": 5
+          },
+          "block": "views.py#token_detail:42:1$b0"
+        },
+        {
+          "from": "views.py#token_detail:42:1$v7",
+          "to": "views.py#token_detail:42:1$v9",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 45,
+            "column": 35
+          },
+          "block": "views.py#token_detail:42:1$b0"
+        },
+        {
+          "from": "views.py#token_detail:42:1$v9",
+          "to": "views.py#token_detail:42:1$v8",
+          "kind": "enclose",
+          "loc": {
+            "file": "views.py",
+            "line": 45,
+            "column": 25
+          },
+          "block": "views.py#token_detail:42:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "views.py#token_detail:42:1$c0",
+          "loc": {
+            "file": "views.py",
+            "line": 44,
+            "column": 13
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "models.ApiToken.objects.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "valueId": "views.py#token_detail:42:1$v1",
+              "name": "id"
+            },
+            {
+              "valueId": "views.py#token_detail:42:1$v3",
+              "name": "user"
+            }
+          ],
+          "resultValueId": "views.py#token_detail:42:1$v6",
+          "block": "views.py#token_detail:42:1$b0",
+          "method": "get",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "id=?",
+            "-2": "user=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "views.py#token_detail:42:1$v5"
+        },
+        {
+          "id": "views.py#token_detail:42:1$c1",
+          "loc": {
+            "file": "views.py",
+            "line": 45,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.JsonResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "views.py#token_detail:42:1$v8"
+            }
+          ],
+          "resultValueId": "views.py#token_detail:42:1$v10",
+          "block": "views.py#token_detail:42:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "views.py#token_detail:42:1$v10"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "views.py#token_detail:42:1$b0",
+      "blocks": [
+        {
+          "id": "views.py#token_detail:42:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 42,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "views.py#token_detail:42:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 45,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "views.py#bookmark_detail:48:1",
+      "name": "bookmark_detail",
+      "module": "views.py",
+      "loc": {
+        "file": "views.py",
+        "line": 48,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "views.py#bookmark_detail:48:1$v0"
+        },
+        {
+          "index": 1,
+          "name": "bookmark_id",
+          "valueId": "views.py#bookmark_detail:48:1$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "views.py#bookmark_detail:48:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "views.py",
+            "line": 48,
+            "column": 21
+          },
+          "name": "request"
+        },
+        {
+          "id": "views.py#bookmark_detail:48:1$v1",
+          "kind": "param",
+          "loc": {
+            "file": "views.py",
+            "line": 48,
+            "column": 30
+          },
+          "name": "bookmark_id"
+        },
+        {
+          "id": "views.py#bookmark_detail:48:1$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "views.py",
+            "line": 49,
+            "column": 5
+          },
+          "literal": "The positive the withdrawn channel was for: a caller's key, a manager, no owner.\n\n    Nothing here relates the record to whoever asked, so this is the shape the rule would\n    have reported -- and it is exactly the shape that could not be told apart from the\n    twenty-three false ones. saleor's staff mutations look like this and are gated by a\n    `Meta.permissions` declaration the engine does not read; archivebox's API looks like\n    this and shares every row with every authenticated caller on purpose.\n    "
+        },
+        {
+          "id": "views.py#bookmark_detail:48:1$v3",
+          "kind": "global",
+          "loc": {
+            "file": "views.py",
+            "line": 57,
+            "column": 16
+          },
+          "name": "models.Bookmark"
+        },
+        {
+          "id": "views.py#bookmark_detail:48:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 57,
+            "column": 16
+          },
+          "base": "views.py#bookmark_detail:48:1$v3",
+          "path": "objects",
+          "name": "objects"
+        },
+        {
+          "id": "views.py#bookmark_detail:48:1$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 57,
+            "column": 16
+          },
+          "name": "models.Bookmark.objects.get"
+        },
+        {
+          "id": "views.py#bookmark_detail:48:1$v6",
+          "kind": "local",
+          "loc": {
+            "file": "views.py",
+            "line": 57,
+            "column": 5
+          },
+          "name": "bookmark"
+        },
+        {
+          "id": "views.py#bookmark_detail:48:1$v7",
+          "kind": "local",
+          "loc": {
+            "file": "views.py",
+            "line": 58,
+            "column": 25
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "url",
+              "valueId": "views.py#bookmark_detail:48:1$v8"
+            }
+          ]
+        },
+        {
+          "id": "views.py#bookmark_detail:48:1$v8",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 58,
+            "column": 33
+          },
+          "base": "views.py#bookmark_detail:48:1$v6",
+          "path": "url",
+          "name": "url"
+        },
+        {
+          "id": "views.py#bookmark_detail:48:1$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 58,
+            "column": 12
+          },
+          "name": "django.http.JsonResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "views.py#bookmark_detail:48:1$v3",
+          "to": "views.py#bookmark_detail:48:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 57,
+            "column": 16
+          },
+          "block": "views.py#bookmark_detail:48:1$b0"
+        },
+        {
+          "from": "views.py#bookmark_detail:48:1$v5",
+          "to": "views.py#bookmark_detail:48:1$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "views.py",
+            "line": 57,
+            "column": 5
+          },
+          "block": "views.py#bookmark_detail:48:1$b0"
+        },
+        {
+          "from": "views.py#bookmark_detail:48:1$v6",
+          "to": "views.py#bookmark_detail:48:1$v8",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 58,
+            "column": 33
+          },
+          "block": "views.py#bookmark_detail:48:1$b0"
+        },
+        {
+          "from": "views.py#bookmark_detail:48:1$v8",
+          "to": "views.py#bookmark_detail:48:1$v7",
+          "kind": "enclose",
+          "loc": {
+            "file": "views.py",
+            "line": 58,
+            "column": 25
+          },
+          "block": "views.py#bookmark_detail:48:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "views.py#bookmark_detail:48:1$c0",
+          "loc": {
+            "file": "views.py",
+            "line": 57,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "models.Bookmark.objects.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "valueId": "views.py#bookmark_detail:48:1$v1",
+              "name": "pk"
+            }
+          ],
+          "resultValueId": "views.py#bookmark_detail:48:1$v5",
+          "block": "views.py#bookmark_detail:48:1$b0",
+          "method": "get",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "pk=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "views.py#bookmark_detail:48:1$v4"
+        },
+        {
+          "id": "views.py#bookmark_detail:48:1$c1",
+          "loc": {
+            "file": "views.py",
+            "line": 58,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.JsonResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "views.py#bookmark_detail:48:1$v7"
+            }
+          ],
+          "resultValueId": "views.py#bookmark_detail:48:1$v9",
+          "block": "views.py#bookmark_detail:48:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "views.py#bookmark_detail:48:1$v9"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "views.py#bookmark_detail:48:1$b0",
+      "blocks": [
+        {
+          "id": "views.py#bookmark_detail:48:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 48,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "views.py#bookmark_detail:48:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 58,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "views.py#share_bookmark:61:1",
+      "name": "share_bookmark",
+      "module": "views.py",
+      "loc": {
+        "file": "views.py",
+        "line": 61,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "views.py#share_bookmark:61:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "views.py#share_bookmark:61:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "views.py",
+            "line": 61,
+            "column": 20
+          },
+          "name": "request"
+        },
+        {
+          "id": "views.py#share_bookmark:61:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "views.py",
+            "line": 62,
+            "column": 5
+          },
+          "literal": "A key the SERVER made, which is not a key the caller chose.\n\n    The bookmark is created from the caller's data and the row's primary key is then read\n    back off it. Three of linkding's findings were this: the taint on the key is real and\n    the caller never picked the record, which is the judgement the store model already\n    records about a primary key an auto-increment column produced.\n    "
+        },
+        {
+          "id": "views.py#share_bookmark:61:1$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "views.py",
+            "line": 69,
+            "column": 45
+          },
+          "literal": "url"
+        },
+        {
+          "id": "views.py#share_bookmark:61:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 69,
+            "column": 28
+          },
+          "base": "views.py#share_bookmark:61:1$v0",
+          "path": "POST",
+          "name": "POST"
+        },
+        {
+          "id": "views.py#share_bookmark:61:1$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 69,
+            "column": 28
+          },
+          "name": "request.POST.get"
+        },
+        {
+          "id": "views.py#share_bookmark:61:1$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 69,
+            "column": 15
+          },
+          "name": "models.Bookmark"
+        },
+        {
+          "id": "views.py#share_bookmark:61:1$v6",
+          "kind": "local",
+          "loc": {
+            "file": "views.py",
+            "line": 69,
+            "column": 5
+          },
+          "name": "created"
+        },
+        {
+          "id": "views.py#share_bookmark:61:1$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 70,
+            "column": 5
+          },
+          "name": "created.save"
+        },
+        {
+          "id": "views.py#share_bookmark:61:1$v8",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 71,
+            "column": 38
+          },
+          "base": "views.py#share_bookmark:61:1$v6",
+          "path": "id",
+          "name": "id"
+        },
+        {
+          "id": "views.py#share_bookmark:61:1$v9",
+          "kind": "global",
+          "loc": {
+            "file": "views.py",
+            "line": 71,
+            "column": 14
+          },
+          "name": "models.Bookmark"
+        },
+        {
+          "id": "views.py#share_bookmark:61:1$v10",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 71,
+            "column": 14
+          },
+          "base": "views.py#share_bookmark:61:1$v9",
+          "path": "objects",
+          "name": "objects"
+        },
+        {
+          "id": "views.py#share_bookmark:61:1$v11",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 71,
+            "column": 14
+          },
+          "name": "models.Bookmark.objects.get"
+        },
+        {
+          "id": "views.py#share_bookmark:61:1$v12",
+          "kind": "local",
+          "loc": {
+            "file": "views.py",
+            "line": 71,
+            "column": 5
+          },
+          "name": "stored"
+        },
+        {
+          "id": "views.py#share_bookmark:61:1$v13",
+          "kind": "local",
+          "loc": {
+            "file": "views.py",
+            "line": 72,
+            "column": 25
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "url",
+              "valueId": "views.py#share_bookmark:61:1$v14"
+            }
+          ]
+        },
+        {
+          "id": "views.py#share_bookmark:61:1$v14",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 72,
+            "column": 33
+          },
+          "base": "views.py#share_bookmark:61:1$v12",
+          "path": "url",
+          "name": "url"
+        },
+        {
+          "id": "views.py#share_bookmark:61:1$v15",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 72,
+            "column": 12
+          },
+          "name": "django.http.JsonResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "views.py#share_bookmark:61:1$v0",
+          "to": "views.py#share_bookmark:61:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 69,
+            "column": 28
+          },
+          "block": "views.py#share_bookmark:61:1$b0"
+        },
+        {
+          "from": "views.py#share_bookmark:61:1$v5",
+          "to": "views.py#share_bookmark:61:1$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "views.py",
+            "line": 69,
+            "column": 5
+          },
+          "block": "views.py#share_bookmark:61:1$b0"
+        },
+        {
+          "from": "views.py#share_bookmark:61:1$v6",
+          "to": "views.py#share_bookmark:61:1$v8",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 71,
+            "column": 38
+          },
+          "block": "views.py#share_bookmark:61:1$b0"
+        },
+        {
+          "from": "views.py#share_bookmark:61:1$v9",
+          "to": "views.py#share_bookmark:61:1$v10",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 71,
+            "column": 14
+          },
+          "block": "views.py#share_bookmark:61:1$b0"
+        },
+        {
+          "from": "views.py#share_bookmark:61:1$v11",
+          "to": "views.py#share_bookmark:61:1$v12",
+          "kind": "assign",
+          "loc": {
+            "file": "views.py",
+            "line": 71,
+            "column": 5
+          },
+          "block": "views.py#share_bookmark:61:1$b0"
+        },
+        {
+          "from": "views.py#share_bookmark:61:1$v12",
+          "to": "views.py#share_bookmark:61:1$v14",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 72,
+            "column": 33
+          },
+          "block": "views.py#share_bookmark:61:1$b0"
+        },
+        {
+          "from": "views.py#share_bookmark:61:1$v14",
+          "to": "views.py#share_bookmark:61:1$v13",
+          "kind": "enclose",
+          "loc": {
+            "file": "views.py",
+            "line": 72,
+            "column": 25
+          },
+          "block": "views.py#share_bookmark:61:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "views.py#share_bookmark:61:1$c0",
+          "loc": {
+            "file": "views.py",
+            "line": 69,
+            "column": 28
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "request.POST.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "views.py#share_bookmark:61:1$v2"
+            }
+          ],
+          "resultValueId": "views.py#share_bookmark:61:1$v4",
+          "block": "views.py#share_bookmark:61:1$b0",
+          "method": "get",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "url"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "views.py#share_bookmark:61:1$v3"
+        },
+        {
+          "id": "views.py#share_bookmark:61:1$c1",
+          "loc": {
+            "file": "views.py",
+            "line": 69,
+            "column": 15
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "models.Bookmark",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "valueId": "views.py#share_bookmark:61:1$v4",
+              "name": "url"
+            }
+          ],
+          "resultValueId": "views.py#share_bookmark:61:1$v5",
+          "block": "views.py#share_bookmark:61:1$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "url=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "views.py#share_bookmark:61:1$c2",
+          "loc": {
+            "file": "views.py",
+            "line": 70,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "created.save",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "views.py#share_bookmark:61:1$v7",
+          "block": "views.py#share_bookmark:61:1$b0",
+          "method": "save",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "views.py#share_bookmark:61:1$v6"
+        },
+        {
+          "id": "views.py#share_bookmark:61:1$c3",
+          "loc": {
+            "file": "views.py",
+            "line": 71,
+            "column": 14
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "models.Bookmark.objects.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "valueId": "views.py#share_bookmark:61:1$v8",
+              "name": "pk"
+            }
+          ],
+          "resultValueId": "views.py#share_bookmark:61:1$v11",
+          "block": "views.py#share_bookmark:61:1$b0",
+          "method": "get",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "pk=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "views.py#share_bookmark:61:1$v10"
+        },
+        {
+          "id": "views.py#share_bookmark:61:1$c4",
+          "loc": {
+            "file": "views.py",
+            "line": 72,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.JsonResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "views.py#share_bookmark:61:1$v13"
+            }
+          ],
+          "resultValueId": "views.py#share_bookmark:61:1$v15",
+          "block": "views.py#share_bookmark:61:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "views.py#share_bookmark:61:1$v15"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "views.py#share_bookmark:61:1$b0",
+      "blocks": [
+        {
+          "id": "views.py#share_bookmark:61:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 61,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "views.py#share_bookmark:61:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 72,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "views.py#search:75:1",
+      "name": "search",
+      "module": "views.py",
+      "loc": {
+        "file": "views.py",
+        "line": 75,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "views.py#search:75:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "views.py#search:75:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "views.py",
+            "line": 75,
+            "column": 12
+          },
+          "name": "request"
+        },
+        {
+          "id": "views.py#search:75:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "views.py",
+            "line": 76,
+            "column": 5
+          },
+          "literal": "A filter is how a program SEARCHES, and a search takes the caller's word by design.\n\n    `filter` and `exclude` were the obvious pair to add beside `get` -- 2963 calls across\n    the corpus against 1675 -- and this is why they were not: the caller choosing which\n    rows come back is the feature.\n    "
+        },
+        {
+          "id": "views.py#search:75:1$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "views.py",
+            "line": 82,
+            "column": 28
+          },
+          "literal": "q"
+        },
+        {
+          "id": "views.py#search:75:1$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "views.py",
+            "line": 82,
+            "column": 33
+          },
+          "literal": ""
+        },
+        {
+          "id": "views.py#search:75:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 82,
+            "column": 12
+          },
+          "base": "views.py#search:75:1$v0",
+          "path": "GET",
+          "name": "GET"
+        },
+        {
+          "id": "views.py#search:75:1$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 82,
+            "column": 12
+          },
+          "name": "request.GET.get"
+        },
+        {
+          "id": "views.py#search:75:1$v6",
+          "kind": "local",
+          "loc": {
+            "file": "views.py",
+            "line": 82,
+            "column": 5
+          },
+          "name": "term"
+        },
+        {
+          "id": "views.py#search:75:1$v7",
+          "kind": "global",
+          "loc": {
+            "file": "views.py",
+            "line": 83,
+            "column": 12
+          },
+          "name": "models.Bookmark"
+        },
+        {
+          "id": "views.py#search:75:1$v8",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 83,
+            "column": 12
+          },
+          "base": "views.py#search:75:1$v7",
+          "path": "objects",
+          "name": "objects"
+        },
+        {
+          "id": "views.py#search:75:1$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 83,
+            "column": 12
+          },
+          "name": "models.Bookmark.objects.filter"
+        },
+        {
+          "id": "views.py#search:75:1$v10",
+          "kind": "local",
+          "loc": {
+            "file": "views.py",
+            "line": 83,
+            "column": 5
+          },
+          "name": "rows"
+        },
+        {
+          "id": "views.py#search:75:1$v11",
+          "kind": "local",
+          "loc": {
+            "file": "views.py",
+            "line": 84,
+            "column": 25
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "count",
+              "valueId": "views.py#search:75:1$v12"
+            }
+          ]
+        },
+        {
+          "id": "views.py#search:75:1$v12",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 84,
+            "column": 35
+          },
+          "name": "len"
+        },
+        {
+          "id": "views.py#search:75:1$v13",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 84,
+            "column": 12
+          },
+          "name": "django.http.JsonResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "views.py#search:75:1$v0",
+          "to": "views.py#search:75:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 82,
+            "column": 12
+          },
+          "block": "views.py#search:75:1$b0"
+        },
+        {
+          "from": "views.py#search:75:1$v5",
+          "to": "views.py#search:75:1$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "views.py",
+            "line": 82,
+            "column": 5
+          },
+          "block": "views.py#search:75:1$b0"
+        },
+        {
+          "from": "views.py#search:75:1$v7",
+          "to": "views.py#search:75:1$v8",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 83,
+            "column": 12
+          },
+          "block": "views.py#search:75:1$b0"
+        },
+        {
+          "from": "views.py#search:75:1$v9",
+          "to": "views.py#search:75:1$v10",
+          "kind": "assign",
+          "loc": {
+            "file": "views.py",
+            "line": 83,
+            "column": 5
+          },
+          "block": "views.py#search:75:1$b0"
+        },
+        {
+          "from": "views.py#search:75:1$v12",
+          "to": "views.py#search:75:1$v11",
+          "kind": "enclose",
+          "loc": {
+            "file": "views.py",
+            "line": 84,
+            "column": 25
+          },
+          "block": "views.py#search:75:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "views.py#search:75:1$c0",
+          "loc": {
+            "file": "views.py",
+            "line": 82,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "request.GET.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "views.py#search:75:1$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "views.py#search:75:1$v3"
+            }
+          ],
+          "resultValueId": "views.py#search:75:1$v5",
+          "block": "views.py#search:75:1$b0",
+          "method": "get",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "q",
+            "1": ""
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "views.py#search:75:1$v4"
+        },
+        {
+          "id": "views.py#search:75:1$c1",
+          "loc": {
+            "file": "views.py",
+            "line": 83,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "models.Bookmark.objects.filter",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "valueId": "views.py#search:75:1$v6",
+              "name": "title__icontains"
+            }
+          ],
+          "resultValueId": "views.py#search:75:1$v9",
+          "block": "views.py#search:75:1$b0",
+          "method": "filter",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "title__icontains=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "views.py#search:75:1$v8"
+        },
+        {
+          "id": "views.py#search:75:1$c2",
+          "loc": {
+            "file": "views.py",
+            "line": 84,
+            "column": 35
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "len",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "views.py#search:75:1$v10"
+            }
+          ],
+          "resultValueId": "views.py#search:75:1$v12",
+          "block": "views.py#search:75:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "views.py#search:75:1$c3",
+          "loc": {
+            "file": "views.py",
+            "line": 84,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.JsonResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "views.py#search:75:1$v11"
+            }
+          ],
+          "resultValueId": "views.py#search:75:1$v13",
+          "block": "views.py#search:75:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "views.py#search:75:1$v13"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "views.py#search:75:1$b0",
+      "blocks": [
+        {
+          "id": "views.py#search:75:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 75,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "views.py#search:75:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 84,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "views.py#preferences:87:1",
+      "name": "preferences",
+      "module": "views.py",
+      "loc": {
+        "file": "views.py",
+        "line": 87,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "views.py#preferences:87:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "views.py#preferences:87:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "views.py",
+            "line": 87,
+            "column": 17
+          },
+          "name": "request"
+        },
+        {
+          "id": "views.py#preferences:87:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "views.py",
+            "line": 88,
+            "column": 5
+          },
+          "literal": "The near-misses. Every one of these is a `get` and none of them is a record.\n\n    A dictionary the handler built, the process environment, and a cache keyed by\n    whatever the caller asked for. A channel that matched the method name alone would\n    have read all three as record selection.\n    "
+        },
+        {
+          "id": "views.py#preferences:87:1$v2",
+          "kind": "local",
+          "loc": {
+            "file": "views.py",
+            "line": 94,
+            "column": 16
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "theme",
+              "valueId": "views.py#preferences:87:1$v3"
+            },
+            {
+              "key": "density",
+              "valueId": "views.py#preferences:87:1$v4"
+            }
+          ]
+        },
+        {
+          "id": "views.py#preferences:87:1$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "views.py",
+            "line": 94,
+            "column": 26
+          },
+          "literal": "dark"
+        },
+        {
+          "id": "views.py#preferences:87:1$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "views.py",
+            "line": 94,
+            "column": 45
+          },
+          "literal": "compact"
+        },
+        {
+          "id": "views.py#preferences:87:1$v5",
+          "kind": "local",
+          "loc": {
+            "file": "views.py",
+            "line": 94,
+            "column": 5
+          },
+          "name": "defaults"
+        },
+        {
+          "id": "views.py#preferences:87:1$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "views.py",
+            "line": 95,
+            "column": 43
+          },
+          "literal": "pref"
+        },
+        {
+          "id": "views.py#preferences:87:1$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "views.py",
+            "line": 95,
+            "column": 51
+          },
+          "literal": "theme"
+        },
+        {
+          "id": "views.py#preferences:87:1$v8",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 95,
+            "column": 27
+          },
+          "base": "views.py#preferences:87:1$v0",
+          "path": "GET",
+          "name": "GET"
+        },
+        {
+          "id": "views.py#preferences:87:1$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 95,
+            "column": 27
+          },
+          "name": "request.GET.get"
+        },
+        {
+          "id": "views.py#preferences:87:1$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 95,
+            "column": 14
+          },
+          "name": "defaults.get"
+        },
+        {
+          "id": "views.py#preferences:87:1$v11",
+          "kind": "local",
+          "loc": {
+            "file": "views.py",
+            "line": 95,
+            "column": 5
+          },
+          "name": "chosen"
+        },
+        {
+          "id": "views.py#preferences:87:1$v12",
+          "kind": "literal",
+          "loc": {
+            "file": "views.py",
+            "line": 96,
+            "column": 29
+          },
+          "literal": "APP_REGION"
+        },
+        {
+          "id": "views.py#preferences:87:1$v13",
+          "kind": "literal",
+          "loc": {
+            "file": "views.py",
+            "line": 96,
+            "column": 43
+          },
+          "literal": "eu"
+        },
+        {
+          "id": "views.py#preferences:87:1$v14",
+          "kind": "global",
+          "loc": {
+            "file": "views.py",
+            "line": 96,
+            "column": 14
+          },
+          "name": "os"
+        },
+        {
+          "id": "views.py#preferences:87:1$v15",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 96,
+            "column": 14
+          },
+          "base": "views.py#preferences:87:1$v14",
+          "path": "environ",
+          "name": "environ"
+        },
+        {
+          "id": "views.py#preferences:87:1$v16",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 96,
+            "column": 14
+          },
+          "name": "os.environ.get"
+        },
+        {
+          "id": "views.py#preferences:87:1$v17",
+          "kind": "local",
+          "loc": {
+            "file": "views.py",
+            "line": 96,
+            "column": 5
+          },
+          "name": "region"
+        },
+        {
+          "id": "views.py#preferences:87:1$v18",
+          "kind": "literal",
+          "loc": {
+            "file": "views.py",
+            "line": 97,
+            "column": 40
+          },
+          "literal": "key"
+        },
+        {
+          "id": "views.py#preferences:87:1$v19",
+          "kind": "literal",
+          "loc": {
+            "file": "views.py",
+            "line": 97,
+            "column": 47
+          },
+          "literal": "summary"
+        },
+        {
+          "id": "views.py#preferences:87:1$v20",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 97,
+            "column": 24
+          },
+          "name": "request.GET.get"
+        },
+        {
+          "id": "views.py#preferences:87:1$v21",
+          "kind": "global",
+          "loc": {
+            "file": "views.py",
+            "line": 97,
+            "column": 14
+          },
+          "name": "django.core.cache.cache"
+        },
+        {
+          "id": "views.py#preferences:87:1$v22",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 97,
+            "column": 14
+          },
+          "name": "django.core.cache.cache.get"
+        },
+        {
+          "id": "views.py#preferences:87:1$v23",
+          "kind": "local",
+          "loc": {
+            "file": "views.py",
+            "line": 97,
+            "column": 5
+          },
+          "name": "cached"
+        },
+        {
+          "id": "views.py#preferences:87:1$v24",
+          "kind": "local",
+          "loc": {
+            "file": "views.py",
+            "line": 98,
+            "column": 25
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "pref",
+              "valueId": "views.py#preferences:87:1$v11"
+            },
+            {
+              "key": "region",
+              "valueId": "views.py#preferences:87:1$v17"
+            },
+            {
+              "key": "cached",
+              "valueId": "views.py#preferences:87:1$v23"
+            }
+          ]
+        },
+        {
+          "id": "views.py#preferences:87:1$v25",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 98,
+            "column": 12
+          },
+          "name": "django.http.JsonResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "views.py#preferences:87:1$v3",
+          "to": "views.py#preferences:87:1$v2",
+          "kind": "enclose",
+          "loc": {
+            "file": "views.py",
+            "line": 94,
+            "column": 16
+          },
+          "block": "views.py#preferences:87:1$b0"
+        },
+        {
+          "from": "views.py#preferences:87:1$v4",
+          "to": "views.py#preferences:87:1$v2",
+          "kind": "enclose",
+          "loc": {
+            "file": "views.py",
+            "line": 94,
+            "column": 16
+          },
+          "block": "views.py#preferences:87:1$b0"
+        },
+        {
+          "from": "views.py#preferences:87:1$v2",
+          "to": "views.py#preferences:87:1$v5",
+          "kind": "assign",
+          "loc": {
+            "file": "views.py",
+            "line": 94,
+            "column": 5
+          },
+          "block": "views.py#preferences:87:1$b0"
+        },
+        {
+          "from": "views.py#preferences:87:1$v0",
+          "to": "views.py#preferences:87:1$v8",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 95,
+            "column": 27
+          },
+          "block": "views.py#preferences:87:1$b0"
+        },
+        {
+          "from": "views.py#preferences:87:1$v10",
+          "to": "views.py#preferences:87:1$v11",
+          "kind": "assign",
+          "loc": {
+            "file": "views.py",
+            "line": 95,
+            "column": 5
+          },
+          "block": "views.py#preferences:87:1$b0"
+        },
+        {
+          "from": "views.py#preferences:87:1$v14",
+          "to": "views.py#preferences:87:1$v15",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 96,
+            "column": 14
+          },
+          "block": "views.py#preferences:87:1$b0"
+        },
+        {
+          "from": "views.py#preferences:87:1$v16",
+          "to": "views.py#preferences:87:1$v17",
+          "kind": "assign",
+          "loc": {
+            "file": "views.py",
+            "line": 96,
+            "column": 5
+          },
+          "block": "views.py#preferences:87:1$b0"
+        },
+        {
+          "from": "views.py#preferences:87:1$v22",
+          "to": "views.py#preferences:87:1$v23",
+          "kind": "assign",
+          "loc": {
+            "file": "views.py",
+            "line": 97,
+            "column": 5
+          },
+          "block": "views.py#preferences:87:1$b0"
+        },
+        {
+          "from": "views.py#preferences:87:1$v11",
+          "to": "views.py#preferences:87:1$v24",
+          "kind": "enclose",
+          "loc": {
+            "file": "views.py",
+            "line": 98,
+            "column": 25
+          },
+          "block": "views.py#preferences:87:1$b0"
+        },
+        {
+          "from": "views.py#preferences:87:1$v17",
+          "to": "views.py#preferences:87:1$v24",
+          "kind": "enclose",
+          "loc": {
+            "file": "views.py",
+            "line": 98,
+            "column": 25
+          },
+          "block": "views.py#preferences:87:1$b0"
+        },
+        {
+          "from": "views.py#preferences:87:1$v23",
+          "to": "views.py#preferences:87:1$v24",
+          "kind": "enclose",
+          "loc": {
+            "file": "views.py",
+            "line": 98,
+            "column": 25
+          },
+          "block": "views.py#preferences:87:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "views.py#preferences:87:1$c0",
+          "loc": {
+            "file": "views.py",
+            "line": 95,
+            "column": 27
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "request.GET.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "views.py#preferences:87:1$v6"
+            },
+            {
+              "index": 1,
+              "valueId": "views.py#preferences:87:1$v7"
+            }
+          ],
+          "resultValueId": "views.py#preferences:87:1$v9",
+          "block": "views.py#preferences:87:1$b0",
+          "method": "get",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "pref",
+            "1": "theme"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "views.py#preferences:87:1$v8"
+        },
+        {
+          "id": "views.py#preferences:87:1$c1",
+          "loc": {
+            "file": "views.py",
+            "line": 95,
+            "column": 14
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "defaults.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "views.py#preferences:87:1$v9"
+            }
+          ],
+          "resultValueId": "views.py#preferences:87:1$v10",
+          "block": "views.py#preferences:87:1$b0",
+          "method": "get",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverType": "dict",
+          "receiverTypeOrigin": "builtin",
+          "receiverValueId": "views.py#preferences:87:1$v5"
+        },
+        {
+          "id": "views.py#preferences:87:1$c2",
+          "loc": {
+            "file": "views.py",
+            "line": 96,
+            "column": 14
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "os.environ.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "views.py#preferences:87:1$v12"
+            },
+            {
+              "index": 1,
+              "valueId": "views.py#preferences:87:1$v13"
+            }
+          ],
+          "resultValueId": "views.py#preferences:87:1$v16",
+          "block": "views.py#preferences:87:1$b0",
+          "method": "get",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "APP_REGION",
+            "1": "eu"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "views.py#preferences:87:1$v15"
+        },
+        {
+          "id": "views.py#preferences:87:1$c3",
+          "loc": {
+            "file": "views.py",
+            "line": 97,
+            "column": 24
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "request.GET.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "views.py#preferences:87:1$v18"
+            },
+            {
+              "index": 1,
+              "valueId": "views.py#preferences:87:1$v19"
+            }
+          ],
+          "resultValueId": "views.py#preferences:87:1$v20",
+          "block": "views.py#preferences:87:1$b0",
+          "method": "get",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "key",
+            "1": "summary"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "views.py#preferences:87:1$v8"
+        },
+        {
+          "id": "views.py#preferences:87:1$c4",
+          "loc": {
+            "file": "views.py",
+            "line": 97,
+            "column": 14
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.core.cache.cache.get",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "views.py#preferences:87:1$v20"
+            }
+          ],
+          "resultValueId": "views.py#preferences:87:1$v22",
+          "block": "views.py#preferences:87:1$b0",
+          "method": "get",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "views.py#preferences:87:1$v21"
+        },
+        {
+          "id": "views.py#preferences:87:1$c5",
+          "loc": {
+            "file": "views.py",
+            "line": 98,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.JsonResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "views.py#preferences:87:1$v24"
+            }
+          ],
+          "resultValueId": "views.py#preferences:87:1$v25",
+          "block": "views.py#preferences:87:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "views.py#preferences:87:1$v25"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "views.py#preferences:87:1$b0",
+      "blocks": [
+        {
+          "id": "views.py#preferences:87:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 87,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "views.py#preferences:87:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 98,
+            "column": 5
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "views.py#bookmark_detail:48:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/bookmarks/:bookmark_id/",
+        "pathParams": "str:bookmark_id"
+      }
+    },
+    {
+      "functionId": "views.py#bundle_detail:37:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/bundles/:bundle_id/",
+        "pathParams": "str:bundle_id"
+      }
+    },
+    {
+      "functionId": "views.py#token_detail:42:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/tokens/:token_id/",
+        "pathParams": "str:token_id"
+      }
+    },
+    {
+      "functionId": "views.py#search:75:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/search/"
+      }
+    },
+    {
+      "functionId": "views.py#preferences:87:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/preferences/"
+      }
+    },
+    {
+      "functionId": "views.py#share_bookmark:61:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/share/"
+      }
+    }
+  ],
+  "declaredViews": [],
+  "views": [],
+  "renders": []
+}
