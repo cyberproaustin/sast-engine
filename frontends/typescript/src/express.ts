@@ -119,6 +119,15 @@ export function detectExpressRoutes(
   // express inline and produces no import binding at all, which is how a good deal
   // of CommonJS code is written.
   const appNames = collectAppBindings(sf, expressNames, routerNames);
+  // A route registered on something Fastify made is a FASTIFY route. The registration
+  // is spelled exactly as Express's -- `x.get(path, handler)` -- so the shape cannot
+  // tell them apart and the RECEIVER has to, which is the same move the Python side
+  // made when it took a framework from the decorator's receiver rather than from the
+  // decorator's name. It matters beyond the label: the framework is what selects the
+  // source rules that seed a handler's parameters, so one application's 83 routes were
+  // all being seeded with Express's request shape.
+  const fastifyNames = collectFastifyBindings(sf, imports);
+  for (const name of fastifyNames) appNames.add(name);
   // Routers reach a module as a PARAMETER constantly — `module.exports = (app) =>
   // { app.get(...) }`. There is no binding to find, so recognize the shape instead:
   // a route-method call whose first argument is a path literal. This keys on
@@ -159,7 +168,16 @@ export function detectExpressRoutes(
         } else if (ROUTE_METHODS.has(method)) {
           const prefix = mounts.get(root.text) ?? "";
           entryPoints.push(
-            ...routesFrom(node, method, prefix, chainRoutePath(target, consts), consts, resolveFunction, locOf),
+            ...routesFrom(
+              node,
+              method,
+              prefix,
+              chainRoutePath(target, consts),
+              consts,
+              fastifyNames.has(root.text) ? "fastify" : "express",
+              resolveFunction,
+              locOf,
+            ),
           );
         }
       }
@@ -201,6 +219,63 @@ function collectAppBindings(
   visit(sf);
 
   return bindings;
+}
+
+/**
+ * Identifiers holding a Fastify server, by the two ways one arrives in a file.
+ *
+ * `const fastify = Fastify()` is the same evidence `const app = express()` is: the
+ * factory came from the framework's own module and this name holds what it made.
+ *
+ * The other way is a PARAMETER, and it is how nearly every Fastify application above
+ * a single file is written -- `fastify.register(plugin)` hands the instance to a
+ * function that registers on it. There is no binding to watch being created, so the
+ * evidence is the declared type: a parameter annotated `FastifyInstance`, where that
+ * name was imported from `fastify`. One application registers 8 of its route files
+ * this way, and two of them (`NodeinfoServerService`) state every path as a local
+ * constant, so nothing in the file looked like a route at all.
+ *
+ * The TYPE and not the parameter's name: `fastify` is what the parameter happens to be
+ * called in that application, and keying on a name would be the mistake this whole fix
+ * is about (ADR-010).
+ */
+function collectFastifyBindings(sf: ts.SourceFile, imports: Map<string, ImportRef>): Set<string> {
+  const factories = new Set<string>();
+  const instanceTypes = new Set<string>();
+  for (const [local, ref] of imports) {
+    if (ref.module !== "fastify") continue;
+    if (ref.export === "default" || ref.export === "fastify") factories.add(local);
+    if (ref.export === "FastifyInstance") instanceTypes.add(local);
+  }
+  if (factories.size === 0 && instanceTypes.size === 0) return new Set<string>();
+
+  const out = new Set<string>();
+  const visit = (node: ts.Node): void => {
+    if (
+      ts.isVariableDeclaration(node) &&
+      ts.isIdentifier(node.name) &&
+      node.initializer &&
+      (ts.isCallExpression(node.initializer) || ts.isNewExpression(node.initializer)) &&
+      ts.isIdentifier(node.initializer.expression) &&
+      factories.has(node.initializer.expression.text)
+    ) {
+      out.add(node.name.text);
+    }
+    if (
+      ts.isParameter(node) &&
+      ts.isIdentifier(node.name) &&
+      node.type &&
+      ts.isTypeReferenceNode(node.type) &&
+      ts.isIdentifier(node.type.typeName) &&
+      instanceTypes.has(node.type.typeName.text)
+    ) {
+      out.add(node.name.text);
+    }
+    ts.forEachChild(node, visit);
+  };
+  visit(sf);
+
+  return out;
 }
 
 /**
@@ -405,6 +480,7 @@ function routesFrom(
   prefix: string,
   chainPath: string | undefined,
   consts: Map<string, ts.Expression>,
+  framework: string,
   resolveFunction: ResolveFunction,
   locOf: (node: ts.Node) => { file: string; line: number; column: number },
 ): EntryPoint[] {
@@ -470,7 +546,7 @@ function routesFrom(
     {
       functionId: handler ? handler.id : "",
       kind: "http-route",
-      framework: "express",
+      framework,
       detail,
       loc: locOf(call),
       middleware,

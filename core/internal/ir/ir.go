@@ -24,6 +24,88 @@ type IR struct {
 	Modules     []Module     `json:"modules"`
 	Functions   []*Function  `json:"functions"`
 	EntryPoints []EntryPoint `json:"entryPoints"`
+
+	// Views are the application's templates, and Renders are the sites that hand a
+	// context to one. They are TWO facts rather than one because they are two facts:
+	// the file that decides the escaping and the call that supplies the value are
+	// routinely not in the same function, not in the same module, and never in the same
+	// language. A frontend that joined them itself could only join the ones written
+	// together, which is a shape real applications do not have.
+	Views   []View   `json:"views,omitempty"`
+	Renders []Render `json:"renders,omitempty"`
+}
+
+// View is one template: what it writes into the page, and which other templates it
+// draws into itself.
+type View struct {
+	// ID is the view's root-relative path, which is also how a render names it.
+	ID string `json:"id"`
+	// Extends are the views this one fills in. Rendering this view renders each of
+	// them, with THIS view's context.
+	Extends []string `json:"extends,omitempty"`
+	// Includes are the views this one draws in, likewise with its own context.
+	Includes []Include `json:"includes,omitempty"`
+	Reads    []ViewRead `json:"reads,omitempty"`
+}
+
+// Include is one view drawn into another, and what the caller's names are called
+// inside it.
+type Include struct {
+	View string `json:"view"`
+	// Rebind maps a name that is FREE in the included view to the path it stands for
+	// in the including one. A view included from inside a loop reads the loop's
+	// variable, and that variable is an element of something the render call passed:
+	// `{% for infobox in infoboxes %}{% include 'infobox.html' %}` makes the included
+	// file's `infobox` a read of `infoboxes`.
+	Rebind map[string]string `json:"rebind,omitempty"`
+}
+
+// ViewRead is one value written into a page.
+type ViewRead struct {
+	// Path is the access path read, rooted at a name the context supplies.
+	Path string `json:"path"`
+	// Escaped is whether the engine escapes this one for markup.
+	Escaped bool `json:"escaped"`
+	// Context is the syntax the value lands IN, when it is not ordinary markup.
+	// "script" means inside a `<script>` element, where the HTML parser ends the
+	// element at the first `</script` whatever the JavaScript around it says — so a
+	// value escaped for a JavaScript string is still unescaped for the place it landed.
+	Context string `json:"context,omitempty"`
+	// RemovedAt is where the marker that turned the engine's escaping OFF is written.
+	//
+	// An absent encoder and a REMOVED one are different facts about a line, and only the
+	// second has something a reader can go and look at. Autoescaping is on in both
+	// template languages this engine reads, so an unescaped interpolation is always
+	// somebody's decision; this is where they wrote it down.
+	RemovedAt *Loc `json:"removedAt,omitempty"`
+	Loc       Loc  `json:"loc"`
+}
+
+// Render is one site that hands a context to a view.
+type Render struct {
+	// View is the resolved view id, when the name was written at this call.
+	View string `json:"view,omitempty"`
+	// Name is the view name as written, for evidence.
+	Name string `json:"name,omitempty"`
+	// FromParam names the enclosing function's parameter that supplies the view name,
+	// for a render whose caller chooses the view. A framework's base handler is written
+	// exactly this way: one method that takes the name, adds the application-wide
+	// namespace, and renders.
+	FromParam string `json:"fromParam,omitempty"`
+	// ForwardsKeywords says this render hands on the enclosing function's own keyword
+	// arguments, so the names bound at ITS call sites are bound in the view.
+	ForwardsKeywords bool `json:"forwardsKeywords,omitempty"`
+
+	FunctionID string    `json:"functionId"`
+	Loc        Loc       `json:"loc"`
+	Block      string    `json:"block,omitempty"`
+	Bindings   []Binding `json:"bindings,omitempty"`
+}
+
+// Binding is one name a render gives the view, and the value behind it.
+type Binding struct {
+	Name    string `json:"name"`
+	ValueID string `json:"valueId"`
 }
 
 // Frontend identifies the producer and declares what it can support.

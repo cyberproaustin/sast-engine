@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.15.0",
+  "irVersion": "0.16.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -376,6 +376,17 @@
           "block": "app.py#make_app:20:1$b0"
         },
         {
+          "from": "app.py#make_app:20:1$v11",
+          "to": "app.py#make_app:20:1$v9",
+          "kind": "extend",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 5
+          },
+          "block": "app.py#make_app:20:1$b0"
+        },
+        {
           "from": "app.py#make_app:20:1$v13",
           "to": "app.py#make_app:20:1$v14",
           "kind": "property",
@@ -383,6 +394,17 @@
             "file": "app.py",
             "line": 31,
             "column": 21
+          },
+          "block": "app.py#make_app:20:1$b0"
+        },
+        {
+          "from": "app.py#make_app:20:1$v14",
+          "to": "app.py#make_app:20:1$v9",
+          "kind": "extend",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 5
           },
           "block": "app.py#make_app:20:1$b0"
         }
@@ -3691,5 +3713,7 @@
         "path": "/metrics"
       }
     }
-  ]
+  ],
+  "views": [],
+  "renders": []
 }

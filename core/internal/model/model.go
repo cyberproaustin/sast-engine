@@ -880,6 +880,25 @@ func builtin() Model {
 							// constantly when building links back to itself.
 							"url", "originalUrl", "path", "hostname"},
 					},
+					// Fastify hands the handler a request of its own, and it is NOT
+					// Express's: `req.originalUrl` and `req.files` do not exist on it, and
+					// the four that do -- `query`, `body`, `params`, `headers` -- are the
+					// four every Fastify handler reads. One application's 83 routes were
+					// labelled express over a Fastify backend, so this rule is what the
+					// label now selects.
+					//
+					// `url` and `hostname` are here because Fastify's request carries both
+					// and the Express rule above already treats them as caller-supplied for
+					// the reason stated there. Dropping them while correcting the label
+					// would have traded a wrong framework for lost coverage on the same
+					// handlers.
+					{
+						Match:      MatchEntryParamProperty,
+						Framework:  "fastify",
+						EntryKind:  "http-route",
+						ParamIndex: 0,
+						Paths:      []string{"query", "body", "params", "headers", "cookies", "url", "hostname"},
+					},
 					// A route that is a FILE. Next.js App Router, Remix, Nuxt and Medusa
 					// all register a handler by putting it at a known path and exporting
 					// it, and the frontend enumerates all four -- but nothing here spoke
@@ -1076,6 +1095,19 @@ func builtin() Model {
 					// for those routes, so the ownership analysis reported `no source
 					// for actor-identity in this program` over an application that
 					// consults `req.user` in most of its controllers.
+					//
+					// Fastify is here for the mirror-image reason: correcting a framework
+					// label must not cost coverage the wrong label happened to give. Its
+					// request is decorated the same way -- `@fastify/jwt` puts the verified
+					// claims on `request.user` -- so the judgement is identical and only
+					// the label differs (ADR-004).
+					{
+						Match:      MatchEntryParamProperty,
+						Framework:  "fastify",
+						EntryKind:  "http-route",
+						ParamIndex: 0,
+						Paths:      []string{"user", "session", "auth", "principal"},
+					},
 					{
 						Match:      MatchEntryParamProperty,
 						Framework:  "described-route",
@@ -1202,6 +1234,18 @@ func builtin() Model {
 						LeafContains: []string{"password", "passwd", "pwd", "secret", "token", "apikey", "api_key", "credential", "authorization"},
 						LeafExcept:   []string{"csrf", "xsrf"},
 					},
+					// The same four request properties on Fastify, which has all four under
+					// the same names. Stated separately only because the framework label
+					// selects the rule.
+					{
+						Match:        MatchEntryParamProperty,
+						Framework:    "fastify",
+						EntryKind:    "http-route",
+						ParamIndex:   0,
+						Paths:        []string{"body", "query", "headers", "params"},
+						LeafContains: []string{"password", "passwd", "pwd", "secret", "token", "apikey", "api_key", "credential", "authorization"},
+						LeafExcept:   []string{"csrf", "xsrf"},
+					},
 					{
 						Match:        MatchGlobalProperty,
 						Symbol:       "flask.request",
@@ -1222,6 +1266,14 @@ func builtin() Model {
 					{
 						Match:      MatchEntryParamProperty,
 						Framework:  "express",
+						EntryKind:  "http-route",
+						ParamIndex: 0,
+						Paths:      []string{"body", "query", "params", "headers"},
+						LeafEquals: authorityNames,
+					},
+					{
+						Match:      MatchEntryParamProperty,
+						Framework:  "fastify",
 						EntryKind:  "http-route",
 						ParamIndex: 0,
 						Paths:      []string{"body", "query", "params", "headers"},
@@ -1251,6 +1303,14 @@ func builtin() Model {
 						LeafEquals: cookieAuthorityNames,
 					},
 					{
+						Match:      MatchEntryParamProperty,
+						Framework:  "fastify",
+						EntryKind:  "http-route",
+						ParamIndex: 0,
+						Paths:      []string{"cookies", "signedCookies"},
+						LeafEquals: cookieAuthorityNames,
+					},
+					{
 						Match:      MatchGlobalProperty,
 						Symbol:     "flask.request",
 						Paths:      []string{"cookies"},
@@ -1268,6 +1328,14 @@ func builtin() Model {
 					{
 						Match:      MatchEntryParamProperty,
 						Framework:  "express",
+						EntryKind:  "http-route",
+						ParamIndex: 0,
+						Paths:      []string{"headers"},
+						LeafEquals: []string{"referer", "referrer", "origin"},
+					},
+					{
+						Match:      MatchEntryParamProperty,
+						Framework:  "fastify",
 						EntryKind:  "http-route",
 						ParamIndex: 0,
 						Paths:      []string{"headers"},

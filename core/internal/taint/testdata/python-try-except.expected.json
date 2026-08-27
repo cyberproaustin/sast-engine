@@ -1,0 +1,22 @@
+{
+  "corpus": "python-try-except",
+  "description": "The Python frontend did not lower `try`/`except` into control flow at all: `ast.Try` fell through to the generic child walk, so the body, every handler and the `finally` were lowered straight-line into one block. A handler's calls then looked like the next thing after the body rather than what runs INSTEAD of the rest of it, and no rule that reads the shape of the graph could state anything about the commonest refusal shape Python has -- reject inside a `try`, carry on after it. TypeScript built real try/catch regions and had a defect fixed in them; Python had nothing to fix because there was nothing there. The correction TypeScript received is built in here from the start: the exception edge leaves the try REGION, which gets a block of its own with nothing in it, and never the first block of the BODY. Hanging it on the body makes a handler the successor of whatever the body ended up doing, and a body that ends in `return` terminates that very block -- so the handler becomes the one thing that unavoidably follows the refusal, which is how two production TypeScript handlers came to be reported at error level for answering an unsupported verb. The POSITIVES are the two things that must still happen inside a `try`. `/exports` refuses and walks past the refusal: the branch beside it returns the very same construction and this one leaves it on the floor, so the ownership check runs, decides against the request, and the export is queued anyway -- being inside a `try` is not a defence. `/imports` is the guard against over-correcting: the `raise` written in its body is the one statement that DOES reach a handler, and the failure detail the handler writes into the response is reported, so an edge deleted rather than moved would make that handler dead code and take a true finding with it. The NEGATIVES are the shapes a wrong edge makes look wrong. `/archives` returns on every path through its body, so the line after the `try` is reached only from the `except` and nothing there follows the refusal. `/reports` is a bare `finally` with no handler at all -- a `try` with no exception edge to hang anywhere, and the one part of a `try` that IS unavoidable.",
+  "expected": [
+    {
+      "cwe": "CWE-698",
+      "sinkFile": "app.py",
+      "sinkLine": 33,
+      "sourceLabel": "flask.jsonify",
+      "confidence": "high",
+      "note": "a refusal built inside a `try` and walked past. The first CWE-698 any Python corpus asserts, and it is as wrong inside a `try` as outside one"
+    },
+    {
+      "cwe": "CWE-209",
+      "sinkFile": "app.py",
+      "sinkLine": 52,
+      "sourceLabel": "err",
+      "confidence": "medium",
+      "note": "the handler is genuinely reached, by the `raise` written in the try body. Reported because the exception edge was MOVED to the region and not removed"
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.15.0",
+  "irVersion": "0.16.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -364,7 +364,8 @@
           "callee": {
             "kind": "local",
             "functionId": "app.py#build_defaults:57:1",
-            "resolution": "resolved"
+            "resolution": "resolved",
+            "name": "build_defaults"
           },
           "args": [],
           "resultValueId": "app.py#search:26:1$v0",
@@ -823,7 +824,8 @@
           "callee": {
             "kind": "local",
             "functionId": "app.py#get_store:61:1",
-            "resolution": "resolved"
+            "resolution": "resolved",
+            "name": "get_store"
           },
           "args": [],
           "resultValueId": "app.py#touch_record:50:1$v0",
@@ -1038,5 +1040,7 @@
         "path": "/records"
       }
     }
-  ]
+  ],
+  "views": [],
+  "renders": []
 }

@@ -21,6 +21,7 @@
 import * as ts from "typescript";
 
 import type { EntryPoint } from "./ir.ts";
+import { collectStringBindings, pathText } from "./routepath.ts";
 
 /** Just enough of the resolver's answer to name the function -- and to read it. */
 interface Resolved {
@@ -100,6 +101,20 @@ export function detectHelperRoutes(
  * Two frameworks in the clean corpus build their surface out of tables like this and
  * neither had a single entry point enumerated. The object says everything a route needs
  * to say; nothing calls anything until the framework walks the table at startup.
+ *
+ * The PATH is read the way every other registrar in this frontend reads one, and the
+ * reason is measured: requiring a string literal here matched 109 of one application's
+ * 208 descriptions -- 52%, which reads as coverage rather than as a sample. The other 99
+ * are not a different shape. 39 are `path: ''`, the router's own mount point, which was
+ * being rejected by a truthiness test rather than by anything about routes; 39 name a
+ * constant declared at the top of the same file (`path: PATH_ENV`); 21 build one from a
+ * constant (`` path: `${PATH_ENV}/off` ``). `pathText` already resolves all three for
+ * Express, NestJS and the file routers, so the fix is to ask it rather than to teach this
+ * function about constants.
+ *
+ * A path that genuinely cannot be read still yields a route, carrying the `<unresolved:>`
+ * marker: a route exists at an address whether or not this frontend can spell it, and the
+ * handler is what has to resolve for the description to be a registration at all.
  */
 export function detectDescribedRoutes(
   sf: ts.SourceFile,
@@ -107,11 +122,15 @@ export function detectDescribedRoutes(
   locOf: (node: ts.Node) => { file: string; line: number; column: number },
 ): EntryPoint[] {
   const out: EntryPoint[] = [];
+  // Collected once for the file, and only when the file holds a description at all:
+  // this walks every declaration, and the detector runs over every object literal in
+  // every module of the program.
+  let consts: Map<string, ts.Expression> | undefined;
 
   const visit = (node: ts.Node): void => {
     if (ts.isObjectLiteralExpression(node)) {
       let verb = "";
-      let routePath = "";
+      let routePath: string | undefined;
       let handler: Resolved | undefined;
       for (const prop of node.properties) {
         const key =
@@ -123,20 +142,23 @@ export function detectDescribedRoutes(
           if (VERBS.has(value.text.toUpperCase())) verb = value.text.toUpperCase();
         } else if (
           (key === "path" || key === "pathWithoutApiBasePath") &&
-          ts.isPropertyAssignment(prop) &&
-          ts.isStringLiteralLike(value)
+          ts.isPropertyAssignment(prop)
         ) {
-          routePath = value.text;
+          if (!consts) consts = collectStringBindings(sf);
+          routePath = pathText(value, consts);
         } else if (key === "handler" || key === "handle" || key === "resolve") {
           handler = resolveFunction(value);
         }
       }
-      if (verb && routePath && handler) {
+      if (verb && routePath !== undefined && handler) {
         out.push({
           functionId: handler.id,
           kind: "http-route",
           framework: "described-route",
-          detail: { method: verb === "ALL" ? "ANY" : verb, path: routePath },
+          // `path: ''` is the router's own mount point and Express answers it there,
+          // exactly as it answers `app.get(`${baseUriPath}`)` at the root when the
+          // prefix is unset. Printing "" would leave a blank where an address belongs.
+          detail: { method: verb === "ALL" ? "ANY" : verb, path: routePath || "/" },
           loc: locOf(node),
         });
       }
@@ -145,6 +167,123 @@ export function detectDescribedRoutes(
   };
   visit(sf);
   return out;
+}
+
+/** What a wrapper does with its own parameters when it forwards them to a registrar. */
+interface Forwarded {
+  verb: string;
+  pathIndex: number;
+  handlerIndex: number;
+}
+
+/**
+ * A registration reached through a base class's own shorthand: `this.get(path, handler)`.
+ *
+ * The frameworks are recognised; this spelling was not. One application declares nine
+ * routes this way and every one was missing from its surface, including the
+ * unauthenticated `/internal-backstage/prometheus` endpoint -- a real finding that nothing
+ * downstream could reach, because the route it lives on did not exist.
+ *
+ * It is a FORWARDING CHAIN rather than a new framework, and the whole chain is in the
+ * tree: `Controller.get(path, handler, permission)` has one statement, `this.route({
+ * method: 'get', path, handler, permission })`, and that shape is already modelled one
+ * function above. So the wrapper is asked to prove itself -- its body must build exactly
+ * one route description whose `path` and `handler` are its OWN parameters -- and the
+ * verb comes from the literal the wrapper wrote, not from what the call site happened to
+ * be called. Nothing here keys on the name `Controller`, on `route`, or on a package
+ * (ADR-010): a wrapper that forwards to a registration IS a registration.
+ */
+export function detectForwardedRoutes(
+  sf: ts.SourceFile,
+  resolveFunction: (node: ts.Node) => Resolved | undefined,
+  locOf: (node: ts.Node) => { file: string; line: number; column: number },
+): EntryPoint[] {
+  const out: EntryPoint[] = [];
+  let consts: Map<string, ts.Expression> | undefined;
+
+  const visit = (node: ts.Node): void => {
+    if (
+      ts.isCallExpression(node) &&
+      ts.isPropertyAccessExpression(node.expression) &&
+      VERBS.has(node.expression.name.text.toUpperCase()) &&
+      node.arguments.length >= 2
+    ) {
+      // Resolution is what costs here, so the cheap tests come first: a verb for a
+      // method name and two arguments. `map.get(k)` and `res.headers.get(name)` are out
+      // before anything is looked up.
+      const wrapper = resolveFunction(node.expression);
+      const forwarded = wrapper?.node ? forwardedRegistration(wrapper.node, sf) : undefined;
+      if (forwarded && forwarded.pathIndex < node.arguments.length && forwarded.handlerIndex < node.arguments.length) {
+        const handler = resolveFunction(node.arguments[forwarded.handlerIndex]);
+        if (handler) {
+          if (!consts) consts = collectStringBindings(sf);
+          const routePath = pathText(node.arguments[forwarded.pathIndex], consts);
+          out.push({
+            functionId: handler.id,
+            kind: "http-route",
+            framework: "described-route",
+            detail: {
+              method: forwarded.verb === "ALL" ? "ANY" : forwarded.verb,
+              path: routePath || "/",
+            },
+            loc: locOf(node),
+          });
+        }
+      }
+    }
+    ts.forEachChild(node, visit);
+  };
+  visit(sf);
+  return out;
+}
+
+/**
+ * The one route description a wrapper builds out of its own parameters, or nothing.
+ *
+ * Exactly one, for the same reason the function resolver insists on a single returned
+ * function: a wrapper that describes two routes is doing something this cannot state,
+ * and picking one of them would be a guess.
+ */
+function forwardedRegistration(decl: ts.Node, sf: ts.SourceFile): Forwarded | undefined {
+  if (!ts.isFunctionLike(decl)) return undefined;
+  const body = (decl as ts.FunctionLikeDeclaration).body;
+  if (!body) return undefined;
+
+  const paramIndex = new Map<string, number>();
+  decl.parameters.forEach((param, i) => {
+    if (ts.isIdentifier(param.name)) paramIndex.set(param.name.text, i);
+  });
+  if (paramIndex.size === 0) return undefined;
+
+  let found: Forwarded | undefined;
+  let count = 0;
+  const scan = (node: ts.Node): void => {
+    if (ts.isObjectLiteralExpression(node)) {
+      let verb = "";
+      let pathIndex = -1;
+      let handlerIndex = -1;
+      for (const prop of node.properties) {
+        if (!ts.isPropertyAssignment(prop) && !ts.isShorthandPropertyAssignment(prop)) continue;
+        const key = prop.name.getText(prop.getSourceFile() ?? sf);
+        const value: ts.Expression = ts.isPropertyAssignment(prop) ? prop.initializer : prop.name;
+        if (key === "method" && ts.isStringLiteralLike(value) && VERBS.has(value.text.toUpperCase())) {
+          verb = value.text.toUpperCase();
+        } else if (key === "path" && ts.isIdentifier(value)) {
+          pathIndex = paramIndex.get(value.text) ?? -1;
+        } else if ((key === "handler" || key === "handle") && ts.isIdentifier(value)) {
+          handlerIndex = paramIndex.get(value.text) ?? -1;
+        }
+      }
+      if (verb && pathIndex >= 0 && handlerIndex >= 0) {
+        count++;
+        found = { verb, pathIndex, handlerIndex };
+      }
+    }
+    ts.forEachChild(node, scan);
+  };
+  scan(body);
+
+  return count === 1 ? found : undefined;
 }
 
 export function detectFileRoutes(

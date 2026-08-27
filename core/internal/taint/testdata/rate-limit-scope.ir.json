@@ -2639,5 +2639,7 @@
         "path": "/healthz"
       }
     }
-  ]
+  ],
+  "views": [],
+  "renders": []
 }

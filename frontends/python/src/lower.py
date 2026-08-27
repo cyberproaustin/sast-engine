@@ -25,20 +25,27 @@ FRONTEND_VERSION = "0.1.0"
 
 FUNCTION_NODES = (ast.FunctionDef, ast.AsyncFunctionDef)
 
+# `try` in both its spellings. `except*` is a separate node type with the same four
+# fields, and a frontend that knew only about `ast.Try` would lower every 3.11 handler
+# as straight-line code again without saying so.
+TRY_NODES = tuple(node for node in (ast.Try, getattr(ast, "TryStar", None)) if node is not None)
+
 # Statements whose control flow the block builder does not express. A loop's back edge is
-# never emitted, `try` is lowered as straight-line code, and a `match`'s arms all appear
-# to run. Inside one of these, `self.current` names a block that would claim an edge is
-# unavoidable when it is not -- so a flow lowered here states no block at all, and the
-# core keeps it. The bias goes one way on purpose: a flow with no position is kept, a
-# flow with a wrong position could be dropped, and a dropped flow is a missed weakness.
+# never emitted and a `match`'s arms all appear to run. Inside one of these,
+# `self.current` names a block that would claim an edge is unavoidable when it is not --
+# so a flow lowered here states no block at all, and the core keeps it. The bias goes one
+# way on purpose: a flow with no position is kept, a flow with a wrong position could be
+# dropped, and a dropped flow is a missed weakness.
+#
+# `try` was on this list until its blocks existed. It is off it now: the graph states
+# where a handler runs, and a definition in a `try` body is positioned like any other.
+# The narrowing was measured rather than assumed -- see the block-building code below.
 UNMODELLED_STATEMENTS = tuple(
     node
     for node in (
         ast.For,
         ast.AsyncFor,
         ast.While,
-        ast.Try,
-        getattr(ast, "TryStar", None),
         getattr(ast, "Match", None),
     )
     if node is not None
@@ -678,6 +685,10 @@ class ModuleLowerer:
         self.django_prefix = (django_prefixes or {}).get(dotted_module(self.module), "")
         self.functions: list[dict] = []
         self.entry_points: list[dict] = []
+        # Where this module hands a context to a view. Collected per module and joined to
+        # the views program-wide by the core, because a render and the interpolation it
+        # feeds are routinely not in the same file and never in the same language.
+        self.renders: list[dict] = []
         # Function nodes whose parameters arrive from an operator rather than from the
         # program: a management command's `handle`, which argparse fills in.
         self.operator_inputs: set[int] = set()
@@ -1736,6 +1747,16 @@ class FunctionLowerer:
         # through the dispatch auditable.
         self.possible_functions: dict[str, list[str]] = {}
         self.possible_modules: dict[str, list[str]] = {}
+        # The names this function was DECLARED with, kept apart from `scope` because a
+        # parameter can be reassigned and the question a render asks is about the
+        # declaration: "did the caller choose this view name?".
+        args = getattr(node, "args", None)
+        self.param_names: set[str] = (
+            {a.arg for a in (*args.posonlyargs, *args.args, *args.kwonlyargs)} if args else set()
+        )
+        self.kwargs_names: set[str] = (
+            {args.kwarg.arg} if args is not None and args.kwarg is not None else set()
+        )
         # Names this function declared global or nonlocal, which is what makes an
         # assignment to one a write to state outside it.
         self.declared_global: set[str] = set()
@@ -1858,12 +1879,12 @@ class FunctionLowerer:
         }
 
     def walk(self, node: ast.AST) -> None:
-        # A loop runs its body an unknown number of times and `try`/`match` choose
-        # between arms, and the block graph says none of it: all of them are lowered
-        # straight-line into the enclosing block. The walk is unchanged; what is
-        # suppressed is the CLAIM that a flow inside one of them sits at a known point in
-        # the control-flow graph, which the core would otherwise read as licence to kill
-        # an earlier definition of the same name.
+        # A loop runs its body an unknown number of times and a `match` chooses between
+        # arms, and the block graph says neither: both are lowered straight-line into the
+        # enclosing block. The walk is unchanged; what is suppressed is the CLAIM that a
+        # flow inside one of them sits at a known point in the control-flow graph, which
+        # the core would otherwise read as licence to kill an earlier definition of the
+        # same name. `try` was here until the block builder learned to express it.
         if isinstance(node, UNMODELLED_STATEMENTS):
             self.unmodelled += 1
             try:
@@ -2083,6 +2104,64 @@ class FunctionLowerer:
             elif not self.leaves(else_end):
                 self.link(else_end, after)
 
+            self.current = after
+            return
+
+        # A `try` chooses between paths, and the block graph used to say none of it: the
+        # body, every handler and the `finally` were lowered straight-line into one
+        # block. A handler's calls then looked like the next thing after the body rather
+        # than what runs INSTEAD of the rest of it, and no rule that reads the shape of
+        # the graph could say anything about the commonest refusal shape Python has --
+        # reject inside a `try`, carry on after it. CWE-698 had never once fired on a
+        # Python repository, because the rule that would catch it had no graph to read.
+        #
+        # The exception edge leaves the try REGION and not any statement inside it, which
+        # is why the region gets a block of its own with nothing in it. Hanging that edge
+        # on the first block of the BODY instead makes a handler the successor of
+        # whatever the body ended up doing, and a body that ends in `return` terminates
+        # that very block -- so the handler becomes the one thing that unavoidably
+        # follows the refusal, and every handler written under a returning body is
+        # reported as execution after a response. That is the defect the TypeScript
+        # frontend was corrected for; it is not being rebuilt here.
+        #
+        # `else` runs only where the body raised nothing, so it continues the body's
+        # normal exit and is not on the exception edge at all. `finally` is the one part
+        # of a `try` that IS unavoidable, and it is linked from every path into it.
+        if isinstance(node, TRY_NODES):
+            region = self.new_block(node)
+            self.link(self.current, region)
+            body = self.new_block(node)
+            self.link(region, body)
+            self.current = body
+            for stmt in list(node.body) + list(node.orelse):
+                self.walk(stmt)
+            body_end = self.current
+
+            handler_ends: list[str] = []
+            for handler in node.handlers:
+                block = self.new_block(handler)
+                # From the START of the region: an exception can be raised anywhere
+                # inside the body, and a statement that has already left the function
+                # raises nothing at all.
+                self.link(region, block)
+                self.current = block
+                self.walk(handler)
+                handler_ends.append(self.current)
+
+            after = self.new_block(node)
+            if node.finalbody:
+                final = self.new_block(node)
+                self.link(body_end, final)
+                for end in handler_ends:
+                    self.link(end, final)
+                self.current = final
+                for stmt in node.finalbody:
+                    self.walk(stmt)
+                self.link(self.current, after)
+            else:
+                self.link(body_end, after)
+                for end in handler_ends:
+                    self.link(end, after)
             self.current = after
             return
 
@@ -2596,61 +2675,52 @@ class FunctionLowerer:
         """Where a render call ends and a view begins.
 
         `render_template("page.html", name=x)` hands a set of named values to a file this
-        frontend has already read, and that file decides which of them are escaped. The
-        two halves are joined here rather than by making the template a function the call
-        targets: a view's parameters are its variable names rather than positions, and the
-        mapping from keywords to those names is the whole of the link.
+        frontend has already read, and that file decides which of them are escaped.
 
-        The interpolation becomes a call at the TEMPLATE's location, so a finding points
-        at the line that writes the page rather than at the handler that asked for it.
-        Both escaped and unescaped reads are recorded, because escaping settles cross-site
-        scripting and settles nothing about a password rendered into a page.
+        The two halves are no longer joined HERE. They used to be, and that made the
+        analysis require the view name and the context to be written in the same place --
+        which real applications do not do. What is recorded instead is the fact: this call
+        renders that view, and it binds these names to these values. The join is the
+        core's, because a view's free variables are reached from every render of it
+        ANYWHERE, through a parent it extends and a file it includes, and no single call
+        site can see that.
 
-        Silent when the view name is not written in the call, when two templates could
-        answer to it, or when the context was built elsewhere and spread in -- each is a
-        case where naming a file would mean guessing which one (ADR-003).
+        Three things this cannot say, each stated rather than guessed at (ADR-003): a view
+        name that is neither a literal here nor a parameter this function was handed, a
+        name two templates could answer to, and a context spread from a mapping whose keys
+        were not written down -- binding a value to a name nobody wrote would attach a
+        finding to the wrong interpolation.
         """
-        if not node.args or not isinstance(node.args[0], ast.Constant):
+        name_arg = node.args[0] if node.args else None
+        render: dict[str, Any] = {
+            "functionId": self.id,
+            "loc": loc_of(self.mod.module, node),
+            "block": self.current,
+        }
+        if isinstance(name_arg, ast.Constant) and isinstance(name_arg.value, str):
+            view = resolve_template(self.mod.templates, name_arg.value)
+            if view is None:
+                return
+            render["view"] = view.module
+            render["name"] = name_arg.value
+        elif isinstance(name_arg, ast.Name) and name_arg.id in self.param_names:
+            # A render whose view is named by WHOEVER CALLED THIS. A framework's base
+            # handler is written exactly this way -- one method that takes the view name,
+            # adds the application-wide namespace and renders -- and it is the shape that
+            # put jupyterhub's every page out of reach. The core resolves the name at each
+            # call site; this side states only that the parameter is where it comes from.
+            render["fromParam"] = name_arg.id
+        else:
             return
-        name = node.args[0].value
-        if not isinstance(name, str):
-            return
-        view = resolve_template(self.mod.templates, name)
-        if view is None or not view.reads:
-            return
-
-        for read in view.reads:
-            root, _, rest = read["path"].partition(".")
-            src = by_keyword.get(root)
-            if not src:
-                continue
-            at = {"file": view.module, "line": read["line"], "column": read["column"]}
-            value_id = src
-            if rest:
-                # The path BELOW the root is a read out of the value the handler passed,
-                # and every rule that asks what a field is called reads it this way.
-                value_id = f"{self.id}$v{self._v}"
-                self._v += 1
-                self.values.append(
-                    {"id": value_id, "kind": "property", "loc": at, "base": src,
-                     "path": rest, "name": rest}
-                )
-                self.flows.append({"from": src, "to": value_id, "kind": "property",
-                                   "loc": at, "block": self.current})
-            symbol = "<template>.escaped" if read["escaped"] else "<template>.unescaped"
-            result_id = f"{self.id}$v{self._v}"
-            self._v += 1
-            self.values.append({"id": result_id, "kind": "call-result", "loc": at, "name": symbol})
-            self.calls.append({
-                "id": f"{self.id}$c{self._c}",
-                "loc": at,
-                "callee": {"kind": "external", "symbol": symbol, "resolution": "resolved"},
-                "args": [{"index": 0, "valueId": value_id}],
-                "argCount": 1,
-                "resultValueId": result_id,
-                "block": self.current,
-            })
-            self._c += 1
+        bindings = [{"name": key, "valueId": vid} for key, vid in by_keyword.items()]
+        if bindings:
+            render["bindings"] = bindings
+        # `render_template(name, **ns)` hands on whatever its own caller passed, so the
+        # bindings written at THIS function's call sites are bindings for the view.
+        for kw in node.keywords:
+            if kw.arg is None and isinstance(kw.value, ast.Name) and kw.value.id in self.kwargs_names:
+                render["forwardsKeywords"] = True
+        self.mod.renders.append(render)
 
     def resolve_callee(self, node: ast.Call) -> dict:
         func = node.func
@@ -2970,7 +3040,7 @@ def lower_program(root: str, files: list[str]) -> dict:
               for lw in lowerers}
     registered = {entry["functionId"] for entries in django.values() for entry in entries}
 
-    modules, functions, entry_points = [], [], []
+    modules, functions, entry_points, renders = [], [], [], []
     for lowerer in lowerers:
         lowerer.lower(django[lowerer.module], registered)
         modules.append({"id": lowerer.module, "path": lowerer.module,
@@ -2979,6 +3049,38 @@ def lower_program(root: str, files: list[str]) -> dict:
                            if lowerer.module in provenance else {})})
         functions.extend(lowerer.functions)
         entry_points.extend(lowerer.entry_points)
+        renders.extend(lowerer.renders)
+
+    # The views, with the graph between them resolved to ids here rather than left as the
+    # names they were written with. Which file a name reaches is a question about this
+    # tree and about the loader's search path, and the core has neither.
+    views = []
+    for template in templates.values():
+        if not template.reads and not template.extends and not template.includes:
+            continue
+        view: dict[str, Any] = {"id": template.module}
+        parents = [resolve_template(templates, name) for name in template.extends]
+        parents = [p.module for p in parents if p is not None]
+        if parents:
+            view["extends"] = parents
+        includes = []
+        for entry in template.includes:
+            target = resolve_template(templates, entry["view"])
+            if target is None:
+                continue
+            includes.append({"view": target.module,
+                             **({"rebind": entry["rebind"]} if entry.get("rebind") else {})})
+        if includes:
+            view["includes"] = includes
+        if template.reads:
+            view["reads"] = [
+                {"path": r["path"], "escaped": r["escaped"],
+                 "loc": {"file": template.module, "line": r["line"], "column": r["column"]},
+                 **({"context": r["context"]} if r.get("context") else {}),
+                 **({"removedAt": r["removedAt"]} if r.get("removedAt") else {})}
+                for r in template.reads
+            ]
+        views.append(view)
 
     return {
         "irVersion": IR_VERSION,
@@ -3004,4 +3106,6 @@ def lower_program(root: str, files: list[str]) -> dict:
         "modules": modules,
         "functions": functions,
         "entryPoints": entry_points,
+        "views": views,
+        "renders": renders,
     }

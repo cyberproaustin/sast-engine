@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.15.0",
+  "irVersion": "0.16.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -106,7 +106,8 @@
           "callee": {
             "kind": "local",
             "functionId": "devscripts/release.py#publish:20:1",
-            "resolution": "resolved"
+            "resolution": "resolved",
+            "name": "publish"
           },
           "args": [],
           "resultValueId": "devscripts/release.py#<module>:0:0$v3",
@@ -1609,5 +1610,7 @@
         "start": "__main__ guard"
       }
     }
-  ]
+  ],
+  "views": [],
+  "renders": []
 }
