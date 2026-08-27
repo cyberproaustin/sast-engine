@@ -732,7 +732,7 @@ func ungatedCallSite(ix *ir.Index, doms *dominance, fn *ir.Function, related map
 		}
 		passed := ""
 		for _, a := range site.Args {
-			if a.Index == idx {
+			if a.Binds(fn, idx) {
 				passed = a.ValueID
 			}
 		}

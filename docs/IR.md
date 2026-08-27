@@ -1,4 +1,4 @@
-# Program IR — v0.16.0
+# Program IR — v0.17.0
 
 The IR is the contract between language frontends and the core (ADR-001). A frontend
 lowers a codebase into this shape and stops. The core consumes only this shape and
@@ -12,7 +12,7 @@ could not be expressed without it. Nothing is added in anticipation.
 
 ```jsonc
 {
-  "irVersion": "0.16.0",
+  "irVersion": "0.17.0",
   "frontend": { "name": "typescript", "version": "0.1.0", "capabilities": { ... } },
   "modules":     [ ... ],
   "functions":   [ ... ],
@@ -146,7 +146,8 @@ A call site. Together, the `calls` of every function form the call graph.
   },
   "args": [
     { "index": 0, "valueId": "...$v3" },
-    { "index": 1, "functionId": "src/app.ts#<anonymous>:25" }  // a function value
+    { "index": 1, "functionId": "src/app.ts#<anonymous>:25" }, // a function value
+    { "name": "encoding", "valueId": "...$v4" }             // a keyword argument
   ],
   "method": "then",                 // property name, for a method call
   "receiverValueId": "...$v2",      // the object the method was called on
@@ -174,6 +175,15 @@ dispatch table without inventing an edge to every function in the program.
 
 `resolution` is what drives finding confidence and the pipeline gate (ADR-005). A path
 crossing a `dynamic-unresolved` edge cannot produce a high-confidence finding.
+
+#### Named arguments (added in 0.17.0)
+
+An argument carries exactly one of `index` or `name`. `index` records a position written
+at the call site; `name` records a keyword written there. When the callee resolves, the
+core binds a name to the parameter declaration with that name. When it does not resolve,
+the name remains a name: assigning it a guessed position would be indistinguishable from
+a position the frontend actually knew, and could propagate caller data into an unrelated
+parameter such as a method's `self`.
 
 ### Branch polarity (added in 0.16.0)
 
