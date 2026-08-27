@@ -2103,7 +2103,19 @@ class FunctionLowerer:
         # Conditions are not statements and are never reached on their own. The test
         # belongs to the block that branches on it.
         if isinstance(node, ast.If):
-            self.expr(node.test)
+            comparisons_before = len(self.comparisons)
+            condition = self.expr(node.test)
+            if condition and len(self.comparisons) == comparisons_before:
+                literal = self.new_value("literal", node.test, literal="true")
+                self.comparisons.append(
+                    {
+                        "left": condition,
+                        "right": literal,
+                        "op": "truthy",
+                        "block": self.current,
+                        "loc": loc_of(self.mod.module, node.test),
+                    }
+                )
             branch = self.current
             self.terminate(branch, "branch")
 

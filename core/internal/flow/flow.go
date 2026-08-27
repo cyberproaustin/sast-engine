@@ -34,6 +34,8 @@ import (
 const (
 	SymbolEscaped   = "<template>.escaped"
 	SymbolUnescaped = "<template>.unescaped"
+	SymbolURLTarget = "<template>.url-target"
+	SymbolURLPart   = "<template>.url-part"
 )
 
 // Report is what the join did, for the surface summary.
@@ -401,8 +403,22 @@ func (w *writer) write(fn *ir.Function, read ir.ViewRead, src, rest, block strin
 		value = id
 	}
 	symbol := SymbolUnescaped
-	if read.Escaped {
-		symbol = SymbolEscaped
+	switch read.Context {
+	case "url-target":
+		symbol = SymbolURLTarget
+	case "url-part":
+		symbol = SymbolURLPart
+	case "":
+		if read.Escaped {
+			symbol = SymbolEscaped
+		}
+	default:
+		// Contexts not represented by a channel stay on the existing markup path.
+		// The frontend can state more syntax than this core knows how to judge, and
+		// treating an unknown context as safe would turn vocabulary lag into silence.
+		if read.Escaped {
+			symbol = SymbolEscaped
+		}
 	}
 	result := w.id(fn, "v")
 	fn.Values = append(fn.Values, &ir.Value{ID: result, Kind: ir.ValueCallResult, Loc: at, Name: symbol})

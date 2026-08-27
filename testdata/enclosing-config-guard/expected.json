@@ -1,0 +1,22 @@
+{
+  "corpus": "enclosing-config-guard",
+  "description": "A dangerous behavior under an environment-controlled branch remains visible but carries DependsOnUse naming that condition, because NODE_ENV may be unset or wrong in a real deployment. The identical unguarded call remains gating.",
+  "expected": [
+    {
+      "cwe": "CWE-209",
+      "sinkFile": "app.js",
+      "sinkLine": 9,
+      "sourceLabel": "\"errorhandler.default()\"",
+      "confidence": "high",
+      "note": "reported but non-gating because reachability depends on NODE_ENV"
+    },
+    {
+      "cwe": "CWE-209",
+      "sinkFile": "app.js",
+      "sinkLine": 13,
+      "sourceLabel": "\"errorhandler.default()\"",
+      "confidence": "high",
+      "note": "unguarded behavior remains gating"
+    }
+  ]
+}

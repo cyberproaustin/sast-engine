@@ -18,6 +18,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/cyberproaustin/sast-engine/core/internal/cfg"
 	"github.com/cyberproaustin/sast-engine/core/internal/ir"
 	"github.com/cyberproaustin/sast-engine/core/internal/model"
 	"github.com/cyberproaustin/sast-engine/core/internal/taint"
@@ -75,6 +76,11 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 						continue
 					}
 				}
+				if shape.ConfigurationEnabled && shape.DependsOnUse == "" {
+					if condition := enclosingConfigurationCondition(ix, fn, c); condition != "" {
+						shape.DependsOnUse = fmt.Sprintf("whether this behavior reaches deployment depends on the enclosing configuration condition %s; environment and configuration flags can be unset or mis-set, so the source does not guarantee this branch is unreachable", condition)
+					}
+				}
 				if shape.PatternArg != nil {
 					pattern, ok := c.ArgLiterals[*shape.PatternArg]
 					if !ok || !model.CatastrophicPattern(pattern) {
@@ -99,6 +105,82 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 		}
 	}
 	return out
+}
+
+func enclosingConfigurationCondition(ix *ir.Index, fn *ir.Function, sink *ir.Call) string {
+	if sink.Block == "" {
+		return ""
+	}
+	g := cfg.Build(fn)
+	if g == nil {
+		return ""
+	}
+	for _, comparison := range fn.Comparisons {
+		if comparison.Block == "" || !g.ControlDependsOn(sink.Block, comparison.Block) {
+			continue
+		}
+		left := configurationValue(ix, comparison.Left)
+		right := configurationValue(ix, comparison.Right)
+		if left == "" && right == "" {
+			continue
+		}
+		if left == "" {
+			left, right = right, literalValue(ix, comparison.Left)
+		} else {
+			right = literalValue(ix, comparison.Right)
+		}
+		if comparison.Op == "truthy" {
+			return "`" + left + "` being truthy"
+		}
+		if right == "" {
+			return fmt.Sprintf("`%s %s ...`", left, comparison.Op)
+		}
+		return fmt.Sprintf("`%s %s %s`", left, comparison.Op, strconv.Quote(right))
+	}
+	return ""
+}
+
+func configurationValue(ix *ir.Index, id string) string {
+	v := ix.ValueByID[id]
+	if v == nil || v.Kind == ir.ValueLiteral {
+		return ""
+	}
+	name := v.Path
+	if name == "" {
+		name = v.Name
+	}
+	lower := strings.ToLower(name)
+	configurationNamed := false
+	for _, word := range []string{"env", "config", "setting", "debug", "development", "production"} {
+		if strings.Contains(lower, word) {
+			configurationNamed = true
+			break
+		}
+	}
+	if !configurationNamed {
+		return ""
+	}
+	root := v
+	for root.Base != "" {
+		root = ix.ValueByID[root.Base]
+		if root == nil {
+			return ""
+		}
+	}
+	// A request field named `debug` is still caller input. Deployment configuration is
+	// rooted outside the handler, in a global/imported value rather than a parameter.
+	rootName := strings.ToLower(root.Name)
+	if root.Kind == ir.ValueParam || rootName == "request" || rootName == "req" || strings.HasSuffix(rootName, ".request") {
+		return ""
+	}
+	return name
+}
+
+func literalValue(ix *ir.Index, id string) string {
+	if v := ix.ValueByID[id]; v != nil && v.Kind == ir.ValueLiteral {
+		return v.Literal
+	}
+	return ""
 }
 
 // keyIs compares an option key on its LAST segment, because an option that decides
