@@ -517,6 +517,12 @@ type SanitizerRule struct {
 	// rather than a footnote to it.
 	RequiresLiteralArg *int
 
+	// RequiresInputArg limits a transform to data arriving through one argument. This
+	// is different from requiring a literal: `url_concat(base, query)` percent-encodes
+	// the query mapping, but does not make an attacker-controlled base safe. Recording
+	// which argument carried the classified value keeps those two paths distinct.
+	RequiresInputArg *int
+
 	// Method matches the FINAL SEGMENT of a traversed symbol, for a transform whose name
 	// is a method rather than something imported. AfterSymbol requires that the same
 	// expression was built on one of these calls.
@@ -3941,6 +3947,18 @@ func builtin() Model {
 				Symbol: "<template>.escaped", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
 				Rationale: "the template writes this value into the page, escaped",
 			},
+			{
+				ID: "url-target", Visibility: "public", Context: "url-target",
+				Symbol: "<template>.url-target", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-79",
+				Rationale: "HTML escaping does not constrain the scheme of a URL-valued attribute",
+			},
+			{
+				ID: "url-part", Visibility: "public", Context: "url-part",
+				Symbol: "<template>.url-part", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				CWE:       "CWE-116",
+				Rationale: "the value is interpreted as path or query syntax inside a URL-valued attribute",
+			},
 			// Turning the framework's escaping OFF, by name. Angular escapes everything
 			// it renders and offers exactly one way out, spelled so that nobody can use
 			// it by accident -- which makes it the clearest possible statement that
@@ -4047,7 +4065,7 @@ func builtin() Model {
 			{
 				ID:            "untrusted-to-interpreter",
 				Class:         "untrusted-input",
-				DeniedContext: []string{"shell", "argv", "exec-path", "sql", "html", "code", "template", "ldap", "xpath"},
+				DeniedContext: []string{"shell", "argv", "exec-path", "sql", "html", "code", "template", "ldap", "xpath", "url-target", "url-part"},
 				Reason:        "a caller must not be able to choose what an interpreter executes",
 				Finding:       "Untrusted input reaches an interpreter",
 				CWE:           "CWE-78",
@@ -5025,8 +5043,17 @@ func builtin() Model {
 			},
 			{
 				Symbol:   "encodeURIComponent",
-				Contexts: []string{"url"},
+				Contexts: []string{"url", "url-target", "url-part"},
 				Note:     "percent-encodes for a URL context only; it neutralizes nothing for any other context",
+			},
+			{
+				// Tornado appends the second argument as an encoded query mapping. It does
+				// not constrain the first argument, which remains capable of choosing a
+				// host or scheme; the input-argument condition is the security boundary.
+				Symbol:           "tornado.httputil.url_concat",
+				Contexts:         []string{"url-target", "url-part"},
+				Note:             "percent-encodes the query mapping and appends it to the separately supplied URL",
+				RequiresInputArg: arg(1),
 			},
 		},
 
@@ -5734,6 +5761,12 @@ type CallShape struct {
 	// than sharing one vague sentence.
 	DependsOnUse string
 
+	// ConfigurationEnabled marks a behavior whose reachability may be controlled by
+	// an enclosing deployment condition. The call remains a finding: environment flags
+	// are frequently unset or wrong. The condition changes gating through DependsOnUse,
+	// not the confidence of a call the frontend resolved correctly.
+	ConfigurationEnabled bool
+
 	CWE       string
 	Finding   string
 	Reason    string
@@ -6164,17 +6197,19 @@ func builtinCallShapes() []CallShape {
 			// recall audit named, and none at all across twenty-eight production
 			// repositories.
 			ID: "development-error-handler", Symbol: "errorhandler.default", Always: true,
-			CWE:       "CWE-209",
-			Finding:   "Development error handler installed",
-			Reason:    "this middleware answers a failed request with the stack trace, the source line and the local variables, which describes the system to whoever provoked the failure",
-			Rationale: "errorhandler renders internal failure detail into the response",
+			CWE:                  "CWE-209",
+			Finding:              "Development error handler installed",
+			Reason:               "this middleware answers a failed request with the stack trace, the source line and the local variables, which describes the system to whoever provoked the failure",
+			Rationale:            "errorhandler renders internal failure detail into the response",
+			ConfigurationEnabled: true,
 		},
 		{
 			ID: "development-error-handler", Symbol: "errorhandler", Always: true,
-			CWE:       "CWE-209",
-			Finding:   "Development error handler installed",
-			Reason:    "this middleware answers a failed request with the stack trace, the source line and the local variables, which describes the system to whoever provoked the failure",
-			Rationale: "errorhandler renders internal failure detail into the response",
+			CWE:                  "CWE-209",
+			Finding:              "Development error handler installed",
+			Reason:               "this middleware answers a failed request with the stack trace, the source line and the local variables, which describes the system to whoever provoked the failure",
+			Rationale:            "errorhandler renders internal failure detail into the response",
+			ConfigurationEnabled: true,
 		},
 		{
 			// Serving an index means publishing the file NAMES, which is a map of
@@ -7170,30 +7205,33 @@ func builtinCallShapes() []CallShape {
 			// sent to it. Reaching production with this on is remote code execution, and
 			// it is one keyword.
 			ID: "debug-mode-enabled", Method: "run", ArgIndex: -1,
-			Disallowed: []string{"debug=true"},
-			CWE:        "CWE-489",
-			Finding:    "Debug mode enabled",
-			Reason:     "the debug server exposes an interactive console that executes code sent to it, so this is remote code execution wherever it is reachable",
-			Rationale:  "run() is passed debug=True",
+			Disallowed:           []string{"debug=true"},
+			CWE:                  "CWE-489",
+			Finding:              "Debug mode enabled",
+			Reason:               "the debug server exposes an interactive console that executes code sent to it, so this is remote code execution wherever it is reachable",
+			Rationale:            "run() is passed debug=True",
+			ConfigurationEnabled: true,
 		},
 		{
 			// aiohttp's `Application(debug=True)`, which is the same decision at a second
 			// framework: the debug middleware answers a failed request with the traceback
 			// and the local variables of every frame.
 			ID: "debug-mode-enabled", Symbol: "aiohttp.web.Application", ArgIndex: -1,
-			Disallowed: []string{"debug=true"},
-			CWE:        "CWE-489",
-			Finding:    "Debug mode enabled",
-			Reason:     "debug mode answers a failed request with the traceback and the local variables of every frame, which describes the system to whoever provoked the failure",
-			Rationale:  "Application() is constructed with debug=True",
+			Disallowed:           []string{"debug=true"},
+			CWE:                  "CWE-489",
+			Finding:              "Debug mode enabled",
+			Reason:               "debug mode answers a failed request with the traceback and the local variables of every frame, which describes the system to whoever provoked the failure",
+			Rationale:            "Application() is constructed with debug=True",
+			ConfigurationEnabled: true,
 		},
 		{
 			ID: "debug-mode-enabled", Symbol: "web.Application", ArgIndex: -1,
-			Disallowed: []string{"debug=true"},
-			CWE:        "CWE-489",
-			Finding:    "Debug mode enabled",
-			Reason:     "debug mode answers a failed request with the traceback and the local variables of every frame, which describes the system to whoever provoked the failure",
-			Rationale:  "Application() is constructed with debug=True",
+			Disallowed:           []string{"debug=true"},
+			CWE:                  "CWE-489",
+			Finding:              "Debug mode enabled",
+			Reason:               "debug mode answers a failed request with the traceback and the local variables of every frame, which describes the system to whoever provoked the failure",
+			Rationale:            "Application() is constructed with debug=True",
+			ConfigurationEnabled: true,
 		},
 		{
 			// The dangerous part is the COMBINATION. Credentialed cross-origin requests
@@ -7577,6 +7615,18 @@ type StoreRule struct {
 	// field of what a server-side lookup returned, and that the lookup was once handed a
 	// request does not make its answer the caller's.
 	RequiresUnprojected bool
+
+	// RequiresComposition and RequiresWholeValue ask opposite structural questions
+	// about a property write. A URL with caller data after a fixed prefix lets the
+	// caller alter path/query syntax; a URL supplied whole lets them choose its scheme.
+	// Keeping these on the destination rule prevents either shape from being mistaken
+	// for SSRF, whose channel asks whether the caller chose a server-side host.
+	RequiresComposition bool
+	RequiresWholeValue  bool
+	// Context lets the store analysis apply the same sanitizer vocabulary as a call
+	// channel. Assignment is the sink for DOM properties, but encodeURIComponent is no
+	// less a URL-component encoder because no function is called at the destination.
+	Context string
 
 	// RequiresEntryFunction narrows a rule to writes that happen INSIDE a request
 	// handler, rather than anywhere the data happens to reach.
@@ -8107,6 +8157,32 @@ func builtinStores() []StoreRule {
 			Finding:   "Caller's text assigned as markup",
 			Reason:    "assigning to innerHTML parses what it is given as HTML, so a caller who sends a tag gets a tag",
 			Rationale: "the value is written into a property the browser parses as markup",
+		},
+		{
+			// A browser interprets these properties as URLs. Supplying the whole value is
+			// a scheme decision, not an HTML-escaping decision: `javascript:` is still a
+			// script URL after every quote and angle bracket has been escaped.
+			ID: "untrusted-url-target", Class: "untrusted-input",
+			Path:               []string{"href", "src", "action"},
+			RequiresWholeValue: true,
+			Context:            "url-target",
+			CWE:                "CWE-79",
+			Finding:            "Caller's URL assigned to a browser navigation target",
+			Reason:             "the caller supplies the whole URL, so HTML escaping cannot stop a script-bearing scheme such as javascript or data",
+			Rationale:          "the property is interpreted as a URL and no program-written prefix constrains its scheme",
+		},
+		{
+			// With a fixed prefix the host and scheme are the program's, so this is not
+			// SSRF. The syntax the caller can still choose is the URL component syntax:
+			// a slash, question mark, fragment or dot segment changes the resource named.
+			ID: "untrusted-url-part", Class: "untrusted-input",
+			Path:                []string{"href", "src", "action"},
+			RequiresComposition: true,
+			Context:             "url-part",
+			CWE:                 "CWE-116",
+			Finding:             "Caller's text composed into a URL component",
+			Reason:              "the caller's text is placed after a program-written URL prefix without URL-component encoding, so separators change the path, query or fragment",
+			Rationale:           "the property is interpreted as a URL whose host is fixed but whose component syntax is not",
 		},
 		{
 			// A session is server-side state, which is exactly what makes this worth

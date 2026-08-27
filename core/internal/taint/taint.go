@@ -76,6 +76,8 @@ type Hop struct {
 	Description string
 	Symbol      string // external symbol traversed at this hop, if any
 	Literals    map[int]string
+	InputArg    int    // argument carrying this path, or receiverArgIndex for a receiver
+	HasInputArg bool   // distinguishes argument zero from a hop without call input metadata
 	Kind        string // the IR flow kind this hop came from, when it came from a flow
 	Resolution  ir.Resolution
 }
@@ -541,7 +543,9 @@ type edge struct {
 	// literals are the traversed call's literal arguments, carried so a sanitizer whose
 	// rule depends on one can be decided where the flow is reconstructed rather than
 	// where it was recorded.
-	literals map[int]string
+	literals    map[int]string
+	inputArg    int
+	hasInputArg bool
 }
 
 type engine struct {
@@ -1609,12 +1613,14 @@ func (e *engine) throughCall(argValueID string, c *ir.Call) {
 				continue
 			}
 			e.markTainted(c.ResultID, edge{
-				from:       argValueID,
-				desc:       fmt.Sprintf("through %s()", displaySymbol(c.Callee)),
-				loc:        c.Loc,
-				symbol:     c.Callee.Symbol,
-				literals:   c.ArgLiterals,
-				resolution: c.Callee.Resolution,
+				from:        argValueID,
+				desc:        fmt.Sprintf("through %s()", displaySymbol(c.Callee)),
+				loc:         c.Loc,
+				symbol:      c.Callee.Symbol,
+				literals:    c.ArgLiterals,
+				inputArg:    a.Index,
+				hasInputArg: true,
+				resolution:  c.Callee.Resolution,
 			})
 		}
 	}
@@ -1646,11 +1652,13 @@ func (e *engine) throughReceiver(receiverID string, c *ir.Call) {
 		return
 	}
 	e.markTainted(c.ResultID, edge{
-		from:       receiverID,
-		desc:       fmt.Sprintf("through .%s() on tainted data", c.Method),
-		loc:        c.Loc,
-		symbol:     c.Callee.Symbol,
-		resolution: c.Callee.Resolution,
+		from:        receiverID,
+		desc:        fmt.Sprintf("through .%s() on tainted data", c.Method),
+		loc:         c.Loc,
+		symbol:      c.Callee.Symbol,
+		inputArg:    receiverArgIndex,
+		hasInputArg: true,
+		resolution:  c.Callee.Resolution,
 	})
 }
 
@@ -2309,6 +2317,9 @@ func (e *engine) composedFrom(valueID string, words []string) bool {
 // the sanitizers it actually passed through. Reported=false means taint was cleared.
 func (e *engine) buildFinding(c *ir.Call, ch model.Channel, p model.Policy, arg ir.Arg) (Finding, bool) {
 	path, origin := e.tracePath(arg.ValueID)
+	if ch.Context == "html" && responseBodyMethod(c.Method) && !e.responseBodyIsMarkup(c, arg.ValueID, path) {
+		return Finding{}, false
+	}
 	if e.anchoredRegexGuardClears(c, arg.ValueID, ch.Context) {
 		return Finding{}, false
 	}
@@ -2328,6 +2339,9 @@ func (e *engine) buildFinding(c *ir.Call, ch model.Channel, p model.Policy, arg 
 			if _, written := h.Literals[*s.RequiresLiteralArg]; !written {
 				continue
 			}
+		}
+		if s.RequiresInputArg != nil && (!h.HasInputArg || h.InputArg != *s.RequiresInputArg) {
+			continue
 		}
 		clears := s.Clears(ch.Context)
 		sanitizers = append(sanitizers, Sanitizer{
@@ -2467,6 +2481,155 @@ func (e *engine) buildFinding(c *ir.Call, ch model.Channel, p model.Policy, arg 
 	}, true
 }
 
+func responseBodyMethod(method string) bool {
+	switch strings.ToLower(method) {
+	case "send", "write", "end":
+		return true
+	default:
+		return false
+	}
+}
+
+// responseBodyIsMarkup decides the precondition of an HTML channel from facts about
+// this response, not from the spelling `send`. Fastify serializes objects as JSON; a
+// dominating Content-Type or execution-blocking response header says what a string is;
+// and none of those facts changes the separate public-visibility channel.
+func (e *engine) responseBodyIsMarkup(sink *ir.Call, valueID string, path []Hop) bool {
+	contentType, blocked := e.dominatingResponseFacts(sink)
+	if blocked {
+		return false
+	}
+	if strings.Contains(contentType, "text/html") || strings.Contains(contentType, "application/xhtml") {
+		return true
+	}
+	if contentType != "" {
+		return false
+	}
+	// An object or array is a serialization input, not response bytes. Only the sink
+	// argument's own shape counts: a string renderer may have consumed an object several
+	// calls earlier, and an enclosure anywhere on the taint path would misclassify its
+	// eventual SVG/RSS output as JSON.
+	if e.valueIsEnclosure(valueID) {
+		return false
+	}
+	for _, h := range path {
+		name := strings.ToLower(h.Symbol)
+		if name == "json.stringify" || name == "json.dumps" {
+			return false
+		}
+	}
+	return true
+}
+
+func (e *engine) valueIsEnclosure(id string) bool {
+	for hops := 0; hops < 8 && id != ""; hops++ {
+		into := e.flowEdgesInto[id]
+		for _, f := range into {
+			if f.Kind == "enclose" {
+				return true
+			}
+		}
+		if len(into) != 1 || into[0].Kind != "assign" {
+			return false
+		}
+		id = into[0].From
+	}
+	return false
+}
+
+func (e *engine) dominatingResponseFacts(sink *ir.Call) (contentType string, blocked bool) {
+	fn := e.ix.OwnerOfCall[sink.ID]
+	if fn == nil || sink.Block == "" {
+		return "", false
+	}
+	g := cfg.Build(fn)
+	if g == nil {
+		return "", false
+	}
+	root := e.responseReceiverRoot(sink.ReceiverID)
+	if root == "" {
+		return "", false
+	}
+	for _, c := range fn.Calls {
+		if c.ID == sink.ID || e.responseReceiverRoot(c.ReceiverID) != root ||
+			!callDominates(c, sink, g) {
+			continue
+		}
+		name, value, ok := responseHeader(c)
+		if !ok {
+			continue
+		}
+		name = strings.ToLower(strings.TrimSpace(name))
+		value = strings.ToLower(strings.TrimSpace(value))
+		switch name {
+		case "content-type":
+			contentType = value
+		case "content-security-policy":
+			if strings.Contains(value, "sandbox") && !strings.Contains(value, "allow-scripts") {
+				blocked = true
+			}
+		case "content-disposition":
+			if strings.Contains(value, "attachment") {
+				blocked = true
+			}
+		}
+	}
+	return contentType, blocked
+}
+
+func callDominates(before, after *ir.Call, g *cfg.Graph) bool {
+	if before.Block == "" || after.Block == "" || !g.Dominates(before.Block, after.Block) {
+		return false
+	}
+	if before.Block != after.Block {
+		return true
+	}
+	if before.Loc.Line != after.Loc.Line {
+		return before.Loc.Line < after.Loc.Line
+	}
+	return before.Loc.Column < after.Loc.Column
+}
+
+func responseHeader(c *ir.Call) (name, value string, ok bool) {
+	switch strings.ToLower(c.Method) {
+	case "setheader", "header":
+		name, nok := c.ArgLiterals[0]
+		value, vok := c.ArgLiterals[1]
+		return name, value, nok && vok
+	case "type":
+		value, ok := c.ArgLiterals[0]
+		return "content-type", value, ok
+	case "set", "headers":
+		for i, literal := range c.ArgLiterals {
+			if i >= 0 {
+				continue
+			}
+			if key, val, cut := strings.Cut(literal, "="); cut {
+				lower := strings.ToLower(strings.TrimSpace(key))
+				if lower == "content-type" || lower == "content-security-policy" || lower == "content-disposition" {
+					return key, val, true
+				}
+			}
+		}
+	}
+	return "", "", false
+}
+
+func (e *engine) responseReceiverRoot(id string) string {
+	for hops := 0; hops < 12 && id != ""; hops++ {
+		if from := e.assignedFrom[id]; from != "" {
+			id = from
+			continue
+		}
+		made := e.callByResult[id]
+		if made == nil || made.ReceiverID == "" {
+			return id
+		}
+		id = made.ReceiverID
+	}
+	return id
+}
+
 // anchoredRegexGuardClears credits a full-string allow-list only when the graph and the
 // pattern prove complementary facts: regex FAILURE is the branch that leaves, success is
 // the only branch that reaches this sink, and the accepted language cannot spell the
@@ -2574,6 +2737,8 @@ func (e *engine) tracePath(valueID string) ([]Hop, string) {
 			Description: ed.desc,
 			Symbol:      ed.symbol,
 			Literals:    ed.literals,
+			InputArg:    ed.inputArg,
+			HasInputArg: ed.hasInputArg,
 			Kind:        ed.kind,
 			Resolution:  ed.resolution,
 		})
