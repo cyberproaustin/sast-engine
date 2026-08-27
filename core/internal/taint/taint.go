@@ -2726,7 +2726,10 @@ func (e *engine) responseReceiverRoot(id string) string {
 func (e *engine) anchoredRegexGuardClears(sink *ir.Call, valueID, context string) bool {
 	// A syntax allow-list changes what caller input can DO at a particular sink. It does
 	// not make a password non-secret or a clock-derived token unpredictable.
-	if e.class.Class != "untrusted-input" || sink.Block == "" {
+	// Stored caller input is the same syntax-bearing text after a round trip through a
+	// database. A guard on the value just read can therefore clear it; what must not be
+	// credited is a guard on some earlier read of the same column.
+	if (e.class.Class != "untrusted-input" && e.class.Class != "second-order-input") || sink.Block == "" {
 		return false
 	}
 	forbidden := regexGuardForbidden(context)
