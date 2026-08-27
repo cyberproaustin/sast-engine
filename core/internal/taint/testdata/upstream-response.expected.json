@@ -1,0 +1,46 @@
+{
+  "corpus": "upstream-response",
+  "description": "A response is text somebody else wrote. Only request-derived values were sources, so data an application fetched from an upstream service arrived untrusted in reality and untainted in the engine -- which is why searxng's ~210 hostile-HTML-and-JSON providers had nothing to fire. The class is separate from request data rather than more of it, because what makes it worth reporting differs: a request is sent by a stranger and this is not necessarily, since an application routinely calls a service it operates itself, and the engine cannot read a URL and say whose host it names. So it declines to guess and narrows the DENIED SET instead, on measurement rather than on caution: widened experimentally to every context the first-order class denies, the policy added a console.warn, two build scripts and vendored WASM glue in pdfjs and one echoed Content-Type in linkwarden -- all of which turn on whose service it was -- and eight lxml parses in searxng, which do not. Four positives: a fetched field run through a shell, a fetched field interpolated into a statement, the same value arriving by framework dispatch at a SearxNG engine's `response(resp)` hook whose signature is the trust boundary because no resolvable call edge joins the framework to the module, and an upstream's XML through a parser that expands entities -- a pairing this model already asserts for a document a CALLER sent, and a parser does not care who wrote what it was handed. Two negatives that draw the line: a response written to a log is a log of what the upstream said, and a response handed onward to another service is an integration. The last handler is the other direction of the SAME call: a provider key presented under `params` is that provider's public configuration and stays silent, while an identically shaped key presented under `Authorization` is this program's credential and is reported. Seeding the answer changed neither reading, which is the point -- the two rules rest on the same fact about a third party and disagree about nothing.",
+  "expected": [
+    {
+      "cwe": "CWE-798",
+      "sinkFile": "app.py",
+      "sinkLine": 27,
+      "sourceLabel": "\"sk_live_51H8xQ2eZvKYlo2C...\"",
+      "confidence": "high",
+      "note": "the positive control for the client-role rule: the same provider-issued shape as CATALOG_KEY above it, reported because the program files it under the request part reserved for proving who is calling"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "app.py",
+      "sinkLine": 36,
+      "sourceLabel": "requests.get()",
+      "confidence": "low",
+      "note": "a field of the catalog's answer run through a shell. Low confidence because the path crosses `.json()`, which this frontend cannot resolve (ADR-005) -- the judgement is certain and the call graph is not"
+    },
+    {
+      "cwe": "CWE-89",
+      "sinkFile": "app.py",
+      "sinkLine": 45,
+      "sourceLabel": "requests.get()",
+      "confidence": "low",
+      "note": "the same source interpolated into a statement rather than a command line; the destination is what names the weakness"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "engine_module.py",
+      "sinkLine": 22,
+      "sourceLabel": "resp",
+      "confidence": "medium",
+      "note": "the response arriving by framework dispatch. Not anchored to an enumerated entry point and reported below the gate, which is correct: a plugin hook is not a route, and the model says where the value came from without claiming a caller can reach it"
+    },
+    {
+      "cwe": "CWE-611",
+      "sinkFile": "engine_xml.py",
+      "sinkLine": 20,
+      "sourceLabel": "resp",
+      "confidence": "high",
+      "note": "eight searxng engine modules are this line, one per upstream that speaks XML. lxml's default parser expands entities and the call supplies no parser of its own; the only thing that differs from the caller-supplied case the model already asserts is who wrote the document"
+    }
+  ]
+}
