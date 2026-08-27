@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
-  "irVersion": "0.17.0",
-=======
   "irVersion": "0.18.0",
->>>>>>> fix/ir-carries-no-repetition
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -86,7 +82,17 @@
             "line": 19,
             "column": 25
           },
-          "name": "{dict}"
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "remote",
+              "valueId": "app.py#<module>:0:0$v5"
+            },
+            {
+              "key": "mirror",
+              "valueId": "app.py#<module>:0:0$v6"
+            }
+          ]
         },
         {
           "id": "app.py#<module>:0:0$v4",

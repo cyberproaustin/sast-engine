@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.17.0",
+  "irVersion": "0.18.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -345,7 +345,13 @@
             "line": 23,
             "column": 12
           },
-          "name": "{dict}"
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "name",
+              "valueId": "api.py#create_item:22:1$v0"
+            }
+          ]
         }
       ],
       "flows": [

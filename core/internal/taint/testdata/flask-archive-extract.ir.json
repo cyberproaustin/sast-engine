@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
-  "irVersion": "0.17.0",
-=======
   "irVersion": "0.18.0",
->>>>>>> fix/ir-carries-no-repetition
   "frontend": {
     "name": "python",
     "version": "0.1.0",

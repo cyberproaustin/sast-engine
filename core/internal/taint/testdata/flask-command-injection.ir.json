@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.17.0",
+  "irVersion": "0.18.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -361,7 +361,13 @@
             "line": 21,
             "column": 24
           },
-          "name": "{dict}"
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "error",
+              "valueId": "app.py#get_order:17:1$v5"
+            }
+          ]
         },
         {
           "id": "app.py#get_order:17:1$v5",

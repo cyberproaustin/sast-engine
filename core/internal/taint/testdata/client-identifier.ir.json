@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.17.0",
+  "irVersion": "0.18.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -513,7 +513,13 @@
             "line": 70,
             "column": 17
           },
-          "name": "{dict}"
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "Authorization",
+              "valueId": "app.py#charges:64:1$v2"
+            }
+          ]
         },
         {
           "id": "app.py#charges:64:1$v2",
@@ -730,7 +736,13 @@
             "line": 81,
             "column": 16
           },
-          "name": "{dict}"
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "key",
+              "valueId": "app.py#thumbnail:75:1$v2"
+            }
+          ]
         },
         {
           "id": "app.py#thumbnail:75:1$v2",
@@ -750,7 +762,13 @@
             "line": 82,
             "column": 17
           },
-          "name": "{dict}"
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "Referer",
+              "valueId": "app.py#thumbnail:75:1$v4"
+            }
+          ]
         },
         {
           "id": "app.py#thumbnail:75:1$v4",
@@ -1129,7 +1147,17 @@
             "line": 105,
             "column": 14
           },
-          "name": "{dict}"
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "grant_type",
+              "valueId": "app.py#register:97:1$v2"
+            },
+            {
+              "key": "client_id",
+              "valueId": "app.py#register:97:1$v3"
+            }
+          ]
         },
         {
           "id": "app.py#register:97:1$v2",

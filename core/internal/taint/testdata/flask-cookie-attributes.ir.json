@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.17.0",
+  "irVersion": "0.18.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -64,7 +64,21 @@
             "line": 5,
             "column": 12
           },
-          "name": "{dict}"
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "httponly",
+              "valueId": "app.py#<module>:0:0$v3"
+            },
+            {
+              "key": "secure",
+              "valueId": "app.py#<module>:0:0$v4"
+            },
+            {
+              "key": "samesite",
+              "valueId": "app.py#<module>:0:0$v5"
+            }
+          ]
         },
         {
           "id": "app.py#<module>:0:0$v3",
