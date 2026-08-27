@@ -50,6 +50,33 @@ func TestNothingIsSatisfiedOverASurfaceTheEngineDoubts(t *testing.T) {
 			wantWhy: "incomplete",
 		},
 		{
+			// umami: 168 routes enumerated, a healthy ratio, and 37 server-rendered
+			// pages the framework serves that the enumeration never contained. The
+			// ratio cannot see a route family missed WHOLE -- a handler nothing
+			// enumerates reads no input the model recognizes, so it moves neither side
+			// of the fraction -- and this ran "1 violated, 5 satisfied, 0 not
+			// evaluated" over an application a third of whose addresses were unread.
+			name: "umami: a good ratio and a whole route family absent",
+			res: func() scan.Result {
+				r := ran
+				r.Surface = surface.Surface{Entries: entries(168),
+					Completeness: surface.Completeness{
+						InputFunctions: 24, UnreachedInputFunctions: 10,
+						UnenumeratedRoutes: []surface.UnenumeratedRoute{{
+							Module:     "src/app/(main)/websites/[websiteId]/page.tsx",
+							Convention: surface.ConventionAppRouterPage,
+							Evidence:   "a server component parameter `params`",
+						}},
+					}}
+				return r
+			}(),
+			want: NotEvaluated,
+			// The reason must name the FILE. "Incomplete" alone sends a reader looking
+			// for a routing model that does not recognize the application, when what is
+			// actually needed is one `ls` of a directory.
+			wantWhy: "src/app/(main)/websites/[websiteId]/page.tsx",
+		},
+		{
 			name: "no surface at all",
 			res: func() scan.Result {
 				r := ran
@@ -76,6 +103,15 @@ func TestNothingIsSatisfiedOverASurfaceTheEngineDoubts(t *testing.T) {
 		Completeness: surface.Completeness{InputFunctions: 400, UnreachedInputFunctions: 391}}
 	if got := evaluateOne(req, r, map[string]int{"CWE-89": 2}, map[string][]string{}); got.State != Violated {
 		t.Errorf("a finding over an incomplete surface is still a violation, got %q", got.State)
+	}
+	// The same, for the other kind of doubt. A missing route family is a reason not to
+	// trust silence and not a reason to soften a finding.
+	r.Surface.Completeness = surface.Completeness{
+		InputFunctions: 24, UnreachedInputFunctions: 10,
+		UnenumeratedRoutes: []surface.UnenumeratedRoute{{Module: "src/app/x/page.tsx"}},
+	}
+	if got := evaluateOne(req, r, map[string]int{"CWE-89": 2}, map[string][]string{}); got.State != Violated {
+		t.Errorf("a finding beside an unenumerated route family is still a violation, got %q", got.State)
 	}
 }
 

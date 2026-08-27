@@ -28,8 +28,9 @@ import type {
   Value,
   ValueKind,
 } from "./ir.ts";
-import { detectExpressRoutes } from "./express.ts";
-import { detectBackgroundEntries } from "./background.ts";
+import { collectPluginPrefixes, detectExpressRoutes } from "./express.ts";
+import { makeRegistryResolver } from "./registry.ts";
+import { connectionParameters, detectBackgroundEntries, messagePortDispatchers } from "./background.ts";
 import {
   detectDescribedRoutes,
   detectFileRoutes,
@@ -496,16 +497,40 @@ export function lowerProgram(opts: LowerOptions): IRDoc {
   }
 
   const resolveFunction = makeFunctionResolver(checker, funcByNode);
+  // Program-wide by necessity: the collection a registration loop walks is declared in
+  // one module, re-exported by another and iterated in a third.
+  const resolveRegistry = makeRegistryResolver(checker);
 
   // Collected across the whole program before anything is lowered: a decorator is
   // DEFINED in one file and USED in another, so a per-file pass would see every use
   // before it ever saw the definition that explains it.
   const identity = new Set<string>();
   const definedDecorators = new Set<string>();
+  const pluginPrefixes = new Map<string, string>();
+  const dispatchers = new Set<string>();
+  // Which parameters hold a connection a caller outside the process opened. Program-wide
+  // because a server accepts the connection in one file and hands it to ten others.
+  const connections = connectionParameters(sources, checker);
   for (const sf of sources) {
     for (const name of identityDecorators(sf)) identity.add(name);
     for (const name of definedParamDecorators(sf)) definedDecorators.add(name);
+    // A class that routes what another realm sent is declared in one file and used in
+    // another, so which classes those are has to be known before any file is read.
+    for (const name of messagePortDispatchers(sf)) dispatchers.add(name);
+    collectPluginPrefixes(sf, resolveFunction, pluginPrefixes);
   }
+  // Which mount a registration is served under, when the mount is stated by whoever
+  // registered the function it lives in. Walks OUT from the call rather than in from
+  // the plugin, because that is the direction the answer is needed in.
+  const prefixOf = (node: ts.Node): string => {
+    for (let cur = node.parent, hops = 0; cur && hops < 64; cur = cur.parent, hops++) {
+      if (!isFunctionLike(cur)) continue;
+      const meta = funcByNode.get(cur);
+      const prefix = meta ? pluginPrefixes.get(meta.id) : undefined;
+      if (prefix) return prefix;
+    }
+    return "";
+  };
 
   const functions: FunctionIR[] = [];
   const entryPoints = [];
@@ -561,14 +586,19 @@ export function lowerProgram(opts: LowerOptions): IRDoc {
     // does not exist in the program that gets deployed, which is the program this
     // enumerates.
     if (!isTestModule(moduleId)) {
-      entryPoints.push(...detectExpressRoutes(sf, imports, resolveFunction, (n) => locOf(sf, n)));
+      entryPoints.push(
+        ...detectExpressRoutes(sf, imports, resolveFunction, (n) => locOf(sf, n), {
+          resolveRegistry,
+          prefixOf,
+        }),
+      );
       entryPoints.push(...detectNestRoutes(sf, resolveFunction, (n) => locOf(sf, n), definedDecorators));
       entryPoints.push(...detectFileRoutes(sf, moduleId, resolveFunction, (n) => locOf(sf, n)));
       entryPoints.push(...detectHelperRoutes(sf, resolveFunction, (n) => locOf(sf, n)));
       entryPoints.push(...detectDescribedRoutes(sf, resolveFunction, (n) => locOf(sf, n)));
       entryPoints.push(...detectForwardedRoutes(sf, resolveFunction, (n) => locOf(sf, n)));
       // Not a route: a timer or a bus runs these, and only the process itself can.
-      entryPoints.push(...detectBackgroundEntries(sf, checker, resolveFunction, (n) => locOf(sf, n)));
+      entryPoints.push(...detectBackgroundEntries(sf, checker, resolveFunction, (n) => locOf(sf, n), dispatchers, connections));
     }
   }
 

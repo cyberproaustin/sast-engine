@@ -6,7 +6,8 @@
 
 import ts from "typescript";
 import type { EntryPoint, MiddlewareRef } from "./ir.ts";
-import { collectStringBindings, joinRoute, pathText, unresolvedPath } from "./routepath.ts";
+import { collectStringBindings, isUnresolvedPath, joinRoute, pathText, unresolvedPath } from "./routepath.ts";
+import type { RegistryResolver } from "./registry.ts";
 
 /** `require("express")` written inline, without an intermediate binding. */
 function requiresExpress(expr: ts.Expression): boolean {
@@ -82,6 +83,22 @@ export interface FuncRef {
 export type ResolveFunction = (node: ts.Node) => FuncRef | undefined;
 
 /**
+ * What this file cannot know on its own.
+ *
+ * Both answers are program-wide by nature -- the collection a registration loop walks is
+ * declared in another module, and the prefix a plugin's routes are served under is stated
+ * by whoever registered the plugin, never by the file holding the routes. They are passed
+ * in rather than looked up here because nothing in this model may reach for a checker
+ * (ADR-004): the framework model states the shape, the caller supplies the facts.
+ */
+export interface ProgramFacts {
+  /** The names a statically enumerable collection holds. */
+  resolveRegistry?: RegistryResolver;
+  /** The prefix a plugin registration puts in front of everything this node registers. */
+  prefixOf?: (node: ts.Node) => string;
+}
+
+/**
  * Finds Express route registrations and returns each handler as an HTTP entry point,
  * along with the middleware chain applied to it. Resolution is structural (import of
  * "express" -> app binding -> app.<method>(...)), so it does not depend on Express
@@ -92,6 +109,7 @@ export function detectExpressRoutes(
   imports: Map<string, ImportRef>,
   resolveFunction: ResolveFunction,
   locOf: (node: ts.Node) => { file: string; line: number; column: number },
+  program?: ProgramFacts,
 ): EntryPoint[] {
   if (isMockModule(sf.fileName)) return [];
 
@@ -152,6 +170,12 @@ export function detectExpressRoutes(
   // recorded with scope "app" rather than merged into the route chain.
   const appMiddleware: MiddlewareRef[] = [];
   const entryPoints: EntryPoint[] = [];
+  // Addresses this file has already expanded a loop into. The registry loop that
+  // motivated this registers in TWO branches -- `requireFile` or not -- so every one of
+  // its 438 names is registered twice under one condition, and emitting both would
+  // report 876 addresses where the application answers at 438. An address exists once
+  // however many implementations sit behind it, and the surface counts addresses.
+  const registered = new Set<string>();
 
   const visit = (node: ts.Node): void => {
     if (ts.isCallExpression(node) && ts.isPropertyAccessExpression(node.expression)) {
@@ -165,16 +189,25 @@ export function detectExpressRoutes(
       if (root && appNames.has(root.text)) {
         if (method === "use") {
           appMiddleware.push(...middlewareFrom(node, "app", resolveFunction, locOf));
+          const mount = staticMount(node, consts, locOf);
+          if (mount) entryPoints.push(mount);
         } else if (ROUTE_METHODS.has(method)) {
-          const prefix = mounts.get(root.text) ?? "";
+          // `fastify.register(plugin, { prefix: '/api' })` is a mount stated in another
+          // file entirely, and a route recorded without it names an address that answers
+          // nothing -- 438 of them, in the application this was measured on.
+          const prefix = joinRoute(program?.prefixOf?.(node) ?? "", mounts.get(root.text) ?? "");
+          const chained = chainRoutePath(target, consts);
           entryPoints.push(
             ...routesFrom(
               node,
               method,
               prefix,
-              chainRoutePath(target, consts),
+              chained,
               consts,
               fastifyNames.has(root.text) ? "fastify" : "express",
+              chained === undefined
+                ? loopExpansion(node, consts, program?.resolveRegistry, registered)
+                : undefined,
               resolveFunction,
               locOf,
             ),
@@ -191,6 +224,56 @@ export function detectExpressRoutes(
     ...ep,
     middleware: [...appMiddleware, ...(ep.middleware ?? [])],
   }));
+}
+
+/**
+ * A directory the application serves as files, which is surface with no handler in it.
+ *
+ * A mount is not a method registration and was therefore not enumerated at all: three
+ * addresses in one repository here -- the built frontend, an upload directory and a
+ * screenshot directory -- that answer a caller and appear nowhere in a surface an
+ * operator is meant to audit. ADR-009 says a route that exists must appear, and the
+ * ADDRESS is what exists; there is no callback to name and none is invented.
+ *
+ * Recognized by the middleware's own spelling. `express.static`, `serveStatic` and
+ * `expressStaticGzip` all end in the word, which is the only thing three packages agree
+ * on -- and a name ending in `static` that is not a file server is not something anybody
+ * writes.
+ */
+function staticMount(
+  node: ts.CallExpression,
+  consts: Map<string, ts.Expression>,
+  locOf: (node: ts.Node) => { file: string; line: number; column: number },
+): EntryPoint | undefined {
+  let served: ts.CallExpression | undefined;
+  for (const arg of node.arguments) {
+    if (!ts.isCallExpression(arg)) continue;
+    const callee = arg.expression;
+    const name = ts.isPropertyAccessExpression(callee)
+      ? callee.name.text
+      : ts.isIdentifier(callee)
+        ? callee.text
+        : "";
+    if (/static/i.test(name)) served = arg;
+  }
+  if (!served) return undefined;
+  const first = node.arguments[0];
+  const path = first && first !== served ? pathText(first, consts) : "/";
+  const root = served.arguments[0] ? textOfNode(served.arguments[0]) : "";
+  return {
+    functionId: "",
+    kind: "static-mount",
+    framework: "express",
+    detail: { path, ...(root ? { root } : {}) },
+    loc: locOf(node),
+  };
+}
+
+/** What an expression was written as, trimmed for a detail field. */
+function textOfNode(node: ts.Node): string {
+  if (ts.isStringLiteralLike(node)) return node.text;
+  const t = node.getText(node.getSourceFile()).replace(/\s+/g, " ");
+  return t.length > 60 ? t.slice(0, 57) + "..." : t;
 }
 
 /** Identifiers bound to an Express app or router: `const app = express()`. */
@@ -219,6 +302,50 @@ function collectAppBindings(
   visit(sf);
 
   return bindings;
+}
+
+/**
+ * Prefixes declared by plugin registrations: `fastify.register(routes, { prefix: '/api' })`.
+ *
+ * Everything the registered function registers is served under that prefix, and the
+ * function is in another file which never states it. The alternative to reading this is
+ * an application whose entire API is enumerated one segment short -- 438 addresses in
+ * the tree that motivated it, every one of them wrong in the same way.
+ *
+ * Keyed by the function, so the answer travels with the registrations rather than with
+ * the file. A function registered twice under DIFFERENT prefixes is recorded as ambiguous
+ * and gets none: two mounts is a fact this shape cannot express in one row, and choosing
+ * one of them would state an address the reader could not check.
+ */
+export function collectPluginPrefixes(
+  sf: ts.SourceFile,
+  resolveFunction: ResolveFunction,
+  out: Map<string, string>,
+): void {
+  const consts = collectStringBindings(sf);
+  const visit = (node: ts.Node): void => {
+    if (
+      ts.isCallExpression(node) &&
+      ts.isPropertyAccessExpression(node.expression) &&
+      node.expression.name.text === "register" &&
+      node.arguments.length >= 2 &&
+      ts.isObjectLiteralExpression(node.arguments[1])
+    ) {
+      let prefix = "";
+      for (const prop of node.arguments[1].properties) {
+        if (!ts.isPropertyAssignment(prop) || prop.name.getText(sf) !== "prefix") continue;
+        const text = pathText(prop.initializer, consts);
+        if (!isUnresolvedPath(text)) prefix = text;
+      }
+      const plugin = prefix ? resolveFunction(node.arguments[0]) : undefined;
+      if (plugin) {
+        const seen = out.get(plugin.id);
+        out.set(plugin.id, seen === undefined || seen === prefix ? prefix : "");
+      }
+    }
+    ts.forEachChild(node, visit);
+  };
+  visit(sf);
 }
 
 /**
@@ -474,6 +601,110 @@ function middlewareFrom(
   return out;
 }
 
+/**
+ * The addresses a registration inside a `for ... of` loop actually serves.
+ *
+ * `for (const endpoint of endpoints) fastify.all('/' + endpoint.name, handler)` is one
+ * call site and 438 addresses, and the collection is knowable: it is a module's own
+ * re-exports walked with `Object.entries`. Where the collection resolves, the path is
+ * folded once per element; where it does not, this answers nothing and the caller keeps
+ * the single `<unresolved:...>` row it would have recorded anyway.
+ *
+ * The loop must be the one the PATH depends on. A registration inside a loop over
+ * something else -- a list of middlewares, a set of ports -- is one route, and expanding
+ * it over an unrelated collection would invent addresses.
+ */
+function loopExpansion(
+  call: ts.CallExpression,
+  consts: Map<string, ts.Expression>,
+  resolveRegistry: RegistryResolver | undefined,
+  registered: Set<string>,
+): string[] | undefined {
+  if (!resolveRegistry || call.arguments.length === 0) return undefined;
+  const pathExpr = call.arguments[0];
+  if (ts.isStringLiteralLike(pathExpr)) return undefined;
+
+  for (let node: ts.Node | undefined = call.parent, hops = 0; node && hops < 32; node = node.parent, hops++) {
+    if (!ts.isForOfStatement(node)) continue;
+    const declarations = ts.isVariableDeclarationList(node.initializer)
+      ? node.initializer.declarations
+      : [];
+    if (declarations.length !== 1 || !ts.isIdentifier(declarations[0].name)) continue;
+    const variable = declarations[0].name.text;
+    if (!mentions(pathExpr, variable)) continue;
+
+    const collection = resolveRegistry(node.expression);
+    if (!collection) return undefined;
+
+    const paths: string[] = [];
+    for (const name of collection.names) {
+      const folded = foldLoopPath(pathExpr, consts, variable, collection.property, name);
+      // All or nothing. A collection where one element folds and another does not is a
+      // collection this did not actually understand, and a partial expansion would be
+      // the worst of both: some addresses invented, the rest silently missing.
+      if (folded === undefined) return undefined;
+      paths.push(folded);
+    }
+    const fresh = paths.filter((path) => !registered.has(path));
+    for (const path of paths) registered.add(path);
+    return fresh;
+  }
+  return undefined;
+}
+
+/** Whether an expression reads a name. */
+function mentions(expr: ts.Node, name: string): boolean {
+  if (ts.isIdentifier(expr)) return expr.text === name;
+  let found = false;
+  ts.forEachChild(expr, (child) => {
+    if (!found) found = mentions(child, name);
+  });
+  return found;
+}
+
+/** A path expression with the loop element's name substituted in. */
+function foldLoopPath(
+  expr: ts.Expression,
+  consts: Map<string, ts.Expression>,
+  variable: string,
+  property: string,
+  value: string,
+): string | undefined {
+  if (ts.isParenthesizedExpression(expr)) {
+    return foldLoopPath(expr.expression, consts, variable, property, value);
+  }
+  if (property === "" && ts.isIdentifier(expr) && expr.text === variable) return value;
+  if (
+    property !== "" &&
+    ts.isPropertyAccessExpression(expr) &&
+    ts.isIdentifier(expr.expression) &&
+    expr.expression.text === variable &&
+    expr.name.text === property
+  ) {
+    return value;
+  }
+  if (ts.isBinaryExpression(expr) && expr.operatorToken.kind === ts.SyntaxKind.PlusToken) {
+    const left = foldLoopPath(expr.left, consts, variable, property, value);
+    const right = foldLoopPath(expr.right, consts, variable, property, value);
+    return left === undefined || right === undefined ? undefined : left + right;
+  }
+  if (ts.isTemplateExpression(expr)) {
+    let out = expr.head.text;
+    for (const span of expr.templateSpans) {
+      const part = foldLoopPath(span.expression, consts, variable, property, value);
+      if (part === undefined) return undefined;
+      out += part + span.literal.text;
+    }
+    return out;
+  }
+  // Anything else has to stand on its own -- a constant, a literal, a template of
+  // constants -- and if it does not, this registration is not one whose address the
+  // frontend can state per element.
+  if (mentions(expr, variable)) return undefined;
+  const text = pathText(expr, consts);
+  return isUnresolvedPath(text) ? undefined : text;
+}
+
 function routesFrom(
   call: ts.CallExpression,
   method: string,
@@ -481,6 +712,7 @@ function routesFrom(
   chainPath: string | undefined,
   consts: Map<string, ts.Expression>,
   framework: string,
+  loopPaths: string[] | undefined,
   resolveFunction: ResolveFunction,
   locOf: (node: ts.Node) => { file: string; line: number; column: number },
 ): EntryPoint[] {
@@ -533,25 +765,30 @@ function routesFrom(
   // A configured prefix that defaults to empty leaves `app.get(`${baseUriPath}`)`
   // registering the empty string, and Express serves that at the root. Recording it as
   // "" would print a blank column where a path belongs.
-  const detail: Record<string, string> = {
-    method: method.toUpperCase(),
-    path: joinRoute(prefix, routePath) || "/",
-    module: locOf(call).file,
-  };
-  if (!handler && handlerIndex >= 0) {
-    detail.handler = args[handlerIndex].getText(args[handlerIndex].getSourceFile());
-  }
+  const written = !handler && handlerIndex >= 0
+    ? args[handlerIndex].getText(args[handlerIndex].getSourceFile())
+    : "";
 
-  return [
-    {
+  // One row per address. A loop over a static registry is a single call site serving
+  // many addresses, and they share this handler because the handler dispatches on the
+  // one they were reached at.
+  const addresses = loopPaths ?? [routePath];
+  return addresses.map((address) => {
+    const detail: Record<string, string> = {
+      method: method.toUpperCase(),
+      path: joinRoute(prefix, address) || "/",
+      module: locOf(call).file,
+    };
+    if (written) detail.handler = written;
+    return {
       functionId: handler ? handler.id : "",
       kind: "http-route",
       framework,
       detail,
       loc: locOf(call),
       middleware,
-    },
-  ];
+    };
+  });
 }
 
 /**

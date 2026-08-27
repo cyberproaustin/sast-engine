@@ -16,7 +16,13 @@ def load_verdicts():
     p = HERE / "verdicts.json"
     if not p.exists():
         return {}
-    return {v["fingerprint"]: v for v in json.loads(p.read_text())["verdicts"]}
+    verdicts = json.loads(p.read_text())["verdicts"]
+    # A row re-keyed by rekey_fingerprints.py answers under both names, so a run scored
+    # from artifacts an older build wrote is scored against the same judgement rather than
+    # counted as unjudged.
+    by_fingerprint = {v["supersedes"]: v for v in verdicts if v.get("supersedes")}
+    by_fingerprint.update({v["fingerprint"]: v for v in verdicts})
+    return by_fingerprint
 
 
 def main() -> int:

@@ -1,0 +1,5 @@
+{
+  "corpus": "forwarded-registrar",
+  "description": "A registration reached through a base class's own shorthand. `this.get(path, handler)` is not a router method and not a described route; it is one hop from one, and the hop is in the tree. Nine routes of one application were registered this way and every one was missing from its surface -- including an unauthenticated Prometheus endpoint, which cannot be reported as uncontrolled by an engine that does not know the route exists. The wrapper has to prove itself rather than being trusted for its name: its body must build exactly ONE route description whose path and handler are its own parameters, and the verb comes from the literal the wrapper wrote. Nothing here keys on `Controller`, on `route`, or on a package. The negatives are what a name-based rule would have taken: a `Cache` whose `get(key, fallback)` has the same arity and the same verb for a name and forwards nothing to a registration, and a wrapper that describes two routes at once -- which yields no row rather than a guessed one, for the same reason the function resolver refuses a factory that returns two functions.",
+  "expected": []
+}

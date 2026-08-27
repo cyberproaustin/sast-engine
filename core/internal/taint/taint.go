@@ -452,6 +452,22 @@ type Finding struct {
 	SinkArgIndex int
 	SinkContext  string
 	SinkRational string
+	// Discriminator is what tells this finding apart from a SIBLING of the same rule at
+	// the same sink in the same function, when nothing else in the finding does.
+	//
+	// A fingerprint carries no line number on purpose (ADR-014), so two findings differ
+	// only by what they are ABOUT. For most rules that is already recorded: a rule that
+	// judges an argument puts the argument in SourceLabel. A rule that judges the CALL
+	// -- `serveIndex(...)` is a defect by existing -- records the symbol and nothing
+	// else, and juice-shop's three directory listings of `/ftp`, `/encryptionkeys` and
+	// `/support/logs` all came out as `ef8b2b65e604649e`. All three are separately real
+	// and were separately adjudicated; one baseline entry silenced all three, and a
+	// verdict about one answered for all three, so a real finding could be lost by
+	// having judged its neighbour.
+	//
+	// Empty for every rule that already distinguishes its siblings, and the fingerprint
+	// leaves it out entirely when it is empty -- so recorded verdicts keep their keys.
+	Discriminator string
 
 	Path       []Hop
 	Sanitizers []Sanitizer
@@ -2739,8 +2755,13 @@ func (f Finding) Touches(files map[string]bool) bool {
 //
 // Two genuinely indistinguishable findings share a fingerprint. That is correct: for the
 // question a baseline asks — is this one already known — they are the same finding.
+//
+// Discriminator is appended only when a rule HAS one, which is what keeps every
+// fingerprint ever recorded against a rule that does not. The ledger holds hand
+// adjudications keyed by this value; a scheme that re-hashed every finding to fix three
+// of them would have thrown the record away to make the record more precise.
 func (f Finding) Fingerprint() string {
-	h := sha256.Sum256([]byte(strings.Join([]string{
+	parts := []string{
 		f.Analysis,
 		f.CWE,
 		f.EntryPoint,
@@ -2748,7 +2769,11 @@ func (f Finding) Fingerprint() string {
 		f.SinkFunction,
 		f.SinkSymbol,
 		f.SourceLabel,
-	}, "\x00")))
+	}
+	if f.Discriminator != "" {
+		parts = append(parts, f.Discriminator)
+	}
+	h := sha256.Sum256([]byte(strings.Join(parts, "\x00")))
 	return hex.EncodeToString(h[:8])
 }
 

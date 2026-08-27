@@ -1,0 +1,22 @@
+{
+  "corpus": "fastify-routes",
+  "description": "A Fastify backend, labelled as one. Every route registration in this frontend is spelled `x.get(path, handler)`, so the shape cannot say which framework answers it and the RECEIVER has to: something the `fastify` module's factory made, or a parameter declared `FastifyInstance`. One application's 83 routes were recorded as express over a Fastify server, and the label is not cosmetic -- it selects the source rules that seed a handler's parameters, so every one of those handlers was being seeded with Express's request shape. The two findings are what the label buys: `request.query` and `request.body` are read off a Fastify request and reach a shell, and they are found because a fastify rule now speaks for them. `admin-plugin.ts` is the case that has no other evidence at all -- its receiver is a PARAMETER and its path is a local constant, so no registration in the file spells a literal and nothing about it looks like a route until the declared type is read. Its name is deliberately not the evidence. `express-app.ts` is the negative: two frameworks in one tree is the ordinary case, and each route carries the label of the server it was registered on.",
+  "expected": [
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "server.ts",
+      "sinkLine": 16,
+      "sourceLabel": "request.query.host",
+      "confidence": "high",
+      "note": "a Fastify request's query, seeded by the fastify source rule"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "server.ts",
+      "sinkLine": 23,
+      "sourceLabel": "request.body.target",
+      "confidence": "high",
+      "note": "the body is a property on a Fastify request, not a call"
+    }
+  ]
+}

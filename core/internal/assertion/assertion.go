@@ -266,6 +266,17 @@ func notEvaluated(req Requirement, res scan.Result, skipped map[string][]string)
 	// examples directory and none of the sixty-two real ones. searxng printed six
 	// satisfied with 128 of its 130 input-reading functions unreached. A false positive
 	// wastes somebody's afternoon; this tells them their application is fine.
+	//
+	// The two contradictions are named apart because they call for different work. The
+	// share of unreachable input-reading code says the models do not recognize how this
+	// application routes; a route family the framework serves and the enumeration does
+	// not contain says which FILES to go and look at, and a reason that reported the
+	// other number would send a reader looking for the wrong thing.
+	if routes := res.Surface.Completeness.UnenumeratedRoutes; len(routes) > 0 {
+		return fmt.Sprintf(
+			"the enumerated surface is incomplete: %d file(s) the framework serves at an address of their own are not among the %d enumerated, starting with %s",
+			len(routes), len(res.Surface.Entries), routes[0].Module), true
+	}
 	if res.Surface.Completeness.Suspect(res.Surface.RemoteEntries()) {
 		return fmt.Sprintf(
 			"the enumerated surface is incomplete: %d function(s) read caller-supplied input that no entry point reaches, against %d enumerated",

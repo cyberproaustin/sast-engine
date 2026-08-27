@@ -149,6 +149,11 @@ var corpora = []string{
 	"rate-limit-key",
 	"rate-limit-scope",
 	"python-try-except",
+	"fastify-routes",
+	"described-route-paths",
+	"forwarded-registrar",
+	"route-registry-loop",
+	"flask-url-rule-alias",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {
