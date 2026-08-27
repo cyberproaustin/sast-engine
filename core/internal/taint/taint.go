@@ -2309,6 +2309,9 @@ func (e *engine) composedFrom(valueID string, words []string) bool {
 // the sanitizers it actually passed through. Reported=false means taint was cleared.
 func (e *engine) buildFinding(c *ir.Call, ch model.Channel, p model.Policy, arg ir.Arg) (Finding, bool) {
 	path, origin := e.tracePath(arg.ValueID)
+	if e.anchoredRegexGuardClears(c, arg.ValueID, ch.Context) {
+		return Finding{}, false
+	}
 
 	var sanitizers []Sanitizer
 	for _, h := range path {
@@ -2462,6 +2465,82 @@ func (e *engine) buildFinding(c *ir.Call, ch model.Channel, p model.Policy, arg 
 		Path:         path,
 		Sanitizers:   sanitizers,
 	}, true
+}
+
+// anchoredRegexGuardClears credits a full-string allow-list only when the graph and the
+// pattern prove complementary facts: regex FAILURE is the branch that leaves, success is
+// the only branch that reaches this sink, and the accepted language cannot spell the
+// syntax this sink interprets.
+//
+// Measured case: misskey had two path-traversal findings where `path.match(
+// /^[0-9a-f-]+\.png$/)` (and the svg equivalent) returned 404 on failure before
+// sendFile. The dot is safe because it can occur only once; matching known pattern text
+// would miss that judgement and would make the next allow-list silently unsafe.
+func (e *engine) anchoredRegexGuardClears(sink *ir.Call, valueID, context string) bool {
+	// A syntax allow-list changes what caller input can DO at a particular sink. It does
+	// not make a password non-secret or a clock-derived token unpredictable.
+	if e.class.Class != "untrusted-input" || sink.Block == "" {
+		return false
+	}
+	forbidden := regexGuardForbidden(context)
+	if len(forbidden) == 0 {
+		return false
+	}
+	fn := e.ix.OwnerOfCall[sink.ID]
+	if fn == nil {
+		return false
+	}
+	g := cfg.Build(fn)
+	if g == nil {
+		return false
+	}
+	for _, check := range fn.Calls {
+		if check.Block == "" || check.ConditionBranch != "falsy" || !g.IsGuard(check.Block) ||
+			!g.Dominates(check.Block, sink.Block) || !g.SelectedBySuccessor(sink.Block, check.Block, 1) {
+			continue
+		}
+		input, pattern, ok := regexGuardOperands(e.ix, check)
+		if !ok || input != valueID {
+			continue
+		}
+		if model.AnchoredRegexExcludes(pattern, forbidden...) {
+			return true
+		}
+	}
+	return false
+}
+
+func regexGuardOperands(ix *ir.Index, c *ir.Call) (input, pattern string, ok bool) {
+	switch c.Method {
+	case "match":
+		pattern, ok = c.ArgLiterals[0]
+		return c.ReceiverID, pattern, ok && c.ReceiverID != ""
+	case "test":
+		v := ix.ValueByID[c.ReceiverID]
+		a, written := argAt(c, 0)
+		if written {
+			input = a.ValueID
+		}
+		if v == nil || v.Kind != ir.ValueLiteral || input == "" {
+			return "", "", false
+		}
+		return input, v.Literal, true
+	default:
+		return "", "", false
+	}
+}
+
+func regexGuardForbidden(context string) []string {
+	switch context {
+	case "path":
+		return []string{"/", `\`, ".."}
+	case "html":
+		return []string{"<", ">", "&", `"`}
+	case "header", "log-line":
+		return []string{"\r", "\n"}
+	default:
+		return nil
+	}
 }
 
 // originOf returns the seed a tainted value came from.

@@ -12,7 +12,7 @@ could not be expressed without it. Nothing is added in anticipation.
 
 ```jsonc
 {
-  "irVersion": "0.15.0",
+  "irVersion": "0.16.0",
   "frontend": { "name": "typescript", "version": "0.1.0", "capabilities": { ... } },
   "modules":     [ ... ],
   "functions":   [ ... ],
@@ -143,6 +143,7 @@ A call site. Together, the `calls` of every function form the call graph.
   "method": "then",                 // property name, for a method call
   "receiverValueId": "...$v2",      // the object the method was called on
   "resultValueId": "...$v4",
+  "conditionBranch": "falsy",       // direct `if (!call())`: first successor on false
   "receiverType": "Map",            // the receiver's type, when the frontend knows
   "receiverTypeOrigin": "builtin",  // where that type is declared
   "argCount": 2,                    // how many arguments were WRITTEN
@@ -156,6 +157,16 @@ A call site. Together, the `calls` of every function form the call graph.
 
 `resolution` is what drives finding confidence and the pipeline gate (ADR-005). A path
 crossing a `dynamic-unresolved` edge cannot produce a high-confidence finding.
+
+### Branch polarity (added in 0.16.0)
+
+`conditionBranch` records branch polarity only when this call is the direct condition:
+`truthy` for `if (call())`, `falsy` for `if (!call())`. The first block successor is the
+then branch. An absent field makes no claim. This cannot be reconstructed from the CFG:
+`if (!allow(value)) return` and `if (allow(value)) return` have identical successor
+graphs, but only the first says that every value reaching the following operation passed
+the allow-list. Compound conditions are absent unless a frontend can state their
+semantics without guessing.
 
 ### Receiver type (added in 0.6.0)
 

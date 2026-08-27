@@ -1997,6 +1997,29 @@ function lowerFunction(
     return { args, argLiterals, enumeratedOptions };
   };
 
+  // Returns only the condition shape whose polarity survives lowering exactly. The
+  // graph for `if (!check())` and `if (check())` is identical; preserving this one bit
+  // prevents a sanitizer from reading the second spelling as though failure returned.
+  // Calls composed with `&&`, `||`, comparisons or coercions are deliberately absent:
+  // their truth is not the truth of this call alone.
+  const directCallCondition = (
+    expression: ts.Expression,
+  ): { call: ts.CallExpression; branch: "truthy" | "falsy" } | undefined => {
+    let current = expression;
+    let negated = false;
+    while (ts.isParenthesizedExpression(current)) current = current.expression;
+    while (
+      ts.isPrefixUnaryExpression(current) &&
+      current.operator === ts.SyntaxKind.ExclamationToken
+    ) {
+      negated = !negated;
+      current = current.operand;
+      while (ts.isParenthesizedExpression(current)) current = current.expression;
+    }
+    if (!ts.isCallExpression(current)) return undefined;
+    return { call: current, branch: negated ? "falsy" : "truthy" };
+  };
+
   const walk = (n: ts.Node): void => {
     // Nested functions are separate IR functions; their bodies are not inlined here.
     if (n !== node && isFunctionLike(n)) return;
@@ -2140,7 +2163,19 @@ function lowerFunction(
     // Conditions are not statements, so they are never reached by the statement walk
     // on their own. The condition belongs to the block that branches on it.
     if (ts.isIfStatement(n)) {
+      const direct = directCallCondition(n.expression);
+      const callsBefore = calls.length;
       lowerExpr(n.expression);
+      if (direct && calls.length > callsBefore) {
+        // A call is appended after its receiver and arguments are lowered, so the
+        // direct outer call is last. Confirm its location before stating the fact;
+        // silence is safer than attaching polarity to a nested call.
+        const lowered = calls[calls.length - 1];
+        const directLoc = locOf(sf, direct.call);
+        if (lowered.loc.line === directLoc.line && lowered.loc.column === directLoc.column) {
+          lowered.conditionBranch = direct.branch;
+        }
+      }
       const branch = current;
       terminate(branch, "branch");
 
