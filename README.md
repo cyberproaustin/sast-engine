@@ -1,6 +1,9 @@
 # SAST Engine
 
-> **Status: early implementation.** Two language frontends (TypeScript/Node, Python) share one analysis core. Three analyses run end to end — two dataflow flows (untrusted input reaching a dangerous operation, and sensitive data reaching an exposed channel) plus access-control convention deviation over an enumerated attack surface. It is not usable on real codebases. See [What Exists Today](#what-exists-today) for the precise scope.
+> **Status: early implementation.** Two language frontends (TypeScript/Node, Python) share one analysis core. Three analyses run end to end — two dataflow flows (untrusted input reaching a dangerous operation, and sensitive data reaching an exposed channel) plus access-control convention deviation over an enumerated attack surface. It has been run against twenty unmodified open source applications, and one weakness it found there has been confirmed and fixed by that project's maintainer. It is still early: measured against an independent security review of code it had not been tuned on, roughly one finding in five is real. See [What Exists Today](#what-exists-today) for the precise scope and [FINDINGS.md](FINDINGS.md) for what it has actually caught.
+
+Weaknesses it has found in software it had never seen, and that the maintainers fixed:
+[FINDINGS.md](FINDINGS.md).
 
 ## Overview
 
