@@ -109,3 +109,36 @@ The fixtures record something sharper than a miss. On `django-package-reexport` 
 frontend reported ASVS 1.2.5 **SATISFIED** for an application containing a command injection:
 it found one entry point, at a class name, reaching nothing. A false clean bill is worse than
 silence, and this is the second time an enumeration gap has produced one.
+
+## The holdout result
+
+Both fixes were built against oscar, netbox, plane and wagtail. `misago` was sequestered:
+never read, never scanned, never named in either agent's brief except as forbidden.
+
+| repo | role | declared | before | after | coverage |
+|---|---|---|---|---|---|
+| netbox | fix | 532 | 128 | 1980 | 372% |
+| plane | fix | 399 | 51 | 578 | 145% |
+| oscar | fix | 219 | 30 | 192 | 88% |
+| defectdojo | fix | 650 | 700 | 730 | 112% |
+| wagtail | fix | 352 | 199 | 201 | 57% |
+| **misago** | **HOLD** | **337** | **195** | **304** | **58% -> 90%** |
+| kiwi | HOLD | 66 | 48 | 48 | 73%, unchanged |
+
+**misago gained 109 entry points from work done on four other applications.** 271 http-routes,
+216 distinct addresses, none without an address, and it correctly found both of the mounts
+misago's urlconf is attached to (`/account/` and `/forum/account/`).
+
+That is the first unfitted evidence this project has produced. Every previous number was
+measured on the repositories the fixes were built against, which is how batch 1 read 61% and
+then read 18% on unseen code. This one was not.
+
+kiwi did not move and was not expected to: it is DRF, which the engine already read, and it
+sat at 73% before.
+
+## What the holdout does NOT say
+
+It says the ROUTE ENUMERATION generalises. It says nothing yet about precision or recall,
+because no finding on any of these ten repositories has been adjudicated. misago is also spent
+as a holdout for this question now that it has been measured against it; a later fix to the
+same machinery needs a repository that has not answered this question once already.
