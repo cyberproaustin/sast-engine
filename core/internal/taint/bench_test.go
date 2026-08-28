@@ -206,6 +206,8 @@ var corpora = []string{
 	"django-int-capture",
 	"presence-guarded-verification",
 	"credential-not-reissued",
+	"graphene-undeclared-permission",
+	"permission-looked-up-and-dropped",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {

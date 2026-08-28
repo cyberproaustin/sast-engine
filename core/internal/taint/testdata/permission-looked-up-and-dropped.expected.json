@@ -1,0 +1,14 @@
+{
+  "corpus": "permission-looked-up-and-dropped",
+  "description": "A control the program computes and then does nothing with. Every other rule that reads a missing authorization reads an ABSENCE -- no gate here where there is one beside it, none on this branch where the other branch has one, one that does not stop what follows. Nothing is absent here: the lookup is right, the mapping is the right mapping, the rejection is a real rejection, the branch it sits on is obeyed, and the permission it found is never asked for. saleor's check_metadata_permissions is this exactly, at graphql/core/mutations.py:579, and every analysis that reads calls, values, decisions or graphs passes over it because every individual line is correct. What is wrong is that the function's own name says it enforces and the permission is dead. Four functions, one finding. The existence test is deliberately not counted as a use -- asking whether a lookup returned anything is a question about the MAPPING and not about the caller, which is the whole finding rather than a concession; it also keeps the rule off a frontend accident, since Python lowers `if private:` as a truthiness comparison and lowers nothing at all for `if not meta_permission:`. check_metadata_permission_applied is the same function with one line added, and that line is what the rule looks for: the permission handed to something that could enforce it. It is also the reason the question is keyed on the NAME rather than on the value, because a permission chosen on two branches is two assignments to one variable and only one of them carries the use. get_metadata_permission returns the permission as data, and the question then belongs to its caller -- without that condition the rule reports every permission resolver in every codebase. And check_type_is_released drops a value the same way with nothing named for a permission anywhere in it: an engine cannot know what a value is for, and the names the program chose are the only statement of intent it contains.",
+  "expected": [
+    {
+      "cwe": "CWE-862",
+      "sinkFile": "app.py",
+      "sinkLine": 47,
+      "sourceLabel": "meta_permission",
+      "confidence": "high",
+      "note": "the permission is selected out of the map that exists for it, tested only for its own existence, and never handed to anything that could enforce it"
+    }
+  ]
+}

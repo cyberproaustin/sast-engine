@@ -8994,10 +8994,64 @@ type GuardRule struct {
 	// reachable from, taken from a path on which it was already being built.
 	Discards *DiscardedRestrictionGuard
 
+	// The seventh shape, and the one where the control is neither walked past nor
+	// abandoned on a branch: it is COMPUTED, and then the program does nothing with it.
+	Unchecked *UncheckedControlGuard
+
 	CWE       string
 	Finding   string
 	Reason    string
 	Rationale string
+}
+
+// UncheckedControlGuard is the vocabulary for a permission a function selects and then
+// never consults.
+//
+// The rules above read a refusal the program wrote: one that does not stop what follows
+// it, one abandoned on a branch, one built and dropped. This reads the case where there
+// is no refusal at all, only its ingredients. saleor's `check_metadata_permissions`
+// decodes the object's type, looks the required permission up in the map that exists for
+// exactly this, rejects a type the map does not cover -- and returns. Nothing asks
+// whether the caller HAS the permission it just selected.
+//
+//	type_name, db_id = graphene.Node.from_global_id(object_id)
+//	if private:
+//	    meta_permission = PRIVATE_META_PERMISSION_MAP.get(type_name)   # selected
+//	else:
+//	    meta_permission = PUBLIC_META_PERMISSION_MAP.get(type_name)
+//	if not meta_permission:                                            # only asked if it EXISTS
+//	    raise NotImplementedError(...)
+//	                                                                   # and never asked for
+//
+// Every line here is individually correct, which is why the four analyses that read calls,
+// values, decisions and graphs all pass over it: the lookup is the right lookup, the
+// rejection is a real rejection, and the branch it sits on is obeyed. What is wrong is
+// that the function's own name says it checks a permission and the permission it found is
+// dead.
+//
+// The rule is stated over the program's own words on purpose, the same way
+// DiscardedRestrictionGuard is. An engine cannot know what a value is FOR; the name the
+// program gave the function, the name it gave the variable, and the name of the thing it
+// read the value out of are the only statements of intent the source contains, and a rule
+// that read none of them would report every unused local in every codebase.
+type UncheckedControlGuard struct {
+	// Controls are the words that make a value a PERMISSION rather than ordinary data.
+	// Required on both the producer -- the map or call the value came out of -- and on
+	// the name the value was bound to, because either one alone is a guess: a function
+	// called `permissions()` returns them as data all over these repositories, and a
+	// local called `permission` assigned from `row.field` is a column.
+	Controls []string
+	// Enforces are the words that make the ENCLOSING function a control rather than a
+	// resolver. A permission selected inside `get_permission_map` is being returned as
+	// data; one selected inside `check_metadata_permissions` was selected in order to be
+	// applied, and the program said so.
+	Enforces []string
+	// Existence names the comparison operators that ask only whether the value is THERE.
+	// The whole finding is that this is the only question asked about it, so a rule that
+	// counted these as consulting the permission would be silent on the one shape it
+	// exists for -- and one that counted no comparison at all would be silent the moment
+	// a frontend learns to lower `not x`.
+	Existence []string
 }
 
 // OmittedControlGuard is the vocabulary for a control the program applies unevenly. The
@@ -9247,10 +9301,133 @@ type ScopeRule struct {
 	// (ADR-016: a rule that needs different operands is a field, not a new kind).
 	Declared *DeclaredScope
 
+	// Undeclared, when set, reads the gate operand out of a declaration that IS NOT
+	// THERE. Same relation again, and the third place its operands can live.
+	Undeclared *UndeclaredScope
+
 	CWE       string
 	Finding   string
 	Reason    string
 	Rationale string
+}
+
+// UndeclaredScope reads the gate operand from a framework whose operations declare their
+// permissions, on an operation that declared none.
+//
+// The two shapes above both start from a gate that EXISTS -- a call the handler makes, or
+// an attribute the class sets -- and ask what it covered. This starts from a gate that is
+// absent, on a framework where absence is decidable:
+//
+//	class OrderUpdate(ModelMutation):
+//	    class Meta:
+//	        permissions = (OrderPermissions.MANAGE_ORDERS,)   # OrderUpdate is staff-only
+//
+//	class CheckoutCreateFromOrder(BaseMutation):
+//	    class Meta:
+//	        description = "Creates a new checkout from existing order."
+//	                                                          # and this one is not
+//
+// saleor's `BaseMutation.check_permissions` returns True when `_meta.permissions` is
+// empty, so the second class admits anybody at all. That is a fact about the class and
+// never a call, which is why nothing in the engine could read it: the frontend enumerates
+// the declaration as a control on the entry point, and its ABSENCE is what this reads.
+//
+// Absence is only evidence where the frontend looked, which is what Requires.FrameworkModels
+// is for on the rule holding this. A framework whose model was not applied yields no
+// declarations at all, and reading that as "no operation is protected" would report an
+// entire API (ADR-003).
+//
+// # Why absence is not the finding
+//
+// It cannot be. 54 of saleor's 331 mutations declare nothing, and only 4 of the 20 modules
+// under `graphql/checkout/mutations/` declare anything at all -- so in the part of that
+// API this rule is about, declaring nothing is the NORM. Reporting the anomaly would be
+// wrong about sixteen siblings, and a conformance threshold would be silent about all of
+// them. The absence is a CONDITION on a relation that has to fail as well: an operation
+// open to anybody that selects a record by an identifier the caller wrote, with nothing
+// anywhere in the mutation relating that record to the caller.
+type UndeclaredScope struct {
+	// Which surface this reads. A GraphQL operation is not an HTTP route and a mutation
+	// is not a query: a query resolver that fetches by id is a read whose fields the
+	// schema itself gates, which is a different question with a different answer.
+	Frameworks []string
+	EntryKinds []string
+	Methods    []string
+
+	// Control is the middleware symbol the frontend emits for a declared permission.
+	// Its absence from an entry point's chain is the gate operand.
+	Control string
+
+	// Selectors are the calls that turn an identifier the caller wrote into a record.
+	// Graphene's global id is an opaque `Type:pk` string a client sends back, and the
+	// call that decodes one is the framework's own concept rather than an application's
+	// choice of ORM -- which is what makes this list short and stable where a record
+	// selector spelled as `objects.get` was neither.
+	Selectors []string
+
+	// RequestPaths are where the caller's request hangs off the parameter the framework
+	// supplies. A graphene resolver is handed `info`, and everything about the caller is
+	// under `info.context`; a call handed the context AND the record is asking a question
+	// about the two, and a call handed only `info` is plumbing.
+	RequestPaths []string
+
+	// ActorWords are what a program calls the requester when it resolves one out of the
+	// request. `requestor = get_user_or_app_from_context(info.context)` is the caller;
+	// `site = get_site_promise(info.context).get()` is the store's configuration, and
+	// the two are the same shape. Following the first and not the second is the whole
+	// difference between reading `fetch_shipping_methods_for_checkout(checkout_info,
+	// requestor=requestor)` as an authorization -- which it is -- and reading
+	// `clean_order_lines(order, order_lines, site)` as one, which would silence the
+	// weakness this rule exists for.
+	//
+	// A name list because there is nothing else. A value the program computed out of the
+	// request is not classified anywhere, and the only statement about what it holds is
+	// what the program called it.
+	ActorWords []string
+
+	// InputClass is the classification whose values the caller chose. The selector's
+	// identifier has to be one of them, or the record was not named by the caller at all.
+	InputClass string
+
+	// SubjectArg is the argument naming the TYPE the identifier is decoded into, and it
+	// is what confines this rule to operations that reach outside their own subject.
+	//
+	// This is the condition that answers the sixteen siblings, and it is the reason the
+	// rule can be stated at all. A storefront's checkout mutations declare no permission
+	// because a shopper drives their own checkout, and that declaration -- or its absence
+	// -- is a statement about CHECKOUTS. It says nothing whatever about orders. So an
+	// empty gate is read as design where the operation resolves a record of its own
+	// subject, and as evidence of nothing where it resolves somebody else's:
+	//
+	//	saleor/graphql/checkout/mutations/checkout_customer_note_update.py
+	//	    cls.get_node_or_error(info, id, only_type=Checkout)     # its own subject
+	//	saleor/graphql/checkout/mutations/checkout_create_from_order.py
+	//	    cls.get_node_or_error(info, id, only_type=Order)        # somebody else's
+	//
+	// Both are the same call under the same empty gate, and only the second one is a
+	// weakness -- which is precisely the distinction the withdrawn record-selector
+	// channel could not make.
+	//
+	// Same subject means the type's package and the operation's module share everything
+	// but their last segment: `saleor.graphql.checkout.types.Checkout` against
+	// `saleor/graphql/checkout/mutations/...` shares `saleor.graphql.checkout`, and
+	// `saleor.graphql.order.types.Order` against the same module shares only
+	// `saleor.graphql`, which is the whole API rather than a subject.
+	//
+	// A type this cannot resolve to a module is DECLINED rather than assumed different.
+	// `only_type=checkout_types.Checkout` is written qualified and lowers to a property
+	// with no package on it, and reading that as "a foreign subject" would report the
+	// spelling instead of the code (ADR-003).
+	SubjectArg string
+
+	// Depth is how far into the mutation's OWN methods the relation is looked for. A
+	// graphene mutation is a class the framework dispatches into, and the check it makes
+	// is routinely one method along -- saleor's address delete resolves the row in
+	// `perform_mutation` and relates it to the caller in `clean_instance`, which the
+	// resolver hands both the request and the row. The descent follows only calls
+	// carrying both, which is why it is a bounded question rather than the general one
+	// about which caller's gate governs which callee's operation.
+	Depth int
 }
 
 // DeclaredScope selects which frameworks' declarations the scope relation is read from.
@@ -9424,6 +9601,57 @@ func builtinScopes() []ScopeRule {
 			Reason:    "the view's authorization is declared against one request key and the framework resolves the record from another, and the view declares nothing relating them",
 			Rationale: "a framework-resolved record selection whose key was never the key the declared permission asks about",
 		},
+		{
+			// The fifth rule of this kind, and the one that reads the gate operand out of
+			// a declaration the operation did not make.
+			//
+			// It exists because of a measured failure. A record-selector channel for
+			// Django's `Model.objects.get` was built to reach exactly the weakness below
+			// and was withdrawn at 0 true out of 23 -- and the most useful thing in that
+			// measurement was WHY it could not tell its target apart from the noise:
+			// eight of the twenty-three were staff-only saleor mutations that declare
+			// `Meta.permissions`, and the engine had no way to read that. The weakness
+			// itself is a true positive precisely FOR that fact. So the fact is a
+			// condition here rather than a finding of its own, which is the other half
+			// of the same measurement: absence of a declaration is the norm in the part
+			// of saleor's API this is about, and reporting it would be wrong about
+			// sixteen siblings.
+			//
+			// Measured over the ten production repositories the engine is scored on.
+			// Nine of them declare no graphene schema and are byte-identical before and
+			// after. In saleor, 54 of 331 mutations declare no permission, 8 of those
+			// reach a global-id selector with an identifier the caller wrote, and the
+			// relation is present in all but one of them: the attribute mutations ask
+			// `check_attribute_type_permissions(cls, info.context, [attribute.type])`
+			// with the resolved row in hand, the address delete relates the row to the
+			// requester one method along in `clean_instance`, and the shipping
+			// calculation hands both the checkout and the requestor to the same call.
+			ID: "record-named-under-no-declared-permission",
+			Undeclared: &UndeclaredScope{
+				Frameworks: []string{"graphene"},
+				EntryKinds: []string{"graphql-operation"},
+				// Mutations only. A query's fields are gated field by field by the schema
+				// -- saleor puts `PermissionsField` on the ones that need it -- so an
+				// undeclared query resolver has said nothing about what it exposes, and
+				// the gate operand this rule needs is not there to be absent.
+				Methods:      []string{"MUTATION"},
+				Control:      "Meta.permissions",
+				Selectors:    []string{"get_node_or_error", "get_nodes_or_error", "get_node_from_global_id", "from_global_id", "from_global_id_or_error", "get_global_id_or_error"},
+				RequestPaths: []string{"context"},
+				ActorWords: []string{"user", "app", "requestor", "requester", "requesting",
+					"actor", "principal", "account", "customer", "staff", "identity",
+					"caller", "owner", "auth"},
+				InputClass: "untrusted-input",
+				SubjectArg: "only_type",
+				Depth:      1,
+			},
+			IdentityClass: "actor-identity",
+			Requires:      Requirements{FrameworkModels: []string{"graphene"}},
+			CWE:           "CWE-639",
+			Finding:       "A record the caller named, under a mutation that declares no permission",
+			Reason:        "the mutation declares no permission, so the framework's own check admits every caller, and it resolves the record from an identifier the request carried with nothing anywhere in the mutation relating that record to who is asking",
+			Rationale:     "a global identifier the caller wrote, decoded into a record, inside an operation whose declared gate is empty and whose body never brings the record and the requester together",
+		},
 	}
 }
 
@@ -9511,6 +9739,44 @@ func builtinGuards() []GuardRule {
 			Finding:   "The rate-limit bucket key is a header the caller writes",
 			Reason:    "the value the limiter counts against is read out of a forwarding header, and anyone can send a different one, so each request can land in a bucket of its own",
 			Rationale: "a function supplied as a rate limiter's key reads a header that conveys a client address, which the caller supplies on any connection that is not behind a proxy overwriting it",
+		},
+		{
+			// Measured before it was written, over the ten production repositories the
+			// engine is scored on: the shape occurs once. saleor's
+			// `check_metadata_permissions` is the only function in any of them whose
+			// name says it enforces, which selects a permission out of a mapping named
+			// for permissions, and which then asks nothing about that permission but
+			// whether the lookup found one. Every other candidate the words admit --
+			// `get_permissions`, `resolve_permissions`, the several helpers that BUILD a
+			// permission list -- is disqualified by the enclosing function's own name,
+			// which is why that condition is in the vocabulary rather than in a comment.
+			//
+			// The consequence in saleor is stated as the finding says it: the mutations
+			// that accept a `metadata` or `privateMetadata` argument call this before
+			// storing it, and an app admitted by the mutation's own declared permission
+			// -- HANDLE_CHECKOUTS on `checkoutComplete`, say -- can supply private
+			// metadata whose type maps to MANAGE_CHECKOUTS, a permission it was never
+			// asked for.
+			ID: "permission-selected-and-never-checked",
+			Unchecked: &UncheckedControlGuard{
+				Controls: []string{"permission", "permissions", "perm", "perms",
+					"scope", "scopes", "privilege", "privileges", "role", "roles",
+					"grant", "grants"},
+				Enforces: []string{"check", "checks", "require", "requires", "enforce",
+					"enforces", "assert", "asserts", "validate", "validates", "authorize",
+					"authorizes", "ensure", "ensures", "verify", "verifies", "guard"},
+				// A truthiness test and a comparison against nothing. Both spellings of
+				// "did the lookup find anything", and neither is a question about the
+				// caller.
+				Existence: []string{"truthy", "falsy", "Is", "IsNot", "Eq", "NotEq",
+					"==", "!=", "===", "!=="},
+			},
+			CWE:     "CWE-862",
+			Finding: "A permission this check selects is never applied",
+			Reason: "the function names itself a permission check and looks the required permission up, " +
+				"but the only question it asks about what it found is whether the lookup succeeded, so " +
+				"every caller the surrounding gate admitted reaches the operation with the permission unasked",
+			Rationale: "a permission read out of a permission mapping, tested only for its own existence, and never handed to anything that could enforce it",
 		},
 		{
 			ID:           "rejection-without-return",

@@ -52,9 +52,16 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 	// it reads the same graph the per-function loop below already builds. Collecting into
 	// it there and answering after costs one traversal rather than two.
 	var peers []*peerIndex
+	var up map[string][]*ir.Function
 	for _, rule := range m.Guards {
 		if rule.Omits != nil {
 			peers = append(peers, newPeerIndex(rule))
+		}
+		// A control selected in a helper answers under whatever entry point reaches it,
+		// and the ascent needs the reverse call graph. Built once, and only where a rule
+		// asks for it.
+		if rule.Unchecked != nil && up == nil {
+			up = parents(ix)
 		}
 	}
 	for _, fn := range d.Functions {
@@ -80,6 +87,10 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 			}
 			if rule.Discards != nil {
 				out = append(out, discardedRestriction(ix, fn, g, rule)...)
+				continue
+			}
+			if rule.Unchecked != nil {
+				out = append(out, uncheckedControl(ix, fn, g, up, rule)...)
 				continue
 			}
 			if rule.Omits != nil {
