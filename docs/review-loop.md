@@ -204,6 +204,36 @@ A report is sent only when all five hold:
 `disputed` is a legitimate outcome and is never forced into `true` to have something to
 send. No bulk submissions and no more than one report per repository per batch.
 
+### The sixth condition: name what the attacker gets
+
+The five conditions above decide whether a finding is REAL. They do not decide whether it is
+worth a maintainer's attention, and those are different questions.
+
+**A report must name what an attacker gains, and the thing gained must be usable.** Not what
+differs, not what is missing, not what a sibling does that this one does not. If the answer is
+"they learn that a row which no longer exists once existed", there is no report.
+
+Measured: paperless-ngx `GHSA-7wqh-9qmh-qq22`, closed unaccepted within hours. The finding was
+true and an independent adjudicator confirmed it at source: `documents_deleted` broadcasts to
+every authenticated websocket consumer while its two sibling handlers first call `_can_view`.
+The asymmetry is real and the rule that found it, `control-omitted-on-sibling-path`, is not
+wrong. What it leaks is a list of integer ids for documents that have just been DELETED. They
+cannot be fetched. The maintainer's whole reply was "Yea no. This is intentional, and clearly
+nothing sensitive", and he is right on both counts: `send_documents_deleted` carries only
+`list[int]` while `send_document_updated` carries `owner_id`, `users_can_view` and
+`groups_can_view`, so the consumer has nothing to filter on and the decision is upstream and
+deliberate.
+
+The report even said so. It contained the sentence "what leaks is that a document with a given
+id existed and has just been deleted" and went out anyway. **Stating a weakness honestly is not
+the same as deciding it clears the bar**, and writing the caveat can substitute for making the
+judgement if you let it.
+
+This is a failure of `worth_reporting` and not of the engine. An asymmetry rule finds a real
+difference; whether the difference matters depends on what flows through it, and only a reader
+can answer that. Ask it explicitly, in one sentence, before anything is sent: *what can the
+attacker do that they could not do before?* An answer that needs a paragraph of hedging is a no.
+
 ### The channel, in order
 
 1. Whatever `SECURITY.md` instructs, followed exactly, including any embargo it asks for.
