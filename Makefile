@@ -57,11 +57,18 @@ test:
 # A corpus in the wrong list is lowered by the wrong frontend and fails in a way that looks
 # like a rule regression. Three separate merges have collapsed these two lines into one, so
 # the split is now checked rather than trusted.
+#
+# The check is done by make, not by the shell. The previous version wrapped a `case` in a
+# command substitution, which bash 3.2 (macOS /bin/sh) cannot parse, so `make bench` failed
+# before it reached the tests on every Mac.
+MISPLACED_TS := $(filter flask-% django-% python-% aiohttp-% tornado-%,$(TS_CORPORA))
+MISPLACED_PY := $(filter express-% nestjs-% next-% electron-% msw-%,$(PY_CORPORA))
+
 corpora-split:
-	@bad=$$(for c in $(TS_CORPORA); do case $$c in flask-*|django-*|python-*|aiohttp-*|tornado-*) echo $$c;; esac; done); \
-	 bad="$$bad $$(for c in $(PY_CORPORA); do case $$c in express-*|nestjs-*|next-*|electron-*|msw-*) echo $$c;; esac; done)"; \
-	 if [ -n "$$(echo $$bad | tr -d ' ')" ]; then echo "corpus in the wrong frontend list: $$bad"; exit 1; fi; \
-	 echo "corpora split ok: $(words $(TS_CORPORA)) TypeScript, $(words $(PY_CORPORA)) Python"
+	@if [ -n "$(strip $(MISPLACED_TS) $(MISPLACED_PY))" ]; then \
+	  echo "corpus in the wrong frontend list: $(MISPLACED_TS) $(MISPLACED_PY)"; exit 1; \
+	fi
+	@echo "corpora split ok: $(words $(TS_CORPORA)) TypeScript, $(words $(PY_CORPORA)) Python"
 
 bench: corpora-split
 	@cd core && go test ./internal/taint/ -run TestCorpusScores -v -count=1 2>&1 | grep -E 'precision|FALSE|DRIFT|FAIL|ok '
