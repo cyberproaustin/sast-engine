@@ -17,6 +17,7 @@ package model
 import (
 	"regexp"
 	"slices"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -8242,6 +8243,48 @@ type DecisionRule struct {
 	// compared with the same text remains a hardcoded credential.
 	OtherNotObjectBrand bool
 
+	// SkippedByOperandPresence requires the comparison to be conjoined with a test that
+	// each of its OWN operands is present, so that whatever it decides does not happen
+	// when one of them is missing.
+	//
+	//	if (decodedToken.scope && scope && decodedToken.scope !== scope) throw ...
+	//
+	// `a && b && a !== b` is a general and dangerous idiom: the check is written as a
+	// conjunction, and the two operands it compares are the same two the conjunction
+	// requires to be there, so a caller who omits either one satisfies the condition
+	// trivially and the comparison settles nothing. It is also an ordinary and correct
+	// idiom -- a program that renames a file only when both names exist and differ has
+	// written exactly this -- which is why the two fields below are part of the same
+	// rule rather than optional refinements of it. Measured over ten production
+	// repositories this shape alone occurs SEVEN times.
+	SkippedByOperandPresence bool
+
+	// RefusesWhenTrue requires the branch to leave by THROWING on the side where the
+	// comparison held.
+	//
+	// The polarity is what turns a skippable condition into a skippable control. A
+	// condition that refuses when it holds loses a refusal when an operand goes missing;
+	// a condition that does WORK when it holds loses the work, which is what the presence
+	// test was written to arrange. Of the seven occurrences above, two refuse: documenso's
+	// presign-token verifier and an archivebox admin action that renames a directory.
+	RefusesWhenTrue bool
+
+	// SidesNameOneThing requires the two operands to have been written with the same
+	// trailing name -- `decodedToken.scope` against `scope`.
+	//
+	// This is what separates a VERIFICATION from a difference test, and it is the
+	// program's own statement of which two things it believes should agree. The five
+	// occurrences it removes compare things that are not each other and are not meant to
+	// be: `old_path` against `new_path`, `line.fontRef` against `modalFontRef`,
+	// `address` against `old_address`, a request port against a configured one. Of the
+	// seven, ONE compares a name with itself, and it is documenso's.
+	//
+	// Deliberately an exact match on the leaf rather than a containment test. `scope`
+	// against `expectedScope` is the same claim and is a stated miss, because the
+	// containment that would admit it also admits `fontRef` inside `modalFontRef` and
+	// `address` inside `old_address` -- two of the five this exists to remove.
+	SidesNameOneThing bool
+
 	// OtherNotLiteral requires the other side to be a runtime value rather than
 	// something written down.
 	//
@@ -8320,6 +8363,47 @@ func builtinDecisions() []DecisionRule {
 			Finding:    "Comparison with a value that equals nothing",
 			Reason:     "every comparison with NaN is false, so this branch never runs however the value arrives -- and a test that cannot succeed is not a test",
 			Rationale:  "the other side of the comparison is the not-a-number value itself",
+		},
+		{
+			// A verification whose condition includes the PRESENCE of the value being
+			// verified. `if (claim && expected && claim !== expected) throw` refuses when
+			// the two disagree and does nothing at all when either is missing -- so the
+			// party who supplies one of them decides whether the check happens, by
+			// leaving it out.
+			//
+			// documenso's embedded-signing presign token is the measured case. The
+			// verifier takes `scope` as an OPTIONAL parameter and writes
+			// `decodedToken.scope && scope && decodedToken.scope !== scope`; two file
+			// routes call it with no scope at all, so a token minted for one purpose is
+			// accepted for every purpose those routes serve. Nothing is missing from the
+			// program -- the check is right there, and reads as a scope check to anyone
+			// scanning the file.
+			//
+			// No classification, deliberately. The defect is in the comparison's own
+			// shape rather than in what reaches it: this condition settles nothing about
+			// whatever arrives on either side of it, and requiring a taint path would
+			// make the judgement depend on whether the analysis could follow a JWT
+			// through a decode call, which is a fact about the analysis and not about the
+			// weakness.
+			//
+			// Three facts, and each one is a measurement. Across ten production
+			// repositories the conjunction shape occurs seven times; requiring the
+			// refusal leaves two; requiring the two sides to name one thing leaves one,
+			// and it is documenso's. The five that naming removes are difference tests --
+			// a rename that needs both paths, a font weight against the document's modal
+			// font, a checkout address against the previous one -- and the one that the
+			// refusal removes is an archivebox admin action that raises when a rename
+			// would overwrite something. All six want their presence tests and would be
+			// wrong without them.
+			ID:                       "verification-skipped-by-absent-operand",
+			Ops:                      []string{"!=", "!==", "<>", "NotEq", "IsNot"},
+			SkippedByOperandPresence: true,
+			RefusesWhenTrue:          true,
+			SidesNameOneThing:        true,
+			CWE:                      "CWE-863",
+			Finding:                  "A check that is skipped by omitting what it checks",
+			Reason:                   "the refusal is conditioned on both values being present, so whoever supplies one of them can skip the check entirely by leaving it out, and the comparison settles nothing",
+			Rationale:                "the comparison that decides the refusal is conjoined with tests that its own two operands are present",
 		},
 		{
 			ID: "identity-compared-to-text", Ops: []string{"Is", "IsNot"}, OtherIsText: true,
@@ -8739,6 +8823,34 @@ type StoreRule struct {
 	// caller's claim laundered across a trust boundary. Both readings are true and the
 	// line is one line, so the narrower rule keeps it and the broader one stands aside.
 	NotInto []string
+
+	// OnInsert and OnUpdate name the option groups of a store call that says what to
+	// write when the record is NEW and what to write when it ALREADY EXISTS.
+	//
+	// One call, two halves, and the program's own answer to a question an absence rule
+	// would otherwise have to guess at. `prisma.recipient.upsert({ create: { email,
+	// token: nanoid() }, update: { email } })` states that a recipient needs a fresh
+	// token -- its own create says so -- and then rewrites the address without one. There
+	// is no population to compare against and no other file to read: the two claims are
+	// twelve lines apart in one expression.
+	//
+	// Every library that can insert-or-update spells this the same way, because it has
+	// to: MongoDB separates `$setOnInsert` from `$set`, Sequelize takes `defaults`
+	// alongside the values it matches on. The groups are named rather than inferred
+	// because which one means NEW is a fact about a library and nothing in the call says
+	// it (ADR-011).
+	OnInsert []string
+	OnUpdate []string
+
+	// SubjectFields are the columns that say WHO a credential on this record admits, or
+	// WHERE it is delivered. Changing one of these retargets the credential; changing a
+	// status or a sort order does not, and a rule that reported every update leaving a
+	// token alone would report almost every update there is.
+	//
+	// Declared rather than derived, and short on purpose. These are the fields a
+	// verification link is ABOUT: healthchecks' fixed weakness is a channel whose address
+	// changed while its token did not, and documenso's is a recipient's.
+	SubjectFields []string
 
 	CWE       string
 	Finding   string
@@ -9718,6 +9830,35 @@ func builtinStores() []StoreRule {
 			Rationale:             "a write into state bound outside the handler, under a key the caller supplied, with no size bound anywhere and no lookup deciding the key names anything",
 		},
 		{
+			// A credential that outlives the thing it admits. The record's own create
+			// says a new one needs a fresh token; the update beside it rewrites the
+			// address the token was issued for and leaves the token standing, so the
+			// link that was mailed to the old address now admits its holder to the new
+			// one.
+			//
+			// This is the healthchecks weakness -- the first this engine found in the
+			// wild that a maintainer fixed -- stated as a WRITE rather than as a hash
+			// seed. There the token was a digest of the channel's immutable id and the
+			// server secret, so it could not depend on the address; here the token is
+			// random and the same independence is achieved by not reissuing it. The
+			// remedy is identical and so is the sentence: the credential does not cover
+			// what it admits.
+			//
+			// Only the two-group form, and that is the whole of what makes an absence
+			// decidable here without a population to compare against. A create in one
+			// file and an update in another is the same defect and is NOT reported: over
+			// ten production repositories that broader shape matches 173 calls, against
+			// two for this one, and both of the two are the weakness.
+			ID:            "credential-not-reissued-with-subject",
+			OnInsert:      []string{"create", "$setoninsert", "defaults"},
+			OnUpdate:      []string{"update", "$set"},
+			SubjectFields: []string{"email", "address", "phone", "username", "recipient"},
+			CWE:           "CWE-613",
+			Finding:       "Credential left standing when the subject it admits changed",
+			Reason:        "the record's own insert says a new one of these needs a freshly minted credential, and the update beside it rewrites the address that credential was issued for without reissuing it -- so a link sent to the old address admits its holder to the new one",
+			Rationale:     "one call states what to write for a new record and what to write for an existing one",
+		},
+		{
 			// A direct assignment to the session's principal slot is the low-level form of
 			// an identity change. Application-owned namespaces are not: measured on wger,
 			// `trainer.identity` and `gym.user` were the whole two-finding population and
@@ -10027,6 +10168,58 @@ func (s StoreAccess) WrittenFields(literals map[int]string) []string {
 		}
 		seen[leaf] = true
 		out = append(out, leaf)
+	}
+	return out
+}
+
+// WrittenGroups reads the same option keys WrittenFields does, keeping the group each
+// column was written under instead of flattening them together.
+//
+// The flattening is right for the question WrittenFields answers -- which columns does
+// this call write, so a write and a read can be required to name the same one -- and
+// wrong for a call that says two different things about two different situations. An
+// upsert's `create` and `update` are not one field list: the whole content of the
+// judgement here is that a column appears in one of them and not the other, and a
+// flattened list has already thrown that away.
+//
+// Literal-valued keys are excluded on the same terms as WrittenFields: `{ status:
+// "active" }` is the program deciding, and no caller reaches the field it decided.
+func (s StoreAccess) WrittenGroups(literals map[int]string) map[string][]string {
+	out := map[string][]string{}
+	seen := map[string]bool{}
+	for idx, text := range literals {
+		// Negative indices are where both frontends keep option keys.
+		if idx >= 0 {
+			continue
+		}
+		eq := strings.LastIndex(text, "=")
+		if eq < 0 || text[eq+1:] != ir.UnknownLiteral {
+			continue
+		}
+		path := text[:eq]
+		i := strings.Index(path, ".")
+		if i <= 0 {
+			continue
+		}
+		group, leaf := strings.ToLower(path[:i]), path[i+1:]
+		// A column nested deeper than its group is a nested write -- Prisma's related
+		// `create` inside a `create` -- and belongs to whatever that inner group is
+		// rather than to this one.
+		if strings.Contains(leaf, ".") {
+			continue
+		}
+		if namedIn(storeCriteriaOptions, group) {
+			continue
+		}
+		leaf = NormalizeFieldName(leaf)
+		if leaf == "" || seen[group+"."+leaf] {
+			continue
+		}
+		seen[group+"."+leaf] = true
+		out[group] = append(out[group], leaf)
+	}
+	for _, fields := range out {
+		sort.Strings(fields)
 	}
 	return out
 }

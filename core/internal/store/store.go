@@ -64,6 +64,18 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 		}
 	}
 	for _, fn := range d.Functions {
+		for _, rule := range m.Stores {
+			if len(rule.OnInsert) == 0 {
+				continue
+			}
+			for _, c := range fn.Calls {
+				if f, ok := unrotatedOnUpdate(ix, m, fn, c, rule); ok {
+					out = append(out, f)
+				}
+			}
+		}
+	}
+	for _, fn := range d.Functions {
 		servesRequest := reachedFromEntry(ix, fn)
 		for _, w := range fn.Writes {
 			if w.From == "" {
