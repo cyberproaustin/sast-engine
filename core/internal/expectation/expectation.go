@@ -12,6 +12,8 @@
 package expectation
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"fmt"
 	"sort"
 	"strings"
@@ -364,3 +366,24 @@ func hasControlKind(e surface.EntryFacts, kind string) bool {
 }
 
 func entryLoc(e surface.EntryFacts) ir.Loc { return e.Loc() }
+
+// Fingerprint is an inferred finding's identity across runs.
+//
+// The taint kind has had one since ADR-014 and this kind has not, and the cost was not
+// theoretical: five CWE-306 findings on documenso's tRPC surface were adjudicated FALSE
+// and could not be recorded, because the ledger keys on a fingerprint and these carried
+// none. A verdict that cannot be written down is a verdict that has to be reached again,
+// and precision computed over the findings that CAN be scored reads six points higher
+// than precision over the findings the engine actually reported.
+//
+// Built from what the finding IS, on the same principle as the taint fingerprint: the
+// rule that inferred it, the classification, the entry point it is about, the population
+// it was compared against, and the control found missing. `EntryLoc` is deliberately
+// absent -- an inserted import above a handler must not mint a new defect -- and so is
+// the peer COUNT, because one more sibling route arriving does not make this a different
+// finding about this entry point.
+func (f Finding) Fingerprint() string {
+	parts := []string{f.Origin, f.CWE, f.EntryPoint, f.Group, f.MissingName, f.ControlKind}
+	h := sha256.Sum256([]byte(strings.Join(parts, "\x00")))
+	return hex.EncodeToString(h[:8])
+}

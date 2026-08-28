@@ -199,10 +199,11 @@ func SARIF(w io.Writer, scanRes scan.Result, toolVersion string) error {
 			level = "error"
 		}
 		run.Results = append(run.Results, sarifResult{
-			RuleID:    f.CWE,
-			Level:     level,
-			Message:   sarifText{Text: f.Message},
-			Locations: []sarifLocation{locationOf(f.EntryLoc, "")},
+			RuleID:              f.CWE,
+			Level:               level,
+			Message:             sarifText{Text: f.Message},
+			Locations:           []sarifLocation{locationOf(f.EntryLoc, "")},
+			PartialFingerprints: map[string]string{"sastEngine/v1": f.Fingerprint()},
 			Properties: map[string]any{
 				"gating": f.Gates,
 				// An expectation is an assertion about an entry point the engine
