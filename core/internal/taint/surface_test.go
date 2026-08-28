@@ -766,3 +766,58 @@ func TestStaticPluginMountIsAnAddress(t *testing.T) {
 		t.Errorf("want 1 route, got %d", routes)
 	}
 }
+
+// A route list one application hands to another under a string key. The registration is a
+// decorator, the read-back is `get_hooks`, and what travels between them is a function's
+// RETURN VALUE -- so no expression in the program names both an address and a handler.
+//
+// What the key buys is the ADDRESS. Measured on wagtail the count is unchanged and 30
+// entry points move: the admin's documents, images, forms and settings URLconfs were
+// enumerated at `/documents/`, `/images/` and `/settings/` rather than under `/admin/`,
+// and `/documents/<int:pk>/` is a path that application really does serve, with a
+// different view. A finding at an address that exists and answers with something else is
+// worse than one that is missing, which is why this is asserted here and not by a count.
+func TestHookRegisteredRoutesTakeTheMountingURLconfsPrefix(t *testing.T) {
+	res := runScan(t, "django-hook-registry")
+
+	want := map[string]bool{
+		// The admin's own list.
+		"GET /admin/": true,
+		// Registered under `register_admin_urls` and mounted only by the loop that reads
+		// that key back. Both verbs come from a base the subclass declares a model against.
+		"GET /admin/documents/":           true,
+		"POST /admin/documents/edit/:pk/": true,
+		// The public download, one segment from where the admin edit used to be claimed.
+		"ANY /documents/:pk/": true,
+		// NEGATIVE. Registered under a key nothing reads back, so it is mounted by
+		// nothing and keeps the prefix its own module states. `/admin/reports/locked/`
+		// would be an address only the missing loop could have made.
+		"GET /reports/locked/": true,
+	}
+
+	assertSurface(t, res.Surface.Entries, want)
+}
+
+// A URLconf that names its handler with a string. The address is a literal and the class
+// is three hops away: a dispatch table from the key to `self.<attr>`, a property that
+// wraps what the attribute holds, and a class attribute naming the view.
+func TestKeyedViewDispatchResolvesThroughTheViewsetThatDeclaresIt(t *testing.T) {
+	res := runScan(t, "django-view-key-dispatch")
+
+	want := map[string]bool{
+		// The key resolved to a class; to a class whose verb is on a resolved base; and
+		// to a class attribute the SUBCLASS overrides while the base declares the
+		// property that reads it.
+		"POST /admin/pages/:page_id/edit/":    true,
+		"POST /admin/pages/:page_id/publish/": true,
+		"GET /admin/pages/":                   true,
+		// NEGATIVE. An ordinary class-based view whose `as_view()` argument is not a key.
+		"GET /admin/pages/search/": true,
+		// NEGATIVE, by absence: `history` is declared by two dispatch tables and `export`
+		// by none, so neither address carries a handler and neither is enumerated by a
+		// verb it does not have. A route bound to whichever class the walk reached first
+		// is a claim a maintainer would open the address to check and not find.
+	}
+
+	assertSurface(t, res.Surface.Entries, want)
+}

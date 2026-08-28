@@ -1,0 +1,6331 @@
+{
+  "irVersion": "0.19.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi",
+        "django",
+        "drf",
+        "graphene",
+        "tornado"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "adminsite/__init__.py",
+      "path": "adminsite/__init__.py"
+    },
+    {
+      "id": "adminsite/registry.py",
+      "path": "adminsite/registry.py"
+    },
+    {
+      "id": "adminsite/search.py",
+      "path": "adminsite/search.py"
+    },
+    {
+      "id": "adminsite/urls.py",
+      "path": "adminsite/urls.py"
+    },
+    {
+      "id": "adminsite/viewsets.py",
+      "path": "adminsite/viewsets.py"
+    },
+    {
+      "id": "common/__init__.py",
+      "path": "common/__init__.py"
+    },
+    {
+      "id": "common/generic.py",
+      "path": "common/generic.py"
+    },
+    {
+      "id": "pages/__init__.py",
+      "path": "pages/__init__.py"
+    },
+    {
+      "id": "pages/edit.py",
+      "path": "pages/edit.py"
+    },
+    {
+      "id": "pages/listing.py",
+      "path": "pages/listing.py"
+    },
+    {
+      "id": "pages/publish.py",
+      "path": "pages/publish.py"
+    },
+    {
+      "id": "snippets/__init__.py",
+      "path": "snippets/__init__.py"
+    },
+    {
+      "id": "snippets/views.py",
+      "path": "snippets/views.py"
+    },
+    {
+      "id": "snippets/viewsets.py",
+      "path": "snippets/viewsets.py"
+    },
+    {
+      "id": "urls.py",
+      "path": "urls.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "adminsite/__init__.py#<module>:0:0",
+      "name": "<module>",
+      "module": "adminsite/__init__.py",
+      "loc": {
+        "file": "adminsite/__init__.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "adminsite/__init__.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "adminsite/__init__.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/__init__.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "adminsite/registry.py#<module>:0:0",
+      "name": "<module>",
+      "module": "adminsite/registry.py",
+      "loc": {
+        "file": "adminsite/registry.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "adminsite/registry.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The registry the URLconf dispatches through, and nothing it resolves at import time.\n\n`as_view` hands back a closure. Which viewset that closure asks depends on the page the\nrequest names, so the class behind an address is chosen per REQUEST -- the one written\ndown is the default viewset, and that is the one the surface can honestly claim.\n"
+        },
+        {
+          "id": "adminsite/registry.py#<module>:0:0$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 30,
+            "column": 25
+          },
+          "name": "PageViewSetRegistry"
+        },
+        {
+          "id": "adminsite/registry.py#<module>:0:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 30,
+            "column": 1
+          },
+          "name": "page_viewset_registry"
+        },
+        {
+          "id": "adminsite/registry.py#<module>:0:0$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 34,
+            "column": 21
+          },
+          "name": "adminsite.viewsets.PageViewSet"
+        },
+        {
+          "id": "adminsite/registry.py#<module>:0:0$v4",
+          "kind": "local",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 34,
+            "column": 1
+          },
+          "name": "base_page_viewset"
+        }
+      ],
+      "flows": [
+        {
+          "from": "adminsite/registry.py#<module>:0:0$v1",
+          "to": "adminsite/registry.py#<module>:0:0$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 30,
+            "column": 1
+          },
+          "block": "adminsite/registry.py#<module>:0:0$b0"
+        },
+        {
+          "from": "adminsite/registry.py#<module>:0:0$v3",
+          "to": "adminsite/registry.py#<module>:0:0$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 34,
+            "column": 1
+          },
+          "block": "adminsite/registry.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "adminsite/registry.py#<module>:0:0$c0",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 30,
+            "column": 25
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "PageViewSetRegistry",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "adminsite/registry.py#<module>:0:0$v1",
+          "block": "adminsite/registry.py#<module>:0:0$b0",
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "adminsite/registry.py#<module>:0:0$c1",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 34,
+            "column": 21
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "adminsite.viewsets.PageViewSet",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "adminsite/registry.py#<module>:0:0$v3",
+          "block": "adminsite/registry.py#<module>:0:0$b0",
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 30,
+            "column": 1
+          },
+          "path": "page_viewset_registry",
+          "from": "adminsite/registry.py#<module>:0:0$v1",
+          "block": "adminsite/registry.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 34,
+            "column": 1
+          },
+          "path": "base_page_viewset",
+          "from": "adminsite/registry.py#<module>:0:0$v3",
+          "block": "adminsite/registry.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "adminsite/registry.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "adminsite/registry.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "adminsite/registry.py#__init__:12:5",
+      "name": "__init__",
+      "module": "adminsite/registry.py",
+      "loc": {
+        "file": "adminsite/registry.py",
+        "line": 12,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "adminsite/registry.py#__init__:12:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "adminsite/registry.py#__init__:12:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 12,
+            "column": 18
+          },
+          "name": "self"
+        },
+        {
+          "id": "adminsite/registry.py#__init__:12:5$v1",
+          "kind": "local",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 13,
+            "column": 24
+          },
+          "name": "{dict}"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 13,
+            "column": 9
+          },
+          "base": "adminsite/registry.py#__init__:12:5$v0",
+          "path": "by_type",
+          "from": "adminsite/registry.py#__init__:12:5$v1",
+          "block": "adminsite/registry.py#__init__:12:5$b0"
+        }
+      ],
+      "entryBlock": "adminsite/registry.py#__init__:12:5$b0",
+      "blocks": [
+        {
+          "id": "adminsite/registry.py#__init__:12:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 12,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "adminsite/registry.py#register:15:5",
+      "name": "register",
+      "module": "adminsite/registry.py",
+      "loc": {
+        "file": "adminsite/registry.py",
+        "line": 15,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "adminsite/registry.py#register:15:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "page_type",
+          "valueId": "adminsite/registry.py#register:15:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "viewset",
+          "valueId": "adminsite/registry.py#register:15:5$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "adminsite/registry.py#register:15:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 15,
+            "column": 18
+          },
+          "name": "self"
+        },
+        {
+          "id": "adminsite/registry.py#register:15:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 15,
+            "column": 24
+          },
+          "name": "page_type"
+        },
+        {
+          "id": "adminsite/registry.py#register:15:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 15,
+            "column": 35
+          },
+          "name": "viewset"
+        },
+        {
+          "id": "adminsite/registry.py#register:15:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 16,
+            "column": 9
+          },
+          "base": "adminsite/registry.py#register:15:5$v0",
+          "path": "by_type",
+          "name": "by_type"
+        }
+      ],
+      "flows": [
+        {
+          "from": "adminsite/registry.py#register:15:5$v0",
+          "to": "adminsite/registry.py#register:15:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 16,
+            "column": 9
+          },
+          "block": "adminsite/registry.py#register:15:5$b0"
+        }
+      ],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 16,
+            "column": 9
+          },
+          "base": "adminsite/registry.py#register:15:5$v3",
+          "key": "adminsite/registry.py#register:15:5$v1",
+          "from": "adminsite/registry.py#register:15:5$v2",
+          "block": "adminsite/registry.py#register:15:5$b0"
+        }
+      ],
+      "entryBlock": "adminsite/registry.py#register:15:5$b0",
+      "blocks": [
+        {
+          "id": "adminsite/registry.py#register:15:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 15,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "adminsite/registry.py#as_view:18:5",
+      "name": "as_view",
+      "module": "adminsite/registry.py",
+      "loc": {
+        "file": "adminsite/registry.py",
+        "line": 18,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "adminsite/registry.py#as_view:18:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "view_name",
+          "valueId": "adminsite/registry.py#as_view:18:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "kwargs",
+          "valueId": "adminsite/registry.py#as_view:18:5$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "adminsite/registry.py#as_view:18:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 18,
+            "column": 17
+          },
+          "name": "self"
+        },
+        {
+          "id": "adminsite/registry.py#as_view:18:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 18,
+            "column": 23
+          },
+          "name": "view_name"
+        },
+        {
+          "id": "adminsite/registry.py#as_view:18:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 18,
+            "column": 36
+          },
+          "name": "kwargs"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "adminsite/registry.py#as_view:18:5$b0",
+      "blocks": [
+        {
+          "id": "adminsite/registry.py#as_view:18:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 18,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "adminsite/registry.py#as_view:18:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 27,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "adminsite/registry.py#view_router:19:9",
+      "name": "view_router",
+      "module": "adminsite/registry.py",
+      "loc": {
+        "file": "adminsite/registry.py",
+        "line": 19,
+        "column": 9
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "adminsite/registry.py#view_router:19:9$v0"
+        },
+        {
+          "index": 1,
+          "name": "args",
+          "valueId": "adminsite/registry.py#view_router:19:9$v1"
+        },
+        {
+          "index": 2,
+          "name": "inner",
+          "valueId": "adminsite/registry.py#view_router:19:9$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "adminsite/registry.py#view_router:19:9$v0",
+          "kind": "param",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 19,
+            "column": 25
+          },
+          "name": "request"
+        },
+        {
+          "id": "adminsite/registry.py#view_router:19:9$v1",
+          "kind": "param",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 19,
+            "column": 35
+          },
+          "name": "args"
+        },
+        {
+          "id": "adminsite/registry.py#view_router:19:9$v2",
+          "kind": "param",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 19,
+            "column": 43
+          },
+          "name": "inner"
+        },
+        {
+          "id": "adminsite/registry.py#view_router:19:9$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 20,
+            "column": 50
+          },
+          "literal": "page_id"
+        },
+        {
+          "id": "adminsite/registry.py#view_router:19:9$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 20,
+            "column": 40
+          },
+          "name": "inner.get"
+        },
+        {
+          "id": "adminsite/registry.py#view_router:19:9$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 20,
+            "column": 23
+          },
+          "name": "self.by_type.get"
+        },
+        {
+          "id": "adminsite/registry.py#view_router:19:9$v6",
+          "kind": "local",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 20,
+            "column": 13
+          },
+          "name": "viewset"
+        },
+        {
+          "id": "adminsite/registry.py#view_router:19:9$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 22,
+            "column": 24
+          },
+          "name": "viewset.get_view_by_name"
+        },
+        {
+          "id": "adminsite/registry.py#view_router:19:9$v8",
+          "kind": "local",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 22,
+            "column": 17
+          },
+          "name": "view"
+        },
+        {
+          "id": "adminsite/registry.py#view_router:19:9$v9",
+          "kind": "catch-param",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 23,
+            "column": 13
+          },
+          "name": "err"
+        },
+        {
+          "id": "adminsite/registry.py#view_router:19:9$v10",
+          "kind": "global",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 24,
+            "column": 23
+          },
+          "name": "django.http.Http404"
+        },
+        {
+          "id": "adminsite/registry.py#view_router:19:9$v11",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 25,
+            "column": 20
+          },
+          "name": "view"
+        }
+      ],
+      "flows": [
+        {
+          "from": "adminsite/registry.py#view_router:19:9$v5",
+          "to": "adminsite/registry.py#view_router:19:9$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 20,
+            "column": 13
+          },
+          "block": "adminsite/registry.py#view_router:19:9$b0"
+        },
+        {
+          "from": "adminsite/registry.py#view_router:19:9$v7",
+          "to": "adminsite/registry.py#view_router:19:9$v8",
+          "kind": "assign",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 22,
+            "column": 17
+          },
+          "block": "adminsite/registry.py#view_router:19:9$b2"
+        }
+      ],
+      "calls": [
+        {
+          "id": "adminsite/registry.py#view_router:19:9$c0",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 20,
+            "column": 40
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "inner.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "adminsite/registry.py#view_router:19:9$v3"
+            }
+          ],
+          "resultValueId": "adminsite/registry.py#view_router:19:9$v4",
+          "block": "adminsite/registry.py#view_router:19:9$b0",
+          "method": "get",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "page_id"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverType": "dict",
+          "receiverTypeOrigin": "builtin",
+          "receiverValueId": "adminsite/registry.py#view_router:19:9$v2"
+        },
+        {
+          "id": "adminsite/registry.py#view_router:19:9$c1",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 20,
+            "column": 23
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "self.by_type.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "adminsite/registry.py#view_router:19:9$v4"
+            },
+            {
+              "index": 1,
+              "valueId": "adminsite/registry.py#<module>:0:0$v4"
+            }
+          ],
+          "resultValueId": "adminsite/registry.py#view_router:19:9$v5",
+          "block": "adminsite/registry.py#view_router:19:9$b0",
+          "method": "get",
+          "argCount": 2,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "adminsite/registry.py#view_router:19:9$c2",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 22,
+            "column": 24
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "viewset.get_view_by_name",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "adminsite/registry.py#view_router:19:9$v7",
+          "block": "adminsite/registry.py#view_router:19:9$b2",
+          "method": "get_view_by_name",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "adminsite/registry.py#view_router:19:9$v6"
+        },
+        {
+          "id": "adminsite/registry.py#view_router:19:9$c3",
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 25,
+            "column": 20
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "view",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "adminsite/registry.py#view_router:19:9$v0"
+            },
+            {
+              "index": 1,
+              "valueId": "adminsite/registry.py#view_router:19:9$v1"
+            },
+            {
+              "valueId": "adminsite/registry.py#view_router:19:9$v2"
+            }
+          ],
+          "resultValueId": "adminsite/registry.py#view_router:19:9$v11",
+          "block": "adminsite/registry.py#view_router:19:9$b5",
+          "argCount": 3
+        }
+      ],
+      "returns": [
+        "adminsite/registry.py#view_router:19:9$v11"
+      ],
+      "returnBlocks": [
+        "adminsite/registry.py#view_router:19:9$b5"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "adminsite/registry.py#view_router:19:9$b0",
+      "blocks": [
+        {
+          "id": "adminsite/registry.py#view_router:19:9$b0",
+          "successors": [
+            "adminsite/registry.py#view_router:19:9$b1"
+          ],
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 19,
+            "column": 9
+          }
+        },
+        {
+          "id": "adminsite/registry.py#view_router:19:9$b1",
+          "successors": [
+            "adminsite/registry.py#view_router:19:9$b2",
+            "adminsite/registry.py#view_router:19:9$b3"
+          ],
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 21,
+            "column": 13
+          }
+        },
+        {
+          "id": "adminsite/registry.py#view_router:19:9$b2",
+          "successors": [
+            "adminsite/registry.py#view_router:19:9$b5"
+          ],
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 21,
+            "column": 13
+          }
+        },
+        {
+          "id": "adminsite/registry.py#view_router:19:9$b3",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 23,
+            "column": 13
+          },
+          "terminator": "throw"
+        },
+        {
+          "id": "adminsite/registry.py#view_router:19:9$b4",
+          "successors": [
+            "adminsite/registry.py#view_router:19:9$b5"
+          ],
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 24,
+            "column": 17
+          }
+        },
+        {
+          "id": "adminsite/registry.py#view_router:19:9$b5",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 21,
+            "column": 13
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "adminsite/registry.py#view_router:19:9$b6",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/registry.py",
+            "line": 25,
+            "column": 13
+          }
+        }
+      ]
+    },
+    {
+      "id": "adminsite/search.py#<module>:0:0",
+      "name": "<module>",
+      "module": "adminsite/search.py",
+      "loc": {
+        "file": "adminsite/search.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "adminsite/search.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/search.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "NEGATIVE. An ordinary class-based view registered with an argument.\n\n`as_view(\"compact\")` is not a keyed lookup: the receiver is the class itself, and the\nstring is a keyword this frontend does not read. The route resolves the way it always did.\n"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "adminsite/search.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "adminsite/search.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/search.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "adminsite/search.py#get:11:5",
+      "name": "get",
+      "module": "adminsite/search.py",
+      "loc": {
+        "file": "adminsite/search.py",
+        "line": 11,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "adminsite/search.py#get:11:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "request",
+          "valueId": "adminsite/search.py#get:11:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "adminsite/search.py#get:11:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "adminsite/search.py",
+            "line": 11,
+            "column": 13
+          },
+          "name": "self"
+        },
+        {
+          "id": "adminsite/search.py#get:11:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "adminsite/search.py",
+            "line": 11,
+            "column": 19
+          },
+          "name": "request"
+        },
+        {
+          "id": "adminsite/search.py#get:11:5$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/search.py",
+            "line": 12,
+            "column": 29
+          },
+          "literal": "results"
+        },
+        {
+          "id": "adminsite/search.py#get:11:5$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/search.py",
+            "line": 12,
+            "column": 16
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "adminsite/search.py#get:11:5$c0",
+          "loc": {
+            "file": "adminsite/search.py",
+            "line": 12,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "adminsite/search.py#get:11:5$v2"
+            }
+          ],
+          "resultValueId": "adminsite/search.py#get:11:5$v3",
+          "block": "adminsite/search.py#get:11:5$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "results"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "adminsite/search.py#get:11:5$v3"
+      ],
+      "returnBlocks": [
+        "adminsite/search.py#get:11:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "adminsite/search.py#get:11:5$b0",
+      "blocks": [
+        {
+          "id": "adminsite/search.py#get:11:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/search.py",
+            "line": 11,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "adminsite/search.py#get:11:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/search.py",
+            "line": 12,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "adminsite/urls.py#<module>:0:0",
+      "name": "<module>",
+      "module": "adminsite/urls.py",
+      "loc": {
+        "file": "adminsite/urls.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The page URLconf: every address is a literal and no view is.\n\nThis is wagtail's `wagtail/admin/urls/pages.py`, where 34 of the file's 35 registrations\nname their handler with a string. The address side already resolved; the handler side\nreached a registry object with no `views` on it and produced nothing at all, so 34 routes\nof the admin -- edit, delete, publish, move, copy -- were declared and answered by nobody.\n"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 14,
+            "column": 12
+          },
+          "literal": "adminsite"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 14,
+            "column": 1
+          },
+          "name": "app_name"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v3",
+          "kind": "local",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 15,
+            "column": 15
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 17,
+            "column": 9
+          },
+          "literal": "pages/<int:page_id>/edit/"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 18,
+            "column": 39
+          },
+          "literal": "edit"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 18,
+            "column": 61
+          },
+          "literal": "page_id"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v7",
+          "kind": "global",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 18,
+            "column": 9
+          },
+          "name": "adminsite.registry.page_viewset_registry"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 18,
+            "column": 9
+          },
+          "name": "adminsite.registry.page_viewset_registry.as_view"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 19,
+            "column": 14
+          },
+          "literal": "edit"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 16,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v11",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 22,
+            "column": 9
+          },
+          "literal": "pages/<int:page_id>/publish/"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v12",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 23,
+            "column": 39
+          },
+          "literal": "publish"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v13",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 23,
+            "column": 64
+          },
+          "literal": "page_id"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v14",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 23,
+            "column": 9
+          },
+          "name": "adminsite.registry.page_viewset_registry.as_view"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v15",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 24,
+            "column": 14
+          },
+          "literal": "publish"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v16",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 21,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v17",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 29,
+            "column": 10
+          },
+          "literal": "pages/"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v18",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 29,
+            "column": 50
+          },
+          "literal": "index"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v19",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 29,
+            "column": 72
+          },
+          "literal": "true"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v20",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 29,
+            "column": 20
+          },
+          "name": "adminsite.registry.page_viewset_registry.as_view"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v21",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 29,
+            "column": 84
+          },
+          "literal": "index"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v22",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 29,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v23",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 34,
+            "column": 9
+          },
+          "literal": "pages/<int:page_id>/history/"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v24",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 35,
+            "column": 39
+          },
+          "literal": "history"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v25",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 35,
+            "column": 64
+          },
+          "literal": "page_id"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v26",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 35,
+            "column": 9
+          },
+          "name": "adminsite.registry.page_viewset_registry.as_view"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v27",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 36,
+            "column": 14
+          },
+          "literal": "history"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v28",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 33,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v29",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 41,
+            "column": 9
+          },
+          "literal": "pages/<int:page_id>/export/"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v30",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 42,
+            "column": 39
+          },
+          "literal": "export"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v31",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 42,
+            "column": 63
+          },
+          "literal": "page_id"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v32",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 42,
+            "column": 9
+          },
+          "name": "adminsite.registry.page_viewset_registry.as_view"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v33",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 43,
+            "column": 14
+          },
+          "literal": "export"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v34",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 40,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v35",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 48,
+            "column": 10
+          },
+          "literal": "pages/search/"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v36",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 48,
+            "column": 53
+          },
+          "literal": "compact"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v37",
+          "kind": "global",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 48,
+            "column": 27
+          },
+          "name": "adminsite.search"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v38",
+          "kind": "property",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 48,
+            "column": 27
+          },
+          "base": "adminsite/urls.py#<module>:0:0$v37",
+          "path": "SearchView",
+          "name": "SearchView"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v39",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 48,
+            "column": 27
+          },
+          "name": "adminsite.search.SearchView.as_view"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v40",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 48,
+            "column": 70
+          },
+          "literal": "search"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v41",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 48,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v42",
+          "kind": "local",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 15,
+            "column": 1
+          },
+          "name": "urlpatterns"
+        }
+      ],
+      "flows": [
+        {
+          "from": "adminsite/urls.py#<module>:0:0$v1",
+          "to": "adminsite/urls.py#<module>:0:0$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 14,
+            "column": 1
+          },
+          "block": "adminsite/urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "adminsite/urls.py#<module>:0:0$v10",
+          "to": "adminsite/urls.py#<module>:0:0$v3",
+          "kind": "enclose",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 15,
+            "column": 15
+          },
+          "block": "adminsite/urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "adminsite/urls.py#<module>:0:0$v16",
+          "to": "adminsite/urls.py#<module>:0:0$v3",
+          "kind": "enclose",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 15,
+            "column": 15
+          },
+          "block": "adminsite/urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "adminsite/urls.py#<module>:0:0$v22",
+          "to": "adminsite/urls.py#<module>:0:0$v3",
+          "kind": "enclose",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 15,
+            "column": 15
+          },
+          "block": "adminsite/urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "adminsite/urls.py#<module>:0:0$v28",
+          "to": "adminsite/urls.py#<module>:0:0$v3",
+          "kind": "enclose",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 15,
+            "column": 15
+          },
+          "block": "adminsite/urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "adminsite/urls.py#<module>:0:0$v34",
+          "to": "adminsite/urls.py#<module>:0:0$v3",
+          "kind": "enclose",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 15,
+            "column": 15
+          },
+          "block": "adminsite/urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "adminsite/urls.py#<module>:0:0$v37",
+          "to": "adminsite/urls.py#<module>:0:0$v38",
+          "kind": "property",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 48,
+            "column": 27
+          },
+          "block": "adminsite/urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "adminsite/urls.py#<module>:0:0$v41",
+          "to": "adminsite/urls.py#<module>:0:0$v3",
+          "kind": "enclose",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 15,
+            "column": 15
+          },
+          "block": "adminsite/urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "adminsite/urls.py#<module>:0:0$v3",
+          "to": "adminsite/urls.py#<module>:0:0$v42",
+          "kind": "assign",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 15,
+            "column": 1
+          },
+          "block": "adminsite/urls.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "adminsite/urls.py#<module>:0:0$c0",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 18,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "adminsite.registry.page_viewset_registry.as_view",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "adminsite/urls.py#<module>:0:0$v5"
+            },
+            {
+              "valueId": "adminsite/urls.py#<module>:0:0$v6",
+              "name": "page_id_kwarg"
+            }
+          ],
+          "resultValueId": "adminsite/urls.py#<module>:0:0$v8",
+          "block": "adminsite/urls.py#<module>:0:0$b0",
+          "method": "as_view",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "edit",
+            "-1": "page_id_kwarg=page_id"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "adminsite/urls.py#<module>:0:0$v7"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$c1",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 16,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "adminsite/urls.py#<module>:0:0$v4"
+            },
+            {
+              "index": 1,
+              "valueId": "adminsite/urls.py#<module>:0:0$v8"
+            },
+            {
+              "valueId": "adminsite/urls.py#<module>:0:0$v9",
+              "name": "name"
+            }
+          ],
+          "resultValueId": "adminsite/urls.py#<module>:0:0$v10",
+          "block": "adminsite/urls.py#<module>:0:0$b0",
+          "argCount": 3,
+          "argLiterals": {
+            "0": "pages/<int:page_id>/edit/",
+            "-1": "name=edit"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$c2",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 23,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "adminsite.registry.page_viewset_registry.as_view",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "adminsite/urls.py#<module>:0:0$v12"
+            },
+            {
+              "valueId": "adminsite/urls.py#<module>:0:0$v13",
+              "name": "page_id_kwarg"
+            }
+          ],
+          "resultValueId": "adminsite/urls.py#<module>:0:0$v14",
+          "block": "adminsite/urls.py#<module>:0:0$b0",
+          "method": "as_view",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "publish",
+            "-1": "page_id_kwarg=page_id"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "adminsite/urls.py#<module>:0:0$v7"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$c3",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 21,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "adminsite/urls.py#<module>:0:0$v11"
+            },
+            {
+              "index": 1,
+              "valueId": "adminsite/urls.py#<module>:0:0$v14"
+            },
+            {
+              "valueId": "adminsite/urls.py#<module>:0:0$v15",
+              "name": "name"
+            }
+          ],
+          "resultValueId": "adminsite/urls.py#<module>:0:0$v16",
+          "block": "adminsite/urls.py#<module>:0:0$b0",
+          "argCount": 3,
+          "argLiterals": {
+            "0": "pages/<int:page_id>/publish/",
+            "-1": "name=publish"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$c4",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 29,
+            "column": 20
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "adminsite.registry.page_viewset_registry.as_view",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "adminsite/urls.py#<module>:0:0$v18"
+            },
+            {
+              "valueId": "adminsite/urls.py#<module>:0:0$v19",
+              "name": "is_base_page"
+            }
+          ],
+          "resultValueId": "adminsite/urls.py#<module>:0:0$v20",
+          "block": "adminsite/urls.py#<module>:0:0$b0",
+          "method": "as_view",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "index",
+            "-1": "is_base_page=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "adminsite/urls.py#<module>:0:0$v7"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$c5",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 29,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "adminsite/urls.py#<module>:0:0$v17"
+            },
+            {
+              "index": 1,
+              "valueId": "adminsite/urls.py#<module>:0:0$v20"
+            },
+            {
+              "valueId": "adminsite/urls.py#<module>:0:0$v21",
+              "name": "name"
+            }
+          ],
+          "resultValueId": "adminsite/urls.py#<module>:0:0$v22",
+          "block": "adminsite/urls.py#<module>:0:0$b0",
+          "argCount": 3,
+          "argLiterals": {
+            "0": "pages/",
+            "-1": "name=index"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$c6",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 35,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "adminsite.registry.page_viewset_registry.as_view",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "adminsite/urls.py#<module>:0:0$v24"
+            },
+            {
+              "valueId": "adminsite/urls.py#<module>:0:0$v25",
+              "name": "page_id_kwarg"
+            }
+          ],
+          "resultValueId": "adminsite/urls.py#<module>:0:0$v26",
+          "block": "adminsite/urls.py#<module>:0:0$b0",
+          "method": "as_view",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "history",
+            "-1": "page_id_kwarg=page_id"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "adminsite/urls.py#<module>:0:0$v7"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$c7",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 33,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "adminsite/urls.py#<module>:0:0$v23"
+            },
+            {
+              "index": 1,
+              "valueId": "adminsite/urls.py#<module>:0:0$v26"
+            },
+            {
+              "valueId": "adminsite/urls.py#<module>:0:0$v27",
+              "name": "name"
+            }
+          ],
+          "resultValueId": "adminsite/urls.py#<module>:0:0$v28",
+          "block": "adminsite/urls.py#<module>:0:0$b0",
+          "argCount": 3,
+          "argLiterals": {
+            "0": "pages/<int:page_id>/history/",
+            "-1": "name=history"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$c8",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 42,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "adminsite.registry.page_viewset_registry.as_view",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "adminsite/urls.py#<module>:0:0$v30"
+            },
+            {
+              "valueId": "adminsite/urls.py#<module>:0:0$v31",
+              "name": "page_id_kwarg"
+            }
+          ],
+          "resultValueId": "adminsite/urls.py#<module>:0:0$v32",
+          "block": "adminsite/urls.py#<module>:0:0$b0",
+          "method": "as_view",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "export",
+            "-1": "page_id_kwarg=page_id"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "adminsite/urls.py#<module>:0:0$v7"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$c9",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 40,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "adminsite/urls.py#<module>:0:0$v29"
+            },
+            {
+              "index": 1,
+              "valueId": "adminsite/urls.py#<module>:0:0$v32"
+            },
+            {
+              "valueId": "adminsite/urls.py#<module>:0:0$v33",
+              "name": "name"
+            }
+          ],
+          "resultValueId": "adminsite/urls.py#<module>:0:0$v34",
+          "block": "adminsite/urls.py#<module>:0:0$b0",
+          "argCount": 3,
+          "argLiterals": {
+            "0": "pages/<int:page_id>/export/",
+            "-1": "name=export"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$c10",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 48,
+            "column": 27
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "adminsite.search.SearchView.as_view",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "adminsite/urls.py#<module>:0:0$v36"
+            }
+          ],
+          "resultValueId": "adminsite/urls.py#<module>:0:0$v39",
+          "block": "adminsite/urls.py#<module>:0:0$b0",
+          "method": "as_view",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "compact"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "adminsite/urls.py#<module>:0:0$v38"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$c11",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 48,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "adminsite/urls.py#<module>:0:0$v35"
+            },
+            {
+              "index": 1,
+              "valueId": "adminsite/urls.py#<module>:0:0$v39"
+            },
+            {
+              "valueId": "adminsite/urls.py#<module>:0:0$v40",
+              "name": "name"
+            }
+          ],
+          "resultValueId": "adminsite/urls.py#<module>:0:0$v41",
+          "block": "adminsite/urls.py#<module>:0:0$b0",
+          "argCount": 3,
+          "argLiterals": {
+            "0": "pages/search/",
+            "-1": "name=search"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 14,
+            "column": 1
+          },
+          "path": "app_name",
+          "from": "adminsite/urls.py#<module>:0:0$v1",
+          "block": "adminsite/urls.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 15,
+            "column": 1
+          },
+          "path": "urlpatterns",
+          "from": "adminsite/urls.py#<module>:0:0$v3",
+          "block": "adminsite/urls.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "adminsite/urls.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "adminsite/urls.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "adminsite/viewsets.py#<module>:0:0",
+      "name": "<module>",
+      "module": "adminsite/viewsets.py",
+      "loc": {
+        "file": "adminsite/viewsets.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "adminsite/viewsets.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The dispatch table, and the two hops between a key and a class.\n\nEvery name here is a literal and none of them is in the URLconf:\n\n    views = {\"edit\": self.edit_view}     the key, and the attribute that answers it\n    def edit_view(self): ...             a property that wraps whatever the class holds\n    edit_view_class = PageEditView       the class, imported by THIS module\n\nEleven other classes in wagtail are called `EditView`, so the last hop is resolved against\nthe import table of the file that wrote it. `snippets/viewsets.py` in this corpus defines\nanother `PageEditView` with a live command injection of its own, reachable from no route:\na resolver that matched the bare name would report it at an address it does not answer.\n"
+        },
+        {
+          "id": "adminsite/viewsets.py#<module>:0:0$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 23,
+            "column": 5
+          },
+          "literal": "The generic half. Its property is what `index` resolves through."
+        },
+        {
+          "id": "adminsite/viewsets.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 25,
+            "column": 24
+          }
+        },
+        {
+          "id": "adminsite/viewsets.py#<module>:0:0$v3",
+          "kind": "local",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 25,
+            "column": 5
+          },
+          "name": "index_view_class"
+        },
+        {
+          "id": "adminsite/viewsets.py#<module>:0:0$v4",
+          "kind": "global",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 39,
+            "column": 23
+          },
+          "name": "pages.edit.PageEditView"
+        },
+        {
+          "id": "adminsite/viewsets.py#<module>:0:0$v5",
+          "kind": "local",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 39,
+            "column": 5
+          },
+          "name": "edit_view_class"
+        },
+        {
+          "id": "adminsite/viewsets.py#<module>:0:0$v6",
+          "kind": "global",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 40,
+            "column": 26
+          },
+          "name": "pages.publish.PagePublishView"
+        },
+        {
+          "id": "adminsite/viewsets.py#<module>:0:0$v7",
+          "kind": "local",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 40,
+            "column": 5
+          },
+          "name": "publish_view_class"
+        },
+        {
+          "id": "adminsite/viewsets.py#<module>:0:0$v8",
+          "kind": "global",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 43,
+            "column": 24
+          },
+          "name": "pages.listing.PageIndexView"
+        },
+        {
+          "id": "adminsite/viewsets.py#<module>:0:0$v9",
+          "kind": "local",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 43,
+            "column": 5
+          },
+          "name": "index_view_class"
+        }
+      ],
+      "flows": [
+        {
+          "from": "adminsite/viewsets.py#<module>:0:0$v2",
+          "to": "adminsite/viewsets.py#<module>:0:0$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 25,
+            "column": 5
+          },
+          "block": "adminsite/viewsets.py#<module>:0:0$b0"
+        },
+        {
+          "from": "adminsite/viewsets.py#<module>:0:0$v4",
+          "to": "adminsite/viewsets.py#<module>:0:0$v5",
+          "kind": "assign",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 39,
+            "column": 5
+          },
+          "block": "adminsite/viewsets.py#<module>:0:0$b0"
+        },
+        {
+          "from": "adminsite/viewsets.py#<module>:0:0$v6",
+          "to": "adminsite/viewsets.py#<module>:0:0$v7",
+          "kind": "assign",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 40,
+            "column": 5
+          },
+          "block": "adminsite/viewsets.py#<module>:0:0$b0"
+        },
+        {
+          "from": "adminsite/viewsets.py#<module>:0:0$v8",
+          "to": "adminsite/viewsets.py#<module>:0:0$v9",
+          "kind": "assign",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 43,
+            "column": 5
+          },
+          "block": "adminsite/viewsets.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "adminsite/viewsets.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "adminsite/viewsets.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "adminsite/viewsets.py#construct_view:27:5",
+      "name": "construct_view",
+      "module": "adminsite/viewsets.py",
+      "loc": {
+        "file": "adminsite/viewsets.py",
+        "line": 27,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "adminsite/viewsets.py#construct_view:27:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "view_class",
+          "valueId": "adminsite/viewsets.py#construct_view:27:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "kwargs",
+          "valueId": "adminsite/viewsets.py#construct_view:27:5$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "adminsite/viewsets.py#construct_view:27:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 27,
+            "column": 24
+          },
+          "name": "self"
+        },
+        {
+          "id": "adminsite/viewsets.py#construct_view:27:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 27,
+            "column": 30
+          },
+          "name": "view_class"
+        },
+        {
+          "id": "adminsite/viewsets.py#construct_view:27:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 27,
+            "column": 44
+          },
+          "name": "kwargs"
+        },
+        {
+          "id": "adminsite/viewsets.py#construct_view:27:5$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 28,
+            "column": 16
+          },
+          "name": "view_class.as_view"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "adminsite/viewsets.py#construct_view:27:5$c0",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 28,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "view_class.as_view",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "valueId": "adminsite/viewsets.py#construct_view:27:5$v2"
+            }
+          ],
+          "resultValueId": "adminsite/viewsets.py#construct_view:27:5$v3",
+          "block": "adminsite/viewsets.py#construct_view:27:5$b0",
+          "method": "as_view",
+          "argCount": 1,
+          "receiverValueId": "adminsite/viewsets.py#construct_view:27:5$v1"
+        }
+      ],
+      "returns": [
+        "adminsite/viewsets.py#construct_view:27:5$v3"
+      ],
+      "returnBlocks": [
+        "adminsite/viewsets.py#construct_view:27:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "adminsite/viewsets.py#construct_view:27:5$b0",
+      "blocks": [
+        {
+          "id": "adminsite/viewsets.py#construct_view:27:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 27,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "adminsite/viewsets.py#construct_view:27:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 28,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "adminsite/viewsets.py#index_view:31:5",
+      "name": "index_view",
+      "module": "adminsite/viewsets.py",
+      "loc": {
+        "file": "adminsite/viewsets.py",
+        "line": 31,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "adminsite/viewsets.py#index_view:31:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "adminsite/viewsets.py#index_view:31:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 31,
+            "column": 20
+          },
+          "name": "self"
+        },
+        {
+          "id": "adminsite/viewsets.py#index_view:31:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 32,
+            "column": 36
+          },
+          "base": "adminsite/viewsets.py#index_view:31:5$v0",
+          "path": "index_view_class",
+          "name": "index_view_class"
+        },
+        {
+          "id": "adminsite/viewsets.py#index_view:31:5$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 32,
+            "column": 16
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [
+        {
+          "from": "adminsite/viewsets.py#index_view:31:5$v0",
+          "to": "adminsite/viewsets.py#index_view:31:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 32,
+            "column": 36
+          },
+          "block": "adminsite/viewsets.py#index_view:31:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "adminsite/viewsets.py#index_view:31:5$c0",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 32,
+            "column": 16
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "adminsite/viewsets.py#construct_view:27:5",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "paramIndex": 1,
+              "valueId": "adminsite/viewsets.py#index_view:31:5$v1"
+            }
+          ],
+          "resultValueId": "adminsite/viewsets.py#index_view:31:5$v2",
+          "block": "adminsite/viewsets.py#index_view:31:5$b0",
+          "method": "construct_view",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "adminsite/viewsets.py#index_view:31:5$v0"
+        }
+      ],
+      "returns": [
+        "adminsite/viewsets.py#index_view:31:5$v2"
+      ],
+      "returnBlocks": [
+        "adminsite/viewsets.py#index_view:31:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "adminsite/viewsets.py#index_view:31:5$b0",
+      "blocks": [
+        {
+          "id": "adminsite/viewsets.py#index_view:31:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 31,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "adminsite/viewsets.py#index_view:31:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 32,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "adminsite/viewsets.py#get_view_by_name:34:5",
+      "name": "get_view_by_name",
+      "module": "adminsite/viewsets.py",
+      "loc": {
+        "file": "adminsite/viewsets.py",
+        "line": 34,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "adminsite/viewsets.py#get_view_by_name:34:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "name",
+          "valueId": "adminsite/viewsets.py#get_view_by_name:34:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "adminsite/viewsets.py#get_view_by_name:34:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 34,
+            "column": 26
+          },
+          "name": "self"
+        },
+        {
+          "id": "adminsite/viewsets.py#get_view_by_name:34:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 34,
+            "column": 32
+          },
+          "name": "name"
+        },
+        {
+          "id": "adminsite/viewsets.py#get_view_by_name:34:5$v2",
+          "kind": "property",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 35,
+            "column": 16
+          },
+          "base": "adminsite/viewsets.py#get_view_by_name:34:5$v0",
+          "path": "views",
+          "name": "views"
+        },
+        {
+          "id": "adminsite/viewsets.py#get_view_by_name:34:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 35,
+            "column": 16
+          },
+          "name": "[index]",
+          "base": "adminsite/viewsets.py#get_view_by_name:34:5$v2"
+        }
+      ],
+      "flows": [
+        {
+          "from": "adminsite/viewsets.py#get_view_by_name:34:5$v0",
+          "to": "adminsite/viewsets.py#get_view_by_name:34:5$v2",
+          "kind": "property",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 35,
+            "column": 16
+          },
+          "block": "adminsite/viewsets.py#get_view_by_name:34:5$b0"
+        },
+        {
+          "from": "adminsite/viewsets.py#get_view_by_name:34:5$v2",
+          "to": "adminsite/viewsets.py#get_view_by_name:34:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 35,
+            "column": 16
+          },
+          "block": "adminsite/viewsets.py#get_view_by_name:34:5$b0"
+        }
+      ],
+      "calls": [],
+      "returns": [
+        "adminsite/viewsets.py#get_view_by_name:34:5$v3"
+      ],
+      "returnBlocks": [
+        "adminsite/viewsets.py#get_view_by_name:34:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "adminsite/viewsets.py#get_view_by_name:34:5$b0",
+      "blocks": [
+        {
+          "id": "adminsite/viewsets.py#get_view_by_name:34:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 34,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "adminsite/viewsets.py#get_view_by_name:34:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 35,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "adminsite/viewsets.py#edit_view:46:5",
+      "name": "edit_view",
+      "module": "adminsite/viewsets.py",
+      "loc": {
+        "file": "adminsite/viewsets.py",
+        "line": 46,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "adminsite/viewsets.py#edit_view:46:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "adminsite/viewsets.py#edit_view:46:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 46,
+            "column": 19
+          },
+          "name": "self"
+        },
+        {
+          "id": "adminsite/viewsets.py#edit_view:46:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 47,
+            "column": 36
+          },
+          "base": "adminsite/viewsets.py#edit_view:46:5$v0",
+          "path": "edit_view_class",
+          "name": "edit_view_class"
+        },
+        {
+          "id": "adminsite/viewsets.py#edit_view:46:5$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 47,
+            "column": 16
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [
+        {
+          "from": "adminsite/viewsets.py#edit_view:46:5$v0",
+          "to": "adminsite/viewsets.py#edit_view:46:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 47,
+            "column": 36
+          },
+          "block": "adminsite/viewsets.py#edit_view:46:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "adminsite/viewsets.py#edit_view:46:5$c0",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 47,
+            "column": 16
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "adminsite/viewsets.py#construct_view:27:5",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "paramIndex": 1,
+              "valueId": "adminsite/viewsets.py#edit_view:46:5$v1"
+            }
+          ],
+          "resultValueId": "adminsite/viewsets.py#edit_view:46:5$v2",
+          "block": "adminsite/viewsets.py#edit_view:46:5$b0",
+          "method": "construct_view",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "adminsite/viewsets.py#edit_view:46:5$v0"
+        }
+      ],
+      "returns": [
+        "adminsite/viewsets.py#edit_view:46:5$v2"
+      ],
+      "returnBlocks": [
+        "adminsite/viewsets.py#edit_view:46:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "adminsite/viewsets.py#edit_view:46:5$b0",
+      "blocks": [
+        {
+          "id": "adminsite/viewsets.py#edit_view:46:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 46,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "adminsite/viewsets.py#edit_view:46:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 47,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "adminsite/viewsets.py#publish_view:50:5",
+      "name": "publish_view",
+      "module": "adminsite/viewsets.py",
+      "loc": {
+        "file": "adminsite/viewsets.py",
+        "line": 50,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "adminsite/viewsets.py#publish_view:50:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "adminsite/viewsets.py#publish_view:50:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 50,
+            "column": 22
+          },
+          "name": "self"
+        },
+        {
+          "id": "adminsite/viewsets.py#publish_view:50:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 51,
+            "column": 36
+          },
+          "base": "adminsite/viewsets.py#publish_view:50:5$v0",
+          "path": "publish_view_class",
+          "name": "publish_view_class"
+        },
+        {
+          "id": "adminsite/viewsets.py#publish_view:50:5$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 51,
+            "column": 16
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [
+        {
+          "from": "adminsite/viewsets.py#publish_view:50:5$v0",
+          "to": "adminsite/viewsets.py#publish_view:50:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 51,
+            "column": 36
+          },
+          "block": "adminsite/viewsets.py#publish_view:50:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "adminsite/viewsets.py#publish_view:50:5$c0",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 51,
+            "column": 16
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "adminsite/viewsets.py#construct_view:27:5",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "paramIndex": 1,
+              "valueId": "adminsite/viewsets.py#publish_view:50:5$v1"
+            }
+          ],
+          "resultValueId": "adminsite/viewsets.py#publish_view:50:5$v2",
+          "block": "adminsite/viewsets.py#publish_view:50:5$b0",
+          "method": "construct_view",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "adminsite/viewsets.py#publish_view:50:5$v0"
+        }
+      ],
+      "returns": [
+        "adminsite/viewsets.py#publish_view:50:5$v2"
+      ],
+      "returnBlocks": [
+        "adminsite/viewsets.py#publish_view:50:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "adminsite/viewsets.py#publish_view:50:5$b0",
+      "blocks": [
+        {
+          "id": "adminsite/viewsets.py#publish_view:50:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 50,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "adminsite/viewsets.py#publish_view:50:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 51,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "adminsite/viewsets.py#history_view:54:5",
+      "name": "history_view",
+      "module": "adminsite/viewsets.py",
+      "loc": {
+        "file": "adminsite/viewsets.py",
+        "line": 54,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "adminsite/viewsets.py#history_view:54:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "adminsite/viewsets.py#history_view:54:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 54,
+            "column": 22
+          },
+          "name": "self"
+        },
+        {
+          "id": "adminsite/viewsets.py#history_view:54:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 55,
+            "column": 36
+          },
+          "base": "adminsite/viewsets.py#history_view:54:5$v0",
+          "path": "index_view_class",
+          "name": "index_view_class"
+        },
+        {
+          "id": "adminsite/viewsets.py#history_view:54:5$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 55,
+            "column": 16
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [
+        {
+          "from": "adminsite/viewsets.py#history_view:54:5$v0",
+          "to": "adminsite/viewsets.py#history_view:54:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 55,
+            "column": 36
+          },
+          "block": "adminsite/viewsets.py#history_view:54:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "adminsite/viewsets.py#history_view:54:5$c0",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 55,
+            "column": 16
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "adminsite/viewsets.py#construct_view:27:5",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "paramIndex": 1,
+              "valueId": "adminsite/viewsets.py#history_view:54:5$v1"
+            }
+          ],
+          "resultValueId": "adminsite/viewsets.py#history_view:54:5$v2",
+          "block": "adminsite/viewsets.py#history_view:54:5$b0",
+          "method": "construct_view",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "adminsite/viewsets.py#history_view:54:5$v0"
+        }
+      ],
+      "returns": [
+        "adminsite/viewsets.py#history_view:54:5$v2"
+      ],
+      "returnBlocks": [
+        "adminsite/viewsets.py#history_view:54:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "adminsite/viewsets.py#history_view:54:5$b0",
+      "blocks": [
+        {
+          "id": "adminsite/viewsets.py#history_view:54:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 54,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "adminsite/viewsets.py#history_view:54:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 55,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "adminsite/viewsets.py#views:58:5",
+      "name": "views",
+      "module": "adminsite/viewsets.py",
+      "loc": {
+        "file": "adminsite/viewsets.py",
+        "line": 58,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "adminsite/viewsets.py#views:58:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "adminsite/viewsets.py#views:58:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 58,
+            "column": 15
+          },
+          "name": "self"
+        },
+        {
+          "id": "adminsite/viewsets.py#views:58:5$v1",
+          "kind": "local",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 59,
+            "column": 16
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "edit",
+              "valueId": "adminsite/viewsets.py#views:58:5$v2"
+            },
+            {
+              "key": "publish",
+              "valueId": "adminsite/viewsets.py#views:58:5$v3"
+            },
+            {
+              "key": "index",
+              "valueId": "adminsite/viewsets.py#views:58:5$v4"
+            },
+            {
+              "key": "history",
+              "valueId": "adminsite/viewsets.py#views:58:5$v5"
+            }
+          ]
+        },
+        {
+          "id": "adminsite/viewsets.py#views:58:5$v2",
+          "kind": "property",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 60,
+            "column": 21
+          },
+          "base": "adminsite/viewsets.py#views:58:5$v0",
+          "path": "edit_view",
+          "name": "edit_view"
+        },
+        {
+          "id": "adminsite/viewsets.py#views:58:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 61,
+            "column": 24
+          },
+          "base": "adminsite/viewsets.py#views:58:5$v0",
+          "path": "publish_view",
+          "name": "publish_view"
+        },
+        {
+          "id": "adminsite/viewsets.py#views:58:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 62,
+            "column": 22
+          },
+          "base": "adminsite/viewsets.py#views:58:5$v0",
+          "path": "index_view",
+          "name": "index_view"
+        },
+        {
+          "id": "adminsite/viewsets.py#views:58:5$v5",
+          "kind": "property",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 63,
+            "column": 24
+          },
+          "base": "adminsite/viewsets.py#views:58:5$v0",
+          "path": "history_view",
+          "name": "history_view"
+        }
+      ],
+      "flows": [
+        {
+          "from": "adminsite/viewsets.py#views:58:5$v0",
+          "to": "adminsite/viewsets.py#views:58:5$v2",
+          "kind": "property",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 60,
+            "column": 21
+          },
+          "block": "adminsite/viewsets.py#views:58:5$b0"
+        },
+        {
+          "from": "adminsite/viewsets.py#views:58:5$v2",
+          "to": "adminsite/viewsets.py#views:58:5$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 59,
+            "column": 16
+          },
+          "block": "adminsite/viewsets.py#views:58:5$b0"
+        },
+        {
+          "from": "adminsite/viewsets.py#views:58:5$v0",
+          "to": "adminsite/viewsets.py#views:58:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 61,
+            "column": 24
+          },
+          "block": "adminsite/viewsets.py#views:58:5$b0"
+        },
+        {
+          "from": "adminsite/viewsets.py#views:58:5$v3",
+          "to": "adminsite/viewsets.py#views:58:5$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 59,
+            "column": 16
+          },
+          "block": "adminsite/viewsets.py#views:58:5$b0"
+        },
+        {
+          "from": "adminsite/viewsets.py#views:58:5$v0",
+          "to": "adminsite/viewsets.py#views:58:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 62,
+            "column": 22
+          },
+          "block": "adminsite/viewsets.py#views:58:5$b0"
+        },
+        {
+          "from": "adminsite/viewsets.py#views:58:5$v4",
+          "to": "adminsite/viewsets.py#views:58:5$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 59,
+            "column": 16
+          },
+          "block": "adminsite/viewsets.py#views:58:5$b0"
+        },
+        {
+          "from": "adminsite/viewsets.py#views:58:5$v0",
+          "to": "adminsite/viewsets.py#views:58:5$v5",
+          "kind": "property",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 63,
+            "column": 24
+          },
+          "block": "adminsite/viewsets.py#views:58:5$b0"
+        },
+        {
+          "from": "adminsite/viewsets.py#views:58:5$v5",
+          "to": "adminsite/viewsets.py#views:58:5$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 59,
+            "column": 16
+          },
+          "block": "adminsite/viewsets.py#views:58:5$b0"
+        }
+      ],
+      "calls": [],
+      "returns": [
+        "adminsite/viewsets.py#views:58:5$v1"
+      ],
+      "returnBlocks": [
+        "adminsite/viewsets.py#views:58:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "adminsite/viewsets.py#views:58:5$b0",
+      "blocks": [
+        {
+          "id": "adminsite/viewsets.py#views:58:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 58,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "adminsite/viewsets.py#views:58:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/viewsets.py",
+            "line": 59,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "common/__init__.py#<module>:0:0",
+      "name": "<module>",
+      "module": "common/__init__.py",
+      "loc": {
+        "file": "common/__init__.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "common/__init__.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "common/__init__.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "common/__init__.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "common/generic.py#<module>:0:0",
+      "name": "<module>",
+      "module": "common/generic.py",
+      "loc": {
+        "file": "common/generic.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "common/generic.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The generic verbs. A key resolves to a class, and the class answers through its base."
+        },
+        {
+          "id": "common/generic.py#<module>:0:0$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 9,
+            "column": 13
+          }
+        },
+        {
+          "id": "common/generic.py#<module>:0:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 9,
+            "column": 5
+          },
+          "name": "model"
+        },
+        {
+          "id": "common/generic.py#<module>:0:0$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 21,
+            "column": 13
+          }
+        },
+        {
+          "id": "common/generic.py#<module>:0:0$v4",
+          "kind": "local",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 21,
+            "column": 5
+          },
+          "name": "model"
+        }
+      ],
+      "flows": [
+        {
+          "from": "common/generic.py#<module>:0:0$v1",
+          "to": "common/generic.py#<module>:0:0$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 9,
+            "column": 5
+          },
+          "block": "common/generic.py#<module>:0:0$b0"
+        },
+        {
+          "from": "common/generic.py#<module>:0:0$v3",
+          "to": "common/generic.py#<module>:0:0$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 21,
+            "column": 5
+          },
+          "block": "common/generic.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "common/generic.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "common/generic.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "common/generic.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "common/generic.py#post:11:5",
+      "name": "post",
+      "module": "common/generic.py",
+      "loc": {
+        "file": "common/generic.py",
+        "line": 11,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "common/generic.py#post:11:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "request",
+          "valueId": "common/generic.py#post:11:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "page_id",
+          "valueId": "common/generic.py#post:11:5$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "common/generic.py#post:11:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 11,
+            "column": 14
+          },
+          "name": "self"
+        },
+        {
+          "id": "common/generic.py#post:11:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 11,
+            "column": 20
+          },
+          "name": "request"
+        },
+        {
+          "id": "common/generic.py#post:11:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 11,
+            "column": 29
+          },
+          "name": "page_id"
+        },
+        {
+          "id": "common/generic.py#post:11:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 15,
+            "column": 18
+          },
+          "base": "common/generic.py#post:11:5$v1",
+          "path": "POST",
+          "name": "POST"
+        },
+        {
+          "id": "common/generic.py#post:11:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 15,
+            "column": 18
+          },
+          "name": "notify",
+          "base": "common/generic.py#post:11:5$v3",
+          "path": "POST.notify"
+        },
+        {
+          "id": "common/generic.py#post:11:5$v5",
+          "kind": "local",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 15,
+            "column": 9
+          },
+          "name": "target"
+        },
+        {
+          "id": "common/generic.py#post:11:5$v6",
+          "kind": "local",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 16,
+            "column": 39
+          },
+          "name": "concat"
+        },
+        {
+          "id": "common/generic.py#post:11:5$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 16,
+            "column": 39
+          },
+          "literal": "mail -s published "
+        },
+        {
+          "id": "common/generic.py#post:11:5$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 16,
+            "column": 76
+          },
+          "literal": "true"
+        },
+        {
+          "id": "common/generic.py#post:11:5$v9",
+          "kind": "global",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 16,
+            "column": 15
+          },
+          "name": "subprocess"
+        },
+        {
+          "id": "common/generic.py#post:11:5$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 16,
+            "column": 15
+          },
+          "name": "subprocess.check_output"
+        },
+        {
+          "id": "common/generic.py#post:11:5$v11",
+          "kind": "local",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 16,
+            "column": 9
+          },
+          "name": "out"
+        },
+        {
+          "id": "common/generic.py#post:11:5$v12",
+          "kind": "call-result",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 17,
+            "column": 16
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "common/generic.py#post:11:5$v1",
+          "to": "common/generic.py#post:11:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 15,
+            "column": 18
+          },
+          "block": "common/generic.py#post:11:5$b0"
+        },
+        {
+          "from": "common/generic.py#post:11:5$v3",
+          "to": "common/generic.py#post:11:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 15,
+            "column": 18
+          },
+          "block": "common/generic.py#post:11:5$b0"
+        },
+        {
+          "from": "common/generic.py#post:11:5$v4",
+          "to": "common/generic.py#post:11:5$v5",
+          "kind": "assign",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 15,
+            "column": 9
+          },
+          "block": "common/generic.py#post:11:5$b0"
+        },
+        {
+          "from": "common/generic.py#post:11:5$v7",
+          "to": "common/generic.py#post:11:5$v6",
+          "kind": "binary",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 16,
+            "column": 39
+          },
+          "block": "common/generic.py#post:11:5$b0"
+        },
+        {
+          "from": "common/generic.py#post:11:5$v5",
+          "to": "common/generic.py#post:11:5$v6",
+          "kind": "binary",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 16,
+            "column": 39
+          },
+          "block": "common/generic.py#post:11:5$b0"
+        },
+        {
+          "from": "common/generic.py#post:11:5$v10",
+          "to": "common/generic.py#post:11:5$v11",
+          "kind": "assign",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 16,
+            "column": 9
+          },
+          "block": "common/generic.py#post:11:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "common/generic.py#post:11:5$c0",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 16,
+            "column": 15
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "subprocess.check_output",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "common/generic.py#post:11:5$v6"
+            },
+            {
+              "valueId": "common/generic.py#post:11:5$v8",
+              "name": "shell"
+            }
+          ],
+          "resultValueId": "common/generic.py#post:11:5$v10",
+          "block": "common/generic.py#post:11:5$b0",
+          "method": "check_output",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "shell=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "common/generic.py#post:11:5$v9"
+        },
+        {
+          "id": "common/generic.py#post:11:5$c1",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 17,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "common/generic.py#post:11:5$v11"
+            }
+          ],
+          "resultValueId": "common/generic.py#post:11:5$v12",
+          "block": "common/generic.py#post:11:5$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "common/generic.py#post:11:5$v12"
+      ],
+      "returnBlocks": [
+        "common/generic.py#post:11:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "common/generic.py#post:11:5$b0",
+      "blocks": [
+        {
+          "id": "common/generic.py#post:11:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "common/generic.py",
+            "line": 11,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "common/generic.py#post:11:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "common/generic.py",
+            "line": 17,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "common/generic.py#get:23:5",
+      "name": "get",
+      "module": "common/generic.py",
+      "loc": {
+        "file": "common/generic.py",
+        "line": 23,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "common/generic.py#get:23:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "request",
+          "valueId": "common/generic.py#get:23:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "common/generic.py#get:23:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 23,
+            "column": 13
+          },
+          "name": "self"
+        },
+        {
+          "id": "common/generic.py#get:23:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 23,
+            "column": 19
+          },
+          "name": "request"
+        },
+        {
+          "id": "common/generic.py#get:23:5$v2",
+          "kind": "property",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 28,
+            "column": 18
+          },
+          "base": "common/generic.py#get:23:5$v1",
+          "path": "GET",
+          "name": "GET"
+        },
+        {
+          "id": "common/generic.py#get:23:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 28,
+            "column": 18
+          },
+          "name": "order",
+          "base": "common/generic.py#get:23:5$v2",
+          "path": "GET.order"
+        },
+        {
+          "id": "common/generic.py#get:23:5$v4",
+          "kind": "local",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 28,
+            "column": 9
+          },
+          "name": "column"
+        },
+        {
+          "id": "common/generic.py#get:23:5$v5",
+          "kind": "local",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 29,
+            "column": 53
+          },
+          "name": "concat"
+        },
+        {
+          "id": "common/generic.py#get:23:5$v6",
+          "kind": "local",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 29,
+            "column": 53
+          },
+          "name": "concat"
+        },
+        {
+          "id": "common/generic.py#get:23:5$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 29,
+            "column": 53
+          },
+          "literal": "sort -k"
+        },
+        {
+          "id": "common/generic.py#get:23:5$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 29,
+            "column": 74
+          },
+          "literal": " /srv/pages"
+        },
+        {
+          "id": "common/generic.py#get:23:5$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 29,
+            "column": 95
+          },
+          "literal": "true"
+        },
+        {
+          "id": "common/generic.py#get:23:5$v10",
+          "kind": "global",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 29,
+            "column": 29
+          },
+          "name": "subprocess"
+        },
+        {
+          "id": "common/generic.py#get:23:5$v11",
+          "kind": "call-result",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 29,
+            "column": 29
+          },
+          "name": "subprocess.check_output"
+        },
+        {
+          "id": "common/generic.py#get:23:5$v12",
+          "kind": "call-result",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 29,
+            "column": 16
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "common/generic.py#get:23:5$v1",
+          "to": "common/generic.py#get:23:5$v2",
+          "kind": "property",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 28,
+            "column": 18
+          },
+          "block": "common/generic.py#get:23:5$b0"
+        },
+        {
+          "from": "common/generic.py#get:23:5$v2",
+          "to": "common/generic.py#get:23:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 28,
+            "column": 18
+          },
+          "block": "common/generic.py#get:23:5$b0"
+        },
+        {
+          "from": "common/generic.py#get:23:5$v3",
+          "to": "common/generic.py#get:23:5$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 28,
+            "column": 9
+          },
+          "block": "common/generic.py#get:23:5$b0"
+        },
+        {
+          "from": "common/generic.py#get:23:5$v7",
+          "to": "common/generic.py#get:23:5$v6",
+          "kind": "binary",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 29,
+            "column": 53
+          },
+          "block": "common/generic.py#get:23:5$b0"
+        },
+        {
+          "from": "common/generic.py#get:23:5$v4",
+          "to": "common/generic.py#get:23:5$v6",
+          "kind": "binary",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 29,
+            "column": 53
+          },
+          "block": "common/generic.py#get:23:5$b0"
+        },
+        {
+          "from": "common/generic.py#get:23:5$v6",
+          "to": "common/generic.py#get:23:5$v5",
+          "kind": "binary",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 29,
+            "column": 53
+          },
+          "block": "common/generic.py#get:23:5$b0"
+        },
+        {
+          "from": "common/generic.py#get:23:5$v8",
+          "to": "common/generic.py#get:23:5$v5",
+          "kind": "binary",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 29,
+            "column": 53
+          },
+          "block": "common/generic.py#get:23:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "common/generic.py#get:23:5$c0",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 29,
+            "column": 29
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "subprocess.check_output",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "common/generic.py#get:23:5$v5"
+            },
+            {
+              "valueId": "common/generic.py#get:23:5$v9",
+              "name": "shell"
+            }
+          ],
+          "resultValueId": "common/generic.py#get:23:5$v11",
+          "block": "common/generic.py#get:23:5$b0",
+          "method": "check_output",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "shell=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "common/generic.py#get:23:5$v10"
+        },
+        {
+          "id": "common/generic.py#get:23:5$c1",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 29,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "common/generic.py#get:23:5$v11"
+            }
+          ],
+          "resultValueId": "common/generic.py#get:23:5$v12",
+          "block": "common/generic.py#get:23:5$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "common/generic.py#get:23:5$v12"
+      ],
+      "returnBlocks": [
+        "common/generic.py#get:23:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "common/generic.py#get:23:5$b0",
+      "blocks": [
+        {
+          "id": "common/generic.py#get:23:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "common/generic.py",
+            "line": 23,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "common/generic.py#get:23:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "common/generic.py",
+            "line": 29,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "pages/__init__.py#<module>:0:0",
+      "name": "<module>",
+      "module": "pages/__init__.py",
+      "loc": {
+        "file": "pages/__init__.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "pages/__init__.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "pages/__init__.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "pages/__init__.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "pages/edit.py#<module>:0:0",
+      "name": "<module>",
+      "module": "pages/edit.py",
+      "loc": {
+        "file": "pages/edit.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "pages/edit.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "pages/edit.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The class the key `edit` resolves to."
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "pages/edit.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "pages/edit.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "pages/edit.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "pages/edit.py#post:8:5",
+      "name": "post",
+      "module": "pages/edit.py",
+      "loc": {
+        "file": "pages/edit.py",
+        "line": 8,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "pages/edit.py#post:8:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "request",
+          "valueId": "pages/edit.py#post:8:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "page_id",
+          "valueId": "pages/edit.py#post:8:5$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "pages/edit.py#post:8:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "pages/edit.py",
+            "line": 8,
+            "column": 14
+          },
+          "name": "self"
+        },
+        {
+          "id": "pages/edit.py#post:8:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "pages/edit.py",
+            "line": 8,
+            "column": 20
+          },
+          "name": "request"
+        },
+        {
+          "id": "pages/edit.py#post:8:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "pages/edit.py",
+            "line": 8,
+            "column": 29
+          },
+          "name": "page_id"
+        },
+        {
+          "id": "pages/edit.py#post:8:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "pages/edit.py",
+            "line": 11,
+            "column": 16
+          },
+          "base": "pages/edit.py#post:8:5$v1",
+          "path": "POST",
+          "name": "POST"
+        },
+        {
+          "id": "pages/edit.py#post:8:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "pages/edit.py",
+            "line": 11,
+            "column": 16
+          },
+          "name": "slug",
+          "base": "pages/edit.py#post:8:5$v3",
+          "path": "POST.slug"
+        },
+        {
+          "id": "pages/edit.py#post:8:5$v5",
+          "kind": "local",
+          "loc": {
+            "file": "pages/edit.py",
+            "line": 11,
+            "column": 9
+          },
+          "name": "slug"
+        },
+        {
+          "id": "pages/edit.py#post:8:5$v6",
+          "kind": "global",
+          "loc": {
+            "file": "pages/edit.py",
+            "line": 12,
+            "column": 14
+          },
+          "name": "django.db.connection"
+        },
+        {
+          "id": "pages/edit.py#post:8:5$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "pages/edit.py",
+            "line": 12,
+            "column": 14
+          },
+          "name": "django.db.connection.cursor"
+        },
+        {
+          "id": "pages/edit.py#post:8:5$v8",
+          "kind": "local",
+          "loc": {
+            "file": "pages/edit.py",
+            "line": 12,
+            "column": 9
+          },
+          "name": "cur"
+        },
+        {
+          "id": "pages/edit.py#post:8:5$v9",
+          "kind": "local",
+          "loc": {
+            "file": "pages/edit.py",
+            "line": 13,
+            "column": 25
+          },
+          "name": "concat"
+        },
+        {
+          "id": "pages/edit.py#post:8:5$v10",
+          "kind": "literal",
+          "loc": {
+            "file": "pages/edit.py",
+            "line": 13,
+            "column": 25
+          },
+          "literal": "UPDATE pages SET slug = '%s' WHERE id = %s"
+        },
+        {
+          "id": "pages/edit.py#post:8:5$v11",
+          "kind": "local",
+          "loc": {
+            "file": "pages/edit.py",
+            "line": 13,
+            "column": 72
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "pages/edit.py#post:8:5$v12",
+          "kind": "call-result",
+          "loc": {
+            "file": "pages/edit.py",
+            "line": 13,
+            "column": 13
+          },
+          "name": "cur.execute"
+        },
+        {
+          "id": "pages/edit.py#post:8:5$v13",
+          "kind": "literal",
+          "loc": {
+            "file": "pages/edit.py",
+            "line": 14,
+            "column": 29
+          },
+          "literal": "ok"
+        },
+        {
+          "id": "pages/edit.py#post:8:5$v14",
+          "kind": "call-result",
+          "loc": {
+            "file": "pages/edit.py",
+            "line": 14,
+            "column": 16
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "pages/edit.py#post:8:5$v1",
+          "to": "pages/edit.py#post:8:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "pages/edit.py",
+            "line": 11,
+            "column": 16
+          },
+          "block": "pages/edit.py#post:8:5$b0"
+        },
+        {
+          "from": "pages/edit.py#post:8:5$v3",
+          "to": "pages/edit.py#post:8:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "pages/edit.py",
+            "line": 11,
+            "column": 16
+          },
+          "block": "pages/edit.py#post:8:5$b0"
+        },
+        {
+          "from": "pages/edit.py#post:8:5$v4",
+          "to": "pages/edit.py#post:8:5$v5",
+          "kind": "assign",
+          "loc": {
+            "file": "pages/edit.py",
+            "line": 11,
+            "column": 9
+          },
+          "block": "pages/edit.py#post:8:5$b0"
+        },
+        {
+          "from": "pages/edit.py#post:8:5$v7",
+          "to": "pages/edit.py#post:8:5$v8",
+          "kind": "assign",
+          "loc": {
+            "file": "pages/edit.py",
+            "line": 12,
+            "column": 9
+          },
+          "block": "pages/edit.py#post:8:5$b0"
+        },
+        {
+          "from": "pages/edit.py#post:8:5$v10",
+          "to": "pages/edit.py#post:8:5$v9",
+          "kind": "binary",
+          "loc": {
+            "file": "pages/edit.py",
+            "line": 13,
+            "column": 25
+          },
+          "block": "pages/edit.py#post:8:5$b0"
+        },
+        {
+          "from": "pages/edit.py#post:8:5$v5",
+          "to": "pages/edit.py#post:8:5$v11",
+          "kind": "enclose",
+          "loc": {
+            "file": "pages/edit.py",
+            "line": 13,
+            "column": 72
+          },
+          "block": "pages/edit.py#post:8:5$b0"
+        },
+        {
+          "from": "pages/edit.py#post:8:5$v2",
+          "to": "pages/edit.py#post:8:5$v11",
+          "kind": "enclose",
+          "loc": {
+            "file": "pages/edit.py",
+            "line": 13,
+            "column": 72
+          },
+          "block": "pages/edit.py#post:8:5$b0"
+        },
+        {
+          "from": "pages/edit.py#post:8:5$v11",
+          "to": "pages/edit.py#post:8:5$v9",
+          "kind": "binary",
+          "loc": {
+            "file": "pages/edit.py",
+            "line": 13,
+            "column": 25
+          },
+          "block": "pages/edit.py#post:8:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "pages/edit.py#post:8:5$c0",
+          "loc": {
+            "file": "pages/edit.py",
+            "line": 12,
+            "column": 14
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.db.connection.cursor",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "pages/edit.py#post:8:5$v7",
+          "block": "pages/edit.py#post:8:5$b0",
+          "method": "cursor",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "pages/edit.py#post:8:5$v6"
+        },
+        {
+          "id": "pages/edit.py#post:8:5$c1",
+          "loc": {
+            "file": "pages/edit.py",
+            "line": 13,
+            "column": 13
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cur.execute",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "pages/edit.py#post:8:5$v9"
+            }
+          ],
+          "resultValueId": "pages/edit.py#post:8:5$v12",
+          "block": "pages/edit.py#post:8:5$b0",
+          "method": "execute",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "pages/edit.py#post:8:5$v8"
+        },
+        {
+          "id": "pages/edit.py#post:8:5$c2",
+          "loc": {
+            "file": "pages/edit.py",
+            "line": 14,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "pages/edit.py#post:8:5$v13"
+            }
+          ],
+          "resultValueId": "pages/edit.py#post:8:5$v14",
+          "block": "pages/edit.py#post:8:5$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "ok"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "pages/edit.py#post:8:5$v14"
+      ],
+      "returnBlocks": [
+        "pages/edit.py#post:8:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "pages/edit.py#post:8:5$b0",
+      "blocks": [
+        {
+          "id": "pages/edit.py#post:8:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "pages/edit.py",
+            "line": 8,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "pages/edit.py#post:8:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "pages/edit.py",
+            "line": 14,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "pages/listing.py#<module>:0:0",
+      "name": "<module>",
+      "module": "pages/listing.py",
+      "loc": {
+        "file": "pages/listing.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "pages/listing.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "pages/listing.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The class the key `index` resolves to, through a property declared on the base."
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "pages/listing.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "pages/listing.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "pages/listing.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "pages/listing.py#get:9:5",
+      "name": "get",
+      "module": "pages/listing.py",
+      "loc": {
+        "file": "pages/listing.py",
+        "line": 9,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "pages/listing.py#get:9:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "request",
+          "valueId": "pages/listing.py#get:9:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "pages/listing.py#get:9:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "pages/listing.py",
+            "line": 9,
+            "column": 13
+          },
+          "name": "self"
+        },
+        {
+          "id": "pages/listing.py#get:9:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "pages/listing.py",
+            "line": 9,
+            "column": 19
+          },
+          "name": "request"
+        },
+        {
+          "id": "pages/listing.py#get:9:5$v2",
+          "kind": "property",
+          "loc": {
+            "file": "pages/listing.py",
+            "line": 14,
+            "column": 17
+          },
+          "base": "pages/listing.py#get:9:5$v1",
+          "path": "GET",
+          "name": "GET"
+        },
+        {
+          "id": "pages/listing.py#get:9:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "pages/listing.py",
+            "line": 14,
+            "column": 17
+          },
+          "name": "q",
+          "base": "pages/listing.py#get:9:5$v2",
+          "path": "GET.q"
+        },
+        {
+          "id": "pages/listing.py#get:9:5$v4",
+          "kind": "local",
+          "loc": {
+            "file": "pages/listing.py",
+            "line": 14,
+            "column": 9
+          },
+          "name": "query"
+        },
+        {
+          "id": "pages/listing.py#get:9:5$v5",
+          "kind": "local",
+          "loc": {
+            "file": "pages/listing.py",
+            "line": 15,
+            "column": 53
+          },
+          "name": "concat"
+        },
+        {
+          "id": "pages/listing.py#get:9:5$v6",
+          "kind": "local",
+          "loc": {
+            "file": "pages/listing.py",
+            "line": 15,
+            "column": 53
+          },
+          "name": "concat"
+        },
+        {
+          "id": "pages/listing.py#get:9:5$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "pages/listing.py",
+            "line": 15,
+            "column": 53
+          },
+          "literal": "grep -r "
+        },
+        {
+          "id": "pages/listing.py#get:9:5$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "pages/listing.py",
+            "line": 15,
+            "column": 74
+          },
+          "literal": " /srv/pages"
+        },
+        {
+          "id": "pages/listing.py#get:9:5$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "pages/listing.py",
+            "line": 15,
+            "column": 95
+          },
+          "literal": "true"
+        },
+        {
+          "id": "pages/listing.py#get:9:5$v10",
+          "kind": "global",
+          "loc": {
+            "file": "pages/listing.py",
+            "line": 15,
+            "column": 29
+          },
+          "name": "subprocess"
+        },
+        {
+          "id": "pages/listing.py#get:9:5$v11",
+          "kind": "call-result",
+          "loc": {
+            "file": "pages/listing.py",
+            "line": 15,
+            "column": 29
+          },
+          "name": "subprocess.check_output"
+        },
+        {
+          "id": "pages/listing.py#get:9:5$v12",
+          "kind": "call-result",
+          "loc": {
+            "file": "pages/listing.py",
+            "line": 15,
+            "column": 16
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "pages/listing.py#get:9:5$v1",
+          "to": "pages/listing.py#get:9:5$v2",
+          "kind": "property",
+          "loc": {
+            "file": "pages/listing.py",
+            "line": 14,
+            "column": 17
+          },
+          "block": "pages/listing.py#get:9:5$b0"
+        },
+        {
+          "from": "pages/listing.py#get:9:5$v2",
+          "to": "pages/listing.py#get:9:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "pages/listing.py",
+            "line": 14,
+            "column": 17
+          },
+          "block": "pages/listing.py#get:9:5$b0"
+        },
+        {
+          "from": "pages/listing.py#get:9:5$v3",
+          "to": "pages/listing.py#get:9:5$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "pages/listing.py",
+            "line": 14,
+            "column": 9
+          },
+          "block": "pages/listing.py#get:9:5$b0"
+        },
+        {
+          "from": "pages/listing.py#get:9:5$v7",
+          "to": "pages/listing.py#get:9:5$v6",
+          "kind": "binary",
+          "loc": {
+            "file": "pages/listing.py",
+            "line": 15,
+            "column": 53
+          },
+          "block": "pages/listing.py#get:9:5$b0"
+        },
+        {
+          "from": "pages/listing.py#get:9:5$v4",
+          "to": "pages/listing.py#get:9:5$v6",
+          "kind": "binary",
+          "loc": {
+            "file": "pages/listing.py",
+            "line": 15,
+            "column": 53
+          },
+          "block": "pages/listing.py#get:9:5$b0"
+        },
+        {
+          "from": "pages/listing.py#get:9:5$v6",
+          "to": "pages/listing.py#get:9:5$v5",
+          "kind": "binary",
+          "loc": {
+            "file": "pages/listing.py",
+            "line": 15,
+            "column": 53
+          },
+          "block": "pages/listing.py#get:9:5$b0"
+        },
+        {
+          "from": "pages/listing.py#get:9:5$v8",
+          "to": "pages/listing.py#get:9:5$v5",
+          "kind": "binary",
+          "loc": {
+            "file": "pages/listing.py",
+            "line": 15,
+            "column": 53
+          },
+          "block": "pages/listing.py#get:9:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "pages/listing.py#get:9:5$c0",
+          "loc": {
+            "file": "pages/listing.py",
+            "line": 15,
+            "column": 29
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "subprocess.check_output",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "pages/listing.py#get:9:5$v5"
+            },
+            {
+              "valueId": "pages/listing.py#get:9:5$v9",
+              "name": "shell"
+            }
+          ],
+          "resultValueId": "pages/listing.py#get:9:5$v11",
+          "block": "pages/listing.py#get:9:5$b0",
+          "method": "check_output",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "shell=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "pages/listing.py#get:9:5$v10"
+        },
+        {
+          "id": "pages/listing.py#get:9:5$c1",
+          "loc": {
+            "file": "pages/listing.py",
+            "line": 15,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "pages/listing.py#get:9:5$v11"
+            }
+          ],
+          "resultValueId": "pages/listing.py#get:9:5$v12",
+          "block": "pages/listing.py#get:9:5$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "pages/listing.py#get:9:5$v12"
+      ],
+      "returnBlocks": [
+        "pages/listing.py#get:9:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "pages/listing.py#get:9:5$b0",
+      "blocks": [
+        {
+          "id": "pages/listing.py#get:9:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "pages/listing.py",
+            "line": 9,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "pages/listing.py#get:9:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "pages/listing.py",
+            "line": 15,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "pages/publish.py#<module>:0:0",
+      "name": "<module>",
+      "module": "pages/publish.py",
+      "loc": {
+        "file": "pages/publish.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "pages/publish.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "pages/publish.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The class the key `publish` resolves to. Its verb is on a base this program defines."
+        },
+        {
+          "id": "pages/publish.py#<module>:0:0$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "pages/publish.py",
+            "line": 7,
+            "column": 13
+          },
+          "literal": "Page"
+        },
+        {
+          "id": "pages/publish.py#<module>:0:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "pages/publish.py",
+            "line": 7,
+            "column": 5
+          },
+          "name": "model"
+        }
+      ],
+      "flows": [
+        {
+          "from": "pages/publish.py#<module>:0:0$v1",
+          "to": "pages/publish.py#<module>:0:0$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "pages/publish.py",
+            "line": 7,
+            "column": 5
+          },
+          "block": "pages/publish.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "pages/publish.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "pages/publish.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "pages/publish.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "snippets/__init__.py#<module>:0:0",
+      "name": "<module>",
+      "module": "snippets/__init__.py",
+      "loc": {
+        "file": "snippets/__init__.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "snippets/__init__.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "snippets/__init__.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "snippets/__init__.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "snippets/views.py#<module>:0:0",
+      "name": "<module>",
+      "module": "snippets/views.py",
+      "loc": {
+        "file": "snippets/views.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "snippets/views.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "NEGATIVE. Two classes no route in this program reaches.\n\n`PageEditView` shares its name with the class the page viewset holds. It carries a live\ncommand injection so that a resolver matching the bare name fails loudly: the finding\nwould be reported at `/admin/pages/<int:page_id>/edit/`, an address that runs the other\nclass entirely.\n"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "snippets/views.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "snippets/views.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "snippets/views.py#post:15:5",
+      "name": "post",
+      "module": "snippets/views.py",
+      "loc": {
+        "file": "snippets/views.py",
+        "line": 15,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "snippets/views.py#post:15:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "request",
+          "valueId": "snippets/views.py#post:15:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "pk",
+          "valueId": "snippets/views.py#post:15:5$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "snippets/views.py#post:15:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 15,
+            "column": 14
+          },
+          "name": "self"
+        },
+        {
+          "id": "snippets/views.py#post:15:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 15,
+            "column": 20
+          },
+          "name": "request"
+        },
+        {
+          "id": "snippets/views.py#post:15:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 15,
+            "column": 29
+          },
+          "name": "pk"
+        },
+        {
+          "id": "snippets/views.py#post:15:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 16,
+            "column": 18
+          },
+          "base": "snippets/views.py#post:15:5$v1",
+          "path": "POST",
+          "name": "POST"
+        },
+        {
+          "id": "snippets/views.py#post:15:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 16,
+            "column": 18
+          },
+          "name": "archive",
+          "base": "snippets/views.py#post:15:5$v3",
+          "path": "POST.archive"
+        },
+        {
+          "id": "snippets/views.py#post:15:5$v5",
+          "kind": "local",
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 16,
+            "column": 9
+          },
+          "name": "target"
+        },
+        {
+          "id": "snippets/views.py#post:15:5$v6",
+          "kind": "local",
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 17,
+            "column": 53
+          },
+          "name": "concat"
+        },
+        {
+          "id": "snippets/views.py#post:15:5$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 17,
+            "column": 53
+          },
+          "literal": "tar cf "
+        },
+        {
+          "id": "snippets/views.py#post:15:5$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 17,
+            "column": 79
+          },
+          "literal": "true"
+        },
+        {
+          "id": "snippets/views.py#post:15:5$v9",
+          "kind": "global",
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 17,
+            "column": 29
+          },
+          "name": "subprocess"
+        },
+        {
+          "id": "snippets/views.py#post:15:5$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 17,
+            "column": 29
+          },
+          "name": "subprocess.check_output"
+        },
+        {
+          "id": "snippets/views.py#post:15:5$v11",
+          "kind": "call-result",
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 17,
+            "column": 16
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "snippets/views.py#post:15:5$v1",
+          "to": "snippets/views.py#post:15:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 16,
+            "column": 18
+          },
+          "block": "snippets/views.py#post:15:5$b0"
+        },
+        {
+          "from": "snippets/views.py#post:15:5$v3",
+          "to": "snippets/views.py#post:15:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 16,
+            "column": 18
+          },
+          "block": "snippets/views.py#post:15:5$b0"
+        },
+        {
+          "from": "snippets/views.py#post:15:5$v4",
+          "to": "snippets/views.py#post:15:5$v5",
+          "kind": "assign",
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 16,
+            "column": 9
+          },
+          "block": "snippets/views.py#post:15:5$b0"
+        },
+        {
+          "from": "snippets/views.py#post:15:5$v7",
+          "to": "snippets/views.py#post:15:5$v6",
+          "kind": "binary",
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 17,
+            "column": 53
+          },
+          "block": "snippets/views.py#post:15:5$b0"
+        },
+        {
+          "from": "snippets/views.py#post:15:5$v5",
+          "to": "snippets/views.py#post:15:5$v6",
+          "kind": "binary",
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 17,
+            "column": 53
+          },
+          "block": "snippets/views.py#post:15:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "snippets/views.py#post:15:5$c0",
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 17,
+            "column": 29
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "subprocess.check_output",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "snippets/views.py#post:15:5$v6"
+            },
+            {
+              "valueId": "snippets/views.py#post:15:5$v8",
+              "name": "shell"
+            }
+          ],
+          "resultValueId": "snippets/views.py#post:15:5$v10",
+          "block": "snippets/views.py#post:15:5$b0",
+          "method": "check_output",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "shell=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "snippets/views.py#post:15:5$v9"
+        },
+        {
+          "id": "snippets/views.py#post:15:5$c1",
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 17,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "snippets/views.py#post:15:5$v10"
+            }
+          ],
+          "resultValueId": "snippets/views.py#post:15:5$v11",
+          "block": "snippets/views.py#post:15:5$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "snippets/views.py#post:15:5$v11"
+      ],
+      "returnBlocks": [
+        "snippets/views.py#post:15:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "snippets/views.py#post:15:5$b0",
+      "blocks": [
+        {
+          "id": "snippets/views.py#post:15:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 15,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "snippets/views.py#post:15:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 17,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "snippets/views.py#get:21:5",
+      "name": "get",
+      "module": "snippets/views.py",
+      "loc": {
+        "file": "snippets/views.py",
+        "line": 21,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "snippets/views.py#get:21:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "request",
+          "valueId": "snippets/views.py#get:21:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "pk",
+          "valueId": "snippets/views.py#get:21:5$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "snippets/views.py#get:21:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 21,
+            "column": 13
+          },
+          "name": "self"
+        },
+        {
+          "id": "snippets/views.py#get:21:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 21,
+            "column": 19
+          },
+          "name": "request"
+        },
+        {
+          "id": "snippets/views.py#get:21:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 21,
+            "column": 28
+          },
+          "name": "pk"
+        },
+        {
+          "id": "snippets/views.py#get:21:5$v3",
+          "kind": "local",
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 22,
+            "column": 29
+          },
+          "name": "concat"
+        },
+        {
+          "id": "snippets/views.py#get:21:5$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 22,
+            "column": 29
+          },
+          "literal": "history of %d"
+        },
+        {
+          "id": "snippets/views.py#get:21:5$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 22,
+            "column": 16
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "snippets/views.py#get:21:5$v4",
+          "to": "snippets/views.py#get:21:5$v3",
+          "kind": "binary",
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 22,
+            "column": 29
+          },
+          "block": "snippets/views.py#get:21:5$b0"
+        },
+        {
+          "from": "snippets/views.py#get:21:5$v2",
+          "to": "snippets/views.py#get:21:5$v3",
+          "kind": "binary",
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 22,
+            "column": 29
+          },
+          "block": "snippets/views.py#get:21:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "snippets/views.py#get:21:5$c0",
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 22,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "snippets/views.py#get:21:5$v3"
+            }
+          ],
+          "resultValueId": "snippets/views.py#get:21:5$v5",
+          "block": "snippets/views.py#get:21:5$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "snippets/views.py#get:21:5$v5"
+      ],
+      "returnBlocks": [
+        "snippets/views.py#get:21:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "snippets/views.py#get:21:5$b0",
+      "blocks": [
+        {
+          "id": "snippets/views.py#get:21:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 21,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "snippets/views.py#get:21:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "snippets/views.py",
+            "line": 22,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "snippets/viewsets.py#<module>:0:0",
+      "name": "<module>",
+      "module": "snippets/viewsets.py",
+      "loc": {
+        "file": "snippets/viewsets.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "snippets/viewsets.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The second dispatch table, and the reason `history` resolves to nothing.\n\nTwo tables in one program declare `history`. The URLconf's key does not say which, and a\nreader that picked one would bind `/admin/pages/<page_id>/history/` to a body that address\ndoes not run. AMBIGUITY RESOLVES TO NOTHING: the route stays enumerated and carries no\nhandler, which is a gap a maintainer can see rather than a claim they cannot check.\n"
+        },
+        {
+          "id": "snippets/viewsets.py#<module>:0:0$v1",
+          "kind": "global",
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 15,
+            "column": 26
+          },
+          "name": "snippets.views.SnippetHistoryView"
+        },
+        {
+          "id": "snippets/viewsets.py#<module>:0:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 15,
+            "column": 5
+          },
+          "name": "history_view_class"
+        },
+        {
+          "id": "snippets/viewsets.py#<module>:0:0$v3",
+          "kind": "global",
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 16,
+            "column": 23
+          },
+          "name": "snippets.views.PageEditView"
+        },
+        {
+          "id": "snippets/viewsets.py#<module>:0:0$v4",
+          "kind": "local",
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 16,
+            "column": 5
+          },
+          "name": "edit_view_class"
+        }
+      ],
+      "flows": [
+        {
+          "from": "snippets/viewsets.py#<module>:0:0$v1",
+          "to": "snippets/viewsets.py#<module>:0:0$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 15,
+            "column": 5
+          },
+          "block": "snippets/viewsets.py#<module>:0:0$b0"
+        },
+        {
+          "from": "snippets/viewsets.py#<module>:0:0$v3",
+          "to": "snippets/viewsets.py#<module>:0:0$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 16,
+            "column": 5
+          },
+          "block": "snippets/viewsets.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "snippets/viewsets.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "snippets/viewsets.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "snippets/viewsets.py#construct_view:18:5",
+      "name": "construct_view",
+      "module": "snippets/viewsets.py",
+      "loc": {
+        "file": "snippets/viewsets.py",
+        "line": 18,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "snippets/viewsets.py#construct_view:18:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "view_class",
+          "valueId": "snippets/viewsets.py#construct_view:18:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "kwargs",
+          "valueId": "snippets/viewsets.py#construct_view:18:5$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "snippets/viewsets.py#construct_view:18:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 18,
+            "column": 24
+          },
+          "name": "self"
+        },
+        {
+          "id": "snippets/viewsets.py#construct_view:18:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 18,
+            "column": 30
+          },
+          "name": "view_class"
+        },
+        {
+          "id": "snippets/viewsets.py#construct_view:18:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 18,
+            "column": 44
+          },
+          "name": "kwargs"
+        },
+        {
+          "id": "snippets/viewsets.py#construct_view:18:5$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 19,
+            "column": 16
+          },
+          "name": "view_class.as_view"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "snippets/viewsets.py#construct_view:18:5$c0",
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 19,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "view_class.as_view",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "valueId": "snippets/viewsets.py#construct_view:18:5$v2"
+            }
+          ],
+          "resultValueId": "snippets/viewsets.py#construct_view:18:5$v3",
+          "block": "snippets/viewsets.py#construct_view:18:5$b0",
+          "method": "as_view",
+          "argCount": 1,
+          "receiverValueId": "snippets/viewsets.py#construct_view:18:5$v1"
+        }
+      ],
+      "returns": [
+        "snippets/viewsets.py#construct_view:18:5$v3"
+      ],
+      "returnBlocks": [
+        "snippets/viewsets.py#construct_view:18:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "snippets/viewsets.py#construct_view:18:5$b0",
+      "blocks": [
+        {
+          "id": "snippets/viewsets.py#construct_view:18:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 18,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "snippets/viewsets.py#construct_view:18:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 19,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "snippets/viewsets.py#history_view:22:5",
+      "name": "history_view",
+      "module": "snippets/viewsets.py",
+      "loc": {
+        "file": "snippets/viewsets.py",
+        "line": 22,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "snippets/viewsets.py#history_view:22:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "snippets/viewsets.py#history_view:22:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 22,
+            "column": 22
+          },
+          "name": "self"
+        },
+        {
+          "id": "snippets/viewsets.py#history_view:22:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 23,
+            "column": 36
+          },
+          "base": "snippets/viewsets.py#history_view:22:5$v0",
+          "path": "history_view_class",
+          "name": "history_view_class"
+        },
+        {
+          "id": "snippets/viewsets.py#history_view:22:5$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 23,
+            "column": 16
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [
+        {
+          "from": "snippets/viewsets.py#history_view:22:5$v0",
+          "to": "snippets/viewsets.py#history_view:22:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 23,
+            "column": 36
+          },
+          "block": "snippets/viewsets.py#history_view:22:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "snippets/viewsets.py#history_view:22:5$c0",
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 23,
+            "column": 16
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "snippets/viewsets.py#construct_view:18:5",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "paramIndex": 1,
+              "valueId": "snippets/viewsets.py#history_view:22:5$v1"
+            }
+          ],
+          "resultValueId": "snippets/viewsets.py#history_view:22:5$v2",
+          "block": "snippets/viewsets.py#history_view:22:5$b0",
+          "method": "construct_view",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "snippets/viewsets.py#history_view:22:5$v0"
+        }
+      ],
+      "returns": [
+        "snippets/viewsets.py#history_view:22:5$v2"
+      ],
+      "returnBlocks": [
+        "snippets/viewsets.py#history_view:22:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "snippets/viewsets.py#history_view:22:5$b0",
+      "blocks": [
+        {
+          "id": "snippets/viewsets.py#history_view:22:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 22,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "snippets/viewsets.py#history_view:22:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 23,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "snippets/viewsets.py#detail_view:26:5",
+      "name": "detail_view",
+      "module": "snippets/viewsets.py",
+      "loc": {
+        "file": "snippets/viewsets.py",
+        "line": 26,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "snippets/viewsets.py#detail_view:26:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "snippets/viewsets.py#detail_view:26:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 26,
+            "column": 21
+          },
+          "name": "self"
+        },
+        {
+          "id": "snippets/viewsets.py#detail_view:26:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 27,
+            "column": 36
+          },
+          "base": "snippets/viewsets.py#detail_view:26:5$v0",
+          "path": "edit_view_class",
+          "name": "edit_view_class"
+        },
+        {
+          "id": "snippets/viewsets.py#detail_view:26:5$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 27,
+            "column": 16
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [
+        {
+          "from": "snippets/viewsets.py#detail_view:26:5$v0",
+          "to": "snippets/viewsets.py#detail_view:26:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 27,
+            "column": 36
+          },
+          "block": "snippets/viewsets.py#detail_view:26:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "snippets/viewsets.py#detail_view:26:5$c0",
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 27,
+            "column": 16
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "snippets/viewsets.py#construct_view:18:5",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "paramIndex": 1,
+              "valueId": "snippets/viewsets.py#detail_view:26:5$v1"
+            }
+          ],
+          "resultValueId": "snippets/viewsets.py#detail_view:26:5$v2",
+          "block": "snippets/viewsets.py#detail_view:26:5$b0",
+          "method": "construct_view",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "snippets/viewsets.py#detail_view:26:5$v0"
+        }
+      ],
+      "returns": [
+        "snippets/viewsets.py#detail_view:26:5$v2"
+      ],
+      "returnBlocks": [
+        "snippets/viewsets.py#detail_view:26:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "snippets/viewsets.py#detail_view:26:5$b0",
+      "blocks": [
+        {
+          "id": "snippets/viewsets.py#detail_view:26:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 26,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "snippets/viewsets.py#detail_view:26:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 27,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "snippets/viewsets.py#views:30:5",
+      "name": "views",
+      "module": "snippets/viewsets.py",
+      "loc": {
+        "file": "snippets/viewsets.py",
+        "line": 30,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "snippets/viewsets.py#views:30:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "snippets/viewsets.py#views:30:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 30,
+            "column": 15
+          },
+          "name": "self"
+        },
+        {
+          "id": "snippets/viewsets.py#views:30:5$v1",
+          "kind": "local",
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 31,
+            "column": 16
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "history",
+              "valueId": "snippets/viewsets.py#views:30:5$v2"
+            },
+            {
+              "key": "snippet_detail",
+              "valueId": "snippets/viewsets.py#views:30:5$v3"
+            }
+          ]
+        },
+        {
+          "id": "snippets/viewsets.py#views:30:5$v2",
+          "kind": "property",
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 32,
+            "column": 24
+          },
+          "base": "snippets/viewsets.py#views:30:5$v0",
+          "path": "history_view",
+          "name": "history_view"
+        },
+        {
+          "id": "snippets/viewsets.py#views:30:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 33,
+            "column": 31
+          },
+          "base": "snippets/viewsets.py#views:30:5$v0",
+          "path": "detail_view",
+          "name": "detail_view"
+        }
+      ],
+      "flows": [
+        {
+          "from": "snippets/viewsets.py#views:30:5$v0",
+          "to": "snippets/viewsets.py#views:30:5$v2",
+          "kind": "property",
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 32,
+            "column": 24
+          },
+          "block": "snippets/viewsets.py#views:30:5$b0"
+        },
+        {
+          "from": "snippets/viewsets.py#views:30:5$v2",
+          "to": "snippets/viewsets.py#views:30:5$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 31,
+            "column": 16
+          },
+          "block": "snippets/viewsets.py#views:30:5$b0"
+        },
+        {
+          "from": "snippets/viewsets.py#views:30:5$v0",
+          "to": "snippets/viewsets.py#views:30:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 33,
+            "column": 31
+          },
+          "block": "snippets/viewsets.py#views:30:5$b0"
+        },
+        {
+          "from": "snippets/viewsets.py#views:30:5$v3",
+          "to": "snippets/viewsets.py#views:30:5$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 31,
+            "column": 16
+          },
+          "block": "snippets/viewsets.py#views:30:5$b0"
+        }
+      ],
+      "calls": [],
+      "returns": [
+        "snippets/viewsets.py#views:30:5$v1"
+      ],
+      "returnBlocks": [
+        "snippets/viewsets.py#views:30:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "snippets/viewsets.py#views:30:5$b0",
+      "blocks": [
+        {
+          "id": "snippets/viewsets.py#views:30:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 30,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "snippets/viewsets.py#views:30:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "snippets/viewsets.py",
+            "line": 31,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "urls.py#<module>:0:0",
+      "name": "<module>",
+      "module": "urls.py",
+      "loc": {
+        "file": "urls.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "urls.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The root URLconf."
+        },
+        {
+          "id": "urls.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "urls.py",
+            "line": 7,
+            "column": 15
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 8,
+            "column": 10
+          },
+          "literal": "admin/"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v3",
+          "kind": "global",
+          "loc": {
+            "file": "urls.py",
+            "line": 8,
+            "column": 28
+          },
+          "name": "adminsite.urls"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 8,
+            "column": 20
+          },
+          "name": "django.urls.include"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 8,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v6",
+          "kind": "local",
+          "loc": {
+            "file": "urls.py",
+            "line": 7,
+            "column": 1
+          },
+          "name": "urlpatterns"
+        }
+      ],
+      "flows": [
+        {
+          "from": "urls.py#<module>:0:0$v5",
+          "to": "urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 7,
+            "column": 15
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "urls.py#<module>:0:0$v1",
+          "to": "urls.py#<module>:0:0$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "urls.py",
+            "line": 7,
+            "column": 1
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "urls.py#<module>:0:0$c0",
+          "loc": {
+            "file": "urls.py",
+            "line": 8,
+            "column": 20
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.include",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v3"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v4",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c1",
+          "loc": {
+            "file": "urls.py",
+            "line": 8,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v4"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v5",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "admin/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "urls.py",
+            "line": 7,
+            "column": 1
+          },
+          "path": "urlpatterns",
+          "from": "urls.py#<module>:0:0$v1",
+          "block": "urls.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "urls.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "urls.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "urls.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "pages/edit.py#post:8:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "POST",
+        "path": "/admin/pages/:page_id/edit/",
+        "pathParams": "int:page_id"
+      }
+    },
+    {
+      "functionId": "common/generic.py#post:11:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "POST",
+        "path": "/admin/pages/:page_id/publish/",
+        "pathParams": "int:page_id"
+      }
+    },
+    {
+      "functionId": "pages/listing.py#get:9:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "GET",
+        "path": "/admin/pages/"
+      }
+    },
+    {
+      "functionId": "adminsite/search.py#get:11:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "GET",
+        "path": "/admin/pages/search/"
+      }
+    }
+  ],
+  "declaredViews": [],
+  "views": [],
+  "renders": []
+}

@@ -1,15 +1,17 @@
 """Route declarations that reach `urlpatterns` through something other than a literal.
 
 A URLconf reader that matches `path(<literal>, <view>)` reads every Django application
-that writes its routes down. Two idioms do not write them down, and both were measured
+that writes its routes down. Four idioms do not write them down, and each was measured
 enumerating almost nothing:
 
     django-oscar   219 declared routes, 30 enumerated (14%)
     netbox         532 declared routes, 128 enumerated (24%)
+    wagtail        220 walked registrations, 88 producing an entry point (40%)
 
-DefectDojo, Django with DRF, enumerates at 108% against the same count, so neither gap is
-"Django". Each is one specific way of getting a list of registrations into `urlpatterns`
-without the registration and the handler ever appearing in the same expression.
+DefectDojo, Django with DRF, enumerates at 108% against the same count, so no one of these
+gaps is "Django". Each is one specific way of getting a list of registrations into
+`urlpatterns` without the registration and the handler ever appearing in the same
+expression.
 
 **Shape 1 -- a method that composes with its parent.** An oscar application is a CLASS.
 Every app contributes its routes by overriding `get_urls()`, the view is `self.<attr>`
@@ -21,9 +23,23 @@ itself to a model with `@register_model_view(Region, 'edit')` and `dcim/urls.py`
 the same key with `include(get_model_urls('dcim', 'region'))`. The route-to-view binding
 is decorator to registry to call and is never written as a literal.
 
-What both need is the same thing and it is a LOOKUP, not an evaluation: the declarations
-are all present in the source, addressed by a key one site writes and another site reads.
-This module reads the keys and matches them. It computes no route text and builds no
+**Shape 3 -- a hook registry keyed by a string.** Nine of wagtail's applications write
+`@hooks.register("register_admin_urls")` on a function returning routes, and
+`wagtail/admin/urls/__init__.py` splices what each returns with
+`for fn in hooks.get_hooks("register_admin_urls"): urlpatterns += fn()`. What travels
+between the two is a function's RETURN VALUE, which no `include()` names.
+
+**Shape 4 -- a view named by a string key.** 34 of `wagtail/admin/urls/pages.py`'s 35
+registrations are `page_viewset_registry.as_view("edit", page_id_kwarg="page_id")`: the
+address is a literal and the class is three hops away, through a dispatch table, a
+property, and a class attribute in a third file.
+
+**Shape 5 -- a viewset mounted at a prefix nothing writes down.** NOT BUILT; the
+withdrawal and its numbers are recorded below, beside the shapes that are.
+
+What all four need is the same thing and it is a LOOKUP, not an evaluation: the
+declarations are all present in the source, addressed by a key one site writes and another
+site reads. This module reads the keys and matches them. It computes no route text and builds no
 entry point -- `lower.py` owns both, and this file is the layer below it, so it can be
 read and tested as a question about the program rather than about the IR.
 
@@ -507,3 +523,434 @@ def _unsubscript(node: ast.AST) -> ast.AST:
     element is the pattern list; the other two are namespaces, which are names and not
     paths."""
     return node.value if isinstance(node, ast.Subscript) else node
+
+
+# --- Shape 3: a hook registry keyed by a string ------------------------------
+#
+# `@hooks.register("register_admin_urls")` in nine of wagtail's applications and
+# `for fn in hooks.get_hooks("register_admin_urls"): urlpatterns += fn()` in
+# `wagtail/admin/urls/__init__.py`. The registration and the list it lands in name one
+# key from two files, and nothing in between is a route expression: the routes are the
+# RETURN VALUE of a function no caller in the source ever names.
+#
+# This is the shape `register_model_view` above already answers, one level up: there the
+# key bound a view to a model, here it binds a whole list of registrations to the list
+# that splices it. Measured on wagtail: thirteen registrations sit inside these functions
+# and every one of them is an `include(...)`, so the count they contribute is zero and the
+# ADDRESS they contribute is everything. Without the key, the admin's documents, images,
+# forms, settings, redirects, search-promotions, embeds and styleguide URLconfs were
+# enumerated at `/documents/`, `/images/`, `/forms/` and the rest rather than under
+# `/admin/` -- and `/documents/<int:document_id>/...` is a path wagtail really does serve,
+# from `wagtail/documents/urls.py`, with a different view. Entry points claimed at an
+# address that exists and answers with something else are the worst kind an anchor can be.
+
+# The decorator half. `register` is a common word, which is why nothing here fires on it
+# alone: a key produces an edge only when a `get_hooks` call names the SAME key, so the
+# join and not the spelling is what decides.
+HOOK_DECORATOR = "register"
+
+# The read-back half. Distinctive, and the reason this reader can be keyed on a name at
+# all -- the same judgement `get_model_urls` above is read under.
+HOOK_READER = "get_hooks"
+
+# What a loop body has to do with a hook's return value for it to be routes. `+=` is how
+# Django's own documentation writes it and how wagtail does; `.extend()` is the same
+# statement spelled as a call.
+HOOK_SPLICES = frozenset({"extend"})
+
+
+def hook_list_name(key: str, function: str) -> str:
+    """The name the routes one hook function returns are carried under.
+
+    A synthetic list name, because the routes are inside a function and a function is not
+    a list -- but every other mount in this frontend is `(module, list name)`, and giving
+    the return value a name lets the same graph walk resolve it. It never leaves the
+    frontend: only the prefix it resolves to reaches the IR.
+    """
+    return f"<hook {key}:{function}>"
+
+
+class HookRouteRegistry:
+    """Route lists a string key binds to the `urlpatterns` that splices them.
+
+    Two indexes and one join, exactly as `ModelViewRegistry` above. `providers` answers
+    "which functions did anything register under this key"; `consumers` answers "which
+    list reads that key back and splices what it returns". A key present on only one side
+    binds nothing, which is what makes the pair safe to key on a name as ordinary as
+    `register`: wagtail registers under twenty-odd hook names and only `register_admin_urls`
+    has a URLconf reading it back, so only that one moves a route.
+    """
+
+    __slots__ = ("providers", "consumers")
+
+    def __init__(self, modules: list[tuple[str, ast.Module]]):
+        self.providers: dict[str, list[tuple[str, str]]] = {}
+        self.consumers: dict[str, list[tuple[str, str]]] = {}
+        for module, tree in modules:
+            for stmt in tree.body:
+                if isinstance(stmt, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                    for key in _hook_keys(stmt):
+                        self.providers.setdefault(key, []).append((module, stmt.name))
+            bound = _module_level_names(tree)
+            for node in ast.walk(tree):
+                if not isinstance(node, ast.For):
+                    continue
+                key = _hook_reader_key(node.iter)
+                if key is None:
+                    continue
+                for name in _spliced_into(node.body):
+                    # A name this module does not bind at module level is not a URLconf of
+                    # this module: it is a local of whatever function the loop sits in, and
+                    # the mount graph is keyed on module-level lists.
+                    if name in bound:
+                        self.consumers.setdefault(key, []).append((module, name))
+
+    def lists_of(self, module: str) -> dict[str, str]:
+        """Function name -> the synthetic list its registrations belong to, in one module.
+
+        Only for keys something reads back. A hook nothing splices contributes no mount,
+        so attributing its registrations to a list of their own would move where they are
+        served for no reason -- they keep the answer the module already gave.
+        """
+        out: dict[str, str] = {}
+        for key, registered in self.providers.items():
+            if key not in self.consumers:
+                continue
+            for owner, function in registered:
+                if owner == module:
+                    out[function] = hook_list_name(key, function)
+        return out
+
+    def edges(self) -> list[tuple[tuple[str, str], str, str, str]]:
+        """((provider module, its hook list), route, consumer module, consumer list).
+
+        The route is always empty: `urlpatterns += fn()` splices the list in at the path
+        the consuming list is already served at, and each registration inside carries its
+        own route from there.
+        """
+        out: list[tuple[tuple[str, str], str, str, str]] = []
+        for key, registered in self.providers.items():
+            for module, name in self.consumers.get(key, ()):
+                for owner, function in registered:
+                    out.append(((owner, hook_list_name(key, function)), "", module, name))
+        return out
+
+
+def _hook_keys(node: ast.AST) -> list[str]:
+    """The keys a function is registered under, out of the decorators it carries.
+
+    `@hooks.register("register_admin_urls")` and `@register("register_admin_urls")` are
+    one registration written two ways. A key that is not a literal is not read: a name
+    computed at import time is a key this frontend cannot look up, and guessing one binds
+    a list of routes to a list that does not splice it.
+    """
+    found: list[str] = []
+    for dec in getattr(node, "decorator_list", ()):
+        if not isinstance(dec, ast.Call) or class_name_of(dec.func) != HOOK_DECORATOR:
+            continue
+        key = _string(_arg(dec, 0, "hook_name"))
+        # `hooks.register("name", fn)` passes the function as its second argument and is
+        # not decorating anything. Used as a decorator it takes the key alone.
+        if key is not None and len(dec.args) < 2:
+            found.append(key)
+    return found
+
+
+def _hook_reader_key(node: ast.AST) -> str | None:
+    """`hooks.get_hooks("register_admin_urls")` -> the key, or None where there is none."""
+    if not isinstance(node, ast.Call) or class_name_of(node.func) != HOOK_READER:
+        return None
+    return _string(_arg(node, 0, "hook_name"))
+
+
+def _spliced_into(body: list[ast.stmt]) -> set[str]:
+    """The module-level lists a loop body appends a hook's return value to.
+
+    Walked rather than scanned, because the statement that splices is routinely nested:
+    wagtail writes `urls = fn()`, then `if urls:`, then `urlpatterns += urls`, and the
+    `+=` is two blocks in.
+    """
+    found: set[str] = set()
+    for stmt in body:
+        for node in ast.walk(stmt):
+            if (isinstance(node, ast.AugAssign) and isinstance(node.op, ast.Add)
+                    and isinstance(node.target, ast.Name)):
+                found.add(node.target.id)
+            elif (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
+                    and node.func.attr in HOOK_SPLICES
+                    and isinstance(node.func.value, ast.Name)):
+                found.add(node.func.value.id)
+    return found
+
+
+# --- Shape 4: a view named by a string key -----------------------------------
+#
+# wagtail's page URLconf writes 37 of its registrations as
+#
+#     path("<int:page_id>/edit/", page_viewset_registry.as_view("edit", page_id_kwarg="page_id"))
+#
+# The ADDRESS there is a literal and already resolves correctly. The handler is four hops
+# away, and every hop is written down somewhere else in the program:
+#
+#     "edit"                                  the key the URLconf writes
+#     views = {"edit": self.edit_view}        a dispatch table on the viewset class
+#     def edit_view(self): return self.construct_view(self.edit_view_class)
+#     edit_view_class = EditView              and that module imports EditView by name
+#
+# So the join is the same one the two registries above make -- a key one site writes and
+# another site reads -- with an attribute chain on the far side of it. Nothing is
+# evaluated: each hop is a lookup in a class body, and a hop that does not resolve to a
+# class this program defines resolves to NOTHING. That matters more here than anywhere
+# else in this file, because the address is already right: a wrong handler at a right
+# address is a finding a maintainer will go and look at and not find.
+
+# How many entries a dict has to have before it is read as a dispatch table. One entry is
+# any mapping at all; a table a URLconf dispatches through names the whole surface of a
+# viewset.
+VIEW_TABLE_MIN = 2
+
+# How far an attribute chain is followed. wagtail's longest is three hops (key, property,
+# class attribute) and the bound is stated rather than discovered, for the reason every
+# other bound in this file is (ADR-003).
+MAX_ATTR_HOPS = 8
+
+
+class ViewSetClass:
+    """One class, as the declarations a keyed view lookup reads.
+
+    `attrs` merges the three places a class says what an attribute holds -- a class-level
+    assignment, an assignment to `self` in a method Django calls before any URL is built,
+    and a property that RETURNS the view. The last is what wagtail's viewsets are made of
+    and is the one shape `ConfigClass` above does not read: oscar assigns its views and
+    wagtail computes them, and both are declarations at the point a URLconf reads them.
+    """
+
+    __slots__ = ("module", "name", "bases", "attrs", "table")
+
+    def __init__(self, module: str, node: ast.ClassDef):
+        self.module = module
+        self.name = node.name
+        self.bases = [class_name_of(b) for b in node.bases if class_name_of(b)]
+        self.attrs: dict[str, ast.AST] = {}
+        self.table: dict[str, str] = {}
+        for member in node.body:
+            if isinstance(member, ast.Assign):
+                for target in member.targets:
+                    if isinstance(target, ast.Name):
+                        self.attrs.setdefault(target.id, member.value)
+            elif isinstance(member, ast.AnnAssign) and isinstance(member.target, ast.Name):
+                if member.value is not None:
+                    self.attrs.setdefault(member.target.id, member.value)
+            elif isinstance(member, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                held = _returned_value(member)
+                if held is not None:
+                    self.attrs.setdefault(member.name, held)
+        for child in ast.walk(node):
+            if isinstance(child, ast.Assign):
+                for target in child.targets:
+                    if (isinstance(target, ast.Attribute)
+                            and isinstance(target.value, ast.Name)
+                            and target.value.id == "self"):
+                        self.attrs.setdefault(target.attr, child.value)
+            elif isinstance(child, ast.Dict):
+                self.table.update(_dispatch_table(child))
+
+
+def _returned_value(node: ast.AST) -> ast.AST | None:
+    """What a method hands back, when it hands back one expression and no other.
+
+    Only the method's OWN returns: a nested function's return is that function's answer,
+    not this one's. A method with two of them holds two things and this reader does not
+    know which -- ambiguity resolves to nothing, here as everywhere in this file.
+    """
+    found: list[ast.AST] = []
+    pending: list[ast.AST] = list(getattr(node, "body", ()))
+    while pending:
+        current = pending.pop()
+        if isinstance(current, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+            continue
+        if isinstance(current, ast.Return):
+            if current.value is not None:
+                found.append(current.value)
+            continue
+        pending.extend(ast.iter_child_nodes(current))
+    return found[0] if len(found) == 1 else None
+
+
+def _dispatch_table(node: ast.Dict) -> dict[str, str]:
+    """`{"edit": self.edit_view, ...}` -- a string key to an attribute of the same class.
+
+    Recognised by SHAPE and not by the name the dict is bound to, because it is bound to
+    a property in wagtail and could be bound to anything elsewhere. Every key a literal
+    string and every value an attribute of `self`: that is a dispatch table and very
+    little else is.
+    """
+    out: dict[str, str] = {}
+    if len(node.keys) < VIEW_TABLE_MIN:
+        return out
+    for key, value in zip(node.keys, node.values):
+        name = _string(key)
+        if name is None:
+            return {}
+        if not (isinstance(value, ast.Attribute) and isinstance(value.value, ast.Name)
+                and value.value.id == "self"):
+            return {}
+        out[name] = value.attr
+    return out
+
+
+class ViewKeyRegistry:
+    """The view class a program binds to a string key, or nothing where two do.
+
+    A key declared by two classes resolves to NEITHER. The cost is one viewset's routes
+    missing a handler; the alternative is every one of them bound to whichever class the
+    walk reached first, at an address the URLconf states plainly and a maintainer will
+    open.
+    """
+
+    __slots__ = ("by_key", "by_name")
+
+    def __init__(self, modules: list[tuple[str, ast.Module]]):
+        holders: dict[str, list[ViewSetClass]] = {}
+        self.by_name: dict[str, list[ViewSetClass]] = {}
+        for module, tree in modules:
+            for node in ast.walk(tree):
+                if not isinstance(node, ast.ClassDef):
+                    continue
+                facts = ViewSetClass(module, node)
+                if not facts.attrs and not facts.table:
+                    continue
+                self.by_name.setdefault(facts.name, []).append(facts)
+                for key in facts.table:
+                    holders.setdefault(key, []).append(facts)
+        self.by_key = {key: found[0] for key, found in holders.items() if len(found) == 1}
+
+    def resolve(self, key: str) -> tuple[str, ast.AST] | None:
+        """(module that wrote the reference, the class reference) for one dispatch key."""
+        facts = self.by_key.get(key)
+        if facts is None:
+            return None
+        return self._reference(facts, facts.table[key], 0)
+
+    def _reference(self, root: ViewSetClass, attr: str,
+                   depth: int) -> tuple[str, ast.AST] | None:
+        """What `self.<attr>` holds, resolved on the class and its bases nearest first.
+
+        Always from the ROOT class, at every hop. `PageListingViewSet.index_view` returns
+        `self.construct_view(self.index_view_class)` and `PageViewSet` overrides
+        `index_view_class` -- which is the answer Python gives, because the attribute is
+        resolved on the instance's own class and not on the one that wrote the property.
+        """
+        if depth > MAX_ATTR_HOPS:
+            return None
+        for facts in self.chain(root):
+            held = facts.attrs.get(attr)
+            if held is not None:
+                return self._interpret(root, facts, held, depth)
+        return None
+
+    def _interpret(self, root: ViewSetClass, facts: ViewSetClass, node: ast.AST,
+                   depth: int) -> tuple[str, ast.AST] | None:
+        """One declaration, read as the class behind it.
+
+        Four spellings and no more: another attribute of the same object, a call that
+        wraps one (`self.construct_view(self.edit_view_class, **kwargs)`), an `as_view()`
+        on a class, and the class itself. Anything else is a view this reader cannot name,
+        and naming it anyway is the wrong-handler-at-a-right-address case above.
+        """
+        if depth > MAX_ATTR_HOPS:
+            return None
+        if (isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name)
+                and node.value.id == "self"):
+            return self._reference(root, node.attr, depth + 1)
+        if isinstance(node, ast.Call):
+            if isinstance(node.func, ast.Attribute) and node.func.attr == "as_view":
+                return self._interpret(root, facts, node.func.value, depth + 1)
+            # A wrapper takes the view it builds as its first argument, which is the
+            # signature of every `construct_view`-style helper. A keyword-only call names
+            # nothing this reader can follow.
+            if node.args:
+                return self._interpret(root, facts, node.args[0], depth + 1)
+            return None
+        if isinstance(node, (ast.Name, ast.Attribute)) and class_name_of(node)[:1].isupper():
+            # Returned with the module that WROTE it: the reference is resolved against
+            # that module's imports, not against the URLconf's, and the two are never the
+            # same file.
+            return (facts.module, node)
+        return None
+
+    def chain(self, cls: ViewSetClass) -> list[ViewSetClass]:
+        """The class and everything it inherits, nearest first and bounded.
+
+        By bare base name and program-wide, the resolution every registration lookup in
+        this frontend uses. A base defined in a framework is simply not found; a base this
+        program does define is.
+        """
+        out: list[ViewSetClass] = []
+        seen: set[str] = set()
+        pending: list[tuple[ViewSetClass, int]] = [(cls, 0)]
+        while pending:
+            current, depth = pending.pop(0)
+            key = f"{current.module}:{current.name}"
+            if key in seen or depth > MAX_BASE_DEPTH:
+                continue
+            seen.add(key)
+            out.append(current)
+            for base in current.bases:
+                for facts in self.by_name.get(base, []):
+                    pending.append((facts, depth + 1))
+        return out
+
+
+# --- Shape 5: a viewset mounted at a prefix nothing writes down -- NOT BUILT ---
+#
+# WITHDRAWN AFTER MEASUREMENT, and the numbers are here so the next attempt starts from
+# them rather than from the idea. wagtail declares 287 route registrations that this
+# frontend's AST can see; 220 of them are non-include registrations in production modules
+# and are what `django_entry_points` walks. Before this file's shapes 3 and 4, 88 of the
+# 220 produced an entry point; after them, 138 do. Of the 82 that still produce nothing,
+# 46 are one shape and it is this one:
+#
+#     class ModelViewSet(ViewSet):
+#         index_view_class = generic.IndexView
+#         @property
+#         def index_view(self): return self.construct_view(self.index_view_class, ...)
+#         def get_urlpatterns(self):
+#             return [path("", self.index_view, name="index"), ...]
+#
+# The HANDLER side of that is already readable -- it is shape 4's attribute chain with no
+# dispatch table in front of it. What is not readable is the ADDRESS. A viewset's routes
+# are mounted by `ViewSetRegistry.get_urlpatterns`, which writes
+# `path(f"{viewset.url_prefix}/", include(...))` over every INSTANCE registered under the
+# `register_admin_viewset` hook -- so the prefix is a keyword argument on a constructor
+# call inside another hook function, and `url_prefix` falls back to `name`, which falls
+# back to a class attribute. Two of wagtail's registered viewsets write it as a literal
+# (`SiteViewSet("wagtailsites", url_prefix="sites")`); the largest group by far does not:
+# 26 of the 46 are `SnippetViewSet.get_urlpatterns`, mounted once per snippet model at a
+# prefix built at run time from the model's app label and model name, which is written
+# nowhere in the source.
+#
+# So enumerating them means either inventing a prefix or serving them at the empty one,
+# and `path("", self.index_view)` at the empty prefix claims the site root -- an address
+# that exists, that a maintainer will open, and that answers with the admin home. The
+# whole file's rule applies: AMBIGUITY RESOLVES TO NOTHING. These 46 registrations are
+# left unenumerated, deliberately, and the gap is stated here rather than filled with a
+# guess. What would change the answer is a reading of the registry's own mount -- the
+# `f"{viewset.url_prefix}/"` inside `ViewSetRegistry.get_urlpatterns` joined to the
+# instances the `register_admin_viewset` hook returns -- which is a fourth join and not a
+# variation on shape 4.
+
+
+def _module_level_names(tree: ast.Module) -> set[str]:
+    """The names a module binds at its top level, which is where a URLconf lives."""
+    found: set[str] = set()
+    for stmt in tree.body:
+        if isinstance(stmt, ast.Assign):
+            for target in stmt.targets:
+                if isinstance(target, ast.Name):
+                    found.add(target.id)
+        elif isinstance(stmt, ast.AugAssign) and isinstance(stmt.target, ast.Name):
+            found.add(stmt.target.id)
+        elif isinstance(stmt, ast.AnnAssign) and isinstance(stmt.target, ast.Name):
+            found.add(stmt.target.id)
+    return found

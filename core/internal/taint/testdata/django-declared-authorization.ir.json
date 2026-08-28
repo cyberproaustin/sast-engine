@@ -7428,6 +7428,26 @@
       }
     },
     {
+      "functionId": "views.py#get_queryset:142:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/workspaces/:workspace_id/documents/:document_id/revisions/text",
+        "pathParams": "int:workspace_id,int:document_id"
+      }
+    },
+    {
+      "functionId": "views.py#get_queryset:142:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/workspaces/:workspace_id/documents/:document_id/revisions/binary",
+        "pathParams": "int:workspace_id,int:document_id"
+      }
+    },
+    {
       "functionId": "views.py#get_queryset:82:5",
       "kind": "http-route",
       "framework": "django",
@@ -7435,6 +7455,16 @@
         "method": "ANY",
         "path": "/workspaces/:workspace_id/folders/:folder_id",
         "pathParams": "int:workspace_id,int:folder_id"
+      }
+    },
+    {
+      "functionId": "views.py#get_queryset:165:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/workspaces/:workspace_id/comments/:comment_id",
+        "pathParams": "int:workspace_id,int:comment_id"
       }
     },
     {
