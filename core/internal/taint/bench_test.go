@@ -201,6 +201,9 @@ var corpora = []string{
 	"django-manager-lookup",
 	"destructured-parameter",
 	"credential-instead-of-session",
+	"python-receiver-binding",
+	"python-call-under-attribute",
+	"django-int-capture",
 	"presence-guarded-verification",
 	"credential-not-reissued",
 }

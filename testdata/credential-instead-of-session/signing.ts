@@ -26,12 +26,12 @@ export async function revokeApiTokenById({ tokenId }: { tokenId: string }) {
 }
 
 /**
- * A STATED MISS, kept here so that widening the binding rule cannot pass unnoticed. The
- * token arrives as a bare positional argument, and an argument is bound to a parameter by
- * NAME only: a position does not survive a receiver, and Python declares `self` and `cls`
- * as parameter zero at a call site that writes neither. saleor's `setPassword` measured
- * what that costs -- bound by position, it came out citing `User.objects.get(email=email)`
- * as a selection keyed by the caller's password.
+ * A stated miss that closed, kept here because the widening it guarded against happened.
+ * The token arrives as a bare positional argument, and binding by position was excluded:
+ * a position did not survive a receiver, since Python declares `self` and `cls` as
+ * parameter zero at a call site that writes neither, and bound by position saleor's
+ * `setPassword` cited `User.objects.get(email=email)` as a selection keyed by the caller's
+ * password. The frontend now says which parameter each argument becomes, so this is read.
  */
 export async function completeByToken(token: string) {
   const recipient = await prisma.recipient.findFirstOrThrow({ where: { token } });

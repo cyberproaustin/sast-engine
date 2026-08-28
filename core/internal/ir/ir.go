@@ -581,6 +581,33 @@ type Arg struct {
 	Name       string `json:"name,omitempty"`
 	ValueID    string `json:"valueId,omitempty"`
 	FunctionID string `json:"functionId,omitempty"`
+	// ParamIndex is the position this argument occupies in the CALLEE's parameter
+	// list, when the language's calling convention makes that differ from the position
+	// it was WRITTEN at. Nil means the two are the same, which is every argument in
+	// every language that has no implicit receiver.
+	//
+	// Python is why this exists. A method declares `self` or `cls` as parameter zero
+	// and no call site writes it, so every written argument fills the parameter to its
+	// right: `cls._set_password_for_user(email, password, token)` against
+	// `def _set_password_for_user(cls, email, password, token)` put `password` into
+	// `email`. That is not a lost finding, it is a false sentence about somebody
+	// else's code -- saleor's setPassword came out citing `User.objects.get(email=
+	// email)` as a row selected by the caller's password.
+	//
+	// Index keeps meaning what was written, because that is what a rule naming
+	// "argument 1 of hashlib.new" means and what ArgLiterals is keyed by. Only the
+	// question "which parameter does this BECOME inside the callee" moves, and that is
+	// asked in exactly two places: BoundParam and BoundParams.
+	ParamIndex *int `json:"paramIndex,omitempty"`
+}
+
+// bindIndex is the position this argument fills in the callee, which is the written
+// position unless the frontend said otherwise.
+func (a Arg) bindIndex() int {
+	if a.ParamIndex != nil {
+		return *a.ParamIndex
+	}
+	return a.Index
 }
 
 // At reports whether this is a positional argument at index. A named argument must not
@@ -601,7 +628,7 @@ func (a Arg) BoundParam(fn *Function) (Param, bool) {
 		if p.Destructured {
 			continue
 		}
-		if (a.Name != "" && p.Name == a.Name) || (a.Name == "" && p.Index == a.Index) {
+		if (a.Name != "" && p.Name == a.Name) || (a.Name == "" && p.Index == a.bindIndex()) {
 			return p, true
 		}
 	}
@@ -628,7 +655,7 @@ func (a Arg) BoundParams(fn *Function) []Param {
 			}
 			continue
 		}
-		if p.Index == a.Index {
+		if p.Index == a.bindIndex() {
 			out = append(out, p)
 		}
 	}

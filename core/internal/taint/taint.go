@@ -668,6 +668,9 @@ type edge struct {
 	// site is the call that BOUND this value, for a parameter. It is what makes the
 	// return hop able to leave through the frame the taint arrived in.
 	site string
+	// converter is the route converter a SEED came through. Empty on every other edge,
+	// which then inherits whatever the value it came from carried.
+	converter string
 }
 
 type engine struct {
@@ -680,6 +683,16 @@ type engine struct {
 	// viaTransform records whether the KEPT path to a value went through a transform the
 	// model recognises, so a cleaner path arriving later can displace it.
 	viaTransform map[string]bool
+	// viaConverter records the route converter the KEPT path to a value came through,
+	// empty when it came through none. Two sources reaching one value is ordinary --
+	// `"... '%s' ... '%s'" % (name, code)` is composed from a form field and a URL
+	// capture -- and only one chain is kept, so the kept one has to be the chain that
+	// says the most. A `<uuid:code>` capture cannot carry a quote and a form field can,
+	// so a sink reached by both is reached by something unconstrained.
+	viaConverter map[string]string
+	// chain scores the kept path: how little it says, lower being better. Nothing but
+	// markTainted reads it.
+	chain        map[string]int
 	seeds        map[string]seed
 	skipped      map[string][]string
 	unjudged     []Unjudged
@@ -784,6 +797,11 @@ type seed struct {
 	// wrote is carrying a remote caller's value however internal the job is, and a
 	// process start reading its own environment is not, however alarming the sink.
 	trust ir.Trust
+	// converter is the route converter this capture was declared with, empty when the
+	// route wrote none. It is a constraint on what the value can HOLD, which answers
+	// every question about syntax and no question about which record was named -- so it
+	// is carried to the sink rather than applied here (see converterClears).
+	converter string
 }
 
 // Analyze runs source-to-sink taint propagation over a lowered program.
@@ -827,6 +845,8 @@ func Analyze(d *ir.IR, m model.Model) Result {
 			tainted:       make(map[string]bool),
 			pred:          make(map[string]edge),
 			viaTransform:  make(map[string]bool),
+			viaConverter:  make(map[string]string),
+			chain:         make(map[string]int),
 			seeds:         make(map[string]seed),
 			skipped:       make(map[string][]string),
 			saidUnjudged:  make(map[string]bool),
@@ -1632,8 +1652,34 @@ var constrainedConverters = map[string]bool{
 	"int": true, "float": true, "uuid": true, "slug": true, "decimal": true,
 }
 
-// routePathParams returns the names a registered path declares as captures whose value
-// the framework does not constrain.
+// selectorContexts are the channel contexts a route converter says NOTHING about.
+//
+// What a converter constrains is the SYNTAX a capture can carry. `[0-9]+` holds no
+// quote, no line break, no path separator and no angle bracket, so the guarantee covers
+// every destination that INTERPRETS text -- which is what the comment above says and it
+// is right.
+//
+// It covers nothing at all about WHICH RECORD the number names. An IDOR is precisely the
+// caller sending a different integer, so "safe for an interpreter" and "safe as a
+// selector" are two different claims about one value, and the model already keeps them
+// apart everywhere else: a sanitizer declares the Contexts it clears, and the record
+// rules are reached through a context of their own.
+//
+// Django's commonest detail route is `path("thing/<int:pk>/", ...)`. Treating its
+// converter as clearing every context meant the framework's most ordinary route carried
+// no caller data into any ownership judgement whatever -- stated as the second reason the
+// django-manager-lookup corpus gives for that shape having less reach than its call count
+// suggests.
+var selectorContexts = map[string]bool{"record-selector": true}
+
+// converterClears reports whether a route converter's constraint answers a channel's
+// question. A capture with no converter answers nothing anywhere.
+func converterClears(converter, context string) bool {
+	return constrainedConverters[converter] && !selectorContexts[context]
+}
+
+// routePathParams returns the captures a registered path declares, each with the
+// converter it was written with -- empty where the route wrote none.
 //
 // Three spellings, because three frameworks write the same thing three ways and the
 // frontends preserve what was written: `:name` (Express, aiohttp, and what the Python
@@ -1647,14 +1693,18 @@ var constrainedConverters = map[string]bool{
 //
 // Nothing here guesses at a name. A segment that is not one of these forms declares no
 // capture, and a path with no captures produces nothing at all.
-func routePathParams(path, spec string) map[string]bool {
-	out := map[string]bool{}
+func routePathParams(path, spec string) map[string]string {
+	out := map[string]string{}
 	add := func(converter, name string) {
 		name = strings.TrimSpace(name)
-		if name == "" || !isIdentifier(name) || constrainedConverters[converter] {
+		if name == "" || !isIdentifier(name) {
 			return
 		}
-		out[name] = true
+		// The converter travels with the capture rather than deciding here whether the
+		// capture exists. Whether its constraint is enough is a question about the
+		// DESTINATION, and the destination is not known until the sink -- see
+		// converterClears.
+		out[name] = converter
 	}
 	if spec != "" {
 		for _, written := range strings.Split(spec, ",") {
@@ -1746,7 +1796,11 @@ func (e *engine) seedByRoutePathParam(rule model.SourceRule) {
 			continue
 		}
 		for _, param := range fn.Params {
-			if param.ValueID == "" || !captures[param.Name] {
+			if param.ValueID == "" {
+				continue
+			}
+			converter, named := captures[param.Name]
+			if !named {
 				continue
 			}
 			at := fn.Loc
@@ -1765,12 +1819,14 @@ func (e *engine) seedByRoutePathParam(rule model.SourceRule) {
 				loc:              ep.Loc,
 				identityInjected: injectsIdentity(e.ix, &ep),
 				trust:            ep.TrustLevel(),
+				converter:        converter,
 			}
 			e.markTainted(param.ValueID, edge{
 				desc: fmt.Sprintf("source: %s (%s, named by the route)",
 					param.Name, e.class.Label),
 				loc:        at,
 				resolution: ir.Resolved,
+				converter:  converter,
 			})
 		}
 	}
@@ -3174,6 +3230,12 @@ func (e *engine) composedFrom(valueID string, words []string) bool {
 // the sanitizers it actually passed through. Reported=false means taint was cleared.
 func (e *engine) buildFinding(c *ir.Call, ch model.Channel, p model.Policy, arg ir.Arg) (Finding, bool) {
 	path, origin := e.tracePath(arg.ValueID)
+	// A route converter neutralizes the value for everything that interprets text and
+	// for nothing that selects a record. Applied here, where the destination is known,
+	// rather than at the seed, where it is not.
+	if converterClears(e.viaConverter[arg.ValueID], ch.Context) {
+		return Finding{}, false
+	}
 	if ch.Context == "html" && responseBodyMethod(c.Method) && !e.responseBodyIsMarkup(c, arg.ValueID, path) {
 		return Finding{}, false
 	}
@@ -3663,23 +3725,44 @@ func (e *engine) tracePath(valueID string) ([]Hop, string) {
 // the evidence offered for it, which is what the sink then judges (ADR-006). The
 // replacement can happen at most once per value, because it only ever goes from "went
 // through something" to "did not".
+// chainScore is how little a kept path says about the value at the end of it. Lower is
+// better, and a value already reached keeps its chain unless a strictly better one turns
+// up -- which is what makes the fixpoint terminate.
+//
+// Two things make a chain say less. A transform the model recognises may have ended the
+// classification, so a path avoiding one is the honest witness; and a route converter
+// constrains what the value can hold, so a path that did not come through one describes
+// something the sink is less protected from. The converter weighs more because it can
+// silence a text sink outright.
+func chainScore(converter string, viaTransform bool) int {
+	score := 0
+	if converter != "" {
+		score += 2
+	}
+	if viaTransform {
+		score++
+	}
+	return score
+}
+
 func (e *engine) markTainted(id string, ed edge) {
 	if id == "" {
 		return
 	}
 	via := e.viaTransform[ed.from] || e.isTransform(ed.symbol)
-	if e.tainted[id] {
-		if !e.viaTransform[id] || via {
-			return
-		}
-		e.pred[id] = ed
-		e.viaTransform[id] = false
-		e.queue = append(e.queue, id)
+	converter := ed.converter
+	if converter == "" {
+		converter = e.viaConverter[ed.from]
+	}
+	score := chainScore(converter, via)
+	if e.tainted[id] && score >= e.chain[id] {
 		return
 	}
 	e.tainted[id] = true
 	e.pred[id] = ed
 	e.viaTransform[id] = via
+	e.viaConverter[id] = converter
+	e.chain[id] = score
 	e.queue = append(e.queue, id)
 }
 

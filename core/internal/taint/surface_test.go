@@ -310,28 +310,36 @@ func TestConventionComparesOnlyWithinMount(t *testing.T) {
 // surface produced five CWE-306 findings and an independent reader judged all five false,
 // every one a procedure that resolves a recipient from the token the caller sent.
 //
-// The four that survive are the reason the rule is narrow. One route has no control and
+// The three that survive are the reason the rule is narrow. One route has no control and
 // no secret. One selects a record by `documentId` -- a value the caller sent and an
 // identifier the caller can count through, which is the same shape as the token routes
 // minus the only thing that makes them authentication. One hands `tokenId` to a helper
-// that looks a row up by it, which is a primary key wearing a credential word. The fourth
-// is a stated miss rather than a defect in the fixture, and it is asserted so that
-// widening the binding rule cannot pass unnoticed.
+// that looks a row up by it, which is a primary key wearing a credential word.
+//
+// A fourth was asserted here as a stated MISS, so that widening the binding rule could
+// not pass unnoticed. The widening happened and this is the notice: `POST /sign/complete`
+// hands its token down as a bare POSITIONAL argument, and binding by position was
+// excluded because a position did not survive a receiver -- Python declares `self` and
+// `cls` as parameter zero at a call site that writes neither, and bound by position
+// saleor's setPassword cited a lookup keyed by the caller's password. The frontend now
+// states which parameter each written argument becomes (ir.Arg.ParamIndex), so the
+// exclusion is no longer paying for anything; restoring position moves this route to the
+// silent side and, measured across the ten repositories in the corpus, changes no
+// finding.
 func TestCallerPresentedCredentialIsNotAMissingControl(t *testing.T) {
 	res := runScan(t, "credential-instead-of-session")
 
-	silent := map[string]bool{"POST /sign/status": true, "POST /sign/field": true}
+	silent := map[string]bool{
+		"POST /sign/status": true,
+		"POST /sign/field":  true,
+		// The token reaches the lookup as a bare positional argument. See above: this
+		// was the stated miss, and it is the one thing in this corpus that changed.
+		"POST /sign/complete": true,
+	}
 	mustFire := map[string]bool{
 		"POST /documents/archive":       true,
 		"DELETE /documents/:documentId": true,
 		"POST /tokens/revoke":           true,
-		// A STATED MISS, asserted so that widening the binding rule cannot pass
-		// unnoticed. This route authenticates by token exactly as the two silent ones
-		// do, and the token reaches the lookup as a bare positional argument -- which
-		// the rule does not follow, because a position does not survive a receiver.
-		// Binding by position is what made saleor's setPassword cite a lookup keyed by
-		// the caller's password when the row is selected by the email.
-		"POST /sign/complete": true,
 	}
 
 	got := map[string]bool{}
@@ -373,8 +381,9 @@ func TestCallerPresentedCredentialIsNotAMissingControl(t *testing.T) {
 func TestSurfaceRecordsTheCredentialTheCallerPresented(t *testing.T) {
 	res := runScan(t, "credential-instead-of-session")
 	want := map[string]string{
-		"POST /sign/status": "prisma.recipient.findFirst",
-		"POST /sign/field":  "prisma.recipient.findFirstOrThrow",
+		"POST /sign/status":   "prisma.recipient.findFirst",
+		"POST /sign/field":    "prisma.recipient.findFirstOrThrow",
+		"POST /sign/complete": "prisma.recipient.findFirstOrThrow",
 	}
 	for _, e := range res.Surface.Entries {
 		selection, expected := want[e.Label()]
