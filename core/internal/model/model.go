@@ -833,6 +833,60 @@ func (m Model) IdentityClass() string { return "actor-identity" }
 // UntrustedClass names the classification for data a caller supplied.
 func (m Model) UntrustedClass() string { return "untrusted-input" }
 
+// CallerCredentialClass names the classification for a field the caller sent that IS a
+// secret rather than ordinary request data.
+func (m Model) CallerCredentialClass() string { return "caller-credential" }
+
+// NamesSecretField reports whether a request field's own name says the value in it is a
+// SECRET the caller had to possess, rather than an identifier the caller could have
+// guessed.
+//
+// The vocabulary is read out of the caller-credential classification rather than written
+// again here, so there is one list: the same words that make `body.password` a credential
+// make `input.token` one, and a codebase that teaches the model a new spelling teaches
+// every rule that asks this question at once. The CSRF veto comes along with it for the
+// reason it was written -- a page has to echo that token back, so it is a credential
+// nobody hides.
+//
+// The identifier suffix is this question's own addition, and it is the whole difference
+// between the two weaknesses that share this shape. Selecting a record by a value the
+// caller sent is authentication when the value is a secret and an IDOR when it is a row
+// id, and `tokenId`, `apiKeyId` and `secretId` are row ids wearing a credential word:
+// they name the row a secret is stored IN, which is exactly as enumerable as any other
+// primary key. Excluding them costs the shapes that end in an id and are secrets anyway
+// -- a session id in a cookie is one -- and the direction of that loss is the safe one,
+// because a name this declines to call a secret is a route the engine keeps reporting.
+func (m Model) NamesSecretField(leaf string) bool {
+	leaf = NormalizeFieldName(leaf)
+	if leaf == "" {
+		return false
+	}
+	if strings.HasSuffix(leaf, "id") || strings.HasSuffix(leaf, "ids") {
+		return false
+	}
+	var names, except []string
+	for _, c := range m.Classifications {
+		if c.Class != m.CallerCredentialClass() {
+			continue
+		}
+		for _, r := range c.Rules {
+			names = append(names, r.LeafContains...)
+			except = append(except, r.LeafExcept...)
+		}
+	}
+	for _, e := range except {
+		if strings.Contains(leaf, NormalizeFieldName(e)) {
+			return false
+		}
+	}
+	for _, n := range names {
+		if strings.Contains(leaf, NormalizeFieldName(n)) {
+			return true
+		}
+	}
+	return false
+}
+
 // ArgvProgramHasNoOptions reports the exceptional programs whose argument grammar has
 // no option surface. The shipped list is empty until a command earns that claim by
 // documented semantics; callers can extend the declarative model without weakening the
@@ -881,6 +935,29 @@ func (m Model) ResolvesReference(symbol string, arg int) bool {
 		}
 	}
 	return false
+}
+
+// RootRelativeURLPrefix reports whether a written prefix fixes a destination to this
+// origin's path space. One slash does; two do not, because `//host` is a network-path
+// reference whose authority is `host`. Browsers treat a backslash as a slash while
+// parsing special schemes, so `/\host` crosses the same boundary and is not local.
+//
+// A slash alone proves nothing about the next template span: if that span starts with a
+// slash or backslash, the finished value is one of the authority references above. At
+// least one statically written path character must follow it. Calls that re-parse a
+// separately supplied reference (such as urljoin) remain governed by ResolverRule.
+func RootRelativeURLPrefix(prefix string) bool {
+	if len(prefix) < 2 || prefix[0] != '/' {
+		return false
+	}
+	return prefix[1] != '/' && prefix[1] != '\\'
+}
+
+// AuthorityReferencePrefix is the near-miss to RootRelativeURLPrefix. A destination
+// beginning with either spelling can select another authority even though the program
+// wrote its first character.
+func AuthorityReferencePrefix(prefix string) bool {
+	return len(prefix) >= 2 && prefix[0] == '/' && (prefix[1] == '/' || prefix[1] == '\\')
 }
 
 func (m Model) SanitizerFor(symbol string) (SanitizerRule, bool) {
@@ -6345,6 +6422,18 @@ type CallShape struct {
 	// of arguments is the whole evidence.
 	MissingArg *int
 
+	// ExternalDestinationArg names the argument whose destination must be capable of
+	// leaving the page's origin for this shape to be a defect.
+	//
+	// `window.open("/Resource/123", "_blank")` does leave an opener reference behind,
+	// but it hands that reference to another page in the same application -- not to the
+	// untrusted origin the opener rule is about. A network-path reference is deliberately
+	// not local: `//host` replaces the authority, and browsers normalize `/\host` to the
+	// same shape. The distinction belongs to the destination rather than to medplum's
+	// resource-route spelling, so the analysis reads the value and any local helper that
+	// returned it.
+	ExternalDestinationArg *int
+
 	// InputClass requires the receiver or one argument to carry a classification the
 	// dataflow analysis already established. This is still a judgement about the call:
 	// `upload.read()` and `local_file.read()` have the same written shape, and what the
@@ -7308,6 +7397,7 @@ func builtinCallShapes() []CallShape {
 			// The features string is there and does not say noopener, which is the same
 			// omission written a different way.
 			ID: "opener-reachable", Symbol: "window.open", ArgIndex: 2, Always: true,
+			ExternalDestinationArg: at(0),
 			Qualifiers: []ArgCondition{
 				{ArgIndex: 1, Substring: true, AnyOf: []string{"_blank", "blank"}},
 				{ArgIndex: 2, Substring: true, NoneOf: []string{"noopener"}},
@@ -7319,11 +7409,12 @@ func builtinCallShapes() []CallShape {
 		},
 		{
 			ID: "opener-reachable", Symbol: "window.open", MissingArg: atLeast(2),
-			Qualifiers: []ArgCondition{{ArgIndex: 1, Substring: true, AnyOf: []string{"_blank", "blank"}}},
-			CWE:        "CWE-1022",
-			Finding:    "A new window left holding a reference back to this one",
-			Reason:     "the opened page can navigate the page that opened it, which is how a link to somewhere else replaces the page behind it with a copy that asks for a password",
-			Rationale:  "the third argument is where noopener would be, and the call has no third argument",
+			ExternalDestinationArg: at(0),
+			Qualifiers:             []ArgCondition{{ArgIndex: 1, Substring: true, AnyOf: []string{"_blank", "blank"}}},
+			CWE:                    "CWE-1022",
+			Finding:                "A new window left holding a reference back to this one",
+			Reason:                 "the opened page can navigate the page that opened it, which is how a link to somewhere else replaces the page behind it with a copy that asks for a password",
+			Rationale:              "the third argument is where noopener would be, and the call has no third argument",
 		},
 
 		{
@@ -8144,6 +8235,13 @@ type DecisionRule struct {
 	// excluding every literal would throw that away to be rid of this.
 	OtherNotAbsent bool
 
+	// OtherNotObjectBrand excludes JavaScript's standardized type-tag comparison, and
+	// only that comparison. `Object.prototype.toString.call(value) === "[object Error]"`
+	// asks what kind of object arrived; the bracketed text is a public brand, not a
+	// password. The producer is part of the requirement so a caller credential genuinely
+	// compared with the same text remains a hardcoded credential.
+	OtherNotObjectBrand bool
+
 	// OtherNotLiteral requires the other side to be a runtime value rather than
 	// something written down.
 	//
@@ -8278,6 +8376,7 @@ func builtinDecisions() []DecisionRule {
 			OtherNotAbsent:      true,
 			OtherNotSameClass:   true,
 			RequiresUnprojected: true,
+			OtherNotObjectBrand: true,
 			CWE:                 "CWE-798",
 			Finding:             "Caller admitted by a credential written into the source",
 			Reason:              "the value that decides whether this caller is let in is in every clone of the repository and stays in its history after it is changed, so nobody can revoke it without shipping a release",
@@ -8447,6 +8546,11 @@ type StoreRule struct {
 	// PathExcept disqualifies, and is checked first. A double-submit CSRF token contains
 	// the word `token` and is deliberately not a secret.
 	PathExcept []string
+	// PathExceptSuffix disqualifies when the final identifier word says the setting is
+	// the NAME of the key rather than key material. `signingKeyId` identifies whichever
+	// generated private key the runtime stored beside it; it cannot sign anything itself.
+	// Suffix-only keeps `idSigningKey` available for a program that signs identifiers.
+	PathExceptSuffix []string
 
 	// FromLiteral requires the value WRITTEN to have been written into the source.
 	//
@@ -9670,11 +9774,12 @@ func builtinStores() []StoreRule {
 			// often than the key itself.
 			PathContains: []string{"secret", "password", "passwd", "apikey", "api_key",
 				"private_key", "privatekey", "signing_key", "signingkey"},
-			PathExcept: []string{"csrf", "xsrf", "public", "expire", "header", "name", "field"},
-			CWE:        "CWE-798",
-			Finding:    "Secret written into the source",
-			Reason:     "a key in the source is in every clone of the repository and stays in its history after it is changed",
-			Rationale:  "a configuration key that holds a secret is assigned a value written in the call",
+			PathExcept:       []string{"csrf", "xsrf", "public", "expire", "header", "name", "field"},
+			PathExceptSuffix: []string{"id", "identifier"},
+			CWE:              "CWE-798",
+			Finding:          "Secret written into the source",
+			Reason:           "a key in the source is in every clone of the repository and stays in its history after it is changed",
+			Rationale:        "a configuration key that holds a secret is assigned a value written in the call",
 		},
 		{
 			// The same judgement where the configuration namespace is a MODULE.
@@ -9712,11 +9817,12 @@ func builtinStores() []StoreRule {
 			FromLiteralFallback: true, FromLiteralArgument: true,
 			PathContains: []string{"secret", "password", "passwd", "apikey", "api_key",
 				"private_key", "privatekey", "signing_key", "signingkey"},
-			PathExcept: []string{"csrf", "xsrf", "public", "expire", "header", "name", "field"},
-			CWE:        "CWE-798",
-			Finding:    "Secret written into the source",
-			Reason:     "a key in the source is in every clone of the repository and stays in its history after it is changed",
-			Rationale:  "a module-level setting that holds a secret is assigned a value written in the source",
+			PathExcept:       []string{"csrf", "xsrf", "public", "expire", "header", "name", "field"},
+			PathExceptSuffix: []string{"id", "identifier"},
+			CWE:              "CWE-798",
+			Finding:          "Secret written into the source",
+			Reason:           "a key in the source is in every clone of the repository and stays in its history after it is changed",
+			Rationale:        "a module-level setting that holds a secret is assigned a value written in the source",
 		},
 		{
 			// A digest from a broken algorithm written into the field a login will later

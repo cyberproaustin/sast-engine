@@ -1,0 +1,13 @@
+{
+  "corpus": "local-route-destination",
+  "description": "A leading slash anchors an application route to the current origin, but only one slash does. The silent window.open, axios and redirect calls build ordinary root-relative resource paths. Their near misses begin with // or /\\: the first is an RFC 3986 network-path reference and browser URL parsers normalize the second to the same authority-changing shape. The absolute opener is the contrast that already named another origin directly. This corpus keeps the URL fact shared by the opener, SSRF and open-redirect judgements rather than teaching any of them a medplum route name.",
+  "expected": [
+    {"cwe": "CWE-918", "sinkFile": "app.ts", "sinkLine": 17, "sourceLabel": "req.query.networkHost", "confidence": "high", "note": "// begins a network-path reference and the caller supplies its authority"},
+    {"cwe": "CWE-601", "sinkFile": "app.ts", "sinkLine": 18, "sourceLabel": "req.query.networkHost", "confidence": "medium", "note": "the same network-path reference is external when a browser follows a redirect"},
+    {"cwe": "CWE-918", "sinkFile": "app.ts", "sinkLine": 25, "sourceLabel": "req.query.backslashHost", "confidence": "high", "note": "/\\ is normalized to an authority reference rather than an application path"},
+    {"cwe": "CWE-601", "sinkFile": "app.ts", "sinkLine": 26, "sourceLabel": "req.query.backslashHost", "confidence": "medium", "note": "the backslash spelling crosses the origin when a browser parses the redirect"},
+    {"cwe": "CWE-1022", "sinkFile": "app.ts", "sinkLine": 16, "sourceLabel": "\"window.open()\"", "confidence": "high", "note": "a //host network-path reference gives another origin access to window.opener"},
+    {"cwe": "CWE-1022", "sinkFile": "app.ts", "sinkLine": 24, "sourceLabel": "\"window.open()\"", "confidence": "high", "note": "the /\\host spelling is the network-path near miss and must remain reportable"},
+    {"cwe": "CWE-1022", "sinkFile": "app.ts", "sinkLine": 32, "sourceLabel": "\"window.open()\"", "confidence": "high", "note": "an absolute external URL directly hands another origin the opener"}
+  ]
+}

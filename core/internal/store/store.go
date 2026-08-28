@@ -99,6 +99,9 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 					(containsWord(w.Path, rule.PathExcept) || !containsWord(w.Path, rule.PathContains)) {
 					continue
 				}
+				if endsWithIdentifierWord(w.Path, rule.PathExceptSuffix) {
+					continue
+				}
 				if rule.NotElement && elements[w.Base] {
 					continue
 				}
@@ -439,6 +442,16 @@ func pathMatches(path string, want []string) bool {
 func containsWord(path string, words []string) bool {
 	for _, w := range words {
 		if containsIdentifierWord(path, w) {
+			return true
+		}
+	}
+	return false
+}
+
+func endsWithIdentifierWord(path string, words []string) bool {
+	for _, word := range words {
+		at := len(path) - len(word)
+		if at >= 0 && strings.EqualFold(path[at:], word) && identifierBoundary(path, at) {
 			return true
 		}
 	}

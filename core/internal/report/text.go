@@ -88,10 +88,50 @@ func writeSurface(b *strings.Builder, s surface.Surface) {
 			}
 		}
 	}
+	writeCredentialEntries(b, s)
 	writeUniversalControls(b, s)
 	writeUnresolvedInputs(b, s)
 	writeNonApplicationSurface(b, s)
 }
+
+// Entry points whose caller presents a secret instead of a session.
+//
+// Counted on the surface rather than left implicit, because it is the one control this
+// engine recognises that is not in the Controls list -- nothing is mounted, and the
+// evidence is a lookup inside the handler. A reader auditing the enumeration needs to
+// see that the engine has classified these routes, since it is on the strength of this
+// that an inferred authentication expectation is withheld from them.
+func writeCredentialEntries(b *strings.Builder, s surface.Surface) {
+	n := 0
+	for _, e := range s.Entries {
+		if e.Credential != nil {
+			n++
+		}
+	}
+	if n == 0 {
+		return
+	}
+	fmt.Fprintf(b, "  %d entry point(s) resolve a record from a secret the caller presented\n", n)
+	// A count nobody can check is a count nobody should believe, and on a surface too
+	// large to list per entry the count is all there would otherwise be. Bounded, for the
+	// same reason the surface listing itself is: enough to see WHAT kind of route this
+	// covers, with the total carrying the scale.
+	shown := 0
+	for _, e := range s.Entries {
+		if e.Credential == nil {
+			continue
+		}
+		if shown == credentialSampleLimit {
+			fmt.Fprintf(b, "    and %d more\n", n-shown)
+			return
+		}
+		shown++
+		fmt.Fprintf(b, "    %-30s %s at %s\n", e.Label(), e.Credential.Selection, e.Credential.Loc)
+	}
+}
+
+// credentialSampleLimit bounds that listing.
+const credentialSampleLimit = 3
 
 // A route and a cron job are both entry points and they are not the same number.
 //
@@ -362,6 +402,14 @@ func writeCatalogCoverage(b *strings.Builder) {
 
 func describeControls(e surface.EntryFacts) string {
 	if len(e.Controls) == 0 {
+		// A route with no mounted control is not necessarily a route with no control,
+		// and the surface is the part an operator audits (ADR-009): a signing link that
+		// resolves its recipient from the token in the request has to read as that
+		// rather than as an open door.
+		if e.Credential != nil {
+			return fmt.Sprintf("controls: none mounted; the caller presents %q and %s selects a record with it",
+				e.Credential.Field, e.Credential.Selection)
+		}
 		return "controls: none"
 	}
 	parts := make([]string, 0, len(e.Controls))
@@ -789,6 +837,13 @@ func writeExpectations(b *strings.Builder, res expectation.Result) {
 	for _, sup := range res.Suppressed {
 		fmt.Fprintf(b, "  suppressed on %s: %s — declared %q (%s)\n",
 			sup.EntryPoint, sup.Missing, sup.DeclaredBy, sup.Reason)
+	}
+	// And so is the engine's own. An inferred expectation the entry point answered by
+	// other means is printed with the line that answered it, because a reader who cannot
+	// go and check the claim has been asked to take it on trust.
+	for _, w := range res.Withheld {
+		fmt.Fprintf(b, "  withheld on %s: %s — the caller presented %q and %s selected a record with it at %s\n",
+			w.EntryPoint, w.Missing, w.Field, w.Selection, w.Loc)
 	}
 
 	if len(res.Findings) == 0 {

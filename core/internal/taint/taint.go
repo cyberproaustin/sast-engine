@@ -3094,6 +3094,40 @@ func (e *engine) taintLeads(valueID string) bool {
 	return false
 }
 
+// startsWithAuthorityReference reports the two prefixes that look composed but do not
+// constrain a destination to the program's host. `//host` is an RFC 3986 network-path
+// reference, and browser URL parsers normalize `/\host` to the same authority-changing
+// shape. The whole-value rule must therefore keep these flows instead of treating the
+// program-written first character as an anchor.
+func (e *engine) startsWithAuthorityReference(valueID string) bool {
+	return e.valueStartsWithAuthorityReference(valueID, map[string]bool{}, 0)
+}
+
+func (e *engine) valueStartsWithAuthorityReference(id string, seen map[string]bool, depth int) bool {
+	if id == "" || depth >= 12 || seen[id] {
+		return false
+	}
+	seen[id] = true
+	defer delete(seen, id)
+
+	if v := e.ix.ValueByID[id]; v != nil && v.Kind == ir.ValueLiteral {
+		return model.AuthorityReferencePrefix(v.Literal)
+	}
+	if c := e.callByResult[id]; c != nil && c.Callee.FunctionID != "" {
+		for _, returned := range e.returns[c.Callee.FunctionID] {
+			if e.valueStartsWithAuthorityReference(returned, seen, depth+1) {
+				return true
+			}
+		}
+	}
+	if into := e.flowsInto[id]; len(into) > 0 {
+		// Composition inputs are recorded in source order, the same invariant
+		// taintLeads uses. Only the first can decide how the URL starts.
+		return e.valueStartsWithAuthorityReference(into[0], seen, depth+1)
+	}
+	return false
+}
+
 // composedFrom reports whether any LITERAL piece the sink value was built from contains
 // one of these words.
 //
@@ -3228,7 +3262,8 @@ func (e *engine) buildFinding(c *ir.Call, ch model.Channel, p model.Policy, arg 
 	// the caller a path segment rather than a machine to point at.
 	if ch.RequiresWholeValue && composedIntoText(path) &&
 		!(ch.AllowsComposedPrefix && e.taintLeads(arg.ValueID)) &&
-		!e.resolvedAsReference(path) {
+		!e.resolvedAsReference(path) &&
+		!e.startsWithAuthorityReference(arg.ValueID) {
 		return Finding{}, false
 	}
 

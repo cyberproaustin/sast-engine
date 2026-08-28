@@ -302,6 +302,93 @@ func TestConventionComparesOnlyWithinMount(t *testing.T) {
 	}
 }
 
+// A caller who presents a secret has authenticated, whatever the population mounts.
+//
+// The population can only compare an entry point against what its peers MOUNT, and a
+// signing link mounts nothing -- that is what makes it a link rather than a session.
+// documenso measured the cost of reading the two as one question: enumerating its tRPC
+// surface produced five CWE-306 findings and an independent reader judged all five false,
+// every one a procedure that resolves a recipient from the token the caller sent.
+//
+// The four that survive are the reason the rule is narrow. One route has no control and
+// no secret. One selects a record by `documentId` -- a value the caller sent and an
+// identifier the caller can count through, which is the same shape as the token routes
+// minus the only thing that makes them authentication. One hands `tokenId` to a helper
+// that looks a row up by it, which is a primary key wearing a credential word. The fourth
+// is a stated miss rather than a defect in the fixture, and it is asserted so that
+// widening the binding rule cannot pass unnoticed.
+func TestCallerPresentedCredentialIsNotAMissingControl(t *testing.T) {
+	res := runScan(t, "credential-instead-of-session")
+
+	silent := map[string]bool{"POST /sign/status": true, "POST /sign/field": true}
+	mustFire := map[string]bool{
+		"POST /documents/archive":       true,
+		"DELETE /documents/:documentId": true,
+		"POST /tokens/revoke":           true,
+		// A STATED MISS, asserted so that widening the binding rule cannot pass
+		// unnoticed. This route authenticates by token exactly as the two silent ones
+		// do, and the token reaches the lookup as a bare positional argument -- which
+		// the rule does not follow, because a position does not survive a receiver.
+		// Binding by position is what made saleor's setPassword cite a lookup keyed by
+		// the caller's password when the row is selected by the email.
+		"POST /sign/complete": true,
+	}
+
+	got := map[string]bool{}
+	for _, f := range inferredOnly(res.Expectation.Findings) {
+		if silent[f.EntryPoint] {
+			t.Errorf("%s authenticates by a credential the caller presented: %+v", f.EntryPoint, f)
+		}
+		if f.CWE != "CWE-306" {
+			t.Errorf("want CWE-306 on %s, got %s", f.EntryPoint, f.CWE)
+		}
+		got[f.EntryPoint] = true
+	}
+	for label := range mustFire {
+		if !got[label] {
+			t.Errorf("%s has no authentication of any kind and must still report", label)
+		}
+	}
+	if len(got) != len(mustFire) {
+		t.Errorf("want exactly %d deviations, got %v", len(mustFire), got)
+	}
+
+	// Withdrawing an inference silently would be the same defect as suppressing a
+	// finding silently: the reader cannot check what they cannot see.
+	if len(res.Expectation.Withheld) != len(silent) {
+		t.Fatalf("want %d withheld inferences, got %+v", len(silent), res.Expectation.Withheld)
+	}
+	for _, w := range res.Expectation.Withheld {
+		if !silent[w.EntryPoint] {
+			t.Errorf("withheld on an entry point that has no credential: %+v", w)
+		}
+		if w.Field != "token" || w.Selection == "" || w.Loc.File == "" {
+			t.Errorf("a withheld inference must cite the field and the lookup: %+v", w)
+		}
+	}
+}
+
+// The fact itself, on the surface, because it is the one control this engine recognises
+// that is not in the Controls list: nothing is mounted and the evidence is a lookup.
+func TestSurfaceRecordsTheCredentialTheCallerPresented(t *testing.T) {
+	res := runScan(t, "credential-instead-of-session")
+	want := map[string]string{
+		"POST /sign/status": "prisma.recipient.findFirst",
+		"POST /sign/field":  "prisma.recipient.findFirstOrThrow",
+	}
+	for _, e := range res.Surface.Entries {
+		selection, expected := want[e.Label()]
+		switch {
+		case expected && e.Credential == nil:
+			t.Errorf("%s resolves a recipient from the caller's token and records no credential", e.Label())
+		case expected && e.Credential.Selection != selection:
+			t.Errorf("%s cites %q, want %q", e.Label(), e.Credential.Selection, selection)
+		case !expected && e.Credential != nil:
+			t.Errorf("%s records a credential it does not have: %+v", e.Label(), e.Credential)
+		}
+	}
+}
+
 // Detection must not depend on recognizing the control by name (ADR-010). These are
 // in-house middleware; the engine classifies them only as a convenience.
 func TestConventionDoesNotDependOnNameRecognition(t *testing.T) {

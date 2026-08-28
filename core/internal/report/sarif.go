@@ -266,7 +266,7 @@ func entryProps(entries []surface.EntryFacts) []map[string]any {
 		for _, c := range e.Controls {
 			controls = append(controls, c.Name)
 		}
-		out = append(out, map[string]any{
+		props := map[string]any{
 			"entryPoint": e.Label(),
 			"kind":       e.EntryPoint.Kind,
 			"trust":      string(e.TrustLevel()),
@@ -274,7 +274,19 @@ func entryProps(entries []surface.EntryFacts) []map[string]any {
 			"controls":   controls,
 			"provenance": e.Provenance,
 			"detail":     e.EntryPoint.Detail,
-		})
+		}
+		// The control that is not in the controls list: nothing is mounted and the
+		// evidence is a lookup inside the handler. A machine reading this surface has to
+		// be able to tell a signing link from an open door for the same reason a person
+		// does, so it is carried here as well as in the text.
+		if e.Credential != nil {
+			props["callerCredential"] = map[string]any{
+				"field":     e.Credential.Field,
+				"selection": e.Credential.Selection,
+				"at":        e.Credential.Loc.String(),
+			}
+		}
+		out = append(out, props)
 	}
 	return out
 }

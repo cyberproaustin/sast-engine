@@ -193,10 +193,14 @@ var corpora = []string{
 	"drf-action-routes",
 	"route-parameter-source",
 	"reference-resolution",
+	"local-route-destination",
+	"type-brand-not-credential",
+	"secret-key-identifier",
 	"rate-limit-key-header",
 	"settings-module-secret",
 	"django-manager-lookup",
 	"destructured-parameter",
+	"credential-instead-of-session",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {

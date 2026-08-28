@@ -30,6 +30,18 @@ func Analyze(d *ir.IR, m model.Model, classified map[string]taint.Classified) []
 		return nil
 	}
 	ix := ir.NewIndex(d)
+	flowsInto := make(map[string][]ir.Flow)
+	callByResult := make(map[string]*ir.Call)
+	for _, fn := range d.Functions {
+		for _, f := range fn.Flows {
+			flowsInto[f.To] = append(flowsInto[f.To], f)
+		}
+		for _, c := range fn.Calls {
+			if c.ResultID != "" {
+				callByResult[c.ResultID] = c
+			}
+		}
+	}
 
 	// Skipping calls with no written arguments is worth a great deal on a large program,
 	// and it is only sound while every shape needs an argument to look at. A shape that
@@ -63,6 +75,10 @@ func Analyze(d *ir.IR, m model.Model, classified map[string]taint.Classified) []
 					continue
 				}
 				if len(shape.ReceiverFromCall) > 0 && !receiverMadeBy(d, c, shape.ReceiverFromCall) {
+					continue
+				}
+				if shape.ExternalDestinationArg != nil &&
+					destinationStaysOnOrigin(ix, flowsInto, callByResult, c, *shape.ExternalDestinationArg) {
 					continue
 				}
 				inputID, inputOrigin, hasInput := classifiedOperand(c, shape, classified)
@@ -116,6 +132,60 @@ func Analyze(d *ir.IR, m model.Model, classified map[string]taint.Classified) []
 		}
 	}
 	return out
+}
+
+func destinationStaysOnOrigin(ix *ir.Index, flowsInto map[string][]ir.Flow,
+	callByResult map[string]*ir.Call, c *ir.Call, index int,
+) bool {
+	for _, arg := range c.Args {
+		if arg.At(index) {
+			return valueStaysOnOrigin(ix, flowsInto, callByResult, arg.ValueID, map[string]bool{}, 0)
+		}
+	}
+	return false
+}
+
+// valueStaysOnOrigin proves one of the two source-visible local URL shapes: a root-
+// relative route, or an object URL this page itself created. It follows plain bindings
+// and a resolved local helper's return because moving route construction into a helper
+// does not change what the browser parses. Unknown and mixed returns stay reportable.
+func valueStaysOnOrigin(ix *ir.Index, flowsInto map[string][]ir.Flow,
+	callByResult map[string]*ir.Call, id string, seen map[string]bool, depth int,
+) bool {
+	if id == "" || depth >= 12 || seen[id] {
+		return false
+	}
+	seen[id] = true
+	defer delete(seen, id)
+
+	if v := ix.ValueByID[id]; v != nil && v.Kind == ir.ValueLiteral {
+		return model.RootRelativeURLPrefix(v.Literal)
+	}
+	if c := callByResult[id]; c != nil {
+		switch strings.ToLower(c.Callee.Symbol) {
+		case "url.createobjecturl", "window.url.createobjecturl":
+			return true
+		}
+		if callee := ix.FuncByID[c.Callee.FunctionID]; callee != nil && len(callee.Returns) > 0 {
+			for _, returned := range callee.Returns {
+				if !valueStaysOnOrigin(ix, flowsInto, callByResult, returned, seen, depth+1) {
+					return false
+				}
+			}
+			return true
+		}
+	}
+
+	// Template and binary contributors are emitted in source order. The first is the
+	// prefix the URL parser sees; later path segments cannot turn `/Resource/` into an
+	// authority. `//` and `/\` fail RootRelativeURLPrefix before that conclusion is made.
+	if into := flowsInto[id]; len(into) > 0 {
+		switch into[0].Kind {
+		case "assign", "template", "binary":
+			return valueStaysOnOrigin(ix, flowsInto, callByResult, into[0].From, seen, depth+1)
+		}
+	}
+	return false
 }
 
 func classifiedOperand(c *ir.Call, shape model.CallShape, classified map[string]taint.Classified) (string, taint.Origin, bool) {

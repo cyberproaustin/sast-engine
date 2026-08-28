@@ -101,6 +101,9 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 				if rule.OtherIsText && !isText(ix.ValueByID[other]) {
 					continue
 				}
+				if rule.OtherNotObjectBrand && objectBrandComparison(ix, resultOf, side, other) {
+					continue
+				}
 				// A field read off something the credential produced is not the
 				// credential.
 				if rule.RequiresUnprojected && carrying.Projected[side] {
@@ -267,6 +270,20 @@ func producedBy(resultOf map[string]*ir.Call, id string, symbols []string) bool 
 		}
 	}
 	return false
+}
+
+func objectBrandComparison(ix *ir.Index, resultOf map[string]*ir.Call, side, other string) bool {
+	c := resultOf[side]
+	if c == nil || !strings.EqualFold(c.Callee.Symbol, "Object.prototype.toString.call") {
+		return false
+	}
+	v := ix.ValueByID[other]
+	if v == nil || v.Kind != ir.ValueLiteral {
+		return false
+	}
+	brand := strings.TrimSpace(v.Literal)
+	return len(brand) > len("[object ]") && strings.HasPrefix(brand, "[object ") &&
+		strings.HasSuffix(brand, "]") && !strings.ContainsAny(brand[len("[object "):len(brand)-1], "[]\r\n")
 }
 
 func leafOf(s string) string {
