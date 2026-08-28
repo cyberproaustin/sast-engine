@@ -1,0 +1,14 @@
+{
+  "corpus": "django-dotted-include",
+  "description": "A root URLconf that mounts by DOTTED STRING, against a source root that is not the repository root. This is the most ordinary thing a Django URLconf says and the engine could not follow it: the prefix table was keyed by string equality against the frontend's own module ids, so `include(\"billing.reports.urls\")` matched a module only when the application's package root and the scanned root happened to be the same directory. plane's are not -- its sources are under `apps/api/` -- and every one of that application's 399 route declarations came to nothing: 51 entry points were enumerated against 399 declared (13%), and 31 of the 51 were the declarative fallback naming a class rather than a path. On this fixture the old resolution enumerated ZERO entry points and the analysis reported NO FINDINGS at all, while declaring OWASP ASVS 1.2.5 -- protection against OS command injection -- NOT EVALUATED. The command injection below is reachable only through the mount, and the negatives are the two shapes that look like one: a dotted string naming a module this program does not contain, which must mount nothing, and a handler in the same file that reads nothing a caller supplies.",
+  "expected": [
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "service/billing/reports/views.py",
+      "sinkLine": 11,
+      "sourceLabel": "request.GET",
+      "confidence": "high",
+      "note": "served at /api/v2/export/<pk>/; the prefix is in a file that names this module only as a string, and the module is one directory level deeper than the string says"
+    }
+  ]
+}

@@ -1,0 +1,1638 @@
+{
+  "irVersion": "0.19.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi",
+        "django",
+        "drf",
+        "graphene",
+        "tornado"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "alpha/billing/__init__.py",
+      "path": "alpha/billing/__init__.py"
+    },
+    {
+      "id": "alpha/billing/urls.py",
+      "path": "alpha/billing/urls.py"
+    },
+    {
+      "id": "alpha/billing/views.py",
+      "path": "alpha/billing/views.py"
+    },
+    {
+      "id": "alpha/jobs/__init__.py",
+      "path": "alpha/jobs/__init__.py"
+    },
+    {
+      "id": "alpha/jobs/views.py",
+      "path": "alpha/jobs/views.py"
+    },
+    {
+      "id": "beta/billing/__init__.py",
+      "path": "beta/billing/__init__.py"
+    },
+    {
+      "id": "beta/billing/urls.py",
+      "path": "beta/billing/urls.py"
+    },
+    {
+      "id": "beta/billing/views.py",
+      "path": "beta/billing/views.py"
+    },
+    {
+      "id": "beta/jobs/__init__.py",
+      "path": "beta/jobs/__init__.py"
+    },
+    {
+      "id": "beta/jobs/views.py",
+      "path": "beta/jobs/views.py"
+    },
+    {
+      "id": "gateway/urls.py",
+      "path": "gateway/urls.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "alpha/billing/__init__.py#<module>:0:0",
+      "name": "<module>",
+      "module": "alpha/billing/__init__.py",
+      "loc": {
+        "file": "alpha/billing/__init__.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "alpha/billing/__init__.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "alpha/billing/__init__.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "alpha/billing/__init__.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "alpha/billing/urls.py#<module>:0:0",
+      "name": "<module>",
+      "module": "alpha/billing/urls.py",
+      "loc": {
+        "file": "alpha/billing/urls.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "alpha/billing/urls.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "alpha/billing/urls.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "One of the two modules `billing.urls` could mean.\n\nIts own route is written here and is enumerated at the path this file gives it. What the\nambiguity costs is the PREFIX: this list is not mounted under `pay/`, because saying it\nwas would be saying that the other one is not, and nothing in the repository says either.\n"
+        },
+        {
+          "id": "alpha/billing/urls.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "alpha/billing/urls.py",
+            "line": 11,
+            "column": 15
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "alpha/billing/urls.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "alpha/billing/urls.py",
+            "line": 12,
+            "column": 10
+          },
+          "literal": "charge/"
+        },
+        {
+          "id": "alpha/billing/urls.py#<module>:0:0$v3",
+          "kind": "global",
+          "loc": {
+            "file": "alpha/billing/urls.py",
+            "line": 12,
+            "column": 21
+          },
+          "name": "alpha.billing.views"
+        },
+        {
+          "id": "alpha/billing/urls.py#<module>:0:0$v4",
+          "kind": "property",
+          "loc": {
+            "file": "alpha/billing/urls.py",
+            "line": 12,
+            "column": 21
+          },
+          "base": "alpha/billing/urls.py#<module>:0:0$v3",
+          "path": "charge",
+          "name": "charge"
+        },
+        {
+          "id": "alpha/billing/urls.py#<module>:0:0$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "alpha/billing/urls.py",
+            "line": 12,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "alpha/billing/urls.py#<module>:0:0$v6",
+          "kind": "local",
+          "loc": {
+            "file": "alpha/billing/urls.py",
+            "line": 11,
+            "column": 1
+          },
+          "name": "urlpatterns"
+        }
+      ],
+      "flows": [
+        {
+          "from": "alpha/billing/urls.py#<module>:0:0$v3",
+          "to": "alpha/billing/urls.py#<module>:0:0$v4",
+          "kind": "property",
+          "loc": {
+            "file": "alpha/billing/urls.py",
+            "line": 12,
+            "column": 21
+          },
+          "block": "alpha/billing/urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "alpha/billing/urls.py#<module>:0:0$v5",
+          "to": "alpha/billing/urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "alpha/billing/urls.py",
+            "line": 11,
+            "column": 15
+          },
+          "block": "alpha/billing/urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "alpha/billing/urls.py#<module>:0:0$v1",
+          "to": "alpha/billing/urls.py#<module>:0:0$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "alpha/billing/urls.py",
+            "line": 11,
+            "column": 1
+          },
+          "block": "alpha/billing/urls.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "alpha/billing/urls.py#<module>:0:0$c0",
+          "loc": {
+            "file": "alpha/billing/urls.py",
+            "line": 12,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "alpha/billing/urls.py#<module>:0:0$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "alpha/billing/urls.py#<module>:0:0$v4",
+              "functionId": "alpha/billing/views.py#charge:5:1"
+            }
+          ],
+          "resultValueId": "alpha/billing/urls.py#<module>:0:0$v5",
+          "block": "alpha/billing/urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "charge/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "alpha/billing/urls.py",
+            "line": 11,
+            "column": 1
+          },
+          "path": "urlpatterns",
+          "from": "alpha/billing/urls.py#<module>:0:0$v1",
+          "block": "alpha/billing/urls.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "alpha/billing/urls.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "alpha/billing/urls.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "alpha/billing/urls.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "alpha/billing/views.py#<module>:0:0",
+      "name": "<module>",
+      "module": "alpha/billing/views.py",
+      "loc": {
+        "file": "alpha/billing/views.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "alpha/billing/views.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "alpha/billing/views.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "NEGATIVE. A route that exists at a path this corpus can state."
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "alpha/billing/views.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "alpha/billing/views.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "alpha/billing/views.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "alpha/billing/views.py#charge:5:1",
+      "name": "charge",
+      "module": "alpha/billing/views.py",
+      "loc": {
+        "file": "alpha/billing/views.py",
+        "line": 5,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "alpha/billing/views.py#charge:5:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "alpha/billing/views.py#charge:5:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "alpha/billing/views.py",
+            "line": 5,
+            "column": 12
+          },
+          "name": "request"
+        },
+        {
+          "id": "alpha/billing/views.py#charge:5:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "alpha/billing/views.py",
+            "line": 6,
+            "column": 25
+          },
+          "literal": "ok"
+        },
+        {
+          "id": "alpha/billing/views.py#charge:5:1$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "alpha/billing/views.py",
+            "line": 6,
+            "column": 12
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "alpha/billing/views.py#charge:5:1$c0",
+          "loc": {
+            "file": "alpha/billing/views.py",
+            "line": 6,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "alpha/billing/views.py#charge:5:1$v1"
+            }
+          ],
+          "resultValueId": "alpha/billing/views.py#charge:5:1$v2",
+          "block": "alpha/billing/views.py#charge:5:1$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "ok"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "alpha/billing/views.py#charge:5:1$v2"
+      ],
+      "returnBlocks": [
+        "alpha/billing/views.py#charge:5:1$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "alpha/billing/views.py#charge:5:1$b0",
+      "blocks": [
+        {
+          "id": "alpha/billing/views.py#charge:5:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "alpha/billing/views.py",
+            "line": 5,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "alpha/billing/views.py#charge:5:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "alpha/billing/views.py",
+            "line": 6,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "alpha/jobs/__init__.py#<module>:0:0",
+      "name": "<module>",
+      "module": "alpha/jobs/__init__.py",
+      "loc": {
+        "file": "alpha/jobs/__init__.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "alpha/jobs/__init__.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "alpha/jobs/__init__.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "alpha/jobs/__init__.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "alpha/jobs/views.py#<module>:0:0",
+      "name": "<module>",
+      "module": "alpha/jobs/views.py",
+      "loc": {
+        "file": "alpha/jobs/views.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "alpha/jobs/views.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "alpha/jobs/views.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "One of the two modules `jobs.views` could mean, and the dangerous one.\n\nNOT A FINDING, on purpose. The flow is real -- a query parameter is concatenated into a\nshell command -- and no route in this program reaches this function: the only registration\nthat names it names a module two files answer to. Claiming it would mean printing a path,\nand the path would be a guess about which tree the deployment installed.\n\nIf the resolver ever picks one of the two, this becomes a reported command injection at\n`/run/` and the corpus fails with a FALSE POSITIVE. That is the whole assertion.\n"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "alpha/jobs/views.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "alpha/jobs/views.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "alpha/jobs/views.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "alpha/jobs/views.py#execute:16:1",
+      "name": "execute",
+      "module": "alpha/jobs/views.py",
+      "loc": {
+        "file": "alpha/jobs/views.py",
+        "line": 16,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "alpha/jobs/views.py#execute:16:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "alpha/jobs/views.py#execute:16:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "alpha/jobs/views.py",
+            "line": 16,
+            "column": 13
+          },
+          "name": "request"
+        },
+        {
+          "id": "alpha/jobs/views.py#execute:16:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "alpha/jobs/views.py",
+            "line": 17,
+            "column": 12
+          },
+          "base": "alpha/jobs/views.py#execute:16:1$v0",
+          "path": "GET",
+          "name": "GET"
+        },
+        {
+          "id": "alpha/jobs/views.py#execute:16:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "alpha/jobs/views.py",
+            "line": 17,
+            "column": 12
+          },
+          "name": "task",
+          "base": "alpha/jobs/views.py#execute:16:1$v1",
+          "path": "GET.task"
+        },
+        {
+          "id": "alpha/jobs/views.py#execute:16:1$v3",
+          "kind": "local",
+          "loc": {
+            "file": "alpha/jobs/views.py",
+            "line": 17,
+            "column": 5
+          },
+          "name": "task"
+        },
+        {
+          "id": "alpha/jobs/views.py#execute:16:1$v4",
+          "kind": "local",
+          "loc": {
+            "file": "alpha/jobs/views.py",
+            "line": 18,
+            "column": 49
+          },
+          "name": "concat"
+        },
+        {
+          "id": "alpha/jobs/views.py#execute:16:1$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "alpha/jobs/views.py",
+            "line": 18,
+            "column": 49
+          },
+          "literal": "jobctl run "
+        },
+        {
+          "id": "alpha/jobs/views.py#execute:16:1$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "alpha/jobs/views.py",
+            "line": 18,
+            "column": 77
+          },
+          "literal": "true"
+        },
+        {
+          "id": "alpha/jobs/views.py#execute:16:1$v7",
+          "kind": "global",
+          "loc": {
+            "file": "alpha/jobs/views.py",
+            "line": 18,
+            "column": 25
+          },
+          "name": "subprocess"
+        },
+        {
+          "id": "alpha/jobs/views.py#execute:16:1$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "alpha/jobs/views.py",
+            "line": 18,
+            "column": 25
+          },
+          "name": "subprocess.check_output"
+        },
+        {
+          "id": "alpha/jobs/views.py#execute:16:1$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "alpha/jobs/views.py",
+            "line": 18,
+            "column": 12
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "alpha/jobs/views.py#execute:16:1$v0",
+          "to": "alpha/jobs/views.py#execute:16:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "alpha/jobs/views.py",
+            "line": 17,
+            "column": 12
+          },
+          "block": "alpha/jobs/views.py#execute:16:1$b0"
+        },
+        {
+          "from": "alpha/jobs/views.py#execute:16:1$v1",
+          "to": "alpha/jobs/views.py#execute:16:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "alpha/jobs/views.py",
+            "line": 17,
+            "column": 12
+          },
+          "block": "alpha/jobs/views.py#execute:16:1$b0"
+        },
+        {
+          "from": "alpha/jobs/views.py#execute:16:1$v2",
+          "to": "alpha/jobs/views.py#execute:16:1$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "alpha/jobs/views.py",
+            "line": 17,
+            "column": 5
+          },
+          "block": "alpha/jobs/views.py#execute:16:1$b0"
+        },
+        {
+          "from": "alpha/jobs/views.py#execute:16:1$v5",
+          "to": "alpha/jobs/views.py#execute:16:1$v4",
+          "kind": "binary",
+          "loc": {
+            "file": "alpha/jobs/views.py",
+            "line": 18,
+            "column": 49
+          },
+          "block": "alpha/jobs/views.py#execute:16:1$b0"
+        },
+        {
+          "from": "alpha/jobs/views.py#execute:16:1$v3",
+          "to": "alpha/jobs/views.py#execute:16:1$v4",
+          "kind": "binary",
+          "loc": {
+            "file": "alpha/jobs/views.py",
+            "line": 18,
+            "column": 49
+          },
+          "block": "alpha/jobs/views.py#execute:16:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "alpha/jobs/views.py#execute:16:1$c0",
+          "loc": {
+            "file": "alpha/jobs/views.py",
+            "line": 18,
+            "column": 25
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "subprocess.check_output",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "alpha/jobs/views.py#execute:16:1$v4"
+            },
+            {
+              "valueId": "alpha/jobs/views.py#execute:16:1$v6",
+              "name": "shell"
+            }
+          ],
+          "resultValueId": "alpha/jobs/views.py#execute:16:1$v8",
+          "block": "alpha/jobs/views.py#execute:16:1$b0",
+          "method": "check_output",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "shell=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "alpha/jobs/views.py#execute:16:1$v7"
+        },
+        {
+          "id": "alpha/jobs/views.py#execute:16:1$c1",
+          "loc": {
+            "file": "alpha/jobs/views.py",
+            "line": 18,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "alpha/jobs/views.py#execute:16:1$v8"
+            }
+          ],
+          "resultValueId": "alpha/jobs/views.py#execute:16:1$v9",
+          "block": "alpha/jobs/views.py#execute:16:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "alpha/jobs/views.py#execute:16:1$v9"
+      ],
+      "returnBlocks": [
+        "alpha/jobs/views.py#execute:16:1$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "alpha/jobs/views.py#execute:16:1$b0",
+      "blocks": [
+        {
+          "id": "alpha/jobs/views.py#execute:16:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "alpha/jobs/views.py",
+            "line": 16,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "alpha/jobs/views.py#execute:16:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "alpha/jobs/views.py",
+            "line": 18,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "beta/billing/__init__.py#<module>:0:0",
+      "name": "<module>",
+      "module": "beta/billing/__init__.py",
+      "loc": {
+        "file": "beta/billing/__init__.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "beta/billing/__init__.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "beta/billing/__init__.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "beta/billing/__init__.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "beta/billing/urls.py#<module>:0:0",
+      "name": "<module>",
+      "module": "beta/billing/urls.py",
+      "loc": {
+        "file": "beta/billing/urls.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "beta/billing/urls.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "beta/billing/urls.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The other module `billing.urls` could mean. Same dotted tail, different tree."
+        },
+        {
+          "id": "beta/billing/urls.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "beta/billing/urls.py",
+            "line": 6,
+            "column": 15
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "beta/billing/urls.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "beta/billing/urls.py",
+            "line": 7,
+            "column": 10
+          },
+          "literal": "charge/"
+        },
+        {
+          "id": "beta/billing/urls.py#<module>:0:0$v3",
+          "kind": "global",
+          "loc": {
+            "file": "beta/billing/urls.py",
+            "line": 7,
+            "column": 21
+          },
+          "name": "beta.billing.views"
+        },
+        {
+          "id": "beta/billing/urls.py#<module>:0:0$v4",
+          "kind": "property",
+          "loc": {
+            "file": "beta/billing/urls.py",
+            "line": 7,
+            "column": 21
+          },
+          "base": "beta/billing/urls.py#<module>:0:0$v3",
+          "path": "charge",
+          "name": "charge"
+        },
+        {
+          "id": "beta/billing/urls.py#<module>:0:0$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "beta/billing/urls.py",
+            "line": 7,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "beta/billing/urls.py#<module>:0:0$v6",
+          "kind": "local",
+          "loc": {
+            "file": "beta/billing/urls.py",
+            "line": 6,
+            "column": 1
+          },
+          "name": "urlpatterns"
+        }
+      ],
+      "flows": [
+        {
+          "from": "beta/billing/urls.py#<module>:0:0$v3",
+          "to": "beta/billing/urls.py#<module>:0:0$v4",
+          "kind": "property",
+          "loc": {
+            "file": "beta/billing/urls.py",
+            "line": 7,
+            "column": 21
+          },
+          "block": "beta/billing/urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "beta/billing/urls.py#<module>:0:0$v5",
+          "to": "beta/billing/urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "beta/billing/urls.py",
+            "line": 6,
+            "column": 15
+          },
+          "block": "beta/billing/urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "beta/billing/urls.py#<module>:0:0$v1",
+          "to": "beta/billing/urls.py#<module>:0:0$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "beta/billing/urls.py",
+            "line": 6,
+            "column": 1
+          },
+          "block": "beta/billing/urls.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "beta/billing/urls.py#<module>:0:0$c0",
+          "loc": {
+            "file": "beta/billing/urls.py",
+            "line": 7,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "beta/billing/urls.py#<module>:0:0$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "beta/billing/urls.py#<module>:0:0$v4",
+              "functionId": "beta/billing/views.py#charge:5:1"
+            }
+          ],
+          "resultValueId": "beta/billing/urls.py#<module>:0:0$v5",
+          "block": "beta/billing/urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "charge/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "beta/billing/urls.py",
+            "line": 6,
+            "column": 1
+          },
+          "path": "urlpatterns",
+          "from": "beta/billing/urls.py#<module>:0:0$v1",
+          "block": "beta/billing/urls.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "beta/billing/urls.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "beta/billing/urls.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "beta/billing/urls.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "beta/billing/views.py#<module>:0:0",
+      "name": "<module>",
+      "module": "beta/billing/views.py",
+      "loc": {
+        "file": "beta/billing/views.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "beta/billing/views.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "beta/billing/views.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "NEGATIVE."
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "beta/billing/views.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "beta/billing/views.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "beta/billing/views.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "beta/billing/views.py#charge:5:1",
+      "name": "charge",
+      "module": "beta/billing/views.py",
+      "loc": {
+        "file": "beta/billing/views.py",
+        "line": 5,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "beta/billing/views.py#charge:5:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "beta/billing/views.py#charge:5:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "beta/billing/views.py",
+            "line": 5,
+            "column": 12
+          },
+          "name": "request"
+        },
+        {
+          "id": "beta/billing/views.py#charge:5:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "beta/billing/views.py",
+            "line": 6,
+            "column": 25
+          },
+          "literal": "ok"
+        },
+        {
+          "id": "beta/billing/views.py#charge:5:1$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "beta/billing/views.py",
+            "line": 6,
+            "column": 12
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "beta/billing/views.py#charge:5:1$c0",
+          "loc": {
+            "file": "beta/billing/views.py",
+            "line": 6,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "beta/billing/views.py#charge:5:1$v1"
+            }
+          ],
+          "resultValueId": "beta/billing/views.py#charge:5:1$v2",
+          "block": "beta/billing/views.py#charge:5:1$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "ok"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "beta/billing/views.py#charge:5:1$v2"
+      ],
+      "returnBlocks": [
+        "beta/billing/views.py#charge:5:1$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "beta/billing/views.py#charge:5:1$b0",
+      "blocks": [
+        {
+          "id": "beta/billing/views.py#charge:5:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "beta/billing/views.py",
+            "line": 5,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "beta/billing/views.py#charge:5:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "beta/billing/views.py",
+            "line": 6,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "beta/jobs/__init__.py#<module>:0:0",
+      "name": "<module>",
+      "module": "beta/jobs/__init__.py",
+      "loc": {
+        "file": "beta/jobs/__init__.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "beta/jobs/__init__.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "beta/jobs/__init__.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "beta/jobs/__init__.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "beta/jobs/views.py#<module>:0:0",
+      "name": "<module>",
+      "module": "beta/jobs/views.py",
+      "loc": {
+        "file": "beta/jobs/views.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "beta/jobs/views.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "beta/jobs/views.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The other module `jobs.views` could mean. Harmless, and equally plausible.\n\nTwo candidates rather than one is the whole point: with a single candidate the answer is\na suffix match and this engine makes it, which is what put plane's 397 registrations back\nin the surface. With two, the honest answer is silence.\n"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "beta/jobs/views.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "beta/jobs/views.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "beta/jobs/views.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "beta/jobs/views.py#execute:10:1",
+      "name": "execute",
+      "module": "beta/jobs/views.py",
+      "loc": {
+        "file": "beta/jobs/views.py",
+        "line": 10,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "beta/jobs/views.py#execute:10:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "beta/jobs/views.py#execute:10:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "beta/jobs/views.py",
+            "line": 10,
+            "column": 13
+          },
+          "name": "request"
+        },
+        {
+          "id": "beta/jobs/views.py#execute:10:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "beta/jobs/views.py",
+            "line": 11,
+            "column": 25
+          },
+          "literal": "queued"
+        },
+        {
+          "id": "beta/jobs/views.py#execute:10:1$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "beta/jobs/views.py",
+            "line": 11,
+            "column": 12
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "beta/jobs/views.py#execute:10:1$c0",
+          "loc": {
+            "file": "beta/jobs/views.py",
+            "line": 11,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "beta/jobs/views.py#execute:10:1$v1"
+            }
+          ],
+          "resultValueId": "beta/jobs/views.py#execute:10:1$v2",
+          "block": "beta/jobs/views.py#execute:10:1$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "queued"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "beta/jobs/views.py#execute:10:1$v2"
+      ],
+      "returnBlocks": [
+        "beta/jobs/views.py#execute:10:1$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "beta/jobs/views.py#execute:10:1$b0",
+      "blocks": [
+        {
+          "id": "beta/jobs/views.py#execute:10:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "beta/jobs/views.py",
+            "line": 10,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "beta/jobs/views.py#execute:10:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "beta/jobs/views.py",
+            "line": 11,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "gateway/urls.py#<module>:0:0",
+      "name": "<module>",
+      "module": "gateway/urls.py",
+      "loc": {
+        "file": "gateway/urls.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "gateway/urls.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "gateway/urls.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The root URLconf, naming two things that TWO modules each answer to.\n\nAMBIGUITY RESOLVES TO NOTHING. Resolving a dotted name against a source tree is a suffix\nmatch -- an application writes `plane.app.urls` against a source root of `apps/api/`, and\nno module in it spells its own name the way a scanner's module ids do. A suffix that two\nmodules end with says nothing about which of them the loader will find, and the file that\nwould settle it is a deployment's `sys.path` rather than any source in the repository.\n\nA phantom route is worse than a missing one. An entry point is what a finding is anchored\nto, and these findings are sent to maintainers: a route we invented sends someone to an\naddress that does not exist, and everything said about it is unfalsifiable. So a name two\nmodules answer to mounts nothing and reaches nothing.\n"
+        },
+        {
+          "id": "gateway/urls.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "gateway/urls.py",
+            "line": 18,
+            "column": 15
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "gateway/urls.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "gateway/urls.py",
+            "line": 22,
+            "column": 10
+          },
+          "literal": "pay/"
+        },
+        {
+          "id": "gateway/urls.py#<module>:0:0$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "gateway/urls.py",
+            "line": 22,
+            "column": 26
+          },
+          "literal": "billing.urls"
+        },
+        {
+          "id": "gateway/urls.py#<module>:0:0$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "gateway/urls.py",
+            "line": 22,
+            "column": 18
+          },
+          "name": "django.urls.include"
+        },
+        {
+          "id": "gateway/urls.py#<module>:0:0$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "gateway/urls.py",
+            "line": 22,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "gateway/urls.py#<module>:0:0$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "gateway/urls.py",
+            "line": 28,
+            "column": 10
+          },
+          "literal": "run/"
+        },
+        {
+          "id": "gateway/urls.py#<module>:0:0$v7",
+          "kind": "global",
+          "loc": {
+            "file": "gateway/urls.py",
+            "line": 28,
+            "column": 18
+          },
+          "name": "jobs.views"
+        },
+        {
+          "id": "gateway/urls.py#<module>:0:0$v8",
+          "kind": "property",
+          "loc": {
+            "file": "gateway/urls.py",
+            "line": 28,
+            "column": 18
+          },
+          "base": "gateway/urls.py#<module>:0:0$v7",
+          "path": "execute",
+          "name": "execute"
+        },
+        {
+          "id": "gateway/urls.py#<module>:0:0$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "gateway/urls.py",
+            "line": 28,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "gateway/urls.py#<module>:0:0$v10",
+          "kind": "local",
+          "loc": {
+            "file": "gateway/urls.py",
+            "line": 18,
+            "column": 1
+          },
+          "name": "urlpatterns"
+        }
+      ],
+      "flows": [
+        {
+          "from": "gateway/urls.py#<module>:0:0$v5",
+          "to": "gateway/urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "gateway/urls.py",
+            "line": 18,
+            "column": 15
+          },
+          "block": "gateway/urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "gateway/urls.py#<module>:0:0$v7",
+          "to": "gateway/urls.py#<module>:0:0$v8",
+          "kind": "property",
+          "loc": {
+            "file": "gateway/urls.py",
+            "line": 28,
+            "column": 18
+          },
+          "block": "gateway/urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "gateway/urls.py#<module>:0:0$v9",
+          "to": "gateway/urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "gateway/urls.py",
+            "line": 18,
+            "column": 15
+          },
+          "block": "gateway/urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "gateway/urls.py#<module>:0:0$v1",
+          "to": "gateway/urls.py#<module>:0:0$v10",
+          "kind": "assign",
+          "loc": {
+            "file": "gateway/urls.py",
+            "line": 18,
+            "column": 1
+          },
+          "block": "gateway/urls.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "gateway/urls.py#<module>:0:0$c0",
+          "loc": {
+            "file": "gateway/urls.py",
+            "line": 22,
+            "column": 18
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.include",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "gateway/urls.py#<module>:0:0$v3"
+            }
+          ],
+          "resultValueId": "gateway/urls.py#<module>:0:0$v4",
+          "block": "gateway/urls.py#<module>:0:0$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "billing.urls"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "gateway/urls.py#<module>:0:0$c1",
+          "loc": {
+            "file": "gateway/urls.py",
+            "line": 22,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "gateway/urls.py#<module>:0:0$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "gateway/urls.py#<module>:0:0$v4"
+            }
+          ],
+          "resultValueId": "gateway/urls.py#<module>:0:0$v5",
+          "block": "gateway/urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "pay/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "gateway/urls.py#<module>:0:0$c2",
+          "loc": {
+            "file": "gateway/urls.py",
+            "line": 28,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "gateway/urls.py#<module>:0:0$v6"
+            },
+            {
+              "index": 1,
+              "valueId": "gateway/urls.py#<module>:0:0$v8"
+            }
+          ],
+          "resultValueId": "gateway/urls.py#<module>:0:0$v9",
+          "block": "gateway/urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "run/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "gateway/urls.py",
+            "line": 18,
+            "column": 1
+          },
+          "path": "urlpatterns",
+          "from": "gateway/urls.py#<module>:0:0$v1",
+          "block": "gateway/urls.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "gateway/urls.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "gateway/urls.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "gateway/urls.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "alpha/billing/views.py#charge:5:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/charge/"
+      }
+    },
+    {
+      "functionId": "beta/billing/views.py#charge:5:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/charge/"
+      }
+    }
+  ],
+  "declaredViews": [],
+  "views": [],
+  "renders": []
+}

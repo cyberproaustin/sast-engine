@@ -1,0 +1,1550 @@
+{
+  "irVersion": "0.19.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi",
+        "django",
+        "drf",
+        "graphene",
+        "tornado"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "shop/__init__.py",
+      "path": "shop/__init__.py"
+    },
+    {
+      "id": "shop/urls/__init__.py",
+      "path": "shop/urls/__init__.py"
+    },
+    {
+      "id": "shop/urls/carts.py",
+      "path": "shop/urls/carts.py"
+    },
+    {
+      "id": "shop/urls/orders.py",
+      "path": "shop/urls/orders.py"
+    },
+    {
+      "id": "shop/views/__init__.py",
+      "path": "shop/views/__init__.py"
+    },
+    {
+      "id": "shop/views/carts.py",
+      "path": "shop/views/carts.py"
+    },
+    {
+      "id": "shop/views/orders.py",
+      "path": "shop/views/orders.py"
+    },
+    {
+      "id": "urls.py",
+      "path": "urls.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "shop/__init__.py#<module>:0:0",
+      "name": "<module>",
+      "module": "shop/__init__.py",
+      "loc": {
+        "file": "shop/__init__.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "shop/__init__.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "shop/__init__.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "shop/__init__.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "shop/urls/__init__.py#<module>:0:0",
+      "name": "<module>",
+      "module": "shop/urls/__init__.py",
+      "loc": {
+        "file": "shop/urls/__init__.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "shop/urls/__init__.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "shop/urls/__init__.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "A package that IS the URLconf, assembled out of its submodules under aliases.\n\n`urlpatterns` is a value, and this file's is a splice of twenty-two other files' -- which\nis exactly how plane writes `plane/app/urls/__init__.py`. Nothing here is an `include()`\nand nothing here is a route: every registration is in a module this file names once, in\nan import, under a different name.\n"
+        },
+        {
+          "id": "shop/urls/__init__.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "shop/urls/__init__.py",
+            "line": 11,
+            "column": 15
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "shop/urls/__init__.py#<module>:0:0$v2",
+          "kind": "global",
+          "loc": {
+            "file": "shop/urls/__init__.py",
+            "line": 12,
+            "column": 6
+          },
+          "name": "shop.urls.orders.urlpatterns"
+        },
+        {
+          "id": "shop/urls/__init__.py#<module>:0:0$v3",
+          "kind": "global",
+          "loc": {
+            "file": "shop/urls/__init__.py",
+            "line": 13,
+            "column": 6
+          },
+          "name": "shop.urls.carts.urlpatterns"
+        },
+        {
+          "id": "shop/urls/__init__.py#<module>:0:0$v4",
+          "kind": "local",
+          "loc": {
+            "file": "shop/urls/__init__.py",
+            "line": 11,
+            "column": 1
+          },
+          "name": "urlpatterns"
+        }
+      ],
+      "flows": [
+        {
+          "from": "shop/urls/__init__.py#<module>:0:0$v2",
+          "to": "shop/urls/__init__.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "shop/urls/__init__.py",
+            "line": 11,
+            "column": 15
+          },
+          "block": "shop/urls/__init__.py#<module>:0:0$b0"
+        },
+        {
+          "from": "shop/urls/__init__.py#<module>:0:0$v3",
+          "to": "shop/urls/__init__.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "shop/urls/__init__.py",
+            "line": 11,
+            "column": 15
+          },
+          "block": "shop/urls/__init__.py#<module>:0:0$b0"
+        },
+        {
+          "from": "shop/urls/__init__.py#<module>:0:0$v1",
+          "to": "shop/urls/__init__.py#<module>:0:0$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "shop/urls/__init__.py",
+            "line": 11,
+            "column": 1
+          },
+          "block": "shop/urls/__init__.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "shop/urls/__init__.py",
+            "line": 11,
+            "column": 1
+          },
+          "path": "urlpatterns",
+          "from": "shop/urls/__init__.py#<module>:0:0$v1",
+          "block": "shop/urls/__init__.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "shop/urls/__init__.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "shop/urls/__init__.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "shop/urls/__init__.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "shop/urls/carts.py#<module>:0:0",
+      "name": "<module>",
+      "module": "shop/urls/carts.py",
+      "loc": {
+        "file": "shop/urls/carts.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "shop/urls/carts.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "shop/urls/carts.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The other submodule."
+        },
+        {
+          "id": "shop/urls/carts.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "shop/urls/carts.py",
+            "line": 6,
+            "column": 15
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "shop/urls/carts.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "shop/urls/carts.py",
+            "line": 7,
+            "column": 10
+          },
+          "literal": "carts/<int:pk>/"
+        },
+        {
+          "id": "shop/urls/carts.py#<module>:0:0$v3",
+          "kind": "global",
+          "loc": {
+            "file": "shop/urls/carts.py",
+            "line": 7,
+            "column": 29
+          },
+          "name": "shop.views.cart_detail"
+        },
+        {
+          "id": "shop/urls/carts.py#<module>:0:0$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "shop/urls/carts.py",
+            "line": 7,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "shop/urls/carts.py#<module>:0:0$v5",
+          "kind": "local",
+          "loc": {
+            "file": "shop/urls/carts.py",
+            "line": 6,
+            "column": 1
+          },
+          "name": "urlpatterns"
+        }
+      ],
+      "flows": [
+        {
+          "from": "shop/urls/carts.py#<module>:0:0$v4",
+          "to": "shop/urls/carts.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "shop/urls/carts.py",
+            "line": 6,
+            "column": 15
+          },
+          "block": "shop/urls/carts.py#<module>:0:0$b0"
+        },
+        {
+          "from": "shop/urls/carts.py#<module>:0:0$v1",
+          "to": "shop/urls/carts.py#<module>:0:0$v5",
+          "kind": "assign",
+          "loc": {
+            "file": "shop/urls/carts.py",
+            "line": 6,
+            "column": 1
+          },
+          "block": "shop/urls/carts.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "shop/urls/carts.py#<module>:0:0$c0",
+          "loc": {
+            "file": "shop/urls/carts.py",
+            "line": 7,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "shop/urls/carts.py#<module>:0:0$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "shop/urls/carts.py#<module>:0:0$v3"
+            }
+          ],
+          "resultValueId": "shop/urls/carts.py#<module>:0:0$v4",
+          "block": "shop/urls/carts.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "carts/<int:pk>/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "shop/urls/carts.py",
+            "line": 6,
+            "column": 1
+          },
+          "path": "urlpatterns",
+          "from": "shop/urls/carts.py#<module>:0:0$v1",
+          "block": "shop/urls/carts.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "shop/urls/carts.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "shop/urls/carts.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "shop/urls/carts.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "shop/urls/orders.py#<module>:0:0",
+      "name": "<module>",
+      "module": "shop/urls/orders.py",
+      "loc": {
+        "file": "shop/urls/orders.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "shop/urls/orders.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "shop/urls/orders.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "One submodule of the URLconf package. Its view arrives through a re-export too."
+        },
+        {
+          "id": "shop/urls/orders.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "shop/urls/orders.py",
+            "line": 6,
+            "column": 15
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "shop/urls/orders.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "shop/urls/orders.py",
+            "line": 7,
+            "column": 10
+          },
+          "literal": "orders/<int:pk>/refund/"
+        },
+        {
+          "id": "shop/urls/orders.py#<module>:0:0$v3",
+          "kind": "global",
+          "loc": {
+            "file": "shop/urls/orders.py",
+            "line": 7,
+            "column": 37
+          },
+          "name": "shop.views.RefundView"
+        },
+        {
+          "id": "shop/urls/orders.py#<module>:0:0$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "shop/urls/orders.py",
+            "line": 7,
+            "column": 37
+          },
+          "name": "shop.views.RefundView.as_view"
+        },
+        {
+          "id": "shop/urls/orders.py#<module>:0:0$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "shop/urls/orders.py",
+            "line": 7,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "shop/urls/orders.py#<module>:0:0$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "shop/urls/orders.py",
+            "line": 8,
+            "column": 10
+          },
+          "literal": "orders/"
+        },
+        {
+          "id": "shop/urls/orders.py#<module>:0:0$v7",
+          "kind": "global",
+          "loc": {
+            "file": "shop/urls/orders.py",
+            "line": 8,
+            "column": 21
+          },
+          "name": "shop.views.order_index"
+        },
+        {
+          "id": "shop/urls/orders.py#<module>:0:0$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "shop/urls/orders.py",
+            "line": 8,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "shop/urls/orders.py#<module>:0:0$v9",
+          "kind": "local",
+          "loc": {
+            "file": "shop/urls/orders.py",
+            "line": 6,
+            "column": 1
+          },
+          "name": "urlpatterns"
+        }
+      ],
+      "flows": [
+        {
+          "from": "shop/urls/orders.py#<module>:0:0$v5",
+          "to": "shop/urls/orders.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "shop/urls/orders.py",
+            "line": 6,
+            "column": 15
+          },
+          "block": "shop/urls/orders.py#<module>:0:0$b0"
+        },
+        {
+          "from": "shop/urls/orders.py#<module>:0:0$v8",
+          "to": "shop/urls/orders.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "shop/urls/orders.py",
+            "line": 6,
+            "column": 15
+          },
+          "block": "shop/urls/orders.py#<module>:0:0$b0"
+        },
+        {
+          "from": "shop/urls/orders.py#<module>:0:0$v1",
+          "to": "shop/urls/orders.py#<module>:0:0$v9",
+          "kind": "assign",
+          "loc": {
+            "file": "shop/urls/orders.py",
+            "line": 6,
+            "column": 1
+          },
+          "block": "shop/urls/orders.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "shop/urls/orders.py#<module>:0:0$c0",
+          "loc": {
+            "file": "shop/urls/orders.py",
+            "line": 7,
+            "column": 37
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "shop.views.RefundView.as_view",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "shop/urls/orders.py#<module>:0:0$v4",
+          "block": "shop/urls/orders.py#<module>:0:0$b0",
+          "method": "as_view",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "shop/urls/orders.py#<module>:0:0$v3"
+        },
+        {
+          "id": "shop/urls/orders.py#<module>:0:0$c1",
+          "loc": {
+            "file": "shop/urls/orders.py",
+            "line": 7,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "shop/urls/orders.py#<module>:0:0$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "shop/urls/orders.py#<module>:0:0$v4"
+            }
+          ],
+          "resultValueId": "shop/urls/orders.py#<module>:0:0$v5",
+          "block": "shop/urls/orders.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "orders/<int:pk>/refund/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "shop/urls/orders.py#<module>:0:0$c2",
+          "loc": {
+            "file": "shop/urls/orders.py",
+            "line": 8,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "shop/urls/orders.py#<module>:0:0$v6"
+            },
+            {
+              "index": 1,
+              "valueId": "shop/urls/orders.py#<module>:0:0$v7"
+            }
+          ],
+          "resultValueId": "shop/urls/orders.py#<module>:0:0$v8",
+          "block": "shop/urls/orders.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "orders/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "shop/urls/orders.py",
+            "line": 6,
+            "column": 1
+          },
+          "path": "urlpatterns",
+          "from": "shop/urls/orders.py#<module>:0:0$v1",
+          "block": "shop/urls/orders.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "shop/urls/orders.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "shop/urls/orders.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "shop/urls/orders.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "shop/views/__init__.py#<module>:0:0",
+      "name": "<module>",
+      "module": "shop/views/__init__.py",
+      "loc": {
+        "file": "shop/views/__init__.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "shop/views/__init__.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "shop/views/__init__.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The views package. Every URLconf above imports from HERE and nothing is defined here.\n\nThe same re-export, one node type down. A registration names the class the way it was\nimported, and an application of any size imports from the package rather than from the\nmodule the class is written in: all 397 of plane's registrations do, which is why that\napplication's class-based views resolved to no verbs and produced no entry point at all.\n"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "shop/views/__init__.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "shop/views/__init__.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "shop/views/__init__.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "shop/views/carts.py#<module>:0:0",
+      "name": "<module>",
+      "module": "shop/views/carts.py",
+      "loc": {
+        "file": "shop/views/carts.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "shop/views/carts.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "shop/views/carts.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "Where the cart view actually is."
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "shop/views/carts.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "shop/views/carts.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "shop/views/carts.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "shop/views/carts.py#cart_detail:5:1",
+      "name": "cart_detail",
+      "module": "shop/views/carts.py",
+      "loc": {
+        "file": "shop/views/carts.py",
+        "line": 5,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "shop/views/carts.py#cart_detail:5:1$v0"
+        },
+        {
+          "index": 1,
+          "name": "pk",
+          "valueId": "shop/views/carts.py#cart_detail:5:1$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "shop/views/carts.py#cart_detail:5:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "shop/views/carts.py",
+            "line": 5,
+            "column": 17
+          },
+          "name": "request"
+        },
+        {
+          "id": "shop/views/carts.py#cart_detail:5:1$v1",
+          "kind": "param",
+          "loc": {
+            "file": "shop/views/carts.py",
+            "line": 5,
+            "column": 26
+          },
+          "name": "pk"
+        },
+        {
+          "id": "shop/views/carts.py#cart_detail:5:1$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "shop/views/carts.py",
+            "line": 7,
+            "column": 25
+          },
+          "name": "str"
+        },
+        {
+          "id": "shop/views/carts.py#cart_detail:5:1$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "shop/views/carts.py",
+            "line": 7,
+            "column": 12
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "shop/views/carts.py#cart_detail:5:1$c0",
+          "loc": {
+            "file": "shop/views/carts.py",
+            "line": 7,
+            "column": 25
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "str",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "shop/views/carts.py#cart_detail:5:1$v1"
+            }
+          ],
+          "resultValueId": "shop/views/carts.py#cart_detail:5:1$v2",
+          "block": "shop/views/carts.py#cart_detail:5:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "shop/views/carts.py#cart_detail:5:1$c1",
+          "loc": {
+            "file": "shop/views/carts.py",
+            "line": 7,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "shop/views/carts.py#cart_detail:5:1$v2"
+            }
+          ],
+          "resultValueId": "shop/views/carts.py#cart_detail:5:1$v3",
+          "block": "shop/views/carts.py#cart_detail:5:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "shop/views/carts.py#cart_detail:5:1$v3"
+      ],
+      "returnBlocks": [
+        "shop/views/carts.py#cart_detail:5:1$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "shop/views/carts.py#cart_detail:5:1$b0",
+      "blocks": [
+        {
+          "id": "shop/views/carts.py#cart_detail:5:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "shop/views/carts.py",
+            "line": 5,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "shop/views/carts.py#cart_detail:5:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "shop/views/carts.py",
+            "line": 7,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "shop/views/orders.py#<module>:0:0",
+      "name": "<module>",
+      "module": "shop/views/orders.py",
+      "loc": {
+        "file": "shop/views/orders.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "shop/views/orders.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "shop/views/orders.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "Where the order views actually are."
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "shop/views/orders.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "shop/views/orders.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "shop/views/orders.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "shop/views/orders.py#order_index:18:1",
+      "name": "order_index",
+      "module": "shop/views/orders.py",
+      "loc": {
+        "file": "shop/views/orders.py",
+        "line": 18,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "shop/views/orders.py#order_index:18:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "shop/views/orders.py#order_index:18:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "shop/views/orders.py",
+            "line": 18,
+            "column": 17
+          },
+          "name": "request"
+        },
+        {
+          "id": "shop/views/orders.py#order_index:18:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "shop/views/orders.py",
+            "line": 20,
+            "column": 25
+          },
+          "literal": "[]"
+        },
+        {
+          "id": "shop/views/orders.py#order_index:18:1$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "shop/views/orders.py",
+            "line": 20,
+            "column": 12
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "shop/views/orders.py#order_index:18:1$c0",
+          "loc": {
+            "file": "shop/views/orders.py",
+            "line": 20,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "shop/views/orders.py#order_index:18:1$v1"
+            }
+          ],
+          "resultValueId": "shop/views/orders.py#order_index:18:1$v2",
+          "block": "shop/views/orders.py#order_index:18:1$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "[]"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "shop/views/orders.py#order_index:18:1$v2"
+      ],
+      "returnBlocks": [
+        "shop/views/orders.py#order_index:18:1$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "shop/views/orders.py#order_index:18:1$b0",
+      "blocks": [
+        {
+          "id": "shop/views/orders.py#order_index:18:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "shop/views/orders.py",
+            "line": 18,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "shop/views/orders.py#order_index:18:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "shop/views/orders.py",
+            "line": 20,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "shop/views/orders.py#post:9:5",
+      "name": "post",
+      "module": "shop/views/orders.py",
+      "loc": {
+        "file": "shop/views/orders.py",
+        "line": 9,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "shop/views/orders.py#post:9:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "request",
+          "valueId": "shop/views/orders.py#post:9:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "pk",
+          "valueId": "shop/views/orders.py#post:9:5$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "shop/views/orders.py#post:9:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "shop/views/orders.py",
+            "line": 9,
+            "column": 14
+          },
+          "name": "self"
+        },
+        {
+          "id": "shop/views/orders.py#post:9:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "shop/views/orders.py",
+            "line": 9,
+            "column": 20
+          },
+          "name": "request"
+        },
+        {
+          "id": "shop/views/orders.py#post:9:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "shop/views/orders.py",
+            "line": 9,
+            "column": 29
+          },
+          "name": "pk"
+        },
+        {
+          "id": "shop/views/orders.py#post:9:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "shop/views/orders.py",
+            "line": 13,
+            "column": 18
+          },
+          "base": "shop/views/orders.py#post:9:5$v1",
+          "path": "POST",
+          "name": "POST"
+        },
+        {
+          "id": "shop/views/orders.py#post:9:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "shop/views/orders.py",
+            "line": 13,
+            "column": 18
+          },
+          "name": "reason",
+          "base": "shop/views/orders.py#post:9:5$v3",
+          "path": "POST.reason"
+        },
+        {
+          "id": "shop/views/orders.py#post:9:5$v5",
+          "kind": "local",
+          "loc": {
+            "file": "shop/views/orders.py",
+            "line": 13,
+            "column": 9
+          },
+          "name": "reason"
+        },
+        {
+          "id": "shop/views/orders.py#post:9:5$v6",
+          "kind": "local",
+          "loc": {
+            "file": "shop/views/orders.py",
+            "line": 15,
+            "column": 37
+          },
+          "name": "concat"
+        },
+        {
+          "id": "shop/views/orders.py#post:9:5$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "shop/views/orders.py",
+            "line": 15,
+            "column": 37
+          },
+          "literal": "shopctl refund --reason "
+        },
+        {
+          "id": "shop/views/orders.py#post:9:5$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "shop/views/orders.py",
+            "line": 15,
+            "column": 80
+          },
+          "literal": "true"
+        },
+        {
+          "id": "shop/views/orders.py#post:9:5$v9",
+          "kind": "global",
+          "loc": {
+            "file": "shop/views/orders.py",
+            "line": 15,
+            "column": 13
+          },
+          "name": "subprocess"
+        },
+        {
+          "id": "shop/views/orders.py#post:9:5$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "shop/views/orders.py",
+            "line": 15,
+            "column": 13
+          },
+          "name": "subprocess.check_output"
+        },
+        {
+          "id": "shop/views/orders.py#post:9:5$v11",
+          "kind": "call-result",
+          "loc": {
+            "file": "shop/views/orders.py",
+            "line": 14,
+            "column": 16
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "shop/views/orders.py#post:9:5$v1",
+          "to": "shop/views/orders.py#post:9:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "shop/views/orders.py",
+            "line": 13,
+            "column": 18
+          },
+          "block": "shop/views/orders.py#post:9:5$b0"
+        },
+        {
+          "from": "shop/views/orders.py#post:9:5$v3",
+          "to": "shop/views/orders.py#post:9:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "shop/views/orders.py",
+            "line": 13,
+            "column": 18
+          },
+          "block": "shop/views/orders.py#post:9:5$b0"
+        },
+        {
+          "from": "shop/views/orders.py#post:9:5$v4",
+          "to": "shop/views/orders.py#post:9:5$v5",
+          "kind": "assign",
+          "loc": {
+            "file": "shop/views/orders.py",
+            "line": 13,
+            "column": 9
+          },
+          "block": "shop/views/orders.py#post:9:5$b0"
+        },
+        {
+          "from": "shop/views/orders.py#post:9:5$v7",
+          "to": "shop/views/orders.py#post:9:5$v6",
+          "kind": "binary",
+          "loc": {
+            "file": "shop/views/orders.py",
+            "line": 15,
+            "column": 37
+          },
+          "block": "shop/views/orders.py#post:9:5$b0"
+        },
+        {
+          "from": "shop/views/orders.py#post:9:5$v5",
+          "to": "shop/views/orders.py#post:9:5$v6",
+          "kind": "binary",
+          "loc": {
+            "file": "shop/views/orders.py",
+            "line": 15,
+            "column": 37
+          },
+          "block": "shop/views/orders.py#post:9:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "shop/views/orders.py#post:9:5$c0",
+          "loc": {
+            "file": "shop/views/orders.py",
+            "line": 15,
+            "column": 13
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "subprocess.check_output",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "shop/views/orders.py#post:9:5$v6"
+            },
+            {
+              "valueId": "shop/views/orders.py#post:9:5$v8",
+              "name": "shell"
+            }
+          ],
+          "resultValueId": "shop/views/orders.py#post:9:5$v10",
+          "block": "shop/views/orders.py#post:9:5$b0",
+          "method": "check_output",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "shell=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "shop/views/orders.py#post:9:5$v9"
+        },
+        {
+          "id": "shop/views/orders.py#post:9:5$c1",
+          "loc": {
+            "file": "shop/views/orders.py",
+            "line": 14,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "shop/views/orders.py#post:9:5$v10"
+            }
+          ],
+          "resultValueId": "shop/views/orders.py#post:9:5$v11",
+          "block": "shop/views/orders.py#post:9:5$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "shop/views/orders.py#post:9:5$v11"
+      ],
+      "returnBlocks": [
+        "shop/views/orders.py#post:9:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "shop/views/orders.py#post:9:5$b0",
+      "blocks": [
+        {
+          "id": "shop/views/orders.py#post:9:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "shop/views/orders.py",
+            "line": 9,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "shop/views/orders.py#post:9:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "shop/views/orders.py",
+            "line": 14,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "urls.py#<module>:0:0",
+      "name": "<module>",
+      "module": "urls.py",
+      "loc": {
+        "file": "urls.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "urls.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The root URLconf. It mounts a PACKAGE, and the package holds no routes of its own."
+        },
+        {
+          "id": "urls.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "urls.py",
+            "line": 4,
+            "column": 15
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 5,
+            "column": 10
+          },
+          "literal": "shop/"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 5,
+            "column": 27
+          },
+          "literal": "shop.urls"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 5,
+            "column": 19
+          },
+          "name": "django.urls.include"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 5,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v6",
+          "kind": "local",
+          "loc": {
+            "file": "urls.py",
+            "line": 4,
+            "column": 1
+          },
+          "name": "urlpatterns"
+        }
+      ],
+      "flows": [
+        {
+          "from": "urls.py#<module>:0:0$v5",
+          "to": "urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 4,
+            "column": 15
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "urls.py#<module>:0:0$v1",
+          "to": "urls.py#<module>:0:0$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "urls.py",
+            "line": 4,
+            "column": 1
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "urls.py#<module>:0:0$c0",
+          "loc": {
+            "file": "urls.py",
+            "line": 5,
+            "column": 19
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.include",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v3"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v4",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "shop.urls"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c1",
+          "loc": {
+            "file": "urls.py",
+            "line": 5,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v4"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v5",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "shop/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "urls.py",
+            "line": 4,
+            "column": 1
+          },
+          "path": "urlpatterns",
+          "from": "urls.py#<module>:0:0$v1",
+          "block": "urls.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "urls.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "urls.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "urls.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "shop/views/carts.py#cart_detail:5:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/shop/carts/:pk/",
+        "pathParams": "int:pk"
+      }
+    },
+    {
+      "functionId": "shop/views/orders.py#post:9:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "POST",
+        "path": "/shop/orders/:pk/refund/",
+        "pathParams": "int:pk"
+      }
+    },
+    {
+      "functionId": "shop/views/orders.py#order_index:18:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/shop/orders/"
+      }
+    }
+  ],
+  "declaredViews": [],
+  "views": [],
+  "renders": []
+}
