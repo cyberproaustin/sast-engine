@@ -1,0 +1,30 @@
+{
+  "corpus": "django-model-view-registry",
+  "description": "netbox binds a view to a model with `@register_model_view(Region, 'edit')` and builds its URLconf with `include(get_model_urls('dcim', 'region'))`. The two sites name one key from two files and nothing between them is an expression naming both an address and a handler, so a reader matching `path(<literal>, <view>)` sees an include of a call and stops: 532 declared routes enumerated 128, and 1,141 registrations were addressed by nothing. Matching the two is a LOOKUP and not an evaluation -- except for the app label, which the decorator leaves implicit and Django derives from the package the model's `models` module lives in. The positives are the three things that has to get right: a verb inherited from a generic base reached through a package re-export, which is how 1,113 of netbox's 1,141 registrations answer anything at all; the list view of the same shape; and a registered view that writes its own handler, whose own method wins. The negatives are the keys that do not resolve: a `get_model_urls` whose model name is a variable, which selects a set of views a frontend without an evaluator cannot know; and a model name two applications of this program both define, where the app label the registry filed the view under is not readable and guessing one would put the view at an address in the wrong application. That view carries a live command injection of its own, so a pass that claims it reports a finding at an address that does not exist.",
+  "expected": [
+    {
+      "cwe": "CWE-89",
+      "sinkFile": "core/views/generic/object_views.py",
+      "sinkLine": 28,
+      "sourceLabel": "request.POST",
+      "confidence": "medium",
+      "note": "the edit route of every registered model runs this body; the subclass the decorator names has no request handling in it at all, and the base is reached through a package re-export whose dotted name is not the module id"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "core/views/generic/object_views.py",
+      "sinkLine": 39,
+      "sourceLabel": "request.GET",
+      "confidence": "high",
+      "note": "the list route, registered with `path=''` and `detail=False` -- the empty path is the model's own address and the detail flag is what selects between the two mounts in the URLconf"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "dcim/views.py",
+      "sinkLine": 37,
+      "sourceLabel": "request.POST",
+      "confidence": "high",
+      "note": "a registered view that does write its own handler; its own `post` wins over the inherited one, which is the order Python resolves a method in"
+    }
+  ]
+}

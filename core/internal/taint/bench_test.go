@@ -211,6 +211,8 @@ var corpora = []string{
 	"permission-looked-up-and-dropped",
 	"django-csrf-state-change",
 	"cross-host-credential-forwarding",
+	"django-app-config-urls",
+	"django-model-view-registry",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {
