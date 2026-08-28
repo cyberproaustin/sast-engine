@@ -235,6 +235,50 @@ def drf_action(member: ast.AST) -> tuple[list[str], bool, str] | None:
     return None
 
 
+def csrf_exemption(decorators: list[ast.expr]) -> ast.expr | None:
+    """The decorator that explicitly removes Django's CSRF enforcement.
+
+    Kept as a declaration fact rather than lowered as middleware: `csrf_exempt` is the
+    opposite of the csrf control, and putting both in the same middleware list would make
+    the population analysis read an exemption as protection. The core decides what that
+    declaration means only when it meets a persistent state change.
+    """
+    for decorator in decorators:
+        if isinstance(decorator, ast.Name) and decorator.id == "csrf_exempt":
+            return decorator
+        if not isinstance(decorator, ast.Call):
+            continue
+        name = (decorator.func.id if isinstance(decorator.func, ast.Name)
+                else getattr(decorator.func, "attr", ""))
+        if name == "csrf_exempt":
+            return decorator
+        if name != "method_decorator" or not decorator.args:
+            continue
+        wrapped = decorator.args[0]
+        wrapped_name = (wrapped.id if isinstance(wrapped, ast.Name)
+                        else getattr(wrapped, "attr", ""))
+        if wrapped_name == "csrf_exempt":
+            return decorator
+    return None
+
+
+def django_method_restriction(decorators: list[ast.expr]) -> ast.expr | None:
+    """A declaration that prevents Django from dispatching every HTTP method.
+
+    The URLconf itself registers a plain function as ANY. These decorators are the
+    function's missing half of that contract; treating an `@api_view(["POST"])` as though
+    GET reached it manufactured exactly the CSRF shape the decorator rules out.
+    """
+    fixed = {"require_GET", "require_POST", "require_safe"}
+    for decorator in decorators:
+        target = decorator.func if isinstance(decorator, ast.Call) else decorator
+        name = (target.id if isinstance(target, ast.Name)
+                else getattr(target, "attr", ""))
+        if name in fixed or name in {"api_view", "require_http_methods"}:
+            return decorator
+    return None
+
+
 # --- Tornado URLSpec --------------------------------------------------------
 #
 # Tornado does not register a route with a CALL. A module declares a module-level list of
@@ -1544,6 +1588,18 @@ class ModuleLowerer:
             members = self._django_class_members(view.func.value)
             found = [django_entry_point(members[verb], verb.upper(), path, route)
                      for verb in DJANGO_VERB_METHODS if verb in members]
+            # FormView implements POST in Django itself and calls the subclass's
+            # `form_valid`. The application therefore writes the state-changing handler
+            # without writing `post`, and a surface that looks only for verb-named
+            # members attributes that route to whichever unrelated hook appears first.
+            # archivebox's AddView was consequently represented only by
+            # get_context_data while its crawl-creating POST body sat outside the route.
+            if "post" not in members and "form_valid" in members:
+                found.append(django_entry_point(members["form_valid"], "POST", path, route))
+            # Preserve the GET half of a FormView when the subclass customizes its
+            # context. Adding the POST must not make an existing entry point disappear.
+            if "get" not in members and "get_context_data" in members and "form_valid" in members:
+                found.append(django_entry_point(members["get_context_data"], "GET", path, route))
             if found:
                 return found
             hook = self._django_hook(members)
@@ -3508,6 +3564,11 @@ def lower_program(root: str, files: list[str]) -> dict:
     # collected here, in the pass that already reads every definition.
     receiver_kinds: dict[str, str] = {}
     class_names: set[str] = set()
+    # Function id -> the source location of a declaration that removes CSRF checking.
+    # Collected program-wide because the URLconf and the decorated view normally live in
+    # different modules, just like the class member table beside it.
+    csrf_exemptions: dict[str, dict[str, object]] = {}
+    method_restrictions: set[str] = set()
 
     for path in files:
         with open(path, "r", encoding="utf-8") as handle:
@@ -3520,6 +3581,14 @@ def lower_program(root: str, files: list[str]) -> dict:
                 fid = f"{mid}#{node.name}:{node.lineno}:{node.col_offset + 1}"
                 defs[f"{mid}:{node.name}"] = fid
                 defs[f"import:{dotted}.{node.name}"] = fid
+                exemption = csrf_exemption(node.decorator_list)
+                if exemption is not None:
+                    csrf_exemptions[fid] = {
+                        "file": mid, "line": exemption.lineno,
+                        "column": exemption.col_offset + 1,
+                    }
+                if django_method_restriction(node.decorator_list) is not None:
+                    method_restrictions.add(fid)
             # Methods, keyed by their class. Registering only module-level functions
             # left `self.helper()` unresolvable, and in a framework whose views are
             # classes that is most of the call graph: 3-5% of calls resolved against
@@ -3534,6 +3603,7 @@ def lower_program(root: str, files: list[str]) -> dict:
                 # names whichever way the importer spelled it.
                 class_names.add(f"{mid}:{node.name}")
                 class_names.add(f"{dotted}.{node.name}")
+                class_exemption = csrf_exemption(node.decorator_list)
                 for member in node.body:
                     if isinstance(member, FUNCTION_NODES):
                         fid = f"{mid}#{member.name}:{member.lineno}:{member.col_offset + 1}"
@@ -3546,6 +3616,13 @@ def lower_program(root: str, files: list[str]) -> dict:
                         # the class.
                         defs[f"import:{dotted}.{node.name}.{member.name}"] = fid
                         members[member.name] = fid
+                        member_exemption = csrf_exemption(member.decorator_list)
+                        exemption = member_exemption or class_exemption
+                        if exemption is not None:
+                            csrf_exemptions[fid] = {
+                                "file": mid, "line": exemption.lineno,
+                                "column": exemption.col_offset + 1,
+                            }
                         route = drf_action(member)
                         if route is not None:
                             methods, detail, url_path = route
@@ -3689,6 +3766,21 @@ def lower_program(root: str, files: list[str]) -> dict:
         entry_points.extend(lowerer.entry_points)
         renders.extend(lowerer.renders)
     entry_points.extend(graphql_entries)
+
+    # The declaration belongs to the entry point, not to a call. Detail is intentionally
+    # used rather than middleware: the existing csrf control classifier matches names,
+    # and an exemption carrying that name must never satisfy the control it removes.
+    for entry in entry_points:
+        if entry.get("functionId", "") in method_restrictions:
+            entry.setdefault("detail", {})["methodRestricted"] = "true"
+        exemption = csrf_exemptions.get(entry.get("functionId", ""))
+        if exemption is None:
+            continue
+        detail = entry.setdefault("detail", {})
+        detail["csrfExempt"] = "true"
+        detail["csrfExemptFile"] = str(exemption["file"])
+        detail["csrfExemptLine"] = str(exemption["line"])
+        detail["csrfExemptColumn"] = str(exemption["column"])
 
     # The views, with the graph between them resolved to ids here rather than left as the
     # names they were written with. Which file a name reaches is a question about this

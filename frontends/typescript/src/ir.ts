@@ -52,6 +52,7 @@ export type ValueKind =
   | "literal"
   | "catch-param"
   | "untrusted-param"
+  | "inbound-request-param"
   | "actor-identity-param";
 
 export interface Value {

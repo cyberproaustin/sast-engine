@@ -32,7 +32,7 @@ import (
 )
 
 // Analyze reports every rejection the handler did not stop for.
-func Analyze(d *ir.IR, m model.Model) []taint.Finding {
+func Analyze(d *ir.IR, m model.Model, classified map[string]taint.Classified) []taint.Finding {
 	if len(m.Guards) == 0 {
 		return nil
 	}
@@ -44,6 +44,12 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 	// differential needs both paths in view at once.
 	out := analyzeLimiters(d, m)
 	for _, rule := range m.Guards {
+		if rule.CSRFStateChange != nil {
+			out = append(out, csrfStateChanges(d, m, rule)...)
+		}
+		if rule.CredentialForwarding != nil {
+			out = append(out, forwardedCredentials(d, rule, classified[rule.CredentialForwarding.SourceClass])...)
+		}
 		if len(rule.Checks) > 0 {
 			out = append(out, siblingDifferential(ix, d, rule)...)
 		}
@@ -82,7 +88,7 @@ func Analyze(d *ir.IR, m model.Model) []taint.Finding {
 
 		for i, rule := range m.Guards {
 			// Both of these were answered above, over the whole program.
-			if len(rule.Checks) > 0 || rule.Limiter != nil {
+			if len(rule.Checks) > 0 || rule.Limiter != nil || rule.CSRFStateChange != nil || rule.CredentialForwarding != nil {
 				continue
 			}
 			if rule.Discards != nil {

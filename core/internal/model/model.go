@@ -1243,6 +1243,19 @@ func builtin() Model {
 		// WHAT DATA IS. Origin determines class.
 		Classifications: []Classification{
 			{
+				// Remix supplies this destructured binding as the Web Request. It is a
+				// carrier rather than ordinary caller input: classifying it separately lets
+				// a collection rule follow request.headers through a helper without making
+				// the request URL itself an SSRF source merely because the whole Request was
+				// passed as one argument.
+				Class: "inbound-request",
+				Label: "request",
+				Rules: []SourceRule{{
+					Match:     MatchValueKind,
+					ValueKind: "inbound-request-param",
+				}},
+			},
+			{
 				Class: "untrusted-input",
 				Label: "data supplied by a caller",
 				Rules: []SourceRule{
@@ -8907,6 +8920,15 @@ type StoreRule struct {
 // question left is whether it does.
 type GuardRule struct {
 	ID string
+	// CSRFStateChange joins an entry point's own HTTP/CSRF declaration to persistent
+	// work it starts. Population inference cannot see either shape: an explicit
+	// exemption and a GET that mutates are properties of the one handler, not deviations
+	// from its peers.
+	CSRFStateChange *CSRFStateChangeGuard
+	// CredentialForwarding joins an inbound header collection, an authority change and
+	// an outbound request. Each fact alone is ordinary; together they send ambient
+	// Cookie and Authorization credentials to a different host.
+	CredentialForwarding *CredentialForwardingGuard
 	// LateFileMode identifies a file created with the process umask, written, and only
 	// then restricted. The three events are individually ordinary; their order and their
 	// shared path/handle are the weakness.
@@ -9093,6 +9115,24 @@ type UncheckedControlGuard struct {
 	// exists for -- and one that counted no comparison at all would be silent the moment
 	// a frontend learns to lower `not x`.
 	Existence []string
+}
+
+// CSRFStateChangeGuard states the method vocabulary. Persistence itself comes from the
+// model's StoreAccess rules, so this rule does not grow a second list of ORM spellings.
+type CSRFStateChangeGuard struct {
+	Frameworks  []string
+	SafeMethods []string
+}
+
+// CredentialForwardingGuard states the API vocabulary for a header collection copied
+// into an outbound request. The graph supplies aliasing, order and the authority write.
+type CredentialForwardingGuard struct {
+	SourceClass     string
+	OutboundSymbols []string
+	HeadersKey      string
+	RemoveMethods   []string
+	CredentialNames []string
+	AuthorityPaths  []string
 }
 
 // OmittedControlGuard is the vocabulary for a control the program applies unevenly. The
@@ -9698,6 +9738,44 @@ func builtinScopes() []ScopeRule {
 
 func builtinGuards() []GuardRule {
 	return []GuardRule{
+		{
+			// The population rule deliberately exempts safe methods and stays silent
+			// where every route carries the same middleware. These two misses are the
+			// inverse: the one handler supplies affirmative evidence. archivebox removes
+			// CSRF enforcement from a Django FormView whose POST creates a crawl; wger
+			// exposes an authenticated ANY-method view whose entry block mints and saves a
+			// lasting refresh-token session before it reads anything from the request.
+			ID: "state-change-without-csrf",
+			CSRFStateChange: &CSRFStateChangeGuard{
+				Frameworks:  []string{"django"},
+				SafeMethods: []string{"GET", "HEAD", "OPTIONS", "ANY"},
+			},
+			CWE:       "CWE-352",
+			Finding:   "A request that receives no CSRF check changes persistent state",
+			Reason:    "the handler either removes CSRF enforcement or admits a safe-method request, and unconditionally starts work that writes persistent state",
+			Rationale: "an entry-point-local CSRF or method declaration joined to a reachable store write, without comparing the handler to its peers",
+		},
+		{
+			// Headers are a collection, and delete mutates that collection in place. A
+			// value-flow rule cannot express either fact. The graph can: the same alias
+			// copied from request.headers is filed under the outbound headers option, the
+			// request URL's authority is overwritten before fetch, and no dominating
+			// removal drops both credential-bearing fields. This is documenso's PostHog
+			// proxy without naming PostHog, Remix or the repository.
+			ID: "credential-headers-forwarded-cross-host",
+			CredentialForwarding: &CredentialForwardingGuard{
+				SourceClass:     "inbound-request",
+				OutboundSymbols: []string{"fetch"},
+				HeadersKey:      "headers",
+				RemoveMethods:   []string{"delete", "remove", "pop", "unset"},
+				CredentialNames: []string{"cookie", "authorization"},
+				AuthorityPaths:  []string{"host", "hostname", "origin"},
+			},
+			CWE:       "CWE-200",
+			Finding:   "Inbound credentials are forwarded to a different host",
+			Reason:    "copying the inbound header set into a request whose authority is replaced also copies Cookie and Authorization, so the other host receives the caller's credentials",
+			Rationale: "an inbound header collection forwarded after the destination authority is changed, without removing both credential-bearing headers first",
+		},
 		{
 			ID: "secret-file-created-before-chmod",
 			LateFileMode: &LateFileModeGuard{

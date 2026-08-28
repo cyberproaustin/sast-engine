@@ -1,0 +1,22 @@
+{
+  "corpus": "django-csrf-state-change",
+  "description": "Two handler-local spellings of a state change admitted without CSRF enforcement. The exempt FormView reaches persistence from its inherited POST dispatch, and the unrestricted function view writes lasting session state on Django's ANY route. An equally exempt class view only reads, proving that an exemption is evidence only when its own handler changes persistent state.",
+  "expected": [
+    {
+      "cwe": "CWE-352",
+      "sinkFile": "views.py",
+      "sinkLine": 21,
+      "sourceLabel": "@csrf_exempt",
+      "confidence": "high",
+      "note": "the exemption is on a FormView whose inherited POST dispatch reaches form_valid, and form_valid unconditionally calls a helper that creates a record"
+    },
+    {
+      "cwe": "CWE-352",
+      "sinkFile": "views.py",
+      "sinkLine": 41,
+      "sourceLabel": "ANY route",
+      "confidence": "high",
+      "note": "Django dispatches this unrestricted view for GET, and its entry block calls a helper that persists a long-lived session"
+    }
+  ]
+}

@@ -366,6 +366,74 @@ export function detectFileRoutes(
   return out;
 }
 
+/**
+ * Exported Remix request handlers whose framework-supplied Request needs provenance.
+ *
+ * A distinct entry kind is intentional. Treating these as the existing generic
+ * `http-route` kind made 196 authorization-convention judgements newly applicable on
+ * documenso even though those rules have no Remix middleware model. The route is still
+ * enumerated and caller-anchored; analyses that understand this idiom opt into it rather
+ * than inheriting controls they cannot see.
+ */
+export function detectRemixRequestHandlers(
+  sf: ts.SourceFile,
+  moduleId: string,
+  resolveFunction: (node: ts.Node) => Resolved | undefined,
+  locOf: (node: ts.Node) => { file: string; line: number; column: number },
+): EntryPoint[] {
+  const parts = moduleId.split("/");
+  const base = (parts.pop() ?? "").replace(/\.[cm]?[jt]sx?$/, "");
+  const routes = parts.findIndex((part, i) => part === "app" && parts[i + 1] === "routes");
+  if (routes < 0) return [];
+  const routePath = remixPath(parts.slice(routes + 2), base);
+  const out: EntryPoint[] = [];
+
+  const consider = (name: string, node: ts.Node): void => {
+    if (name !== "loader" && name !== "action") return;
+    const handler = resolveFunction(node);
+    if (!handler) return;
+    out.push({
+      functionId: handler.id,
+      kind: "remix-route",
+      framework: "remix",
+      detail: {
+        method: name === "loader" ? "GET" : "POST",
+        path: routePath,
+        module: moduleId,
+      },
+      loc: locOf(node),
+    });
+  };
+
+  for (const stmt of sf.statements) {
+    if (!isExported(stmt)) continue;
+    if (ts.isFunctionDeclaration(stmt) && stmt.name) {
+      consider(stmt.name.text, stmt);
+      continue;
+    }
+    if (ts.isVariableStatement(stmt)) {
+      for (const decl of stmt.declarationList.declarations) {
+        if (ts.isIdentifier(decl.name) && decl.initializer) consider(decl.name.text, decl.initializer);
+      }
+    }
+  }
+  return out;
+}
+
+function remixPath(dirs: string[], base: string): string {
+  const pieces: string[] = [];
+  for (const part of [...dirs, base]) {
+    if ((part.startsWith("_") && part.endsWith("+")) || part === "_index") continue;
+    for (const segment of part.split(".")) {
+      if (!segment || segment === "_index") continue;
+      if (segment === "$") pieces.push("*");
+      else if (segment.startsWith("$")) pieces.push(`:${segment.slice(1)}`);
+      else pieces.push(segment.replace(/_$/, ""));
+    }
+  }
+  return `/${pieces.join("/")}`.replace(/\/$/, "") || "/";
+}
+
 function isExported(stmt: ts.Statement): boolean {
   return (ts.getCombinedModifierFlags(stmt as ts.Declaration) & ts.ModifierFlags.Export) !== 0;
 }

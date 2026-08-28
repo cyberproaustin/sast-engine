@@ -37,6 +37,7 @@ import {
   detectFileRoutes,
   detectForwardedRoutes,
   detectHelperRoutes,
+  detectRemixRequestHandlers,
 } from "./fileroutes.ts";
 import type { ImportRef } from "./express.ts";
 import { TrpcProgram } from "./trpc.ts";
@@ -598,6 +599,7 @@ export function lowerProgram(opts: LowerOptions): IRDoc {
 
   const functions: FunctionIR[] = [];
   const entryPoints = [];
+  const remixRequestHandlers = new Set<string>();
 
   // Group the functions by the file they live in, once.
   //
@@ -650,6 +652,16 @@ export function lowerProgram(opts: LowerOptions): IRDoc {
     // does not exist in the program that gets deployed, which is the program this
     // enumerates.
     if (!isTestModule(moduleId)) {
+      const remixEntries = detectRemixRequestHandlers(
+        sf,
+        moduleId,
+        resolveFunction,
+        (n) => locOf(sf, n),
+      );
+      for (const entry of remixEntries) {
+        remixRequestHandlers.add(entry.functionId);
+      }
+      entryPoints.push(...remixEntries);
       entryPoints.push(
         ...detectExpressRoutes(sf, imports, resolveFunction, (n) => locOf(sf, n), {
           resolveRegistry,
@@ -682,6 +694,20 @@ export function lowerProgram(opts: LowerOptions): IRDoc {
       if (value.kind !== "param") continue;
       const root = (value.path ?? value.name ?? "").split(".")[0];
       if (root === "params" || root === "searchParams") value.kind = "untrusted-param";
+    }
+  }
+
+  // Remix destructures `request` from LoaderFunctionArgs and ActionFunctionArgs. The
+  // exported handler convention above identifies the binding without enumerating a
+  // surface whose unrelated authorization judgements have not yet been audited.
+  for (const id of remixRequestHandlers) {
+    const fn = functionByID.get(id);
+    if (!fn) continue;
+    for (const value of fn.values) {
+      if (value.kind !== "param") continue;
+      if ((value.path ?? value.name ?? "").split(".")[0] === "request") {
+        value.kind = "inbound-request-param";
+      }
     }
   }
 

@@ -1,0 +1,1531 @@
+{
+  "irVersion": "0.19.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi",
+        "django",
+        "drf",
+        "graphene",
+        "tornado"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "urls.py",
+      "path": "urls.py"
+    },
+    {
+      "id": "views.py",
+      "path": "views.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "urls.py#<module>:0:0",
+      "name": "<module>",
+      "module": "urls.py",
+      "loc": {
+        "file": "urls.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "urls.py#<module>:0:0$v0",
+          "kind": "local",
+          "loc": {
+            "file": "urls.py",
+            "line": 6,
+            "column": 15
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 7,
+            "column": 10
+          },
+          "literal": "add/"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v2",
+          "kind": "global",
+          "loc": {
+            "file": "urls.py",
+            "line": 7,
+            "column": 18
+          },
+          "name": "views.AddView"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 7,
+            "column": 18
+          },
+          "name": "views.AddView.as_view"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 7,
+            "column": 42
+          },
+          "literal": "add"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 7,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 8,
+            "column": 10
+          },
+          "literal": "read/"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v7",
+          "kind": "global",
+          "loc": {
+            "file": "urls.py",
+            "line": 8,
+            "column": 19
+          },
+          "name": "views.ReadOnlyView"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 8,
+            "column": 19
+          },
+          "name": "views.ReadOnlyView.as_view"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 8,
+            "column": 48
+          },
+          "literal": "read"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 8,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v11",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 9,
+            "column": 10
+          },
+          "literal": "app-auth/"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v12",
+          "kind": "global",
+          "loc": {
+            "file": "urls.py",
+            "line": 9,
+            "column": 23
+          },
+          "name": "views.app_auth_handoff"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v13",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 9,
+            "column": 46
+          },
+          "literal": "app-auth"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v14",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 9,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v15",
+          "kind": "local",
+          "loc": {
+            "file": "urls.py",
+            "line": 6,
+            "column": 1
+          },
+          "name": "urlpatterns"
+        }
+      ],
+      "flows": [
+        {
+          "from": "urls.py#<module>:0:0$v5",
+          "to": "urls.py#<module>:0:0$v0",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 6,
+            "column": 15
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "urls.py#<module>:0:0$v10",
+          "to": "urls.py#<module>:0:0$v0",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 6,
+            "column": 15
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "urls.py#<module>:0:0$v14",
+          "to": "urls.py#<module>:0:0$v0",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 6,
+            "column": 15
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "urls.py#<module>:0:0$v0",
+          "to": "urls.py#<module>:0:0$v15",
+          "kind": "assign",
+          "loc": {
+            "file": "urls.py",
+            "line": 6,
+            "column": 1
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "urls.py#<module>:0:0$c0",
+          "loc": {
+            "file": "urls.py",
+            "line": 7,
+            "column": 18
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "views.AddView.as_view",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "urls.py#<module>:0:0$v3",
+          "block": "urls.py#<module>:0:0$b0",
+          "method": "as_view",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "urls.py#<module>:0:0$v2"
+        },
+        {
+          "id": "urls.py#<module>:0:0$c1",
+          "loc": {
+            "file": "urls.py",
+            "line": 7,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v1"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v3"
+            },
+            {
+              "valueId": "urls.py#<module>:0:0$v4",
+              "name": "name"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v5",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 3,
+          "argLiterals": {
+            "0": "add/",
+            "-1": "name=add"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c2",
+          "loc": {
+            "file": "urls.py",
+            "line": 8,
+            "column": 19
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "views.ReadOnlyView.as_view",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "urls.py#<module>:0:0$v8",
+          "block": "urls.py#<module>:0:0$b0",
+          "method": "as_view",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "urls.py#<module>:0:0$v7"
+        },
+        {
+          "id": "urls.py#<module>:0:0$c3",
+          "loc": {
+            "file": "urls.py",
+            "line": 8,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v6"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v8"
+            },
+            {
+              "valueId": "urls.py#<module>:0:0$v9",
+              "name": "name"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v10",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 3,
+          "argLiterals": {
+            "0": "read/",
+            "-1": "name=read"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c4",
+          "loc": {
+            "file": "urls.py",
+            "line": 9,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v11"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v12",
+              "functionId": "views.py#app_auth_handoff:40:1"
+            },
+            {
+              "valueId": "urls.py#<module>:0:0$v13",
+              "name": "name"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v14",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 3,
+          "argLiterals": {
+            "0": "app-auth/",
+            "-1": "name=app-auth"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "urls.py",
+            "line": 6,
+            "column": 1
+          },
+          "path": "urlpatterns",
+          "from": "urls.py#<module>:0:0$v0",
+          "block": "urls.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "urls.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "urls.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "urls.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "views.py#<module>:0:0",
+      "name": "<module>",
+      "module": "views.py",
+      "loc": {
+        "file": "views.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "views.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "views.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "A CSRF decision belongs to the handler that changes state.\n\nThe population rule cannot distinguish these views: both class views explicitly remove\nCSRF enforcement, and the function view simply accepts Django's default method surface.\nThe body supplies the missing fact. The exempt POST and the safe-method route each write\npersistent state from their entry block; the exempt GET only reads and must stay silent.\n"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "views.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "views.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "views.py#create_crawl:17:1",
+      "name": "create_crawl",
+      "module": "views.py",
+      "loc": {
+        "file": "views.py",
+        "line": 17,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "form",
+          "valueId": "views.py#create_crawl:17:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "views.py#create_crawl:17:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "views.py",
+            "line": 17,
+            "column": 18
+          },
+          "name": "form"
+        },
+        {
+          "id": "views.py#create_crawl:17:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 18,
+            "column": 37
+          },
+          "base": "views.py#create_crawl:17:1$v0",
+          "path": "cleaned_data",
+          "name": "cleaned_data"
+        },
+        {
+          "id": "views.py#create_crawl:17:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 18,
+            "column": 37
+          },
+          "name": "url",
+          "base": "views.py#create_crawl:17:1$v1",
+          "path": "cleaned_data.url"
+        },
+        {
+          "id": "views.py#create_crawl:17:1$v3",
+          "kind": "global",
+          "loc": {
+            "file": "views.py",
+            "line": 18,
+            "column": 12
+          },
+          "name": "models.Crawl"
+        },
+        {
+          "id": "views.py#create_crawl:17:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 18,
+            "column": 12
+          },
+          "base": "views.py#create_crawl:17:1$v3",
+          "path": "objects",
+          "name": "objects"
+        },
+        {
+          "id": "views.py#create_crawl:17:1$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 18,
+            "column": 12
+          },
+          "name": "models.Crawl.objects.create"
+        }
+      ],
+      "flows": [
+        {
+          "from": "views.py#create_crawl:17:1$v0",
+          "to": "views.py#create_crawl:17:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 18,
+            "column": 37
+          },
+          "block": "views.py#create_crawl:17:1$b0"
+        },
+        {
+          "from": "views.py#create_crawl:17:1$v1",
+          "to": "views.py#create_crawl:17:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 18,
+            "column": 37
+          },
+          "block": "views.py#create_crawl:17:1$b0"
+        },
+        {
+          "from": "views.py#create_crawl:17:1$v3",
+          "to": "views.py#create_crawl:17:1$v4",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 18,
+            "column": 12
+          },
+          "block": "views.py#create_crawl:17:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "views.py#create_crawl:17:1$c0",
+          "loc": {
+            "file": "views.py",
+            "line": 18,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "models.Crawl.objects.create",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "valueId": "views.py#create_crawl:17:1$v2",
+              "name": "url"
+            }
+          ],
+          "resultValueId": "views.py#create_crawl:17:1$v5",
+          "block": "views.py#create_crawl:17:1$b0",
+          "method": "create",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "url=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "views.py#create_crawl:17:1$v4"
+        }
+      ],
+      "returns": [
+        "views.py#create_crawl:17:1$v5"
+      ],
+      "returnBlocks": [
+        "views.py#create_crawl:17:1$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "views.py#create_crawl:17:1$b0",
+      "blocks": [
+        {
+          "id": "views.py#create_crawl:17:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 17,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "views.py#create_crawl:17:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 18,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "views.py#mint_long_lived_session:34:1",
+      "name": "mint_long_lived_session",
+      "module": "views.py",
+      "loc": {
+        "file": "views.py",
+        "line": 34,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "user",
+          "valueId": "views.py#mint_long_lived_session:34:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "views.py#mint_long_lived_session:34:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "views.py",
+            "line": 34,
+            "column": 29
+          },
+          "name": "user"
+        },
+        {
+          "id": "views.py#mint_long_lived_session:34:1$v1",
+          "kind": "global",
+          "loc": {
+            "file": "views.py",
+            "line": 35,
+            "column": 18
+          },
+          "name": "models.LongLivedSession"
+        },
+        {
+          "id": "views.py#mint_long_lived_session:34:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 35,
+            "column": 18
+          },
+          "base": "views.py#mint_long_lived_session:34:1$v1",
+          "path": "objects",
+          "name": "objects"
+        },
+        {
+          "id": "views.py#mint_long_lived_session:34:1$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 35,
+            "column": 18
+          },
+          "name": "models.LongLivedSession.objects.update_or_create"
+        },
+        {
+          "id": "views.py#mint_long_lived_session:34:1$v4",
+          "kind": "local",
+          "loc": {
+            "file": "views.py",
+            "line": 35,
+            "column": 5
+          },
+          "name": "session"
+        },
+        {
+          "id": "views.py#mint_long_lived_session:34:1$v5",
+          "kind": "local",
+          "loc": {
+            "file": "views.py",
+            "line": 35,
+            "column": 14
+          },
+          "name": "_"
+        },
+        {
+          "id": "views.py#mint_long_lived_session:34:1$v6",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 36,
+            "column": 12
+          },
+          "base": "views.py#mint_long_lived_session:34:1$v4",
+          "path": "token",
+          "name": "token"
+        }
+      ],
+      "flows": [
+        {
+          "from": "views.py#mint_long_lived_session:34:1$v1",
+          "to": "views.py#mint_long_lived_session:34:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 35,
+            "column": 18
+          },
+          "block": "views.py#mint_long_lived_session:34:1$b0"
+        },
+        {
+          "from": "views.py#mint_long_lived_session:34:1$v3",
+          "to": "views.py#mint_long_lived_session:34:1$v4",
+          "kind": "element",
+          "loc": {
+            "file": "views.py",
+            "line": 35,
+            "column": 5
+          },
+          "block": "views.py#mint_long_lived_session:34:1$b0"
+        },
+        {
+          "from": "views.py#mint_long_lived_session:34:1$v3",
+          "to": "views.py#mint_long_lived_session:34:1$v5",
+          "kind": "element",
+          "loc": {
+            "file": "views.py",
+            "line": 35,
+            "column": 5
+          },
+          "block": "views.py#mint_long_lived_session:34:1$b0"
+        },
+        {
+          "from": "views.py#mint_long_lived_session:34:1$v4",
+          "to": "views.py#mint_long_lived_session:34:1$v6",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 36,
+            "column": 12
+          },
+          "block": "views.py#mint_long_lived_session:34:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "views.py#mint_long_lived_session:34:1$c0",
+          "loc": {
+            "file": "views.py",
+            "line": 35,
+            "column": 18
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "models.LongLivedSession.objects.update_or_create",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "valueId": "views.py#mint_long_lived_session:34:1$v0",
+              "name": "user"
+            }
+          ],
+          "resultValueId": "views.py#mint_long_lived_session:34:1$v3",
+          "block": "views.py#mint_long_lived_session:34:1$b0",
+          "method": "update_or_create",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "user=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "views.py#mint_long_lived_session:34:1$v2"
+        }
+      ],
+      "returns": [
+        "views.py#mint_long_lived_session:34:1$v6"
+      ],
+      "returnBlocks": [
+        "views.py#mint_long_lived_session:34:1$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "views.py#mint_long_lived_session:34:1$b0",
+      "blocks": [
+        {
+          "id": "views.py#mint_long_lived_session:34:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 34,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "views.py#mint_long_lived_session:34:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 36,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "views.py#app_auth_handoff:40:1",
+      "name": "app_auth_handoff",
+      "module": "views.py",
+      "loc": {
+        "file": "views.py",
+        "line": 40,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "views.py#app_auth_handoff:40:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "views.py#app_auth_handoff:40:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "views.py",
+            "line": 40,
+            "column": 22
+          },
+          "name": "request"
+        },
+        {
+          "id": "views.py#app_auth_handoff:40:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 41,
+            "column": 37
+          },
+          "base": "views.py#app_auth_handoff:40:1$v0",
+          "path": "user",
+          "name": "user"
+        },
+        {
+          "id": "views.py#app_auth_handoff:40:1$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 41,
+            "column": 13
+          },
+          "name": "local"
+        },
+        {
+          "id": "views.py#app_auth_handoff:40:1$v3",
+          "kind": "local",
+          "loc": {
+            "file": "views.py",
+            "line": 41,
+            "column": 5
+          },
+          "name": "token"
+        },
+        {
+          "id": "views.py#app_auth_handoff:40:1$v4",
+          "kind": "local",
+          "loc": {
+            "file": "views.py",
+            "line": 42,
+            "column": 25
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "token",
+              "valueId": "views.py#app_auth_handoff:40:1$v3"
+            }
+          ]
+        },
+        {
+          "id": "views.py#app_auth_handoff:40:1$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 42,
+            "column": 12
+          },
+          "name": "django.http.JsonResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "views.py#app_auth_handoff:40:1$v0",
+          "to": "views.py#app_auth_handoff:40:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 41,
+            "column": 37
+          },
+          "block": "views.py#app_auth_handoff:40:1$b0"
+        },
+        {
+          "from": "views.py#app_auth_handoff:40:1$v2",
+          "to": "views.py#app_auth_handoff:40:1$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "views.py",
+            "line": 41,
+            "column": 5
+          },
+          "block": "views.py#app_auth_handoff:40:1$b0"
+        },
+        {
+          "from": "views.py#app_auth_handoff:40:1$v3",
+          "to": "views.py#app_auth_handoff:40:1$v4",
+          "kind": "enclose",
+          "loc": {
+            "file": "views.py",
+            "line": 42,
+            "column": 25
+          },
+          "block": "views.py#app_auth_handoff:40:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "views.py#app_auth_handoff:40:1$c0",
+          "loc": {
+            "file": "views.py",
+            "line": 41,
+            "column": 13
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "views.py#mint_long_lived_session:34:1",
+            "resolution": "resolved",
+            "name": "mint_long_lived_session"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "views.py#app_auth_handoff:40:1$v1"
+            }
+          ],
+          "resultValueId": "views.py#app_auth_handoff:40:1$v2",
+          "block": "views.py#app_auth_handoff:40:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "views.py#app_auth_handoff:40:1$c1",
+          "loc": {
+            "file": "views.py",
+            "line": 42,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.JsonResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "views.py#app_auth_handoff:40:1$v4"
+            }
+          ],
+          "resultValueId": "views.py#app_auth_handoff:40:1$v5",
+          "block": "views.py#app_auth_handoff:40:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "views.py#app_auth_handoff:40:1$v5"
+      ],
+      "returnBlocks": [
+        "views.py#app_auth_handoff:40:1$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "views.py#app_auth_handoff:40:1$b0",
+      "blocks": [
+        {
+          "id": "views.py#app_auth_handoff:40:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 40,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "views.py#app_auth_handoff:40:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 42,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "views.py#form_valid:23:5",
+      "name": "form_valid",
+      "module": "views.py",
+      "loc": {
+        "file": "views.py",
+        "line": 23,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "views.py#form_valid:23:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "form",
+          "valueId": "views.py#form_valid:23:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "views.py#form_valid:23:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "views.py",
+            "line": 23,
+            "column": 20
+          },
+          "name": "self"
+        },
+        {
+          "id": "views.py#form_valid:23:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "views.py",
+            "line": 23,
+            "column": 26
+          },
+          "name": "form"
+        },
+        {
+          "id": "views.py#form_valid:23:5$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 24,
+            "column": 17
+          },
+          "name": "local"
+        },
+        {
+          "id": "views.py#form_valid:23:5$v3",
+          "kind": "local",
+          "loc": {
+            "file": "views.py",
+            "line": 24,
+            "column": 9
+          },
+          "name": "crawl"
+        },
+        {
+          "id": "views.py#form_valid:23:5$v4",
+          "kind": "local",
+          "loc": {
+            "file": "views.py",
+            "line": 25,
+            "column": 29
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "id",
+              "valueId": "views.py#form_valid:23:5$v5"
+            }
+          ]
+        },
+        {
+          "id": "views.py#form_valid:23:5$v5",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 25,
+            "column": 36
+          },
+          "base": "views.py#form_valid:23:5$v3",
+          "path": "pk",
+          "name": "pk"
+        },
+        {
+          "id": "views.py#form_valid:23:5$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 25,
+            "column": 16
+          },
+          "name": "django.http.JsonResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "views.py#form_valid:23:5$v2",
+          "to": "views.py#form_valid:23:5$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "views.py",
+            "line": 24,
+            "column": 9
+          },
+          "block": "views.py#form_valid:23:5$b0"
+        },
+        {
+          "from": "views.py#form_valid:23:5$v3",
+          "to": "views.py#form_valid:23:5$v5",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 25,
+            "column": 36
+          },
+          "block": "views.py#form_valid:23:5$b0"
+        },
+        {
+          "from": "views.py#form_valid:23:5$v5",
+          "to": "views.py#form_valid:23:5$v4",
+          "kind": "enclose",
+          "loc": {
+            "file": "views.py",
+            "line": 25,
+            "column": 29
+          },
+          "block": "views.py#form_valid:23:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "views.py#form_valid:23:5$c0",
+          "loc": {
+            "file": "views.py",
+            "line": 24,
+            "column": 17
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "views.py#create_crawl:17:1",
+            "resolution": "resolved",
+            "name": "create_crawl"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "views.py#form_valid:23:5$v1"
+            }
+          ],
+          "resultValueId": "views.py#form_valid:23:5$v2",
+          "block": "views.py#form_valid:23:5$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "views.py#form_valid:23:5$c1",
+          "loc": {
+            "file": "views.py",
+            "line": 25,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.JsonResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "views.py#form_valid:23:5$v4"
+            }
+          ],
+          "resultValueId": "views.py#form_valid:23:5$v6",
+          "block": "views.py#form_valid:23:5$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "views.py#form_valid:23:5$v6"
+      ],
+      "returnBlocks": [
+        "views.py#form_valid:23:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "views.py#form_valid:23:5$b0",
+      "blocks": [
+        {
+          "id": "views.py#form_valid:23:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 23,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "views.py#form_valid:23:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 25,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "views.py#get:30:5",
+      "name": "get",
+      "module": "views.py",
+      "loc": {
+        "file": "views.py",
+        "line": 30,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "views.py#get:30:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "request",
+          "valueId": "views.py#get:30:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "views.py#get:30:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "views.py",
+            "line": 30,
+            "column": 13
+          },
+          "name": "self"
+        },
+        {
+          "id": "views.py#get:30:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "views.py",
+            "line": 30,
+            "column": 19
+          },
+          "name": "request"
+        },
+        {
+          "id": "views.py#get:30:5$v2",
+          "kind": "local",
+          "loc": {
+            "file": "views.py",
+            "line": 31,
+            "column": 29
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "count",
+              "valueId": "views.py#get:30:5$v5"
+            }
+          ]
+        },
+        {
+          "id": "views.py#get:30:5$v3",
+          "kind": "global",
+          "loc": {
+            "file": "views.py",
+            "line": 31,
+            "column": 39
+          },
+          "name": "models.Crawl"
+        },
+        {
+          "id": "views.py#get:30:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 31,
+            "column": 39
+          },
+          "base": "views.py#get:30:5$v3",
+          "path": "objects",
+          "name": "objects"
+        },
+        {
+          "id": "views.py#get:30:5$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 31,
+            "column": 39
+          },
+          "name": "models.Crawl.objects.count"
+        },
+        {
+          "id": "views.py#get:30:5$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 31,
+            "column": 16
+          },
+          "name": "django.http.JsonResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "views.py#get:30:5$v3",
+          "to": "views.py#get:30:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 31,
+            "column": 39
+          },
+          "block": "views.py#get:30:5$b0"
+        },
+        {
+          "from": "views.py#get:30:5$v5",
+          "to": "views.py#get:30:5$v2",
+          "kind": "enclose",
+          "loc": {
+            "file": "views.py",
+            "line": 31,
+            "column": 29
+          },
+          "block": "views.py#get:30:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "views.py#get:30:5$c0",
+          "loc": {
+            "file": "views.py",
+            "line": 31,
+            "column": 39
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "models.Crawl.objects.count",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "views.py#get:30:5$v5",
+          "block": "views.py#get:30:5$b0",
+          "method": "count",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "views.py#get:30:5$v4"
+        },
+        {
+          "id": "views.py#get:30:5$c1",
+          "loc": {
+            "file": "views.py",
+            "line": 31,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.JsonResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "views.py#get:30:5$v2"
+            }
+          ],
+          "resultValueId": "views.py#get:30:5$v6",
+          "block": "views.py#get:30:5$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "views.py#get:30:5$v6"
+      ],
+      "returnBlocks": [
+        "views.py#get:30:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "views.py#get:30:5$b0",
+      "blocks": [
+        {
+          "id": "views.py#get:30:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 30,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "views.py#get:30:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 31,
+            "column": 9
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "views.py#form_valid:23:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "POST",
+        "path": "/add/",
+        "csrfExempt": "true",
+        "csrfExemptFile": "views.py",
+        "csrfExemptLine": "21",
+        "csrfExemptColumn": "2"
+      }
+    },
+    {
+      "functionId": "views.py#get:30:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "GET",
+        "path": "/read/",
+        "csrfExempt": "true",
+        "csrfExemptFile": "views.py",
+        "csrfExemptLine": "28",
+        "csrfExemptColumn": "2"
+      }
+    },
+    {
+      "functionId": "views.py#app_auth_handoff:40:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/app-auth/"
+      }
+    }
+  ],
+  "declaredViews": [],
+  "views": [],
+  "renders": []
+}

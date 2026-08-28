@@ -209,6 +209,8 @@ var corpora = []string{
 	"credential-not-reissued",
 	"graphene-undeclared-permission",
 	"permission-looked-up-and-dropped",
+	"django-csrf-state-change",
+	"cross-host-credential-forwarding",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {
