@@ -1,0 +1,14 @@
+{
+  "corpus": "django-aliased-urlconf",
+  "description": "`include(console_reports_urls)` on `from console.urls import reports as console_reports_urls` -- a MODULE mounted under an alias, which reads exactly like a local list and is not one. wagtail writes its whole admin this way. The routes were enumerated all along, at the wrong address: `/locked/` for a report that answers at `/admin/reports/locked/`, and 199 of that application's 352 declarations were served in the surface at the path of the file that wrote them rather than the path a caller uses. That is worse than a route being missing, because an entry point is what a finding is ANCHORED to and these are sent to maintainers -- the flow is right, the CWE is right, and the address in the report is one nobody can go and look at. This corpus asserts the composed path rather than the count: the old resolution enumerated all three of these entry points, at `/locked/`, `/locked/results/` and `/trail/`, and the entry line of the finding below named the first of those. The negatives are the two handlers reached through the same two aliased mounts that read nothing a caller supplies.",
+  "expected": [
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "console/views.py",
+      "sinkLine": 11,
+      "sourceLabel": "request.GET",
+      "confidence": "high",
+      "note": "served at /console/reports/locked/, two aliased module mounts above the file that writes the route"
+    }
+  ]
+}

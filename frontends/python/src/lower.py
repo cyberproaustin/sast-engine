@@ -21,6 +21,7 @@ from typing import Any
 from declarative import declared_views
 from graphene_schema import caller_supplied_params, graphene_entry_points
 from templates import index_templates, resolve_template
+from urlgraph import ModuleIndex, SymbolIndex, UrlGraph
 
 IR_VERSION = "0.19.0"
 FRONTEND_VERSION = "0.1.0"
@@ -522,6 +523,49 @@ def _bound_names(target: ast.AST) -> list[ast.Name]:
     return []
 
 
+def _splice_targets(node: ast.AST, inside: bool = False) -> list[str]:
+    """The local names whose routes a list splices in, however it splices them.
+
+    `[*api_router.urls]` is the same mount `include(api_router.urls)` is, written without
+    the call: paperless-ngx spreads its router into the anonymous list under `^api/` and
+    every one of its twenty-one viewsets was consequently served, in the surface, at the
+    root of the site.
+    """
+    if isinstance(node, ast.Starred):
+        return _splice_targets(node.value, True)
+    if isinstance(node, (ast.List, ast.Tuple)):
+        out: list[str] = []
+        for element in node.elts:
+            out.extend(_splice_targets(element, True))
+        return out
+    if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):
+        return _splice_targets(node.left, True) + _splice_targets(node.right, True)
+    local = django_local_name(node) if inside else None
+    return [local] if local else []
+
+
+def _module_level_bindings(body: list[ast.stmt], found: set[str]) -> None:
+    """Every name a module binds itself, through the statements it nests them in.
+
+    A URLconf puts the half of itself that depends on a setting inside an `if`, so
+    `urlpatterns += [...]` is routinely a module-level binding written four lines deep.
+    """
+    for stmt in body:
+        if isinstance(stmt, (*FUNCTION_NODES, ast.ClassDef)):
+            found.add(stmt.name)
+        elif isinstance(stmt, ast.Assign):
+            for target in stmt.targets:
+                found.update(name.id for name in _bound_names(target))
+        elif isinstance(stmt, (ast.AnnAssign, ast.AugAssign)):
+            found.update(name.id for name in _bound_names(stmt.target))
+        elif isinstance(stmt, (ast.If, ast.With, ast.AsyncWith, ast.For, ast.AsyncFor,
+                               *TRY_NODES)):
+            for part in ("body", "orelse", "finalbody"):
+                _module_level_bindings(getattr(stmt, part, []), found)
+            for handler in getattr(stmt, "handlers", []):
+                _module_level_bindings(handler.body, found)
+
+
 def constant_text(value: Any) -> str | None:
     """The text of a constant, for the kinds a rule can read.
 
@@ -837,7 +881,6 @@ class ModuleLowerer:
 
     def __init__(self, root: str, path: str, tree: ast.Module, defs: dict[str, str],
                  templates: dict | None = None, resource_paths: dict[str, str] | None = None,
-                 django_prefixes: dict[str, str] | None = None,
                  class_members: dict[str, dict[str, str]] | None = None,
                  base_members: dict[str, dict[str, str]] | None = None,
                  class_actions: dict[str, list[dict]] | None = None,
@@ -872,10 +915,14 @@ class ModuleLowerer:
         # model and the permission scope and the base carries `get` and `post` -- and
         # without this such a registration reaches a class with nothing in it.
         self.base_members = base_members or {}
-        # Where another module mounted this one. Django gives a whole URLconf its prefix
-        # from a file that URLconf never mentions, so this is the only way the routes
-        # below can learn the path they are actually served at.
-        self.django_prefix = (django_prefixes or {}).get(dotted_module(self.module), "")
+        # Where every list of route declarations in the program is mounted, and what a
+        # dotted name written in this file resolves to. Django gives a whole URLconf its
+        # prefix from a file that URLconf never mentions and reaches its view class
+        # through a package that re-exports it, so these are the only way the routes
+        # below can learn either the path they are served at or the class behind them.
+        # Assigned after construction, because the graph is built out of every lowerer.
+        self.url_graph = UrlGraph({}, {})
+        self.symbols = SymbolIndex(ModuleIndex([]), {}, {})
         self.functions: list[dict] = []
         self.entry_points: list[dict] = []
         # Where this module hands a context to a view. Collected per module and joined to
@@ -1552,8 +1599,7 @@ class ModuleLowerer:
 
     def django_entry_points(self) -> list[dict]:
         """`path("checks/<uuid:code>/", views.details)`, and everything it mounts."""
-        owners = self._django_list_owners()
-        mounts = self._django_mounts(owners)
+        owners, _ = self._django_list_owners()
 
         out: list[dict] = []
         for node in ast.walk(self.tree):
@@ -1571,10 +1617,10 @@ class ModuleLowerer:
             # registered where they are DEFINED, and they pick this prefix up there.
             if django_included(view) is not None:
                 continue
-            for prefix in self._django_prefixes_of(owners.get(id(node)), mounts):
+            for prefix in self._django_prefixes_of(owners.get(id(node))):
                 out.extend(self._django_handlers_of(
                     view, django_route_path(prefix + route), prefix + route))
-        return out + self._drf_router_entry_points(mounts)
+        return out + self._drf_router_entry_points()
 
     def _django_handlers_of(self, view: ast.AST, path: str, route: str = "") -> list[dict]:
         """The functions one registration reaches, and the verb each of them answers.
@@ -1605,11 +1651,31 @@ class ModuleLowerer:
             hook = self._django_hook(members)
             return [django_entry_point(hook, "ANY", path, route)] if hook else []
 
-        target = self._function_reference(view)
+        target = self._function_reference(view) or self._reexported_function(view)
         # ANY, because a URLconf says nothing about the verb: Django calls the function for
         # every one of them and the function decides for itself, usually by reading
         # `request.method`. Naming a verb here would be inventing one.
         return [django_entry_point(target, "ANY", path, route)] if target else []
+
+    def _reexported_function(self, node: ast.AST) -> str | None:
+        """A function view reached through a package that re-exports it.
+
+        The same miss `_class_table` exists for, one node type down: a URLconf that writes
+        `from plane.app.views import some_view` names a package, and the function is
+        defined in a module that package imported. Consulted only after the name as
+        written has failed.
+        """
+        if isinstance(node, ast.Name):
+            dotted = self.imports.get(node.id)
+        elif isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name):
+            root = self.imports.get(node.value.id)
+            dotted = f"{root}.{node.attr}" if root else None
+        else:
+            return None
+        if dotted is None:
+            return None
+        hit = self.symbols.resolve(dotted)
+        return self.global_defs.get(f"{hit[0]}:{hit[1]}") if hit else None
 
     def _class_key(self, node: ast.AST) -> str | None:
         """The name a class is known by program-wide, out of how a registration wrote it.
@@ -1635,9 +1701,33 @@ class ModuleLowerer:
             return ".".join([f"import:{root}", *reversed(parts)]) if root else None
         return None
 
+    def _class_table(self, table: dict[str, Any], node: ast.AST) -> Any:
+        """One program-wide class table, looked up through a package's re-exports.
+
+        A registration names the class the way IT imported it, and an application of any
+        size imports from a package rather than from the module the class is written in:
+        every one of plane's 397 registrations says `from plane.app.views import
+        SomethingEndpoint`, while the class is defined three modules below that in
+        `plane/app/views/analytic/base.py`. The key as written is in no table, so the
+        registration found no verbs, produced no entry point, and 397 routes came to
+        nothing (measured: 51 entry points enumerated, 31 of them from the declarative
+        fallback at the class's NAME rather than at a path).
+
+        Tried in that order and never instead: the name as written is the cheap and exact
+        answer, and the re-export walk is what happens when it misses.
+        """
+        key = self._class_key(node)
+        if key is None:
+            return None
+        found = table.get(key)
+        if found is not None or not key.startswith("import:"):
+            return found
+        hit = self.symbols.resolve(key[len("import:"):])
+        return table.get(f"{hit[0]}:{hit[1]}") if hit else None
+
     def _django_class_members(self, node: ast.AST) -> dict[str, str]:
         """The methods of the class a registration names, wherever it is defined."""
-        return self.class_members.get(self._class_key(node) or "", {})
+        return self._class_table(self.class_members, node) or {}
 
     @staticmethod
     def _django_hook(members: dict[str, str], action: str | None = None) -> str | None:
@@ -1649,16 +1739,27 @@ class ModuleLowerer:
                 return members[name]
         return None
 
-    def _django_list_owners(self) -> dict[int, str]:
-        """Which module-level name each registration was written under.
+    def _django_list_owners(self) -> tuple[dict[int, str], dict[str, list[tuple[str, str]]]]:
+        """Which list each registration was written in, named or not.
 
         `urlpatterns` is only the outermost list. An application routinely writes
         `check_urls = [path("log/", views.log)]` and mounts it under a prefix elsewhere in
         the same file, so the list a registration sits IN is what decides the prefix it
         carries -- reading only `urlpatterns` gives every one of those routes the path of
         the file's root instead.
+
+        A list handed straight to `include()` has no name at all, and it is the same fact:
+        paperless-ngx writes its whole API as `re_path(r"^api/", include([...]))` with
+        sixty registrations nested inside the literal. Attributing those to the enclosing
+        assignment served every one of them at the root -- `/correspondents/` for a route
+        that is at `/api/correspondents/`, an address no maintainer can go and look at.
+        The anonymous list is given a name of its own here and mounted like any other.
+
+        Returns the owner of each registration, and the mounts this file states by
+        composing lists rather than by calling `include()`.
         """
         owners: dict[int, str] = {}
+        inline: dict[str, list[tuple[str, str]]] = {}
         for stmt in self.tree.body:
             if (isinstance(stmt, ast.Assign) and len(stmt.targets) == 1
                     and isinstance(stmt.targets[0], ast.Name)):
@@ -1668,13 +1769,44 @@ class ModuleLowerer:
                 name = stmt.target.id
             else:
                 continue
-            for node in ast.walk(stmt):
-                if (isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
-                        and node.func.id in DJANGO_REGISTRARS):
-                    owners.setdefault(id(node), name)
-        return owners
+            self._attribute_registrations(stmt, name, owners, inline, set())
+        return owners, inline
 
-    def _django_mounts(self, owners: dict[int, str]) -> dict[str, list[tuple[str, str | None]]]:
+    def _attribute_registrations(self, node: ast.AST, owner: str, owners: dict[int, str],
+                                 inline: dict[str, list[tuple[str, str]]],
+                                 skip: set[int]) -> None:
+        """Walk one statement, carrying the list each registration is nested inside."""
+        if id(node) in skip:
+            return
+        # A LIST only. `include((patterns_user, "user"))` is a tuple of a URLconf and a
+        # namespace, not a composition of two of them -- reading it as one mounted wger's
+        # `patterns_user` a second time at no prefix, putting 75 routes that answer at
+        # `/user/login` into the surface a second time at `/login`.
+        if isinstance(node, ast.List):
+            for local in _splice_targets(node):
+                inline.setdefault(local, []).append(("", owner))
+        if (isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
+                and node.func.id in DJANGO_REGISTRARS):
+            owners.setdefault(id(node), owner)
+            route_node, view = django_call_args(node)
+            included = django_included(view) if view is not None else None
+            route = django_route_text(route_node) if route_node is not None else None
+            if isinstance(included, ast.List) and route is not None:
+                # Named by identity, which is unique within this parse and never leaves
+                # the frontend: only the prefix it resolves to reaches the IR.
+                nested = f"<inline {id(included)}>"
+                inline.setdefault(nested, []).append((route, owner))
+                for local in _splice_targets(included):
+                    inline.setdefault(local, []).append(("", nested))
+                skip.add(id(included))
+                for element in included.elts:
+                    self._attribute_registrations(element, nested, owners, inline, skip)
+        for child in ast.iter_child_nodes(node):
+            self._attribute_registrations(child, owner, owners, inline, skip)
+
+    def _django_mounts(self, owners: dict[int, str],
+                       inline: dict[str, list[tuple[str, str]]]
+                       ) -> dict[str, list[tuple[str, str | None]]]:
         """Local name -> every route it is mounted at, and the list each mount is in.
 
         `path("checks/<uuid:code>/", include(check_urls))` mounts a list from this file and
@@ -1687,7 +1819,8 @@ class ModuleLowerer:
         routes at `api/v1/`, `api/v2/` and `api/v3/`, and keeping only the first mount left
         two thirds of a public API out of the surface.
         """
-        mounts: dict[str, list[tuple[str, str | None]]] = {}
+        mounts: dict[str, list[tuple[str, str | None]]] = {
+            name: list(where) for name, where in inline.items()}
         for node in ast.walk(self.tree):
             if not isinstance(node, ast.Call) or not isinstance(node.func, ast.Name):
                 continue
@@ -1700,8 +1833,7 @@ class ModuleLowerer:
                 (django_route_text(node.args[0]) or "", owners.get(id(node))))
         return mounts
 
-    def _django_prefixes_of(self, name: str | None,
-                            mounts: dict[str, list[tuple[str, str | None]]]) -> list[str]:
+    def _django_prefixes_of(self, name: str | None) -> list[str]:
         """Every path a registration is mounted under, from this file and the program.
 
         A mount that cannot be resolved contributes the empty string rather than dropping
@@ -1710,24 +1842,120 @@ class ModuleLowerer:
         one -- a route at a slightly wrong path is worth a great deal more than a route the
         surface does not contain (ADR-009).
 
-        Bounded, because this is a walk over data: a list that mounts itself terminates on
-        the names already seen, and the cap is what stops a URLconf built out of many
-        cross-mounted lists from turning one registration into thousands of paths.
+        The walk itself is the program's, not this file's: a list is mounted inside
+        another list, in a module mounted by a third, and plane writes each joint in a
+        different file. See `urlgraph.UrlGraph` for the bounds it is walked under.
         """
-        found: list[str] = []
-        pending = [(name, "", frozenset())]
-        while pending and len(found) < 16:
-            name, suffix, seen = pending.pop()
-            if name not in mounts or name in seen:
-                if suffix not in found:
-                    found.append(suffix)
-                continue
-            for route, parent in mounts[name]:
-                pending.append((parent, route + suffix, seen | {name}))
-        return [self.django_prefix + prefix for prefix in found]
+        return self.url_graph.prefixes(self.module, name)
 
-    def _drf_router_entry_points(self,
-                                 mounts: dict[str, list[tuple[str, str | None]]]) -> list[dict]:
+    def url_mount_edges(self) -> list[tuple[str, str, str | None]]:
+        """Every list of route declarations this file mounts from ANOTHER module.
+
+        `(dotted name as written, route it is mounted at, list the mount sits in)`, left
+        unresolved because which file a dotted name reaches is a question about the whole
+        tree. The three shapes an application writes are all here:
+
+          * `include("plane.app.urls")`      -- a dotted string
+          * `include(wagtailadmin_pages_urls)` on `from wagtail.admin.urls import pages
+            as wagtailadmin_pages_urls`      -- a module under an alias
+          * `urlpatterns = [*analytic_urls]` on `from .analytic import urlpatterns as
+            analytic_urls`                   -- a package re-exporting its submodules
+
+        The third is not an `include()` at all: it is a list SPLICED into another list,
+        which is how plane's `plane/app/urls/__init__.py` assembles twenty-two modules and
+        how the engine came to enumerate 51 of that application's 399 routes.
+        """
+        owners, composed = self._django_list_owners()
+        local = self.module_level_names()
+        out: list[tuple[str, str, str | None]] = []
+        for node in ast.walk(self.tree):
+            if not isinstance(node, ast.Call) or not isinstance(node.func, ast.Name):
+                continue
+            if node.func.id not in DJANGO_REGISTRARS or len(node.args) < 2:
+                continue
+            included = django_included(node.args[1])
+            route = django_route_text(node.args[0])
+            if included is None or route is None:
+                continue
+            dotted = self._dotted_reference(included, local)
+            if dotted is not None:
+                out.append((dotted, route, owners.get(id(node))))
+        out.extend(self._spliced_mount_edges(local, composed))
+        return out
+
+    def _dotted_reference(self, node: ast.AST, local: set[str]) -> str | None:
+        """The dotted name a reference to another module's routes was written with.
+
+        A name this file ASSIGNS is not one of these: it is a list in this file, and the
+        in-file mount chain already carries it. Reading it as an import as well would
+        mount the same list twice, once at a path that does not exist.
+        """
+        if isinstance(node, ast.Constant):
+            return node.value if isinstance(node.value, str) else None
+        if isinstance(node, ast.Name):
+            return None if node.id in local else self.imports.get(node.id)
+        # `include(admin.site.urls)` and `include(router.urls)` alike: the routes belong
+        # to the object, and only an imported MODULE can be resolved to a file.
+        if isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name):
+            if node.value.id in local:
+                return None
+            root = self.imports.get(node.value.id)
+            return f"{root}.{node.attr}" if root else None
+        return None
+
+    def _spliced_mount_edges(self, local: set[str],
+                             composed: dict[str, list[tuple[str, str]]]
+                             ) -> list[tuple[str, str, str | None]]:
+        """`urlpatterns = [*analytic_urls, *cycle_urls]` -- imported lists, at no prefix.
+
+        Read out of the same attribution the in-file mounts come from, so a list spliced
+        into an anonymous list under a prefix keeps that prefix. Only names in a LIST
+        POSITION are there: a name written as an ARGUMENT -- `include(x)`,
+        `decorate_urlpatterns(urlpatterns, ...)` -- is either already an edge with a
+        prefix of its own or is not a mount at all, and reading it here as well would put
+        the same routes at a second path that does not exist.
+
+        A name this file BINDS is not one of these either: it is a list in this file, and
+        the in-file mount chain already carries it.
+        """
+        out: list[tuple[str, str, str | None]] = []
+        for name, where in composed.items():
+            if name in local:
+                continue
+            origin = self.imports.get(name)
+            if origin:
+                out.extend((origin, route, owner) for route, owner in where)
+        # `urlpatterns = api_urls` -- a whole URLconf re-exported under Django's own name
+        # for one, with no list around it to splice it into. Read only under that name,
+        # because a bare `x = y` anywhere else is an alias of something that is not routes
+        # far more often than it is.
+        for stmt in self.tree.body:
+            if not (isinstance(stmt, ast.Assign) and len(stmt.targets) == 1
+                    and isinstance(stmt.targets[0], ast.Name)
+                    and stmt.targets[0].id == "urlpatterns"
+                    and isinstance(stmt.value, ast.Name)):
+                continue
+            origin = self.imports.get(stmt.value.id)
+            if origin and stmt.value.id not in local:
+                out.append((origin, "", "urlpatterns"))
+        return out
+
+    def url_mounts(self) -> dict[str, list[tuple[str, str | None]]]:
+        """Which of this file's own lists mount which, and at what route."""
+        return self._django_mounts(*self._django_list_owners())
+
+    def module_level_names(self) -> set[str]:
+        """The names this module binds itself, wherever at module level it binds them.
+
+        Through `if` and `try`, because that is where a URLconf puts the half of itself
+        that depends on a setting: `urlpatterns += [...]` under `if settings.DEBUG` is a
+        module-level binding written four lines deep.
+        """
+        found: set[str] = set()
+        _module_level_bindings(self.tree.body, found)
+        return found
+
+    def _drf_router_entry_points(self) -> list[dict]:
         """`router.register("checks", CheckViewSet)` -- six routes, and the extras.
 
         The prefix has to be a STRING and the class has to be one the program defines with
@@ -1755,7 +1983,7 @@ class ModuleLowerer:
             if not members:
                 continue
             router = node.func.value.id if isinstance(node.func.value, ast.Name) else None
-            for mount in self._django_prefixes_of(router, mounts):
+            for mount in self._django_prefixes_of(router):
                 base = mount + prefix.rstrip("/")
                 for method, suffix, action in DRF_ROUTES:
                     target = self._django_hook(members, action)
@@ -1773,7 +2001,7 @@ class ModuleLowerer:
 
     def _drf_class_actions(self, node: ast.AST) -> list[dict]:
         """The `@action` routes of the viewset a registration names, wherever defined."""
-        return self.class_actions.get(self._class_key(node) or "", [])
+        return self._class_table(self.class_actions, node) or []
 
     # --- Tornado URLSpec --------------------------------------------------
     #
@@ -1839,7 +2067,7 @@ class ModuleLowerer:
         # Resolved one level and by the base's own NAME, which is the same looseness the
         # rest of this file's cross-file lookups carry and is stated rather than hidden
         # (ADR-003).
-        inherited = self.base_members.get(self._class_key(handler) or "", {})
+        inherited = self._class_table(self.base_members, handler) or {}
         if not members and not inherited:
             return []
         for source in (members, inherited):
@@ -3531,6 +3759,47 @@ class FunctionLowerer:
         return self.mod.callable_collections.get(receiver.id, [])
 
 
+def _resolve_url_graph(lowerers: list[ModuleLowerer]) -> None:
+    """Compose `urlpatterns` across the modules an application spread it over.
+
+    Django gives a whole URLconf its prefix from a file that URLconf never mentions:
+    `path("api/", include("plane.app.urls"))` is the only place the routes twenty-two
+    modules below learn where they are served. The composition is program-wide for the
+    reason the class member table is -- the registration and the routes it renames are
+    never in the same file -- and it is done HERE, after every lowerer exists, because an
+    edge's source and its target are two different modules' parse trees.
+
+    Test modules are excluded as SOURCES only. A test URLconf mounts the real one wherever
+    the test wants it, and where a test wants it is not where the application serves it.
+
+    What this replaced: a table from the dotted string of an `include()` to the first route
+    it was seen at, one level deep and matched by equality. It answered none of the three
+    shapes applications actually write -- and on plane, whose root URLconf is nothing but
+    dotted strings, it did not even answer the first, because plane's source root is
+    `apps/api/` and no module in it spells its own name the way the frontend's ids do.
+    """
+    index = ModuleIndex([lw.module for lw in lowerers])
+    symbols = SymbolIndex(index,
+                          {lw.module: lw.imports for lw in lowerers},
+                          {lw.module: lw.module_level_names() for lw in lowerers})
+    mounts = {lw.module: lw.url_mounts() for lw in lowerers}
+    edges: dict[tuple[str, str], list[tuple[str, str, str | None]]] = {}
+    for lowerer in lowerers:
+        if is_test_module(lowerer.module):
+            continue
+        for dotted, route, owner in lowerer.url_mount_edges():
+            target = symbols.patterns(dotted)
+            # A name that resolves to nothing, or to two modules, mounts nothing. A
+            # phantom route is worse than a missing one: it anchors findings to an address
+            # that does not exist, and these are sent to maintainers.
+            if target is not None:
+                edges.setdefault(target, []).append((route, lowerer.module, owner))
+    graph = UrlGraph(mounts, edges)
+    for lowerer in lowerers:
+        lowerer.url_graph = graph
+        lowerer.symbols = symbols
+
+
 def lower_program(root: str, files: list[str]) -> dict:
     trees: list[tuple[str, ast.Module]] = []
     defs: dict[str, str] = {}
@@ -3673,33 +3942,6 @@ def lower_program(root: str, files: list[str]) -> dict:
                 if isinstance(path_arg.value, str):
                     resource_paths.setdefault(target.id, path_arg.value)
 
-    # Django gives a whole URLconf its prefix from a file that URLconf never mentions:
-    # `path("api/v3/", include("hc.api.urls"))` is the only place the routes in that module
-    # learn where they are mounted. Program-wide for the same reason resource paths are --
-    # the registration and the routes it renames are never in the same file.
-    #
-    # One level of it. A module mounted under a module that is itself mounted somewhere
-    # keeps only the nearer prefix, because composing the two means resolving a chain
-    # across files and applications do not write that chain (ADR-003: state the limit
-    # rather than let it show up as a route that is missing).
-    django_prefixes: dict[str, str] = {}
-    for path, tree in trees:
-        # A test URLconf mounts the real one wherever the test wants it, and where a test
-        # wants it is not where the application serves it.
-        if is_test_module(module_id(root, path)):
-            continue
-        for node in ast.walk(tree):
-            if not isinstance(node, ast.Call) or not isinstance(node.func, ast.Name):
-                continue
-            if node.func.id not in DJANGO_REGISTRARS or len(node.args) < 2:
-                continue
-            included = django_included(node.args[1])
-            route = django_route_text(node.args[0])
-            if route is None or not isinstance(included, ast.Constant):
-                continue
-            if isinstance(included.value, str):
-                django_prefixes.setdefault(included.value, route)
-
     # What each class inherits, one level up. Resolved after every file has been read
     # because a base is routinely defined in a module that comes later in the walk, and by
     # NAME for the reason the registration lookups above are -- resolving `APIHandler` to
@@ -3740,11 +3982,12 @@ def lower_program(root: str, files: list[str]) -> dict:
         lambda module, node: f"{module}#{node.name}:{node.lineno}:{node.col_offset + 1}")
 
     lowerers = [ModuleLowerer(root, path, tree, defs, templates, resource_paths,
-                              django_prefixes, class_members, base_members,
+                              class_members, base_members,
                               class_actions, graphql_resolvers, receiver_kinds,
                               class_names)
                 for path, tree in trees]
     provenance = module_provenance(root, trees)
+    _resolve_url_graph(lowerers)
 
     # Django's URLconfs, resolved across the program before any module is lowered. A
     # URLconf registers classes that live in other files, and Django's own `View` is one of

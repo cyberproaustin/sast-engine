@@ -1,0 +1,1594 @@
+{
+  "irVersion": "0.19.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi",
+        "django",
+        "drf",
+        "graphene",
+        "tornado"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "console/__init__.py",
+      "path": "console/__init__.py"
+    },
+    {
+      "id": "console/urls/__init__.py",
+      "path": "console/urls/__init__.py"
+    },
+    {
+      "id": "console/urls/audit.py",
+      "path": "console/urls/audit.py"
+    },
+    {
+      "id": "console/urls/reports.py",
+      "path": "console/urls/reports.py"
+    },
+    {
+      "id": "console/views.py",
+      "path": "console/views.py"
+    },
+    {
+      "id": "urls.py",
+      "path": "urls.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "console/__init__.py#<module>:0:0",
+      "name": "<module>",
+      "module": "console/__init__.py",
+      "loc": {
+        "file": "console/__init__.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "console/__init__.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "console/__init__.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "console/__init__.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "console/urls/__init__.py#<module>:0:0",
+      "name": "<module>",
+      "module": "console/urls/__init__.py",
+      "loc": {
+        "file": "console/urls/__init__.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "console/urls/__init__.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "console/urls/__init__.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "A URLconf that mounts its neighbours as MODULES under aliases.\n\n`include(console_reports_urls)` looks like `include(some_local_list)` and is not one: the\nname is a module this file imported, and the routes are in another file entirely. wagtail\nwrites its whole admin this way, and every route below such a mount was enumerated at the\nprefix of the file that WROTE it rather than the one it is served at -- `/locked/` for a\nreport that answers at `/admin/reports/locked/`, an address that does not exist.\n"
+        },
+        {
+          "id": "console/urls/__init__.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "console/urls/__init__.py",
+            "line": 14,
+            "column": 15
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "console/urls/__init__.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "console/urls/__init__.py",
+            "line": 15,
+            "column": 10
+          },
+          "literal": "reports/"
+        },
+        {
+          "id": "console/urls/__init__.py#<module>:0:0$v3",
+          "kind": "global",
+          "loc": {
+            "file": "console/urls/__init__.py",
+            "line": 15,
+            "column": 30
+          },
+          "name": "console.urls.reports"
+        },
+        {
+          "id": "console/urls/__init__.py#<module>:0:0$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "console/urls/__init__.py",
+            "line": 15,
+            "column": 22
+          },
+          "name": "django.urls.include"
+        },
+        {
+          "id": "console/urls/__init__.py#<module>:0:0$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "console/urls/__init__.py",
+            "line": 15,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "console/urls/__init__.py#<module>:0:0$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "console/urls/__init__.py",
+            "line": 16,
+            "column": 10
+          },
+          "literal": "audit/"
+        },
+        {
+          "id": "console/urls/__init__.py#<module>:0:0$v7",
+          "kind": "global",
+          "loc": {
+            "file": "console/urls/__init__.py",
+            "line": 16,
+            "column": 28
+          },
+          "name": "console.urls.audit"
+        },
+        {
+          "id": "console/urls/__init__.py#<module>:0:0$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "console/urls/__init__.py",
+            "line": 16,
+            "column": 20
+          },
+          "name": "django.urls.include"
+        },
+        {
+          "id": "console/urls/__init__.py#<module>:0:0$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "console/urls/__init__.py",
+            "line": 16,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "console/urls/__init__.py#<module>:0:0$v10",
+          "kind": "local",
+          "loc": {
+            "file": "console/urls/__init__.py",
+            "line": 14,
+            "column": 1
+          },
+          "name": "urlpatterns"
+        }
+      ],
+      "flows": [
+        {
+          "from": "console/urls/__init__.py#<module>:0:0$v5",
+          "to": "console/urls/__init__.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "console/urls/__init__.py",
+            "line": 14,
+            "column": 15
+          },
+          "block": "console/urls/__init__.py#<module>:0:0$b0"
+        },
+        {
+          "from": "console/urls/__init__.py#<module>:0:0$v9",
+          "to": "console/urls/__init__.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "console/urls/__init__.py",
+            "line": 14,
+            "column": 15
+          },
+          "block": "console/urls/__init__.py#<module>:0:0$b0"
+        },
+        {
+          "from": "console/urls/__init__.py#<module>:0:0$v1",
+          "to": "console/urls/__init__.py#<module>:0:0$v10",
+          "kind": "assign",
+          "loc": {
+            "file": "console/urls/__init__.py",
+            "line": 14,
+            "column": 1
+          },
+          "block": "console/urls/__init__.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "console/urls/__init__.py#<module>:0:0$c0",
+          "loc": {
+            "file": "console/urls/__init__.py",
+            "line": 15,
+            "column": 22
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.include",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "console/urls/__init__.py#<module>:0:0$v3"
+            }
+          ],
+          "resultValueId": "console/urls/__init__.py#<module>:0:0$v4",
+          "block": "console/urls/__init__.py#<module>:0:0$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "console/urls/__init__.py#<module>:0:0$c1",
+          "loc": {
+            "file": "console/urls/__init__.py",
+            "line": 15,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "console/urls/__init__.py#<module>:0:0$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "console/urls/__init__.py#<module>:0:0$v4"
+            }
+          ],
+          "resultValueId": "console/urls/__init__.py#<module>:0:0$v5",
+          "block": "console/urls/__init__.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "reports/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "console/urls/__init__.py#<module>:0:0$c2",
+          "loc": {
+            "file": "console/urls/__init__.py",
+            "line": 16,
+            "column": 20
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.include",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "console/urls/__init__.py#<module>:0:0$v7"
+            }
+          ],
+          "resultValueId": "console/urls/__init__.py#<module>:0:0$v8",
+          "block": "console/urls/__init__.py#<module>:0:0$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "console/urls/__init__.py#<module>:0:0$c3",
+          "loc": {
+            "file": "console/urls/__init__.py",
+            "line": 16,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "console/urls/__init__.py#<module>:0:0$v6"
+            },
+            {
+              "index": 1,
+              "valueId": "console/urls/__init__.py#<module>:0:0$v8"
+            }
+          ],
+          "resultValueId": "console/urls/__init__.py#<module>:0:0$v9",
+          "block": "console/urls/__init__.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "audit/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "console/urls/__init__.py",
+            "line": 14,
+            "column": 1
+          },
+          "path": "urlpatterns",
+          "from": "console/urls/__init__.py#<module>:0:0$v1",
+          "block": "console/urls/__init__.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "console/urls/__init__.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "console/urls/__init__.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "console/urls/__init__.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "console/urls/audit.py#<module>:0:0",
+      "name": "<module>",
+      "module": "console/urls/audit.py",
+      "loc": {
+        "file": "console/urls/audit.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "console/urls/audit.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "console/urls/audit.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The second aliased module, so the mount is a table rather than a single case."
+        },
+        {
+          "id": "console/urls/audit.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "console/urls/audit.py",
+            "line": 6,
+            "column": 15
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "console/urls/audit.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "console/urls/audit.py",
+            "line": 7,
+            "column": 10
+          },
+          "literal": "trail/"
+        },
+        {
+          "id": "console/urls/audit.py#<module>:0:0$v3",
+          "kind": "global",
+          "loc": {
+            "file": "console/urls/audit.py",
+            "line": 7,
+            "column": 20
+          },
+          "name": "console.views"
+        },
+        {
+          "id": "console/urls/audit.py#<module>:0:0$v4",
+          "kind": "property",
+          "loc": {
+            "file": "console/urls/audit.py",
+            "line": 7,
+            "column": 20
+          },
+          "base": "console/urls/audit.py#<module>:0:0$v3",
+          "path": "trail",
+          "name": "trail"
+        },
+        {
+          "id": "console/urls/audit.py#<module>:0:0$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "console/urls/audit.py",
+            "line": 7,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "console/urls/audit.py#<module>:0:0$v6",
+          "kind": "local",
+          "loc": {
+            "file": "console/urls/audit.py",
+            "line": 6,
+            "column": 1
+          },
+          "name": "urlpatterns"
+        }
+      ],
+      "flows": [
+        {
+          "from": "console/urls/audit.py#<module>:0:0$v3",
+          "to": "console/urls/audit.py#<module>:0:0$v4",
+          "kind": "property",
+          "loc": {
+            "file": "console/urls/audit.py",
+            "line": 7,
+            "column": 20
+          },
+          "block": "console/urls/audit.py#<module>:0:0$b0"
+        },
+        {
+          "from": "console/urls/audit.py#<module>:0:0$v5",
+          "to": "console/urls/audit.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "console/urls/audit.py",
+            "line": 6,
+            "column": 15
+          },
+          "block": "console/urls/audit.py#<module>:0:0$b0"
+        },
+        {
+          "from": "console/urls/audit.py#<module>:0:0$v1",
+          "to": "console/urls/audit.py#<module>:0:0$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "console/urls/audit.py",
+            "line": 6,
+            "column": 1
+          },
+          "block": "console/urls/audit.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "console/urls/audit.py#<module>:0:0$c0",
+          "loc": {
+            "file": "console/urls/audit.py",
+            "line": 7,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "console/urls/audit.py#<module>:0:0$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "console/urls/audit.py#<module>:0:0$v4",
+              "functionId": "console/views.py#trail:19:1"
+            }
+          ],
+          "resultValueId": "console/urls/audit.py#<module>:0:0$v5",
+          "block": "console/urls/audit.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "trail/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "console/urls/audit.py",
+            "line": 6,
+            "column": 1
+          },
+          "path": "urlpatterns",
+          "from": "console/urls/audit.py#<module>:0:0$v1",
+          "block": "console/urls/audit.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "console/urls/audit.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "console/urls/audit.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "console/urls/audit.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "console/urls/reports.py#<module>:0:0",
+      "name": "<module>",
+      "module": "console/urls/reports.py",
+      "loc": {
+        "file": "console/urls/reports.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "console/urls/reports.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "console/urls/reports.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "Two levels below the root, and this file names neither prefix."
+        },
+        {
+          "id": "console/urls/reports.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "console/urls/reports.py",
+            "line": 6,
+            "column": 15
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "console/urls/reports.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "console/urls/reports.py",
+            "line": 7,
+            "column": 10
+          },
+          "literal": "locked/"
+        },
+        {
+          "id": "console/urls/reports.py#<module>:0:0$v3",
+          "kind": "global",
+          "loc": {
+            "file": "console/urls/reports.py",
+            "line": 7,
+            "column": 21
+          },
+          "name": "console.views"
+        },
+        {
+          "id": "console/urls/reports.py#<module>:0:0$v4",
+          "kind": "property",
+          "loc": {
+            "file": "console/urls/reports.py",
+            "line": 7,
+            "column": 21
+          },
+          "base": "console/urls/reports.py#<module>:0:0$v3",
+          "path": "locked",
+          "name": "locked"
+        },
+        {
+          "id": "console/urls/reports.py#<module>:0:0$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "console/urls/reports.py",
+            "line": 7,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "console/urls/reports.py#<module>:0:0$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "console/urls/reports.py",
+            "line": 8,
+            "column": 10
+          },
+          "literal": "locked/results/"
+        },
+        {
+          "id": "console/urls/reports.py#<module>:0:0$v7",
+          "kind": "property",
+          "loc": {
+            "file": "console/urls/reports.py",
+            "line": 8,
+            "column": 29
+          },
+          "base": "console/urls/reports.py#<module>:0:0$v3",
+          "path": "locked_results",
+          "name": "locked_results"
+        },
+        {
+          "id": "console/urls/reports.py#<module>:0:0$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "console/urls/reports.py",
+            "line": 8,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "console/urls/reports.py#<module>:0:0$v9",
+          "kind": "local",
+          "loc": {
+            "file": "console/urls/reports.py",
+            "line": 6,
+            "column": 1
+          },
+          "name": "urlpatterns"
+        }
+      ],
+      "flows": [
+        {
+          "from": "console/urls/reports.py#<module>:0:0$v3",
+          "to": "console/urls/reports.py#<module>:0:0$v4",
+          "kind": "property",
+          "loc": {
+            "file": "console/urls/reports.py",
+            "line": 7,
+            "column": 21
+          },
+          "block": "console/urls/reports.py#<module>:0:0$b0"
+        },
+        {
+          "from": "console/urls/reports.py#<module>:0:0$v5",
+          "to": "console/urls/reports.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "console/urls/reports.py",
+            "line": 6,
+            "column": 15
+          },
+          "block": "console/urls/reports.py#<module>:0:0$b0"
+        },
+        {
+          "from": "console/urls/reports.py#<module>:0:0$v3",
+          "to": "console/urls/reports.py#<module>:0:0$v7",
+          "kind": "property",
+          "loc": {
+            "file": "console/urls/reports.py",
+            "line": 8,
+            "column": 29
+          },
+          "block": "console/urls/reports.py#<module>:0:0$b0"
+        },
+        {
+          "from": "console/urls/reports.py#<module>:0:0$v8",
+          "to": "console/urls/reports.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "console/urls/reports.py",
+            "line": 6,
+            "column": 15
+          },
+          "block": "console/urls/reports.py#<module>:0:0$b0"
+        },
+        {
+          "from": "console/urls/reports.py#<module>:0:0$v1",
+          "to": "console/urls/reports.py#<module>:0:0$v9",
+          "kind": "assign",
+          "loc": {
+            "file": "console/urls/reports.py",
+            "line": 6,
+            "column": 1
+          },
+          "block": "console/urls/reports.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "console/urls/reports.py#<module>:0:0$c0",
+          "loc": {
+            "file": "console/urls/reports.py",
+            "line": 7,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "console/urls/reports.py#<module>:0:0$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "console/urls/reports.py#<module>:0:0$v4",
+              "functionId": "console/views.py#locked:7:1"
+            }
+          ],
+          "resultValueId": "console/urls/reports.py#<module>:0:0$v5",
+          "block": "console/urls/reports.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "locked/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "console/urls/reports.py#<module>:0:0$c1",
+          "loc": {
+            "file": "console/urls/reports.py",
+            "line": 8,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "console/urls/reports.py#<module>:0:0$v6"
+            },
+            {
+              "index": 1,
+              "valueId": "console/urls/reports.py#<module>:0:0$v7",
+              "functionId": "console/views.py#locked_results:14:1"
+            }
+          ],
+          "resultValueId": "console/urls/reports.py#<module>:0:0$v8",
+          "block": "console/urls/reports.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "locked/results/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "console/urls/reports.py",
+            "line": 6,
+            "column": 1
+          },
+          "path": "urlpatterns",
+          "from": "console/urls/reports.py#<module>:0:0$v1",
+          "block": "console/urls/reports.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "console/urls/reports.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "console/urls/reports.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "console/urls/reports.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "console/views.py#<module>:0:0",
+      "name": "<module>",
+      "module": "console/views.py",
+      "loc": {
+        "file": "console/views.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "console/views.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "console/views.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "Handlers of the aliased URLconfs."
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "console/views.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "console/views.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "console/views.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "console/views.py#locked:7:1",
+      "name": "locked",
+      "module": "console/views.py",
+      "loc": {
+        "file": "console/views.py",
+        "line": 7,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "console/views.py#locked:7:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "console/views.py#locked:7:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "console/views.py",
+            "line": 7,
+            "column": 12
+          },
+          "name": "request"
+        },
+        {
+          "id": "console/views.py#locked:7:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "console/views.py",
+            "line": 10,
+            "column": 13
+          },
+          "base": "console/views.py#locked:7:1$v0",
+          "path": "GET",
+          "name": "GET"
+        },
+        {
+          "id": "console/views.py#locked:7:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "console/views.py",
+            "line": 10,
+            "column": 13
+          },
+          "name": "since",
+          "base": "console/views.py#locked:7:1$v1",
+          "path": "GET.since"
+        },
+        {
+          "id": "console/views.py#locked:7:1$v3",
+          "kind": "local",
+          "loc": {
+            "file": "console/views.py",
+            "line": 10,
+            "column": 5
+          },
+          "name": "since"
+        },
+        {
+          "id": "console/views.py#locked:7:1$v4",
+          "kind": "local",
+          "loc": {
+            "file": "console/views.py",
+            "line": 11,
+            "column": 49
+          },
+          "name": "concat"
+        },
+        {
+          "id": "console/views.py#locked:7:1$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "console/views.py",
+            "line": 11,
+            "column": 49
+          },
+          "literal": "conctl locked --since "
+        },
+        {
+          "id": "console/views.py#locked:7:1$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "console/views.py",
+            "line": 11,
+            "column": 89
+          },
+          "literal": "true"
+        },
+        {
+          "id": "console/views.py#locked:7:1$v7",
+          "kind": "global",
+          "loc": {
+            "file": "console/views.py",
+            "line": 11,
+            "column": 25
+          },
+          "name": "subprocess"
+        },
+        {
+          "id": "console/views.py#locked:7:1$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "console/views.py",
+            "line": 11,
+            "column": 25
+          },
+          "name": "subprocess.check_output"
+        },
+        {
+          "id": "console/views.py#locked:7:1$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "console/views.py",
+            "line": 11,
+            "column": 12
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "console/views.py#locked:7:1$v0",
+          "to": "console/views.py#locked:7:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "console/views.py",
+            "line": 10,
+            "column": 13
+          },
+          "block": "console/views.py#locked:7:1$b0"
+        },
+        {
+          "from": "console/views.py#locked:7:1$v1",
+          "to": "console/views.py#locked:7:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "console/views.py",
+            "line": 10,
+            "column": 13
+          },
+          "block": "console/views.py#locked:7:1$b0"
+        },
+        {
+          "from": "console/views.py#locked:7:1$v2",
+          "to": "console/views.py#locked:7:1$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "console/views.py",
+            "line": 10,
+            "column": 5
+          },
+          "block": "console/views.py#locked:7:1$b0"
+        },
+        {
+          "from": "console/views.py#locked:7:1$v5",
+          "to": "console/views.py#locked:7:1$v4",
+          "kind": "binary",
+          "loc": {
+            "file": "console/views.py",
+            "line": 11,
+            "column": 49
+          },
+          "block": "console/views.py#locked:7:1$b0"
+        },
+        {
+          "from": "console/views.py#locked:7:1$v3",
+          "to": "console/views.py#locked:7:1$v4",
+          "kind": "binary",
+          "loc": {
+            "file": "console/views.py",
+            "line": 11,
+            "column": 49
+          },
+          "block": "console/views.py#locked:7:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "console/views.py#locked:7:1$c0",
+          "loc": {
+            "file": "console/views.py",
+            "line": 11,
+            "column": 25
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "subprocess.check_output",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "console/views.py#locked:7:1$v4"
+            },
+            {
+              "valueId": "console/views.py#locked:7:1$v6",
+              "name": "shell"
+            }
+          ],
+          "resultValueId": "console/views.py#locked:7:1$v8",
+          "block": "console/views.py#locked:7:1$b0",
+          "method": "check_output",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "shell=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "console/views.py#locked:7:1$v7"
+        },
+        {
+          "id": "console/views.py#locked:7:1$c1",
+          "loc": {
+            "file": "console/views.py",
+            "line": 11,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "console/views.py#locked:7:1$v8"
+            }
+          ],
+          "resultValueId": "console/views.py#locked:7:1$v9",
+          "block": "console/views.py#locked:7:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "console/views.py#locked:7:1$v9"
+      ],
+      "returnBlocks": [
+        "console/views.py#locked:7:1$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "console/views.py#locked:7:1$b0",
+      "blocks": [
+        {
+          "id": "console/views.py#locked:7:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "console/views.py",
+            "line": 7,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "console/views.py#locked:7:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "console/views.py",
+            "line": 11,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "console/views.py#locked_results:14:1",
+      "name": "locked_results",
+      "module": "console/views.py",
+      "loc": {
+        "file": "console/views.py",
+        "line": 14,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "console/views.py#locked_results:14:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "console/views.py#locked_results:14:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "console/views.py",
+            "line": 14,
+            "column": 20
+          },
+          "name": "request"
+        },
+        {
+          "id": "console/views.py#locked_results:14:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "console/views.py",
+            "line": 16,
+            "column": 25
+          },
+          "literal": "[]"
+        },
+        {
+          "id": "console/views.py#locked_results:14:1$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "console/views.py",
+            "line": 16,
+            "column": 12
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "console/views.py#locked_results:14:1$c0",
+          "loc": {
+            "file": "console/views.py",
+            "line": 16,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "console/views.py#locked_results:14:1$v1"
+            }
+          ],
+          "resultValueId": "console/views.py#locked_results:14:1$v2",
+          "block": "console/views.py#locked_results:14:1$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "[]"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "console/views.py#locked_results:14:1$v2"
+      ],
+      "returnBlocks": [
+        "console/views.py#locked_results:14:1$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "console/views.py#locked_results:14:1$b0",
+      "blocks": [
+        {
+          "id": "console/views.py#locked_results:14:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "console/views.py",
+            "line": 14,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "console/views.py#locked_results:14:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "console/views.py",
+            "line": 16,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "console/views.py#trail:19:1",
+      "name": "trail",
+      "module": "console/views.py",
+      "loc": {
+        "file": "console/views.py",
+        "line": 19,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "console/views.py#trail:19:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "console/views.py#trail:19:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "console/views.py",
+            "line": 19,
+            "column": 11
+          },
+          "name": "request"
+        },
+        {
+          "id": "console/views.py#trail:19:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "console/views.py",
+            "line": 21,
+            "column": 25
+          },
+          "literal": "[]"
+        },
+        {
+          "id": "console/views.py#trail:19:1$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "console/views.py",
+            "line": 21,
+            "column": 12
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "console/views.py#trail:19:1$c0",
+          "loc": {
+            "file": "console/views.py",
+            "line": 21,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "console/views.py#trail:19:1$v1"
+            }
+          ],
+          "resultValueId": "console/views.py#trail:19:1$v2",
+          "block": "console/views.py#trail:19:1$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "[]"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "console/views.py#trail:19:1$v2"
+      ],
+      "returnBlocks": [
+        "console/views.py#trail:19:1$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "console/views.py#trail:19:1$b0",
+      "blocks": [
+        {
+          "id": "console/views.py#trail:19:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "console/views.py",
+            "line": 19,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "console/views.py#trail:19:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "console/views.py",
+            "line": 21,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "urls.py#<module>:0:0",
+      "name": "<module>",
+      "module": "urls.py",
+      "loc": {
+        "file": "urls.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "urls.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The root URLconf, mounting a MODULE it imported under a name of its own."
+        },
+        {
+          "id": "urls.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "urls.py",
+            "line": 6,
+            "column": 15
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 7,
+            "column": 10
+          },
+          "literal": "console/"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v3",
+          "kind": "global",
+          "loc": {
+            "file": "urls.py",
+            "line": 7,
+            "column": 30
+          },
+          "name": "console.urls"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 7,
+            "column": 22
+          },
+          "name": "django.urls.include"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 7,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v6",
+          "kind": "local",
+          "loc": {
+            "file": "urls.py",
+            "line": 6,
+            "column": 1
+          },
+          "name": "urlpatterns"
+        }
+      ],
+      "flows": [
+        {
+          "from": "urls.py#<module>:0:0$v5",
+          "to": "urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 6,
+            "column": 15
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "urls.py#<module>:0:0$v1",
+          "to": "urls.py#<module>:0:0$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "urls.py",
+            "line": 6,
+            "column": 1
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "urls.py#<module>:0:0$c0",
+          "loc": {
+            "file": "urls.py",
+            "line": 7,
+            "column": 22
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.include",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v3"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v4",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c1",
+          "loc": {
+            "file": "urls.py",
+            "line": 7,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v4"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v5",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "console/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "urls.py",
+            "line": 6,
+            "column": 1
+          },
+          "path": "urlpatterns",
+          "from": "urls.py#<module>:0:0$v1",
+          "block": "urls.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "urls.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "urls.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "urls.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "console/views.py#trail:19:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/console/audit/trail/"
+      }
+    },
+    {
+      "functionId": "console/views.py#locked:7:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/console/reports/locked/"
+      }
+    },
+    {
+      "functionId": "console/views.py#locked_results:14:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/console/reports/locked/results/"
+      }
+    }
+  ],
+  "declaredViews": [],
+  "views": [],
+  "renders": []
+}

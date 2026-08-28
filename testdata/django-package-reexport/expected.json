@@ -1,0 +1,14 @@
+{
+  "corpus": "django-package-reexport",
+  "description": "A URLconf that is a PACKAGE, assembled from its submodules under aliases -- `from .orders import urlpatterns as order_urls`, then `urlpatterns = [*order_urls, *cart_urls]`. No `include()` appears and no route is written in the file that Django reads, so a frontend that looks for `urlpatterns` where it is written literally sees a list of names. plane's `plane/app/urls/__init__.py` is twenty-two lines of exactly this. The view class travels the same way and it costs more: a registration names the class as the package exported it, the class is defined three modules below, and the members table is keyed by the defining module -- so the registration found no verbs and produced no entry point at all. On this fixture the old resolution enumerated ONE entry point, and it was the declarative fallback naming the class `RefundView` instead of a path; the analysis reported NO FINDINGS and declared ASVS 1.2.5 SATISFIED on an application with a command injection in its refund endpoint. The negatives are the two handlers on the same two paths that read nothing a caller supplies.",
+  "expected": [
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "shop/views/orders.py",
+      "sinkLine": 15,
+      "sourceLabel": "request.POST",
+      "confidence": "high",
+      "note": "served at /shop/orders/<pk>/refund/; the prefix, the splice and the route are in three files, and none of them names the module this class is defined in"
+    }
+  ]
+}

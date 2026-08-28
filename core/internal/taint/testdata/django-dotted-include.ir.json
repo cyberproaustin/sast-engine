@@ -1,0 +1,1144 @@
+{
+  "irVersion": "0.19.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi",
+        "django",
+        "drf",
+        "graphene",
+        "tornado"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "service/billing/__init__.py",
+      "path": "service/billing/__init__.py"
+    },
+    {
+      "id": "service/billing/reports/__init__.py",
+      "path": "service/billing/reports/__init__.py"
+    },
+    {
+      "id": "service/billing/reports/urls.py",
+      "path": "service/billing/reports/urls.py"
+    },
+    {
+      "id": "service/billing/reports/views.py",
+      "path": "service/billing/reports/views.py"
+    },
+    {
+      "id": "urls.py",
+      "path": "urls.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "service/billing/__init__.py#<module>:0:0",
+      "name": "<module>",
+      "module": "service/billing/__init__.py",
+      "loc": {
+        "file": "service/billing/__init__.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "service/billing/__init__.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "service/billing/__init__.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "service/billing/__init__.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "service/billing/reports/__init__.py#<module>:0:0",
+      "name": "<module>",
+      "module": "service/billing/reports/__init__.py",
+      "loc": {
+        "file": "service/billing/reports/__init__.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "service/billing/reports/__init__.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "service/billing/reports/__init__.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "service/billing/reports/__init__.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "service/billing/reports/urls.py#<module>:0:0",
+      "name": "<module>",
+      "module": "service/billing/reports/urls.py",
+      "loc": {
+        "file": "service/billing/reports/urls.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "service/billing/reports/urls.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "service/billing/reports/urls.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The mounted URLconf. It carries no trace of the prefix it is served under."
+        },
+        {
+          "id": "service/billing/reports/urls.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "service/billing/reports/urls.py",
+            "line": 6,
+            "column": 15
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "service/billing/reports/urls.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "service/billing/reports/urls.py",
+            "line": 7,
+            "column": 10
+          },
+          "literal": "export/<int:pk>/"
+        },
+        {
+          "id": "service/billing/reports/urls.py#<module>:0:0$v3",
+          "kind": "global",
+          "loc": {
+            "file": "service/billing/reports/urls.py",
+            "line": 7,
+            "column": 30
+          },
+          "name": "billing.reports.views"
+        },
+        {
+          "id": "service/billing/reports/urls.py#<module>:0:0$v4",
+          "kind": "property",
+          "loc": {
+            "file": "service/billing/reports/urls.py",
+            "line": 7,
+            "column": 30
+          },
+          "base": "service/billing/reports/urls.py#<module>:0:0$v3",
+          "path": "export",
+          "name": "export"
+        },
+        {
+          "id": "service/billing/reports/urls.py#<module>:0:0$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "service/billing/reports/urls.py",
+            "line": 7,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "service/billing/reports/urls.py#<module>:0:0$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "service/billing/reports/urls.py",
+            "line": 8,
+            "column": 10
+          },
+          "literal": "summary/"
+        },
+        {
+          "id": "service/billing/reports/urls.py#<module>:0:0$v7",
+          "kind": "property",
+          "loc": {
+            "file": "service/billing/reports/urls.py",
+            "line": 8,
+            "column": 22
+          },
+          "base": "service/billing/reports/urls.py#<module>:0:0$v3",
+          "path": "summary",
+          "name": "summary"
+        },
+        {
+          "id": "service/billing/reports/urls.py#<module>:0:0$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "service/billing/reports/urls.py",
+            "line": 8,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "service/billing/reports/urls.py#<module>:0:0$v9",
+          "kind": "local",
+          "loc": {
+            "file": "service/billing/reports/urls.py",
+            "line": 6,
+            "column": 1
+          },
+          "name": "urlpatterns"
+        }
+      ],
+      "flows": [
+        {
+          "from": "service/billing/reports/urls.py#<module>:0:0$v3",
+          "to": "service/billing/reports/urls.py#<module>:0:0$v4",
+          "kind": "property",
+          "loc": {
+            "file": "service/billing/reports/urls.py",
+            "line": 7,
+            "column": 30
+          },
+          "block": "service/billing/reports/urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "service/billing/reports/urls.py#<module>:0:0$v5",
+          "to": "service/billing/reports/urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "service/billing/reports/urls.py",
+            "line": 6,
+            "column": 15
+          },
+          "block": "service/billing/reports/urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "service/billing/reports/urls.py#<module>:0:0$v3",
+          "to": "service/billing/reports/urls.py#<module>:0:0$v7",
+          "kind": "property",
+          "loc": {
+            "file": "service/billing/reports/urls.py",
+            "line": 8,
+            "column": 22
+          },
+          "block": "service/billing/reports/urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "service/billing/reports/urls.py#<module>:0:0$v8",
+          "to": "service/billing/reports/urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "service/billing/reports/urls.py",
+            "line": 6,
+            "column": 15
+          },
+          "block": "service/billing/reports/urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "service/billing/reports/urls.py#<module>:0:0$v1",
+          "to": "service/billing/reports/urls.py#<module>:0:0$v9",
+          "kind": "assign",
+          "loc": {
+            "file": "service/billing/reports/urls.py",
+            "line": 6,
+            "column": 1
+          },
+          "block": "service/billing/reports/urls.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "service/billing/reports/urls.py#<module>:0:0$c0",
+          "loc": {
+            "file": "service/billing/reports/urls.py",
+            "line": 7,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "service/billing/reports/urls.py#<module>:0:0$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "service/billing/reports/urls.py#<module>:0:0$v4"
+            }
+          ],
+          "resultValueId": "service/billing/reports/urls.py#<module>:0:0$v5",
+          "block": "service/billing/reports/urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "export/<int:pk>/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "service/billing/reports/urls.py#<module>:0:0$c1",
+          "loc": {
+            "file": "service/billing/reports/urls.py",
+            "line": 8,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "service/billing/reports/urls.py#<module>:0:0$v6"
+            },
+            {
+              "index": 1,
+              "valueId": "service/billing/reports/urls.py#<module>:0:0$v7"
+            }
+          ],
+          "resultValueId": "service/billing/reports/urls.py#<module>:0:0$v8",
+          "block": "service/billing/reports/urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "summary/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "service/billing/reports/urls.py",
+            "line": 6,
+            "column": 1
+          },
+          "path": "urlpatterns",
+          "from": "service/billing/reports/urls.py#<module>:0:0$v1",
+          "block": "service/billing/reports/urls.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "service/billing/reports/urls.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "service/billing/reports/urls.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "service/billing/reports/urls.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "service/billing/reports/views.py#<module>:0:0",
+      "name": "<module>",
+      "module": "service/billing/reports/views.py",
+      "loc": {
+        "file": "service/billing/reports/views.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "service/billing/reports/views.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "service/billing/reports/views.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "Handlers of a URLconf mounted from a file that names them only as a string."
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "service/billing/reports/views.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "service/billing/reports/views.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "service/billing/reports/views.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "service/billing/reports/views.py#export:7:1",
+      "name": "export",
+      "module": "service/billing/reports/views.py",
+      "loc": {
+        "file": "service/billing/reports/views.py",
+        "line": 7,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "service/billing/reports/views.py#export:7:1$v0"
+        },
+        {
+          "index": 1,
+          "name": "pk",
+          "valueId": "service/billing/reports/views.py#export:7:1$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "service/billing/reports/views.py#export:7:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "service/billing/reports/views.py",
+            "line": 7,
+            "column": 12
+          },
+          "name": "request"
+        },
+        {
+          "id": "service/billing/reports/views.py#export:7:1$v1",
+          "kind": "param",
+          "loc": {
+            "file": "service/billing/reports/views.py",
+            "line": 7,
+            "column": 21
+          },
+          "name": "pk"
+        },
+        {
+          "id": "service/billing/reports/views.py#export:7:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "service/billing/reports/views.py",
+            "line": 10,
+            "column": 11
+          },
+          "base": "service/billing/reports/views.py#export:7:1$v0",
+          "path": "GET",
+          "name": "GET"
+        },
+        {
+          "id": "service/billing/reports/views.py#export:7:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "service/billing/reports/views.py",
+            "line": 10,
+            "column": 11
+          },
+          "name": "format",
+          "base": "service/billing/reports/views.py#export:7:1$v2",
+          "path": "GET.format"
+        },
+        {
+          "id": "service/billing/reports/views.py#export:7:1$v4",
+          "kind": "local",
+          "loc": {
+            "file": "service/billing/reports/views.py",
+            "line": 10,
+            "column": 5
+          },
+          "name": "fmt"
+        },
+        {
+          "id": "service/billing/reports/views.py#export:7:1$v5",
+          "kind": "local",
+          "loc": {
+            "file": "service/billing/reports/views.py",
+            "line": 11,
+            "column": 49
+          },
+          "name": "concat"
+        },
+        {
+          "id": "service/billing/reports/views.py#export:7:1$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "service/billing/reports/views.py",
+            "line": 11,
+            "column": 49
+          },
+          "literal": "billctl export --as "
+        },
+        {
+          "id": "service/billing/reports/views.py#export:7:1$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "service/billing/reports/views.py",
+            "line": 11,
+            "column": 85
+          },
+          "literal": "true"
+        },
+        {
+          "id": "service/billing/reports/views.py#export:7:1$v8",
+          "kind": "global",
+          "loc": {
+            "file": "service/billing/reports/views.py",
+            "line": 11,
+            "column": 25
+          },
+          "name": "subprocess"
+        },
+        {
+          "id": "service/billing/reports/views.py#export:7:1$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "service/billing/reports/views.py",
+            "line": 11,
+            "column": 25
+          },
+          "name": "subprocess.check_output"
+        },
+        {
+          "id": "service/billing/reports/views.py#export:7:1$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "service/billing/reports/views.py",
+            "line": 11,
+            "column": 12
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "service/billing/reports/views.py#export:7:1$v0",
+          "to": "service/billing/reports/views.py#export:7:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "service/billing/reports/views.py",
+            "line": 10,
+            "column": 11
+          },
+          "block": "service/billing/reports/views.py#export:7:1$b0"
+        },
+        {
+          "from": "service/billing/reports/views.py#export:7:1$v2",
+          "to": "service/billing/reports/views.py#export:7:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "service/billing/reports/views.py",
+            "line": 10,
+            "column": 11
+          },
+          "block": "service/billing/reports/views.py#export:7:1$b0"
+        },
+        {
+          "from": "service/billing/reports/views.py#export:7:1$v3",
+          "to": "service/billing/reports/views.py#export:7:1$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "service/billing/reports/views.py",
+            "line": 10,
+            "column": 5
+          },
+          "block": "service/billing/reports/views.py#export:7:1$b0"
+        },
+        {
+          "from": "service/billing/reports/views.py#export:7:1$v6",
+          "to": "service/billing/reports/views.py#export:7:1$v5",
+          "kind": "binary",
+          "loc": {
+            "file": "service/billing/reports/views.py",
+            "line": 11,
+            "column": 49
+          },
+          "block": "service/billing/reports/views.py#export:7:1$b0"
+        },
+        {
+          "from": "service/billing/reports/views.py#export:7:1$v4",
+          "to": "service/billing/reports/views.py#export:7:1$v5",
+          "kind": "binary",
+          "loc": {
+            "file": "service/billing/reports/views.py",
+            "line": 11,
+            "column": 49
+          },
+          "block": "service/billing/reports/views.py#export:7:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "service/billing/reports/views.py#export:7:1$c0",
+          "loc": {
+            "file": "service/billing/reports/views.py",
+            "line": 11,
+            "column": 25
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "subprocess.check_output",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "service/billing/reports/views.py#export:7:1$v5"
+            },
+            {
+              "valueId": "service/billing/reports/views.py#export:7:1$v7",
+              "name": "shell"
+            }
+          ],
+          "resultValueId": "service/billing/reports/views.py#export:7:1$v9",
+          "block": "service/billing/reports/views.py#export:7:1$b0",
+          "method": "check_output",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "shell=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "service/billing/reports/views.py#export:7:1$v8"
+        },
+        {
+          "id": "service/billing/reports/views.py#export:7:1$c1",
+          "loc": {
+            "file": "service/billing/reports/views.py",
+            "line": 11,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "service/billing/reports/views.py#export:7:1$v9"
+            }
+          ],
+          "resultValueId": "service/billing/reports/views.py#export:7:1$v10",
+          "block": "service/billing/reports/views.py#export:7:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "service/billing/reports/views.py#export:7:1$v10"
+      ],
+      "returnBlocks": [
+        "service/billing/reports/views.py#export:7:1$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "service/billing/reports/views.py#export:7:1$b0",
+      "blocks": [
+        {
+          "id": "service/billing/reports/views.py#export:7:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "service/billing/reports/views.py",
+            "line": 7,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "service/billing/reports/views.py#export:7:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "service/billing/reports/views.py",
+            "line": 11,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "service/billing/reports/views.py#summary:14:1",
+      "name": "summary",
+      "module": "service/billing/reports/views.py",
+      "loc": {
+        "file": "service/billing/reports/views.py",
+        "line": 14,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "service/billing/reports/views.py#summary:14:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "service/billing/reports/views.py#summary:14:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "service/billing/reports/views.py",
+            "line": 14,
+            "column": 13
+          },
+          "name": "request"
+        },
+        {
+          "id": "service/billing/reports/views.py#summary:14:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "service/billing/reports/views.py",
+            "line": 16,
+            "column": 25
+          },
+          "literal": "ok"
+        },
+        {
+          "id": "service/billing/reports/views.py#summary:14:1$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "service/billing/reports/views.py",
+            "line": 16,
+            "column": 12
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "service/billing/reports/views.py#summary:14:1$c0",
+          "loc": {
+            "file": "service/billing/reports/views.py",
+            "line": 16,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "service/billing/reports/views.py#summary:14:1$v1"
+            }
+          ],
+          "resultValueId": "service/billing/reports/views.py#summary:14:1$v2",
+          "block": "service/billing/reports/views.py#summary:14:1$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "ok"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "service/billing/reports/views.py#summary:14:1$v2"
+      ],
+      "returnBlocks": [
+        "service/billing/reports/views.py#summary:14:1$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "service/billing/reports/views.py#summary:14:1$b0",
+      "blocks": [
+        {
+          "id": "service/billing/reports/views.py#summary:14:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "service/billing/reports/views.py",
+            "line": 14,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "service/billing/reports/views.py#summary:14:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "service/billing/reports/views.py",
+            "line": 16,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "urls.py#<module>:0:0",
+      "name": "<module>",
+      "module": "urls.py",
+      "loc": {
+        "file": "urls.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "urls.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The root URLconf, mounting by DOTTED STRING.\n\n`include(\"billing.reports.urls\")` is the most common thing a Django root URLconf says,\nand it is a name resolved by Python's loader against the application's source root --\nwhich is not the root a scanner is pointed at. plane's sources live under `apps/api/`, so\n`plane.app.urls` matches no module id the frontend has, and a prefix table keyed by\nequality answered none of that application's 399 registrations: 51 entry points were\nenumerated, and 31 of those were the declarative fallback naming a class rather than a\npath. The lookup is by suffix here for that reason, with the exact name tried first.\n"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "urls.py",
+            "line": 13,
+            "column": 15
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 14,
+            "column": 10
+          },
+          "literal": "api/v2/"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 14,
+            "column": 29
+          },
+          "literal": "billing.reports.urls"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 14,
+            "column": 21
+          },
+          "name": "django.urls.include"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 14,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 18,
+            "column": 10
+          },
+          "literal": "legacy/"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 18,
+            "column": 29
+          },
+          "literal": "billing.retired.urls"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 18,
+            "column": 21
+          },
+          "name": "django.urls.include"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 18,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v10",
+          "kind": "local",
+          "loc": {
+            "file": "urls.py",
+            "line": 13,
+            "column": 1
+          },
+          "name": "urlpatterns"
+        }
+      ],
+      "flows": [
+        {
+          "from": "urls.py#<module>:0:0$v5",
+          "to": "urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 13,
+            "column": 15
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "urls.py#<module>:0:0$v9",
+          "to": "urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 13,
+            "column": 15
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "urls.py#<module>:0:0$v1",
+          "to": "urls.py#<module>:0:0$v10",
+          "kind": "assign",
+          "loc": {
+            "file": "urls.py",
+            "line": 13,
+            "column": 1
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "urls.py#<module>:0:0$c0",
+          "loc": {
+            "file": "urls.py",
+            "line": 14,
+            "column": 21
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.include",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v3"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v4",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "billing.reports.urls"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c1",
+          "loc": {
+            "file": "urls.py",
+            "line": 14,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v4"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v5",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "api/v2/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c2",
+          "loc": {
+            "file": "urls.py",
+            "line": 18,
+            "column": 21
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.include",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v7"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v8",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "billing.retired.urls"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c3",
+          "loc": {
+            "file": "urls.py",
+            "line": 18,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v6"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v8"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v9",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "legacy/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "urls.py",
+            "line": 13,
+            "column": 1
+          },
+          "path": "urlpatterns",
+          "from": "urls.py#<module>:0:0$v1",
+          "block": "urls.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "urls.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "urls.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "urls.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "service/billing/reports/views.py#export:7:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/api/v2/export/:pk/",
+        "pathParams": "int:pk"
+      }
+    },
+    {
+      "functionId": "service/billing/reports/views.py#summary:14:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/api/v2/summary/"
+      }
+    }
+  ],
+  "declaredViews": [],
+  "views": [],
+  "renders": []
+}
