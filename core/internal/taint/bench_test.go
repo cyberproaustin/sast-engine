@@ -45,6 +45,7 @@ var corpora = []string{
 	"hardcoded-secret",
 	"flask-command-injection",
 	"flask-container-update",
+	"django-update-shape",
 	"flask-sql-injection",
 	"flask-class-views",
 	"python-tls-verification",

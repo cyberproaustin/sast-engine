@@ -243,6 +243,10 @@ type Channel struct {
 	// IR: this exception exists only because the channel's external symbol supplies
 	// the missing signature fact.
 	RequiredKeyword map[string]int
+	// AllArgs makes every argument the call was handed part of the channel. It is for an
+	// API whose argument names ARE the selected fields, so no fixed positional signature
+	// exists for the model to declare.
+	AllArgs bool
 
 	// RequiresExternalReceiver marks a channel that describes an operation on
 	// something OUTSIDE this process — a store whose records outlive the request and
@@ -341,6 +345,22 @@ type Channel struct {
 	// typed and untyped IR. An unknown producer remains a match: absence of proof
 	// that this is crypto must not remove real ORM updates across the corpus.
 	ReceiverNotFrom []string
+
+	// BuiltinArgumentMakesLocalMutation excludes a method channel when the argument at
+	// this position is positively identified as one of the language's own containers.
+	//
+	// Python's `mapping.update(other)` and an ORM's `queryset.update(field=value)` share
+	// a method and no calling convention: the former takes a mapping positionally and the
+	// latter takes fields as keywords. The receiver may be unknowable in both cases, but
+	// an annotated mapping or mapping literal is still a positive statement about what
+	// the positional call does. Empty type evidence remains unknown and does not exclude.
+	BuiltinArgumentMakesLocalMutation *int
+
+	// RequiresKnownExternalReceiver is the positive form of RequiresExternalReceiver:
+	// the frontend must have an answer, and that answer must not be a builtin, module, or
+	// anonymous object. It is for a channel whose additional calling convention is only
+	// meaningful once the receiver is known to be an application or framework type.
+	RequiresKnownExternalReceiver bool
 
 	// RequiresUntrustedReceiver marks a channel whose identity comes from WHAT IT IS
 	// CALLED ON rather than from its name.
@@ -4058,22 +4078,43 @@ func builtin() Model {
 			{
 				ID: "record-selector", Visibility: "internal", Context: "record-selector",
 				Method: "update", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				Language:                 "typescript",
 				RequiresExternalReceiver: true,
 				ReceiverNotFrom:          []string{"createHash", "createHmac", "createCipheriv", "createDecipheriv"},
 				// A selector is a value the caller HANDED OVER; a message is one the
-				// program BUILT. `update` is the one record operation whose Python
-				// spelling takes the new field values rather than the criteria --
-				// Django's `qs.filter(...).update(field=value)` chose the record in the
-				// `filter` above and this call writes into it -- and a keyword argument
-				// arrives at index 0 exactly like a positional one, so nothing else
-				// separates the two readings. Composition does: healthchecks builds
-				// `f"Delivery failed ({diagnostic})"` out of a bounced email and writes
-				// it to `last_error`, and reading that as "the caller chose which record"
-				// is the same mistake an earlier adjudication recorded against superset.
-				// The stated cost is a composite key built by concatenation, which is
-				// not reported.
+				// program BUILT. TypeScript record APIs hand update the selector in a
+				// positional options object, while Python's keyword convention is split
+				// below. Composition still distinguishes a key the caller chose from a
+				// message the program built; its stated cost is a composite key assembled
+				// by concatenation, which is not reported.
 				RequiresWholeValue: true,
 				Rationale:          "modifies a single record by the identifier it is given",
+			},
+			{
+				ID: "record-selector", Visibility: "internal", Context: "record-selector",
+				Method: "update", ReceiverIsEntryParam: -1, ArgIndex: []int{0},
+				Language:                          "python",
+				RequiresExternalReceiver:          true,
+				BuiltinArgumentMakesLocalMutation: arg(0),
+				// Measured across the seven Python repositories before adding the split:
+				// 838 of 1,207 update calls used ORM-shaped keyword arguments, while 82
+				// handed over a dict literal and 116 handed over a name. An untyped positional
+				// update stays included because Python APIs outside Django may select with it.
+				RequiresWholeValue: true,
+				Rationale:          "modifies a record selected by the positional argument it is given",
+			},
+			{
+				ID: "record-selector", Visibility: "internal", Context: "record-selector",
+				Method: "update", ReceiverIsEntryParam: -1, AllArgs: true,
+				Language:                      "python",
+				ReceiverFrom:                  []string{"filter"},
+				RequiresKnownExternalReceiver: true,
+				// An untyped paired filter rule added ten saleor findings and all ten were
+				// false on source review. Only 12 keyword updates across the seven repositories
+				// have a receiver the author annotated QuerySet (two linkding, ten saleor), which
+				// is the positive statement that earns the second Python calling convention.
+				RequiresWholeValue: true,
+				Rationale:          "modifies records selected by the queryset it is called on",
 			},
 			// SQL execution. Described as an OPERATION rather than as a library: what
 			// matters is that this argument is read as SQL, and that is equally true of
