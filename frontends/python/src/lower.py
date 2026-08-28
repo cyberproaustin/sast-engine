@@ -788,6 +788,34 @@ def django_entry_point(function_id: str, method: str, path: str, route: str = ""
     }
 
 
+def handlers_from_members(members: dict[str, str], path: str, route: str) -> list[dict]:
+    """The verbs a class-based view answers, out of the methods it carries.
+
+    One implementation for both registrations that reach a class: the URLconf's
+    `X.as_view()` and a config class's `self.<attr>.as_view()`. They name the class two
+    different ways and what a class ANSWERS is the same question either way, so writing it
+    twice is how the two spellings drift into disagreeing about the same view.
+    """
+    found = [django_entry_point(members[verb], verb.upper(), path, route)
+             for verb in DJANGO_VERB_METHODS if verb in members]
+    # FormView implements POST in Django itself and calls the subclass's
+    # `form_valid`. The application therefore writes the state-changing handler
+    # without writing `post`, and a surface that looks only for verb-named
+    # members attributes that route to whichever unrelated hook appears first.
+    # archivebox's AddView was consequently represented only by
+    # get_context_data while its crawl-creating POST body sat outside the route.
+    if "post" not in members and "form_valid" in members:
+        found.append(django_entry_point(members["form_valid"], "POST", path, route))
+    # Preserve the GET half of a FormView when the subclass customizes its
+    # context. Adding the POST must not make an existing entry point disappear.
+    if "get" not in members and "get_context_data" in members and "form_valid" in members:
+        found.append(django_entry_point(members["get_context_data"], "GET", path, route))
+    if found:
+        return found
+    hook = next((members[name] for name in DJANGO_HOOKS if name in members), None)
+    return [django_entry_point(hook, "ANY", path, route)] if hook else []
+
+
 def tornado_route_path(pattern: str) -> str:
     """A Tornado URL regex written as the path the rest of the engine reads.
 
@@ -1660,24 +1688,7 @@ class ModuleLowerer:
     def _handlers_from_members(self, members: dict[str, str],
                                path: str, route: str) -> list[dict]:
         """The verbs a class-based view answers, out of the methods it carries."""
-        found = [django_entry_point(members[verb], verb.upper(), path, route)
-                 for verb in DJANGO_VERB_METHODS if verb in members]
-        # FormView implements POST in Django itself and calls the subclass's
-        # `form_valid`. The application therefore writes the state-changing handler
-        # without writing `post`, and a surface that looks only for verb-named
-        # members attributes that route to whichever unrelated hook appears first.
-        # archivebox's AddView was consequently represented only by
-        # get_context_data while its crawl-creating POST body sat outside the route.
-        if "post" not in members and "form_valid" in members:
-            found.append(django_entry_point(members["form_valid"], "POST", path, route))
-        # Preserve the GET half of a FormView when the subclass customizes its
-        # context. Adding the POST must not make an existing entry point disappear.
-        if "get" not in members and "get_context_data" in members and "form_valid" in members:
-            found.append(django_entry_point(members["get_context_data"], "GET", path, route))
-        if found:
-            return found
-        hook = self._django_hook(members)
-        return [django_entry_point(hook, "ANY", path, route)] if hook else []
+        return handlers_from_members(members, path, route)
 
     def _inherited_class_members(self, key: str) -> dict[str, str]:
         """A class's own methods, and what it inherits where it declares none.
@@ -3886,14 +3897,7 @@ def _config_registration_entries(configs: ConfigRegistry, cls: ConfigClass,
     out: list[dict] = []
     for prefix in prefixes:
         full = prefix + route
-        path = django_route_path(full)
-        for verb in DJANGO_VERB_METHODS:
-            if verb in members:
-                out.append(django_entry_point(members[verb], verb.upper(), path, full))
-        if not any(verb in members for verb in DJANGO_VERB_METHODS):
-            hook = next((members[name] for name in DJANGO_HOOKS if name in members), None)
-            if hook:
-                out.append(django_entry_point(hook, "ANY", path, full))
+        out.extend(handlers_from_members(members, django_route_path(full), full))
     return out or None
 
 

@@ -70,7 +70,7 @@ import "strings"
 // `urlpatterns` anywhere in 828 files. Resolved by reading the class: the attribute (its
 // own, or its bases', or the one `ready()` assigned, which is Django's own place for it),
 // the label (explicit, or derived from `name` as Django derives it), and the mount chain
-// composed program-wide. oscar went 30 -> 161 entry points and 279 -> 226 functions
+// composed program-wide. oscar went 30 -> 189 entry points and 279 -> 226 functions
 // reading caller input that nothing reaches.
 //
 // A DECORATOR REGISTRY READ BACK AT URL-BUILD TIME. A netbox view binds itself to a model
