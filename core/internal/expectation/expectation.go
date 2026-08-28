@@ -158,6 +158,25 @@ type Suppression struct {
 	Reason     string
 }
 
+// Withheld is an inferred authentication expectation the entry point's own evidence
+// answered: the caller presented a secret and the handler resolved a record from it.
+//
+// The population can only compare an entry point with what its peers MOUNT, and a route
+// that authenticates by a bearer-style token mounts nothing -- that is what makes it a
+// signing link rather than a session. Comparing the two says "no control here" about a
+// route whose control is in its first statement. documenso's five CWE-306 findings were
+// all of this shape and an independent reader judged every one false.
+//
+// Reported rather than silent, and it says which field and which lookup, because the
+// judgement is checkable only if the reader can go and look at the line.
+type Withheld struct {
+	EntryPoint string
+	Missing    string
+	Field      string
+	Selection  string
+	Loc        ir.Loc
+}
+
 // UnmatchedRule is a declaration that selected no entry point — a stated expectation
 // nothing was checked against. Reported because an unchecked requirement is not a
 // satisfied one (ADR-003, ADR-011).
@@ -176,6 +195,7 @@ type Result struct {
 
 	Findings       []Finding
 	Suppressed     []Suppression
+	Withheld       []Withheld
 	UnmatchedRules []UnmatchedRule
 }
 
@@ -289,6 +309,21 @@ func (r *Result) appendInferred(s surface.Surface, t Thresholds, exempt map[stri
 						Missing:    sig.name,
 						DeclaredBy: rule.Match.String(),
 						Reason:     rule.Reason,
+					})
+					continue
+				}
+				// The population says an authentication control is expected around
+				// here; this entry point authenticates by a different means, and the
+				// inference does not survive that. Recorded rather than dropped, for
+				// the same reason a declared exemption is: an inference that goes quiet
+				// invisibly is an inference nobody can check.
+				if sig.kind == "authentication" && e.Credential != nil {
+					r.Withheld = append(r.Withheld, Withheld{
+						EntryPoint: e.Label(),
+						Missing:    sig.name,
+						Field:      e.Credential.Field,
+						Selection:  e.Credential.Selection,
+						Loc:        e.Credential.Loc,
 					})
 					continue
 				}

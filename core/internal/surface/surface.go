@@ -81,6 +81,11 @@ type EntryFacts struct {
 	// it (model.Policy.AudienceDecides), and a claim that cheap does not need
 	// control-flow dominance across a call boundary behind it.
 	Authenticates bool
+
+	// Credential is set when the caller presented a SECRET and this entry point resolved
+	// a record from it. See CallerCredential: it is the other way an entry point knows
+	// who is calling, and the one a comparison against session middleware cannot see.
+	Credential *CallerCredential
 }
 
 // Loc is where this entry point lives: its handler when resolved, otherwise the
@@ -336,6 +341,7 @@ func (s Surface) GroupNames() []string {
 // Build enumerates the surface from a lowered program.
 func Build(d *ir.IR, m model.Model, p *policy.Policy) Surface {
 	ix := ir.NewIndex(d)
+	src := newCallerSources(m)
 	var entries []EntryFacts
 	var nonApplication []EntryFacts
 
@@ -357,6 +363,7 @@ func Build(d *ir.IR, m model.Model, p *policy.Policy) Surface {
 		}
 		facts.Controls = controlsOf(ep, fn, m, p)
 		facts.Authenticates = authenticatesCaller(ix, facts.Controls, fn, m, p)
+		facts.Credential = credentialOf(ix, fn, m, src)
 		if !ix.InApplicationSurface(loc) {
 			if facts.Provenance != "" {
 				nonApplication = append(nonApplication, facts)
@@ -398,7 +405,7 @@ func Build(d *ir.IR, m model.Model, p *policy.Policy) Surface {
 	return Surface{
 		Entries:               entries,
 		NonApplicationEntries: nonApplication,
-		Completeness:          completenessOf(ix, m, entries),
+		Completeness:          completenessOf(ix, m, src, entries),
 	}
 }
 
@@ -546,55 +553,15 @@ func displayName(mw ir.MiddlewareRef) string {
 
 // completenessOf counts the code that handles caller-supplied input and asks how much of
 // it the enumerated surface accounts for.
-func completenessOf(ix *ir.Index, m model.Model, entries []EntryFacts) Completeness {
-	// Which value kinds and which framework globals mean "caller-supplied", according to
-	// the model rather than to anything hardcoded here.
-	kinds := map[string]bool{}
-	globals := map[string]bool{}
-	// Paths a request object exposes: "body", "query", "params" and the like, kept
-	// under the PARAMETER POSITION the rule names them at. Used here as evidence of
-	// HANDLER SHAPE, never to seed taint. A function that reads .body off its own
-	// first parameter looks exactly like a request handler whether or not any route
-	// pointing at it was recognized, and that is the whole question being asked.
-	//
-	// Without this the check is blind precisely where it is needed most: frameworks that
-	// pass a request object into the handler anchor their rule to an enumerated entry
-	// point, so a handler nobody enumerated leaves no trace at all.
-	//
-	// The position is part of the rule and dropping it is what made the count
-	// unusable. Flattened into one set matched against ANY parameter, the union of
-	// every framework's request shape matches an enormous amount of code that is not
-	// a handler at all: searxng's engine plugins take an outbound `params` dict as
-	// their SECOND argument and set params["headers"], and 62 of them counted as
-	// unreached request handlers. Position is the cheapest thing that tells a request
-	// object apart from a domain object carrying a colliding field name, and it is
-	// already written down.
-	pathsAt := map[int]map[string]bool{}
-	for _, c := range m.Classifications {
-		if c.Class != m.UntrustedClass() {
-			continue
-		}
-		for _, r := range c.Rules {
-			// A source only a person with a shell can supply is not evidence that a
-			// route was missed, which is the only thing this count asks about.
-			if r.Trust != "" && r.Trust != ir.Remote {
-				continue
-			}
-			switch r.Match {
-			case model.MatchValueKind:
-				kinds[r.ValueKind] = true
-			case model.MatchGlobalProperty:
-				globals[r.Symbol] = true
-			case model.MatchEntryParamProperty:
-				if pathsAt[r.ParamIndex] == nil {
-					pathsAt[r.ParamIndex] = map[string]bool{}
-				}
-				for _, p := range r.Paths {
-					pathsAt[r.ParamIndex][p] = true
-				}
-			}
-		}
-	}
+// The sources are what the model says caller-supplied looks like. Used here as evidence
+// of HANDLER SHAPE, never to seed taint: a function that reads .body off its own first
+// parameter looks exactly like a request handler whether or not any route pointing at it
+// was recognized, and that is the whole question being asked. Without it the check is
+// blind precisely where it is needed most, because frameworks that pass a request object
+// into the handler anchor their rule to an enumerated entry point, so a handler nobody
+// enumerated leaves no trace at all.
+func completenessOf(ix *ir.Index, m model.Model, src callerSources, entries []EntryFacts) Completeness {
+	kinds, globals, pathsAt := src.kinds, src.globals, src.pathsAt
 
 	// REMOTE entry points only.
 	//
