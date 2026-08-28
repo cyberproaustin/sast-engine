@@ -3767,6 +3767,17 @@ def config_route_entry_points(
     and give the few it does resolve the prefix of a file rather than of a mount.
     """
     mounts = _config_mounts(configs)
+    # Bare class name -> the program keys that name it. Built once: a config resolves its
+    # view by name and there are tens of thousands of keys in a large program, so asking
+    # the question per registration is a scan of the whole table per route.
+    by_class_name: dict[str, list[str]] = {}
+    for table in (class_members, base_members):
+        for key in table:
+            if key.startswith("import:"):
+                continue
+            name = key.rsplit(":", 1)[-1]
+            if key not in by_class_name.setdefault(name, []):
+                by_class_name[name].append(key)
     out: dict[str, list[dict]] = {}
     claimed: set[int] = set()
 
@@ -3782,7 +3793,7 @@ def config_route_entry_points(
         prefixes = _config_prefixes(configs, cls, mounts)
         for call in cls.registrations:
             entries = _config_registration_entries(
-                configs, cls, call, prefixes, class_members, base_members)
+                configs, cls, call, prefixes, class_members, base_members, by_class_name)
             if entries is None:
                 continue
             claimed.add(id(call))
@@ -3848,7 +3859,8 @@ def _config_registration_entries(configs: ConfigRegistry, cls: ConfigClass,
                                  call: ast.Call,
                                  prefixes: list[str],
                                  class_members: dict[str, dict[str, str]],
-                                 base_members: dict[str, dict[str, str]]) -> list[dict] | None:
+                                 base_members: dict[str, dict[str, str]],
+                                 by_class_name: dict[str, list[str]]) -> list[dict] | None:
     """One registration, at every path the config that declares it is served under.
 
     None where the registration is not this pass's to make: a mount has no handler of its
@@ -3865,7 +3877,8 @@ def _config_registration_entries(configs: ConfigRegistry, cls: ConfigClass,
         # A mount. Its routes are registered where they are DECLARED and pick this prefix
         # up there, which is what `_config_mounts` recorded it for.
         return []
-    members = _config_view_members(configs, cls, view, class_members, base_members)
+    members = _config_view_members(
+        configs, cls, view, class_members, base_members, by_class_name)
     if members is None:
         return None
     out: list[dict] = []
@@ -3884,7 +3897,8 @@ def _config_registration_entries(configs: ConfigRegistry, cls: ConfigClass,
 
 def _config_view_members(configs: ConfigRegistry, cls: ConfigClass, view: ast.AST,
                          class_members: dict[str, dict[str, str]],
-                         base_members: dict[str, dict[str, str]]) -> dict[str, str] | None:
+                         base_members: dict[str, dict[str, str]],
+                         by_class_name: dict[str, list[str]]) -> dict[str, str] | None:
     """The methods behind `self.<attr>.as_view()`, or None where the view is not one.
 
     The attribute is resolved on the class and its bases -- oscar's configs assign in
@@ -3907,10 +3921,7 @@ def _config_view_members(configs: ConfigRegistry, cls: ConfigClass, view: ast.AS
     held = configs.attribute(cls, holder.attr)
     if held is None or held[0] != ATTR_VIEW:
         return None
-    keys = [key for key in class_members if key.endswith(f":{held[1]}")
-            and not key.startswith("import:")]
-    keys += [key for key in base_members if key.endswith(f":{held[1]}")
-             and not key.startswith("import:") and key not in class_members]
+    keys = by_class_name.get(held[1], ())
     if len(keys) != 1:
         return None
     key = keys[0]
