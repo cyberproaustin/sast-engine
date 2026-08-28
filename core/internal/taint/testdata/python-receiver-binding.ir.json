@@ -1,0 +1,3314 @@
+{
+  "irVersion": "0.19.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi",
+        "django",
+        "drf",
+        "graphene",
+        "tornado"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "app.py",
+      "path": "app.py"
+    },
+    {
+      "id": "helpers.py",
+      "path": "helpers.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "app.py#<module>:0:0",
+      "name": "<module>",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#<module>:0:0$v0",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 5,
+            "column": 7
+          },
+          "name": "flask.Flask"
+        },
+        {
+          "id": "app.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 5,
+            "column": 1
+          },
+          "name": "app"
+        },
+        {
+          "id": "app.py#<module>:0:0$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 9,
+            "column": 10
+          },
+          "name": "helpers.Runner"
+        },
+        {
+          "id": "app.py#<module>:0:0$v3",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 9,
+            "column": 1
+          },
+          "name": "runner"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#<module>:0:0$v0",
+          "to": "app.py#<module>:0:0$v1",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 5,
+            "column": 1
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v2",
+          "to": "app.py#<module>:0:0$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 9,
+            "column": 1
+          },
+          "block": "app.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#<module>:0:0$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 5,
+            "column": 7
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.Flask",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#<module>:0:0$v0",
+          "block": "app.py#<module>:0:0$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#<module>:0:0$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 9,
+            "column": 10
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "helpers.Runner",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#<module>:0:0$v2",
+          "block": "app.py#<module>:0:0$b0",
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 5,
+            "column": 1
+          },
+          "path": "app",
+          "from": "app.py#<module>:0:0$v0",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 9,
+            "column": 1
+          },
+          "path": "runner",
+          "from": "app.py#<module>:0:0$v2",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "app.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "app.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#class_method:13:1",
+      "name": "class_method",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 13,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#class_method:13:1$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 16,
+            "column": 35
+          },
+          "literal": "ping -c 1 localhost"
+        },
+        {
+          "id": "app.py#class_method:13:1$v1",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 16,
+            "column": 58
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#class_method:13:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 16,
+            "column": 58
+          },
+          "base": "app.py#class_method:13:1$v1",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "app.py#class_method:13:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 16,
+            "column": 58
+          },
+          "name": "cmd",
+          "base": "app.py#class_method:13:1$v2",
+          "path": "args.cmd"
+        },
+        {
+          "id": "app.py#class_method:13:1$v4",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 16,
+            "column": 12
+          },
+          "name": "helpers.Runner"
+        },
+        {
+          "id": "app.py#class_method:13:1$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 16,
+            "column": 12
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#class_method:13:1$v1",
+          "to": "app.py#class_method:13:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 16,
+            "column": 58
+          },
+          "block": "app.py#class_method:13:1$b0"
+        },
+        {
+          "from": "app.py#class_method:13:1$v2",
+          "to": "app.py#class_method:13:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 16,
+            "column": 58
+          },
+          "block": "app.py#class_method:13:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#class_method:13:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 16,
+            "column": 12
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "helpers.py#as_class_method:25:5",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "paramIndex": 1,
+              "valueId": "app.py#class_method:13:1$v0"
+            },
+            {
+              "index": 1,
+              "paramIndex": 2,
+              "valueId": "app.py#class_method:13:1$v3"
+            }
+          ],
+          "resultValueId": "app.py#class_method:13:1$v5",
+          "block": "app.py#class_method:13:1$b0",
+          "method": "as_class_method",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "ping -c 1 localhost"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#class_method:13:1$v4"
+        }
+      ],
+      "returns": [
+        "app.py#class_method:13:1$v5"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#class_method:13:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#class_method:13:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 13,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#class_method:13:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 16,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#class_method_negative:20:1",
+      "name": "class_method_negative",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 20,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#class_method_negative:20:1$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 44
+          },
+          "literal": "ping -c 1 localhost"
+        },
+        {
+          "id": "app.py#class_method_negative:20:1$v1",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 67
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#class_method_negative:20:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 67
+          },
+          "base": "app.py#class_method_negative:20:1$v1",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "app.py#class_method_negative:20:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 67
+          },
+          "name": "cmd",
+          "base": "app.py#class_method_negative:20:1$v2",
+          "path": "args.cmd"
+        },
+        {
+          "id": "app.py#class_method_negative:20:1$v4",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 12
+          },
+          "name": "helpers.Runner"
+        },
+        {
+          "id": "app.py#class_method_negative:20:1$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 12
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#class_method_negative:20:1$v1",
+          "to": "app.py#class_method_negative:20:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 67
+          },
+          "block": "app.py#class_method_negative:20:1$b0"
+        },
+        {
+          "from": "app.py#class_method_negative:20:1$v2",
+          "to": "app.py#class_method_negative:20:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 67
+          },
+          "block": "app.py#class_method_negative:20:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#class_method_negative:20:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 12
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "helpers.py#as_class_method_negative:32:5",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "paramIndex": 1,
+              "valueId": "app.py#class_method_negative:20:1$v0"
+            },
+            {
+              "index": 1,
+              "paramIndex": 2,
+              "valueId": "app.py#class_method_negative:20:1$v3"
+            }
+          ],
+          "resultValueId": "app.py#class_method_negative:20:1$v5",
+          "block": "app.py#class_method_negative:20:1$b0",
+          "method": "as_class_method_negative",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "ping -c 1 localhost"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#class_method_negative:20:1$v4"
+        }
+      ],
+      "returns": [
+        "app.py#class_method_negative:20:1$v5"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#class_method_negative:20:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#class_method_negative:20:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#class_method_negative:20:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#static_method:27:1",
+      "name": "static_method",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 27,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#static_method:27:1$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 36
+          },
+          "literal": "ping -c 1 localhost"
+        },
+        {
+          "id": "app.py#static_method:27:1$v1",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 59
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#static_method:27:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 59
+          },
+          "base": "app.py#static_method:27:1$v1",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "app.py#static_method:27:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 59
+          },
+          "name": "cmd",
+          "base": "app.py#static_method:27:1$v2",
+          "path": "args.cmd"
+        },
+        {
+          "id": "app.py#static_method:27:1$v4",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 12
+          },
+          "name": "helpers.Runner"
+        },
+        {
+          "id": "app.py#static_method:27:1$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 12
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#static_method:27:1$v1",
+          "to": "app.py#static_method:27:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 59
+          },
+          "block": "app.py#static_method:27:1$b0"
+        },
+        {
+          "from": "app.py#static_method:27:1$v2",
+          "to": "app.py#static_method:27:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 59
+          },
+          "block": "app.py#static_method:27:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#static_method:27:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 12
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "helpers.py#as_static_method:37:5",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#static_method:27:1$v0"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#static_method:27:1$v3"
+            }
+          ],
+          "resultValueId": "app.py#static_method:27:1$v5",
+          "block": "app.py#static_method:27:1$b0",
+          "method": "as_static_method",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "ping -c 1 localhost"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#static_method:27:1$v4"
+        }
+      ],
+      "returns": [
+        "app.py#static_method:27:1$v5"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#static_method:27:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#static_method:27:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#static_method:27:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 29,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#static_method_negative:33:1",
+      "name": "static_method_negative",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 33,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#static_method_negative:33:1$v0",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 45
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#static_method_negative:33:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 45
+          },
+          "base": "app.py#static_method_negative:33:1$v0",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "app.py#static_method_negative:33:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 45
+          },
+          "name": "cmd",
+          "base": "app.py#static_method_negative:33:1$v1",
+          "path": "args.cmd"
+        },
+        {
+          "id": "app.py#static_method_negative:33:1$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 66
+          },
+          "literal": "ping -c 1 localhost"
+        },
+        {
+          "id": "app.py#static_method_negative:33:1$v4",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 12
+          },
+          "name": "helpers.Runner"
+        },
+        {
+          "id": "app.py#static_method_negative:33:1$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 12
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#static_method_negative:33:1$v0",
+          "to": "app.py#static_method_negative:33:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 45
+          },
+          "block": "app.py#static_method_negative:33:1$b0"
+        },
+        {
+          "from": "app.py#static_method_negative:33:1$v1",
+          "to": "app.py#static_method_negative:33:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 45
+          },
+          "block": "app.py#static_method_negative:33:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#static_method_negative:33:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 12
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "helpers.py#as_static_method_negative:44:5",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#static_method_negative:33:1$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#static_method_negative:33:1$v3"
+            }
+          ],
+          "resultValueId": "app.py#static_method_negative:33:1$v5",
+          "block": "app.py#static_method_negative:33:1$b0",
+          "method": "as_static_method_negative",
+          "argCount": 2,
+          "argLiterals": {
+            "1": "ping -c 1 localhost"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#static_method_negative:33:1$v4"
+        }
+      ],
+      "returns": [
+        "app.py#static_method_negative:33:1$v5"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#static_method_negative:33:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#static_method_negative:33:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 33,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#static_method_negative:33:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 36,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#explicit_receiver:40:1",
+      "name": "explicit_receiver",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 40,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#explicit_receiver:40:1$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 43
+          },
+          "literal": "ping -c 1 localhost"
+        },
+        {
+          "id": "app.py#explicit_receiver:40:1$v1",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 66
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#explicit_receiver:40:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 66
+          },
+          "base": "app.py#explicit_receiver:40:1$v1",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "app.py#explicit_receiver:40:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 66
+          },
+          "name": "cmd",
+          "base": "app.py#explicit_receiver:40:1$v2",
+          "path": "args.cmd"
+        },
+        {
+          "id": "app.py#explicit_receiver:40:1$v4",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 12
+          },
+          "name": "helpers.Runner"
+        },
+        {
+          "id": "app.py#explicit_receiver:40:1$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 12
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#explicit_receiver:40:1$v1",
+          "to": "app.py#explicit_receiver:40:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 66
+          },
+          "block": "app.py#explicit_receiver:40:1$b0"
+        },
+        {
+          "from": "app.py#explicit_receiver:40:1$v2",
+          "to": "app.py#explicit_receiver:40:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 66
+          },
+          "block": "app.py#explicit_receiver:40:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#explicit_receiver:40:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 12
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "helpers.py#direct_instance:48:5",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#<module>:0:0$v3"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#explicit_receiver:40:1$v0"
+            },
+            {
+              "index": 2,
+              "valueId": "app.py#explicit_receiver:40:1$v3"
+            }
+          ],
+          "resultValueId": "app.py#explicit_receiver:40:1$v5",
+          "block": "app.py#explicit_receiver:40:1$b0",
+          "method": "direct_instance",
+          "argCount": 3,
+          "argLiterals": {
+            "1": "ping -c 1 localhost"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#explicit_receiver:40:1$v4"
+        }
+      ],
+      "returns": [
+        "app.py#explicit_receiver:40:1$v5"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#explicit_receiver:40:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#explicit_receiver:40:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 40,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#explicit_receiver:40:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#explicit_receiver_negative:47:1",
+      "name": "explicit_receiver_negative",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 47,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#explicit_receiver_negative:47:1$v0",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 50,
+            "column": 52
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#explicit_receiver_negative:47:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 50,
+            "column": 52
+          },
+          "base": "app.py#explicit_receiver_negative:47:1$v0",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "app.py#explicit_receiver_negative:47:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 50,
+            "column": 52
+          },
+          "name": "cmd",
+          "base": "app.py#explicit_receiver_negative:47:1$v1",
+          "path": "args.cmd"
+        },
+        {
+          "id": "app.py#explicit_receiver_negative:47:1$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 50,
+            "column": 73
+          },
+          "literal": "ping -c 1 localhost"
+        },
+        {
+          "id": "app.py#explicit_receiver_negative:47:1$v4",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 50,
+            "column": 12
+          },
+          "name": "helpers.Runner"
+        },
+        {
+          "id": "app.py#explicit_receiver_negative:47:1$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 50,
+            "column": 12
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#explicit_receiver_negative:47:1$v0",
+          "to": "app.py#explicit_receiver_negative:47:1$v1",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 50,
+            "column": 52
+          },
+          "block": "app.py#explicit_receiver_negative:47:1$b0"
+        },
+        {
+          "from": "app.py#explicit_receiver_negative:47:1$v1",
+          "to": "app.py#explicit_receiver_negative:47:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 50,
+            "column": 52
+          },
+          "block": "app.py#explicit_receiver_negative:47:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#explicit_receiver_negative:47:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 50,
+            "column": 12
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "helpers.py#direct_instance_negative:55:5",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#<module>:0:0$v3"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#explicit_receiver_negative:47:1$v2"
+            },
+            {
+              "index": 2,
+              "valueId": "app.py#explicit_receiver_negative:47:1$v3"
+            }
+          ],
+          "resultValueId": "app.py#explicit_receiver_negative:47:1$v5",
+          "block": "app.py#explicit_receiver_negative:47:1$b0",
+          "method": "direct_instance_negative",
+          "argCount": 3,
+          "argLiterals": {
+            "2": "ping -c 1 localhost"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#explicit_receiver_negative:47:1$v4"
+        }
+      ],
+      "returns": [
+        "app.py#explicit_receiver_negative:47:1$v5"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#explicit_receiver_negative:47:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#explicit_receiver_negative:47:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 47,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#explicit_receiver_negative:47:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 50,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#implicit_receiver:54:1",
+      "name": "implicit_receiver",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 54,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#implicit_receiver:54:1$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 57,
+            "column": 33
+          },
+          "literal": "ping -c 1 localhost"
+        },
+        {
+          "id": "app.py#implicit_receiver:54:1$v1",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 57,
+            "column": 56
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#implicit_receiver:54:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 57,
+            "column": 56
+          },
+          "base": "app.py#implicit_receiver:54:1$v1",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "app.py#implicit_receiver:54:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 57,
+            "column": 56
+          },
+          "name": "cmd",
+          "base": "app.py#implicit_receiver:54:1$v2",
+          "path": "args.cmd"
+        },
+        {
+          "id": "app.py#implicit_receiver:54:1$v4",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 57,
+            "column": 12
+          },
+          "name": "helpers.Runner"
+        },
+        {
+          "id": "app.py#implicit_receiver:54:1$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 57,
+            "column": 12
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#implicit_receiver:54:1$v1",
+          "to": "app.py#implicit_receiver:54:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 57,
+            "column": 56
+          },
+          "block": "app.py#implicit_receiver:54:1$b0"
+        },
+        {
+          "from": "app.py#implicit_receiver:54:1$v2",
+          "to": "app.py#implicit_receiver:54:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 57,
+            "column": 56
+          },
+          "block": "app.py#implicit_receiver:54:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#implicit_receiver:54:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 57,
+            "column": 12
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "helpers.py#relay:67:5",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#<module>:0:0$v3"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#implicit_receiver:54:1$v0"
+            },
+            {
+              "index": 2,
+              "valueId": "app.py#implicit_receiver:54:1$v3"
+            }
+          ],
+          "resultValueId": "app.py#implicit_receiver:54:1$v5",
+          "block": "app.py#implicit_receiver:54:1$b0",
+          "method": "relay",
+          "argCount": 3,
+          "argLiterals": {
+            "1": "ping -c 1 localhost"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#implicit_receiver:54:1$v4"
+        }
+      ],
+      "returns": [
+        "app.py#implicit_receiver:54:1$v5"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#implicit_receiver:54:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#implicit_receiver:54:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 54,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#implicit_receiver:54:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 57,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#implicit_receiver_negative:61:1",
+      "name": "implicit_receiver_negative",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 61,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#implicit_receiver_negative:61:1$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 63,
+            "column": 42
+          },
+          "literal": "ping -c 1 localhost"
+        },
+        {
+          "id": "app.py#implicit_receiver_negative:61:1$v1",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 63,
+            "column": 65
+          },
+          "name": "flask.request"
+        },
+        {
+          "id": "app.py#implicit_receiver_negative:61:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 63,
+            "column": 65
+          },
+          "base": "app.py#implicit_receiver_negative:61:1$v1",
+          "path": "args",
+          "name": "args"
+        },
+        {
+          "id": "app.py#implicit_receiver_negative:61:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 63,
+            "column": 65
+          },
+          "name": "cmd",
+          "base": "app.py#implicit_receiver_negative:61:1$v2",
+          "path": "args.cmd"
+        },
+        {
+          "id": "app.py#implicit_receiver_negative:61:1$v4",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 63,
+            "column": 12
+          },
+          "name": "helpers.Runner"
+        },
+        {
+          "id": "app.py#implicit_receiver_negative:61:1$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 63,
+            "column": 12
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#implicit_receiver_negative:61:1$v1",
+          "to": "app.py#implicit_receiver_negative:61:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 63,
+            "column": 65
+          },
+          "block": "app.py#implicit_receiver_negative:61:1$b0"
+        },
+        {
+          "from": "app.py#implicit_receiver_negative:61:1$v2",
+          "to": "app.py#implicit_receiver_negative:61:1$v3",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 63,
+            "column": 65
+          },
+          "block": "app.py#implicit_receiver_negative:61:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#implicit_receiver_negative:61:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 63,
+            "column": 12
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "helpers.py#relay_negative:72:5",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#<module>:0:0$v3"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#implicit_receiver_negative:61:1$v0"
+            },
+            {
+              "index": 2,
+              "valueId": "app.py#implicit_receiver_negative:61:1$v3"
+            }
+          ],
+          "resultValueId": "app.py#implicit_receiver_negative:61:1$v5",
+          "block": "app.py#implicit_receiver_negative:61:1$b0",
+          "method": "relay_negative",
+          "argCount": 3,
+          "argLiterals": {
+            "1": "ping -c 1 localhost"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#implicit_receiver_negative:61:1$v4"
+        }
+      ],
+      "returns": [
+        "app.py#implicit_receiver_negative:61:1$v5"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#implicit_receiver_negative:61:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#implicit_receiver_negative:61:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 61,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#implicit_receiver_negative:61:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 63,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "helpers.py#<module>:0:0",
+      "name": "<module>",
+      "module": "helpers.py",
+      "loc": {
+        "file": "helpers.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "helpers.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "helpers.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "Every way Python fills a method's parameter zero, and every way it does not.\n\nThe receiver is declared as the first parameter and, for three of the four shapes below,\nno call site writes it -- so an argument a caller wrote at position N arrives at position\nN+1. Nothing recorded that, and the damage was not a lost finding: saleor's tokenCreate\ncame out reporting a cache key built from the client IP as \"a record chosen by the\ncaller's email\", because `cls.get_user(info, email, password)` bound `email` onto `info`\nand the engine then followed `info.context` as if it were the caller's address.\n\nEach method puts a shell one place away from the other parameter, so the two directions\nof the error are separable. In a POSITIVE method the shell is on the parameter the route\nwrites the caller's value into, and binding one place off sends that value to `safe`\ninstead -- the finding vanishes. In a NEGATIVE method the shell is on the parameter the\nsame shift would move the caller's value ONTO, so a corpus with only positives would pass\nwith the parameters merely shuffled.\n\nEvery method has exactly one caller. Taint is context-insensitive, so a method called from\nboth a safe route and a dangerous one would carry the union of the two and prove nothing.\n"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "helpers.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "helpers.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "helpers.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "helpers.py#as_class_method:25:5",
+      "name": "as_class_method",
+      "module": "helpers.py",
+      "loc": {
+        "file": "helpers.py",
+        "line": 25,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "cls",
+          "valueId": "helpers.py#as_class_method:25:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "safe",
+          "valueId": "helpers.py#as_class_method:25:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "danger",
+          "valueId": "helpers.py#as_class_method:25:5$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "helpers.py#as_class_method:25:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "helpers.py",
+            "line": 25,
+            "column": 25
+          },
+          "name": "cls"
+        },
+        {
+          "id": "helpers.py#as_class_method:25:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "helpers.py",
+            "line": 25,
+            "column": 30
+          },
+          "name": "safe"
+        },
+        {
+          "id": "helpers.py#as_class_method:25:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "helpers.py",
+            "line": 25,
+            "column": 36
+          },
+          "name": "danger"
+        },
+        {
+          "id": "helpers.py#as_class_method:25:5$v3",
+          "kind": "local",
+          "loc": {
+            "file": "helpers.py",
+            "line": 28,
+            "column": 19
+          },
+          "name": "f-string"
+        },
+        {
+          "id": "helpers.py#as_class_method:25:5$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "helpers.py",
+            "line": 28,
+            "column": 19
+          },
+          "literal": "ping -c 1 "
+        },
+        {
+          "id": "helpers.py#as_class_method:25:5$v5",
+          "kind": "global",
+          "loc": {
+            "file": "helpers.py",
+            "line": 28,
+            "column": 9
+          },
+          "name": "os"
+        },
+        {
+          "id": "helpers.py#as_class_method:25:5$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "helpers.py",
+            "line": 28,
+            "column": 9
+          },
+          "name": "os.system"
+        }
+      ],
+      "flows": [
+        {
+          "from": "helpers.py#as_class_method:25:5$v4",
+          "to": "helpers.py#as_class_method:25:5$v3",
+          "kind": "template",
+          "loc": {
+            "file": "helpers.py",
+            "line": 28,
+            "column": 19
+          },
+          "block": "helpers.py#as_class_method:25:5$b0"
+        },
+        {
+          "from": "helpers.py#as_class_method:25:5$v2",
+          "to": "helpers.py#as_class_method:25:5$v3",
+          "kind": "template",
+          "loc": {
+            "file": "helpers.py",
+            "line": 28,
+            "column": 19
+          },
+          "block": "helpers.py#as_class_method:25:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "helpers.py#as_class_method:25:5$c0",
+          "loc": {
+            "file": "helpers.py",
+            "line": 28,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "os.system",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "helpers.py#as_class_method:25:5$v3"
+            }
+          ],
+          "resultValueId": "helpers.py#as_class_method:25:5$v6",
+          "block": "helpers.py#as_class_method:25:5$b0",
+          "method": "system",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "helpers.py#as_class_method:25:5$v5"
+        }
+      ],
+      "returns": [
+        "helpers.py#as_class_method:25:5$v1"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "helpers.py#as_class_method:25:5$b0",
+      "blocks": [
+        {
+          "id": "helpers.py#as_class_method:25:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "helpers.py",
+            "line": 25,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "helpers.py#as_class_method:25:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "helpers.py",
+            "line": 29,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "helpers.py#as_class_method_negative:32:5",
+      "name": "as_class_method_negative",
+      "module": "helpers.py",
+      "loc": {
+        "file": "helpers.py",
+        "line": 32,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "cls",
+          "valueId": "helpers.py#as_class_method_negative:32:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "danger",
+          "valueId": "helpers.py#as_class_method_negative:32:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "safe",
+          "valueId": "helpers.py#as_class_method_negative:32:5$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "helpers.py#as_class_method_negative:32:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "helpers.py",
+            "line": 32,
+            "column": 34
+          },
+          "name": "cls"
+        },
+        {
+          "id": "helpers.py#as_class_method_negative:32:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "helpers.py",
+            "line": 32,
+            "column": 39
+          },
+          "name": "danger"
+        },
+        {
+          "id": "helpers.py#as_class_method_negative:32:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "helpers.py",
+            "line": 32,
+            "column": 47
+          },
+          "name": "safe"
+        },
+        {
+          "id": "helpers.py#as_class_method_negative:32:5$v3",
+          "kind": "local",
+          "loc": {
+            "file": "helpers.py",
+            "line": 33,
+            "column": 19
+          },
+          "name": "f-string"
+        },
+        {
+          "id": "helpers.py#as_class_method_negative:32:5$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "helpers.py",
+            "line": 33,
+            "column": 19
+          },
+          "literal": "ping -c 1 "
+        },
+        {
+          "id": "helpers.py#as_class_method_negative:32:5$v5",
+          "kind": "global",
+          "loc": {
+            "file": "helpers.py",
+            "line": 33,
+            "column": 9
+          },
+          "name": "os"
+        },
+        {
+          "id": "helpers.py#as_class_method_negative:32:5$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "helpers.py",
+            "line": 33,
+            "column": 9
+          },
+          "name": "os.system"
+        }
+      ],
+      "flows": [
+        {
+          "from": "helpers.py#as_class_method_negative:32:5$v4",
+          "to": "helpers.py#as_class_method_negative:32:5$v3",
+          "kind": "template",
+          "loc": {
+            "file": "helpers.py",
+            "line": 33,
+            "column": 19
+          },
+          "block": "helpers.py#as_class_method_negative:32:5$b0"
+        },
+        {
+          "from": "helpers.py#as_class_method_negative:32:5$v1",
+          "to": "helpers.py#as_class_method_negative:32:5$v3",
+          "kind": "template",
+          "loc": {
+            "file": "helpers.py",
+            "line": 33,
+            "column": 19
+          },
+          "block": "helpers.py#as_class_method_negative:32:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "helpers.py#as_class_method_negative:32:5$c0",
+          "loc": {
+            "file": "helpers.py",
+            "line": 33,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "os.system",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "helpers.py#as_class_method_negative:32:5$v3"
+            }
+          ],
+          "resultValueId": "helpers.py#as_class_method_negative:32:5$v6",
+          "block": "helpers.py#as_class_method_negative:32:5$b0",
+          "method": "system",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "helpers.py#as_class_method_negative:32:5$v5"
+        }
+      ],
+      "returns": [
+        "helpers.py#as_class_method_negative:32:5$v2"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "helpers.py#as_class_method_negative:32:5$b0",
+      "blocks": [
+        {
+          "id": "helpers.py#as_class_method_negative:32:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "helpers.py",
+            "line": 32,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "helpers.py#as_class_method_negative:32:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "helpers.py",
+            "line": 34,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "helpers.py#as_static_method:37:5",
+      "name": "as_static_method",
+      "module": "helpers.py",
+      "loc": {
+        "file": "helpers.py",
+        "line": 37,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "safe",
+          "valueId": "helpers.py#as_static_method:37:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "danger",
+          "valueId": "helpers.py#as_static_method:37:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "helpers.py#as_static_method:37:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "helpers.py",
+            "line": 37,
+            "column": 26
+          },
+          "name": "safe"
+        },
+        {
+          "id": "helpers.py#as_static_method:37:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "helpers.py",
+            "line": 37,
+            "column": 32
+          },
+          "name": "danger"
+        },
+        {
+          "id": "helpers.py#as_static_method:37:5$v2",
+          "kind": "local",
+          "loc": {
+            "file": "helpers.py",
+            "line": 40,
+            "column": 19
+          },
+          "name": "f-string"
+        },
+        {
+          "id": "helpers.py#as_static_method:37:5$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "helpers.py",
+            "line": 40,
+            "column": 19
+          },
+          "literal": "ping -c 1 "
+        },
+        {
+          "id": "helpers.py#as_static_method:37:5$v4",
+          "kind": "global",
+          "loc": {
+            "file": "helpers.py",
+            "line": 40,
+            "column": 9
+          },
+          "name": "os"
+        },
+        {
+          "id": "helpers.py#as_static_method:37:5$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "helpers.py",
+            "line": 40,
+            "column": 9
+          },
+          "name": "os.system"
+        }
+      ],
+      "flows": [
+        {
+          "from": "helpers.py#as_static_method:37:5$v3",
+          "to": "helpers.py#as_static_method:37:5$v2",
+          "kind": "template",
+          "loc": {
+            "file": "helpers.py",
+            "line": 40,
+            "column": 19
+          },
+          "block": "helpers.py#as_static_method:37:5$b0"
+        },
+        {
+          "from": "helpers.py#as_static_method:37:5$v1",
+          "to": "helpers.py#as_static_method:37:5$v2",
+          "kind": "template",
+          "loc": {
+            "file": "helpers.py",
+            "line": 40,
+            "column": 19
+          },
+          "block": "helpers.py#as_static_method:37:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "helpers.py#as_static_method:37:5$c0",
+          "loc": {
+            "file": "helpers.py",
+            "line": 40,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "os.system",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "helpers.py#as_static_method:37:5$v2"
+            }
+          ],
+          "resultValueId": "helpers.py#as_static_method:37:5$v5",
+          "block": "helpers.py#as_static_method:37:5$b0",
+          "method": "system",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "helpers.py#as_static_method:37:5$v4"
+        }
+      ],
+      "returns": [
+        "helpers.py#as_static_method:37:5$v0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "helpers.py#as_static_method:37:5$b0",
+      "blocks": [
+        {
+          "id": "helpers.py#as_static_method:37:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "helpers.py",
+            "line": 37,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "helpers.py#as_static_method:37:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "helpers.py",
+            "line": 41,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "helpers.py#as_static_method_negative:44:5",
+      "name": "as_static_method_negative",
+      "module": "helpers.py",
+      "loc": {
+        "file": "helpers.py",
+        "line": 44,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "safe",
+          "valueId": "helpers.py#as_static_method_negative:44:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "danger",
+          "valueId": "helpers.py#as_static_method_negative:44:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "helpers.py#as_static_method_negative:44:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "helpers.py",
+            "line": 44,
+            "column": 35
+          },
+          "name": "safe"
+        },
+        {
+          "id": "helpers.py#as_static_method_negative:44:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "helpers.py",
+            "line": 44,
+            "column": 41
+          },
+          "name": "danger"
+        },
+        {
+          "id": "helpers.py#as_static_method_negative:44:5$v2",
+          "kind": "local",
+          "loc": {
+            "file": "helpers.py",
+            "line": 45,
+            "column": 19
+          },
+          "name": "f-string"
+        },
+        {
+          "id": "helpers.py#as_static_method_negative:44:5$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "helpers.py",
+            "line": 45,
+            "column": 19
+          },
+          "literal": "ping -c 1 "
+        },
+        {
+          "id": "helpers.py#as_static_method_negative:44:5$v4",
+          "kind": "global",
+          "loc": {
+            "file": "helpers.py",
+            "line": 45,
+            "column": 9
+          },
+          "name": "os"
+        },
+        {
+          "id": "helpers.py#as_static_method_negative:44:5$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "helpers.py",
+            "line": 45,
+            "column": 9
+          },
+          "name": "os.system"
+        }
+      ],
+      "flows": [
+        {
+          "from": "helpers.py#as_static_method_negative:44:5$v3",
+          "to": "helpers.py#as_static_method_negative:44:5$v2",
+          "kind": "template",
+          "loc": {
+            "file": "helpers.py",
+            "line": 45,
+            "column": 19
+          },
+          "block": "helpers.py#as_static_method_negative:44:5$b0"
+        },
+        {
+          "from": "helpers.py#as_static_method_negative:44:5$v1",
+          "to": "helpers.py#as_static_method_negative:44:5$v2",
+          "kind": "template",
+          "loc": {
+            "file": "helpers.py",
+            "line": 45,
+            "column": 19
+          },
+          "block": "helpers.py#as_static_method_negative:44:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "helpers.py#as_static_method_negative:44:5$c0",
+          "loc": {
+            "file": "helpers.py",
+            "line": 45,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "os.system",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "helpers.py#as_static_method_negative:44:5$v2"
+            }
+          ],
+          "resultValueId": "helpers.py#as_static_method_negative:44:5$v5",
+          "block": "helpers.py#as_static_method_negative:44:5$b0",
+          "method": "system",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "helpers.py#as_static_method_negative:44:5$v4"
+        }
+      ],
+      "returns": [
+        "helpers.py#as_static_method_negative:44:5$v0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "helpers.py#as_static_method_negative:44:5$b0",
+      "blocks": [
+        {
+          "id": "helpers.py#as_static_method_negative:44:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "helpers.py",
+            "line": 44,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "helpers.py#as_static_method_negative:44:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "helpers.py",
+            "line": 46,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "helpers.py#direct_instance:48:5",
+      "name": "direct_instance",
+      "module": "helpers.py",
+      "loc": {
+        "file": "helpers.py",
+        "line": 48,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "helpers.py#direct_instance:48:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "safe",
+          "valueId": "helpers.py#direct_instance:48:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "danger",
+          "valueId": "helpers.py#direct_instance:48:5$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "helpers.py#direct_instance:48:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "helpers.py",
+            "line": 48,
+            "column": 25
+          },
+          "name": "self"
+        },
+        {
+          "id": "helpers.py#direct_instance:48:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "helpers.py",
+            "line": 48,
+            "column": 31
+          },
+          "name": "safe"
+        },
+        {
+          "id": "helpers.py#direct_instance:48:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "helpers.py",
+            "line": 48,
+            "column": 37
+          },
+          "name": "danger"
+        },
+        {
+          "id": "helpers.py#direct_instance:48:5$v3",
+          "kind": "local",
+          "loc": {
+            "file": "helpers.py",
+            "line": 52,
+            "column": 19
+          },
+          "name": "f-string"
+        },
+        {
+          "id": "helpers.py#direct_instance:48:5$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "helpers.py",
+            "line": 52,
+            "column": 19
+          },
+          "literal": "ping -c 1 "
+        },
+        {
+          "id": "helpers.py#direct_instance:48:5$v5",
+          "kind": "global",
+          "loc": {
+            "file": "helpers.py",
+            "line": 52,
+            "column": 9
+          },
+          "name": "os"
+        },
+        {
+          "id": "helpers.py#direct_instance:48:5$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "helpers.py",
+            "line": 52,
+            "column": 9
+          },
+          "name": "os.system"
+        }
+      ],
+      "flows": [
+        {
+          "from": "helpers.py#direct_instance:48:5$v4",
+          "to": "helpers.py#direct_instance:48:5$v3",
+          "kind": "template",
+          "loc": {
+            "file": "helpers.py",
+            "line": 52,
+            "column": 19
+          },
+          "block": "helpers.py#direct_instance:48:5$b0"
+        },
+        {
+          "from": "helpers.py#direct_instance:48:5$v2",
+          "to": "helpers.py#direct_instance:48:5$v3",
+          "kind": "template",
+          "loc": {
+            "file": "helpers.py",
+            "line": 52,
+            "column": 19
+          },
+          "block": "helpers.py#direct_instance:48:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "helpers.py#direct_instance:48:5$c0",
+          "loc": {
+            "file": "helpers.py",
+            "line": 52,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "os.system",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "helpers.py#direct_instance:48:5$v3"
+            }
+          ],
+          "resultValueId": "helpers.py#direct_instance:48:5$v6",
+          "block": "helpers.py#direct_instance:48:5$b0",
+          "method": "system",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "helpers.py#direct_instance:48:5$v5"
+        }
+      ],
+      "returns": [
+        "helpers.py#direct_instance:48:5$v1"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "helpers.py#direct_instance:48:5$b0",
+      "blocks": [
+        {
+          "id": "helpers.py#direct_instance:48:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "helpers.py",
+            "line": 48,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "helpers.py#direct_instance:48:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "helpers.py",
+            "line": 53,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "helpers.py#direct_instance_negative:55:5",
+      "name": "direct_instance_negative",
+      "module": "helpers.py",
+      "loc": {
+        "file": "helpers.py",
+        "line": 55,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "helpers.py#direct_instance_negative:55:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "safe",
+          "valueId": "helpers.py#direct_instance_negative:55:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "danger",
+          "valueId": "helpers.py#direct_instance_negative:55:5$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "helpers.py#direct_instance_negative:55:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "helpers.py",
+            "line": 55,
+            "column": 34
+          },
+          "name": "self"
+        },
+        {
+          "id": "helpers.py#direct_instance_negative:55:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "helpers.py",
+            "line": 55,
+            "column": 40
+          },
+          "name": "safe"
+        },
+        {
+          "id": "helpers.py#direct_instance_negative:55:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "helpers.py",
+            "line": 55,
+            "column": 46
+          },
+          "name": "danger"
+        },
+        {
+          "id": "helpers.py#direct_instance_negative:55:5$v3",
+          "kind": "local",
+          "loc": {
+            "file": "helpers.py",
+            "line": 56,
+            "column": 19
+          },
+          "name": "f-string"
+        },
+        {
+          "id": "helpers.py#direct_instance_negative:55:5$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "helpers.py",
+            "line": 56,
+            "column": 19
+          },
+          "literal": "ping -c 1 "
+        },
+        {
+          "id": "helpers.py#direct_instance_negative:55:5$v5",
+          "kind": "global",
+          "loc": {
+            "file": "helpers.py",
+            "line": 56,
+            "column": 9
+          },
+          "name": "os"
+        },
+        {
+          "id": "helpers.py#direct_instance_negative:55:5$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "helpers.py",
+            "line": 56,
+            "column": 9
+          },
+          "name": "os.system"
+        }
+      ],
+      "flows": [
+        {
+          "from": "helpers.py#direct_instance_negative:55:5$v4",
+          "to": "helpers.py#direct_instance_negative:55:5$v3",
+          "kind": "template",
+          "loc": {
+            "file": "helpers.py",
+            "line": 56,
+            "column": 19
+          },
+          "block": "helpers.py#direct_instance_negative:55:5$b0"
+        },
+        {
+          "from": "helpers.py#direct_instance_negative:55:5$v2",
+          "to": "helpers.py#direct_instance_negative:55:5$v3",
+          "kind": "template",
+          "loc": {
+            "file": "helpers.py",
+            "line": 56,
+            "column": 19
+          },
+          "block": "helpers.py#direct_instance_negative:55:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "helpers.py#direct_instance_negative:55:5$c0",
+          "loc": {
+            "file": "helpers.py",
+            "line": 56,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "os.system",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "helpers.py#direct_instance_negative:55:5$v3"
+            }
+          ],
+          "resultValueId": "helpers.py#direct_instance_negative:55:5$v6",
+          "block": "helpers.py#direct_instance_negative:55:5$b0",
+          "method": "system",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "helpers.py#direct_instance_negative:55:5$v5"
+        }
+      ],
+      "returns": [
+        "helpers.py#direct_instance_negative:55:5$v1"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "helpers.py#direct_instance_negative:55:5$b0",
+      "blocks": [
+        {
+          "id": "helpers.py#direct_instance_negative:55:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "helpers.py",
+            "line": 55,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "helpers.py#direct_instance_negative:55:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "helpers.py",
+            "line": 57,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "helpers.py#as_instance_method:59:5",
+      "name": "as_instance_method",
+      "module": "helpers.py",
+      "loc": {
+        "file": "helpers.py",
+        "line": 59,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "helpers.py#as_instance_method:59:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "safe",
+          "valueId": "helpers.py#as_instance_method:59:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "danger",
+          "valueId": "helpers.py#as_instance_method:59:5$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "helpers.py#as_instance_method:59:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "helpers.py",
+            "line": 59,
+            "column": 28
+          },
+          "name": "self"
+        },
+        {
+          "id": "helpers.py#as_instance_method:59:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "helpers.py",
+            "line": 59,
+            "column": 34
+          },
+          "name": "safe"
+        },
+        {
+          "id": "helpers.py#as_instance_method:59:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "helpers.py",
+            "line": 59,
+            "column": 40
+          },
+          "name": "danger"
+        },
+        {
+          "id": "helpers.py#as_instance_method:59:5$v3",
+          "kind": "local",
+          "loc": {
+            "file": "helpers.py",
+            "line": 60,
+            "column": 19
+          },
+          "name": "f-string"
+        },
+        {
+          "id": "helpers.py#as_instance_method:59:5$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "helpers.py",
+            "line": 60,
+            "column": 19
+          },
+          "literal": "ping -c 1 "
+        },
+        {
+          "id": "helpers.py#as_instance_method:59:5$v5",
+          "kind": "global",
+          "loc": {
+            "file": "helpers.py",
+            "line": 60,
+            "column": 9
+          },
+          "name": "os"
+        },
+        {
+          "id": "helpers.py#as_instance_method:59:5$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "helpers.py",
+            "line": 60,
+            "column": 9
+          },
+          "name": "os.system"
+        }
+      ],
+      "flows": [
+        {
+          "from": "helpers.py#as_instance_method:59:5$v4",
+          "to": "helpers.py#as_instance_method:59:5$v3",
+          "kind": "template",
+          "loc": {
+            "file": "helpers.py",
+            "line": 60,
+            "column": 19
+          },
+          "block": "helpers.py#as_instance_method:59:5$b0"
+        },
+        {
+          "from": "helpers.py#as_instance_method:59:5$v2",
+          "to": "helpers.py#as_instance_method:59:5$v3",
+          "kind": "template",
+          "loc": {
+            "file": "helpers.py",
+            "line": 60,
+            "column": 19
+          },
+          "block": "helpers.py#as_instance_method:59:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "helpers.py#as_instance_method:59:5$c0",
+          "loc": {
+            "file": "helpers.py",
+            "line": 60,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "os.system",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "helpers.py#as_instance_method:59:5$v3"
+            }
+          ],
+          "resultValueId": "helpers.py#as_instance_method:59:5$v6",
+          "block": "helpers.py#as_instance_method:59:5$b0",
+          "method": "system",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "helpers.py#as_instance_method:59:5$v5"
+        }
+      ],
+      "returns": [
+        "helpers.py#as_instance_method:59:5$v1"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "helpers.py#as_instance_method:59:5$b0",
+      "blocks": [
+        {
+          "id": "helpers.py#as_instance_method:59:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "helpers.py",
+            "line": 59,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "helpers.py#as_instance_method:59:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "helpers.py",
+            "line": 61,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "helpers.py#as_instance_method_negative:63:5",
+      "name": "as_instance_method_negative",
+      "module": "helpers.py",
+      "loc": {
+        "file": "helpers.py",
+        "line": 63,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "helpers.py#as_instance_method_negative:63:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "danger",
+          "valueId": "helpers.py#as_instance_method_negative:63:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "safe",
+          "valueId": "helpers.py#as_instance_method_negative:63:5$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "helpers.py#as_instance_method_negative:63:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "helpers.py",
+            "line": 63,
+            "column": 37
+          },
+          "name": "self"
+        },
+        {
+          "id": "helpers.py#as_instance_method_negative:63:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "helpers.py",
+            "line": 63,
+            "column": 43
+          },
+          "name": "danger"
+        },
+        {
+          "id": "helpers.py#as_instance_method_negative:63:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "helpers.py",
+            "line": 63,
+            "column": 51
+          },
+          "name": "safe"
+        },
+        {
+          "id": "helpers.py#as_instance_method_negative:63:5$v3",
+          "kind": "local",
+          "loc": {
+            "file": "helpers.py",
+            "line": 64,
+            "column": 19
+          },
+          "name": "f-string"
+        },
+        {
+          "id": "helpers.py#as_instance_method_negative:63:5$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "helpers.py",
+            "line": 64,
+            "column": 19
+          },
+          "literal": "ping -c 1 "
+        },
+        {
+          "id": "helpers.py#as_instance_method_negative:63:5$v5",
+          "kind": "global",
+          "loc": {
+            "file": "helpers.py",
+            "line": 64,
+            "column": 9
+          },
+          "name": "os"
+        },
+        {
+          "id": "helpers.py#as_instance_method_negative:63:5$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "helpers.py",
+            "line": 64,
+            "column": 9
+          },
+          "name": "os.system"
+        }
+      ],
+      "flows": [
+        {
+          "from": "helpers.py#as_instance_method_negative:63:5$v4",
+          "to": "helpers.py#as_instance_method_negative:63:5$v3",
+          "kind": "template",
+          "loc": {
+            "file": "helpers.py",
+            "line": 64,
+            "column": 19
+          },
+          "block": "helpers.py#as_instance_method_negative:63:5$b0"
+        },
+        {
+          "from": "helpers.py#as_instance_method_negative:63:5$v1",
+          "to": "helpers.py#as_instance_method_negative:63:5$v3",
+          "kind": "template",
+          "loc": {
+            "file": "helpers.py",
+            "line": 64,
+            "column": 19
+          },
+          "block": "helpers.py#as_instance_method_negative:63:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "helpers.py#as_instance_method_negative:63:5$c0",
+          "loc": {
+            "file": "helpers.py",
+            "line": 64,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "os.system",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "helpers.py#as_instance_method_negative:63:5$v3"
+            }
+          ],
+          "resultValueId": "helpers.py#as_instance_method_negative:63:5$v6",
+          "block": "helpers.py#as_instance_method_negative:63:5$b0",
+          "method": "system",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "helpers.py#as_instance_method_negative:63:5$v5"
+        }
+      ],
+      "returns": [
+        "helpers.py#as_instance_method_negative:63:5$v2"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "helpers.py#as_instance_method_negative:63:5$b0",
+      "blocks": [
+        {
+          "id": "helpers.py#as_instance_method_negative:63:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "helpers.py",
+            "line": 63,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "helpers.py#as_instance_method_negative:63:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "helpers.py",
+            "line": 65,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "helpers.py#relay:67:5",
+      "name": "relay",
+      "module": "helpers.py",
+      "loc": {
+        "file": "helpers.py",
+        "line": 67,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "helpers.py#relay:67:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "safe",
+          "valueId": "helpers.py#relay:67:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "danger",
+          "valueId": "helpers.py#relay:67:5$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "helpers.py#relay:67:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "helpers.py",
+            "line": 67,
+            "column": 15
+          },
+          "name": "self"
+        },
+        {
+          "id": "helpers.py#relay:67:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "helpers.py",
+            "line": 67,
+            "column": 21
+          },
+          "name": "safe"
+        },
+        {
+          "id": "helpers.py#relay:67:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "helpers.py",
+            "line": 67,
+            "column": 27
+          },
+          "name": "danger"
+        },
+        {
+          "id": "helpers.py#relay:67:5$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "helpers.py",
+            "line": 70,
+            "column": 16
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "helpers.py#relay:67:5$c0",
+          "loc": {
+            "file": "helpers.py",
+            "line": 70,
+            "column": 16
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "helpers.py#as_instance_method:59:5",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "paramIndex": 1,
+              "valueId": "helpers.py#relay:67:5$v1"
+            },
+            {
+              "index": 1,
+              "paramIndex": 2,
+              "valueId": "helpers.py#relay:67:5$v2"
+            }
+          ],
+          "resultValueId": "helpers.py#relay:67:5$v3",
+          "block": "helpers.py#relay:67:5$b0",
+          "method": "as_instance_method",
+          "argCount": 2,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "helpers.py#relay:67:5$v0"
+        }
+      ],
+      "returns": [
+        "helpers.py#relay:67:5$v3"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "helpers.py#relay:67:5$b0",
+      "blocks": [
+        {
+          "id": "helpers.py#relay:67:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "helpers.py",
+            "line": 67,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "helpers.py#relay:67:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "helpers.py",
+            "line": 70,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "helpers.py#relay_negative:72:5",
+      "name": "relay_negative",
+      "module": "helpers.py",
+      "loc": {
+        "file": "helpers.py",
+        "line": 72,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "helpers.py#relay_negative:72:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "safe",
+          "valueId": "helpers.py#relay_negative:72:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "danger",
+          "valueId": "helpers.py#relay_negative:72:5$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "helpers.py#relay_negative:72:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "helpers.py",
+            "line": 72,
+            "column": 24
+          },
+          "name": "self"
+        },
+        {
+          "id": "helpers.py#relay_negative:72:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "helpers.py",
+            "line": 72,
+            "column": 30
+          },
+          "name": "safe"
+        },
+        {
+          "id": "helpers.py#relay_negative:72:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "helpers.py",
+            "line": 72,
+            "column": 36
+          },
+          "name": "danger"
+        },
+        {
+          "id": "helpers.py#relay_negative:72:5$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "helpers.py",
+            "line": 73,
+            "column": 16
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "helpers.py#relay_negative:72:5$c0",
+          "loc": {
+            "file": "helpers.py",
+            "line": 73,
+            "column": 16
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "helpers.py#as_instance_method_negative:63:5",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "paramIndex": 1,
+              "valueId": "helpers.py#relay_negative:72:5$v1"
+            },
+            {
+              "index": 1,
+              "paramIndex": 2,
+              "valueId": "helpers.py#relay_negative:72:5$v2"
+            }
+          ],
+          "resultValueId": "helpers.py#relay_negative:72:5$v3",
+          "block": "helpers.py#relay_negative:72:5$b0",
+          "method": "as_instance_method_negative",
+          "argCount": 2,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "helpers.py#relay_negative:72:5$v0"
+        }
+      ],
+      "returns": [
+        "helpers.py#relay_negative:72:5$v3"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "helpers.py#relay_negative:72:5$b0",
+      "blocks": [
+        {
+          "id": "helpers.py#relay_negative:72:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "helpers.py",
+            "line": 72,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "helpers.py#relay_negative:72:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "helpers.py",
+            "line": 73,
+            "column": 9
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "app.py#class_method:13:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/class-method",
+        "mount": "app"
+      }
+    },
+    {
+      "functionId": "app.py#class_method_negative:20:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/class-method-negative",
+        "mount": "app"
+      }
+    },
+    {
+      "functionId": "app.py#static_method:27:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/static-method",
+        "mount": "app"
+      }
+    },
+    {
+      "functionId": "app.py#static_method_negative:33:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/static-method-negative",
+        "mount": "app"
+      }
+    },
+    {
+      "functionId": "app.py#explicit_receiver:40:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/explicit-receiver",
+        "mount": "app"
+      }
+    },
+    {
+      "functionId": "app.py#explicit_receiver_negative:47:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/explicit-receiver-negative",
+        "mount": "app"
+      }
+    },
+    {
+      "functionId": "app.py#implicit_receiver:54:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/implicit-receiver",
+        "mount": "app"
+      }
+    },
+    {
+      "functionId": "app.py#implicit_receiver_negative:61:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "GET",
+        "path": "/implicit-receiver-negative",
+        "mount": "app"
+      }
+    }
+  ],
+  "declaredViews": [],
+  "views": [],
+  "renders": []
+}

@@ -316,18 +316,20 @@ func selectsRecord(fn *ir.Function, m model.Model, carried map[string]string) *i
 
 // boundBelow is every parameter of the callee that this call hands the carried secret to.
 //
-// By NAME only, never by position, and that is a measured line rather than a cautious
-// one. A positional index does not survive a receiver: Python declares `self` and `cls`
-// as parameter zero and writes neither at the call site, so `cls._set_password_for_user(
-// email, password, token)` binds its second argument to the callee's `email`. That is
-// exactly what happened -- saleor's `setPassword` came out citing
-// `User.objects.get(email=email)` as a selection keyed by the caller's password, when the
-// row is selected by the email and the token is checked by a generator two statements
-// later. The route does authenticate by token; the sentence the engine wrote about it was
-// false, and a citation nobody can check is worse than silence.
+// By name AND by position. Position was excluded here once, and the reason was real: a
+// positional index did not survive a receiver, because Python declares `self` and `cls`
+// as parameter zero and writes neither at the call site, so
+// `cls._set_password_for_user(email, password, token)` bound its second argument to the
+// callee's `email`. saleor's `setPassword` came out citing `User.objects.get(email=email)`
+// as a selection keyed by the caller's PASSWORD, when the row is selected by the email
+// and the token is checked by a generator two statements later. The route does
+// authenticate by token; the sentence the engine wrote about it was false.
 //
-// The cost is a secret handed down as a bare positional argument -- `recipientByToken(
-// token)` -- which is not followed and is a stated miss.
+// The frontend now states which parameter each written argument becomes (ir.Arg.
+// ParamIndex), so the index means what it says and the exclusion is no longer paying for
+// anything. Restoring it recovers the miss the exclusion recorded -- a secret handed down
+// as a bare positional argument, `recipientByToken(token)` -- and, measured across the ten
+// repositories in the corpus, changes no finding.
 func boundBelow(call *ir.Call, callee *ir.Function, carried map[string]string) []string {
 	var out []string
 	for _, a := range call.Args {
@@ -339,11 +341,8 @@ func boundBelow(call *ir.Call, callee *ir.Function, carried map[string]string) [
 			continue
 		}
 		if key == "" {
-			// The argument IS the secret, written as a keyword argument that names the
-			// parameter it fills.
-			if a.Name == "" {
-				continue
-			}
+			// The argument IS the secret: a keyword names the parameter it fills, and a
+			// position now identifies one too.
 			if p, found := a.BoundParam(callee); found {
 				out = append(out, p.ValueID)
 			}

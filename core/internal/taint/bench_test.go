@@ -201,6 +201,9 @@ var corpora = []string{
 	"django-manager-lookup",
 	"destructured-parameter",
 	"credential-instead-of-session",
+	"python-receiver-binding",
+	"python-call-under-attribute",
+	"django-int-capture",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {

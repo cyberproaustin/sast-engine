@@ -89,9 +89,9 @@ router.delete("/documents/:documentId", async (req, res) => {
   res.json({ deleted: document?.id });
 });
 
-// A STATED MISS rather than a defect in this application: the token is handed down as a
-// bare positional argument and the binding rule follows names only, so the route keeps
-// reporting. See completeByToken for what binding by position measured.
+// SILENT, and a STATED MISS until the binding rule could follow a position. The token is
+// handed down as a bare positional argument; kept under this banner, and in place, so the
+// diff that closed the miss is the one that moved it. See completeByToken.
 router.post("/sign/complete", async (req, res) => {
   res.json(await completeByToken(req.body.token));
 });

@@ -1,0 +1,38 @@
+{
+  "corpus": "python-receiver-binding",
+  "description": "Which parameter an argument becomes, in a language whose methods declare a parameter the call site never writes. Python fills `self` and `cls` from the object the call was written on, so every argument a caller wrote at position N arrives at position N+1 -- and the frontend recorded the written position as the binding position, so `cls._set_password_for_user(email, password, token)` put `password` into `email`. The damage is not a lost finding. saleor's tokenCreate came out saying a cache key built from the client IP was `a record chosen by the caller's email`, because `cls.get_user(info, email, password)` bound `email` onto `info` and the engine then followed `info.context` as the caller's address; that finding is a false sentence about somebody else's code, and it disappears once the binding is right. Four shapes, each with a positive and a negative: a classmethod (bound to the class however it is reached, so the receiver is never written), a `@staticmethod` (no receiver slot at all, so nothing shifts), an explicit receiver `Runner.direct_instance(runner, ...)` (through the CLASS an ordinary method is unbound and the receiver IS the first written argument), and an implicit receiver `self.as_instance_method(...)` one frame below an explicit one, which needs both readings at once. In every positive the shell sits on the parameter the route writes the caller's value into, so binding one place left loses the finding; in every negative it sits on the parameter that same shift would move the caller's value ONTO, so a corpus of positives alone would pass with the parameters merely shuffled. Against the frontend before the fix this corpus scores 2 true positives, 2 false negatives and 2 false positives.",
+  "expected": [
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "helpers.py",
+      "sinkLine": 28,
+      "sourceLabel": "flask.request.args.cmd",
+      "confidence": "high",
+      "note": "a classmethod reached through the class: `cls` is parameter zero and the call writes nothing for it, so the second written argument is the third parameter"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "helpers.py",
+      "sinkLine": 40,
+      "sourceLabel": "flask.request.args.cmd",
+      "confidence": "high",
+      "note": "a @staticmethod has no receiver slot, so the written position IS the parameter position -- included to prove the fix does not shift what must not shift"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "helpers.py",
+      "sinkLine": 52,
+      "sourceLabel": "flask.request.args.cmd",
+      "confidence": "high",
+      "note": "an explicit receiver: `Runner.direct_instance(runner, ...)` reaches an unbound function and writes the receiver itself, so again nothing shifts"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "helpers.py",
+      "sinkLine": 60,
+      "sourceLabel": "flask.request.args.cmd",
+      "confidence": "medium",
+      "note": "an implicit receiver one frame below an explicit one, so both readings have to be right at once; medium because `self.x()` resolves against the class by name and inheritance can still defeat it (ADR-005)"
+    }
+  ]
+}
