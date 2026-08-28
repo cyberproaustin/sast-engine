@@ -201,6 +201,8 @@ var corpora = []string{
 	"django-manager-lookup",
 	"destructured-parameter",
 	"credential-instead-of-session",
+	"django-csrf-state-change",
+	"cross-host-credential-forwarding",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {
