@@ -1,0 +1,22 @@
+{
+  "corpus": "secret-key-identifier",
+  "description": "The destination name decides the role of two equally literal strings. signingKeyId is an identifier for runtime-generated material and cannot sign anything, while signingKey is the material itself and remains a hardcoded-secret finding. The exclusion is limited to an identifier suffix, so a differently ordered name such as idSigningKey is not silently treated as an identifier.",
+  "expected": [
+    {
+      "cwe": "CWE-798",
+      "sinkFile": "app.ts",
+      "sinkLine": 13,
+      "sourceLabel": "\"production-signing-material\"",
+      "confidence": "high",
+      "note": "key material remains reportable; only a destination ending in the identifier role is excluded"
+    },
+    {
+      "cwe": "CWE-798",
+      "sinkFile": "app.ts",
+      "sinkLine": 16,
+      "sourceLabel": "\"identifier-signing-material\"",
+      "confidence": "high",
+      "note": "idSigningKey signs identifiers; id is not a suffix and does not reclassify the material as a key identifier"
+    }
+  ]
+}
