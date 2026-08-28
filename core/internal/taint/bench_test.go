@@ -217,6 +217,7 @@ var corpora = []string{
 	"cross-host-credential-forwarding",
 	"django-app-config-urls",
 	"django-model-view-registry",
+	"django-instance-request",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {

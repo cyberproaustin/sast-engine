@@ -319,9 +319,19 @@ func (l Loc) String() string { return fmt.Sprintf("%s:%d:%d", l.File, l.Line, l.
 
 // Function is the unit of intraprocedural dataflow.
 type Function struct {
-	ID      string   `json:"id"`
-	Name    string   `json:"name"`
-	Module  string   `json:"module"`
+	ID     string `json:"id"`
+	Name   string `json:"name"`
+	Module string `json:"module"`
+	// Class is the class this function is a method of, as the program identifies it:
+	// module and name. Empty for a plain function.
+	//
+	// A fact about the LANGUAGE -- who a method belongs to -- and the reason it is here
+	// is that some frameworks dispatch into a class rather than calling a function.
+	// Django assigns the request to the view INSTANCE before calling the method that
+	// answers, so every method of that class reads the caller's data as `self.request`
+	// and no call edge in the program says so. Which functions share a receiver is the
+	// only fact needed to see that, and nothing else in the IR carried it.
+	Class   string   `json:"class,omitempty"`
 	Loc     Loc      `json:"loc"`
 	Params  []Param  `json:"params"`
 	Values  []*Value `json:"values"`

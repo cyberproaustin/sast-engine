@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.19.0",
+  "irVersion": "0.20.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -441,6 +441,7 @@
       "id": "admin.py#to_python:17:5",
       "name": "to_python",
       "module": "admin.py",
+      "class": "admin.py:SHA1Converter",
       "loc": {
         "file": "admin.py",
         "line": 17,
@@ -517,6 +518,7 @@
       "id": "admin.py#get_queryset:24:5",
       "name": "get_queryset",
       "module": "admin.py",
+      "class": "admin.py:CheckAdmin",
       "loc": {
         "file": "admin.py",
         "line": 24,
@@ -2835,6 +2837,7 @@
       "id": "front/views.py#get:44:5",
       "name": "get",
       "module": "front/views.py",
+      "class": "front/views.py:CheckEdit",
       "loc": {
         "file": "front/views.py",
         "line": 44,
@@ -2962,6 +2965,7 @@
       "id": "front/views.py#post:48:5",
       "name": "post",
       "module": "front/views.py",
+      "class": "front/views.py:CheckEdit",
       "loc": {
         "file": "front/views.py",
         "line": 48,
@@ -3343,6 +3347,7 @@
       "id": "front/views.py#get_queryset:61:5",
       "name": "get_queryset",
       "module": "front/views.py",
+      "class": "front/views.py:CheckViewSet",
       "loc": {
         "file": "front/views.py",
         "line": 61,
@@ -3502,6 +3507,7 @@
       "id": "front/views.py#list:66:5",
       "name": "list",
       "module": "front/views.py",
+      "class": "front/views.py:CheckViewSet",
       "loc": {
         "file": "front/views.py",
         "line": 66,
@@ -3627,6 +3633,7 @@
       "id": "front/views.py#create:70:5",
       "name": "create",
       "module": "front/views.py",
+      "class": "front/views.py:CheckViewSet",
       "loc": {
         "file": "front/views.py",
         "line": 70,

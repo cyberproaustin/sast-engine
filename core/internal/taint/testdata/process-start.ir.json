@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.19.0",
+  "irVersion": "0.20.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -541,6 +541,7 @@
       "id": "hub/app.py#launch:41:5",
       "name": "launch",
       "module": "hub/app.py",
+      "class": "hub/app.py:Hub",
       "loc": {
         "file": "hub/app.py",
         "line": 41,
@@ -758,6 +759,7 @@
       "id": "hub/app.py#start_async:45:5",
       "name": "start_async",
       "module": "hub/app.py",
+      "class": "hub/app.py:Hub",
       "loc": {
         "file": "hub/app.py",
         "line": 45,
@@ -837,6 +839,7 @@
       "id": "hub/app.py#initialize:48:5",
       "name": "initialize",
       "module": "hub/app.py",
+      "class": "hub/app.py:Hub",
       "loc": {
         "file": "hub/app.py",
         "line": 48,
@@ -947,6 +950,7 @@
       "id": "hub/app.py#report_boot:57:5",
       "name": "report_boot",
       "module": "hub/app.py",
+      "class": "hub/app.py:Hub",
       "loc": {
         "file": "hub/app.py",
         "line": 57,
@@ -1094,6 +1098,7 @@
       "id": "hub/app.py#init_secrets:65:5",
       "name": "init_secrets",
       "module": "hub/app.py",
+      "class": "hub/app.py:Hub",
       "loc": {
         "file": "hub/app.py",
         "line": 65,

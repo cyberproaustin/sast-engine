@@ -32,14 +32,14 @@ class RangeUploadView(FormView):
     that acts on the request was outside the route entirely. 28 of oscar's registrations
     are written this way. It is now two: a GET on the context and a POST on `form_valid`.
 
-    NEITHER HALF CARRIES A FINDING, and that is a fact about the engine rather than about
-    this class. A Django class-based view reaches the request through `self.request`, a
-    property of the view instance, and the taint model sources a handler's `request`
-    PARAMETER and route captures and not that -- so a hook-shaped handler has no caller
-    data in it however it is reached. What the two entry points buy today is a surface with
-    the right verbs at the right address; what they will buy is every one of these bodies,
-    the moment `self.request` is a source. The corpus asserts the enumeration and claims no
-    finding, which is the honest half of it.
+    Neither half carried a finding while `self.request` was not a source: a Django
+    class-based view reaches the request through a property of the view INSTANCE, the model
+    sourced a handler's `request` PARAMETER and its route captures, and so a hook-shaped
+    handler had the right address, the right verb and no caller data in it. `form_valid` is
+    the POSITIVE that closes that, and it is the same command injection any of the
+    parameter-shaped views above would be reported for. The GET half stays silent for a
+    reason that has nothing to do with the source: it reads `self.request.GET` into a
+    template context, and a context is not an interpreter.
     """
 
     form_class = None

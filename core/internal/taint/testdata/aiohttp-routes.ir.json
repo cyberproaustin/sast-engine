@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.19.0",
+  "irVersion": "0.20.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -561,6 +561,7 @@
       "id": "sqli/dao.py#create:3:5",
       "name": "create",
       "module": "sqli/dao.py",
+      "class": "sqli/dao.py:Student",
       "loc": {
         "file": "sqli/dao.py",
         "line": 3,

@@ -80,6 +80,15 @@ const (
 	// that name -- so `self`, the request object, and the `form` a lifecycle hook is
 	// handed are all untouched, with no list of names to maintain.
 	MatchRoutePathParam = "route-path-param"
+	// MatchViewInstanceProperty: a property read on the RECEIVER of a method whose CLASS
+	// a route reaches -- `self.request.GET` in a Django class-based view.
+	//
+	// Every other strategy here asks where a value entered THIS FUNCTION. This one cannot,
+	// because the framework does not hand the request to the function: Django's dispatch
+	// assigns it to the view instance and then calls a method that takes no request at
+	// all. The class is the unit the framework serves, so the class is the unit the rule
+	// asks about.
+	MatchViewInstanceProperty = "view-instance-property"
 	// MatchProperty classifies a property by what the property itself is named, without
 	// claiming anything about the object it was read from. Used only for values whose
 	// role is stated by the leaf -- a stored token or signature compared with caller
@@ -1217,6 +1226,31 @@ var cookieAuthorityNames = append([]string{"user", "userid", "username", "auth",
 // because the comparison is exact.
 var weakDigest = []string{"md5", "sha1", "md4", "md2", "ripemd", "sha"}
 
+// djangoRequestPaths is what a Django request exposes of what the caller sent: the two
+// form dictionaries named after the verbs that carry them, the uploads, the cookies, the
+// raw headers under both spellings, the body, and the request line -- which is
+// caller-chosen too, because a handler that builds a link back to itself reads the path
+// that was asked for.
+//
+// Written once because a request is one object. It arrives in three places -- a function
+// view's first parameter, a method's second, and `self.request` on a view the framework
+// dispatched -- and the three rules below differ in WHERE they look and in nothing else.
+// Three copies of this list is how the second and third quietly stop meaning the same
+// thing as the first.
+var djangoRequestPaths = []string{"GET", "POST", "FILES", "COOKIES", "META", "body", "headers",
+	"path", "path_info", "get_full_path"}
+
+// under prefixes each path with an attribute of the object the paths belong to, so a rule
+// can name the same fields one hop further in. `under("request", ...)` turns the request's
+// own fields into what a view instance holding that request exposes.
+func under(base string, paths []string) []string {
+	out := make([]string, len(paths))
+	for i, p := range paths {
+		out[i] = base + "." + p
+	}
+	return out
+}
+
 func Builtin() Model {
 	m := builtin()
 	// Compiled once, because this kind runs against every literal in the program and a
@@ -1389,11 +1423,7 @@ func builtin() Model {
 						Framework:  "django",
 						EntryKind:  "http-route",
 						ParamIndex: 0,
-						Paths: []string{"GET", "POST", "FILES", "COOKIES", "META", "body", "headers",
-							// The request line, for the reason it is listed for every other
-							// framework here: a handler that builds a link back to itself
-							// reads the path the caller asked for.
-							"path", "path_info", "get_full_path"},
+						Paths:      djangoRequestPaths,
 					},
 					{
 						// The same request, one parameter along. A Django class-based view
@@ -1405,8 +1435,31 @@ func builtin() Model {
 						Framework:  "django",
 						EntryKind:  "http-route",
 						ParamIndex: 1,
-						Paths: []string{"GET", "POST", "FILES", "COOKIES", "META", "body", "headers",
-							"path", "path_info", "get_full_path"},
+						Paths:      djangoRequestPaths,
+					},
+					// The same request again, and this time it is not a parameter at all.
+					//
+					// Django's generic views are dispatched by the framework, which assigns
+					// the request to the INSTANCE and then calls a hook that takes no
+					// request: `get_context_data(self)`, `form_valid(self, form)`,
+					// `get_queryset(self)`. 97 of django-oscar's 177 routes anchor to one of
+					// those three, so they had the right address, the right verb, and no
+					// caller data in them -- every rule silent on more than half the
+					// application, and not because a rule was missing.
+					//
+					// The paths are the parameter rules' own, one segment deeper, and that
+					// is the whole of the precision argument: a Django request is the same
+					// object wherever it arrives, so `self.request.user` is who the
+					// framework AUTHENTICATED here exactly as `request.user` is there. It is
+					// also the shape this would get wrong -- `user` is the most common thing
+					// read off `self.request` in every repository measured (oscar 90,
+					// wagtail 308, plane 130), and seeding the request OBJECT rather than
+					// these fields of it would classify every one of them as caller data.
+					{
+						Match:     MatchViewInstanceProperty,
+						Framework: "django",
+						EntryKind: "http-route",
+						Paths:     under("request", djangoRequestPaths),
 					},
 					// The captures a route declares, wherever the framework puts them --
 					// and two of the three Python frameworks here put them in the

@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.19.0",
+  "irVersion": "0.20.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -3669,6 +3669,7 @@
       "id": "store.py#__init__:11:5",
       "name": "__init__",
       "module": "store.py",
+      "class": "store.py:Account",
       "loc": {
         "file": "store.py",
         "line": 11,

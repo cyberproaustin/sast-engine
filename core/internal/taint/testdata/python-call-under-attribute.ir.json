@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.19.0",
+  "irVersion": "0.20.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -1216,6 +1216,7 @@
       "id": "helpers.py#__init__:18:5",
       "name": "__init__",
       "module": "helpers.py",
+      "class": "helpers.py:Parsed",
       "loc": {
         "file": "helpers.py",
         "line": 18,

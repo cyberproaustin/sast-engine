@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.19.0",
+  "irVersion": "0.20.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -2849,6 +2849,7 @@
       "id": "context.py#__init__:11:5",
       "name": "__init__",
       "module": "context.py",
+      "class": "context.py:Repository",
       "loc": {
         "file": "context.py",
         "line": 11,
@@ -2923,6 +2924,7 @@
       "id": "context.py#is_tenant_admin:14:5",
       "name": "is_tenant_admin",
       "module": "context.py",
+      "class": "context.py:Repository",
       "loc": {
         "file": "context.py",
         "line": 14,
@@ -3039,6 +3041,7 @@
       "id": "context.py#read_record:17:5",
       "name": "read_record",
       "module": "context.py",
+      "class": "context.py:Repository",
       "loc": {
         "file": "context.py",
         "line": 17,
@@ -3226,6 +3229,7 @@
       "id": "context.py#update_record:20:5",
       "name": "update_record",
       "module": "context.py",
+      "class": "context.py:Repository",
       "loc": {
         "file": "context.py",
         "line": 20,
@@ -3302,6 +3306,7 @@
       "id": "context.py#has:25:5",
       "name": "has",
       "module": "context.py",
+      "class": "context.py:Cache",
       "loc": {
         "file": "context.py",
         "line": 25,
@@ -3410,6 +3415,7 @@
       "id": "context.py#__init__:30:5",
       "name": "__init__",
       "module": "context.py",
+      "class": "context.py:RequestContext",
       "loc": {
         "file": "context.py",
         "line": 30,

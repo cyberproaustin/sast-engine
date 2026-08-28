@@ -84,6 +84,52 @@ import "strings"
 // view inherits `get(self, request)` from a generic that spells it out. Making
 // `self.request` a source is a taint-model question and is what those 97 are waiting on.
 //
+// --- `self.request` is a source now, and the unit is the CLASS -------------------------
+//
+// It is answered, the shape is covered, and it moved NOTHING. All three facts are the
+// measurement and the third is the one worth writing down.
+//
+// The rule seeds a property read on the RECEIVER of a method whose class a route reaches
+// (MatchViewInstanceProperty), over the paths the parameter rules already use one segment
+// deeper: `self.request.GET`, `.POST`, `.FILES`, `.COOKIES`, `.META`, `.body`, `.headers`
+// and the request line. The unit is the class rather than the entry function because the
+// entry function answers for almost nothing: oscar holds 58 reads of a caller-supplied
+// field off `self.request`, 5 of them in a method a route names and 38 more in ANOTHER
+// method of the same routed class -- `get_form_kwargs`, `get_success_url`, `form_invalid`,
+// `process_all_forms` -- which Django calls while serving the request and which no call
+// edge in the program joins to the handler. The IR carries `function.class` for this and
+// for nothing else (IR 0.20.0); it is a fact about the language, not about Django.
+//
+// What it seeds, per repository: oscar 43, wagtail 30, plane 3, netbox 0 (netbox spells
+// its request DRF's way, `query_params` and `data`, which no Django rule here names --
+// see the limit below). What it reports: oscar 6 findings before and 6 after, wagtail 2
+// and 2, plane 21 and 21, defectdojo 21 and 21, mealie 1 and 1, netbox 8 and 8 -- and the
+// findings themselves, not just the counts, are identical lists. The whole batch-2 corpus
+// is unchanged as well, all ten of them, with every entry-point count held.
+//
+// Zero is a real answer here and the control says so. Removing the precondition entirely
+// -- seeding `self.request.<field>` in EVERY class of the program, routed or not, which is
+// the most permissive version of this rule that could be written -- also produces 6 on
+// oscar, 2 on wagtail and 21 on plane. So the route requirement costs no recall on any of
+// them, and what it buys is that a bound Celery task's `self.request.retries` and a
+// django-tables2 `Table.render_name` are not caller data. These applications read the
+// query string into forms, filtersets and querysets, and the paths that reach a shell, a
+// SQL string, a template or a redirect are the ones written with a `request` parameter,
+// which was already covered. The fixture (`testdata/django-instance-request`) asserts the
+// source fires, and production says these six programs do not misuse it.
+//
+// Three limits, each measured rather than guessed. A BASE CLASS OR MIXIN nothing registers
+// directly holds 63 of wagtail's 93 reads and 15 of oscar's 58 -- `BaseListingView`,
+// `CreationFormMixin`, `SpreadsheetExportMixin` -- and covering them needs the base chain,
+// which the control above says would have bought nothing on these six. An ALIASED request
+// (`request = self.request`, then `request.GET`) is not matched, and there are 9 of those
+// across all six. And DRF's own spellings, `request.data` and `request.query_params`, are
+// absent from the Django path list on the PARAMETER rules too. That one was measured
+// rather than left open: adding both spellings and rescanning the two repositories that
+// use them most -- plane, 446 occurrences, and defectdojo, 54 -- changes neither, 21 and
+// 21, while a purpose-built viewset shows the source firing on both. A real hole in the
+// model with nothing behind it here, so it is recorded and not shipped.
+//
 // A DECORATOR REGISTRY READ BACK AT URL-BUILD TIME. A netbox view binds itself to a model
 // with `@register_model_view(Region, 'edit')`; `dcim/urls.py` asks for the same key with
 // `include(get_model_urls('dcim', 'region'))`. Two sites name one key and nothing between

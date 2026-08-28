@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.19.0",
+  "irVersion": "0.20.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -1018,6 +1018,7 @@
       "id": "shop/views/orders.py#post:9:5",
       "name": "post",
       "module": "shop/views/orders.py",
+      "class": "shop/views/orders.py:RefundView",
       "loc": {
         "file": "shop/views/orders.py",
         "line": 9,

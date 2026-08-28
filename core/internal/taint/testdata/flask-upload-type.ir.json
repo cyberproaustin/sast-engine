@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.19.0",
+  "irVersion": "0.20.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -1366,6 +1366,7 @@
       "id": "app.py#__init__:50:5",
       "name": "__init__",
       "module": "app.py",
+      "class": "app.py:Note",
       "loc": {
         "file": "app.py",
         "line": 50,
@@ -1440,6 +1441,7 @@
       "id": "app.py#save:53:5",
       "name": "save",
       "module": "app.py",
+      "class": "app.py:Note",
       "loc": {
         "file": "app.py",
         "line": 53,

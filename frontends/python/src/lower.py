@@ -25,7 +25,7 @@ from registries import (ATTR_VIEW, ConfigClass, ConfigRegistry, ModelViewRegistr
 from templates import index_templates, resolve_template
 from urlgraph import ModuleIndex, SymbolIndex, UrlGraph
 
-IR_VERSION = "0.19.0"
+IR_VERSION = "0.20.0"
 FRONTEND_VERSION = "0.1.0"
 
 FUNCTION_NODES = (ast.FunctionDef, ast.AsyncFunctionDef)
@@ -2510,6 +2510,18 @@ class FunctionLowerer:
             "id": self.id,
             "name": self.name,
             "module": self.mod.module,
+            # Which class this method belongs to, spelled the way every other table in
+            # this frontend spells a class: module and name.
+            #
+            # A fact about the language and not about a framework, and the core needs it
+            # because a Django class-based view is dispatched by the framework: the
+            # request is assigned to the INSTANCE, so `self.request.GET` is caller data in
+            # `get_form_kwargs` exactly as it is in the hook a route anchors to. Measured
+            # on django-oscar, 58 methods read a caller-supplied field off `self.request`
+            # and 5 of them are the function a route names -- so a question asked about the
+            # entry FUNCTION answers for a tenth of what the class actually reaches.
+            **({"class": f"{self.mod.module}:{self.enclosing_class}"}
+               if self.enclosing_class else {}),
             "loc": loc_of(self.mod.module, self.node) if not self.is_module else {"file": self.mod.module, "line": 1, "column": 1},
             "params": self.params,
             "values": self.values,

@@ -1,0 +1,30 @@
+{
+  "corpus": "django-instance-request",
+  "description": "A Django class-based view is dispatched by the framework, which assigns the request to the INSTANCE and then calls a hook that takes no request: `get_queryset(self)`, `get_context_data(self, **kwargs)`, `form_valid(self, form)`. 97 of django-oscar's 177 routes anchor to one of those three. Route enumeration had already put every one of them on the surface at the right address with the right verb and the findings did not move at all -- 6 before, 6 after -- because a source model that reads an entry point's PARAMETERS finds nothing in a method that has none. Two of the positives are that hook shape: a query string reaching a shell from `get_queryset`, and a form body reaching SQL from `form_valid`, neither of which any parameter rule can name. The third is why the unit is the CLASS and not the method a route names: `get_breadcrumbs` is not an entry point, nothing in the program calls it, and Django runs it while serving the request that reached `get_queryset` -- which is where the caller's data actually lives, 38 of oscar's 58 reads against 5 in the methods the routes name. The three negatives are the whole precision argument. `self.request.user` is who Django AUTHENTICATED rather than what the caller sent, and it is the most common thing read off `self.request` in every repository measured (oscar 90, wagtail 308, plane 130) -- so the source is the request's caller-supplied FIELDS, exactly the list the parameter rules already use, and never the request object. `UnroutedSearchView` is byte for byte the body of the first positive with no registration, because what makes `self` a view holding a request is the route and not the method name. And `ReportJob` is a plain class with an attribute called `request`, which is how a bound Celery task is written -- plane holds five that read `self.request.retries` -- so a rule that matched the word rather than the registration would report a scheduled job as a route.",
+  "expected": [
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "front/views.py",
+      "sinkLine": 33,
+      "sourceLabel": "self.request.GET",
+      "confidence": "high",
+      "note": "the query string reaching a shell out of `get_queryset(self)`, which takes no request parameter at all"
+    },
+    {
+      "cwe": "CWE-89",
+      "sinkFile": "front/views.py",
+      "sinkLine": 51,
+      "sourceLabel": "self.request.POST",
+      "confidence": "medium",
+      "note": "Django's own `post` runs the form and calls `form_valid(self, form)`; `form` is the only parameter and it is not the request"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "front/views.py",
+      "sinkLine": 75,
+      "sourceLabel": "self.request.GET",
+      "confidence": "high",
+      "note": "the reason the unit is the CLASS: nothing routes to `get_breadcrumbs` and nothing in this program calls it, and Django runs it while serving the request that reached `get_queryset`. 38 of oscar's 58 reads are this shape and 5 are in the method the route names"
+    }
+  ]
+}

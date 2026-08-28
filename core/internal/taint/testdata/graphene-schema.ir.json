@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.19.0",
+  "irVersion": "0.20.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -634,6 +634,7 @@
       "id": "mutations.py#perform_mutation:29:5",
       "name": "perform_mutation",
       "module": "mutations.py",
+      "class": "mutations.py:ExportReport",
       "loc": {
         "file": "mutations.py",
         "line": 29,
@@ -879,6 +880,7 @@
       "id": "mutations.py#perform_mutation:44:5",
       "name": "perform_mutation",
       "module": "mutations.py",
+      "class": "mutations.py:RebuildReports",
       "loc": {
         "file": "mutations.py",
         "line": 44,
@@ -1079,6 +1081,7 @@
       "id": "mutations.py#perform_mutation:66:5",
       "name": "perform_mutation",
       "module": "mutations.py",
+      "class": "mutations.py:ArchiveReport",
       "loc": {
         "file": "mutations.py",
         "line": 66,
@@ -2177,6 +2180,7 @@
       "id": "schema.py#resolve_report:32:5",
       "name": "resolve_report",
       "module": "schema.py",
+      "class": "schema.py:ReportQueries",
       "loc": {
         "file": "schema.py",
         "line": 32,

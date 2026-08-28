@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.19.0",
+  "irVersion": "0.20.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -472,6 +472,7 @@
       "id": "handlers/api.py#post:8:5",
       "name": "post",
       "module": "handlers/api.py",
+      "class": "handlers/api.py:SearchAPIHandler",
       "loc": {
         "file": "handlers/api.py",
         "line": 8,
@@ -706,6 +707,7 @@
       "id": "handlers/api.py#parse_body:19:5",
       "name": "parse_body",
       "module": "handlers/api.py",
+      "class": "handlers/api.py:ReportHandler",
       "loc": {
         "file": "handlers/api.py",
         "line": 19,
@@ -805,6 +807,7 @@
       "id": "handlers/api.py#post:22:5",
       "name": "post",
       "module": "handlers/api.py",
+      "class": "handlers/api.py:ReportHandler",
       "loc": {
         "file": "handlers/api.py",
         "line": 22,
@@ -1175,6 +1178,7 @@
       "id": "handlers/base.py#parse_body:16:5",
       "name": "parse_body",
       "module": "handlers/base.py",
+      "class": "handlers/base.py:APIHandler",
       "loc": {
         "file": "handlers/base.py",
         "line": 16,
@@ -1308,6 +1312,7 @@
       "id": "handlers/base.py#lookup:23:5",
       "name": "lookup",
       "module": "handlers/base.py",
+      "class": "handlers/base.py:APIHandler",
       "loc": {
         "file": "handlers/base.py",
         "line": 23,
