@@ -1087,6 +1087,8 @@ func (e *engine) seedSources(prior map[string]*engine) {
 			e.seedByFunctionParamProperty(rule)
 		case model.MatchRoutePathParam:
 			e.seedByRoutePathParam(rule)
+		case model.MatchViewInstanceProperty:
+			e.seedByViewInstanceProperty(rule)
 		default:
 			e.seedByEntryParamProperty(rule)
 		}
@@ -1827,6 +1829,103 @@ func (e *engine) seedByRoutePathParam(rule model.SourceRule) {
 				loc:        at,
 				resolution: ir.Resolved,
 				converter:  converter,
+			})
+		}
+	}
+}
+
+// seedByViewInstanceProperty marks caller data that arrives on the view INSTANCE rather
+// than in any parameter.
+//
+// Django's generic views are dispatched by the framework: `View.dispatch` assigns the
+// request to the object and only then calls the method that answers, so the methods an
+// application actually writes take no request -- `get_queryset(self)`,
+// `get_context_data(self, **kwargs)`, `form_valid(self, form)` -- and reach the caller's
+// data as `self.request.GET`. Every rule in this engine was silent on that shape, which is
+// how django-oscar sat at 6 findings across 192 correctly-addressed routes.
+//
+// The unit is the CLASS and not the entry function, and that is the measurement rather
+// than a preference. oscar has 58 reads of a caller-supplied field off `self.request`; 5
+// are in a method a route names and 38 more are in another method of the same class --
+// `get_form_kwargs`, `get_success_url`, `form_invalid`, `process_all_forms`. Django calls
+// every one of them while serving the request and the call graph joins almost none of them
+// to the handler, so a question asked about the entry FUNCTION answers for a tenth of what
+// the route reaches.
+//
+// The route is the whole of the precondition. A class nothing registers is never
+// dispatched, so `self` there is not a view and holds no request; a class that is not a
+// view at all never had one -- Celery's bound tasks read `self.request.retries` off a task
+// context, and plane holds five. Neither reaches this rule, because neither is an entry
+// point.
+func (e *engine) seedByViewInstanceProperty(rule model.SourceRule) {
+	// Which classes a route reaches, and which entry point to name when a method of one
+	// carries a finding. A view routinely answers at several addresses, so the choice is
+	// made once and made the same way every run: the entry point anchored at THIS method
+	// if there is one, and otherwise the first the frontend enumerated for the class.
+	routed := map[string]*ir.EntryPoint{}
+	for i := range e.ix.IR.EntryPoints {
+		ep := &e.ix.IR.EntryPoints[i]
+		if rule.EntryKind != ep.Kind {
+			continue
+		}
+		if rule.Framework != "" && ep.Framework != "" && rule.Framework != ep.Framework {
+			continue
+		}
+		fn := e.ix.FuncByID[ep.FunctionID]
+		if fn == nil || fn.Class == "" {
+			continue
+		}
+		if _, seen := routed[fn.Class]; !seen {
+			routed[fn.Class] = ep
+		}
+	}
+	if len(routed) == 0 {
+		return
+	}
+	for _, fn := range e.ix.IR.Functions {
+		ep, ok := routed[fn.Class]
+		if !ok {
+			continue
+		}
+		// The entry point anchored at THIS method, when the rule would have selected it
+		// too. A method a route names should be reported under its own address rather
+		// than under a sibling's -- the class-wide choice is for the methods no route
+		// names, which is what the class scope exists for.
+		if own, is := e.ix.EntryByFunc[fn.ID]; is && own.Kind == rule.EntryKind &&
+			(rule.Framework == "" || own.Framework == "" || rule.Framework == own.Framework) {
+			ep = own
+		}
+		// The receiver, which is where a method's instance always is.
+		recv, ok := paramAt(fn, 0)
+		if !ok {
+			continue
+		}
+		for _, v := range fn.Values {
+			if v.Kind != ir.ValueProperty || v.Base != recv.ValueID {
+				continue
+			}
+			if !matchesPath(v.Path, rule.Paths) || !leafMatches(v.Path, rule) {
+				continue
+			}
+			label := fmt.Sprintf("%s.%s", recv.Name, v.Path)
+			e.seeds[v.ID] = seed{
+				label:      label,
+				entryPoint: describeEntry(*ep),
+				method:     ep.Detail["method"],
+				path:       ep.Detail["path"],
+				// Anchored by construction: the class this method belongs to is one an
+				// enumerated route reaches, which is what puts a request on the instance
+				// in the first place.
+				anchored:         true,
+				unresolvedInputs: ep.UnresolvedParams,
+				loc:              ep.Loc,
+				identityInjected: injectsIdentity(e.ix, ep),
+				trust:            ep.TrustLevel(),
+			}
+			e.markTainted(v.ID, edge{
+				desc:       fmt.Sprintf("source: %s (%s)", label, e.class.Label),
+				loc:        v.Loc,
+				resolution: ir.Resolved,
 			})
 		}
 	}
@@ -3980,10 +4079,26 @@ func displaySymbol(c ir.Callee) string {
 	return "<unresolved call>"
 }
 
+// matchesPath reports whether an access path begins with one of these prefixes, counted
+// in SEGMENTS rather than characters.
+//
+// A prefix of more than one segment is what lets a rule name a request that arrives on
+// the instance instead of in a parameter. A Django class-based view is dispatched by the
+// framework, which assigns the request to the view before calling the handler, so the
+// hook reads `self.request.GET` and the frontend lowers that whole chain as ONE property
+// of `self` with the path `request.GET`. Matching only the head segment could say
+// `self.request` -- the entire request object, `user` and `session` and all -- or nothing,
+// and neither is the claim the model wants to make.
+//
+// Segment-wise, so `request.GET` matches `request.GET` and `request.GET.tail` and never
+// `request.GETTER`. For a single-segment prefix this is exactly what the head comparison
+// it replaced did.
 func matchesPath(path string, prefixes []string) bool {
-	head, _, _ := strings.Cut(path, ".")
 	for _, p := range prefixes {
-		if head == p {
+		if path == p {
+			return true
+		}
+		if len(path) > len(p) && path[len(p)] == '.' && path[:len(p)] == p {
 			return true
 		}
 	}

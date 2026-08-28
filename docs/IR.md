@@ -75,6 +75,22 @@ A function is the unit of intraprocedural dataflow.
 }
 ```
 
+#### `class` (added in 0.20.0)
+
+The class a function is a method of, as the program identifies it — module and name
+(`"src/views.py:OrderSearchView"`). Absent for a plain function, and absent entirely from
+a frontend that does not state it.
+
+A fact about the LANGUAGE, and it is here because some frameworks dispatch into a class
+rather than calling a function. Django's `View.dispatch` assigns the request to the view
+INSTANCE and then calls a method that takes no request at all — `get_queryset(self)`,
+`form_valid(self, form)` — so the caller's data is `self.request.GET` in every method of
+that class and no call edge in the program says so. Which functions share a receiver is
+the only fact needed to see that, and nothing else in the IR carried it.
+
+Deliberately not a claim about inheritance: it names the class the method is WRITTEN in,
+which is what the frontend can read without resolving a base chain.
+
 ### Values
 
 A value is a dataflow node. Taint is a property of values.

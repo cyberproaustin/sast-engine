@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.19.0",
+  "irVersion": "0.20.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -256,6 +256,7 @@
       "id": "permissions.py#get_workspace_id:20:5",
       "name": "get_workspace_id",
       "module": "permissions.py",
+      "class": "permissions.py:RolePermission",
       "loc": {
         "file": "permissions.py",
         "line": 20,
@@ -422,6 +423,7 @@
       "id": "permissions.py#has_permission:23:5",
       "name": "has_permission",
       "module": "permissions.py",
+      "class": "permissions.py:RolePermission",
       "loc": {
         "file": "permissions.py",
         "line": 23,
@@ -704,6 +706,7 @@
       "id": "permissions.py#has_permission:41:5",
       "name": "has_permission",
       "module": "permissions.py",
+      "class": "permissions.py:IsWorkspaceViewer",
       "loc": {
         "file": "permissions.py",
         "line": 41,
@@ -953,6 +956,7 @@
       "id": "permissions.py#has_object_permission:58:5",
       "name": "has_object_permission",
       "module": "permissions.py",
+      "class": "permissions.py:IsOwner",
       "loc": {
         "file": "permissions.py",
         "line": 58,
@@ -1128,6 +1132,7 @@
       "id": "permissions.py#has_permission:71:5",
       "name": "has_permission",
       "module": "permissions.py",
+      "class": "permissions.py:IsSignedIn",
       "loc": {
         "file": "permissions.py",
         "line": 71,
@@ -4134,6 +4139,7 @@
       "id": "views.py#get_queryset:48:5",
       "name": "get_queryset",
       "module": "views.py",
+      "class": "views.py:DocumentList",
       "loc": {
         "file": "views.py",
         "line": 48,
@@ -4316,6 +4322,7 @@
       "id": "views.py#perform_create:51:5",
       "name": "perform_create",
       "module": "views.py",
+      "class": "views.py:DocumentList",
       "loc": {
         "file": "views.py",
         "line": 51,
@@ -4466,6 +4473,7 @@
       "id": "views.py#get_queryset:82:5",
       "name": "get_queryset",
       "module": "views.py",
+      "class": "views.py:FolderDetail",
       "loc": {
         "file": "views.py",
         "line": 82,
@@ -4648,6 +4656,7 @@
       "id": "views.py#get_queryset:126:5",
       "name": "get_queryset",
       "module": "views.py",
+      "class": "views.py:TaskViewSet",
       "loc": {
         "file": "views.py",
         "line": 126,
@@ -4807,6 +4816,7 @@
       "id": "views.py#get_queryset:142:5",
       "name": "get_queryset",
       "module": "views.py",
+      "class": "views.py:RevisionListBase",
       "loc": {
         "file": "views.py",
         "line": 142,
@@ -4989,6 +4999,7 @@
       "id": "views.py#get_queryset:165:5",
       "name": "get_queryset",
       "module": "views.py",
+      "class": "views.py:CommentDetailBase",
       "loc": {
         "file": "views.py",
         "line": 165,
@@ -5171,6 +5182,7 @@
       "id": "views.py#get_queryset:193:5",
       "name": "get_queryset",
       "module": "views.py",
+      "class": "views.py:TagList",
       "loc": {
         "file": "views.py",
         "line": 193,
@@ -5353,6 +5365,7 @@
       "id": "views.py#delete:196:5",
       "name": "delete",
       "module": "views.py",
+      "class": "views.py:TagList",
       "loc": {
         "file": "views.py",
         "line": 196,
@@ -5681,6 +5694,7 @@
       "id": "views.py#get_queryset:210:5",
       "name": "get_queryset",
       "module": "views.py",
+      "class": "views.py:LabelList",
       "loc": {
         "file": "views.py",
         "line": 210,
@@ -5863,6 +5877,7 @@
       "id": "views.py#delete:213:5",
       "name": "delete",
       "module": "views.py",
+      "class": "views.py:LabelList",
       "loc": {
         "file": "views.py",
         "line": 213,
@@ -6242,6 +6257,7 @@
       "id": "views.py#get_queryset:230:5",
       "name": "get_queryset",
       "module": "views.py",
+      "class": "views.py:AttachmentList",
       "loc": {
         "file": "views.py",
         "line": 230,
@@ -6424,6 +6440,7 @@
       "id": "views.py#delete:233:5",
       "name": "delete",
       "module": "views.py",
+      "class": "views.py:AttachmentList",
       "loc": {
         "file": "views.py",
         "line": 233,
@@ -6780,6 +6797,7 @@
       "id": "views.py#workspace:250:5",
       "name": "workspace",
       "module": "views.py",
+      "class": "views.py:ShareList",
       "loc": {
         "file": "views.py",
         "line": 250,
@@ -6941,6 +6959,7 @@
       "id": "views.py#get_queryset:253:5",
       "name": "get_queryset",
       "module": "views.py",
+      "class": "views.py:ShareList",
       "loc": {
         "file": "views.py",
         "line": 253,
@@ -7101,6 +7120,7 @@
       "id": "views.py#delete:256:5",
       "name": "delete",
       "module": "views.py",
+      "class": "views.py:ShareList",
       "loc": {
         "file": "views.py",
         "line": 256,

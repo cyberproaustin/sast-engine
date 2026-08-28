@@ -1,0 +1,2576 @@
+{
+  "irVersion": "0.20.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi",
+        "django",
+        "drf",
+        "graphene",
+        "tornado"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "front/__init__.py",
+      "path": "front/__init__.py"
+    },
+    {
+      "id": "front/views.py",
+      "path": "front/views.py"
+    },
+    {
+      "id": "urls.py",
+      "path": "urls.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "front/__init__.py#<module>:0:0",
+      "name": "<module>",
+      "module": "front/__init__.py",
+      "loc": {
+        "file": "front/__init__.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "front/__init__.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "front/__init__.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "front/__init__.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "front/views.py#<module>:0:0",
+      "name": "<module>",
+      "module": "front/views.py",
+      "loc": {
+        "file": "front/views.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "front/views.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "A Django class-based view reads its input from `self.request`, and nothing hands it in.\n\nDjango's generic views are dispatched by the framework. `View.dispatch` assigns the\nrequest to the INSTANCE and only then calls the method that answers, so the method a\nsubclass actually writes takes no request at all: `get_queryset(self)`,\n`get_context_data(self, **kwargs)`, `form_valid(self, form)`. The caller's data is\n`self.request.GET` and `self.request.POST`, one hop off the receiver.\n\nMeasured on django-oscar: 97 of its 177 routes anchor to one of those three hooks. Route\nenumeration had already put every one of them on the surface at the right address with the\nright verb, and the findings did not move at all -- 6 before, 6 after -- because a source\nmodel that reads an entry point's PARAMETERS finds nothing in a method that has none.\n\nWhat decides it is the ROUTE. `self.request` on a class no URLconf registers is not caller\ndata, and `self.request` on something that is not a view at all is not even a request:\nCelery's bound tasks read `self.request.retries` and `self.request.is_eager` off a task\ncontext, and plane holds five of them.\n"
+        },
+        {
+          "id": "front/views.py#<module>:0:0$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 27,
+            "column": 5
+          },
+          "literal": "POSITIVE. `get_queryset` takes `self` and nothing else."
+        },
+        {
+          "id": "front/views.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 37,
+            "column": 5
+          },
+          "literal": "POSITIVE. Django's own `post` runs the form and calls `form_valid`."
+        },
+        {
+          "id": "front/views.py#<module>:0:0$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 39,
+            "column": 18
+          }
+        },
+        {
+          "id": "front/views.py#<module>:0:0$v4",
+          "kind": "local",
+          "loc": {
+            "file": "front/views.py",
+            "line": 39,
+            "column": 5
+          },
+          "name": "form_class"
+        },
+        {
+          "id": "front/views.py#<module>:0:0$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 56,
+            "column": 5
+          },
+          "literal": "Which field, and which method. Both halves of the rule, on one routed class."
+        },
+        {
+          "id": "front/views.py#<module>:0:0$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 79,
+            "column": 5
+          },
+          "literal": "NEGATIVE. Byte for byte the body of `OrderSearchView`, and no URLconf names it.\n\n    A class nobody routes to is never dispatched, so its `self` is never a view holding a\n    request. This is the whole precondition: the source is not \"a method called\n    get_queryset\", it is \"a method of a class a route reaches\".\n    "
+        },
+        {
+          "id": "front/views.py#<module>:0:0$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 92,
+            "column": 5
+          },
+          "literal": "NEGATIVE. Not a view, and its `request` is not an HTTP request.\n\n    A bound Celery task is written exactly like this and reads `self.request.retries`. A\n    plain class carrying an attribute called `request` is not a shape a source rule may\n    read; what makes the two classes above different is the registration, not the word.\n    "
+        }
+      ],
+      "flows": [
+        {
+          "from": "front/views.py#<module>:0:0$v3",
+          "to": "front/views.py#<module>:0:0$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "front/views.py",
+            "line": 39,
+            "column": 5
+          },
+          "block": "front/views.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "front/views.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "front/views.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "front/views.py#get_queryset:29:5",
+      "name": "get_queryset",
+      "module": "front/views.py",
+      "class": "front/views.py:OrderSearchView",
+      "loc": {
+        "file": "front/views.py",
+        "line": 29,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "front/views.py#get_queryset:29:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "front/views.py#get_queryset:29:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "front/views.py",
+            "line": 29,
+            "column": 22
+          },
+          "name": "self"
+        },
+        {
+          "id": "front/views.py#get_queryset:29:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 32,
+            "column": 16
+          },
+          "base": "front/views.py#get_queryset:29:5$v0",
+          "path": "request.GET",
+          "name": "request.GET"
+        },
+        {
+          "id": "front/views.py#get_queryset:29:5$v2",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 32,
+            "column": 16
+          },
+          "name": "code",
+          "base": "front/views.py#get_queryset:29:5$v1",
+          "path": "request.GET.code"
+        },
+        {
+          "id": "front/views.py#get_queryset:29:5$v3",
+          "kind": "local",
+          "loc": {
+            "file": "front/views.py",
+            "line": 32,
+            "column": 9
+          },
+          "name": "code"
+        },
+        {
+          "id": "front/views.py#get_queryset:29:5$v4",
+          "kind": "local",
+          "loc": {
+            "file": "front/views.py",
+            "line": 33,
+            "column": 40
+          },
+          "name": "concat"
+        },
+        {
+          "id": "front/views.py#get_queryset:29:5$v5",
+          "kind": "local",
+          "loc": {
+            "file": "front/views.py",
+            "line": 33,
+            "column": 40
+          },
+          "name": "concat"
+        },
+        {
+          "id": "front/views.py#get_queryset:29:5$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 33,
+            "column": 40
+          },
+          "literal": "grep "
+        },
+        {
+          "id": "front/views.py#get_queryset:29:5$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 33,
+            "column": 57
+          },
+          "literal": " /var/orders.log"
+        },
+        {
+          "id": "front/views.py#get_queryset:29:5$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 33,
+            "column": 83
+          },
+          "literal": "true"
+        },
+        {
+          "id": "front/views.py#get_queryset:29:5$v9",
+          "kind": "global",
+          "loc": {
+            "file": "front/views.py",
+            "line": 33,
+            "column": 16
+          },
+          "name": "subprocess"
+        },
+        {
+          "id": "front/views.py#get_queryset:29:5$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "front/views.py",
+            "line": 33,
+            "column": 16
+          },
+          "name": "subprocess.check_output"
+        }
+      ],
+      "flows": [
+        {
+          "from": "front/views.py#get_queryset:29:5$v0",
+          "to": "front/views.py#get_queryset:29:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 32,
+            "column": 16
+          },
+          "block": "front/views.py#get_queryset:29:5$b0"
+        },
+        {
+          "from": "front/views.py#get_queryset:29:5$v1",
+          "to": "front/views.py#get_queryset:29:5$v2",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 32,
+            "column": 16
+          },
+          "block": "front/views.py#get_queryset:29:5$b0"
+        },
+        {
+          "from": "front/views.py#get_queryset:29:5$v2",
+          "to": "front/views.py#get_queryset:29:5$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "front/views.py",
+            "line": 32,
+            "column": 9
+          },
+          "block": "front/views.py#get_queryset:29:5$b0"
+        },
+        {
+          "from": "front/views.py#get_queryset:29:5$v6",
+          "to": "front/views.py#get_queryset:29:5$v5",
+          "kind": "binary",
+          "loc": {
+            "file": "front/views.py",
+            "line": 33,
+            "column": 40
+          },
+          "block": "front/views.py#get_queryset:29:5$b0"
+        },
+        {
+          "from": "front/views.py#get_queryset:29:5$v3",
+          "to": "front/views.py#get_queryset:29:5$v5",
+          "kind": "binary",
+          "loc": {
+            "file": "front/views.py",
+            "line": 33,
+            "column": 40
+          },
+          "block": "front/views.py#get_queryset:29:5$b0"
+        },
+        {
+          "from": "front/views.py#get_queryset:29:5$v5",
+          "to": "front/views.py#get_queryset:29:5$v4",
+          "kind": "binary",
+          "loc": {
+            "file": "front/views.py",
+            "line": 33,
+            "column": 40
+          },
+          "block": "front/views.py#get_queryset:29:5$b0"
+        },
+        {
+          "from": "front/views.py#get_queryset:29:5$v7",
+          "to": "front/views.py#get_queryset:29:5$v4",
+          "kind": "binary",
+          "loc": {
+            "file": "front/views.py",
+            "line": 33,
+            "column": 40
+          },
+          "block": "front/views.py#get_queryset:29:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "front/views.py#get_queryset:29:5$c0",
+          "loc": {
+            "file": "front/views.py",
+            "line": 33,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "subprocess.check_output",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "front/views.py#get_queryset:29:5$v4"
+            },
+            {
+              "valueId": "front/views.py#get_queryset:29:5$v8",
+              "name": "shell"
+            }
+          ],
+          "resultValueId": "front/views.py#get_queryset:29:5$v10",
+          "block": "front/views.py#get_queryset:29:5$b0",
+          "method": "check_output",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "shell=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "front/views.py#get_queryset:29:5$v9"
+        }
+      ],
+      "returns": [
+        "front/views.py#get_queryset:29:5$v10"
+      ],
+      "returnBlocks": [
+        "front/views.py#get_queryset:29:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "front/views.py#get_queryset:29:5$b0",
+      "blocks": [
+        {
+          "id": "front/views.py#get_queryset:29:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 29,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "front/views.py#get_queryset:29:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 33,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "front/views.py#get_context_data:41:5",
+      "name": "get_context_data",
+      "module": "front/views.py",
+      "class": "front/views.py:OrderUploadView",
+      "loc": {
+        "file": "front/views.py",
+        "line": 41,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "front/views.py#get_context_data:41:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "kwargs",
+          "valueId": "front/views.py#get_context_data:41:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "front/views.py#get_context_data:41:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "front/views.py",
+            "line": 41,
+            "column": 26
+          },
+          "name": "self"
+        },
+        {
+          "id": "front/views.py#get_context_data:41:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "front/views.py",
+            "line": 41,
+            "column": 34
+          },
+          "name": "kwargs"
+        },
+        {
+          "id": "front/views.py#get_context_data:41:5$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "front/views.py",
+            "line": 43,
+            "column": 15
+          },
+          "name": "super"
+        },
+        {
+          "id": "front/views.py#get_context_data:41:5$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "front/views.py",
+            "line": 43,
+            "column": 15
+          },
+          "name": "unresolved"
+        },
+        {
+          "id": "front/views.py#get_context_data:41:5$v4",
+          "kind": "local",
+          "loc": {
+            "file": "front/views.py",
+            "line": 43,
+            "column": 9
+          },
+          "name": "ctx"
+        },
+        {
+          "id": "front/views.py#get_context_data:41:5$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 44,
+            "column": 46
+          },
+          "literal": "filter"
+        },
+        {
+          "id": "front/views.py#get_context_data:41:5$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 44,
+            "column": 56
+          },
+          "literal": ""
+        },
+        {
+          "id": "front/views.py#get_context_data:41:5$v7",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 44,
+            "column": 25
+          },
+          "base": "front/views.py#get_context_data:41:5$v0",
+          "path": "request.GET",
+          "name": "request.GET"
+        },
+        {
+          "id": "front/views.py#get_context_data:41:5$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "front/views.py",
+            "line": 44,
+            "column": 25
+          },
+          "name": "self.request.GET.get"
+        }
+      ],
+      "flows": [
+        {
+          "from": "front/views.py#get_context_data:41:5$v3",
+          "to": "front/views.py#get_context_data:41:5$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "front/views.py",
+            "line": 43,
+            "column": 9
+          },
+          "block": "front/views.py#get_context_data:41:5$b0"
+        },
+        {
+          "from": "front/views.py#get_context_data:41:5$v0",
+          "to": "front/views.py#get_context_data:41:5$v7",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 44,
+            "column": 25
+          },
+          "block": "front/views.py#get_context_data:41:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "front/views.py#get_context_data:41:5$c0",
+          "loc": {
+            "file": "front/views.py",
+            "line": 43,
+            "column": 15
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "super",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "front/views.py#get_context_data:41:5$v2",
+          "block": "front/views.py#get_context_data:41:5$b0",
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "front/views.py#get_context_data:41:5$c1",
+          "loc": {
+            "file": "front/views.py",
+            "line": 43,
+            "column": 15
+          },
+          "callee": {
+            "kind": "unresolved",
+            "resolution": "dynamic-unresolved"
+          },
+          "args": [
+            {
+              "valueId": "front/views.py#get_context_data:41:5$v1"
+            }
+          ],
+          "resultValueId": "front/views.py#get_context_data:41:5$v3",
+          "block": "front/views.py#get_context_data:41:5$b0",
+          "method": "get_context_data",
+          "argCount": 1,
+          "receiverValueId": "front/views.py#get_context_data:41:5$v2"
+        },
+        {
+          "id": "front/views.py#get_context_data:41:5$c2",
+          "loc": {
+            "file": "front/views.py",
+            "line": 44,
+            "column": 25
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "self.request.GET.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "front/views.py#get_context_data:41:5$v5"
+            },
+            {
+              "index": 1,
+              "valueId": "front/views.py#get_context_data:41:5$v6"
+            }
+          ],
+          "resultValueId": "front/views.py#get_context_data:41:5$v8",
+          "block": "front/views.py#get_context_data:41:5$b0",
+          "method": "get",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "filter",
+            "1": ""
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "front/views.py#get_context_data:41:5$v7"
+        }
+      ],
+      "returns": [
+        "front/views.py#get_context_data:41:5$v4"
+      ],
+      "returnBlocks": [
+        "front/views.py#get_context_data:41:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "front/views.py",
+            "line": 44,
+            "column": 9
+          },
+          "base": "front/views.py#get_context_data:41:5$v4",
+          "path": "filter",
+          "from": "front/views.py#get_context_data:41:5$v8",
+          "block": "front/views.py#get_context_data:41:5$b0"
+        }
+      ],
+      "entryBlock": "front/views.py#get_context_data:41:5$b0",
+      "blocks": [
+        {
+          "id": "front/views.py#get_context_data:41:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 41,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "front/views.py#get_context_data:41:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 45,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "front/views.py#form_valid:47:5",
+      "name": "form_valid",
+      "module": "front/views.py",
+      "class": "front/views.py:OrderUploadView",
+      "loc": {
+        "file": "front/views.py",
+        "line": 47,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "front/views.py#form_valid:47:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "form",
+          "valueId": "front/views.py#form_valid:47:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "front/views.py#form_valid:47:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "front/views.py",
+            "line": 47,
+            "column": 20
+          },
+          "name": "self"
+        },
+        {
+          "id": "front/views.py#form_valid:47:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "front/views.py",
+            "line": 47,
+            "column": 26
+          },
+          "name": "form"
+        },
+        {
+          "id": "front/views.py#form_valid:47:5$v2",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 49,
+            "column": 18
+          },
+          "base": "front/views.py#form_valid:47:5$v0",
+          "path": "request.POST",
+          "name": "request.POST"
+        },
+        {
+          "id": "front/views.py#form_valid:47:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 49,
+            "column": 18
+          },
+          "name": "destination",
+          "base": "front/views.py#form_valid:47:5$v2",
+          "path": "request.POST.destination"
+        },
+        {
+          "id": "front/views.py#form_valid:47:5$v4",
+          "kind": "local",
+          "loc": {
+            "file": "front/views.py",
+            "line": 49,
+            "column": 9
+          },
+          "name": "target"
+        },
+        {
+          "id": "front/views.py#form_valid:47:5$v5",
+          "kind": "global",
+          "loc": {
+            "file": "front/views.py",
+            "line": 50,
+            "column": 14
+          },
+          "name": "django.db.connection"
+        },
+        {
+          "id": "front/views.py#form_valid:47:5$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "front/views.py",
+            "line": 50,
+            "column": 14
+          },
+          "name": "django.db.connection.cursor"
+        },
+        {
+          "id": "front/views.py#form_valid:47:5$v7",
+          "kind": "local",
+          "loc": {
+            "file": "front/views.py",
+            "line": 50,
+            "column": 9
+          },
+          "name": "cur"
+        },
+        {
+          "id": "front/views.py#form_valid:47:5$v8",
+          "kind": "local",
+          "loc": {
+            "file": "front/views.py",
+            "line": 51,
+            "column": 25
+          },
+          "name": "concat"
+        },
+        {
+          "id": "front/views.py#form_valid:47:5$v9",
+          "kind": "local",
+          "loc": {
+            "file": "front/views.py",
+            "line": 51,
+            "column": 25
+          },
+          "name": "concat"
+        },
+        {
+          "id": "front/views.py#form_valid:47:5$v10",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 51,
+            "column": 25
+          },
+          "literal": "INSERT INTO uploads (path) VALUES ('"
+        },
+        {
+          "id": "front/views.py#form_valid:47:5$v11",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 51,
+            "column": 75
+          },
+          "literal": "')"
+        },
+        {
+          "id": "front/views.py#form_valid:47:5$v12",
+          "kind": "call-result",
+          "loc": {
+            "file": "front/views.py",
+            "line": 51,
+            "column": 13
+          },
+          "name": "cur.execute"
+        },
+        {
+          "id": "front/views.py#form_valid:47:5$v13",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 52,
+            "column": 29
+          },
+          "literal": "ok"
+        },
+        {
+          "id": "front/views.py#form_valid:47:5$v14",
+          "kind": "call-result",
+          "loc": {
+            "file": "front/views.py",
+            "line": 52,
+            "column": 16
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "front/views.py#form_valid:47:5$v0",
+          "to": "front/views.py#form_valid:47:5$v2",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 49,
+            "column": 18
+          },
+          "block": "front/views.py#form_valid:47:5$b0"
+        },
+        {
+          "from": "front/views.py#form_valid:47:5$v2",
+          "to": "front/views.py#form_valid:47:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 49,
+            "column": 18
+          },
+          "block": "front/views.py#form_valid:47:5$b0"
+        },
+        {
+          "from": "front/views.py#form_valid:47:5$v3",
+          "to": "front/views.py#form_valid:47:5$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "front/views.py",
+            "line": 49,
+            "column": 9
+          },
+          "block": "front/views.py#form_valid:47:5$b0"
+        },
+        {
+          "from": "front/views.py#form_valid:47:5$v6",
+          "to": "front/views.py#form_valid:47:5$v7",
+          "kind": "assign",
+          "loc": {
+            "file": "front/views.py",
+            "line": 50,
+            "column": 9
+          },
+          "block": "front/views.py#form_valid:47:5$b0"
+        },
+        {
+          "from": "front/views.py#form_valid:47:5$v10",
+          "to": "front/views.py#form_valid:47:5$v9",
+          "kind": "binary",
+          "loc": {
+            "file": "front/views.py",
+            "line": 51,
+            "column": 25
+          },
+          "block": "front/views.py#form_valid:47:5$b0"
+        },
+        {
+          "from": "front/views.py#form_valid:47:5$v4",
+          "to": "front/views.py#form_valid:47:5$v9",
+          "kind": "binary",
+          "loc": {
+            "file": "front/views.py",
+            "line": 51,
+            "column": 25
+          },
+          "block": "front/views.py#form_valid:47:5$b0"
+        },
+        {
+          "from": "front/views.py#form_valid:47:5$v9",
+          "to": "front/views.py#form_valid:47:5$v8",
+          "kind": "binary",
+          "loc": {
+            "file": "front/views.py",
+            "line": 51,
+            "column": 25
+          },
+          "block": "front/views.py#form_valid:47:5$b0"
+        },
+        {
+          "from": "front/views.py#form_valid:47:5$v11",
+          "to": "front/views.py#form_valid:47:5$v8",
+          "kind": "binary",
+          "loc": {
+            "file": "front/views.py",
+            "line": 51,
+            "column": 25
+          },
+          "block": "front/views.py#form_valid:47:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "front/views.py#form_valid:47:5$c0",
+          "loc": {
+            "file": "front/views.py",
+            "line": 50,
+            "column": 14
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.db.connection.cursor",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "front/views.py#form_valid:47:5$v6",
+          "block": "front/views.py#form_valid:47:5$b0",
+          "method": "cursor",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "front/views.py#form_valid:47:5$v5"
+        },
+        {
+          "id": "front/views.py#form_valid:47:5$c1",
+          "loc": {
+            "file": "front/views.py",
+            "line": 51,
+            "column": 13
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cur.execute",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "front/views.py#form_valid:47:5$v8"
+            }
+          ],
+          "resultValueId": "front/views.py#form_valid:47:5$v12",
+          "block": "front/views.py#form_valid:47:5$b0",
+          "method": "execute",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "front/views.py#form_valid:47:5$v7"
+        },
+        {
+          "id": "front/views.py#form_valid:47:5$c2",
+          "loc": {
+            "file": "front/views.py",
+            "line": 52,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "front/views.py#form_valid:47:5$v13"
+            }
+          ],
+          "resultValueId": "front/views.py#form_valid:47:5$v14",
+          "block": "front/views.py#form_valid:47:5$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "ok"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "front/views.py#form_valid:47:5$v14"
+      ],
+      "returnBlocks": [
+        "front/views.py#form_valid:47:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "front/views.py#form_valid:47:5$b0",
+      "blocks": [
+        {
+          "id": "front/views.py#form_valid:47:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 47,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "front/views.py#form_valid:47:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 52,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "front/views.py#get_queryset:58:5",
+      "name": "get_queryset",
+      "module": "front/views.py",
+      "class": "front/views.py:OrderDetailView",
+      "loc": {
+        "file": "front/views.py",
+        "line": 58,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "front/views.py#get_queryset:58:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "front/views.py#get_queryset:58:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "front/views.py",
+            "line": 58,
+            "column": 22
+          },
+          "name": "self"
+        },
+        {
+          "id": "front/views.py#get_queryset:58:5$v1",
+          "kind": "local",
+          "loc": {
+            "file": "front/views.py",
+            "line": 64,
+            "column": 40
+          },
+          "name": "concat"
+        },
+        {
+          "id": "front/views.py#get_queryset:58:5$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 64,
+            "column": 40
+          },
+          "literal": "orders --for "
+        },
+        {
+          "id": "front/views.py#get_queryset:58:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 64,
+            "column": 58
+          },
+          "base": "front/views.py#get_queryset:58:5$v0",
+          "path": "request.user.username",
+          "name": "request.user.username"
+        },
+        {
+          "id": "front/views.py#get_queryset:58:5$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 65,
+            "column": 46
+          },
+          "literal": "true"
+        },
+        {
+          "id": "front/views.py#get_queryset:58:5$v5",
+          "kind": "global",
+          "loc": {
+            "file": "front/views.py",
+            "line": 64,
+            "column": 16
+          },
+          "name": "subprocess"
+        },
+        {
+          "id": "front/views.py#get_queryset:58:5$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "front/views.py",
+            "line": 64,
+            "column": 16
+          },
+          "name": "subprocess.check_output"
+        }
+      ],
+      "flows": [
+        {
+          "from": "front/views.py#get_queryset:58:5$v2",
+          "to": "front/views.py#get_queryset:58:5$v1",
+          "kind": "binary",
+          "loc": {
+            "file": "front/views.py",
+            "line": 64,
+            "column": 40
+          },
+          "block": "front/views.py#get_queryset:58:5$b0"
+        },
+        {
+          "from": "front/views.py#get_queryset:58:5$v0",
+          "to": "front/views.py#get_queryset:58:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 64,
+            "column": 58
+          },
+          "block": "front/views.py#get_queryset:58:5$b0"
+        },
+        {
+          "from": "front/views.py#get_queryset:58:5$v3",
+          "to": "front/views.py#get_queryset:58:5$v1",
+          "kind": "binary",
+          "loc": {
+            "file": "front/views.py",
+            "line": 64,
+            "column": 40
+          },
+          "block": "front/views.py#get_queryset:58:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "front/views.py#get_queryset:58:5$c0",
+          "loc": {
+            "file": "front/views.py",
+            "line": 64,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "subprocess.check_output",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "front/views.py#get_queryset:58:5$v1"
+            },
+            {
+              "valueId": "front/views.py#get_queryset:58:5$v4",
+              "name": "shell"
+            }
+          ],
+          "resultValueId": "front/views.py#get_queryset:58:5$v6",
+          "block": "front/views.py#get_queryset:58:5$b0",
+          "method": "check_output",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "shell=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "front/views.py#get_queryset:58:5$v5"
+        }
+      ],
+      "returns": [
+        "front/views.py#get_queryset:58:5$v6"
+      ],
+      "returnBlocks": [
+        "front/views.py#get_queryset:58:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "front/views.py#get_queryset:58:5$b0",
+      "blocks": [
+        {
+          "id": "front/views.py#get_queryset:58:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 58,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "front/views.py#get_queryset:58:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 64,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "front/views.py#get_breadcrumbs:67:5",
+      "name": "get_breadcrumbs",
+      "module": "front/views.py",
+      "class": "front/views.py:OrderDetailView",
+      "loc": {
+        "file": "front/views.py",
+        "line": 67,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "front/views.py#get_breadcrumbs:67:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "front/views.py#get_breadcrumbs:67:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "front/views.py",
+            "line": 67,
+            "column": 25
+          },
+          "name": "self"
+        },
+        {
+          "id": "front/views.py#get_breadcrumbs:67:5$v1",
+          "kind": "local",
+          "loc": {
+            "file": "front/views.py",
+            "line": 75,
+            "column": 40
+          },
+          "name": "concat"
+        },
+        {
+          "id": "front/views.py#get_breadcrumbs:67:5$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 75,
+            "column": 40
+          },
+          "literal": "git log "
+        },
+        {
+          "id": "front/views.py#get_breadcrumbs:67:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 75,
+            "column": 53
+          },
+          "base": "front/views.py#get_breadcrumbs:67:5$v0",
+          "path": "request.GET",
+          "name": "request.GET"
+        },
+        {
+          "id": "front/views.py#get_breadcrumbs:67:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 75,
+            "column": 53
+          },
+          "name": "ref",
+          "base": "front/views.py#get_breadcrumbs:67:5$v3",
+          "path": "request.GET.ref"
+        },
+        {
+          "id": "front/views.py#get_breadcrumbs:67:5$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 75,
+            "column": 84
+          },
+          "literal": "true"
+        },
+        {
+          "id": "front/views.py#get_breadcrumbs:67:5$v6",
+          "kind": "global",
+          "loc": {
+            "file": "front/views.py",
+            "line": 75,
+            "column": 16
+          },
+          "name": "subprocess"
+        },
+        {
+          "id": "front/views.py#get_breadcrumbs:67:5$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "front/views.py",
+            "line": 75,
+            "column": 16
+          },
+          "name": "subprocess.check_output"
+        }
+      ],
+      "flows": [
+        {
+          "from": "front/views.py#get_breadcrumbs:67:5$v2",
+          "to": "front/views.py#get_breadcrumbs:67:5$v1",
+          "kind": "binary",
+          "loc": {
+            "file": "front/views.py",
+            "line": 75,
+            "column": 40
+          },
+          "block": "front/views.py#get_breadcrumbs:67:5$b0"
+        },
+        {
+          "from": "front/views.py#get_breadcrumbs:67:5$v0",
+          "to": "front/views.py#get_breadcrumbs:67:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 75,
+            "column": 53
+          },
+          "block": "front/views.py#get_breadcrumbs:67:5$b0"
+        },
+        {
+          "from": "front/views.py#get_breadcrumbs:67:5$v3",
+          "to": "front/views.py#get_breadcrumbs:67:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 75,
+            "column": 53
+          },
+          "block": "front/views.py#get_breadcrumbs:67:5$b0"
+        },
+        {
+          "from": "front/views.py#get_breadcrumbs:67:5$v4",
+          "to": "front/views.py#get_breadcrumbs:67:5$v1",
+          "kind": "binary",
+          "loc": {
+            "file": "front/views.py",
+            "line": 75,
+            "column": 40
+          },
+          "block": "front/views.py#get_breadcrumbs:67:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "front/views.py#get_breadcrumbs:67:5$c0",
+          "loc": {
+            "file": "front/views.py",
+            "line": 75,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "subprocess.check_output",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "front/views.py#get_breadcrumbs:67:5$v1"
+            },
+            {
+              "valueId": "front/views.py#get_breadcrumbs:67:5$v5",
+              "name": "shell"
+            }
+          ],
+          "resultValueId": "front/views.py#get_breadcrumbs:67:5$v7",
+          "block": "front/views.py#get_breadcrumbs:67:5$b0",
+          "method": "check_output",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "shell=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "front/views.py#get_breadcrumbs:67:5$v6"
+        }
+      ],
+      "returns": [
+        "front/views.py#get_breadcrumbs:67:5$v7"
+      ],
+      "returnBlocks": [
+        "front/views.py#get_breadcrumbs:67:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "front/views.py#get_breadcrumbs:67:5$b0",
+      "blocks": [
+        {
+          "id": "front/views.py#get_breadcrumbs:67:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 67,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "front/views.py#get_breadcrumbs:67:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 75,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "front/views.py#get_queryset:86:5",
+      "name": "get_queryset",
+      "module": "front/views.py",
+      "class": "front/views.py:UnroutedSearchView",
+      "loc": {
+        "file": "front/views.py",
+        "line": 86,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "front/views.py#get_queryset:86:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "front/views.py#get_queryset:86:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "front/views.py",
+            "line": 86,
+            "column": 22
+          },
+          "name": "self"
+        },
+        {
+          "id": "front/views.py#get_queryset:86:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 87,
+            "column": 16
+          },
+          "base": "front/views.py#get_queryset:86:5$v0",
+          "path": "request.GET",
+          "name": "request.GET"
+        },
+        {
+          "id": "front/views.py#get_queryset:86:5$v2",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 87,
+            "column": 16
+          },
+          "name": "code",
+          "base": "front/views.py#get_queryset:86:5$v1",
+          "path": "request.GET.code"
+        },
+        {
+          "id": "front/views.py#get_queryset:86:5$v3",
+          "kind": "local",
+          "loc": {
+            "file": "front/views.py",
+            "line": 87,
+            "column": 9
+          },
+          "name": "code"
+        },
+        {
+          "id": "front/views.py#get_queryset:86:5$v4",
+          "kind": "local",
+          "loc": {
+            "file": "front/views.py",
+            "line": 88,
+            "column": 40
+          },
+          "name": "concat"
+        },
+        {
+          "id": "front/views.py#get_queryset:86:5$v5",
+          "kind": "local",
+          "loc": {
+            "file": "front/views.py",
+            "line": 88,
+            "column": 40
+          },
+          "name": "concat"
+        },
+        {
+          "id": "front/views.py#get_queryset:86:5$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 88,
+            "column": 40
+          },
+          "literal": "grep "
+        },
+        {
+          "id": "front/views.py#get_queryset:86:5$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 88,
+            "column": 57
+          },
+          "literal": " /var/orders.log"
+        },
+        {
+          "id": "front/views.py#get_queryset:86:5$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 88,
+            "column": 83
+          },
+          "literal": "true"
+        },
+        {
+          "id": "front/views.py#get_queryset:86:5$v9",
+          "kind": "global",
+          "loc": {
+            "file": "front/views.py",
+            "line": 88,
+            "column": 16
+          },
+          "name": "subprocess"
+        },
+        {
+          "id": "front/views.py#get_queryset:86:5$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "front/views.py",
+            "line": 88,
+            "column": 16
+          },
+          "name": "subprocess.check_output"
+        }
+      ],
+      "flows": [
+        {
+          "from": "front/views.py#get_queryset:86:5$v0",
+          "to": "front/views.py#get_queryset:86:5$v1",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 87,
+            "column": 16
+          },
+          "block": "front/views.py#get_queryset:86:5$b0"
+        },
+        {
+          "from": "front/views.py#get_queryset:86:5$v1",
+          "to": "front/views.py#get_queryset:86:5$v2",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 87,
+            "column": 16
+          },
+          "block": "front/views.py#get_queryset:86:5$b0"
+        },
+        {
+          "from": "front/views.py#get_queryset:86:5$v2",
+          "to": "front/views.py#get_queryset:86:5$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "front/views.py",
+            "line": 87,
+            "column": 9
+          },
+          "block": "front/views.py#get_queryset:86:5$b0"
+        },
+        {
+          "from": "front/views.py#get_queryset:86:5$v6",
+          "to": "front/views.py#get_queryset:86:5$v5",
+          "kind": "binary",
+          "loc": {
+            "file": "front/views.py",
+            "line": 88,
+            "column": 40
+          },
+          "block": "front/views.py#get_queryset:86:5$b0"
+        },
+        {
+          "from": "front/views.py#get_queryset:86:5$v3",
+          "to": "front/views.py#get_queryset:86:5$v5",
+          "kind": "binary",
+          "loc": {
+            "file": "front/views.py",
+            "line": 88,
+            "column": 40
+          },
+          "block": "front/views.py#get_queryset:86:5$b0"
+        },
+        {
+          "from": "front/views.py#get_queryset:86:5$v5",
+          "to": "front/views.py#get_queryset:86:5$v4",
+          "kind": "binary",
+          "loc": {
+            "file": "front/views.py",
+            "line": 88,
+            "column": 40
+          },
+          "block": "front/views.py#get_queryset:86:5$b0"
+        },
+        {
+          "from": "front/views.py#get_queryset:86:5$v7",
+          "to": "front/views.py#get_queryset:86:5$v4",
+          "kind": "binary",
+          "loc": {
+            "file": "front/views.py",
+            "line": 88,
+            "column": 40
+          },
+          "block": "front/views.py#get_queryset:86:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "front/views.py#get_queryset:86:5$c0",
+          "loc": {
+            "file": "front/views.py",
+            "line": 88,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "subprocess.check_output",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "front/views.py#get_queryset:86:5$v4"
+            },
+            {
+              "valueId": "front/views.py#get_queryset:86:5$v8",
+              "name": "shell"
+            }
+          ],
+          "resultValueId": "front/views.py#get_queryset:86:5$v10",
+          "block": "front/views.py#get_queryset:86:5$b0",
+          "method": "check_output",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "shell=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "front/views.py#get_queryset:86:5$v9"
+        }
+      ],
+      "returns": [
+        "front/views.py#get_queryset:86:5$v10"
+      ],
+      "returnBlocks": [
+        "front/views.py#get_queryset:86:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "front/views.py#get_queryset:86:5$b0",
+      "blocks": [
+        {
+          "id": "front/views.py#get_queryset:86:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 86,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "front/views.py#get_queryset:86:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 88,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "front/views.py#__init__:99:5",
+      "name": "__init__",
+      "module": "front/views.py",
+      "class": "front/views.py:ReportJob",
+      "loc": {
+        "file": "front/views.py",
+        "line": 99,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "front/views.py#__init__:99:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "request",
+          "valueId": "front/views.py#__init__:99:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "front/views.py#__init__:99:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "front/views.py",
+            "line": 99,
+            "column": 18
+          },
+          "name": "self"
+        },
+        {
+          "id": "front/views.py#__init__:99:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "front/views.py",
+            "line": 99,
+            "column": 24
+          },
+          "name": "request"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "front/views.py",
+            "line": 100,
+            "column": 9
+          },
+          "base": "front/views.py#__init__:99:5$v0",
+          "path": "request",
+          "from": "front/views.py#__init__:99:5$v1",
+          "block": "front/views.py#__init__:99:5$b0"
+        }
+      ],
+      "entryBlock": "front/views.py#__init__:99:5$b0",
+      "blocks": [
+        {
+          "id": "front/views.py#__init__:99:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 99,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "front/views.py#run:102:5",
+      "name": "run",
+      "module": "front/views.py",
+      "class": "front/views.py:ReportJob",
+      "loc": {
+        "file": "front/views.py",
+        "line": 102,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "front/views.py#run:102:5$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "front/views.py#run:102:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "front/views.py",
+            "line": 102,
+            "column": 13
+          },
+          "name": "self"
+        },
+        {
+          "id": "front/views.py#run:102:5$v1",
+          "kind": "local",
+          "loc": {
+            "file": "front/views.py",
+            "line": 103,
+            "column": 40
+          },
+          "name": "concat"
+        },
+        {
+          "id": "front/views.py#run:102:5$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 103,
+            "column": 40
+          },
+          "literal": "report "
+        },
+        {
+          "id": "front/views.py#run:102:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 103,
+            "column": 52
+          },
+          "base": "front/views.py#run:102:5$v0",
+          "path": "request.GET",
+          "name": "request.GET"
+        },
+        {
+          "id": "front/views.py#run:102:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 103,
+            "column": 52
+          },
+          "name": "range",
+          "base": "front/views.py#run:102:5$v3",
+          "path": "request.GET.range"
+        },
+        {
+          "id": "front/views.py#run:102:5$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "front/views.py",
+            "line": 103,
+            "column": 85
+          },
+          "literal": "true"
+        },
+        {
+          "id": "front/views.py#run:102:5$v6",
+          "kind": "global",
+          "loc": {
+            "file": "front/views.py",
+            "line": 103,
+            "column": 16
+          },
+          "name": "subprocess"
+        },
+        {
+          "id": "front/views.py#run:102:5$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "front/views.py",
+            "line": 103,
+            "column": 16
+          },
+          "name": "subprocess.check_output"
+        }
+      ],
+      "flows": [
+        {
+          "from": "front/views.py#run:102:5$v2",
+          "to": "front/views.py#run:102:5$v1",
+          "kind": "binary",
+          "loc": {
+            "file": "front/views.py",
+            "line": 103,
+            "column": 40
+          },
+          "block": "front/views.py#run:102:5$b0"
+        },
+        {
+          "from": "front/views.py#run:102:5$v0",
+          "to": "front/views.py#run:102:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 103,
+            "column": 52
+          },
+          "block": "front/views.py#run:102:5$b0"
+        },
+        {
+          "from": "front/views.py#run:102:5$v3",
+          "to": "front/views.py#run:102:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "front/views.py",
+            "line": 103,
+            "column": 52
+          },
+          "block": "front/views.py#run:102:5$b0"
+        },
+        {
+          "from": "front/views.py#run:102:5$v4",
+          "to": "front/views.py#run:102:5$v1",
+          "kind": "binary",
+          "loc": {
+            "file": "front/views.py",
+            "line": 103,
+            "column": 40
+          },
+          "block": "front/views.py#run:102:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "front/views.py#run:102:5$c0",
+          "loc": {
+            "file": "front/views.py",
+            "line": 103,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "subprocess.check_output",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "front/views.py#run:102:5$v1"
+            },
+            {
+              "valueId": "front/views.py#run:102:5$v5",
+              "name": "shell"
+            }
+          ],
+          "resultValueId": "front/views.py#run:102:5$v7",
+          "block": "front/views.py#run:102:5$b0",
+          "method": "check_output",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "shell=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "front/views.py#run:102:5$v6"
+        }
+      ],
+      "returns": [
+        "front/views.py#run:102:5$v7"
+      ],
+      "returnBlocks": [
+        "front/views.py#run:102:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "front/views.py#run:102:5$b0",
+      "blocks": [
+        {
+          "id": "front/views.py#run:102:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 102,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "front/views.py#run:102:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "front/views.py",
+            "line": 103,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "urls.py#<module>:0:0",
+      "name": "<module>",
+      "module": "urls.py",
+      "loc": {
+        "file": "urls.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "urls.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The registrations, which are the only thing that makes any of these a view.\n\nThree classes here and two of them are addressed. `UnroutedSearchView` is written the same\nway as `OrderSearchView` and is deliberately absent from this list.\n"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "urls.py",
+            "line": 10,
+            "column": 15
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 11,
+            "column": 10
+          },
+          "literal": "orders/"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v3",
+          "kind": "global",
+          "loc": {
+            "file": "urls.py",
+            "line": 11,
+            "column": 21
+          },
+          "name": "front.views"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v4",
+          "kind": "property",
+          "loc": {
+            "file": "urls.py",
+            "line": 11,
+            "column": 21
+          },
+          "base": "urls.py#<module>:0:0$v3",
+          "path": "OrderSearchView",
+          "name": "OrderSearchView"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 11,
+            "column": 21
+          },
+          "name": "front.views.OrderSearchView.as_view"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 11,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 12,
+            "column": 10
+          },
+          "literal": "orders/upload/"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v8",
+          "kind": "property",
+          "loc": {
+            "file": "urls.py",
+            "line": 12,
+            "column": 28
+          },
+          "base": "urls.py#<module>:0:0$v3",
+          "path": "OrderUploadView",
+          "name": "OrderUploadView"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 12,
+            "column": 28
+          },
+          "name": "front.views.OrderUploadView.as_view"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 12,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v11",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 13,
+            "column": 10
+          },
+          "literal": "orders/<int:pk>/"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v12",
+          "kind": "property",
+          "loc": {
+            "file": "urls.py",
+            "line": 13,
+            "column": 30
+          },
+          "base": "urls.py#<module>:0:0$v3",
+          "path": "OrderDetailView",
+          "name": "OrderDetailView"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v13",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 13,
+            "column": 30
+          },
+          "name": "front.views.OrderDetailView.as_view"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v14",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 13,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v15",
+          "kind": "local",
+          "loc": {
+            "file": "urls.py",
+            "line": 10,
+            "column": 1
+          },
+          "name": "urlpatterns"
+        }
+      ],
+      "flows": [
+        {
+          "from": "urls.py#<module>:0:0$v3",
+          "to": "urls.py#<module>:0:0$v4",
+          "kind": "property",
+          "loc": {
+            "file": "urls.py",
+            "line": 11,
+            "column": 21
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "urls.py#<module>:0:0$v6",
+          "to": "urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 10,
+            "column": 15
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "urls.py#<module>:0:0$v3",
+          "to": "urls.py#<module>:0:0$v8",
+          "kind": "property",
+          "loc": {
+            "file": "urls.py",
+            "line": 12,
+            "column": 28
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "urls.py#<module>:0:0$v10",
+          "to": "urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 10,
+            "column": 15
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "urls.py#<module>:0:0$v3",
+          "to": "urls.py#<module>:0:0$v12",
+          "kind": "property",
+          "loc": {
+            "file": "urls.py",
+            "line": 13,
+            "column": 30
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "urls.py#<module>:0:0$v14",
+          "to": "urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 10,
+            "column": 15
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "urls.py#<module>:0:0$v1",
+          "to": "urls.py#<module>:0:0$v15",
+          "kind": "assign",
+          "loc": {
+            "file": "urls.py",
+            "line": 10,
+            "column": 1
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "urls.py#<module>:0:0$c0",
+          "loc": {
+            "file": "urls.py",
+            "line": 11,
+            "column": 21
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "front.views.OrderSearchView.as_view",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "urls.py#<module>:0:0$v5",
+          "block": "urls.py#<module>:0:0$b0",
+          "method": "as_view",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "urls.py#<module>:0:0$v4"
+        },
+        {
+          "id": "urls.py#<module>:0:0$c1",
+          "loc": {
+            "file": "urls.py",
+            "line": 11,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v5"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v6",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "orders/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c2",
+          "loc": {
+            "file": "urls.py",
+            "line": 12,
+            "column": 28
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "front.views.OrderUploadView.as_view",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "urls.py#<module>:0:0$v9",
+          "block": "urls.py#<module>:0:0$b0",
+          "method": "as_view",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "urls.py#<module>:0:0$v8"
+        },
+        {
+          "id": "urls.py#<module>:0:0$c3",
+          "loc": {
+            "file": "urls.py",
+            "line": 12,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v7"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v9"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v10",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "orders/upload/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c4",
+          "loc": {
+            "file": "urls.py",
+            "line": 13,
+            "column": 30
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "front.views.OrderDetailView.as_view",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "urls.py#<module>:0:0$v13",
+          "block": "urls.py#<module>:0:0$b0",
+          "method": "as_view",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "urls.py#<module>:0:0$v12"
+        },
+        {
+          "id": "urls.py#<module>:0:0$c5",
+          "loc": {
+            "file": "urls.py",
+            "line": 13,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v11"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v13"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v14",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "orders/<int:pk>/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "urls.py",
+            "line": 10,
+            "column": 1
+          },
+          "path": "urlpatterns",
+          "from": "urls.py#<module>:0:0$v1",
+          "block": "urls.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "urls.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "urls.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "urls.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "front/views.py#get_queryset:29:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/orders/"
+      }
+    },
+    {
+      "functionId": "front/views.py#form_valid:47:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "POST",
+        "path": "/orders/upload/"
+      }
+    },
+    {
+      "functionId": "front/views.py#get_context_data:41:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "GET",
+        "path": "/orders/upload/"
+      }
+    },
+    {
+      "functionId": "front/views.py#get_queryset:58:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/orders/:pk/",
+        "pathParams": "int:pk"
+      }
+    }
+  ],
+  "declaredViews": [],
+  "views": [],
+  "renders": []
+}

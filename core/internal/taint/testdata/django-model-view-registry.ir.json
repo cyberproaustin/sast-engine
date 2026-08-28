@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.19.0",
+  "irVersion": "0.20.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -348,6 +348,7 @@
       "id": "core/views/generic/object_views.py#get:19:5",
       "name": "get",
       "module": "core/views/generic/object_views.py",
+      "class": "core/views/generic/object_views.py:ObjectEditView",
       "loc": {
         "file": "core/views/generic/object_views.py",
         "line": 19,
@@ -510,6 +511,7 @@
       "id": "core/views/generic/object_views.py#post:23:5",
       "name": "post",
       "module": "core/views/generic/object_views.py",
+      "class": "core/views/generic/object_views.py:ObjectEditView",
       "loc": {
         "file": "core/views/generic/object_views.py",
         "line": 23,
@@ -891,6 +893,7 @@
       "id": "core/views/generic/object_views.py#get:36:5",
       "name": "get",
       "module": "core/views/generic/object_views.py",
+      "class": "core/views/generic/object_views.py:ObjectListView",
       "loc": {
         "file": "core/views/generic/object_views.py",
         "line": 36,
@@ -2666,6 +2669,7 @@
       "id": "dcim/views.py#post:33:5",
       "name": "post",
       "module": "dcim/views.py",
+      "class": "dcim/views.py:RegionSyncView",
       "loc": {
         "file": "dcim/views.py",
         "line": 33,
@@ -3097,6 +3101,7 @@
       "id": "dcim/views.py#post:61:5",
       "name": "post",
       "module": "dcim/views.py",
+      "class": "dcim/views.py:DeviceEditView",
       "loc": {
         "file": "dcim/views.py",
         "line": 61,

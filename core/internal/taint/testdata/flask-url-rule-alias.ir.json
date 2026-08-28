@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.19.0",
+  "irVersion": "0.20.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -823,6 +823,7 @@
       "id": "app.py#get:31:5",
       "name": "get",
       "module": "app.py",
+      "class": "app.py:Preferences",
       "loc": {
         "file": "app.py",
         "line": 31,

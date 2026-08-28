@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.19.0",
+  "irVersion": "0.20.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -100,6 +100,7 @@
       "id": "admin.py#get_urls:22:5",
       "name": "get_urls",
       "module": "admin.py",
+      "class": "admin.py:ProductAdmin",
       "loc": {
         "file": "admin.py",
         "line": 22,
@@ -411,6 +412,7 @@
       "id": "admin.py#lookup:27:5",
       "name": "lookup",
       "module": "admin.py",
+      "class": "admin.py:ProductAdmin",
       "loc": {
         "file": "admin.py",
         "line": 27,
@@ -935,6 +937,7 @@
       "id": "catalogue/apps.py#ready:17:5",
       "name": "ready",
       "module": "catalogue/apps.py",
+      "class": "catalogue/apps.py:CatalogueOnlyConfig",
       "loc": {
         "file": "catalogue/apps.py",
         "line": 17,
@@ -1209,6 +1212,7 @@
       "id": "catalogue/apps.py#get_urls:29:5",
       "name": "get_urls",
       "module": "catalogue/apps.py",
+      "class": "catalogue/apps.py:CatalogueOnlyConfig",
       "loc": {
         "file": "catalogue/apps.py",
         "line": 29,
@@ -1758,6 +1762,7 @@
       "id": "catalogue/apps.py#ready:47:5",
       "name": "ready",
       "module": "catalogue/apps.py",
+      "class": "catalogue/apps.py:CatalogueReviewsOnlyConfig",
       "loc": {
         "file": "catalogue/apps.py",
         "line": 47,
@@ -1878,6 +1883,7 @@
       "id": "catalogue/apps.py#get_urls:50:5",
       "name": "get_urls",
       "module": "catalogue/apps.py",
+      "class": "catalogue/apps.py:CatalogueReviewsOnlyConfig",
       "loc": {
         "file": "catalogue/apps.py",
         "line": 50,
@@ -2094,6 +2100,7 @@
       "id": "catalogue/apps.py#ready:67:5",
       "name": "ready",
       "module": "catalogue/apps.py",
+      "class": "catalogue/apps.py:ReviewsConfig",
       "loc": {
         "file": "catalogue/apps.py",
         "line": 67,
@@ -2218,6 +2225,7 @@
       "id": "catalogue/apps.py#get_urls:70:5",
       "name": "get_urls",
       "module": "catalogue/apps.py",
+      "class": "catalogue/apps.py:ReviewsConfig",
       "loc": {
         "file": "catalogue/apps.py",
         "line": 70,
@@ -2515,6 +2523,7 @@
       "id": "catalogue/views.py#get:19:5",
       "name": "get",
       "module": "catalogue/views.py",
+      "class": "catalogue/views.py:CatalogueIndexView",
       "loc": {
         "file": "catalogue/views.py",
         "line": 19,
@@ -2716,6 +2725,7 @@
       "id": "catalogue/views.py#get:24:5",
       "name": "get",
       "module": "catalogue/views.py",
+      "class": "catalogue/views.py:ProductDetailView",
       "loc": {
         "file": "catalogue/views.py",
         "line": 24,
@@ -3053,6 +3063,7 @@
       "id": "catalogue/views.py#post:33:5",
       "name": "post",
       "module": "catalogue/views.py",
+      "class": "catalogue/views.py:ReviewVoteView",
       "loc": {
         "file": "catalogue/views.py",
         "line": 33,
@@ -3449,6 +3460,7 @@
       "id": "catalogue/views.py#get:53:5",
       "name": "get",
       "module": "catalogue/views.py",
+      "class": "catalogue/views.py:ExportView",
       "loc": {
         "file": "catalogue/views.py",
         "line": 53,
@@ -3860,6 +3872,7 @@
       "id": "dashboard/apps.py#ready:13:5",
       "name": "ready",
       "module": "dashboard/apps.py",
+      "class": "dashboard/apps.py:DashboardConfig",
       "loc": {
         "file": "dashboard/apps.py",
         "line": 13,
@@ -4134,6 +4147,7 @@
       "id": "dashboard/apps.py#get_urls:20:5",
       "name": "get_urls",
       "module": "dashboard/apps.py",
+      "class": "dashboard/apps.py:DashboardConfig",
       "loc": {
         "file": "dashboard/apps.py",
         "line": 20,
@@ -4708,7 +4722,7 @@
             "line": 28,
             "column": 5
           },
-          "literal": "Django's own FormView answers POST and calls this; the subclass writes no `post`.\n\n    A config-registered view of this shape was ONE entry point, at ANY, on whichever hook\n    the list reached first -- usually `get_context_data`, which only reads -- so the body\n    that acts on the request was outside the route entirely. 28 of oscar's registrations\n    are written this way. It is now two: a GET on the context and a POST on `form_valid`.\n\n    NEITHER HALF CARRIES A FINDING, and that is a fact about the engine rather than about\n    this class. A Django class-based view reaches the request through `self.request`, a\n    property of the view instance, and the taint model sources a handler's `request`\n    PARAMETER and route captures and not that -- so a hook-shaped handler has no caller\n    data in it however it is reached. What the two entry points buy today is a surface with\n    the right verbs at the right address; what they will buy is every one of these bodies,\n    the moment `self.request` is a source. The corpus asserts the enumeration and claims no\n    finding, which is the honest half of it.\n    "
+          "literal": "Django's own FormView answers POST and calls this; the subclass writes no `post`.\n\n    A config-registered view of this shape was ONE entry point, at ANY, on whichever hook\n    the list reached first -- usually `get_context_data`, which only reads -- so the body\n    that acts on the request was outside the route entirely. 28 of oscar's registrations\n    are written this way. It is now two: a GET on the context and a POST on `form_valid`.\n\n    Neither half carried a finding while `self.request` was not a source: a Django\n    class-based view reaches the request through a property of the view INSTANCE, the model\n    sourced a handler's `request` PARAMETER and its route captures, and so a hook-shaped\n    handler had the right address, the right verb and no caller data in it. `form_valid` is\n    the POSITIVE that closes that, and it is the same command injection any of the\n    parameter-shaped views above would be reported for. The GET half stays silent for a\n    reason that has nothing to do with the source: it reads `self.request.GET` into a\n    template context, and a context is not an interpreter.\n    "
         },
         {
           "id": "dashboard/views.py#<module>:0:0$v3",
@@ -4765,6 +4779,7 @@
       "id": "dashboard/views.py#post:9:5",
       "name": "post",
       "module": "dashboard/views.py",
+      "class": "dashboard/views.py:RangeReorderView",
       "loc": {
         "file": "dashboard/views.py",
         "line": 9,
@@ -5196,6 +5211,7 @@
       "id": "dashboard/views.py#get:21:5",
       "name": "get",
       "module": "dashboard/views.py",
+      "class": "dashboard/views.py:ExportView",
       "loc": {
         "file": "dashboard/views.py",
         "line": 21,
@@ -5503,6 +5519,7 @@
       "id": "dashboard/views.py#get_context_data:47:5",
       "name": "get_context_data",
       "module": "dashboard/views.py",
+      "class": "dashboard/views.py:RangeUploadView",
       "loc": {
         "file": "dashboard/views.py",
         "line": 47,
@@ -5763,6 +5780,7 @@
       "id": "dashboard/views.py#form_valid:53:5",
       "name": "form_valid",
       "module": "dashboard/views.py",
+      "class": "dashboard/views.py:RangeUploadView",
       "loc": {
         "file": "dashboard/views.py",
         "line": 53,
@@ -6417,6 +6435,7 @@
       "id": "shop/apps.py#ready:11:5",
       "name": "ready",
       "module": "shop/apps.py",
+      "class": "shop/apps.py:Shop",
       "loc": {
         "file": "shop/apps.py",
         "line": 11,
@@ -6598,6 +6617,7 @@
       "id": "shop/apps.py#get_urls:18:5",
       "name": "get_urls",
       "module": "shop/apps.py",
+      "class": "shop/apps.py:Shop",
       "loc": {
         "file": "shop/apps.py",
         "line": 18,

@@ -1,5 +1,5 @@
 {
-  "irVersion": "0.19.0",
+  "irVersion": "0.20.0",
   "frontend": {
     "name": "python",
     "version": "0.1.0",
@@ -201,6 +201,7 @@
       "id": "api.py#list:21:5",
       "name": "list",
       "module": "api.py",
+      "class": "api.py:BookmarkViewSet",
       "loc": {
         "file": "api.py",
         "line": 21,
@@ -353,6 +354,7 @@
       "id": "api.py#check:27:5",
       "name": "check",
       "module": "api.py",
+      "class": "api.py:BookmarkViewSet",
       "loc": {
         "file": "api.py",
         "line": 27,
@@ -697,6 +699,7 @@
       "id": "api.py#refetch:35:5",
       "name": "refetch",
       "module": "api.py",
+      "class": "api.py:BookmarkViewSet",
       "loc": {
         "file": "api.py",
         "line": 35,
@@ -1056,6 +1059,7 @@
       "id": "api.py#status:44:5",
       "name": "status",
       "module": "api.py",
+      "class": "api.py:BookmarkViewSet",
       "loc": {
         "file": "api.py",
         "line": 44,
@@ -1317,6 +1321,7 @@
       "id": "api.py#probe:53:5",
       "name": "probe",
       "module": "api.py",
+      "class": "api.py:UnregisteredViewSet",
       "loc": {
         "file": "api.py",
         "line": 53,
