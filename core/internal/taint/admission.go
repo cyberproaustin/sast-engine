@@ -30,8 +30,8 @@ import (
 //   - and nothing else defines the value from anywhere the decision did not allow.
 //
 // Measured on medplum, whose four CWE-601 findings are all this shape, all false, and all
-// silent now: 41 reported findings became 37 across that repository and 28 adjudicated-true
-// findings across ten repositories were untouched. The SQL injection beside them is NOT
+// silent now: its findings went from 37 to 33, no other finding in ten repositories moved,
+// and all 28 adjudicated-true findings among them were untouched. The SQL injection is NOT
 // this shape and is still reported -- `isValidTableName` is registered as an express-
 // validator chain rather than called in the handler, so no branch in the handler is about
 // the value at all, and an anchored `\w+` is the other file's proof rather than this one's.
