@@ -581,6 +581,15 @@ type Arg struct {
 	Name       string `json:"name,omitempty"`
 	ValueID    string `json:"valueId,omitempty"`
 	FunctionID string `json:"functionId,omitempty"`
+	// ValueType is the argument expression's type when the frontend can state it, and
+	// ValueTypeOrigin is where that answer comes from. Empty is unknown, never evidence
+	// that the value is not one of the language's builtins.
+	//
+	// ReceiverType cannot answer this question: `mapping.update(other)` has two values
+	// whose types matter independently, and Python can prove `other` is a dict from a
+	// literal or annotation even when nothing local describes `mapping`.
+	ValueType       string `json:"valueType,omitempty"`
+	ValueTypeOrigin string `json:"valueTypeOrigin,omitempty"`
 	// ParamIndex is the position this argument occupies in the CALLEE's parameter
 	// list, when the language's calling convention makes that differ from the position
 	// it was WRITTEN at. Nil means the two are the same, which is every argument in

@@ -2577,6 +2577,19 @@ func (e *engine) collect(all map[string]*engine, caps ir.Capabilities) []Finding
 				if len(ch.ReceiverNotFrom) > 0 && e.receiverMadeBy(c, ch.ReceiverNotFrom) {
 					continue
 				}
+				// A builtin argument can positively identify a local mutation even when the
+				// receiver stays unknown. Empty type evidence is deliberately not enough.
+				if ch.BuiltinArgumentMakesLocalMutation != nil {
+					if a, ok := argAt(c, *ch.BuiltinArgumentMakesLocalMutation); ok &&
+						a.ValueTypeOrigin == "builtin" {
+						continue
+					}
+				}
+				if ch.RequiresKnownExternalReceiver &&
+					(c.ReceiverType == "" || c.ReceiverType == "__object" ||
+						c.ReceiverTypeOrigin == "builtin" || c.ReceiverTypeOrigin == "module") {
+					continue
+				}
 				// The language's own containers are not stores of shared records.
 				// Only a positive answer disqualifies: a frontend that cannot type
 				// its receivers leaves this empty, and empty is not "not builtin".
@@ -3999,6 +4012,9 @@ func argAt(c *ir.Call, index int) (ir.Arg, bool) {
 // names are signature facts supplied by that symbol's model; without that declaration
 // Arg.At keeps refusing to infer a position from a name.
 func channelArgs(c *ir.Call, ch model.Channel, indexes []int) []ir.Arg {
+	if ch.AllArgs {
+		return append([]ir.Arg(nil), c.Args...)
+	}
 	var out []ir.Arg
 	for _, a := range c.Args {
 		for _, index := range indexes {

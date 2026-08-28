@@ -1,0 +1,22 @@
+{
+  "corpus": "django-update-shape",
+  "description": "Two Python update calling conventions and the unknown between them. The two mapping merges are silent because a literal and an annotation positively identify their positional arguments as builtin mappings, even though the receiver came from a call. The ORM near-miss remains reported: the author annotated the receiver QuerySet, the receiver came from filter on a caller-chosen key, and that same key reaches the keyword update. The untyped positional call remains reported below gating because neither its receiver nor its argument says what update means.",
+  "expected": [
+    {
+      "cwe": "CWE-639",
+      "sinkFile": "views.py",
+      "sinkLine": 29,
+      "sourceLabel": "request.POST",
+      "confidence": "medium",
+      "note": "the caller chooses the queryset key and no owner predicate constrains it"
+    },
+    {
+      "cwe": "CWE-639",
+      "sinkFile": "views.py",
+      "sinkLine": 35,
+      "sourceLabel": "request.POST",
+      "confidence": "medium",
+      "note": "receiver and positional argument unresolved: keep reporting under ADR-003"
+    }
+  ]
+}

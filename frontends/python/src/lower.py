@@ -2876,14 +2876,27 @@ class FunctionLowerer:
     def local_type_of(self, node: ast.AST) -> str | None:
         """The receiver's type, when this function said what it is.
 
-        Two sources, both local and both explicit: an annotation the author wrote
-        (`form_data: dict[str, Any] = {}`) and a literal this function assigned
-        (`payload = {}`). Anything reaching the function from elsewhere is unknown, and
-        stays unknown — guessing here would be worse than the ambiguity it resolves.
+        Both sources are local and explicit: an annotation the author wrote
+        (`form_data: dict[str, Any] = {}`), or syntax that constructs a builtin here
+        (`payload = {}`, a comprehension, or `dict()`). Anything reaching the function
+        from elsewhere is unknown, and stays unknown — guessing here would be worse than
+        the ambiguity it resolves.
         """
-        if not isinstance(node, ast.Name):
-            return None
-        return self.local_types.get(node.id)
+        if isinstance(node, ast.Name):
+            return self.local_types.get(node.id)
+        if isinstance(node, (ast.Dict, ast.DictComp)):
+            return "dict"
+        if isinstance(node, (ast.List, ast.ListComp)):
+            return "list"
+        if isinstance(node, (ast.Set, ast.SetComp)):
+            return "set"
+        if (
+            isinstance(node, ast.Call)
+            and isinstance(node.func, ast.Name)
+            and node.func.id in BUILTIN_CONTAINERS
+        ):
+            return node.func.id
+        return None
 
     def note_local_type(
         self,
@@ -3064,6 +3077,11 @@ class FunctionLowerer:
             fid = self.function_ref(arg)
             if fid:
                 entry["functionId"] = fid
+            value_type = self.local_type_of(arg)
+            if value_type:
+                entry["valueType"] = value_type
+                if value_type in BUILTIN_CONTAINERS:
+                    entry["valueTypeOrigin"] = "builtin"
             if vid or fid:
                 args.append(entry)
             lit = self._literal_of(arg)
