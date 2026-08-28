@@ -1,0 +1,4635 @@
+{
+  "irVersion": "0.19.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi",
+        "django",
+        "drf",
+        "graphene",
+        "tornado"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "billing/access.py",
+      "path": "billing/access.py"
+    },
+    {
+      "id": "billing/types.py",
+      "path": "billing/types.py"
+    },
+    {
+      "id": "cart/mutations.py",
+      "path": "cart/mutations.py"
+    },
+    {
+      "id": "cart/types.py",
+      "path": "cart/types.py"
+    },
+    {
+      "id": "permissions.py",
+      "path": "permissions.py"
+    },
+    {
+      "id": "schema.py",
+      "path": "schema.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "billing/access.py#<module>:0:0",
+      "name": "<module>",
+      "module": "billing/access.py",
+      "loc": {
+        "file": "billing/access.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "billing/access.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "billing/access.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The check a mutation makes when it means to relate an invoice to its requester.\n\nWritten as a helper taking BOTH the request and the record, which is how a graphene\napplication states this: there is no request object in the resolver's signature to hang a\ndecorator on, so the question is asked with two arguments.\n"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "billing/access.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "billing/access.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "billing/access.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "billing/access.py#check_can_read_invoice:9:1",
+      "name": "check_can_read_invoice",
+      "module": "billing/access.py",
+      "loc": {
+        "file": "billing/access.py",
+        "line": 9,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "context",
+          "valueId": "billing/access.py#check_can_read_invoice:9:1$v0"
+        },
+        {
+          "index": 1,
+          "name": "invoice",
+          "valueId": "billing/access.py#check_can_read_invoice:9:1$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "billing/access.py#check_can_read_invoice:9:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "billing/access.py",
+            "line": 9,
+            "column": 28
+          },
+          "name": "context"
+        },
+        {
+          "id": "billing/access.py#check_can_read_invoice:9:1$v1",
+          "kind": "param",
+          "loc": {
+            "file": "billing/access.py",
+            "line": 9,
+            "column": 37
+          },
+          "name": "invoice"
+        },
+        {
+          "id": "billing/access.py#check_can_read_invoice:9:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "billing/access.py",
+            "line": 10,
+            "column": 17
+          },
+          "base": "billing/access.py#check_can_read_invoice:9:1$v0",
+          "path": "user",
+          "name": "user"
+        },
+        {
+          "id": "billing/access.py#check_can_read_invoice:9:1$v3",
+          "kind": "local",
+          "loc": {
+            "file": "billing/access.py",
+            "line": 10,
+            "column": 5
+          },
+          "name": "requester"
+        },
+        {
+          "id": "billing/access.py#check_can_read_invoice:9:1$v4",
+          "kind": "local",
+          "loc": {
+            "file": "billing/access.py",
+            "line": 11,
+            "column": 8
+          },
+          "name": "both"
+        },
+        {
+          "id": "billing/access.py#check_can_read_invoice:9:1$v5",
+          "kind": "property",
+          "loc": {
+            "file": "billing/access.py",
+            "line": 11,
+            "column": 22
+          },
+          "base": "billing/access.py#check_can_read_invoice:9:1$v1",
+          "path": "owner_id",
+          "name": "owner_id"
+        },
+        {
+          "id": "billing/access.py#check_can_read_invoice:9:1$v6",
+          "kind": "local",
+          "loc": {
+            "file": "billing/access.py",
+            "line": 11,
+            "column": 22
+          },
+          "name": "comparison"
+        },
+        {
+          "id": "billing/access.py#check_can_read_invoice:9:1$v7",
+          "kind": "property",
+          "loc": {
+            "file": "billing/access.py",
+            "line": 11,
+            "column": 42
+          },
+          "base": "billing/access.py#check_can_read_invoice:9:1$v3",
+          "path": "id",
+          "name": "id"
+        },
+        {
+          "id": "billing/access.py#check_can_read_invoice:9:1$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "billing/access.py",
+            "line": 12,
+            "column": 16
+          },
+          "literal": "true"
+        },
+        {
+          "id": "billing/access.py#check_can_read_invoice:9:1$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "billing/access.py",
+            "line": 13,
+            "column": 27
+          },
+          "literal": "not your invoice"
+        },
+        {
+          "id": "billing/access.py#check_can_read_invoice:9:1$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "billing/access.py",
+            "line": 13,
+            "column": 11
+          },
+          "name": "PermissionError"
+        }
+      ],
+      "flows": [
+        {
+          "from": "billing/access.py#check_can_read_invoice:9:1$v0",
+          "to": "billing/access.py#check_can_read_invoice:9:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "billing/access.py",
+            "line": 10,
+            "column": 17
+          },
+          "block": "billing/access.py#check_can_read_invoice:9:1$b0"
+        },
+        {
+          "from": "billing/access.py#check_can_read_invoice:9:1$v2",
+          "to": "billing/access.py#check_can_read_invoice:9:1$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "billing/access.py",
+            "line": 10,
+            "column": 5
+          },
+          "block": "billing/access.py#check_can_read_invoice:9:1$b0"
+        },
+        {
+          "from": "billing/access.py#check_can_read_invoice:9:1$v3",
+          "to": "billing/access.py#check_can_read_invoice:9:1$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "billing/access.py",
+            "line": 11,
+            "column": 8
+          },
+          "block": "billing/access.py#check_can_read_invoice:9:1$b0"
+        },
+        {
+          "from": "billing/access.py#check_can_read_invoice:9:1$v1",
+          "to": "billing/access.py#check_can_read_invoice:9:1$v5",
+          "kind": "property",
+          "loc": {
+            "file": "billing/access.py",
+            "line": 11,
+            "column": 22
+          },
+          "block": "billing/access.py#check_can_read_invoice:9:1$b0"
+        },
+        {
+          "from": "billing/access.py#check_can_read_invoice:9:1$v3",
+          "to": "billing/access.py#check_can_read_invoice:9:1$v7",
+          "kind": "property",
+          "loc": {
+            "file": "billing/access.py",
+            "line": 11,
+            "column": 42
+          },
+          "block": "billing/access.py#check_can_read_invoice:9:1$b0"
+        },
+        {
+          "from": "billing/access.py#check_can_read_invoice:9:1$v6",
+          "to": "billing/access.py#check_can_read_invoice:9:1$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "billing/access.py",
+            "line": 11,
+            "column": 8
+          },
+          "block": "billing/access.py#check_can_read_invoice:9:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "billing/access.py#check_can_read_invoice:9:1$c0",
+          "loc": {
+            "file": "billing/access.py",
+            "line": 13,
+            "column": 11
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "PermissionError",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "billing/access.py#check_can_read_invoice:9:1$v9"
+            }
+          ],
+          "resultValueId": "billing/access.py#check_can_read_invoice:9:1$v10",
+          "block": "billing/access.py#check_can_read_invoice:9:1$b3",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "not your invoice"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "billing/access.py#check_can_read_invoice:9:1$v8"
+      ],
+      "returnBlocks": [
+        "billing/access.py#check_can_read_invoice:9:1$b1"
+      ],
+      "comparisons": [
+        {
+          "left": "billing/access.py#check_can_read_invoice:9:1$v5",
+          "right": "billing/access.py#check_can_read_invoice:9:1$v7",
+          "op": "Eq",
+          "block": "billing/access.py#check_can_read_invoice:9:1$b0",
+          "loc": {
+            "file": "billing/access.py",
+            "line": 11,
+            "column": 22
+          }
+        }
+      ],
+      "writes": [],
+      "entryBlock": "billing/access.py#check_can_read_invoice:9:1$b0",
+      "blocks": [
+        {
+          "id": "billing/access.py#check_can_read_invoice:9:1$b0",
+          "successors": [
+            "billing/access.py#check_can_read_invoice:9:1$b1",
+            "billing/access.py#check_can_read_invoice:9:1$b3"
+          ],
+          "loc": {
+            "file": "billing/access.py",
+            "line": 9,
+            "column": 1
+          },
+          "terminator": "branch"
+        },
+        {
+          "id": "billing/access.py#check_can_read_invoice:9:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "billing/access.py",
+            "line": 11,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "billing/access.py#check_can_read_invoice:9:1$b2",
+          "successors": [
+            "billing/access.py#check_can_read_invoice:9:1$b3"
+          ],
+          "loc": {
+            "file": "billing/access.py",
+            "line": 12,
+            "column": 9
+          }
+        },
+        {
+          "id": "billing/access.py#check_can_read_invoice:9:1$b3",
+          "successors": [],
+          "loc": {
+            "file": "billing/access.py",
+            "line": 11,
+            "column": 5
+          },
+          "terminator": "throw"
+        },
+        {
+          "id": "billing/access.py#check_can_read_invoice:9:1$b4",
+          "successors": [],
+          "loc": {
+            "file": "billing/access.py",
+            "line": 13,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "billing/types.py#<module>:0:0",
+      "name": "<module>",
+      "module": "billing/types.py",
+      "loc": {
+        "file": "billing/types.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "billing/types.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "billing/types.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The billing subject: the type whose records the cart mutations reach for."
+        },
+        {
+          "id": "billing/types.py#<module>:0:0$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "billing/types.py",
+            "line": 7,
+            "column": 5
+          },
+          "literal": "A record that belongs to whoever the invoice was issued to."
+        },
+        {
+          "id": "billing/types.py#<module>:0:0$v2",
+          "kind": "global",
+          "loc": {
+            "file": "billing/types.py",
+            "line": 9,
+            "column": 13
+          },
+          "name": "graphene"
+        },
+        {
+          "id": "billing/types.py#<module>:0:0$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "billing/types.py",
+            "line": 9,
+            "column": 13
+          },
+          "name": "graphene.String"
+        },
+        {
+          "id": "billing/types.py#<module>:0:0$v4",
+          "kind": "local",
+          "loc": {
+            "file": "billing/types.py",
+            "line": 9,
+            "column": 5
+          },
+          "name": "total"
+        },
+        {
+          "id": "billing/types.py#<module>:0:0$v5",
+          "kind": "property",
+          "loc": {
+            "file": "billing/types.py",
+            "line": 10,
+            "column": 27
+          },
+          "base": "billing/types.py#<module>:0:0$v2",
+          "path": "String",
+          "name": "String"
+        },
+        {
+          "id": "billing/types.py#<module>:0:0$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "billing/types.py",
+            "line": 10,
+            "column": 13
+          },
+          "name": "graphene.List"
+        },
+        {
+          "id": "billing/types.py#<module>:0:0$v7",
+          "kind": "local",
+          "loc": {
+            "file": "billing/types.py",
+            "line": 10,
+            "column": 5
+          },
+          "name": "lines"
+        }
+      ],
+      "flows": [
+        {
+          "from": "billing/types.py#<module>:0:0$v3",
+          "to": "billing/types.py#<module>:0:0$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "billing/types.py",
+            "line": 9,
+            "column": 5
+          },
+          "block": "billing/types.py#<module>:0:0$b0"
+        },
+        {
+          "from": "billing/types.py#<module>:0:0$v2",
+          "to": "billing/types.py#<module>:0:0$v5",
+          "kind": "property",
+          "loc": {
+            "file": "billing/types.py",
+            "line": 10,
+            "column": 27
+          },
+          "block": "billing/types.py#<module>:0:0$b0"
+        },
+        {
+          "from": "billing/types.py#<module>:0:0$v6",
+          "to": "billing/types.py#<module>:0:0$v7",
+          "kind": "assign",
+          "loc": {
+            "file": "billing/types.py",
+            "line": 10,
+            "column": 5
+          },
+          "block": "billing/types.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "billing/types.py#<module>:0:0$c0",
+          "loc": {
+            "file": "billing/types.py",
+            "line": 9,
+            "column": 13
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "graphene.String",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "billing/types.py#<module>:0:0$v3",
+          "block": "billing/types.py#<module>:0:0$b0",
+          "method": "String",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "billing/types.py#<module>:0:0$v2"
+        },
+        {
+          "id": "billing/types.py#<module>:0:0$c1",
+          "loc": {
+            "file": "billing/types.py",
+            "line": 10,
+            "column": 13
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "graphene.List",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "billing/types.py#<module>:0:0$v5"
+            }
+          ],
+          "resultValueId": "billing/types.py#<module>:0:0$v6",
+          "block": "billing/types.py#<module>:0:0$b0",
+          "method": "List",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "billing/types.py#<module>:0:0$v2"
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "billing/types.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "billing/types.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "billing/types.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "cart/mutations.py#<module>:0:0",
+      "name": "<module>",
+      "module": "cart/mutations.py",
+      "loc": {
+        "file": "cart/mutations.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "cart/mutations.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "Five mutations registered on the cart, differing only in the facts that decide.\n\nEvery one of them is a `graphene.Mutation` on the cart subject, every one decodes a global\nid the caller sent, and every one is answered by `perform_mutation`. Nothing about the\nSHAPE separates them -- which is the point, because the shape is what a record-selector\nchannel matched, and it was measured at 0 true out of 23.\n\nWhat separates them is three facts, and each of the four silent mutations here is silent\nfor a different one.\n"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 25,
+            "column": 5
+          },
+          "literal": "The weakness. No declared permission, and an invoice is not the cart's subject.\n\n    `check_permissions` returns True when `Meta.permissions` is empty, so any caller\n    reaches this. The caller then names an INVOICE -- a record belonging to whoever it was\n    issued to -- and its lines are copied into a cart stamped with the caller's own\n    identity. The requester is right there in `info.context.user`; it is used to label the\n    new row and never to ask about the old one.\n    "
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v2",
+          "kind": "global",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 34,
+            "column": 27
+          },
+          "name": "cart.types.Cart"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v3",
+          "kind": "global",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 34,
+            "column": 12
+          },
+          "name": "graphene"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 34,
+            "column": 12
+          },
+          "name": "graphene.Field"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v5",
+          "kind": "local",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 34,
+            "column": 5
+          },
+          "name": "cart"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 37,
+            "column": 35
+          },
+          "literal": "true"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 37,
+            "column": 14
+          },
+          "name": "graphene.ID"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v8",
+          "kind": "local",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 37,
+            "column": 9
+          },
+          "name": "id"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 40,
+            "column": 23
+          },
+          "literal": "Fill a cart from an invoice."
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v10",
+          "kind": "local",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 40,
+            "column": 9
+          },
+          "name": "description"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v11",
+          "kind": "literal",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 51,
+            "column": 5
+          },
+          "literal": "The same mutation with the declaration made. Silent because the gate is not empty.\n\n    Byte for byte the same body as the one above. The only difference is four words in\n    `Meta`, and they are the whole difference between an operation anyone may call and one\n    only an invoice manager may -- which is exactly the fact the engine could not read.\n    "
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v12",
+          "kind": "call-result",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 58,
+            "column": 12
+          },
+          "name": "graphene.Field"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v13",
+          "kind": "local",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 58,
+            "column": 5
+          },
+          "name": "cart"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v14",
+          "kind": "literal",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 61,
+            "column": 35
+          },
+          "literal": "true"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v15",
+          "kind": "call-result",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 61,
+            "column": 14
+          },
+          "name": "graphene.ID"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v16",
+          "kind": "local",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 61,
+            "column": 9
+          },
+          "name": "id"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v17",
+          "kind": "literal",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 64,
+            "column": 23
+          },
+          "literal": "Fill a cart from an invoice, for staff."
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v18",
+          "kind": "local",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 64,
+            "column": 9
+          },
+          "name": "description"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v19",
+          "kind": "local",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 65,
+            "column": 23
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v20",
+          "kind": "global",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 65,
+            "column": 24
+          },
+          "name": "permissions.BillingPermissions"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v21",
+          "kind": "property",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 65,
+            "column": 24
+          },
+          "base": "cart/mutations.py#<module>:0:0$v20",
+          "path": "MANAGE_INVOICES",
+          "name": "MANAGE_INVOICES"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v22",
+          "kind": "local",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 65,
+            "column": 9
+          },
+          "name": "permissions"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v23",
+          "kind": "literal",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 76,
+            "column": 5
+          },
+          "literal": "No declaration either, and silent because the mutation asks the question itself.\n\n    An operation open to every caller is not a weakness when it authorizes per RECORD\n    instead of per caller. One call handed both the request and the row is that\n    authorization, and it is how a graphene application writes one.\n    "
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v24",
+          "kind": "call-result",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 83,
+            "column": 12
+          },
+          "name": "graphene.Field"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v25",
+          "kind": "local",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 83,
+            "column": 5
+          },
+          "name": "cart"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v26",
+          "kind": "literal",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 86,
+            "column": 35
+          },
+          "literal": "true"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v27",
+          "kind": "call-result",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 86,
+            "column": 14
+          },
+          "name": "graphene.ID"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v28",
+          "kind": "local",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 86,
+            "column": 9
+          },
+          "name": "id"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v29",
+          "kind": "literal",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 89,
+            "column": 23
+          },
+          "literal": "Fill a cart from your own invoice."
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v30",
+          "kind": "local",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 89,
+            "column": 9
+          },
+          "name": "description"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v31",
+          "kind": "literal",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 101,
+            "column": 5
+          },
+          "literal": "The same relation stated one method along, which is where applications put it.\n\n    The resolver hands the row to a method of its own class and that method asks. Nothing\n    in `perform_mutation` relates anything, so a judgement confined to one body reports\n    this -- and it is correct code.\n    "
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v32",
+          "kind": "call-result",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 108,
+            "column": 12
+          },
+          "name": "graphene.Field"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v33",
+          "kind": "local",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 108,
+            "column": 5
+          },
+          "name": "cart"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v34",
+          "kind": "literal",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 111,
+            "column": 35
+          },
+          "literal": "true"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v35",
+          "kind": "call-result",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 111,
+            "column": 14
+          },
+          "name": "graphene.ID"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v36",
+          "kind": "local",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 111,
+            "column": 9
+          },
+          "name": "id"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v37",
+          "kind": "literal",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 114,
+            "column": 23
+          },
+          "literal": "Fill a cart from your own invoice, checked in clean_instance."
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v38",
+          "kind": "local",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 114,
+            "column": 9
+          },
+          "name": "description"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v39",
+          "kind": "literal",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 130,
+            "column": 5
+          },
+          "literal": "No declaration, no relation, and silent because the record is the cart's own.\n\n    A storefront's cart mutations declare nothing because a shopper drives their own cart,\n    and the cart token is the only way to address one. That absence is a statement about\n    CARTS. Reading it as a weakness would be wrong about every sibling in this module,\n    which is why the subject is a condition and the absence alone is not a finding.\n    "
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v40",
+          "kind": "call-result",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 138,
+            "column": 12
+          },
+          "name": "graphene.Field"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v41",
+          "kind": "local",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 138,
+            "column": 5
+          },
+          "name": "cart"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v42",
+          "kind": "literal",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 141,
+            "column": 35
+          },
+          "literal": "true"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v43",
+          "kind": "call-result",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 141,
+            "column": 14
+          },
+          "name": "graphene.ID"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v44",
+          "kind": "local",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 141,
+            "column": 9
+          },
+          "name": "id"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v45",
+          "kind": "literal",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 142,
+            "column": 42
+          },
+          "literal": "true"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v46",
+          "kind": "call-result",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 142,
+            "column": 17
+          },
+          "name": "graphene.String"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v47",
+          "kind": "local",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 142,
+            "column": 9
+          },
+          "name": "label"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v48",
+          "kind": "literal",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 145,
+            "column": 23
+          },
+          "literal": "Rename your cart."
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$v49",
+          "kind": "local",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 145,
+            "column": 9
+          },
+          "name": "description"
+        }
+      ],
+      "flows": [
+        {
+          "from": "cart/mutations.py#<module>:0:0$v4",
+          "to": "cart/mutations.py#<module>:0:0$v5",
+          "kind": "assign",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 34,
+            "column": 5
+          },
+          "block": "cart/mutations.py#<module>:0:0$b0"
+        },
+        {
+          "from": "cart/mutations.py#<module>:0:0$v7",
+          "to": "cart/mutations.py#<module>:0:0$v8",
+          "kind": "assign",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 37,
+            "column": 9
+          },
+          "block": "cart/mutations.py#<module>:0:0$b0"
+        },
+        {
+          "from": "cart/mutations.py#<module>:0:0$v9",
+          "to": "cart/mutations.py#<module>:0:0$v10",
+          "kind": "assign",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 40,
+            "column": 9
+          },
+          "block": "cart/mutations.py#<module>:0:0$b0"
+        },
+        {
+          "from": "cart/mutations.py#<module>:0:0$v12",
+          "to": "cart/mutations.py#<module>:0:0$v13",
+          "kind": "assign",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 58,
+            "column": 5
+          },
+          "block": "cart/mutations.py#<module>:0:0$b0"
+        },
+        {
+          "from": "cart/mutations.py#<module>:0:0$v15",
+          "to": "cart/mutations.py#<module>:0:0$v16",
+          "kind": "assign",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 61,
+            "column": 9
+          },
+          "block": "cart/mutations.py#<module>:0:0$b0"
+        },
+        {
+          "from": "cart/mutations.py#<module>:0:0$v17",
+          "to": "cart/mutations.py#<module>:0:0$v18",
+          "kind": "assign",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 64,
+            "column": 9
+          },
+          "block": "cart/mutations.py#<module>:0:0$b0"
+        },
+        {
+          "from": "cart/mutations.py#<module>:0:0$v20",
+          "to": "cart/mutations.py#<module>:0:0$v21",
+          "kind": "property",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 65,
+            "column": 24
+          },
+          "block": "cart/mutations.py#<module>:0:0$b0"
+        },
+        {
+          "from": "cart/mutations.py#<module>:0:0$v21",
+          "to": "cart/mutations.py#<module>:0:0$v19",
+          "kind": "enclose",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 65,
+            "column": 23
+          },
+          "block": "cart/mutations.py#<module>:0:0$b0"
+        },
+        {
+          "from": "cart/mutations.py#<module>:0:0$v19",
+          "to": "cart/mutations.py#<module>:0:0$v22",
+          "kind": "assign",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 65,
+            "column": 9
+          },
+          "block": "cart/mutations.py#<module>:0:0$b0"
+        },
+        {
+          "from": "cart/mutations.py#<module>:0:0$v24",
+          "to": "cart/mutations.py#<module>:0:0$v25",
+          "kind": "assign",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 83,
+            "column": 5
+          },
+          "block": "cart/mutations.py#<module>:0:0$b0"
+        },
+        {
+          "from": "cart/mutations.py#<module>:0:0$v27",
+          "to": "cart/mutations.py#<module>:0:0$v28",
+          "kind": "assign",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 86,
+            "column": 9
+          },
+          "block": "cart/mutations.py#<module>:0:0$b0"
+        },
+        {
+          "from": "cart/mutations.py#<module>:0:0$v29",
+          "to": "cart/mutations.py#<module>:0:0$v30",
+          "kind": "assign",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 89,
+            "column": 9
+          },
+          "block": "cart/mutations.py#<module>:0:0$b0"
+        },
+        {
+          "from": "cart/mutations.py#<module>:0:0$v32",
+          "to": "cart/mutations.py#<module>:0:0$v33",
+          "kind": "assign",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 108,
+            "column": 5
+          },
+          "block": "cart/mutations.py#<module>:0:0$b0"
+        },
+        {
+          "from": "cart/mutations.py#<module>:0:0$v35",
+          "to": "cart/mutations.py#<module>:0:0$v36",
+          "kind": "assign",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 111,
+            "column": 9
+          },
+          "block": "cart/mutations.py#<module>:0:0$b0"
+        },
+        {
+          "from": "cart/mutations.py#<module>:0:0$v37",
+          "to": "cart/mutations.py#<module>:0:0$v38",
+          "kind": "assign",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 114,
+            "column": 9
+          },
+          "block": "cart/mutations.py#<module>:0:0$b0"
+        },
+        {
+          "from": "cart/mutations.py#<module>:0:0$v40",
+          "to": "cart/mutations.py#<module>:0:0$v41",
+          "kind": "assign",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 138,
+            "column": 5
+          },
+          "block": "cart/mutations.py#<module>:0:0$b0"
+        },
+        {
+          "from": "cart/mutations.py#<module>:0:0$v43",
+          "to": "cart/mutations.py#<module>:0:0$v44",
+          "kind": "assign",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 141,
+            "column": 9
+          },
+          "block": "cart/mutations.py#<module>:0:0$b0"
+        },
+        {
+          "from": "cart/mutations.py#<module>:0:0$v46",
+          "to": "cart/mutations.py#<module>:0:0$v47",
+          "kind": "assign",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 142,
+            "column": 9
+          },
+          "block": "cart/mutations.py#<module>:0:0$b0"
+        },
+        {
+          "from": "cart/mutations.py#<module>:0:0$v48",
+          "to": "cart/mutations.py#<module>:0:0$v49",
+          "kind": "assign",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 145,
+            "column": 9
+          },
+          "block": "cart/mutations.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "cart/mutations.py#<module>:0:0$c0",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 34,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "graphene.Field",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "cart/mutations.py#<module>:0:0$v2"
+            }
+          ],
+          "resultValueId": "cart/mutations.py#<module>:0:0$v4",
+          "block": "cart/mutations.py#<module>:0:0$b0",
+          "method": "Field",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "cart/mutations.py#<module>:0:0$v3"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$c1",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 37,
+            "column": 14
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "graphene.ID",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "valueId": "cart/mutations.py#<module>:0:0$v6",
+              "name": "required"
+            }
+          ],
+          "resultValueId": "cart/mutations.py#<module>:0:0$v7",
+          "block": "cart/mutations.py#<module>:0:0$b0",
+          "method": "ID",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "required=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "cart/mutations.py#<module>:0:0$v3"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$c2",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 58,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "graphene.Field",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "cart/mutations.py#<module>:0:0$v2"
+            }
+          ],
+          "resultValueId": "cart/mutations.py#<module>:0:0$v12",
+          "block": "cart/mutations.py#<module>:0:0$b0",
+          "method": "Field",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "cart/mutations.py#<module>:0:0$v3"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$c3",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 61,
+            "column": 14
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "graphene.ID",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "valueId": "cart/mutations.py#<module>:0:0$v14",
+              "name": "required"
+            }
+          ],
+          "resultValueId": "cart/mutations.py#<module>:0:0$v15",
+          "block": "cart/mutations.py#<module>:0:0$b0",
+          "method": "ID",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "required=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "cart/mutations.py#<module>:0:0$v3"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$c4",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 83,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "graphene.Field",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "cart/mutations.py#<module>:0:0$v2"
+            }
+          ],
+          "resultValueId": "cart/mutations.py#<module>:0:0$v24",
+          "block": "cart/mutations.py#<module>:0:0$b0",
+          "method": "Field",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "cart/mutations.py#<module>:0:0$v3"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$c5",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 86,
+            "column": 14
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "graphene.ID",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "valueId": "cart/mutations.py#<module>:0:0$v26",
+              "name": "required"
+            }
+          ],
+          "resultValueId": "cart/mutations.py#<module>:0:0$v27",
+          "block": "cart/mutations.py#<module>:0:0$b0",
+          "method": "ID",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "required=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "cart/mutations.py#<module>:0:0$v3"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$c6",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 108,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "graphene.Field",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "cart/mutations.py#<module>:0:0$v2"
+            }
+          ],
+          "resultValueId": "cart/mutations.py#<module>:0:0$v32",
+          "block": "cart/mutations.py#<module>:0:0$b0",
+          "method": "Field",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "cart/mutations.py#<module>:0:0$v3"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$c7",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 111,
+            "column": 14
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "graphene.ID",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "valueId": "cart/mutations.py#<module>:0:0$v34",
+              "name": "required"
+            }
+          ],
+          "resultValueId": "cart/mutations.py#<module>:0:0$v35",
+          "block": "cart/mutations.py#<module>:0:0$b0",
+          "method": "ID",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "required=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "cart/mutations.py#<module>:0:0$v3"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$c8",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 138,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "graphene.Field",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "cart/mutations.py#<module>:0:0$v2"
+            }
+          ],
+          "resultValueId": "cart/mutations.py#<module>:0:0$v40",
+          "block": "cart/mutations.py#<module>:0:0$b0",
+          "method": "Field",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "cart/mutations.py#<module>:0:0$v3"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$c9",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 141,
+            "column": 14
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "graphene.ID",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "valueId": "cart/mutations.py#<module>:0:0$v42",
+              "name": "required"
+            }
+          ],
+          "resultValueId": "cart/mutations.py#<module>:0:0$v43",
+          "block": "cart/mutations.py#<module>:0:0$b0",
+          "method": "ID",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "required=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "cart/mutations.py#<module>:0:0$v3"
+        },
+        {
+          "id": "cart/mutations.py#<module>:0:0$c10",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 142,
+            "column": 17
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "graphene.String",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "valueId": "cart/mutations.py#<module>:0:0$v45",
+              "name": "required"
+            }
+          ],
+          "resultValueId": "cart/mutations.py#<module>:0:0$v46",
+          "block": "cart/mutations.py#<module>:0:0$b0",
+          "method": "String",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "required=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "cart/mutations.py#<module>:0:0$v3"
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "cart/mutations.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "cart/mutations.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "cart/mutations.py#load_cart:20:1",
+      "name": "load_cart",
+      "module": "cart/mutations.py",
+      "loc": {
+        "file": "cart/mutations.py",
+        "line": 20,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "user",
+          "valueId": "cart/mutations.py#load_cart:20:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "cart/mutations.py#load_cart:20:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 20,
+            "column": 15
+          },
+          "name": "user"
+        },
+        {
+          "id": "cart/mutations.py#load_cart:20:1$v1",
+          "kind": "local",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 21,
+            "column": 12
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "token",
+              "valueId": "cart/mutations.py#load_cart:20:1$v2"
+            },
+            {
+              "key": "lines",
+              "valueId": "cart/mutations.py#load_cart:20:1$v3"
+            },
+            {
+              "key": "user",
+              "valueId": "cart/mutations.py#load_cart:20:1$v0"
+            }
+          ]
+        },
+        {
+          "id": "cart/mutations.py#load_cart:20:1$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 21,
+            "column": 22
+          },
+          "literal": "t"
+        },
+        {
+          "id": "cart/mutations.py#load_cart:20:1$v3",
+          "kind": "local",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 21,
+            "column": 36
+          },
+          "name": "[sequence]"
+        }
+      ],
+      "flows": [
+        {
+          "from": "cart/mutations.py#load_cart:20:1$v2",
+          "to": "cart/mutations.py#load_cart:20:1$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 21,
+            "column": 12
+          },
+          "block": "cart/mutations.py#load_cart:20:1$b0"
+        },
+        {
+          "from": "cart/mutations.py#load_cart:20:1$v3",
+          "to": "cart/mutations.py#load_cart:20:1$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 21,
+            "column": 12
+          },
+          "block": "cart/mutations.py#load_cart:20:1$b0"
+        },
+        {
+          "from": "cart/mutations.py#load_cart:20:1$v0",
+          "to": "cart/mutations.py#load_cart:20:1$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 21,
+            "column": 12
+          },
+          "block": "cart/mutations.py#load_cart:20:1$b0"
+        }
+      ],
+      "calls": [],
+      "returns": [
+        "cart/mutations.py#load_cart:20:1$v1"
+      ],
+      "returnBlocks": [
+        "cart/mutations.py#load_cart:20:1$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "cart/mutations.py#load_cart:20:1$b0",
+      "blocks": [
+        {
+          "id": "cart/mutations.py#load_cart:20:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 20,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "cart/mutations.py#load_cart:20:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 21,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "cart/mutations.py#perform_mutation:43:5",
+      "name": "perform_mutation",
+      "module": "cart/mutations.py",
+      "loc": {
+        "file": "cart/mutations.py",
+        "line": 43,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "cls",
+          "valueId": "cart/mutations.py#perform_mutation:43:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "_root",
+          "valueId": "cart/mutations.py#perform_mutation:43:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "info",
+          "valueId": "cart/mutations.py#perform_mutation:43:5$v2"
+        },
+        {
+          "index": 3,
+          "name": "id",
+          "valueId": "cart/mutations.py#perform_mutation:43:5$v3"
+        }
+      ],
+      "values": [
+        {
+          "id": "cart/mutations.py#perform_mutation:43:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 43,
+            "column": 26
+          },
+          "name": "cls"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:43:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 43,
+            "column": 31
+          },
+          "name": "_root"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:43:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 43,
+            "column": 38
+          },
+          "name": "info"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:43:5$v3",
+          "kind": "untrusted-param",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 43,
+            "column": 50
+          },
+          "name": "id"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:43:5$v4",
+          "kind": "global",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 44,
+            "column": 61
+          },
+          "name": "billing.types.Invoice"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:43:5$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 44,
+            "column": 19
+          },
+          "name": "cls.get_node_or_error"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:43:5$v6",
+          "kind": "local",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 44,
+            "column": 9
+          },
+          "name": "invoice"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:43:5$v7",
+          "kind": "property",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 45,
+            "column": 26
+          },
+          "base": "cart/mutations.py#perform_mutation:43:5$v2",
+          "path": "context.user",
+          "name": "context.user"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:43:5$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 45,
+            "column": 16
+          },
+          "name": "local"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:43:5$v9",
+          "kind": "local",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 45,
+            "column": 9
+          },
+          "name": "cart"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:43:5$v10",
+          "kind": "property",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 46,
+            "column": 25
+          },
+          "base": "cart/mutations.py#perform_mutation:43:5$v6",
+          "path": "lines",
+          "name": "lines"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:43:5$v11",
+          "kind": "call-result",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 47,
+            "column": 16
+          },
+          "name": "cls"
+        }
+      ],
+      "flows": [
+        {
+          "from": "cart/mutations.py#perform_mutation:43:5$v5",
+          "to": "cart/mutations.py#perform_mutation:43:5$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 44,
+            "column": 9
+          },
+          "block": "cart/mutations.py#perform_mutation:43:5$b0"
+        },
+        {
+          "from": "cart/mutations.py#perform_mutation:43:5$v2",
+          "to": "cart/mutations.py#perform_mutation:43:5$v7",
+          "kind": "property",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 45,
+            "column": 26
+          },
+          "block": "cart/mutations.py#perform_mutation:43:5$b0"
+        },
+        {
+          "from": "cart/mutations.py#perform_mutation:43:5$v8",
+          "to": "cart/mutations.py#perform_mutation:43:5$v9",
+          "kind": "assign",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 45,
+            "column": 9
+          },
+          "block": "cart/mutations.py#perform_mutation:43:5$b0"
+        },
+        {
+          "from": "cart/mutations.py#perform_mutation:43:5$v6",
+          "to": "cart/mutations.py#perform_mutation:43:5$v10",
+          "kind": "property",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 46,
+            "column": 25
+          },
+          "block": "cart/mutations.py#perform_mutation:43:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "cart/mutations.py#perform_mutation:43:5$c0",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 44,
+            "column": 19
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cls.get_node_or_error",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "cart/mutations.py#perform_mutation:43:5$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "cart/mutations.py#perform_mutation:43:5$v3"
+            },
+            {
+              "valueId": "cart/mutations.py#perform_mutation:43:5$v4",
+              "name": "only_type"
+            }
+          ],
+          "resultValueId": "cart/mutations.py#perform_mutation:43:5$v5",
+          "block": "cart/mutations.py#perform_mutation:43:5$b0",
+          "method": "get_node_or_error",
+          "argCount": 3,
+          "argLiterals": {
+            "-1": "only_type=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "cart/mutations.py#perform_mutation:43:5$v0"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:43:5$c1",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 45,
+            "column": 16
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "cart/mutations.py#load_cart:20:1",
+            "resolution": "resolved",
+            "name": "load_cart"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "cart/mutations.py#perform_mutation:43:5$v7"
+            }
+          ],
+          "resultValueId": "cart/mutations.py#perform_mutation:43:5$v8",
+          "block": "cart/mutations.py#perform_mutation:43:5$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:43:5$c2",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 47,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cls",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "valueId": "cart/mutations.py#perform_mutation:43:5$v9",
+              "name": "cart"
+            }
+          ],
+          "resultValueId": "cart/mutations.py#perform_mutation:43:5$v11",
+          "block": "cart/mutations.py#perform_mutation:43:5$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "cart=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "cart/mutations.py#perform_mutation:43:5$v11"
+      ],
+      "returnBlocks": [
+        "cart/mutations.py#perform_mutation:43:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 46,
+            "column": 9
+          },
+          "base": "cart/mutations.py#perform_mutation:43:5$v9",
+          "path": "lines",
+          "from": "cart/mutations.py#perform_mutation:43:5$v10",
+          "block": "cart/mutations.py#perform_mutation:43:5$b0"
+        }
+      ],
+      "entryBlock": "cart/mutations.py#perform_mutation:43:5$b0",
+      "blocks": [
+        {
+          "id": "cart/mutations.py#perform_mutation:43:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 43,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:43:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 47,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "cart/mutations.py#perform_mutation:68:5",
+      "name": "perform_mutation",
+      "module": "cart/mutations.py",
+      "loc": {
+        "file": "cart/mutations.py",
+        "line": 68,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "cls",
+          "valueId": "cart/mutations.py#perform_mutation:68:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "_root",
+          "valueId": "cart/mutations.py#perform_mutation:68:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "info",
+          "valueId": "cart/mutations.py#perform_mutation:68:5$v2"
+        },
+        {
+          "index": 3,
+          "name": "id",
+          "valueId": "cart/mutations.py#perform_mutation:68:5$v3"
+        }
+      ],
+      "values": [
+        {
+          "id": "cart/mutations.py#perform_mutation:68:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 68,
+            "column": 26
+          },
+          "name": "cls"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:68:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 68,
+            "column": 31
+          },
+          "name": "_root"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:68:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 68,
+            "column": 38
+          },
+          "name": "info"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:68:5$v3",
+          "kind": "untrusted-param",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 68,
+            "column": 50
+          },
+          "name": "id"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:68:5$v4",
+          "kind": "global",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 69,
+            "column": 61
+          },
+          "name": "billing.types.Invoice"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:68:5$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 69,
+            "column": 19
+          },
+          "name": "cls.get_node_or_error"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:68:5$v6",
+          "kind": "local",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 69,
+            "column": 9
+          },
+          "name": "invoice"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:68:5$v7",
+          "kind": "property",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 70,
+            "column": 26
+          },
+          "base": "cart/mutations.py#perform_mutation:68:5$v2",
+          "path": "context.user",
+          "name": "context.user"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:68:5$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 70,
+            "column": 16
+          },
+          "name": "local"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:68:5$v9",
+          "kind": "local",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 70,
+            "column": 9
+          },
+          "name": "cart"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:68:5$v10",
+          "kind": "property",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 71,
+            "column": 25
+          },
+          "base": "cart/mutations.py#perform_mutation:68:5$v6",
+          "path": "lines",
+          "name": "lines"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:68:5$v11",
+          "kind": "call-result",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 72,
+            "column": 16
+          },
+          "name": "cls"
+        }
+      ],
+      "flows": [
+        {
+          "from": "cart/mutations.py#perform_mutation:68:5$v5",
+          "to": "cart/mutations.py#perform_mutation:68:5$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 69,
+            "column": 9
+          },
+          "block": "cart/mutations.py#perform_mutation:68:5$b0"
+        },
+        {
+          "from": "cart/mutations.py#perform_mutation:68:5$v2",
+          "to": "cart/mutations.py#perform_mutation:68:5$v7",
+          "kind": "property",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 70,
+            "column": 26
+          },
+          "block": "cart/mutations.py#perform_mutation:68:5$b0"
+        },
+        {
+          "from": "cart/mutations.py#perform_mutation:68:5$v8",
+          "to": "cart/mutations.py#perform_mutation:68:5$v9",
+          "kind": "assign",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 70,
+            "column": 9
+          },
+          "block": "cart/mutations.py#perform_mutation:68:5$b0"
+        },
+        {
+          "from": "cart/mutations.py#perform_mutation:68:5$v6",
+          "to": "cart/mutations.py#perform_mutation:68:5$v10",
+          "kind": "property",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 71,
+            "column": 25
+          },
+          "block": "cart/mutations.py#perform_mutation:68:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "cart/mutations.py#perform_mutation:68:5$c0",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 69,
+            "column": 19
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cls.get_node_or_error",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "cart/mutations.py#perform_mutation:68:5$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "cart/mutations.py#perform_mutation:68:5$v3"
+            },
+            {
+              "valueId": "cart/mutations.py#perform_mutation:68:5$v4",
+              "name": "only_type"
+            }
+          ],
+          "resultValueId": "cart/mutations.py#perform_mutation:68:5$v5",
+          "block": "cart/mutations.py#perform_mutation:68:5$b0",
+          "method": "get_node_or_error",
+          "argCount": 3,
+          "argLiterals": {
+            "-1": "only_type=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "cart/mutations.py#perform_mutation:68:5$v0"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:68:5$c1",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 70,
+            "column": 16
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "cart/mutations.py#load_cart:20:1",
+            "resolution": "resolved",
+            "name": "load_cart"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "cart/mutations.py#perform_mutation:68:5$v7"
+            }
+          ],
+          "resultValueId": "cart/mutations.py#perform_mutation:68:5$v8",
+          "block": "cart/mutations.py#perform_mutation:68:5$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:68:5$c2",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 72,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cls",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "valueId": "cart/mutations.py#perform_mutation:68:5$v9",
+              "name": "cart"
+            }
+          ],
+          "resultValueId": "cart/mutations.py#perform_mutation:68:5$v11",
+          "block": "cart/mutations.py#perform_mutation:68:5$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "cart=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "cart/mutations.py#perform_mutation:68:5$v11"
+      ],
+      "returnBlocks": [
+        "cart/mutations.py#perform_mutation:68:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 71,
+            "column": 9
+          },
+          "base": "cart/mutations.py#perform_mutation:68:5$v9",
+          "path": "lines",
+          "from": "cart/mutations.py#perform_mutation:68:5$v10",
+          "block": "cart/mutations.py#perform_mutation:68:5$b0"
+        }
+      ],
+      "entryBlock": "cart/mutations.py#perform_mutation:68:5$b0",
+      "blocks": [
+        {
+          "id": "cart/mutations.py#perform_mutation:68:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 68,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:68:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 72,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "cart/mutations.py#perform_mutation:92:5",
+      "name": "perform_mutation",
+      "module": "cart/mutations.py",
+      "loc": {
+        "file": "cart/mutations.py",
+        "line": 92,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "cls",
+          "valueId": "cart/mutations.py#perform_mutation:92:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "_root",
+          "valueId": "cart/mutations.py#perform_mutation:92:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "info",
+          "valueId": "cart/mutations.py#perform_mutation:92:5$v2"
+        },
+        {
+          "index": 3,
+          "name": "id",
+          "valueId": "cart/mutations.py#perform_mutation:92:5$v3"
+        }
+      ],
+      "values": [
+        {
+          "id": "cart/mutations.py#perform_mutation:92:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 92,
+            "column": 26
+          },
+          "name": "cls"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:92:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 92,
+            "column": 31
+          },
+          "name": "_root"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:92:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 92,
+            "column": 38
+          },
+          "name": "info"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:92:5$v3",
+          "kind": "untrusted-param",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 92,
+            "column": 50
+          },
+          "name": "id"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:92:5$v4",
+          "kind": "global",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 93,
+            "column": 61
+          },
+          "name": "billing.types.Invoice"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:92:5$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 93,
+            "column": 19
+          },
+          "name": "cls.get_node_or_error"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:92:5$v6",
+          "kind": "local",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 93,
+            "column": 9
+          },
+          "name": "invoice"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:92:5$v7",
+          "kind": "property",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 94,
+            "column": 32
+          },
+          "base": "cart/mutations.py#perform_mutation:92:5$v2",
+          "path": "context",
+          "name": "context"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:92:5$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 94,
+            "column": 9
+          },
+          "name": "local"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:92:5$v9",
+          "kind": "property",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 95,
+            "column": 26
+          },
+          "base": "cart/mutations.py#perform_mutation:92:5$v2",
+          "path": "context.user",
+          "name": "context.user"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:92:5$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 95,
+            "column": 16
+          },
+          "name": "local"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:92:5$v11",
+          "kind": "local",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 95,
+            "column": 9
+          },
+          "name": "cart"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:92:5$v12",
+          "kind": "property",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 96,
+            "column": 25
+          },
+          "base": "cart/mutations.py#perform_mutation:92:5$v6",
+          "path": "lines",
+          "name": "lines"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:92:5$v13",
+          "kind": "call-result",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 97,
+            "column": 16
+          },
+          "name": "cls"
+        }
+      ],
+      "flows": [
+        {
+          "from": "cart/mutations.py#perform_mutation:92:5$v5",
+          "to": "cart/mutations.py#perform_mutation:92:5$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 93,
+            "column": 9
+          },
+          "block": "cart/mutations.py#perform_mutation:92:5$b0"
+        },
+        {
+          "from": "cart/mutations.py#perform_mutation:92:5$v2",
+          "to": "cart/mutations.py#perform_mutation:92:5$v7",
+          "kind": "property",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 94,
+            "column": 32
+          },
+          "block": "cart/mutations.py#perform_mutation:92:5$b0"
+        },
+        {
+          "from": "cart/mutations.py#perform_mutation:92:5$v2",
+          "to": "cart/mutations.py#perform_mutation:92:5$v9",
+          "kind": "property",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 95,
+            "column": 26
+          },
+          "block": "cart/mutations.py#perform_mutation:92:5$b0"
+        },
+        {
+          "from": "cart/mutations.py#perform_mutation:92:5$v10",
+          "to": "cart/mutations.py#perform_mutation:92:5$v11",
+          "kind": "assign",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 95,
+            "column": 9
+          },
+          "block": "cart/mutations.py#perform_mutation:92:5$b0"
+        },
+        {
+          "from": "cart/mutations.py#perform_mutation:92:5$v6",
+          "to": "cart/mutations.py#perform_mutation:92:5$v12",
+          "kind": "property",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 96,
+            "column": 25
+          },
+          "block": "cart/mutations.py#perform_mutation:92:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "cart/mutations.py#perform_mutation:92:5$c0",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 93,
+            "column": 19
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cls.get_node_or_error",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "cart/mutations.py#perform_mutation:92:5$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "cart/mutations.py#perform_mutation:92:5$v3"
+            },
+            {
+              "valueId": "cart/mutations.py#perform_mutation:92:5$v4",
+              "name": "only_type"
+            }
+          ],
+          "resultValueId": "cart/mutations.py#perform_mutation:92:5$v5",
+          "block": "cart/mutations.py#perform_mutation:92:5$b0",
+          "method": "get_node_or_error",
+          "argCount": 3,
+          "argLiterals": {
+            "-1": "only_type=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "cart/mutations.py#perform_mutation:92:5$v0"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:92:5$c1",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 94,
+            "column": 9
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "billing/access.py#check_can_read_invoice:9:1",
+            "resolution": "resolved",
+            "name": "check_can_read_invoice"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "cart/mutations.py#perform_mutation:92:5$v7"
+            },
+            {
+              "index": 1,
+              "valueId": "cart/mutations.py#perform_mutation:92:5$v6"
+            }
+          ],
+          "resultValueId": "cart/mutations.py#perform_mutation:92:5$v8",
+          "block": "cart/mutations.py#perform_mutation:92:5$b0",
+          "argCount": 2,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:92:5$c2",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 95,
+            "column": 16
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "cart/mutations.py#load_cart:20:1",
+            "resolution": "resolved",
+            "name": "load_cart"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "cart/mutations.py#perform_mutation:92:5$v9"
+            }
+          ],
+          "resultValueId": "cart/mutations.py#perform_mutation:92:5$v10",
+          "block": "cart/mutations.py#perform_mutation:92:5$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:92:5$c3",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 97,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cls",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "valueId": "cart/mutations.py#perform_mutation:92:5$v11",
+              "name": "cart"
+            }
+          ],
+          "resultValueId": "cart/mutations.py#perform_mutation:92:5$v13",
+          "block": "cart/mutations.py#perform_mutation:92:5$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "cart=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "cart/mutations.py#perform_mutation:92:5$v13"
+      ],
+      "returnBlocks": [
+        "cart/mutations.py#perform_mutation:92:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 96,
+            "column": 9
+          },
+          "base": "cart/mutations.py#perform_mutation:92:5$v11",
+          "path": "lines",
+          "from": "cart/mutations.py#perform_mutation:92:5$v12",
+          "block": "cart/mutations.py#perform_mutation:92:5$b0"
+        }
+      ],
+      "entryBlock": "cart/mutations.py#perform_mutation:92:5$b0",
+      "blocks": [
+        {
+          "id": "cart/mutations.py#perform_mutation:92:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 92,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:92:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 97,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "cart/mutations.py#clean_instance:117:5",
+      "name": "clean_instance",
+      "module": "cart/mutations.py",
+      "loc": {
+        "file": "cart/mutations.py",
+        "line": 117,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "cls",
+          "valueId": "cart/mutations.py#clean_instance:117:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "info",
+          "valueId": "cart/mutations.py#clean_instance:117:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "invoice",
+          "valueId": "cart/mutations.py#clean_instance:117:5$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "cart/mutations.py#clean_instance:117:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 117,
+            "column": 24
+          },
+          "name": "cls"
+        },
+        {
+          "id": "cart/mutations.py#clean_instance:117:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 117,
+            "column": 29
+          },
+          "name": "info"
+        },
+        {
+          "id": "cart/mutations.py#clean_instance:117:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 117,
+            "column": 35
+          },
+          "name": "invoice"
+        },
+        {
+          "id": "cart/mutations.py#clean_instance:117:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 118,
+            "column": 32
+          },
+          "base": "cart/mutations.py#clean_instance:117:5$v1",
+          "path": "context",
+          "name": "context"
+        },
+        {
+          "id": "cart/mutations.py#clean_instance:117:5$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 118,
+            "column": 9
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [
+        {
+          "from": "cart/mutations.py#clean_instance:117:5$v1",
+          "to": "cart/mutations.py#clean_instance:117:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 118,
+            "column": 32
+          },
+          "block": "cart/mutations.py#clean_instance:117:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "cart/mutations.py#clean_instance:117:5$c0",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 118,
+            "column": 9
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "billing/access.py#check_can_read_invoice:9:1",
+            "resolution": "resolved",
+            "name": "check_can_read_invoice"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "cart/mutations.py#clean_instance:117:5$v3"
+            },
+            {
+              "index": 1,
+              "valueId": "cart/mutations.py#clean_instance:117:5$v2"
+            }
+          ],
+          "resultValueId": "cart/mutations.py#clean_instance:117:5$v4",
+          "block": "cart/mutations.py#clean_instance:117:5$b0",
+          "argCount": 2,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "cart/mutations.py#clean_instance:117:5$b0",
+      "blocks": [
+        {
+          "id": "cart/mutations.py#clean_instance:117:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 117,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "cart/mutations.py#perform_mutation:121:5",
+      "name": "perform_mutation",
+      "module": "cart/mutations.py",
+      "loc": {
+        "file": "cart/mutations.py",
+        "line": 121,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "cls",
+          "valueId": "cart/mutations.py#perform_mutation:121:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "_root",
+          "valueId": "cart/mutations.py#perform_mutation:121:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "info",
+          "valueId": "cart/mutations.py#perform_mutation:121:5$v2"
+        },
+        {
+          "index": 3,
+          "name": "id",
+          "valueId": "cart/mutations.py#perform_mutation:121:5$v3"
+        }
+      ],
+      "values": [
+        {
+          "id": "cart/mutations.py#perform_mutation:121:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 121,
+            "column": 26
+          },
+          "name": "cls"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:121:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 121,
+            "column": 31
+          },
+          "name": "_root"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:121:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 121,
+            "column": 38
+          },
+          "name": "info"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:121:5$v3",
+          "kind": "untrusted-param",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 121,
+            "column": 50
+          },
+          "name": "id"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:121:5$v4",
+          "kind": "global",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 122,
+            "column": 61
+          },
+          "name": "billing.types.Invoice"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:121:5$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 122,
+            "column": 19
+          },
+          "name": "cls.get_node_or_error"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:121:5$v6",
+          "kind": "local",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 122,
+            "column": 9
+          },
+          "name": "invoice"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:121:5$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 123,
+            "column": 9
+          },
+          "name": "local"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:121:5$v8",
+          "kind": "property",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 124,
+            "column": 26
+          },
+          "base": "cart/mutations.py#perform_mutation:121:5$v2",
+          "path": "context.user",
+          "name": "context.user"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:121:5$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 124,
+            "column": 16
+          },
+          "name": "local"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:121:5$v10",
+          "kind": "local",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 124,
+            "column": 9
+          },
+          "name": "cart"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:121:5$v11",
+          "kind": "property",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 125,
+            "column": 25
+          },
+          "base": "cart/mutations.py#perform_mutation:121:5$v6",
+          "path": "lines",
+          "name": "lines"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:121:5$v12",
+          "kind": "call-result",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 126,
+            "column": 16
+          },
+          "name": "cls"
+        }
+      ],
+      "flows": [
+        {
+          "from": "cart/mutations.py#perform_mutation:121:5$v5",
+          "to": "cart/mutations.py#perform_mutation:121:5$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 122,
+            "column": 9
+          },
+          "block": "cart/mutations.py#perform_mutation:121:5$b0"
+        },
+        {
+          "from": "cart/mutations.py#perform_mutation:121:5$v2",
+          "to": "cart/mutations.py#perform_mutation:121:5$v8",
+          "kind": "property",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 124,
+            "column": 26
+          },
+          "block": "cart/mutations.py#perform_mutation:121:5$b0"
+        },
+        {
+          "from": "cart/mutations.py#perform_mutation:121:5$v9",
+          "to": "cart/mutations.py#perform_mutation:121:5$v10",
+          "kind": "assign",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 124,
+            "column": 9
+          },
+          "block": "cart/mutations.py#perform_mutation:121:5$b0"
+        },
+        {
+          "from": "cart/mutations.py#perform_mutation:121:5$v6",
+          "to": "cart/mutations.py#perform_mutation:121:5$v11",
+          "kind": "property",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 125,
+            "column": 25
+          },
+          "block": "cart/mutations.py#perform_mutation:121:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "cart/mutations.py#perform_mutation:121:5$c0",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 122,
+            "column": 19
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cls.get_node_or_error",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "cart/mutations.py#perform_mutation:121:5$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "cart/mutations.py#perform_mutation:121:5$v3"
+            },
+            {
+              "valueId": "cart/mutations.py#perform_mutation:121:5$v4",
+              "name": "only_type"
+            }
+          ],
+          "resultValueId": "cart/mutations.py#perform_mutation:121:5$v5",
+          "block": "cart/mutations.py#perform_mutation:121:5$b0",
+          "method": "get_node_or_error",
+          "argCount": 3,
+          "argLiterals": {
+            "-1": "only_type=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "cart/mutations.py#perform_mutation:121:5$v0"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:121:5$c1",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 123,
+            "column": 9
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "cart/mutations.py#clean_instance:117:5",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "paramIndex": 1,
+              "valueId": "cart/mutations.py#perform_mutation:121:5$v2"
+            },
+            {
+              "index": 1,
+              "paramIndex": 2,
+              "valueId": "cart/mutations.py#perform_mutation:121:5$v6"
+            }
+          ],
+          "resultValueId": "cart/mutations.py#perform_mutation:121:5$v7",
+          "block": "cart/mutations.py#perform_mutation:121:5$b0",
+          "method": "clean_instance",
+          "argCount": 2,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "cart/mutations.py#perform_mutation:121:5$v0"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:121:5$c2",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 124,
+            "column": 16
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "cart/mutations.py#load_cart:20:1",
+            "resolution": "resolved",
+            "name": "load_cart"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "cart/mutations.py#perform_mutation:121:5$v8"
+            }
+          ],
+          "resultValueId": "cart/mutations.py#perform_mutation:121:5$v9",
+          "block": "cart/mutations.py#perform_mutation:121:5$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:121:5$c3",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 126,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cls",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "valueId": "cart/mutations.py#perform_mutation:121:5$v10",
+              "name": "cart"
+            }
+          ],
+          "resultValueId": "cart/mutations.py#perform_mutation:121:5$v12",
+          "block": "cart/mutations.py#perform_mutation:121:5$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "cart=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "cart/mutations.py#perform_mutation:121:5$v12"
+      ],
+      "returnBlocks": [
+        "cart/mutations.py#perform_mutation:121:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 125,
+            "column": 9
+          },
+          "base": "cart/mutations.py#perform_mutation:121:5$v10",
+          "path": "lines",
+          "from": "cart/mutations.py#perform_mutation:121:5$v11",
+          "block": "cart/mutations.py#perform_mutation:121:5$b0"
+        }
+      ],
+      "entryBlock": "cart/mutations.py#perform_mutation:121:5$b0",
+      "blocks": [
+        {
+          "id": "cart/mutations.py#perform_mutation:121:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 121,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:121:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 126,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "cart/mutations.py#perform_mutation:148:5",
+      "name": "perform_mutation",
+      "module": "cart/mutations.py",
+      "loc": {
+        "file": "cart/mutations.py",
+        "line": 148,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "cls",
+          "valueId": "cart/mutations.py#perform_mutation:148:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "_root",
+          "valueId": "cart/mutations.py#perform_mutation:148:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "info",
+          "valueId": "cart/mutations.py#perform_mutation:148:5$v2"
+        },
+        {
+          "index": 3,
+          "name": "id",
+          "valueId": "cart/mutations.py#perform_mutation:148:5$v3"
+        },
+        {
+          "index": 4,
+          "name": "label",
+          "valueId": "cart/mutations.py#perform_mutation:148:5$v4"
+        }
+      ],
+      "values": [
+        {
+          "id": "cart/mutations.py#perform_mutation:148:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 148,
+            "column": 26
+          },
+          "name": "cls"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:148:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 148,
+            "column": 31
+          },
+          "name": "_root"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:148:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 148,
+            "column": 38
+          },
+          "name": "info"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:148:5$v3",
+          "kind": "untrusted-param",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 148,
+            "column": 50
+          },
+          "name": "id"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:148:5$v4",
+          "kind": "untrusted-param",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 148,
+            "column": 54
+          },
+          "name": "label"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:148:5$v5",
+          "kind": "global",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 149,
+            "column": 58
+          },
+          "name": "cart.types.Cart"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:148:5$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 149,
+            "column": 16
+          },
+          "name": "cls.get_node_or_error"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:148:5$v7",
+          "kind": "local",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 149,
+            "column": 9
+          },
+          "name": "cart"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:148:5$v8",
+          "kind": "property",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 151,
+            "column": 25
+          },
+          "base": "cart/mutations.py#perform_mutation:148:5$v2",
+          "path": "context.user",
+          "name": "context.user"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:148:5$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 152,
+            "column": 16
+          },
+          "name": "cls"
+        }
+      ],
+      "flows": [
+        {
+          "from": "cart/mutations.py#perform_mutation:148:5$v6",
+          "to": "cart/mutations.py#perform_mutation:148:5$v7",
+          "kind": "assign",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 149,
+            "column": 9
+          },
+          "block": "cart/mutations.py#perform_mutation:148:5$b0"
+        },
+        {
+          "from": "cart/mutations.py#perform_mutation:148:5$v2",
+          "to": "cart/mutations.py#perform_mutation:148:5$v8",
+          "kind": "property",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 151,
+            "column": 25
+          },
+          "block": "cart/mutations.py#perform_mutation:148:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "cart/mutations.py#perform_mutation:148:5$c0",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 149,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cls.get_node_or_error",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "cart/mutations.py#perform_mutation:148:5$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "cart/mutations.py#perform_mutation:148:5$v3"
+            },
+            {
+              "valueId": "cart/mutations.py#perform_mutation:148:5$v5",
+              "name": "only_type"
+            }
+          ],
+          "resultValueId": "cart/mutations.py#perform_mutation:148:5$v6",
+          "block": "cart/mutations.py#perform_mutation:148:5$b0",
+          "method": "get_node_or_error",
+          "argCount": 3,
+          "argLiterals": {
+            "-1": "only_type=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "cart/mutations.py#perform_mutation:148:5$v0"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:148:5$c1",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 152,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cls",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "valueId": "cart/mutations.py#perform_mutation:148:5$v7",
+              "name": "cart"
+            }
+          ],
+          "resultValueId": "cart/mutations.py#perform_mutation:148:5$v9",
+          "block": "cart/mutations.py#perform_mutation:148:5$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "-1": "cart=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "cart/mutations.py#perform_mutation:148:5$v9"
+      ],
+      "returnBlocks": [
+        "cart/mutations.py#perform_mutation:148:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 150,
+            "column": 9
+          },
+          "base": "cart/mutations.py#perform_mutation:148:5$v7",
+          "path": "label",
+          "from": "cart/mutations.py#perform_mutation:148:5$v4",
+          "block": "cart/mutations.py#perform_mutation:148:5$b0"
+        },
+        {
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 151,
+            "column": 9
+          },
+          "base": "cart/mutations.py#perform_mutation:148:5$v7",
+          "path": "actor",
+          "from": "cart/mutations.py#perform_mutation:148:5$v8",
+          "block": "cart/mutations.py#perform_mutation:148:5$b0"
+        }
+      ],
+      "entryBlock": "cart/mutations.py#perform_mutation:148:5$b0",
+      "blocks": [
+        {
+          "id": "cart/mutations.py#perform_mutation:148:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 148,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "cart/mutations.py#perform_mutation:148:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 152,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "cart/types.py#<module>:0:0",
+      "name": "<module>",
+      "module": "cart/types.py",
+      "loc": {
+        "file": "cart/types.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "cart/types.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "cart/types.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The cart subject: the type these mutations are registered to be about."
+        },
+        {
+          "id": "cart/types.py#<module>:0:0$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "cart/types.py",
+            "line": 7,
+            "column": 5
+          },
+          "literal": "A shopper's own cart, addressed by a token only its owner was ever given."
+        },
+        {
+          "id": "cart/types.py#<module>:0:0$v2",
+          "kind": "global",
+          "loc": {
+            "file": "cart/types.py",
+            "line": 9,
+            "column": 13
+          },
+          "name": "graphene"
+        },
+        {
+          "id": "cart/types.py#<module>:0:0$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "cart/types.py",
+            "line": 9,
+            "column": 13
+          },
+          "name": "graphene.String"
+        },
+        {
+          "id": "cart/types.py#<module>:0:0$v4",
+          "kind": "local",
+          "loc": {
+            "file": "cart/types.py",
+            "line": 9,
+            "column": 5
+          },
+          "name": "token"
+        },
+        {
+          "id": "cart/types.py#<module>:0:0$v5",
+          "kind": "property",
+          "loc": {
+            "file": "cart/types.py",
+            "line": 10,
+            "column": 27
+          },
+          "base": "cart/types.py#<module>:0:0$v2",
+          "path": "String",
+          "name": "String"
+        },
+        {
+          "id": "cart/types.py#<module>:0:0$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "cart/types.py",
+            "line": 10,
+            "column": 13
+          },
+          "name": "graphene.List"
+        },
+        {
+          "id": "cart/types.py#<module>:0:0$v7",
+          "kind": "local",
+          "loc": {
+            "file": "cart/types.py",
+            "line": 10,
+            "column": 5
+          },
+          "name": "lines"
+        }
+      ],
+      "flows": [
+        {
+          "from": "cart/types.py#<module>:0:0$v3",
+          "to": "cart/types.py#<module>:0:0$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "cart/types.py",
+            "line": 9,
+            "column": 5
+          },
+          "block": "cart/types.py#<module>:0:0$b0"
+        },
+        {
+          "from": "cart/types.py#<module>:0:0$v2",
+          "to": "cart/types.py#<module>:0:0$v5",
+          "kind": "property",
+          "loc": {
+            "file": "cart/types.py",
+            "line": 10,
+            "column": 27
+          },
+          "block": "cart/types.py#<module>:0:0$b0"
+        },
+        {
+          "from": "cart/types.py#<module>:0:0$v6",
+          "to": "cart/types.py#<module>:0:0$v7",
+          "kind": "assign",
+          "loc": {
+            "file": "cart/types.py",
+            "line": 10,
+            "column": 5
+          },
+          "block": "cart/types.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "cart/types.py#<module>:0:0$c0",
+          "loc": {
+            "file": "cart/types.py",
+            "line": 9,
+            "column": 13
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "graphene.String",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "cart/types.py#<module>:0:0$v3",
+          "block": "cart/types.py#<module>:0:0$b0",
+          "method": "String",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "cart/types.py#<module>:0:0$v2"
+        },
+        {
+          "id": "cart/types.py#<module>:0:0$c1",
+          "loc": {
+            "file": "cart/types.py",
+            "line": 10,
+            "column": 13
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "graphene.List",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "cart/types.py#<module>:0:0$v5"
+            }
+          ],
+          "resultValueId": "cart/types.py#<module>:0:0$v6",
+          "block": "cart/types.py#<module>:0:0$b0",
+          "method": "List",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "cart/types.py#<module>:0:0$v2"
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "cart/types.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "cart/types.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "cart/types.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "permissions.py#<module>:0:0",
+      "name": "<module>",
+      "module": "permissions.py",
+      "loc": {
+        "file": "permissions.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "permissions.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "permissions.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The permission constants a mutation names in its `Meta`."
+        },
+        {
+          "id": "permissions.py#<module>:0:0$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "permissions.py",
+            "line": 7,
+            "column": 23
+          },
+          "literal": "billing.manage_invoices"
+        },
+        {
+          "id": "permissions.py#<module>:0:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "permissions.py",
+            "line": 7,
+            "column": 5
+          },
+          "name": "MANAGE_INVOICES"
+        }
+      ],
+      "flows": [
+        {
+          "from": "permissions.py#<module>:0:0$v1",
+          "to": "permissions.py#<module>:0:0$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "permissions.py",
+            "line": 7,
+            "column": 5
+          },
+          "block": "permissions.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "permissions.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "permissions.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "permissions.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "schema.py#<module>:0:0",
+      "name": "<module>",
+      "module": "schema.py",
+      "loc": {
+        "file": "schema.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "schema.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "schema.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The schema, which is the only place anything says these classes are operations."
+        },
+        {
+          "id": "schema.py#<module>:0:0$v1",
+          "kind": "global",
+          "loc": {
+            "file": "schema.py",
+            "line": 15,
+            "column": 30
+          },
+          "name": "cart.mutations.CartFillFromInvoice"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "schema.py",
+            "line": 15,
+            "column": 30
+          },
+          "name": "cart.mutations.CartFillFromInvoice.Field"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v3",
+          "kind": "local",
+          "loc": {
+            "file": "schema.py",
+            "line": 15,
+            "column": 5
+          },
+          "name": "cart_fill_from_invoice"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v4",
+          "kind": "global",
+          "loc": {
+            "file": "schema.py",
+            "line": 16,
+            "column": 36
+          },
+          "name": "cart.mutations.CartFillFromInvoiceGated"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "schema.py",
+            "line": 16,
+            "column": 36
+          },
+          "name": "cart.mutations.CartFillFromInvoiceGated.Field"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v6",
+          "kind": "local",
+          "loc": {
+            "file": "schema.py",
+            "line": 16,
+            "column": 5
+          },
+          "name": "cart_fill_from_invoice_gated"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v7",
+          "kind": "global",
+          "loc": {
+            "file": "schema.py",
+            "line": 17,
+            "column": 36
+          },
+          "name": "cart.mutations.CartFillFromInvoiceOwned"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "schema.py",
+            "line": 17,
+            "column": 36
+          },
+          "name": "cart.mutations.CartFillFromInvoiceOwned.Field"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v9",
+          "kind": "local",
+          "loc": {
+            "file": "schema.py",
+            "line": 17,
+            "column": 5
+          },
+          "name": "cart_fill_from_invoice_owned"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v10",
+          "kind": "global",
+          "loc": {
+            "file": "schema.py",
+            "line": 18,
+            "column": 38
+          },
+          "name": "cart.mutations.CartFillFromInvoiceCleaned"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v11",
+          "kind": "call-result",
+          "loc": {
+            "file": "schema.py",
+            "line": 18,
+            "column": 38
+          },
+          "name": "cart.mutations.CartFillFromInvoiceCleaned.Field"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v12",
+          "kind": "local",
+          "loc": {
+            "file": "schema.py",
+            "line": 18,
+            "column": 5
+          },
+          "name": "cart_fill_from_invoice_cleaned"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v13",
+          "kind": "global",
+          "loc": {
+            "file": "schema.py",
+            "line": 19,
+            "column": 19
+          },
+          "name": "cart.mutations.CartRename"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v14",
+          "kind": "call-result",
+          "loc": {
+            "file": "schema.py",
+            "line": 19,
+            "column": 19
+          },
+          "name": "cart.mutations.CartRename.Field"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v15",
+          "kind": "local",
+          "loc": {
+            "file": "schema.py",
+            "line": 19,
+            "column": 5
+          },
+          "name": "cart_rename"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v16",
+          "kind": "global",
+          "loc": {
+            "file": "schema.py",
+            "line": 27,
+            "column": 15
+          },
+          "name": "graphene"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v17",
+          "kind": "call-result",
+          "loc": {
+            "file": "schema.py",
+            "line": 27,
+            "column": 15
+          },
+          "name": "graphene.String"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v18",
+          "kind": "local",
+          "loc": {
+            "file": "schema.py",
+            "line": 27,
+            "column": 5
+          },
+          "name": "version"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v19",
+          "kind": "call-result",
+          "loc": {
+            "file": "schema.py",
+            "line": 34,
+            "column": 10
+          },
+          "name": "graphene.Schema"
+        },
+        {
+          "id": "schema.py#<module>:0:0$v20",
+          "kind": "local",
+          "loc": {
+            "file": "schema.py",
+            "line": 34,
+            "column": 1
+          },
+          "name": "schema"
+        }
+      ],
+      "flows": [
+        {
+          "from": "schema.py#<module>:0:0$v2",
+          "to": "schema.py#<module>:0:0$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "schema.py",
+            "line": 15,
+            "column": 5
+          },
+          "block": "schema.py#<module>:0:0$b0"
+        },
+        {
+          "from": "schema.py#<module>:0:0$v5",
+          "to": "schema.py#<module>:0:0$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "schema.py",
+            "line": 16,
+            "column": 5
+          },
+          "block": "schema.py#<module>:0:0$b0"
+        },
+        {
+          "from": "schema.py#<module>:0:0$v8",
+          "to": "schema.py#<module>:0:0$v9",
+          "kind": "assign",
+          "loc": {
+            "file": "schema.py",
+            "line": 17,
+            "column": 5
+          },
+          "block": "schema.py#<module>:0:0$b0"
+        },
+        {
+          "from": "schema.py#<module>:0:0$v11",
+          "to": "schema.py#<module>:0:0$v12",
+          "kind": "assign",
+          "loc": {
+            "file": "schema.py",
+            "line": 18,
+            "column": 5
+          },
+          "block": "schema.py#<module>:0:0$b0"
+        },
+        {
+          "from": "schema.py#<module>:0:0$v14",
+          "to": "schema.py#<module>:0:0$v15",
+          "kind": "assign",
+          "loc": {
+            "file": "schema.py",
+            "line": 19,
+            "column": 5
+          },
+          "block": "schema.py#<module>:0:0$b0"
+        },
+        {
+          "from": "schema.py#<module>:0:0$v17",
+          "to": "schema.py#<module>:0:0$v18",
+          "kind": "assign",
+          "loc": {
+            "file": "schema.py",
+            "line": 27,
+            "column": 5
+          },
+          "block": "schema.py#<module>:0:0$b0"
+        },
+        {
+          "from": "schema.py#<module>:0:0$v19",
+          "to": "schema.py#<module>:0:0$v20",
+          "kind": "assign",
+          "loc": {
+            "file": "schema.py",
+            "line": 34,
+            "column": 1
+          },
+          "block": "schema.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "schema.py#<module>:0:0$c0",
+          "loc": {
+            "file": "schema.py",
+            "line": 15,
+            "column": 30
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cart.mutations.CartFillFromInvoice.Field",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "schema.py#<module>:0:0$v2",
+          "block": "schema.py#<module>:0:0$b0",
+          "method": "Field",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "schema.py#<module>:0:0$v1"
+        },
+        {
+          "id": "schema.py#<module>:0:0$c1",
+          "loc": {
+            "file": "schema.py",
+            "line": 16,
+            "column": 36
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cart.mutations.CartFillFromInvoiceGated.Field",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "schema.py#<module>:0:0$v5",
+          "block": "schema.py#<module>:0:0$b0",
+          "method": "Field",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "schema.py#<module>:0:0$v4"
+        },
+        {
+          "id": "schema.py#<module>:0:0$c2",
+          "loc": {
+            "file": "schema.py",
+            "line": 17,
+            "column": 36
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cart.mutations.CartFillFromInvoiceOwned.Field",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "schema.py#<module>:0:0$v8",
+          "block": "schema.py#<module>:0:0$b0",
+          "method": "Field",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "schema.py#<module>:0:0$v7"
+        },
+        {
+          "id": "schema.py#<module>:0:0$c3",
+          "loc": {
+            "file": "schema.py",
+            "line": 18,
+            "column": 38
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cart.mutations.CartFillFromInvoiceCleaned.Field",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "schema.py#<module>:0:0$v11",
+          "block": "schema.py#<module>:0:0$b0",
+          "method": "Field",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "schema.py#<module>:0:0$v10"
+        },
+        {
+          "id": "schema.py#<module>:0:0$c4",
+          "loc": {
+            "file": "schema.py",
+            "line": 19,
+            "column": 19
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cart.mutations.CartRename.Field",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "schema.py#<module>:0:0$v14",
+          "block": "schema.py#<module>:0:0$b0",
+          "method": "Field",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "schema.py#<module>:0:0$v13"
+        },
+        {
+          "id": "schema.py#<module>:0:0$c5",
+          "loc": {
+            "file": "schema.py",
+            "line": 27,
+            "column": 15
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "graphene.String",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "schema.py#<module>:0:0$v17",
+          "block": "schema.py#<module>:0:0$b0",
+          "method": "String",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "schema.py#<module>:0:0$v16"
+        },
+        {
+          "id": "schema.py#<module>:0:0$c6",
+          "loc": {
+            "file": "schema.py",
+            "line": 34,
+            "column": 10
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "graphene.Schema",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "schema.py#<module>:0:0$v19",
+          "block": "schema.py#<module>:0:0$b0",
+          "method": "Schema",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "query=?",
+            "-2": "mutation=?"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "schema.py#<module>:0:0$v16"
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "schema.py",
+            "line": 34,
+            "column": 1
+          },
+          "path": "schema",
+          "from": "schema.py#<module>:0:0$v19",
+          "block": "schema.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "schema.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "schema.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "schema.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "schema.py#resolve_version:30:5",
+      "name": "resolve_version",
+      "module": "schema.py",
+      "loc": {
+        "file": "schema.py",
+        "line": 30,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "root",
+          "valueId": "schema.py#resolve_version:30:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "info",
+          "valueId": "schema.py#resolve_version:30:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "schema.py#resolve_version:30:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "schema.py",
+            "line": 30,
+            "column": 25
+          },
+          "name": "root"
+        },
+        {
+          "id": "schema.py#resolve_version:30:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "schema.py",
+            "line": 30,
+            "column": 31
+          },
+          "name": "info"
+        },
+        {
+          "id": "schema.py#resolve_version:30:5$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "schema.py",
+            "line": 31,
+            "column": 16
+          },
+          "literal": "1"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [
+        "schema.py#resolve_version:30:5$v2"
+      ],
+      "returnBlocks": [
+        "schema.py#resolve_version:30:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "schema.py#resolve_version:30:5$b0",
+      "blocks": [
+        {
+          "id": "schema.py#resolve_version:30:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "schema.py",
+            "line": 30,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "schema.py#resolve_version:30:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "schema.py",
+            "line": 31,
+            "column": 9
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "cart/mutations.py#perform_mutation:43:5",
+      "kind": "graphql-operation",
+      "framework": "graphene",
+      "detail": {
+        "method": "MUTATION",
+        "path": "cartFillFromInvoice",
+        "module": "cart/mutations.py",
+        "mount": "CartMutations",
+        "handler": "CartFillFromInvoice"
+      },
+      "loc": {
+        "file": "schema.py",
+        "line": 15,
+        "column": 30
+      }
+    },
+    {
+      "functionId": "cart/mutations.py#perform_mutation:68:5",
+      "kind": "graphql-operation",
+      "framework": "graphene",
+      "detail": {
+        "method": "MUTATION",
+        "path": "cartFillFromInvoiceGated",
+        "module": "cart/mutations.py",
+        "mount": "CartMutations",
+        "handler": "CartFillFromInvoiceGated"
+      },
+      "loc": {
+        "file": "schema.py",
+        "line": 16,
+        "column": 36
+      },
+      "middleware": [
+        {
+          "symbol": "Meta.permissions",
+          "name": "Meta.permissions=BillingPermissions.MANAGE_INVOICES",
+          "scope": "route",
+          "loc": {
+            "file": "cart/mutations.py",
+            "line": 65,
+            "column": 23
+          }
+        }
+      ]
+    },
+    {
+      "functionId": "cart/mutations.py#perform_mutation:92:5",
+      "kind": "graphql-operation",
+      "framework": "graphene",
+      "detail": {
+        "method": "MUTATION",
+        "path": "cartFillFromInvoiceOwned",
+        "module": "cart/mutations.py",
+        "mount": "CartMutations",
+        "handler": "CartFillFromInvoiceOwned"
+      },
+      "loc": {
+        "file": "schema.py",
+        "line": 17,
+        "column": 36
+      }
+    },
+    {
+      "functionId": "cart/mutations.py#perform_mutation:121:5",
+      "kind": "graphql-operation",
+      "framework": "graphene",
+      "detail": {
+        "method": "MUTATION",
+        "path": "cartFillFromInvoiceCleaned",
+        "module": "cart/mutations.py",
+        "mount": "CartMutations",
+        "handler": "CartFillFromInvoiceCleaned"
+      },
+      "loc": {
+        "file": "schema.py",
+        "line": 18,
+        "column": 38
+      }
+    },
+    {
+      "functionId": "cart/mutations.py#perform_mutation:148:5",
+      "kind": "graphql-operation",
+      "framework": "graphene",
+      "detail": {
+        "method": "MUTATION",
+        "path": "cartRename",
+        "module": "cart/mutations.py",
+        "mount": "CartMutations",
+        "handler": "CartRename"
+      },
+      "loc": {
+        "file": "schema.py",
+        "line": 19,
+        "column": 19
+      }
+    }
+  ],
+  "declaredViews": [],
+  "views": [],
+  "renders": []
+}

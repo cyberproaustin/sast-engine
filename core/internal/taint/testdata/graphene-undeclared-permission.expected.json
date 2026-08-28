@@ -1,0 +1,14 @@
+{
+  "corpus": "graphene-undeclared-permission",
+  "description": "The one fact a graphene schema states about who may call an operation, and the three conditions that have to hold with it. `Meta.permissions` is a class attribute and never a call; `BaseMutation.check_permissions` returns True when it is empty, so a mutation that declares none is open to every caller -- and no analysis in this engine could read that before the frontend enumerated the declaration as a control on the entry point. The absence is a CONDITION and never the finding, because absence is the NORM: 54 of saleor's 331 mutations declare nothing and 16 of the 20 modules under graphql/checkout/mutations/ declare nothing, so an anomaly rule would be wrong about sixteen siblings. Five mutations here have the identical shape -- registered on the cart, answered by perform_mutation, decoding a global id the caller sent -- and one is a weakness. cartFillFromInvoice declares no permission, decodes an INVOICE, which is not the cart's subject, and copies its lines into a cart it stamps with the caller's own identity: the requester is right there in info.context.user, used to label the new row and never to ask about the old one. Each of the four silent ones is silent for a different reason, and each reason was paid for by findings it removed from saleor. cartFillFromInvoiceGated is the same body with four words in Meta, and the gate is not empty. cartFillFromInvoiceOwned asks the question itself -- one call handed both the request and the row, which is how a graphene application states an authorization when its resolver signature has no request object to decorate. cartFillFromInvoiceCleaned states the same relation one method along, where applications actually put it, so a judgement confined to one body would report correct code. And cartRename decodes a CART: a storefront's cart mutations declare nothing because a shopper drives their own cart, and that absence is a statement about carts rather than about invoices -- without the subject condition the rule reports saleor's checkoutCustomerNoteUpdate and checkoutComplete beside the real one, and those are the same call under the same empty gate with the checkout token standing as the capability.",
+  "expected": [
+    {
+      "cwe": "CWE-639",
+      "sinkFile": "cart/mutations.py",
+      "sinkLine": 44,
+      "sourceLabel": "id",
+      "confidence": "medium",
+      "note": "no Meta.permissions, so check_permissions admits anyone; the caller names an invoice, which is not this operation's subject; and nothing in the mutation brings that invoice and the requester together"
+    }
+  ]
+}

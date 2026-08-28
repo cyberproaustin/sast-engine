@@ -103,6 +103,11 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) ([]ta
 			out = append(out, judgeDeclared(ix, d, rule, identity)...)
 			continue
 		}
+		if rule.Undeclared != nil {
+			out = append(out, judgeUndeclared(ix, d, rule, identity,
+				byClass[rule.Undeclared.InputClass])...)
+			continue
+		}
 		if len(identity.Values) == 0 {
 			// A relation to the caller's identity cannot be judged where no identity is
 			// observable, and reporting every write as unscoped would be a statement

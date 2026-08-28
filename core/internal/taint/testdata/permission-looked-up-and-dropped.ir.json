@@ -1,0 +1,2255 @@
+{
+  "irVersion": "0.19.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi",
+        "django",
+        "drf",
+        "graphene",
+        "tornado"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "app.py",
+      "path": "app.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "app.py#<module>:0:0",
+      "name": "<module>",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "app.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "A control the program computes and then does nothing with.\n\nEvery rule that reads a missing authorization reads an ABSENCE: no gate here where there\nis one beside it, no gate on this branch where the other branch has one, a gate that does\nnot stop what follows. This file holds the case where nothing is absent -- the lookup is\nright, the mapping is the right mapping, the rejection is a real rejection and the branch\nit sits on is obeyed -- and the permission it found is never asked for.\n\nFour functions, one weakness. What separates them is the program's own words: what the\nvalue came out of, what it was bound to, what the enclosing function calls itself, and\nwhether anything is ever done with the answer beyond asking whether the lookup succeeded.\n"
+        },
+        {
+          "id": "app.py#<module>:0:0$v1",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 16,
+            "column": 7
+          },
+          "name": "flask"
+        },
+        {
+          "id": "app.py#<module>:0:0$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 16,
+            "column": 7
+          },
+          "name": "flask.Flask"
+        },
+        {
+          "id": "app.py#<module>:0:0$v3",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 16,
+            "column": 1
+          },
+          "name": "app"
+        },
+        {
+          "id": "app.py#<module>:0:0$v4",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 18,
+            "column": 31
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "Order",
+              "valueId": "app.py#<module>:0:0$v5"
+            },
+            {
+              "key": "Checkout",
+              "valueId": "app.py#<module>:0:0$v6"
+            }
+          ]
+        },
+        {
+          "id": "app.py#<module>:0:0$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 19,
+            "column": 14
+          },
+          "literal": "MANAGE_ORDERS"
+        },
+        {
+          "id": "app.py#<module>:0:0$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 20,
+            "column": 17
+          },
+          "literal": "MANAGE_CHECKOUTS"
+        },
+        {
+          "id": "app.py#<module>:0:0$v7",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 18,
+            "column": 1
+          },
+          "name": "PRIVATE_META_PERMISSION_MAP"
+        },
+        {
+          "id": "app.py#<module>:0:0$v8",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 30
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "Order",
+              "valueId": "app.py#<module>:0:0$v9"
+            }
+          ]
+        },
+        {
+          "id": "app.py#<module>:0:0$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 24,
+            "column": 14
+          },
+          "literal": "READ_ORDERS"
+        },
+        {
+          "id": "app.py#<module>:0:0$v10",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 1
+          },
+          "name": "PUBLIC_META_PERMISSION_MAP"
+        },
+        {
+          "id": "app.py#<module>:0:0$v11",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 17
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "Order",
+              "valueId": "app.py#<module>:0:0$v12"
+            }
+          ]
+        },
+        {
+          "id": "app.py#<module>:0:0$v12",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 27
+          },
+          "literal": "beta"
+        },
+        {
+          "id": "app.py#<module>:0:0$v13",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 1
+          },
+          "name": "FEATURE_FLAGS"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#<module>:0:0$v2",
+          "to": "app.py#<module>:0:0$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 16,
+            "column": 1
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v5",
+          "to": "app.py#<module>:0:0$v4",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 18,
+            "column": 31
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v6",
+          "to": "app.py#<module>:0:0$v4",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 18,
+            "column": 31
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v4",
+          "to": "app.py#<module>:0:0$v7",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 18,
+            "column": 1
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v9",
+          "to": "app.py#<module>:0:0$v8",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 30
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v8",
+          "to": "app.py#<module>:0:0$v10",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 1
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v12",
+          "to": "app.py#<module>:0:0$v11",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 17
+          },
+          "block": "app.py#<module>:0:0$b0"
+        },
+        {
+          "from": "app.py#<module>:0:0$v11",
+          "to": "app.py#<module>:0:0$v13",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 1
+          },
+          "block": "app.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#<module>:0:0$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 16,
+            "column": 7
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.Flask",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "app.py#<module>:0:0$v2",
+          "block": "app.py#<module>:0:0$b0",
+          "method": "Flask",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#<module>:0:0$v1"
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 16,
+            "column": 1
+          },
+          "path": "app",
+          "from": "app.py#<module>:0:0$v2",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 18,
+            "column": 1
+          },
+          "path": "PRIVATE_META_PERMISSION_MAP",
+          "from": "app.py#<module>:0:0$v4",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 23,
+            "column": 1
+          },
+          "path": "PUBLIC_META_PERMISSION_MAP",
+          "from": "app.py#<module>:0:0$v8",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 27,
+            "column": 1
+          },
+          "path": "FEATURE_FLAGS",
+          "from": "app.py#<module>:0:0$v11",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "app.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "app.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#granted:30:1",
+      "name": "granted",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 30,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "user",
+          "valueId": "app.py#granted:30:1$v0"
+        },
+        {
+          "index": 1,
+          "name": "permission",
+          "valueId": "app.py#granted:30:1$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#granted:30:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 13
+          },
+          "name": "user"
+        },
+        {
+          "id": "app.py#granted:30:1$v1",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 19
+          },
+          "name": "permission"
+        },
+        {
+          "id": "app.py#granted:30:1$v2",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 12
+          },
+          "name": "comparison"
+        },
+        {
+          "id": "app.py#granted:30:1$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 40
+          },
+          "literal": "permissions"
+        },
+        {
+          "id": "app.py#granted:30:1$v4",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 55
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "app.py#granted:30:1$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 26
+          },
+          "name": "builtins.getattr"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "app.py#granted:30:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 26
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "builtins.getattr",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#granted:30:1$v0"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#granted:30:1$v3"
+            },
+            {
+              "index": 2,
+              "valueId": "app.py#granted:30:1$v4"
+            }
+          ],
+          "resultValueId": "app.py#granted:30:1$v5",
+          "block": "app.py#granted:30:1$b0",
+          "argCount": 3,
+          "argLiterals": {
+            "1": "permissions"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "app.py#granted:30:1$v2"
+      ],
+      "returnBlocks": [
+        "app.py#granted:30:1$b0"
+      ],
+      "comparisons": [
+        {
+          "left": "app.py#granted:30:1$v1",
+          "right": "app.py#granted:30:1$v5",
+          "op": "In",
+          "block": "app.py#granted:30:1$b0",
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 12
+          }
+        }
+      ],
+      "writes": [],
+      "entryBlock": "app.py#granted:30:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#granted:30:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 30,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#granted:30:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 31,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#check_metadata_permission:34:1",
+      "name": "check_metadata_permission",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 34,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "user",
+          "valueId": "app.py#check_metadata_permission:34:1$v0"
+        },
+        {
+          "index": 1,
+          "name": "type_name",
+          "valueId": "app.py#check_metadata_permission:34:1$v1"
+        },
+        {
+          "index": 2,
+          "name": "private",
+          "valueId": "app.py#check_metadata_permission:34:1$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#check_metadata_permission:34:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 31
+          },
+          "name": "user"
+        },
+        {
+          "id": "app.py#check_metadata_permission:34:1$v1",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 37
+          },
+          "name": "type_name"
+        },
+        {
+          "id": "app.py#check_metadata_permission:34:1$v2",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 48
+          },
+          "name": "private"
+        },
+        {
+          "id": "app.py#check_metadata_permission:34:1$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 35,
+            "column": 5
+          },
+          "literal": "The weakness. The permission is selected and then only asked to exist.\n\n    `if not meta_permission` is a question about the MAPPING -- did the lookup find an\n    entry -- and it is the only question this function ever asks. Nobody consults the\n    caller, and the function's own name says that is what it is for, so every request the\n    surrounding gate admitted reaches the operation with this permission unasked.\n    "
+        },
+        {
+          "id": "app.py#check_metadata_permission:34:1$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 8
+          },
+          "literal": "true"
+        },
+        {
+          "id": "app.py#check_metadata_permission:34:1$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 27
+          },
+          "name": "PRIVATE_META_PERMISSION_MAP.get"
+        },
+        {
+          "id": "app.py#check_metadata_permission:34:1$v6",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 9
+          },
+          "name": "meta_permission"
+        },
+        {
+          "id": "app.py#check_metadata_permission:34:1$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 27
+          },
+          "name": "PUBLIC_META_PERMISSION_MAP.get"
+        },
+        {
+          "id": "app.py#check_metadata_permission:34:1$v8",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 9
+          },
+          "name": "meta_permission"
+        },
+        {
+          "id": "app.py#check_metadata_permission:34:1$v9",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 48,
+            "column": 35
+          },
+          "name": "concat"
+        },
+        {
+          "id": "app.py#check_metadata_permission:34:1$v10",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 48,
+            "column": 35
+          },
+          "literal": "no permission for "
+        },
+        {
+          "id": "app.py#check_metadata_permission:34:1$v11",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 48,
+            "column": 15
+          },
+          "name": "NotImplementedError"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#check_metadata_permission:34:1$v5",
+          "to": "app.py#check_metadata_permission:34:1$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 9
+          },
+          "block": "app.py#check_metadata_permission:34:1$b1"
+        },
+        {
+          "from": "app.py#check_metadata_permission:34:1$v7",
+          "to": "app.py#check_metadata_permission:34:1$v8",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 9
+          },
+          "block": "app.py#check_metadata_permission:34:1$b2"
+        },
+        {
+          "from": "app.py#check_metadata_permission:34:1$v10",
+          "to": "app.py#check_metadata_permission:34:1$v9",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 48,
+            "column": 35
+          },
+          "block": "app.py#check_metadata_permission:34:1$b4"
+        },
+        {
+          "from": "app.py#check_metadata_permission:34:1$v1",
+          "to": "app.py#check_metadata_permission:34:1$v9",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 48,
+            "column": 35
+          },
+          "block": "app.py#check_metadata_permission:34:1$b4"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#check_metadata_permission:34:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 43,
+            "column": 27
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "PRIVATE_META_PERMISSION_MAP.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#check_metadata_permission:34:1$v1"
+            }
+          ],
+          "resultValueId": "app.py#check_metadata_permission:34:1$v5",
+          "block": "app.py#check_metadata_permission:34:1$b1",
+          "method": "get",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#<module>:0:0$v7"
+        },
+        {
+          "id": "app.py#check_metadata_permission:34:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 45,
+            "column": 27
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "PUBLIC_META_PERMISSION_MAP.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#check_metadata_permission:34:1$v1"
+            }
+          ],
+          "resultValueId": "app.py#check_metadata_permission:34:1$v7",
+          "block": "app.py#check_metadata_permission:34:1$b2",
+          "method": "get",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#<module>:0:0$v10"
+        },
+        {
+          "id": "app.py#check_metadata_permission:34:1$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 48,
+            "column": 15
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "NotImplementedError",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#check_metadata_permission:34:1$v9"
+            }
+          ],
+          "resultValueId": "app.py#check_metadata_permission:34:1$v11",
+          "block": "app.py#check_metadata_permission:34:1$b4",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [
+        {
+          "left": "app.py#check_metadata_permission:34:1$v2",
+          "right": "app.py#check_metadata_permission:34:1$v4",
+          "op": "truthy",
+          "block": "app.py#check_metadata_permission:34:1$b0",
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 8
+          }
+        }
+      ],
+      "writes": [],
+      "entryBlock": "app.py#check_metadata_permission:34:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#check_metadata_permission:34:1$b0",
+          "successors": [
+            "app.py#check_metadata_permission:34:1$b1",
+            "app.py#check_metadata_permission:34:1$b2"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 34,
+            "column": 1
+          },
+          "terminator": "branch"
+        },
+        {
+          "id": "app.py#check_metadata_permission:34:1$b1",
+          "successors": [
+            "app.py#check_metadata_permission:34:1$b3"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 5
+          }
+        },
+        {
+          "id": "app.py#check_metadata_permission:34:1$b2",
+          "successors": [
+            "app.py#check_metadata_permission:34:1$b3"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 5
+          }
+        },
+        {
+          "id": "app.py#check_metadata_permission:34:1$b3",
+          "successors": [
+            "app.py#check_metadata_permission:34:1$b4",
+            "app.py#check_metadata_permission:34:1$b6"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 42,
+            "column": 5
+          },
+          "terminator": "branch"
+        },
+        {
+          "id": "app.py#check_metadata_permission:34:1$b4",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 47,
+            "column": 5
+          },
+          "terminator": "throw"
+        },
+        {
+          "id": "app.py#check_metadata_permission:34:1$b5",
+          "successors": [
+            "app.py#check_metadata_permission:34:1$b6"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 48,
+            "column": 9
+          }
+        },
+        {
+          "id": "app.py#check_metadata_permission:34:1$b6",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 47,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#check_metadata_permission_applied:51:1",
+      "name": "check_metadata_permission_applied",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 51,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "user",
+          "valueId": "app.py#check_metadata_permission_applied:51:1$v0"
+        },
+        {
+          "index": 1,
+          "name": "type_name",
+          "valueId": "app.py#check_metadata_permission_applied:51:1$v1"
+        },
+        {
+          "index": 2,
+          "name": "private",
+          "valueId": "app.py#check_metadata_permission_applied:51:1$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#check_metadata_permission_applied:51:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 39
+          },
+          "name": "user"
+        },
+        {
+          "id": "app.py#check_metadata_permission_applied:51:1$v1",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 45
+          },
+          "name": "type_name"
+        },
+        {
+          "id": "app.py#check_metadata_permission_applied:51:1$v2",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 56
+          },
+          "name": "private"
+        },
+        {
+          "id": "app.py#check_metadata_permission_applied:51:1$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 52,
+            "column": 5
+          },
+          "literal": "The same function with the question asked. Silent, and one line is the difference.\n\n    Same name, same mapping, same rejection. `granted(user, meta_permission)` is the whole\n    of what the one above is missing, and it is what the rule looks for: the permission\n    handed to something that could enforce it.\n    "
+        },
+        {
+          "id": "app.py#check_metadata_permission_applied:51:1$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 58,
+            "column": 8
+          },
+          "literal": "true"
+        },
+        {
+          "id": "app.py#check_metadata_permission_applied:51:1$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 59,
+            "column": 27
+          },
+          "name": "PRIVATE_META_PERMISSION_MAP.get"
+        },
+        {
+          "id": "app.py#check_metadata_permission_applied:51:1$v6",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 59,
+            "column": 9
+          },
+          "name": "meta_permission"
+        },
+        {
+          "id": "app.py#check_metadata_permission_applied:51:1$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 61,
+            "column": 27
+          },
+          "name": "PUBLIC_META_PERMISSION_MAP.get"
+        },
+        {
+          "id": "app.py#check_metadata_permission_applied:51:1$v8",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 61,
+            "column": 9
+          },
+          "name": "meta_permission"
+        },
+        {
+          "id": "app.py#check_metadata_permission_applied:51:1$v9",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 64,
+            "column": 35
+          },
+          "name": "concat"
+        },
+        {
+          "id": "app.py#check_metadata_permission_applied:51:1$v10",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 64,
+            "column": 35
+          },
+          "literal": "no permission for "
+        },
+        {
+          "id": "app.py#check_metadata_permission_applied:51:1$v11",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 64,
+            "column": 15
+          },
+          "name": "NotImplementedError"
+        },
+        {
+          "id": "app.py#check_metadata_permission_applied:51:1$v12",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 12
+          },
+          "name": "local"
+        },
+        {
+          "id": "app.py#check_metadata_permission_applied:51:1$v13",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 66,
+            "column": 31
+          },
+          "literal": "denied"
+        },
+        {
+          "id": "app.py#check_metadata_permission_applied:51:1$v14",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 66,
+            "column": 15
+          },
+          "name": "PermissionError"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#check_metadata_permission_applied:51:1$v5",
+          "to": "app.py#check_metadata_permission_applied:51:1$v6",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 59,
+            "column": 9
+          },
+          "block": "app.py#check_metadata_permission_applied:51:1$b1"
+        },
+        {
+          "from": "app.py#check_metadata_permission_applied:51:1$v7",
+          "to": "app.py#check_metadata_permission_applied:51:1$v8",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 61,
+            "column": 9
+          },
+          "block": "app.py#check_metadata_permission_applied:51:1$b2"
+        },
+        {
+          "from": "app.py#check_metadata_permission_applied:51:1$v10",
+          "to": "app.py#check_metadata_permission_applied:51:1$v9",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 64,
+            "column": 35
+          },
+          "block": "app.py#check_metadata_permission_applied:51:1$b4"
+        },
+        {
+          "from": "app.py#check_metadata_permission_applied:51:1$v1",
+          "to": "app.py#check_metadata_permission_applied:51:1$v9",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 64,
+            "column": 35
+          },
+          "block": "app.py#check_metadata_permission_applied:51:1$b4"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#check_metadata_permission_applied:51:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 59,
+            "column": 27
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "PRIVATE_META_PERMISSION_MAP.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#check_metadata_permission_applied:51:1$v1"
+            }
+          ],
+          "resultValueId": "app.py#check_metadata_permission_applied:51:1$v5",
+          "block": "app.py#check_metadata_permission_applied:51:1$b1",
+          "method": "get",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#<module>:0:0$v7"
+        },
+        {
+          "id": "app.py#check_metadata_permission_applied:51:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 61,
+            "column": 27
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "PUBLIC_META_PERMISSION_MAP.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#check_metadata_permission_applied:51:1$v1"
+            }
+          ],
+          "resultValueId": "app.py#check_metadata_permission_applied:51:1$v7",
+          "block": "app.py#check_metadata_permission_applied:51:1$b2",
+          "method": "get",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#<module>:0:0$v10"
+        },
+        {
+          "id": "app.py#check_metadata_permission_applied:51:1$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 64,
+            "column": 15
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "NotImplementedError",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#check_metadata_permission_applied:51:1$v9"
+            }
+          ],
+          "resultValueId": "app.py#check_metadata_permission_applied:51:1$v11",
+          "block": "app.py#check_metadata_permission_applied:51:1$b4",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#check_metadata_permission_applied:51:1$c3",
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 12
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "app.py#granted:30:1",
+            "resolution": "resolved",
+            "name": "granted"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#check_metadata_permission_applied:51:1$v0"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#check_metadata_permission_applied:51:1$v8"
+            }
+          ],
+          "resultValueId": "app.py#check_metadata_permission_applied:51:1$v12",
+          "block": "app.py#check_metadata_permission_applied:51:1$b6",
+          "argCount": 2,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#check_metadata_permission_applied:51:1$c4",
+          "loc": {
+            "file": "app.py",
+            "line": 66,
+            "column": 15
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "PermissionError",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#check_metadata_permission_applied:51:1$v13"
+            }
+          ],
+          "resultValueId": "app.py#check_metadata_permission_applied:51:1$v14",
+          "block": "app.py#check_metadata_permission_applied:51:1$b7",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "denied"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [
+        {
+          "left": "app.py#check_metadata_permission_applied:51:1$v2",
+          "right": "app.py#check_metadata_permission_applied:51:1$v4",
+          "op": "truthy",
+          "block": "app.py#check_metadata_permission_applied:51:1$b0",
+          "loc": {
+            "file": "app.py",
+            "line": 58,
+            "column": 8
+          }
+        }
+      ],
+      "writes": [],
+      "entryBlock": "app.py#check_metadata_permission_applied:51:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#check_metadata_permission_applied:51:1$b0",
+          "successors": [
+            "app.py#check_metadata_permission_applied:51:1$b1",
+            "app.py#check_metadata_permission_applied:51:1$b2"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 51,
+            "column": 1
+          },
+          "terminator": "branch"
+        },
+        {
+          "id": "app.py#check_metadata_permission_applied:51:1$b1",
+          "successors": [
+            "app.py#check_metadata_permission_applied:51:1$b3"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 58,
+            "column": 5
+          }
+        },
+        {
+          "id": "app.py#check_metadata_permission_applied:51:1$b2",
+          "successors": [
+            "app.py#check_metadata_permission_applied:51:1$b3"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 58,
+            "column": 5
+          }
+        },
+        {
+          "id": "app.py#check_metadata_permission_applied:51:1$b3",
+          "successors": [
+            "app.py#check_metadata_permission_applied:51:1$b4",
+            "app.py#check_metadata_permission_applied:51:1$b6"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 58,
+            "column": 5
+          },
+          "terminator": "branch"
+        },
+        {
+          "id": "app.py#check_metadata_permission_applied:51:1$b4",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 63,
+            "column": 5
+          },
+          "terminator": "throw"
+        },
+        {
+          "id": "app.py#check_metadata_permission_applied:51:1$b5",
+          "successors": [
+            "app.py#check_metadata_permission_applied:51:1$b6"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 64,
+            "column": 9
+          }
+        },
+        {
+          "id": "app.py#check_metadata_permission_applied:51:1$b6",
+          "successors": [
+            "app.py#check_metadata_permission_applied:51:1$b7",
+            "app.py#check_metadata_permission_applied:51:1$b9"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 63,
+            "column": 5
+          },
+          "terminator": "branch"
+        },
+        {
+          "id": "app.py#check_metadata_permission_applied:51:1$b7",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 5
+          },
+          "terminator": "throw"
+        },
+        {
+          "id": "app.py#check_metadata_permission_applied:51:1$b8",
+          "successors": [
+            "app.py#check_metadata_permission_applied:51:1$b9"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 66,
+            "column": 9
+          }
+        },
+        {
+          "id": "app.py#check_metadata_permission_applied:51:1$b9",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 65,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#get_metadata_permission:69:1",
+      "name": "get_metadata_permission",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 69,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "type_name",
+          "valueId": "app.py#get_metadata_permission:69:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#get_metadata_permission:69:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 69,
+            "column": 29
+          },
+          "name": "type_name"
+        },
+        {
+          "id": "app.py#get_metadata_permission:69:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 70,
+            "column": 5
+          },
+          "literal": "A permission RETURNED as data. Silent because the question belongs to its caller.\n\n    Identical to the weakness above in every respect but the one that decides: this\n    function fetches, and its name says so. A rule that read the mapping and the binding\n    without reading the enclosing function would report every permission resolver in every\n    codebase.\n    "
+        },
+        {
+          "id": "app.py#get_metadata_permission:69:1$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 77,
+            "column": 23
+          },
+          "name": "PRIVATE_META_PERMISSION_MAP.get"
+        },
+        {
+          "id": "app.py#get_metadata_permission:69:1$v3",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 77,
+            "column": 5
+          },
+          "name": "meta_permission"
+        },
+        {
+          "id": "app.py#get_metadata_permission:69:1$v4",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 79,
+            "column": 35
+          },
+          "name": "concat"
+        },
+        {
+          "id": "app.py#get_metadata_permission:69:1$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 79,
+            "column": 35
+          },
+          "literal": "no permission for "
+        },
+        {
+          "id": "app.py#get_metadata_permission:69:1$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 79,
+            "column": 15
+          },
+          "name": "NotImplementedError"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#get_metadata_permission:69:1$v2",
+          "to": "app.py#get_metadata_permission:69:1$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 77,
+            "column": 5
+          },
+          "block": "app.py#get_metadata_permission:69:1$b0"
+        },
+        {
+          "from": "app.py#get_metadata_permission:69:1$v5",
+          "to": "app.py#get_metadata_permission:69:1$v4",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 79,
+            "column": 35
+          },
+          "block": "app.py#get_metadata_permission:69:1$b1"
+        },
+        {
+          "from": "app.py#get_metadata_permission:69:1$v0",
+          "to": "app.py#get_metadata_permission:69:1$v4",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 79,
+            "column": 35
+          },
+          "block": "app.py#get_metadata_permission:69:1$b1"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#get_metadata_permission:69:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 77,
+            "column": 23
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "PRIVATE_META_PERMISSION_MAP.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#get_metadata_permission:69:1$v0"
+            }
+          ],
+          "resultValueId": "app.py#get_metadata_permission:69:1$v2",
+          "block": "app.py#get_metadata_permission:69:1$b0",
+          "method": "get",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#<module>:0:0$v7"
+        },
+        {
+          "id": "app.py#get_metadata_permission:69:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 79,
+            "column": 15
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "NotImplementedError",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#get_metadata_permission:69:1$v4"
+            }
+          ],
+          "resultValueId": "app.py#get_metadata_permission:69:1$v6",
+          "block": "app.py#get_metadata_permission:69:1$b1",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "app.py#get_metadata_permission:69:1$v3"
+      ],
+      "returnBlocks": [
+        "app.py#get_metadata_permission:69:1$b3"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#get_metadata_permission:69:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#get_metadata_permission:69:1$b0",
+          "successors": [
+            "app.py#get_metadata_permission:69:1$b1",
+            "app.py#get_metadata_permission:69:1$b3"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 69,
+            "column": 1
+          },
+          "terminator": "branch"
+        },
+        {
+          "id": "app.py#get_metadata_permission:69:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 78,
+            "column": 5
+          },
+          "terminator": "throw"
+        },
+        {
+          "id": "app.py#get_metadata_permission:69:1$b2",
+          "successors": [
+            "app.py#get_metadata_permission:69:1$b3"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 79,
+            "column": 9
+          }
+        },
+        {
+          "id": "app.py#get_metadata_permission:69:1$b3",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 78,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#get_metadata_permission:69:1$b4",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 80,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#check_type_is_released:83:1",
+      "name": "check_type_is_released",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 83,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "type_name",
+          "valueId": "app.py#check_type_is_released:83:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#check_type_is_released:83:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 83,
+            "column": 28
+          },
+          "name": "type_name"
+        },
+        {
+          "id": "app.py#check_type_is_released:83:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 84,
+            "column": 5
+          },
+          "literal": "A value dropped the same way, and not a permission. Silent, and correctly so.\n\n    The engine cannot know what a value is FOR. The only statements of intent a program\n    contains are the names it chose, and nothing here is named for a permission -- so\n    there is nothing to say about a flag that was looked up and not used.\n    "
+        },
+        {
+          "id": "app.py#check_type_is_released:83:1$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 90,
+            "column": 12
+          },
+          "name": "FEATURE_FLAGS.get"
+        },
+        {
+          "id": "app.py#check_type_is_released:83:1$v3",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 90,
+            "column": 5
+          },
+          "name": "flag"
+        },
+        {
+          "id": "app.py#check_type_is_released:83:1$v4",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 92,
+            "column": 35
+          },
+          "name": "concat"
+        },
+        {
+          "id": "app.py#check_type_is_released:83:1$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 92,
+            "column": 35
+          },
+          "literal": "unknown type "
+        },
+        {
+          "id": "app.py#check_type_is_released:83:1$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 92,
+            "column": 15
+          },
+          "name": "NotImplementedError"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#check_type_is_released:83:1$v2",
+          "to": "app.py#check_type_is_released:83:1$v3",
+          "kind": "assign",
+          "loc": {
+            "file": "app.py",
+            "line": 90,
+            "column": 5
+          },
+          "block": "app.py#check_type_is_released:83:1$b0"
+        },
+        {
+          "from": "app.py#check_type_is_released:83:1$v5",
+          "to": "app.py#check_type_is_released:83:1$v4",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 92,
+            "column": 35
+          },
+          "block": "app.py#check_type_is_released:83:1$b1"
+        },
+        {
+          "from": "app.py#check_type_is_released:83:1$v0",
+          "to": "app.py#check_type_is_released:83:1$v4",
+          "kind": "binary",
+          "loc": {
+            "file": "app.py",
+            "line": 92,
+            "column": 35
+          },
+          "block": "app.py#check_type_is_released:83:1$b1"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#check_type_is_released:83:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 90,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "FEATURE_FLAGS.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#check_type_is_released:83:1$v0"
+            }
+          ],
+          "resultValueId": "app.py#check_type_is_released:83:1$v2",
+          "block": "app.py#check_type_is_released:83:1$b0",
+          "method": "get",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#<module>:0:0$v13"
+        },
+        {
+          "id": "app.py#check_type_is_released:83:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 92,
+            "column": 15
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "NotImplementedError",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#check_type_is_released:83:1$v4"
+            }
+          ],
+          "resultValueId": "app.py#check_type_is_released:83:1$v6",
+          "block": "app.py#check_type_is_released:83:1$b1",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#check_type_is_released:83:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#check_type_is_released:83:1$b0",
+          "successors": [
+            "app.py#check_type_is_released:83:1$b1",
+            "app.py#check_type_is_released:83:1$b3"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 83,
+            "column": 1
+          },
+          "terminator": "branch"
+        },
+        {
+          "id": "app.py#check_type_is_released:83:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 91,
+            "column": 5
+          },
+          "terminator": "throw"
+        },
+        {
+          "id": "app.py#check_type_is_released:83:1$b2",
+          "successors": [
+            "app.py#check_type_is_released:83:1$b3"
+          ],
+          "loc": {
+            "file": "app.py",
+            "line": 92,
+            "column": 9
+          }
+        },
+        {
+          "id": "app.py#check_type_is_released:83:1$b3",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 91,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "app.py#update_metadata:96:1",
+      "name": "update_metadata",
+      "module": "app.py",
+      "loc": {
+        "file": "app.py",
+        "line": 96,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "type_name",
+          "valueId": "app.py#update_metadata:96:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "app.py#update_metadata:96:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "app.py",
+            "line": 96,
+            "column": 21
+          },
+          "name": "type_name"
+        },
+        {
+          "id": "app.py#update_metadata:96:1$v1",
+          "kind": "global",
+          "loc": {
+            "file": "app.py",
+            "line": 97,
+            "column": 31
+          },
+          "name": "flask"
+        },
+        {
+          "id": "app.py#update_metadata:96:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 97,
+            "column": 31
+          },
+          "base": "app.py#update_metadata:96:1$v1",
+          "path": "g.user",
+          "name": "g.user"
+        },
+        {
+          "id": "app.py#update_metadata:96:1$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 97,
+            "column": 64
+          },
+          "literal": "true"
+        },
+        {
+          "id": "app.py#update_metadata:96:1$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 97,
+            "column": 5
+          },
+          "name": "local"
+        },
+        {
+          "id": "app.py#update_metadata:96:1$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 98,
+            "column": 72
+          },
+          "literal": "true"
+        },
+        {
+          "id": "app.py#update_metadata:96:1$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 98,
+            "column": 5
+          },
+          "name": "local"
+        },
+        {
+          "id": "app.py#update_metadata:96:1$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 99,
+            "column": 5
+          },
+          "name": "local"
+        },
+        {
+          "id": "app.py#update_metadata:96:1$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 100,
+            "column": 5
+          },
+          "name": "local"
+        },
+        {
+          "id": "app.py#update_metadata:96:1$v9",
+          "kind": "local",
+          "loc": {
+            "file": "app.py",
+            "line": 101,
+            "column": 26
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "ok",
+              "valueId": "app.py#update_metadata:96:1$v10"
+            }
+          ]
+        },
+        {
+          "id": "app.py#update_metadata:96:1$v10",
+          "kind": "literal",
+          "loc": {
+            "file": "app.py",
+            "line": 101,
+            "column": 33
+          },
+          "literal": "true"
+        },
+        {
+          "id": "app.py#update_metadata:96:1$v11",
+          "kind": "call-result",
+          "loc": {
+            "file": "app.py",
+            "line": 101,
+            "column": 12
+          },
+          "name": "flask.jsonify"
+        }
+      ],
+      "flows": [
+        {
+          "from": "app.py#update_metadata:96:1$v1",
+          "to": "app.py#update_metadata:96:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "app.py",
+            "line": 97,
+            "column": 31
+          },
+          "block": "app.py#update_metadata:96:1$b0"
+        },
+        {
+          "from": "app.py#update_metadata:96:1$v10",
+          "to": "app.py#update_metadata:96:1$v9",
+          "kind": "enclose",
+          "loc": {
+            "file": "app.py",
+            "line": 101,
+            "column": 26
+          },
+          "block": "app.py#update_metadata:96:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "app.py#update_metadata:96:1$c0",
+          "loc": {
+            "file": "app.py",
+            "line": 97,
+            "column": 5
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "app.py#check_metadata_permission:34:1",
+            "resolution": "resolved",
+            "name": "check_metadata_permission"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#update_metadata:96:1$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#update_metadata:96:1$v0"
+            },
+            {
+              "valueId": "app.py#update_metadata:96:1$v3",
+              "name": "private"
+            }
+          ],
+          "resultValueId": "app.py#update_metadata:96:1$v4",
+          "block": "app.py#update_metadata:96:1$b0",
+          "argCount": 3,
+          "argLiterals": {
+            "-1": "private=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#update_metadata:96:1$c1",
+          "loc": {
+            "file": "app.py",
+            "line": 98,
+            "column": 5
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "app.py#check_metadata_permission_applied:51:1",
+            "resolution": "resolved",
+            "name": "check_metadata_permission_applied"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#update_metadata:96:1$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "app.py#update_metadata:96:1$v0"
+            },
+            {
+              "valueId": "app.py#update_metadata:96:1$v5",
+              "name": "private"
+            }
+          ],
+          "resultValueId": "app.py#update_metadata:96:1$v6",
+          "block": "app.py#update_metadata:96:1$b0",
+          "argCount": 3,
+          "argLiterals": {
+            "-1": "private=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#update_metadata:96:1$c2",
+          "loc": {
+            "file": "app.py",
+            "line": 99,
+            "column": 5
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "app.py#check_type_is_released:83:1",
+            "resolution": "resolved",
+            "name": "check_type_is_released"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#update_metadata:96:1$v0"
+            }
+          ],
+          "resultValueId": "app.py#update_metadata:96:1$v7",
+          "block": "app.py#update_metadata:96:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#update_metadata:96:1$c3",
+          "loc": {
+            "file": "app.py",
+            "line": 100,
+            "column": 5
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "app.py#get_metadata_permission:69:1",
+            "resolution": "resolved",
+            "name": "get_metadata_permission"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#update_metadata:96:1$v0"
+            }
+          ],
+          "resultValueId": "app.py#update_metadata:96:1$v8",
+          "block": "app.py#update_metadata:96:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "app.py#update_metadata:96:1$c4",
+          "loc": {
+            "file": "app.py",
+            "line": 101,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "flask.jsonify",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "app.py#update_metadata:96:1$v9"
+            }
+          ],
+          "resultValueId": "app.py#update_metadata:96:1$v11",
+          "block": "app.py#update_metadata:96:1$b0",
+          "method": "jsonify",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "app.py#update_metadata:96:1$v1"
+        }
+      ],
+      "returns": [
+        "app.py#update_metadata:96:1$v11"
+      ],
+      "returnBlocks": [
+        "app.py#update_metadata:96:1$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "app.py#update_metadata:96:1$b0",
+      "blocks": [
+        {
+          "id": "app.py#update_metadata:96:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 96,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "app.py#update_metadata:96:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "app.py",
+            "line": 101,
+            "column": 5
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "app.py#update_metadata:96:1",
+      "kind": "http-route",
+      "framework": "flask",
+      "detail": {
+        "method": "POST",
+        "path": "/metadata/<type_name>",
+        "mount": "app"
+      }
+    }
+  ],
+  "declaredViews": [],
+  "views": [],
+  "renders": []
+}
