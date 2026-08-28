@@ -1,0 +1,70 @@
+{
+  "corpus": "registered-destination",
+  "description": "A caller who picks one of the destinations a deployment registered has not picked a destination, and the engine reported four medplum redirects written that way. Every handler here carries the same `req.query.to` into the same `res.redirect`, so the dataflow is identical across all thirteen and only the decision in between differs. Five negatives: an equality against a registered string with the sink on the approved branch; the same decision selecting an ASSIGNMENT where both arms rejoin, so the sink is not on the approved branch and never could be; an equality on the destination's host rather than on the whole string, which is the one part CWE-601 turns on; a function whose every answer is either a registered URI or the requested one inside the branch that proved it shares an origin, which constrains its result with no guard at the call site at all; and that same decision with its answer given a name one statement before the test. Eight positives hold one boundary wrong at a time: no decision, a decision whose answer is dropped, the polarity reversed, a function that LOGS the value and measures it instead of comparing it, an equality on the path rather than the host, an approved assignment beside a second one nothing decided, a named answer with a second definition nothing decided, and an allow-list the caller supplied in the request. The last is the failure direction stated on purpose: matching a caller's string against a caller's list decides nothing, and the engine must still report it.",
+  "expected": [
+    {
+      "cwe": "CWE-601",
+      "sinkFile": "app.ts",
+      "sinkLine": 130,
+      "sourceLabel": "req.query.to",
+      "confidence": "medium",
+      "note": "the control: the same value at the same sink with nothing asked about it"
+    },
+    {
+      "cwe": "CWE-601",
+      "sinkFile": "app.ts",
+      "sinkLine": 138,
+      "sourceLabel": "req.query.to",
+      "confidence": "medium",
+      "note": "the validator is called and its answer is thrown away, which is what a rule keyed on `was a validator called` gets wrong"
+    },
+    {
+      "cwe": "CWE-601",
+      "sinkFile": "app.ts",
+      "sinkLine": 147,
+      "sourceLabel": "req.query.to",
+      "confidence": "medium",
+      "note": "registered destinations are the ones that leave, so the redirect is reached exactly from the branch where the answer was NO -- an identical graph to the first negative"
+    },
+    {
+      "cwe": "CWE-601",
+      "sinkFile": "app.ts",
+      "sinkLine": 156,
+      "sourceLabel": "req.query.to",
+      "confidence": "medium",
+      "note": "the guard's shape is the first negative's exactly; the function inside it logs the value and measures it, and measuring is not comparing"
+    },
+    {
+      "cwe": "CWE-601",
+      "sinkFile": "app.ts",
+      "sinkLine": 164,
+      "sourceLabel": "req.query.to",
+      "confidence": "medium",
+      "note": "a real equality against real configuration, on the one part of a URL that does not decide where the browser goes"
+    },
+    {
+      "cwe": "CWE-601",
+      "sinkFile": "app.ts",
+      "sinkLine": 178,
+      "sourceLabel": "req.query.to",
+      "confidence": "medium",
+      "note": "the approved assignment is there and so is a second one nothing decided; a witness path shows only one definition"
+    },
+    {
+      "cwe": "CWE-601",
+      "sinkFile": "app.ts",
+      "sinkLine": 191,
+      "sourceLabel": "req.query.to",
+      "confidence": "medium",
+      "note": "the name the answer was given holds two things, so a truthy test means `not empty` as readily as it means `registered`"
+    },
+    {
+      "cwe": "CWE-601",
+      "sinkFile": "app.ts",
+      "sinkLine": 201,
+      "sourceLabel": "req.query.to",
+      "confidence": "medium",
+      "note": "equality, a collection, a guard and the right polarity -- and the list came out of the same request as the value, so it settles nothing"
+    }
+  ]
+}

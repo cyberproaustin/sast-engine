@@ -105,6 +105,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -328,6 +329,9 @@
       "returns": [
         "app.py#search:28:1$v7"
       ],
+      "returnBlocks": [
+        "app.py#search:28:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#search:28:1$b0",
@@ -448,6 +452,9 @@
       ],
       "returns": [
         "app.py#profile:36:1$v2"
+      ],
+      "returnBlocks": [
+        "app.py#profile:36:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -602,6 +609,9 @@
       "returns": [
         "app.py#namespace:42:1$v4"
       ],
+      "returnBlocks": [
+        "app.py#namespace:42:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#namespace:42:1$b0",
@@ -708,6 +718,9 @@
       ],
       "returns": [
         "app.py#dashboard:47:1$v2"
+      ],
+      "returnBlocks": [
+        "app.py#dashboard:47:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -926,6 +939,9 @@
       ],
       "returns": [
         "app.py#page:53:1$v8"
+      ],
+      "returnBlocks": [
+        "app.py#page:53:1$b0"
       ],
       "comparisons": [],
       "writes": [
@@ -1253,6 +1269,9 @@
       "returns": [
         "app.py#report:61:1$v10"
       ],
+      "returnBlocks": [
+        "app.py#report:61:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#report:61:1$b0",
@@ -1332,6 +1351,9 @@
       "calls": [],
       "returns": [
         "app.py#defaults:72:1$v0"
+      ],
+      "returnBlocks": [
+        "app.py#defaults:72:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -1639,6 +1661,9 @@
       "returns": [
         "app.py#embed:77:1$v10"
       ],
+      "returnBlocks": [
+        "app.py#embed:77:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#embed:77:1$b0",
@@ -1841,6 +1866,9 @@
       "returns": [
         "app.py#audit:86:1$v7"
       ],
+      "returnBlocks": [
+        "app.py#audit:86:1$b0"
+      ],
       "comparisons": [],
       "writes": [
         {
@@ -1981,6 +2009,9 @@
       ],
       "returns": [
         "app.py#about:96:1$v3"
+      ],
+      "returnBlocks": [
+        "app.py#about:96:1$b0"
       ],
       "comparisons": [],
       "writes": [],

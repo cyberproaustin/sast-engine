@@ -206,6 +206,17 @@ func (g *Graph) IsGuard(block string) bool {
 	return len(g.postDoms[block]) == 1
 }
 
+// BranchesTwoWays reports whether this block ends in a test with more than one way out.
+//
+// DependsOnSuccessor answers about an arm without asking whether there was a choice, and
+// "reached through the only arm" is not a decision about anything. A caller that reads
+// polarity has to establish the choice separately, so the question is named here rather
+// than spelled as a successor count in three places.
+func (g *Graph) BranchesTwoWays(block string) bool {
+	b, ok := g.blocks[block]
+	return ok && len(b.Successors) >= 2
+}
+
 // AnyGuard reports whether any of the given blocks is a guard.
 func (g *Graph) AnyGuard(blocks []string) bool {
 	for _, b := range blocks {

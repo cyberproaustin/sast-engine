@@ -95,6 +95,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -331,6 +332,9 @@
       "returns": [
         "app.py#import_document:8:1$v7"
       ],
+      "returnBlocks": [
+        "app.py#import_document:8:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#import_document:8:1$b0",
@@ -565,6 +569,9 @@
       "returns": [
         "app.py#import_guarded:17:1$v7"
       ],
+      "returnBlocks": [
+        "app.py#import_guarded:17:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#import_guarded:17:1$b0",
@@ -723,6 +730,9 @@
       ],
       "returns": [
         "app.py#import_default:27:1$v4"
+      ],
+      "returnBlocks": [
+        "app.py#import_default:27:1$b0"
       ],
       "comparisons": [],
       "writes": [],

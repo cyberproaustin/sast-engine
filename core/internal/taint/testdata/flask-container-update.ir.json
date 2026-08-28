@@ -105,6 +105,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -253,6 +254,9 @@
       ],
       "returns": [
         "app.py#log_request:18:1$v1"
+      ],
+      "returnBlocks": [
+        "app.py#log_request:18:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -420,6 +424,9 @@
       ],
       "returns": [
         "app.py#search:26:1$v1"
+      ],
+      "returnBlocks": [
+        "app.py#search:26:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -607,6 +614,9 @@
       "returns": [
         "app.py#cache_key:34:1$v2"
       ],
+      "returnBlocks": [
+        "app.py#cache_key:34:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#cache_key:34:1$b0",
@@ -709,6 +719,9 @@
       "calls": [],
       "returns": [
         "app.py#whoami:42:1$v0"
+      ],
+      "returnBlocks": [
+        "app.py#whoami:42:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -885,6 +898,9 @@
       "returns": [
         "app.py#touch_record:50:1$v5"
       ],
+      "returnBlocks": [
+        "app.py#touch_record:50:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#touch_record:50:1$b0",
@@ -937,6 +953,9 @@
       "returns": [
         "app.py#build_defaults:57:1$v0"
       ],
+      "returnBlocks": [
+        "app.py#build_defaults:57:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#build_defaults:57:1$b0",
@@ -987,6 +1006,9 @@
       "calls": [],
       "returns": [
         "app.py#get_store:61:1$v0"
+      ],
+      "returnBlocks": [
+        "app.py#get_store:61:1$b0"
       ],
       "comparisons": [],
       "writes": [],

@@ -257,6 +257,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -570,6 +571,9 @@
       "returns": [
         "app.py#find:11:1$v10"
       ],
+      "returnBlocks": [
+        "app.py#find:11:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#find:11:1$b0",
@@ -795,6 +799,9 @@
       ],
       "returns": [
         "app.py#find_bound:19:1$v7"
+      ],
+      "returnBlocks": [
+        "app.py#find_bound:19:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -1073,6 +1080,9 @@
       "returns": [
         "app.py#lookup:28:1$v9"
       ],
+      "returnBlocks": [
+        "app.py#lookup:28:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#lookup:28:1$b0",
@@ -1200,6 +1210,9 @@
       ],
       "returns": [
         "app.py#lookup_fixed:36:1$v2"
+      ],
+      "returnBlocks": [
+        "app.py#lookup_fixed:36:1$b0"
       ],
       "comparisons": [],
       "writes": [],

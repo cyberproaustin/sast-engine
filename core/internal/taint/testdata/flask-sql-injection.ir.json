@@ -109,6 +109,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -448,6 +449,9 @@
       "returns": [
         "app.py#find_user:16:1$v12"
       ],
+      "returnBlocks": [
+        "app.py#find_user:16:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#find_user:16:1$b0",
@@ -739,6 +743,9 @@
       "returns": [
         "app.py#find_user_by_id:24:1$v10"
       ],
+      "returnBlocks": [
+        "app.py#find_user_by_id:24:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#find_user_by_id:24:1$b0",
@@ -948,6 +955,9 @@
       ],
       "returns": [
         "app.py#all_users:32:1$v6"
+      ],
+      "returnBlocks": [
+        "app.py#all_users:32:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -1265,6 +1275,9 @@
       "returns": [
         "app.py#find_user_fstring:39:1$v11"
       ],
+      "returnBlocks": [
+        "app.py#find_user_fstring:39:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#find_user_fstring:39:1$b0",
@@ -1454,6 +1467,9 @@
       "returns": [
         "app.py#greeting:50:1$v6"
       ],
+      "returnBlocks": [
+        "app.py#greeting:50:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#greeting:50:1$b0",
@@ -1504,6 +1520,7 @@
       "flows": [],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "mailer.py#<module>:0:0$b0",
@@ -1551,6 +1568,9 @@
       "calls": [],
       "returns": [
         "mailer.py#execute:4:1$v0"
+      ],
+      "returnBlocks": [
+        "mailer.py#execute:4:1$b0"
       ],
       "comparisons": [],
       "writes": [],

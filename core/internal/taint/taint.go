@@ -3180,6 +3180,11 @@ func (e *engine) buildFinding(c *ir.Call, ch model.Channel, p model.Policy, arg 
 	if e.anchoredRegexGuardClears(c, arg.ValueID, ch.Context) {
 		return Finding{}, false
 	}
+	// The engine stays silent where the author has spoken (ADR-003), and a program that
+	// matched this value against data of its own has spoken. See admission.go.
+	if e.admittedAgainstProgramValues(c, arg.ValueID, ch.Context) {
+		return Finding{}, false
+	}
 
 	var sanitizers []Sanitizer
 	for _, h := range path {

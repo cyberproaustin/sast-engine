@@ -105,6 +105,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -277,6 +278,9 @@
       "returns": [
         "app.py#calc:16:1$v4"
       ],
+      "returnBlocks": [
+        "app.py#calc:16:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#calc:16:1$b0",
@@ -421,6 +425,9 @@
       ],
       "returns": [
         "app.py#run:23:1$v4"
+      ],
+      "returnBlocks": [
+        "app.py#run:23:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -567,6 +574,9 @@
       "returns": [
         "app.py#load:30:1$v4"
       ],
+      "returnBlocks": [
+        "app.py#load:30:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#load:30:1$b0",
@@ -692,6 +702,9 @@
       ],
       "returns": [
         "app.py#safe_calc:38:1$v2"
+      ],
+      "returnBlocks": [
+        "app.py#safe_calc:38:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -921,6 +934,9 @@
       ],
       "returns": [
         "app.py#lookup:44:1$v7"
+      ],
+      "returnBlocks": [
+        "app.py#lookup:44:1$b0"
       ],
       "comparisons": [],
       "writes": [],

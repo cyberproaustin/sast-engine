@@ -109,6 +109,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -597,6 +598,10 @@
       "returns": [
         "app.py#rotate:25:1$v5",
         "app.py#rotate:25:1$v17"
+      ],
+      "returnBlocks": [
+        "app.py#rotate:25:1$b1",
+        "app.py#rotate:25:1$b3"
       ],
       "comparisons": [],
       "writes": [],
@@ -1119,6 +1124,10 @@
         "app.py#retire:38:1$v5",
         "app.py#retire:38:1$v17"
       ],
+      "returnBlocks": [
+        "app.py#retire:38:1$b1",
+        "app.py#retire:38:1$b3"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#retire:38:1$b0",
@@ -1568,6 +1577,10 @@
       "returns": [
         "app.py#touch:50:1$v5",
         "app.py#touch:50:1$v14"
+      ],
+      "returnBlocks": [
+        "app.py#touch:50:1$b1",
+        "app.py#touch:50:1$b3"
       ],
       "comparisons": [],
       "writes": [],
@@ -2117,6 +2130,10 @@
         "app.py#rename:61:1$v5",
         "app.py#rename:61:1$v18"
       ],
+      "returnBlocks": [
+        "app.py#rename:61:1$b1",
+        "app.py#rename:61:1$b3"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#rename:61:1$b0",
@@ -2596,6 +2613,10 @@
         "app.py#warm:74:1$v5",
         "app.py#warm:74:1$v15"
       ],
+      "returnBlocks": [
+        "app.py#warm:74:1$b1",
+        "app.py#warm:74:1$b3"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#warm:74:1$b0",
@@ -2680,6 +2701,7 @@
       "flows": [],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "context.py#<module>:0:0$b0",
@@ -2771,6 +2793,9 @@
       "returns": [
         "context.py#get_authenticated_context:37:1$v2"
       ],
+      "returnBlocks": [
+        "context.py#get_authenticated_context:37:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "context.py#get_authenticated_context:37:1$b0",
@@ -2842,6 +2867,7 @@
       "flows": [],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -2944,6 +2970,9 @@
       "calls": [],
       "returns": [
         "context.py#is_tenant_admin:14:5$v2"
+      ],
+      "returnBlocks": [
+        "context.py#is_tenant_admin:14:5$b0"
       ],
       "comparisons": [
         {
@@ -3141,6 +3170,9 @@
       "returns": [
         "context.py#read_record:17:5$v4"
       ],
+      "returnBlocks": [
+        "context.py#read_record:17:5$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "context.py#read_record:17:5$b0",
@@ -3213,6 +3245,9 @@
       "calls": [],
       "returns": [
         "context.py#update_record:20:5$v1"
+      ],
+      "returnBlocks": [
+        "context.py#update_record:20:5$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -3306,6 +3341,9 @@
       "calls": [],
       "returns": [
         "context.py#has:25:5$v2"
+      ],
+      "returnBlocks": [
+        "context.py#has:25:5$b0"
       ],
       "comparisons": [
         {
@@ -3530,6 +3568,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {

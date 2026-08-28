@@ -64,6 +64,7 @@
       "flows": [],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#<module>:0:0$b0",
@@ -178,6 +179,9 @@
       "returns": [
         "app.py#make_app:7:1$v3"
       ],
+      "returnBlocks": [
+        "app.py#make_app:7:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#make_app:7:1$b0",
@@ -217,6 +221,7 @@
       "flows": [],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "handlers/__init__.py#<module>:0:0$b0",
@@ -435,6 +440,7 @@
       ],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -679,6 +685,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "handlers/api.py#post:8:5$b0",
@@ -764,6 +771,9 @@
       "calls": [],
       "returns": [
         "handlers/api.py#parse_body:19:5$v1"
+      ],
+      "returnBlocks": [
+        "handlers/api.py#parse_body:19:5$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -1007,6 +1017,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "handlers/api.py#post:22:5$b0",
@@ -1130,6 +1141,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -1261,6 +1273,9 @@
       ],
       "returns": [
         "handlers/base.py#parse_body:16:5$v3"
+      ],
+      "returnBlocks": [
+        "handlers/base.py#parse_body:16:5$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -1494,6 +1509,9 @@
       ],
       "returns": [
         "handlers/base.py#lookup:23:5$v7"
+      ],
+      "returnBlocks": [
+        "handlers/base.py#lookup:23:5$b0"
       ],
       "comparisons": [],
       "writes": [],

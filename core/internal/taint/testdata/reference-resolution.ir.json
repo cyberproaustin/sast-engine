@@ -428,6 +428,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -644,6 +645,9 @@
       ],
       "returns": [
         "app.py#_proxy_url:25:1$v6"
+      ],
+      "returnBlocks": [
+        "app.py#_proxy_url:25:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -992,6 +996,9 @@
       ],
       "returns": [
         "app.py#proxy:30:1$v12"
+      ],
+      "returnBlocks": [
+        "app.py#proxy:30:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -1343,6 +1350,9 @@
       ],
       "returns": [
         "app.py#joined_whole:39:1$v12"
+      ],
+      "returnBlocks": [
+        "app.py#joined_whole:39:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -1715,6 +1725,9 @@
       "returns": [
         "app.py#concatenated:46:1$v13"
       ],
+      "returnBlocks": [
+        "app.py#concatenated:46:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#concatenated:46:1$b0",
@@ -2005,6 +2018,9 @@
       ],
       "returns": [
         "app.py#base_is_the_caller_s:56:1$v10"
+      ],
+      "returnBlocks": [
+        "app.py#base_is_the_caller_s:56:1$b0"
       ],
       "comparisons": [],
       "writes": [],

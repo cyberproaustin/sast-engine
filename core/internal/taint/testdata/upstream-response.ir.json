@@ -238,6 +238,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -591,6 +592,9 @@
       ],
       "returns": [
         "app.py#import_catalog:33:1$v12"
+      ],
+      "returnBlocks": [
+        "app.py#import_catalog:33:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -986,6 +990,9 @@
       "returns": [
         "app.py#sync_catalog:41:1$v15"
       ],
+      "returnBlocks": [
+        "app.py#sync_catalog:41:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#sync_catalog:41:1$b0",
@@ -1227,6 +1234,9 @@
       ],
       "returns": [
         "app.py#audit_catalog:50:1$v8"
+      ],
+      "returnBlocks": [
+        "app.py#audit_catalog:50:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -1499,6 +1509,9 @@
       "returns": [
         "app.py#mirror_catalog:58:1$v9"
       ],
+      "returnBlocks": [
+        "app.py#mirror_catalog:58:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#mirror_catalog:58:1$b0",
@@ -1752,6 +1765,9 @@
       "returns": [
         "app.py#lookup_item:66:1$v8"
       ],
+      "returnBlocks": [
+        "app.py#lookup_item:66:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#lookup_item:66:1$b0",
@@ -1975,6 +1991,9 @@
       "returns": [
         "app.py#private_lookup:78:1$v7"
       ],
+      "returnBlocks": [
+        "app.py#private_lookup:78:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#private_lookup:78:1$b0",
@@ -2078,6 +2097,7 @@
       ],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -2195,6 +2215,9 @@
       "calls": [],
       "returns": [
         "engine_module.py#request:13:1$v1"
+      ],
+      "returnBlocks": [
+        "engine_module.py#request:13:1$b0"
       ],
       "comparisons": [],
       "writes": [
@@ -2614,6 +2637,9 @@
       "returns": [
         "engine_module.py#response:18:1$v2"
       ],
+      "returnBlocks": [
+        "engine_module.py#response:18:1$b2"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "engine_module.py#response:18:1$b0",
@@ -2754,6 +2780,7 @@
       ],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -2871,6 +2898,9 @@
       "calls": [],
       "returns": [
         "engine_xml.py#request:13:1$v1"
+      ],
+      "returnBlocks": [
+        "engine_xml.py#request:13:1$b0"
       ],
       "comparisons": [],
       "writes": [
@@ -3126,6 +3156,9 @@
       ],
       "returns": [
         "engine_xml.py#response:18:1$v5"
+      ],
+      "returnBlocks": [
+        "engine_xml.py#response:18:1$b0"
       ],
       "comparisons": [],
       "writes": [],

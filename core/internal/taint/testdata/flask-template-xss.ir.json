@@ -95,6 +95,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -264,6 +265,9 @@
       ],
       "returns": [
         "app.py#search:8:1$v5"
+      ],
+      "returnBlocks": [
+        "app.py#search:8:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -446,6 +450,9 @@
       "returns": [
         "app.py#profile:16:1$v5"
       ],
+      "returnBlocks": [
+        "app.py#profile:16:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#profile:16:1$b0",
@@ -551,6 +558,9 @@
       ],
       "returns": [
         "app.py#about:21:1$v2"
+      ],
+      "returnBlocks": [
+        "app.py#about:21:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -672,6 +682,9 @@
       ],
       "returns": [
         "app.py#report:27:1$v2"
+      ],
+      "returnBlocks": [
+        "app.py#report:27:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -823,6 +836,9 @@
       "calls": [],
       "returns": [
         "app.py#build_context:36:1$v0"
+      ],
+      "returnBlocks": [
+        "app.py#build_context:36:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -1011,6 +1027,9 @@
       ],
       "returns": [
         "app.py#comment:41:1$v5"
+      ],
+      "returnBlocks": [
+        "app.py#comment:41:1$b0"
       ],
       "comparisons": [],
       "writes": [],

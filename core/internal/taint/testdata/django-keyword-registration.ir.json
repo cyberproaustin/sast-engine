@@ -487,6 +487,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -528,6 +529,7 @@
       "flows": [],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "views.py#<module>:0:0$b0",
@@ -849,6 +851,9 @@
       "returns": [
         "views.py#plain_view:7:1$v12"
       ],
+      "returnBlocks": [
+        "views.py#plain_view:7:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "views.py#plain_view:7:1$b0",
@@ -970,6 +975,9 @@
       ],
       "returns": [
         "views.py#get:15:5$v3"
+      ],
+      "returnBlocks": [
+        "views.py#get:15:5$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -1317,6 +1325,9 @@
       "returns": [
         "views.py#post:18:5$v13"
       ],
+      "returnBlocks": [
+        "views.py#post:18:5$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "views.py#post:18:5$b0",
@@ -1438,6 +1449,9 @@
       ],
       "returns": [
         "views.py#get:25:5$v3"
+      ],
+      "returnBlocks": [
+        "views.py#get:25:5$b0"
       ],
       "comparisons": [],
       "writes": [],

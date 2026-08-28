@@ -189,6 +189,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -583,6 +584,9 @@
       "returns": [
         "app.py#enroll:12:1$v14"
       ],
+      "returnBlocks": [
+        "app.py#enroll:12:1$b0"
+      ],
       "comparisons": [],
       "writes": [
         {
@@ -863,6 +867,9 @@
       ],
       "returns": [
         "app.py#enroll_safe:24:1$v10"
+      ],
+      "returnBlocks": [
+        "app.py#enroll_safe:24:1$b0"
       ],
       "comparisons": [],
       "writes": [

@@ -95,6 +95,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -385,6 +386,9 @@
       "returns": [
         "app.py#session:13:1$v2"
       ],
+      "returnBlocks": [
+        "app.py#session:13:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#session:13:1$b0",
@@ -615,6 +619,9 @@
       ],
       "returns": [
         "app.py#deal:23:1$v7"
+      ],
+      "returnBlocks": [
+        "app.py#deal:23:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -888,6 +895,9 @@
       "returns": [
         "app.py#nonce:32:1$v2"
       ],
+      "returnBlocks": [
+        "app.py#nonce:32:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#nonce:32:1$b0",
@@ -1076,6 +1086,9 @@
       "returns": [
         "app.py#tempname:43:1$v0"
       ],
+      "returnBlocks": [
+        "app.py#tempname:43:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#tempname:43:1$b0",
@@ -1178,6 +1191,9 @@
       ],
       "returns": [
         "app.py#token:49:1$v2"
+      ],
+      "returnBlocks": [
+        "app.py#token:49:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -1358,6 +1374,9 @@
       "returns": [
         "app.py#started:55:1$v0"
       ],
+      "returnBlocks": [
+        "app.py#started:55:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#started:55:1$b0",
@@ -1468,6 +1487,9 @@
       ],
       "returns": [
         "app.py#files:63:1$v2"
+      ],
+      "returnBlocks": [
+        "app.py#files:63:1$b0"
       ],
       "comparisons": [],
       "writes": [],

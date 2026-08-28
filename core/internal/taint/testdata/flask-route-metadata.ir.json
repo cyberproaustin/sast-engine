@@ -245,6 +245,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -298,6 +299,9 @@
       "calls": [],
       "returns": [
         "api.py#list_items:17:1$v0"
+      ],
+      "returnBlocks": [
+        "api.py#list_items:17:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -384,6 +388,9 @@
       "calls": [],
       "returns": [
         "api.py#create_item:22:1$v1"
+      ],
+      "returnBlocks": [
+        "api.py#create_item:22:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -691,6 +698,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -1046,6 +1054,9 @@
       "returns": [
         "app.py#search:31:1$v14"
       ],
+      "returnBlocks": [
+        "app.py#search:31:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#search:31:1$b0",
@@ -1097,6 +1108,9 @@
       "calls": [],
       "returns": [
         "app.py#health:43:1$v0"
+      ],
+      "returnBlocks": [
+        "app.py#health:43:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -1324,6 +1338,9 @@
       "returns": [
         "app.py#purge:50:1$v9"
       ],
+      "returnBlocks": [
+        "app.py#purge:50:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#purge:50:1$b0",
@@ -1465,6 +1482,9 @@
       ],
       "returns": [
         "app.py#whoami:61:1$v4"
+      ],
+      "returnBlocks": [
+        "app.py#whoami:61:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -1677,6 +1697,9 @@
       "returns": [
         "app.py#_runtime_prefix:68:1$v6"
       ],
+      "returnBlocks": [
+        "app.py#_runtime_prefix:68:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#_runtime_prefix:68:1$b0",
@@ -1729,6 +1752,9 @@
       "returns": [
         "app.py#callback:73:1$v0"
       ],
+      "returnBlocks": [
+        "app.py#callback:73:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#callback:73:1$b0",
@@ -1779,6 +1805,7 @@
       "flows": [],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "notroutes.py#<module>:0:0$b0",
@@ -1826,6 +1853,9 @@
       "calls": [],
       "returns": [
         "notroutes.py#replace_subprocess:12:1$v0"
+      ],
+      "returnBlocks": [
+        "notroutes.py#replace_subprocess:12:1$b0"
       ],
       "comparisons": [],
       "writes": [],

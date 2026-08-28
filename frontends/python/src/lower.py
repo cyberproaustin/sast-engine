@@ -1892,6 +1892,10 @@ class FunctionLowerer:
         self.flows: list[dict] = []
         self.calls: list[dict] = []
         self.returns: list[str] = []
+        # Index-aligned with `returns`: the block each `return` left the function from.
+        # See ir.Function.ReturnBlocks -- without it, "on what condition does this
+        # function answer with the value it was handed" has no answer.
+        self.return_blocks: list[str] = []
         self.comparisons: list[dict] = []
         self.writes: list[dict] = []
         self.blocks: list[dict] = []
@@ -2083,6 +2087,7 @@ class FunctionLowerer:
             "flows": self.flows,
             "calls": self.calls,
             "returns": self.returns,
+            "returnBlocks": self.return_blocks,
             "comparisons": self.comparisons,
             "writes": [{k: v for k, v in w.items() if v is not None} for w in self.writes],
             "entryBlock": self.entry_block,
@@ -2387,6 +2392,7 @@ class FunctionLowerer:
                 vid = self.expr(node.value)
                 if vid:
                     self.returns.append(vid)
+                    self.return_blocks.append(self.current)
             self.terminate(self.current, "return")
             self.current = self.new_block(node)
             return
@@ -2722,7 +2728,10 @@ class FunctionLowerer:
         # composing text out of them, and calling it composition would make
         # `execute(request.args["q"] or "")` look like a built statement.
         if isinstance(node, ast.BoolOp):
-            vid = self.new_value("local", node, name="either")
+            # `and` promises BOTH sides, `or` promises either. One value with an edge
+            # from each operand cannot tell them apart, and an analysis that admits a
+            # value because a check in the condition said yes needs to know which.
+            vid = self.new_value("local", node, name="both" if isinstance(node.op, ast.And) else "either")
             for value in node.values:
                 self.add_flow(self.expr(value), vid, "assign", node)
             return vid

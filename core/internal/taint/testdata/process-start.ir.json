@@ -130,6 +130,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [
         {
           "left": "devscripts/release.py#<module>:0:0$v1",
@@ -296,6 +297,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "devscripts/release.py#publish:20:1$b0",
@@ -325,6 +327,7 @@
       "flows": [],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "hub/__init__.py#<module>:0:0$b0",
@@ -471,6 +474,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [
         {
           "left": "hub/app.py#<module>:0:0$v2",
@@ -734,6 +738,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "hub/app.py#launch:41:5$b0",
@@ -812,6 +817,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "hub/app.py#start_async:45:5$b0",
@@ -921,6 +927,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "hub/app.py#initialize:48:5$b0",
@@ -1067,6 +1074,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "hub/app.py#report_boot:57:5$b0",
@@ -1271,6 +1279,9 @@
       "returns": [
         "hub/app.py#init_secrets:65:5$v7"
       ],
+      "returnBlocks": [
+        "hub/app.py#init_secrets:65:5$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "hub/app.py#init_secrets:65:5$b0",
@@ -1321,6 +1332,7 @@
       "flows": [],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "hub/loop.py#<module>:0:0$b0",
@@ -1398,6 +1410,9 @@
       ],
       "returns": [
         "hub/loop.py#run_sync:4:1$v1"
+      ],
+      "returnBlocks": [
+        "hub/loop.py#run_sync:4:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -1508,6 +1523,7 @@
       ],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -1650,6 +1666,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "tools.py#dump_environment:17:1$b0",

@@ -607,6 +607,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "models.py#<module>:0:0$b0",
@@ -1124,6 +1125,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -1176,6 +1178,7 @@
       "flows": [],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "views.py#<module>:0:0$b0",
@@ -1351,6 +1354,9 @@
       ],
       "returns": [
         "views.py#_bundle_for:23:1$v6"
+      ],
+      "returnBlocks": [
+        "views.py#_bundle_for:23:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -1572,6 +1578,9 @@
       ],
       "returns": [
         "views.py#bundle_detail:37:1$v6"
+      ],
+      "returnBlocks": [
+        "views.py#bundle_detail:37:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -1865,6 +1874,9 @@
       "returns": [
         "views.py#token_detail:42:1$v10"
       ],
+      "returnBlocks": [
+        "views.py#token_detail:42:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "views.py#token_detail:42:1$b0",
@@ -2128,6 +2140,9 @@
       ],
       "returns": [
         "views.py#bookmark_detail:48:1$v9"
+      ],
+      "returnBlocks": [
+        "views.py#bookmark_detail:48:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -2564,6 +2579,9 @@
       "returns": [
         "views.py#share_bookmark:61:1$v15"
       ],
+      "returnBlocks": [
+        "views.py#share_bookmark:61:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "views.py#share_bookmark:61:1$b0",
@@ -2933,6 +2951,9 @@
       ],
       "returns": [
         "views.py#search:75:1$v13"
+      ],
+      "returnBlocks": [
+        "views.py#search:75:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -3578,6 +3599,9 @@
       ],
       "returns": [
         "views.py#preferences:87:1$v25"
+      ],
+      "returnBlocks": [
+        "views.py#preferences:87:1$b0"
       ],
       "comparisons": [],
       "writes": [],

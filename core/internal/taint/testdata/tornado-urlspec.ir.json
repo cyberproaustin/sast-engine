@@ -77,6 +77,7 @@
       "flows": [],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#<module>:0:0$b0",
@@ -539,6 +540,9 @@
       "returns": [
         "app.py#make_app:20:1$v17"
       ],
+      "returnBlocks": [
+        "app.py#make_app:20:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#make_app:20:1$b0",
@@ -705,6 +709,7 @@
       ],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -916,6 +921,9 @@
       "returns": [
         "exporters.py#render:13:5$v7"
       ],
+      "returnBlocks": [
+        "exporters.py#render:13:5$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "exporters.py#render:13:5$b0",
@@ -1025,6 +1033,9 @@
       "returns": [
         "exporters.py#render:18:5$v2"
       ],
+      "returnBlocks": [
+        "exporters.py#render:18:5$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "exporters.py#render:18:5$b0",
@@ -1064,6 +1075,7 @@
       "flows": [],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "handlers/__init__.py#<module>:0:0$b0",
@@ -1334,6 +1346,7 @@
       ],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -1479,6 +1492,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -1599,6 +1613,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "handlers/base.py#get:19:5$b0",
@@ -1984,6 +1999,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "handlers/base.py#post:23:5$b0",
@@ -2222,6 +2238,7 @@
       ],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -2342,6 +2359,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "handlers/pages.py#get:20:5$b0",
@@ -2737,6 +2755,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "handlers/pages.py#post:24:5$b0",
@@ -3009,6 +3028,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "handlers/pages.py#get:35:5$b0",
@@ -3108,6 +3128,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "handlers/pages.py#get:44:5$b0",
@@ -3205,6 +3226,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "handlers/pages.py#prepare:55:5$b0",
@@ -3262,6 +3284,9 @@
       "calls": [],
       "returns": [
         "handlers/pages.py#render_metrics:63:5$v1"
+      ],
+      "returnBlocks": [
+        "handlers/pages.py#render_metrics:63:5$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -3527,6 +3552,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "handlers/pages.py#post:70:5$b0",
@@ -3662,6 +3688,7 @@
       ],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {

@@ -95,6 +95,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -148,6 +149,9 @@
       "calls": [],
       "returns": [
         "app.py#index:9:1$v0"
+      ],
+      "returnBlocks": [
+        "app.py#index:9:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -255,6 +259,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#serve_everywhere:13:1$b0",
@@ -351,6 +356,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#serve_locally:21:1$b0",
@@ -494,6 +500,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#serve_configured:26:1$b0",

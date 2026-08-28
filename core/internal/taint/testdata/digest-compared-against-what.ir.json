@@ -260,6 +260,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -726,6 +727,10 @@
         "app.py#download:42:1$v12",
         "app.py#download:42:1$v14"
       ],
+      "returnBlocks": [
+        "app.py#download:42:1$b1",
+        "app.py#download:42:1$b3"
+      ],
       "comparisons": [
         {
           "left": "app.py#download:42:1$v9",
@@ -1016,6 +1021,10 @@
       "returns": [
         "app.py#artifact:55:1$v6",
         "app.py#artifact:55:1$v9"
+      ],
+      "returnBlocks": [
+        "app.py#artifact:55:1$b1",
+        "app.py#artifact:55:1$b3"
       ],
       "comparisons": [
         {
@@ -1601,6 +1610,10 @@
         "app.py#login:67:1$v19",
         "app.py#login:67:1$v20"
       ],
+      "returnBlocks": [
+        "app.py#login:67:1$b1",
+        "app.py#login:67:1$b3"
+      ],
       "comparisons": [
         {
           "left": "app.py#login:67:1$v17",
@@ -2047,6 +2060,10 @@
         "app.py#context:88:1$v13",
         "app.py#context:88:1$v14"
       ],
+      "returnBlocks": [
+        "app.py#context:88:1$b1",
+        "app.py#context:88:1$b3"
+      ],
       "comparisons": [
         {
           "left": "app.py#context:88:1$v10",
@@ -2451,6 +2468,10 @@
       "returns": [
         "app.py#preview:102:1$v13",
         "app.py#preview:102:1$v14"
+      ],
+      "returnBlocks": [
+        "app.py#preview:102:1$b1",
+        "app.py#preview:102:1$b3"
       ],
       "comparisons": [
         {
@@ -2866,6 +2887,10 @@
         "app.py#report:115:1$v11",
         "app.py#report:115:1$v15"
       ],
+      "returnBlocks": [
+        "app.py#report:115:1$b1",
+        "app.py#report:115:1$b3"
+      ],
       "comparisons": [
         {
           "left": "app.py#report:115:1$v11",
@@ -3083,6 +3108,9 @@
       "returns": [
         "app.py#_release_bytes:132:1$v4"
       ],
+      "returnBlocks": [
+        "app.py#_release_bytes:132:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#_release_bytes:132:1$b0",
@@ -3191,6 +3219,9 @@
       "returns": [
         "app.py#_evalsha:137:1$v4"
       ],
+      "returnBlocks": [
+        "app.py#_evalsha:137:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#_evalsha:137:1$b0",
@@ -3268,6 +3299,9 @@
       "calls": [],
       "returns": [
         "app.py#_stored_preview:142:1$v2"
+      ],
+      "returnBlocks": [
+        "app.py#_stored_preview:142:1$b0"
       ],
       "comparisons": [],
       "writes": [],

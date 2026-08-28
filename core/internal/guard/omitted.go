@@ -162,7 +162,7 @@ type variables struct {
 }
 
 var syntheticNames = map[string]bool{
-	"comparison": true, "either": true, "conditional": true, "concat": true,
+	"comparison": true, "either": true, "both": true, "conditional": true, "concat": true,
 	"local": true, "f-string": true, "template": true, "unresolved": true,
 	"spread": true, "await": true,
 }

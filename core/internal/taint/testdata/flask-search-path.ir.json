@@ -95,6 +95,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -294,6 +295,9 @@
       "returns": [
         "app.py#add_plugin:9:1$v7"
       ],
+      "returnBlocks": [
+        "app.py#add_plugin:9:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#add_plugin:9:1$b0",
@@ -445,6 +449,9 @@
       ],
       "returns": [
         "app.py#reset:19:1$v5"
+      ],
+      "returnBlocks": [
+        "app.py#reset:19:1$b0"
       ],
       "comparisons": [],
       "writes": [],
