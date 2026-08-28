@@ -1565,7 +1565,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "views.py#bundle_detail:37:1$v4"
+              "valueId": "views.py#bundle_detail:37:1$v4",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "views.py#bundle_detail:37:1$v6",
@@ -1860,7 +1862,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "views.py#token_detail:42:1$v8"
+              "valueId": "views.py#token_detail:42:1$v8",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "views.py#token_detail:42:1$v10",
@@ -2127,7 +2131,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "views.py#bookmark_detail:48:1$v7"
+              "valueId": "views.py#bookmark_detail:48:1$v7",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "views.py#bookmark_detail:48:1$v9",
@@ -2565,7 +2571,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "views.py#share_bookmark:61:1$v13"
+              "valueId": "views.py#share_bookmark:61:1$v13",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "views.py#share_bookmark:61:1$v15",
@@ -2938,7 +2946,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "views.py#search:75:1$v11"
+              "valueId": "views.py#search:75:1$v11",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "views.py#search:75:1$v13",
@@ -3586,7 +3596,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "views.py#preferences:87:1$v24"
+              "valueId": "views.py#preferences:87:1$v24",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "views.py#preferences:87:1$v25",

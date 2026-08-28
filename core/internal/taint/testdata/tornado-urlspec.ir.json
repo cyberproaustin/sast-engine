@@ -524,7 +524,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#make_app:20:1$v9"
+              "valueId": "app.py#make_app:20:1$v9",
+              "valueType": "list",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "app.py#make_app:20:1$v17",

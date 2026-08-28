@@ -160,7 +160,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#<module>:0:0$v1"
+              "valueId": "app.py#<module>:0:0$v1",
+              "valueType": "list",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "app.py#<module>:0:0$v5",

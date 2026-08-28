@@ -496,7 +496,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#whole:14:5$v8"
+              "valueId": "app.py#whole:14:5$v8",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "app.py#whole:14:5$v10",
@@ -823,7 +825,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#bounded:20:5$v8"
+              "valueId": "app.py#bounded:20:5$v8",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "app.py#bounded:20:5$v10",

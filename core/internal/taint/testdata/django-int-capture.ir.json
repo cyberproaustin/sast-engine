@@ -112,6 +112,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -186,6 +187,9 @@
       "calls": [],
       "returns": [
         "store.py#delete:6:5$v1"
+      ],
+      "returnBlocks": [
+        "store.py#delete:6:5$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -307,6 +311,9 @@
       "calls": [],
       "returns": [
         "store.py#delete_for_owner:9:5$v3"
+      ],
+      "returnBlocks": [
+        "store.py#delete_for_owner:9:5$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -687,6 +694,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -728,6 +736,7 @@
       "flows": [],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "views.py#<module>:0:0$b0",
@@ -886,6 +895,9 @@
       ],
       "returns": [
         "views.py#note_delete:7:1$v5"
+      ],
+      "returnBlocks": [
+        "views.py#note_delete:7:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -1083,6 +1095,9 @@
       ],
       "returns": [
         "views.py#note_delete_owned:15:1$v6"
+      ],
+      "returnBlocks": [
+        "views.py#note_delete_owned:15:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -1400,6 +1415,9 @@
       ],
       "returns": [
         "views.py#note_sql:23:1$v10"
+      ],
+      "returnBlocks": [
+        "views.py#note_sql:23:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -1738,6 +1756,9 @@
       ],
       "returns": [
         "views.py#note_sql_slug:32:1$v11"
+      ],
+      "returnBlocks": [
+        "views.py#note_sql_slug:32:1$b0"
       ],
       "comparisons": [],
       "writes": [],

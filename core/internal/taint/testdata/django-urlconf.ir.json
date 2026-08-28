@@ -4988,7 +4988,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "urls.py#<module>:0:0$v15"
+              "valueId": "urls.py#<module>:0:0$v15",
+              "valueType": "list",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "urls.py#<module>:0:0$v21",

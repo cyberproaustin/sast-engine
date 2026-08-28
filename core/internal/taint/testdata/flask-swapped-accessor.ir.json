@@ -498,7 +498,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#rotate:25:1$v6"
+              "valueId": "app.py#rotate:25:1$v6",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "app.py#rotate:25:1$v8",
@@ -584,7 +586,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#rotate:25:1$v15"
+              "valueId": "app.py#rotate:25:1$v15",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "app.py#rotate:25:1$v17",
@@ -1023,7 +1027,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#retire:38:1$v6"
+              "valueId": "app.py#retire:38:1$v6",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "app.py#retire:38:1$v8",
@@ -1109,7 +1115,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#retire:38:1$v15"
+              "valueId": "app.py#retire:38:1$v15",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "app.py#retire:38:1$v17",
@@ -1511,7 +1519,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#touch:50:1$v6"
+              "valueId": "app.py#touch:50:1$v6",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "app.py#touch:50:1$v8",
@@ -1536,7 +1546,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#touch:50:1$v10"
+              "valueId": "app.py#touch:50:1$v10",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "app.py#touch:50:1$v11",
@@ -1563,7 +1575,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#touch:50:1$v12"
+              "valueId": "app.py#touch:50:1$v12",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "app.py#touch:50:1$v14",
@@ -2025,7 +2039,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#rename:61:1$v6"
+              "valueId": "app.py#rename:61:1$v6",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "app.py#rename:61:1$v8",
@@ -2115,7 +2131,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#rename:61:1$v16"
+              "valueId": "app.py#rename:61:1$v16",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "app.py#rename:61:1$v18",
@@ -2546,7 +2564,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#warm:74:1$v6"
+              "valueId": "app.py#warm:74:1$v6",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "app.py#warm:74:1$v8",
@@ -2571,7 +2591,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#warm:74:1$v10"
+              "valueId": "app.py#warm:74:1$v10",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "app.py#warm:74:1$v12",
@@ -2598,7 +2620,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#warm:74:1$v13"
+              "valueId": "app.py#warm:74:1$v13",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "app.py#warm:74:1$v15",

@@ -513,7 +513,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#get_order:17:1$v4"
+              "valueId": "app.py#get_order:17:1$v4",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "app.py#get_order:17:1$v6",

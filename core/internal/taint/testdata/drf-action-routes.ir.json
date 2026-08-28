@@ -305,7 +305,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "api.py#list:21:5$v2"
+              "valueId": "api.py#list:21:5$v2",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "api.py#list:21:5$v4",
@@ -647,7 +649,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "api.py#check:27:5$v10"
+              "valueId": "api.py#check:27:5$v10",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "api.py#check:27:5$v12",
@@ -1004,7 +1008,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "api.py#refetch:35:5$v11"
+              "valueId": "api.py#refetch:35:5$v11",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "api.py#refetch:35:5$v13",
@@ -1263,7 +1269,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "api.py#status:44:5$v7"
+              "valueId": "api.py#status:44:5$v7",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "api.py#status:44:5$v9",
@@ -1605,7 +1613,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "api.py#probe:53:5$v10"
+              "valueId": "api.py#probe:53:5$v10",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "api.py#probe:53:5$v12",

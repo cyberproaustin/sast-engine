@@ -99,6 +99,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -259,6 +260,9 @@
       ],
       "returns": [
         "app.py#reached:11:1$v4"
+      ],
+      "returnBlocks": [
+        "app.py#reached:11:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -529,6 +533,9 @@
       "returns": [
         "app.py#carried:19:1$v5"
       ],
+      "returnBlocks": [
+        "app.py#carried:19:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#carried:19:1$b0",
@@ -755,6 +762,9 @@
       "returns": [
         "app.py#literal:29:1$v3"
       ],
+      "returnBlocks": [
+        "app.py#literal:29:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#literal:29:1$b0",
@@ -805,6 +815,7 @@
       "flows": [],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "helpers.py#<module>:0:0$b0",
@@ -979,6 +990,9 @@
       "returns": [
         "helpers.py#run_and_wrap:22:1$v5"
       ],
+      "returnBlocks": [
+        "helpers.py#run_and_wrap:22:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "helpers.py#run_and_wrap:22:1$b0",
@@ -1072,6 +1086,9 @@
       ],
       "returns": [
         "helpers.py#wrap:29:1$v1"
+      ],
+      "returnBlocks": [
+        "helpers.py#wrap:29:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -1167,6 +1184,9 @@
       "returns": [
         "helpers.py#wrap_literal:33:1$v1"
       ],
+      "returnBlocks": [
+        "helpers.py#wrap_literal:33:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "helpers.py#wrap_literal:33:1$b0",
@@ -1238,6 +1258,7 @@
       "flows": [],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {

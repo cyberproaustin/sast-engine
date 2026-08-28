@@ -2619,7 +2619,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "engine_module.py#response:18:1$v11"
+              "valueId": "engine_module.py#response:18:1$v11",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "engine_module.py#response:18:1$v14",

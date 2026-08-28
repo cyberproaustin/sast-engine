@@ -1112,6 +1112,43 @@
   "declaredViews": [],
   "views": [
     {
+      "id": "templates/results.html",
+      "reads": [
+        {
+          "path": "query",
+          "escaped": false,
+          "loc": {
+            "file": "templates/results.html",
+            "line": 2,
+            "column": 21
+          },
+          "removedAt": {
+            "file": "templates/results.html",
+            "line": 2,
+            "column": 30
+          }
+        },
+        {
+          "path": "query",
+          "escaped": true,
+          "loc": {
+            "file": "templates/results.html",
+            "line": 3,
+            "column": 39
+          }
+        },
+        {
+          "path": "count",
+          "escaped": true,
+          "loc": {
+            "file": "templates/results.html",
+            "line": 4,
+            "column": 32
+          }
+        }
+      ]
+    },
+    {
       "id": "templates/about.html",
       "reads": [
         {
@@ -1159,43 +1196,6 @@
             "file": "templates/profile.html",
             "line": 2,
             "column": 19
-          }
-        }
-      ]
-    },
-    {
-      "id": "templates/results.html",
-      "reads": [
-        {
-          "path": "query",
-          "escaped": false,
-          "loc": {
-            "file": "templates/results.html",
-            "line": 2,
-            "column": 21
-          },
-          "removedAt": {
-            "file": "templates/results.html",
-            "line": 2,
-            "column": 30
-          }
-        },
-        {
-          "path": "query",
-          "escaped": true,
-          "loc": {
-            "file": "templates/results.html",
-            "line": 3,
-            "column": 39
-          }
-        },
-        {
-          "path": "count",
-          "escaped": true,
-          "loc": {
-            "file": "templates/results.html",
-            "line": 4,
-            "column": 32
           }
         }
       ]

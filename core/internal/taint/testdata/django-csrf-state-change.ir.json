@@ -1021,7 +1021,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "views.py#app_auth_handoff:40:1$v4"
+              "valueId": "views.py#app_auth_handoff:40:1$v4",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "views.py#app_auth_handoff:40:1$v5",
@@ -1241,7 +1243,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "views.py#form_valid:23:5$v4"
+              "valueId": "views.py#form_valid:23:5$v4",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "views.py#form_valid:23:5$v6",
@@ -1445,7 +1449,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "views.py#get:30:5$v2"
+              "valueId": "views.py#get:30:5$v2",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "views.py#get:30:5$v6",

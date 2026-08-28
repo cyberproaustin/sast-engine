@@ -568,7 +568,9 @@
             },
             {
               "index": 1,
-              "valueId": "app.py#enroll:12:1$v10"
+              "valueId": "app.py#enroll:12:1$v10",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "app.py#enroll:12:1$v11",
@@ -852,7 +854,9 @@
             },
             {
               "index": 1,
-              "valueId": "app.py#enroll_safe:24:1$v6"
+              "valueId": "app.py#enroll_safe:24:1$v6",
+              "valueType": "dict",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "app.py#enroll_safe:24:1$v7",

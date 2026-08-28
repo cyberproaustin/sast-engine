@@ -354,7 +354,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#account:17:1$v6"
+              "valueId": "app.py#account:17:1$v6",
+              "valueType": "list",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "app.py#account:17:1$v9",
@@ -784,7 +786,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#files:26:1$v12"
+              "valueId": "app.py#files:26:1$v12",
+              "valueType": "list",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "app.py#files:26:1$v15",
@@ -1121,7 +1125,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#words:37:1$v7"
+              "valueId": "app.py#words:37:1$v7",
+              "valueType": "list",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "app.py#words:37:1$v10",
@@ -1407,7 +1413,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#account_safe:46:1$v7"
+              "valueId": "app.py#account_safe:46:1$v7",
+              "valueType": "list",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "app.py#account_safe:46:1$v10",
@@ -1679,7 +1687,9 @@
           "args": [
             {
               "index": 0,
-              "valueId": "app.py#key_safe:55:1$v6"
+              "valueId": "app.py#key_safe:55:1$v6",
+              "valueType": "list",
+              "valueTypeOrigin": "builtin"
             }
           ],
           "resultValueId": "app.py#key_safe:55:1$v9",
