@@ -2114,43 +2114,6 @@
   "declaredViews": [],
   "views": [
     {
-      "id": "templates/results.html",
-      "reads": [
-        {
-          "path": "query",
-          "escaped": false,
-          "loc": {
-            "file": "templates/results.html",
-            "line": 2,
-            "column": 21
-          },
-          "removedAt": {
-            "file": "templates/results.html",
-            "line": 2,
-            "column": 30
-          }
-        },
-        {
-          "path": "query",
-          "escaped": true,
-          "loc": {
-            "file": "templates/results.html",
-            "line": 3,
-            "column": 39
-          }
-        },
-        {
-          "path": "count",
-          "escaped": true,
-          "loc": {
-            "file": "templates/results.html",
-            "line": 4,
-            "column": 32
-          }
-        }
-      ]
-    },
-    {
       "id": "templates/about.html",
       "reads": [
         {
@@ -2193,6 +2156,34 @@
             "file": "templates/audit.html",
             "line": 1,
             "column": 16
+          }
+        }
+      ]
+    },
+    {
+      "id": "templates/dashboard.html",
+      "reads": [
+        {
+          "path": "title",
+          "escaped": true,
+          "loc": {
+            "file": "templates/dashboard.html",
+            "line": 1,
+            "column": 5
+          }
+        },
+        {
+          "path": "banner",
+          "escaped": false,
+          "loc": {
+            "file": "templates/dashboard.html",
+            "line": 2,
+            "column": 21
+          },
+          "removedAt": {
+            "file": "templates/dashboard.html",
+            "line": 2,
+            "column": 30
           }
         }
       ]
@@ -2289,29 +2280,38 @@
       ]
     },
     {
-      "id": "templates/dashboard.html",
+      "id": "templates/results.html",
       "reads": [
         {
-          "path": "title",
-          "escaped": true,
-          "loc": {
-            "file": "templates/dashboard.html",
-            "line": 1,
-            "column": 5
-          }
-        },
-        {
-          "path": "banner",
+          "path": "query",
           "escaped": false,
           "loc": {
-            "file": "templates/dashboard.html",
+            "file": "templates/results.html",
             "line": 2,
             "column": 21
           },
           "removedAt": {
-            "file": "templates/dashboard.html",
+            "file": "templates/results.html",
             "line": 2,
             "column": 30
+          }
+        },
+        {
+          "path": "query",
+          "escaped": true,
+          "loc": {
+            "file": "templates/results.html",
+            "line": 3,
+            "column": 39
+          }
+        },
+        {
+          "path": "count",
+          "escaped": true,
+          "loc": {
+            "file": "templates/results.html",
+            "line": 4,
+            "column": 32
           }
         }
       ]

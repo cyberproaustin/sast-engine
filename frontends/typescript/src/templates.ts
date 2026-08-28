@@ -447,6 +447,10 @@ export function indexTemplates(rootDir: string): TemplateIndex {
     } catch {
       return;
     }
+    // readdirSync returns entries in filesystem order, which differs between machines.
+    // The IR is compared byte for byte against a committed golden, so the order views
+    // appear in has to come from their names, the way collectSources() sorts source files.
+    entries.sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
     for (const entry of entries) {
       const full = path.join(dir, entry.name);
       if (entry.isDirectory()) {

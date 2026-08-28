@@ -380,9 +380,14 @@ def index_templates(root: str) -> dict[str, Template]:
     count of templates read means anything.
     """
     out: dict[str, Template] = {}
+    # Sorted, because os.walk returns entries in whatever order the filesystem does, and
+    # that order differs between machines. The IR is compared byte for byte against a
+    # committed golden, so the order views appear in has to come from their paths and
+    # not from the disk that happened to hold them. collect_sources() already does this
+    # for source files.
     for dirpath, dirnames, filenames in os.walk(root):
-        dirnames[:] = [d for d in dirnames if d not in SKIP_DIRECTORIES]
-        for name in filenames:
+        dirnames[:] = sorted(d for d in dirnames if d not in SKIP_DIRECTORIES)
+        for name in sorted(filenames):
             if not name.lower().endswith(MARKUP_EXTENSIONS):
                 continue
             full = os.path.join(dirpath, name)
