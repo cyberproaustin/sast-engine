@@ -1,0 +1,13 @@
+{
+  "corpus": "presence-guarded-verification",
+  "description": "A refusal conditioned on the presence of the two values it refuses on. `if (claim.scope && scope && claim.scope !== scope) throw` reads as a scope check and is not one: when either side is missing the conjunction is false, the throw does not happen, and whoever supplies one of the two decides whether the comparison runs. The positive is documenso's embedded-signing presign verifier written out -- an optional expected scope, tested only when the caller passed one, on a token whose claim is likewise tested only when present. Four negatives, and each removes one of the reasons the shape is ordinary. The same verification with nothing to omit is silent. The correct conjunctive form, written as a disjunction so a missing operand is a reason to refuse rather than a reason to skip refusing, is silent -- a disjunction's truthy side says only that some operand held and this rule never reads one. A presence-guarded refusal comparing two things that are not each other -- a request port against a configured one, taken from archivebox -- is silent, because a difference between two different things is not a verification. And the commonest form of all, a presence-guarded difference test that does WORK on the side where the values differ, is silent: omitting an operand skips the work, which is what the guard was written to arrange. Measured over ten production repositories the conjunction shape occurs seven times, the refusal narrows it to two and the naming narrows it to one, so five of the seven are the last two negatives here.",
+  "expected": [
+    {
+      "cwe": "CWE-863",
+      "sinkFile": "app.ts",
+      "sinkLine": 28,
+      "confidence": "high",
+      "note": "the two operands of the comparison are the same two values the conjunction requires to be present, so a caller passing no scope -- or a token carrying no scope claim -- reaches the return with the check having decided nothing"
+    }
+  ]
+}

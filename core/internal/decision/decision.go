@@ -44,9 +44,29 @@ func Analyze(d *ir.IR, m model.Model, byClass map[string]taint.Classified) []tai
 
 	var out []taint.Finding
 	for _, fn := range d.Functions {
+		// Built on demand and at most once per function: the conjunction index is a walk
+		// of every value and flow the function has, and only one rule asks for it.
+		var conj *conjuncts
 		for _, cmp := range fn.Comparisons {
 			for _, rule := range m.Decisions {
 				if !operatorMatches(rule, cmp.Op) {
+					continue
+				}
+				// What the comparison is WRITTEN INSIDE, asked before anything about the
+				// values, because the defect is in the condition's shape rather than in
+				// what reaches it.
+				if rule.SkippedByOperandPresence {
+					if conj == nil {
+						conj = conjunctsOf(fn)
+					}
+					if !skippedByOperandPresence(ix, fn, conj, cmp) {
+						continue
+					}
+				}
+				if rule.RefusesWhenTrue && !rejectsWhenTrue(fn, cmp) {
+					continue
+				}
+				if rule.SidesNameOneThing && !namesTheSameThing(ix, cmp.Left, cmp.Right) {
 					continue
 				}
 				// A rule with no class is about the COMPARISON, not about what is being
@@ -422,7 +442,26 @@ func operatorMatches(rule model.DecisionRule, op string) bool {
 	return false
 }
 
+// finding renders one comparison as a report.
+//
+// A rule WITH a class takes its entry point from the classified value's origin, because
+// the value arrived from somewhere and that somewhere is the anchor. A rule with no class
+// has no such origin -- nothing flowed here, the comparison is wrong as written -- and
+// took no anchor at all, so every one of its findings arrived at the report as "could not
+// be connected to an entry point we enumerated" whether or not the line sits in a request
+// path. The anchor for a site with no flow is the same one every other analysis of that
+// kind uses: the enclosing function, walked up to the first enumerated entry point, which
+// is what store.go and scope.go already do for a write and for a pair of calls.
 func finding(ix *ir.Index, fn *ir.Function, cmp ir.Comparison, rule model.DecisionRule, o taint.Origin) taint.Finding {
+	if rule.Class == "" {
+		if ep, ok := taint.EntryOf(ix, fn); ok {
+			o.EntryPoint = taint.EntryLabel(*ep)
+			o.Method = ep.Detail["method"]
+			o.Path = ep.Detail["path"]
+			o.Anchored = true
+			o.Trust = ep.TrustLevel()
+		}
+	}
 	return taint.Finding{
 		Analysis:      rule.ID,
 		DataClass:     rule.Class,

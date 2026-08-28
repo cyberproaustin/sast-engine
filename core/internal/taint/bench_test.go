@@ -204,6 +204,8 @@ var corpora = []string{
 	"python-receiver-binding",
 	"python-call-under-attribute",
 	"django-int-capture",
+	"presence-guarded-verification",
+	"credential-not-reissued",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {
