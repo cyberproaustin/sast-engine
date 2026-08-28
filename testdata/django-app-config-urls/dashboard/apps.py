@@ -12,6 +12,7 @@ class DashboardConfig(AppConfig):
 
     def ready(self):
         self.range_reorder_view = get_class("dashboard.views", "RangeReorderView")
+        self.range_upload_view = get_class("dashboard.views", "RangeUploadView")
         # NEGATIVE. The second `ExportView` of the program. Registered here as well, so
         # neither registration can claim the name.
         self.export_view = get_class("dashboard.views", "ExportView")
@@ -25,6 +26,11 @@ class DashboardConfig(AppConfig):
                 "ranges/<int:pk>/reorder/",
                 login_required(self.range_reorder_view.as_view()),
                 name="range-reorder",
+            ),
+            path(
+                "ranges/upload/",
+                self.range_upload_view.as_view(),
+                name="range-upload",
             ),
             path("export/", login_required(self.export_view.as_view()), name="export"),
         ]

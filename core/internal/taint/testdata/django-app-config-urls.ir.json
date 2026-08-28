@@ -3918,8 +3918,8 @@
           "kind": "literal",
           "loc": {
             "file": "dashboard/apps.py",
-            "line": 17,
-            "column": 38
+            "line": 15,
+            "column": 44
           },
           "literal": "dashboard.views"
         },
@@ -3928,17 +3928,47 @@
           "kind": "literal",
           "loc": {
             "file": "dashboard/apps.py",
-            "line": 17,
-            "column": 57
+            "line": 15,
+            "column": 63
           },
-          "literal": "ExportView"
+          "literal": "RangeUploadView"
         },
         {
           "id": "dashboard/apps.py#ready:13:5$v6",
           "kind": "call-result",
           "loc": {
             "file": "dashboard/apps.py",
-            "line": 17,
+            "line": 15,
+            "column": 34
+          },
+          "name": "local"
+        },
+        {
+          "id": "dashboard/apps.py#ready:13:5$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "dashboard/apps.py",
+            "line": 18,
+            "column": 38
+          },
+          "literal": "dashboard.views"
+        },
+        {
+          "id": "dashboard/apps.py#ready:13:5$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "dashboard/apps.py",
+            "line": 18,
+            "column": 57
+          },
+          "literal": "ExportView"
+        },
+        {
+          "id": "dashboard/apps.py#ready:13:5$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "dashboard/apps.py",
+            "line": 18,
             "column": 28
           },
           "name": "local"
@@ -3984,8 +4014,8 @@
           "id": "dashboard/apps.py#ready:13:5$c1",
           "loc": {
             "file": "dashboard/apps.py",
-            "line": 17,
-            "column": 28
+            "line": 15,
+            "column": 34
           },
           "callee": {
             "kind": "local",
@@ -4004,6 +4034,40 @@
             }
           ],
           "resultValueId": "dashboard/apps.py#ready:13:5$v6",
+          "block": "dashboard/apps.py#ready:13:5$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "dashboard.views",
+            "1": "RangeUploadView"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "dashboard/apps.py#ready:13:5$c2",
+          "loc": {
+            "file": "dashboard/apps.py",
+            "line": 18,
+            "column": 28
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "oscarish/loading.py#get_class:11:1",
+            "resolution": "resolved",
+            "name": "get_class"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "dashboard/apps.py#ready:13:5$v7"
+            },
+            {
+              "index": 1,
+              "valueId": "dashboard/apps.py#ready:13:5$v8"
+            }
+          ],
+          "resultValueId": "dashboard/apps.py#ready:13:5$v9",
           "block": "dashboard/apps.py#ready:13:5$b0",
           "argCount": 2,
           "argLiterals": {
@@ -4033,12 +4097,23 @@
         {
           "loc": {
             "file": "dashboard/apps.py",
-            "line": 17,
+            "line": 15,
+            "column": 9
+          },
+          "base": "dashboard/apps.py#ready:13:5$v0",
+          "path": "range_upload_view",
+          "from": "dashboard/apps.py#ready:13:5$v6",
+          "block": "dashboard/apps.py#ready:13:5$b0"
+        },
+        {
+          "loc": {
+            "file": "dashboard/apps.py",
+            "line": 18,
             "column": 9
           },
           "base": "dashboard/apps.py#ready:13:5$v0",
           "path": "export_view",
-          "from": "dashboard/apps.py#ready:13:5$v6",
+          "from": "dashboard/apps.py#ready:13:5$v9",
           "block": "dashboard/apps.py#ready:13:5$b0"
         }
       ],
@@ -4056,162 +4131,214 @@
       ]
     },
     {
-      "id": "dashboard/apps.py#get_urls:19:5",
+      "id": "dashboard/apps.py#get_urls:20:5",
       "name": "get_urls",
       "module": "dashboard/apps.py",
       "loc": {
         "file": "dashboard/apps.py",
-        "line": 19,
+        "line": 20,
         "column": 5
       },
       "params": [
         {
           "index": 0,
           "name": "self",
-          "valueId": "dashboard/apps.py#get_urls:19:5$v0"
+          "valueId": "dashboard/apps.py#get_urls:20:5$v0"
         }
       ],
       "values": [
         {
-          "id": "dashboard/apps.py#get_urls:19:5$v0",
+          "id": "dashboard/apps.py#get_urls:20:5$v0",
           "kind": "param",
           "loc": {
             "file": "dashboard/apps.py",
-            "line": 19,
+            "line": 20,
             "column": 18
           },
           "name": "self"
         },
         {
-          "id": "dashboard/apps.py#get_urls:19:5$v1",
+          "id": "dashboard/apps.py#get_urls:20:5$v1",
           "kind": "local",
           "loc": {
             "file": "dashboard/apps.py",
-            "line": 20,
+            "line": 21,
             "column": 16
           },
           "name": "[sequence]"
         },
         {
-          "id": "dashboard/apps.py#get_urls:19:5$v2",
+          "id": "dashboard/apps.py#get_urls:20:5$v2",
           "kind": "literal",
           "loc": {
             "file": "dashboard/apps.py",
-            "line": 25,
+            "line": 26,
             "column": 17
           },
           "literal": "ranges/<int:pk>/reorder/"
         },
         {
-          "id": "dashboard/apps.py#get_urls:19:5$v3",
+          "id": "dashboard/apps.py#get_urls:20:5$v3",
           "kind": "property",
           "loc": {
             "file": "dashboard/apps.py",
-            "line": 26,
+            "line": 27,
             "column": 32
           },
-          "base": "dashboard/apps.py#get_urls:19:5$v0",
+          "base": "dashboard/apps.py#get_urls:20:5$v0",
           "path": "range_reorder_view",
           "name": "range_reorder_view"
         },
         {
-          "id": "dashboard/apps.py#get_urls:19:5$v4",
+          "id": "dashboard/apps.py#get_urls:20:5$v4",
           "kind": "call-result",
           "loc": {
             "file": "dashboard/apps.py",
-            "line": 26,
+            "line": 27,
             "column": 32
           },
           "name": "self.range_reorder_view.as_view"
         },
         {
-          "id": "dashboard/apps.py#get_urls:19:5$v5",
+          "id": "dashboard/apps.py#get_urls:20:5$v5",
           "kind": "call-result",
           "loc": {
             "file": "dashboard/apps.py",
-            "line": 26,
+            "line": 27,
             "column": 17
           },
           "name": "django.contrib.auth.decorators.login_required"
         },
         {
-          "id": "dashboard/apps.py#get_urls:19:5$v6",
+          "id": "dashboard/apps.py#get_urls:20:5$v6",
           "kind": "literal",
           "loc": {
             "file": "dashboard/apps.py",
-            "line": 27,
+            "line": 28,
             "column": 22
           },
           "literal": "range-reorder"
         },
         {
-          "id": "dashboard/apps.py#get_urls:19:5$v7",
+          "id": "dashboard/apps.py#get_urls:20:5$v7",
           "kind": "call-result",
           "loc": {
             "file": "dashboard/apps.py",
-            "line": 24,
+            "line": 25,
             "column": 13
           },
           "name": "django.urls.path"
         },
         {
-          "id": "dashboard/apps.py#get_urls:19:5$v8",
+          "id": "dashboard/apps.py#get_urls:20:5$v8",
           "kind": "literal",
           "loc": {
             "file": "dashboard/apps.py",
-            "line": 29,
+            "line": 31,
+            "column": 17
+          },
+          "literal": "ranges/upload/"
+        },
+        {
+          "id": "dashboard/apps.py#get_urls:20:5$v9",
+          "kind": "property",
+          "loc": {
+            "file": "dashboard/apps.py",
+            "line": 32,
+            "column": 17
+          },
+          "base": "dashboard/apps.py#get_urls:20:5$v0",
+          "path": "range_upload_view",
+          "name": "range_upload_view"
+        },
+        {
+          "id": "dashboard/apps.py#get_urls:20:5$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "dashboard/apps.py",
+            "line": 32,
+            "column": 17
+          },
+          "name": "self.range_upload_view.as_view"
+        },
+        {
+          "id": "dashboard/apps.py#get_urls:20:5$v11",
+          "kind": "literal",
+          "loc": {
+            "file": "dashboard/apps.py",
+            "line": 33,
+            "column": 22
+          },
+          "literal": "range-upload"
+        },
+        {
+          "id": "dashboard/apps.py#get_urls:20:5$v12",
+          "kind": "call-result",
+          "loc": {
+            "file": "dashboard/apps.py",
+            "line": 30,
+            "column": 13
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "dashboard/apps.py#get_urls:20:5$v13",
+          "kind": "literal",
+          "loc": {
+            "file": "dashboard/apps.py",
+            "line": 35,
             "column": 18
           },
           "literal": "export/"
         },
         {
-          "id": "dashboard/apps.py#get_urls:19:5$v9",
+          "id": "dashboard/apps.py#get_urls:20:5$v14",
           "kind": "property",
           "loc": {
             "file": "dashboard/apps.py",
-            "line": 29,
+            "line": 35,
             "column": 44
           },
-          "base": "dashboard/apps.py#get_urls:19:5$v0",
+          "base": "dashboard/apps.py#get_urls:20:5$v0",
           "path": "export_view",
           "name": "export_view"
         },
         {
-          "id": "dashboard/apps.py#get_urls:19:5$v10",
+          "id": "dashboard/apps.py#get_urls:20:5$v15",
           "kind": "call-result",
           "loc": {
             "file": "dashboard/apps.py",
-            "line": 29,
+            "line": 35,
             "column": 44
           },
           "name": "self.export_view.as_view"
         },
         {
-          "id": "dashboard/apps.py#get_urls:19:5$v11",
+          "id": "dashboard/apps.py#get_urls:20:5$v16",
           "kind": "call-result",
           "loc": {
             "file": "dashboard/apps.py",
-            "line": 29,
+            "line": 35,
             "column": 29
           },
           "name": "django.contrib.auth.decorators.login_required"
         },
         {
-          "id": "dashboard/apps.py#get_urls:19:5$v12",
+          "id": "dashboard/apps.py#get_urls:20:5$v17",
           "kind": "literal",
           "loc": {
             "file": "dashboard/apps.py",
-            "line": 29,
+            "line": 35,
             "column": 78
           },
           "literal": "export"
         },
         {
-          "id": "dashboard/apps.py#get_urls:19:5$v13",
+          "id": "dashboard/apps.py#get_urls:20:5$v18",
           "kind": "call-result",
           "loc": {
             "file": "dashboard/apps.py",
-            "line": 29,
+            "line": 35,
             "column": 13
           },
           "name": "django.urls.path"
@@ -4219,56 +4346,78 @@
       ],
       "flows": [
         {
-          "from": "dashboard/apps.py#get_urls:19:5$v0",
-          "to": "dashboard/apps.py#get_urls:19:5$v3",
+          "from": "dashboard/apps.py#get_urls:20:5$v0",
+          "to": "dashboard/apps.py#get_urls:20:5$v3",
           "kind": "property",
           "loc": {
             "file": "dashboard/apps.py",
-            "line": 26,
+            "line": 27,
             "column": 32
           },
-          "block": "dashboard/apps.py#get_urls:19:5$b0"
+          "block": "dashboard/apps.py#get_urls:20:5$b0"
         },
         {
-          "from": "dashboard/apps.py#get_urls:19:5$v7",
-          "to": "dashboard/apps.py#get_urls:19:5$v1",
+          "from": "dashboard/apps.py#get_urls:20:5$v7",
+          "to": "dashboard/apps.py#get_urls:20:5$v1",
           "kind": "enclose",
           "loc": {
             "file": "dashboard/apps.py",
-            "line": 20,
+            "line": 21,
             "column": 16
           },
-          "block": "dashboard/apps.py#get_urls:19:5$b0"
+          "block": "dashboard/apps.py#get_urls:20:5$b0"
         },
         {
-          "from": "dashboard/apps.py#get_urls:19:5$v0",
-          "to": "dashboard/apps.py#get_urls:19:5$v9",
+          "from": "dashboard/apps.py#get_urls:20:5$v0",
+          "to": "dashboard/apps.py#get_urls:20:5$v9",
           "kind": "property",
           "loc": {
             "file": "dashboard/apps.py",
-            "line": 29,
-            "column": 44
+            "line": 32,
+            "column": 17
           },
-          "block": "dashboard/apps.py#get_urls:19:5$b0"
+          "block": "dashboard/apps.py#get_urls:20:5$b0"
         },
         {
-          "from": "dashboard/apps.py#get_urls:19:5$v13",
-          "to": "dashboard/apps.py#get_urls:19:5$v1",
+          "from": "dashboard/apps.py#get_urls:20:5$v12",
+          "to": "dashboard/apps.py#get_urls:20:5$v1",
           "kind": "enclose",
           "loc": {
             "file": "dashboard/apps.py",
-            "line": 20,
+            "line": 21,
             "column": 16
           },
-          "block": "dashboard/apps.py#get_urls:19:5$b0"
+          "block": "dashboard/apps.py#get_urls:20:5$b0"
+        },
+        {
+          "from": "dashboard/apps.py#get_urls:20:5$v0",
+          "to": "dashboard/apps.py#get_urls:20:5$v14",
+          "kind": "property",
+          "loc": {
+            "file": "dashboard/apps.py",
+            "line": 35,
+            "column": 44
+          },
+          "block": "dashboard/apps.py#get_urls:20:5$b0"
+        },
+        {
+          "from": "dashboard/apps.py#get_urls:20:5$v18",
+          "to": "dashboard/apps.py#get_urls:20:5$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "dashboard/apps.py",
+            "line": 21,
+            "column": 16
+          },
+          "block": "dashboard/apps.py#get_urls:20:5$b0"
         }
       ],
       "calls": [
         {
-          "id": "dashboard/apps.py#get_urls:19:5$c0",
+          "id": "dashboard/apps.py#get_urls:20:5$c0",
           "loc": {
             "file": "dashboard/apps.py",
-            "line": 26,
+            "line": 27,
             "column": 32
           },
           "callee": {
@@ -4277,19 +4426,19 @@
             "resolution": "probable"
           },
           "args": [],
-          "resultValueId": "dashboard/apps.py#get_urls:19:5$v4",
-          "block": "dashboard/apps.py#get_urls:19:5$b0",
+          "resultValueId": "dashboard/apps.py#get_urls:20:5$v4",
+          "block": "dashboard/apps.py#get_urls:20:5$b0",
           "method": "as_view",
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "dashboard/apps.py#get_urls:19:5$v3"
+          "receiverValueId": "dashboard/apps.py#get_urls:20:5$v3"
         },
         {
-          "id": "dashboard/apps.py#get_urls:19:5$c1",
+          "id": "dashboard/apps.py#get_urls:20:5$c1",
           "loc": {
             "file": "dashboard/apps.py",
-            "line": 26,
+            "line": 27,
             "column": 17
           },
           "callee": {
@@ -4300,21 +4449,21 @@
           "args": [
             {
               "index": 0,
-              "valueId": "dashboard/apps.py#get_urls:19:5$v4"
+              "valueId": "dashboard/apps.py#get_urls:20:5$v4"
             }
           ],
-          "resultValueId": "dashboard/apps.py#get_urls:19:5$v5",
-          "block": "dashboard/apps.py#get_urls:19:5$b0",
+          "resultValueId": "dashboard/apps.py#get_urls:20:5$v5",
+          "block": "dashboard/apps.py#get_urls:20:5$b0",
           "argCount": 1,
           "enumeratedOptions": [
             -1
           ]
         },
         {
-          "id": "dashboard/apps.py#get_urls:19:5$c2",
+          "id": "dashboard/apps.py#get_urls:20:5$c2",
           "loc": {
             "file": "dashboard/apps.py",
-            "line": 24,
+            "line": 25,
             "column": 13
           },
           "callee": {
@@ -4325,19 +4474,19 @@
           "args": [
             {
               "index": 0,
-              "valueId": "dashboard/apps.py#get_urls:19:5$v2"
+              "valueId": "dashboard/apps.py#get_urls:20:5$v2"
             },
             {
               "index": 1,
-              "valueId": "dashboard/apps.py#get_urls:19:5$v5"
+              "valueId": "dashboard/apps.py#get_urls:20:5$v5"
             },
             {
-              "valueId": "dashboard/apps.py#get_urls:19:5$v6",
+              "valueId": "dashboard/apps.py#get_urls:20:5$v6",
               "name": "name"
             }
           ],
-          "resultValueId": "dashboard/apps.py#get_urls:19:5$v7",
-          "block": "dashboard/apps.py#get_urls:19:5$b0",
+          "resultValueId": "dashboard/apps.py#get_urls:20:5$v7",
+          "block": "dashboard/apps.py#get_urls:20:5$b0",
           "argCount": 3,
           "argLiterals": {
             "0": "ranges/<int:pk>/reorder/",
@@ -4348,56 +4497,31 @@
           ]
         },
         {
-          "id": "dashboard/apps.py#get_urls:19:5$c3",
+          "id": "dashboard/apps.py#get_urls:20:5$c3",
           "loc": {
             "file": "dashboard/apps.py",
-            "line": 29,
-            "column": 44
+            "line": 32,
+            "column": 17
           },
           "callee": {
             "kind": "external",
-            "symbol": "self.export_view.as_view",
+            "symbol": "self.range_upload_view.as_view",
             "resolution": "probable"
           },
           "args": [],
-          "resultValueId": "dashboard/apps.py#get_urls:19:5$v10",
-          "block": "dashboard/apps.py#get_urls:19:5$b0",
+          "resultValueId": "dashboard/apps.py#get_urls:20:5$v10",
+          "block": "dashboard/apps.py#get_urls:20:5$b0",
           "method": "as_view",
           "enumeratedOptions": [
             -1
           ],
-          "receiverValueId": "dashboard/apps.py#get_urls:19:5$v9"
+          "receiverValueId": "dashboard/apps.py#get_urls:20:5$v9"
         },
         {
-          "id": "dashboard/apps.py#get_urls:19:5$c4",
+          "id": "dashboard/apps.py#get_urls:20:5$c4",
           "loc": {
             "file": "dashboard/apps.py",
-            "line": 29,
-            "column": 29
-          },
-          "callee": {
-            "kind": "external",
-            "symbol": "django.contrib.auth.decorators.login_required",
-            "resolution": "resolved"
-          },
-          "args": [
-            {
-              "index": 0,
-              "valueId": "dashboard/apps.py#get_urls:19:5$v10"
-            }
-          ],
-          "resultValueId": "dashboard/apps.py#get_urls:19:5$v11",
-          "block": "dashboard/apps.py#get_urls:19:5$b0",
-          "argCount": 1,
-          "enumeratedOptions": [
-            -1
-          ]
-        },
-        {
-          "id": "dashboard/apps.py#get_urls:19:5$c5",
-          "loc": {
-            "file": "dashboard/apps.py",
-            "line": 29,
+            "line": 30,
             "column": 13
           },
           "callee": {
@@ -4408,19 +4532,102 @@
           "args": [
             {
               "index": 0,
-              "valueId": "dashboard/apps.py#get_urls:19:5$v8"
+              "valueId": "dashboard/apps.py#get_urls:20:5$v8"
             },
             {
               "index": 1,
-              "valueId": "dashboard/apps.py#get_urls:19:5$v11"
+              "valueId": "dashboard/apps.py#get_urls:20:5$v10"
             },
             {
-              "valueId": "dashboard/apps.py#get_urls:19:5$v12",
+              "valueId": "dashboard/apps.py#get_urls:20:5$v11",
               "name": "name"
             }
           ],
-          "resultValueId": "dashboard/apps.py#get_urls:19:5$v13",
-          "block": "dashboard/apps.py#get_urls:19:5$b0",
+          "resultValueId": "dashboard/apps.py#get_urls:20:5$v12",
+          "block": "dashboard/apps.py#get_urls:20:5$b0",
+          "argCount": 3,
+          "argLiterals": {
+            "0": "ranges/upload/",
+            "-1": "name=range-upload"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "dashboard/apps.py#get_urls:20:5$c5",
+          "loc": {
+            "file": "dashboard/apps.py",
+            "line": 35,
+            "column": 44
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "self.export_view.as_view",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "dashboard/apps.py#get_urls:20:5$v15",
+          "block": "dashboard/apps.py#get_urls:20:5$b0",
+          "method": "as_view",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "dashboard/apps.py#get_urls:20:5$v14"
+        },
+        {
+          "id": "dashboard/apps.py#get_urls:20:5$c6",
+          "loc": {
+            "file": "dashboard/apps.py",
+            "line": 35,
+            "column": 29
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.contrib.auth.decorators.login_required",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "dashboard/apps.py#get_urls:20:5$v15"
+            }
+          ],
+          "resultValueId": "dashboard/apps.py#get_urls:20:5$v16",
+          "block": "dashboard/apps.py#get_urls:20:5$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "dashboard/apps.py#get_urls:20:5$c7",
+          "loc": {
+            "file": "dashboard/apps.py",
+            "line": 35,
+            "column": 13
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "dashboard/apps.py#get_urls:20:5$v13"
+            },
+            {
+              "index": 1,
+              "valueId": "dashboard/apps.py#get_urls:20:5$v16"
+            },
+            {
+              "valueId": "dashboard/apps.py#get_urls:20:5$v17",
+              "name": "name"
+            }
+          ],
+          "resultValueId": "dashboard/apps.py#get_urls:20:5$v18",
+          "block": "dashboard/apps.py#get_urls:20:5$b0",
           "argCount": 3,
           "argLiterals": {
             "0": "export/",
@@ -4432,31 +4639,31 @@
         }
       ],
       "returns": [
-        "dashboard/apps.py#get_urls:19:5$v1"
+        "dashboard/apps.py#get_urls:20:5$v1"
       ],
       "returnBlocks": [
-        "dashboard/apps.py#get_urls:19:5$b0"
+        "dashboard/apps.py#get_urls:20:5$b0"
       ],
       "comparisons": [],
       "writes": [],
-      "entryBlock": "dashboard/apps.py#get_urls:19:5$b0",
+      "entryBlock": "dashboard/apps.py#get_urls:20:5$b0",
       "blocks": [
         {
-          "id": "dashboard/apps.py#get_urls:19:5$b0",
+          "id": "dashboard/apps.py#get_urls:20:5$b0",
           "successors": [],
           "loc": {
             "file": "dashboard/apps.py",
-            "line": 19,
+            "line": 20,
             "column": 5
           },
           "terminator": "return"
         },
         {
-          "id": "dashboard/apps.py#get_urls:19:5$b1",
+          "id": "dashboard/apps.py#get_urls:20:5$b1",
           "successors": [],
           "loc": {
             "file": "dashboard/apps.py",
-            "line": 20,
+            "line": 21,
             "column": 9
           }
         }
@@ -4492,9 +4699,50 @@
             "column": 5
           },
           "literal": "NEGATIVE. The other half of the name collision. See `catalogue/views.py`."
+        },
+        {
+          "id": "dashboard/views.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 28,
+            "column": 5
+          },
+          "literal": "Django's own FormView answers POST and calls this; the subclass writes no `post`.\n\n    A config-registered view of this shape was ONE entry point, at ANY, on whichever hook\n    the list reached first -- usually `get_context_data`, which only reads -- so the body\n    that acts on the request was outside the route entirely. 28 of oscar's registrations\n    are written this way. It is now two: a GET on the context and a POST on `form_valid`.\n\n    NEITHER HALF CARRIES A FINDING, and that is a fact about the engine rather than about\n    this class. A Django class-based view reaches the request through `self.request`, a\n    property of the view instance, and the taint model sources a handler's `request`\n    PARAMETER and route captures and not that -- so a hook-shaped handler has no caller\n    data in it however it is reached. What the two entry points buy today is a surface with\n    the right verbs at the right address; what they will buy is every one of these bodies,\n    the moment `self.request` is a source. The corpus asserts the enumeration and claims no\n    finding, which is the honest half of it.\n    "
+        },
+        {
+          "id": "dashboard/views.py#<module>:0:0$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 45,
+            "column": 18
+          }
+        },
+        {
+          "id": "dashboard/views.py#<module>:0:0$v4",
+          "kind": "local",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 45,
+            "column": 5
+          },
+          "name": "form_class"
         }
       ],
-      "flows": [],
+      "flows": [
+        {
+          "from": "dashboard/views.py#<module>:0:0$v3",
+          "to": "dashboard/views.py#<module>:0:0$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 45,
+            "column": 5
+          },
+          "block": "dashboard/views.py#<module>:0:0$b0"
+        }
+      ],
       "calls": [],
       "returns": [],
       "returnBlocks": [],
@@ -5246,6 +5494,565 @@
           "loc": {
             "file": "dashboard/views.py",
             "line": 24,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "dashboard/views.py#get_context_data:47:5",
+      "name": "get_context_data",
+      "module": "dashboard/views.py",
+      "loc": {
+        "file": "dashboard/views.py",
+        "line": 47,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "dashboard/views.py#get_context_data:47:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "kwargs",
+          "valueId": "dashboard/views.py#get_context_data:47:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "dashboard/views.py#get_context_data:47:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 47,
+            "column": 26
+          },
+          "name": "self"
+        },
+        {
+          "id": "dashboard/views.py#get_context_data:47:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 47,
+            "column": 34
+          },
+          "name": "kwargs"
+        },
+        {
+          "id": "dashboard/views.py#get_context_data:47:5$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 49,
+            "column": 15
+          },
+          "name": "super"
+        },
+        {
+          "id": "dashboard/views.py#get_context_data:47:5$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 49,
+            "column": 15
+          },
+          "name": "unresolved"
+        },
+        {
+          "id": "dashboard/views.py#get_context_data:47:5$v4",
+          "kind": "local",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 49,
+            "column": 9
+          },
+          "name": "ctx"
+        },
+        {
+          "id": "dashboard/views.py#get_context_data:47:5$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 50,
+            "column": 46
+          },
+          "literal": "filter"
+        },
+        {
+          "id": "dashboard/views.py#get_context_data:47:5$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 50,
+            "column": 56
+          },
+          "literal": ""
+        },
+        {
+          "id": "dashboard/views.py#get_context_data:47:5$v7",
+          "kind": "property",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 50,
+            "column": 25
+          },
+          "base": "dashboard/views.py#get_context_data:47:5$v0",
+          "path": "request.GET",
+          "name": "request.GET"
+        },
+        {
+          "id": "dashboard/views.py#get_context_data:47:5$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 50,
+            "column": 25
+          },
+          "name": "self.request.GET.get"
+        }
+      ],
+      "flows": [
+        {
+          "from": "dashboard/views.py#get_context_data:47:5$v3",
+          "to": "dashboard/views.py#get_context_data:47:5$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 49,
+            "column": 9
+          },
+          "block": "dashboard/views.py#get_context_data:47:5$b0"
+        },
+        {
+          "from": "dashboard/views.py#get_context_data:47:5$v0",
+          "to": "dashboard/views.py#get_context_data:47:5$v7",
+          "kind": "property",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 50,
+            "column": 25
+          },
+          "block": "dashboard/views.py#get_context_data:47:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "dashboard/views.py#get_context_data:47:5$c0",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 49,
+            "column": 15
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "super",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "dashboard/views.py#get_context_data:47:5$v2",
+          "block": "dashboard/views.py#get_context_data:47:5$b0",
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "dashboard/views.py#get_context_data:47:5$c1",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 49,
+            "column": 15
+          },
+          "callee": {
+            "kind": "unresolved",
+            "resolution": "dynamic-unresolved"
+          },
+          "args": [
+            {
+              "valueId": "dashboard/views.py#get_context_data:47:5$v1"
+            }
+          ],
+          "resultValueId": "dashboard/views.py#get_context_data:47:5$v3",
+          "block": "dashboard/views.py#get_context_data:47:5$b0",
+          "method": "get_context_data",
+          "argCount": 1,
+          "receiverValueId": "dashboard/views.py#get_context_data:47:5$v2"
+        },
+        {
+          "id": "dashboard/views.py#get_context_data:47:5$c2",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 50,
+            "column": 25
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "self.request.GET.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "dashboard/views.py#get_context_data:47:5$v5"
+            },
+            {
+              "index": 1,
+              "valueId": "dashboard/views.py#get_context_data:47:5$v6"
+            }
+          ],
+          "resultValueId": "dashboard/views.py#get_context_data:47:5$v8",
+          "block": "dashboard/views.py#get_context_data:47:5$b0",
+          "method": "get",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "filter",
+            "1": ""
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "dashboard/views.py#get_context_data:47:5$v7"
+        }
+      ],
+      "returns": [
+        "dashboard/views.py#get_context_data:47:5$v4"
+      ],
+      "returnBlocks": [
+        "dashboard/views.py#get_context_data:47:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 50,
+            "column": 9
+          },
+          "base": "dashboard/views.py#get_context_data:47:5$v4",
+          "path": "filter",
+          "from": "dashboard/views.py#get_context_data:47:5$v8",
+          "block": "dashboard/views.py#get_context_data:47:5$b0"
+        }
+      ],
+      "entryBlock": "dashboard/views.py#get_context_data:47:5$b0",
+      "blocks": [
+        {
+          "id": "dashboard/views.py#get_context_data:47:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 47,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "dashboard/views.py#get_context_data:47:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 51,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "dashboard/views.py#form_valid:53:5",
+      "name": "form_valid",
+      "module": "dashboard/views.py",
+      "loc": {
+        "file": "dashboard/views.py",
+        "line": 53,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "dashboard/views.py#form_valid:53:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "form",
+          "valueId": "dashboard/views.py#form_valid:53:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "dashboard/views.py#form_valid:53:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 53,
+            "column": 20
+          },
+          "name": "self"
+        },
+        {
+          "id": "dashboard/views.py#form_valid:53:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 53,
+            "column": 26
+          },
+          "name": "form"
+        },
+        {
+          "id": "dashboard/views.py#form_valid:53:5$v2",
+          "kind": "property",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 56,
+            "column": 18
+          },
+          "base": "dashboard/views.py#form_valid:53:5$v0",
+          "path": "request.POST",
+          "name": "request.POST"
+        },
+        {
+          "id": "dashboard/views.py#form_valid:53:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 56,
+            "column": 18
+          },
+          "name": "destination",
+          "base": "dashboard/views.py#form_valid:53:5$v2",
+          "path": "request.POST.destination"
+        },
+        {
+          "id": "dashboard/views.py#form_valid:53:5$v4",
+          "kind": "local",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 56,
+            "column": 9
+          },
+          "name": "target"
+        },
+        {
+          "id": "dashboard/views.py#form_valid:53:5$v5",
+          "kind": "local",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 57,
+            "column": 33
+          },
+          "name": "concat"
+        },
+        {
+          "id": "dashboard/views.py#form_valid:53:5$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 57,
+            "column": 33
+          },
+          "literal": "cp /tmp/upload "
+        },
+        {
+          "id": "dashboard/views.py#form_valid:53:5$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 57,
+            "column": 67
+          },
+          "literal": "true"
+        },
+        {
+          "id": "dashboard/views.py#form_valid:53:5$v8",
+          "kind": "global",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 57,
+            "column": 9
+          },
+          "name": "subprocess"
+        },
+        {
+          "id": "dashboard/views.py#form_valid:53:5$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 57,
+            "column": 9
+          },
+          "name": "subprocess.check_output"
+        },
+        {
+          "id": "dashboard/views.py#form_valid:53:5$v10",
+          "kind": "literal",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 58,
+            "column": 29
+          },
+          "literal": "ok"
+        },
+        {
+          "id": "dashboard/views.py#form_valid:53:5$v11",
+          "kind": "call-result",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 58,
+            "column": 16
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "dashboard/views.py#form_valid:53:5$v0",
+          "to": "dashboard/views.py#form_valid:53:5$v2",
+          "kind": "property",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 56,
+            "column": 18
+          },
+          "block": "dashboard/views.py#form_valid:53:5$b0"
+        },
+        {
+          "from": "dashboard/views.py#form_valid:53:5$v2",
+          "to": "dashboard/views.py#form_valid:53:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 56,
+            "column": 18
+          },
+          "block": "dashboard/views.py#form_valid:53:5$b0"
+        },
+        {
+          "from": "dashboard/views.py#form_valid:53:5$v3",
+          "to": "dashboard/views.py#form_valid:53:5$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 56,
+            "column": 9
+          },
+          "block": "dashboard/views.py#form_valid:53:5$b0"
+        },
+        {
+          "from": "dashboard/views.py#form_valid:53:5$v6",
+          "to": "dashboard/views.py#form_valid:53:5$v5",
+          "kind": "binary",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 57,
+            "column": 33
+          },
+          "block": "dashboard/views.py#form_valid:53:5$b0"
+        },
+        {
+          "from": "dashboard/views.py#form_valid:53:5$v4",
+          "to": "dashboard/views.py#form_valid:53:5$v5",
+          "kind": "binary",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 57,
+            "column": 33
+          },
+          "block": "dashboard/views.py#form_valid:53:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "dashboard/views.py#form_valid:53:5$c0",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 57,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "subprocess.check_output",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "dashboard/views.py#form_valid:53:5$v5"
+            },
+            {
+              "valueId": "dashboard/views.py#form_valid:53:5$v7",
+              "name": "shell"
+            }
+          ],
+          "resultValueId": "dashboard/views.py#form_valid:53:5$v9",
+          "block": "dashboard/views.py#form_valid:53:5$b0",
+          "method": "check_output",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "shell=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "dashboard/views.py#form_valid:53:5$v8"
+        },
+        {
+          "id": "dashboard/views.py#form_valid:53:5$c1",
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 58,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "dashboard/views.py#form_valid:53:5$v10"
+            }
+          ],
+          "resultValueId": "dashboard/views.py#form_valid:53:5$v11",
+          "block": "dashboard/views.py#form_valid:53:5$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "ok"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "dashboard/views.py#form_valid:53:5$v11"
+      ],
+      "returnBlocks": [
+        "dashboard/views.py#form_valid:53:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "dashboard/views.py#form_valid:53:5$b0",
+      "blocks": [
+        {
+          "id": "dashboard/views.py#form_valid:53:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 53,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "dashboard/views.py#form_valid:53:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "dashboard/views.py",
+            "line": 58,
             "column": 9
           }
         }
@@ -6417,6 +7224,24 @@
         "method": "POST",
         "path": "/dashboard/ranges/:pk/reorder/",
         "pathParams": "int:pk"
+      }
+    },
+    {
+      "functionId": "dashboard/views.py#form_valid:53:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "POST",
+        "path": "/dashboard/ranges/upload/"
+      }
+    },
+    {
+      "functionId": "dashboard/views.py#get_context_data:47:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "GET",
+        "path": "/dashboard/ranges/upload/"
       }
     }
   ],

@@ -73,6 +73,17 @@ import "strings"
 // composed program-wide. oscar went 30 -> 189 entry points and 279 -> 226 functions
 // reading caller input that nothing reaches.
 //
+// Half of that surface is enumerated and still unreadable, and the reason is worth the
+// sentence because it is not this pass's. 97 of oscar's 177 routes anchor to a HOOK --
+// `get_context_data`, `form_valid`, `get_queryset` -- which is how Django's generic views
+// are written and which takes no `request` parameter: the request is `self.request`, a
+// property of the view instance, and the taint model sources a handler's request PARAMETER
+// and its route captures and not that. So those 97 have the right address and the right
+// verb and no caller data in them, while the 80 that do take a request went from 17. The
+// same count on netbox is 1,928 of 1,947 taking a parameter, because a registry-registered
+// view inherits `get(self, request)` from a generic that spells it out. Making
+// `self.request` a source is a taint-model question and is what those 97 are waiting on.
+//
 // A DECORATOR REGISTRY READ BACK AT URL-BUILD TIME. A netbox view binds itself to a model
 // with `@register_model_view(Region, 'edit')`; `dcim/urls.py` asks for the same key with
 // `include(get_model_urls('dcim', 'region'))`. Two sites name one key and nothing between
