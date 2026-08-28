@@ -95,6 +95,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -257,6 +258,10 @@
       "returns": [
         "app.py#mode:7:1$v6",
         "app.py#mode:7:1$v7"
+      ],
+      "returnBlocks": [
+        "app.py#mode:7:1$b1",
+        "app.py#mode:7:1$b3"
       ],
       "comparisons": [
         {
@@ -443,6 +448,10 @@
       "returns": [
         "app.py#mode_equal:19:1$v5",
         "app.py#mode_equal:19:1$v6"
+      ],
+      "returnBlocks": [
+        "app.py#mode_equal:19:1$b1",
+        "app.py#mode_equal:19:1$b3"
       ],
       "comparisons": [
         {
@@ -667,6 +676,10 @@
       "returns": [
         "app.py#missing:27:1$v7",
         "app.py#missing:27:1$v4"
+      ],
+      "returnBlocks": [
+        "app.py#missing:27:1$b1",
+        "app.py#missing:27:1$b3"
       ],
       "comparisons": [
         {

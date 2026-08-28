@@ -17,6 +17,7 @@ import (
 var corpora = []string{
 	"absent-security-option",
 	"anchored-regex-guard",
+	"registered-destination",
 	"app-router-pages",
 	"express-command-injection",
 	"one-weakness-per-site",

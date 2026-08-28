@@ -124,6 +124,7 @@
       ],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "commands.py#<module>:0:0$b0",
@@ -317,6 +318,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "commands.py#add_arguments:30:5$b0",
@@ -543,6 +545,9 @@
       "returns": [
         "commands.py#handle:38:5$v9"
       ],
+      "returnBlocks": [
+        "commands.py#handle:38:5$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "commands.py#handle:38:5$b0",
@@ -680,6 +685,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "commands.py#add_arguments:46:5$b0",
@@ -872,6 +878,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "commands.py#handle:56:5$b0",
@@ -1024,6 +1031,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "commands.py#handle:70:5$b0",
@@ -1146,6 +1154,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "commands.py#handle:82:5$b0",

@@ -203,6 +203,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -337,6 +338,9 @@
       "calls": [],
       "returns": [
         "app.py#mint_session:8:1$v1"
+      ],
+      "returnBlocks": [
+        "app.py#mint_session:8:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -596,6 +600,9 @@
       ],
       "returns": [
         "app.py#login:17:1$v2"
+      ],
+      "returnBlocks": [
+        "app.py#login:17:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -870,6 +877,9 @@
       ],
       "returns": [
         "app.py#login_explicit:25:1$v2"
+      ],
+      "returnBlocks": [
+        "app.py#login_explicit:25:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -1160,6 +1170,9 @@
       "returns": [
         "app.py#login_crosssite:33:1$v2"
       ],
+      "returnBlocks": [
+        "app.py#login_crosssite:33:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#login_crosssite:33:1$b0",
@@ -1418,6 +1431,9 @@
       ],
       "returns": [
         "app.py#login_spread:41:1$v2"
+      ],
+      "returnBlocks": [
+        "app.py#login_spread:41:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -1723,6 +1739,9 @@
       "returns": [
         "app.py#login_correct:50:1$v2"
       ],
+      "returnBlocks": [
+        "app.py#login_correct:50:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#login_correct:50:1$b0",
@@ -1981,6 +2000,9 @@
       ],
       "returns": [
         "app.py#csrf:58:1$v2"
+      ],
+      "returnBlocks": [
+        "app.py#csrf:58:1$b0"
       ],
       "comparisons": [],
       "writes": [],

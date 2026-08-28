@@ -126,6 +126,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -366,6 +367,9 @@
       ],
       "returns": [
         "app.py#register:10:1$v7"
+      ],
+      "returnBlocks": [
+        "app.py#register:10:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -627,6 +631,9 @@
       ],
       "returns": [
         "app.py#register_salted:18:1$v8"
+      ],
+      "returnBlocks": [
+        "app.py#register_salted:18:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -924,6 +931,9 @@
       "returns": [
         "app.py#register_kdf:29:1$v10"
       ],
+      "returnBlocks": [
+        "app.py#register_kdf:29:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#register_kdf:29:1$b0",
@@ -1130,6 +1140,9 @@
       ],
       "returns": [
         "app.py#etag:38:1$v6"
+      ],
+      "returnBlocks": [
+        "app.py#etag:38:1$b0"
       ],
       "comparisons": [],
       "writes": [],

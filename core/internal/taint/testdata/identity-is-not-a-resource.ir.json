@@ -64,6 +64,7 @@
       "flows": [],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#<module>:0:0$b0",
@@ -312,6 +313,9 @@
       ],
       "returns": [
         "app.py#get_report:28:1$v8"
+      ],
+      "returnBlocks": [
+        "app.py#get_report:28:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -585,6 +589,9 @@
       "returns": [
         "app.py#update_report:38:1$v9"
       ],
+      "returnBlocks": [
+        "app.py#update_report:38:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#update_report:38:1$b0",
@@ -769,6 +776,9 @@
       ],
       "returns": [
         "app.py#get_user:46:1$v5"
+      ],
+      "returnBlocks": [
+        "app.py#get_user:46:1$b2"
       ],
       "comparisons": [],
       "writes": [
@@ -1010,6 +1020,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -1072,7 +1083,7 @@
             "line": 68,
             "column": 8
           },
-          "name": "either"
+          "name": "both"
         },
         {
           "id": "app.py#set_app_on_context:64:1$v2",
@@ -1233,6 +1244,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [
         {
           "left": "app.py#set_app_on_context:64:1$v2",
@@ -1331,7 +1343,7 @@
             "line": 76,
             "column": 8
           },
-          "name": "either"
+          "name": "both"
         },
         {
           "id": "app.py#set_auth_on_context:72:1$v2",
@@ -1491,6 +1503,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [
         {
           "left": "app.py#set_auth_on_context:72:1$v1",
@@ -1680,6 +1693,9 @@
       "returns": [
         "app.py#get_owned_documents:82:1$v3"
       ],
+      "returnBlocks": [
+        "app.py#get_owned_documents:82:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#get_owned_documents:82:1$b0",
@@ -1810,6 +1826,9 @@
       "returns": [
         "app.py#update_document:88:1$v3"
       ],
+      "returnBlocks": [
+        "app.py#update_document:88:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#update_document:88:1$b0",
@@ -1860,6 +1879,7 @@
       "flows": [],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "auth.py#<module>:0:0$b0",
@@ -1916,6 +1936,9 @@
       "calls": [],
       "returns": [
         "auth.py#authenticate:6:1$v1"
+      ],
+      "returnBlocks": [
+        "auth.py#authenticate:6:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -1985,6 +2008,9 @@
       "returns": [
         "auth.py#token_from_request:10:1$v1"
       ],
+      "returnBlocks": [
+        "auth.py#token_from_request:10:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "auth.py#token_from_request:10:1$b0",
@@ -2053,6 +2079,9 @@
       "returns": [
         "auth.py#decode:14:1$v1"
       ],
+      "returnBlocks": [
+        "auth.py#decode:14:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "auth.py#decode:14:1$b0",
@@ -2120,6 +2149,9 @@
       "returns": [
         "auth.py#app_for:18:1$v1"
       ],
+      "returnBlocks": [
+        "auth.py#app_for:18:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "auth.py#app_for:18:1$b0",
@@ -2170,6 +2202,7 @@
       "flows": [],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "reports.py#<module>:0:0$b0",
@@ -2243,6 +2276,9 @@
       "returns": [
         "reports.py#validate_report_belongs_to_project:4:1$v2"
       ],
+      "returnBlocks": [
+        "reports.py#validate_report_belongs_to_project:4:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "reports.py#validate_report_belongs_to_project:4:1$b0",
@@ -2310,6 +2346,9 @@
       "calls": [],
       "returns": [
         "reports.py#read:8:1$v1"
+      ],
+      "returnBlocks": [
+        "reports.py#read:8:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -2409,6 +2448,9 @@
       "returns": [
         "reports.py#save:12:1$v3"
       ],
+      "returnBlocks": [
+        "reports.py#save:12:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "reports.py#save:12:1$b0",
@@ -2477,6 +2519,9 @@
       "returns": [
         "reports.py#permitted_document_ids:16:1$v1"
       ],
+      "returnBlocks": [
+        "reports.py#permitted_document_ids:16:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "reports.py#permitted_document_ids:16:1$b0",
@@ -2543,6 +2588,9 @@
       "calls": [],
       "returns": [
         "reports.py#touch_document:20:1$v1"
+      ],
+      "returnBlocks": [
+        "reports.py#touch_document:20:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -2811,6 +2859,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {

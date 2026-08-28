@@ -95,6 +95,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -312,6 +313,9 @@
       "returns": [
         "app.py#import_xml:8:1$v6"
       ],
+      "returnBlocks": [
+        "app.py#import_xml:8:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#import_xml:8:1$b0",
@@ -502,6 +506,9 @@
       ],
       "returns": [
         "app.py#import_fixed:16:1$v5"
+      ],
+      "returnBlocks": [
+        "app.py#import_fixed:16:1$b0"
       ],
       "comparisons": [],
       "writes": [],

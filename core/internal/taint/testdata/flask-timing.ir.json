@@ -95,6 +95,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -420,6 +421,10 @@
       "returns": [
         "app.py#webhook:9:1$v11",
         "app.py#webhook:9:1$v12"
+      ],
+      "returnBlocks": [
+        "app.py#webhook:9:1$b1",
+        "app.py#webhook:9:1$b3"
       ],
       "comparisons": [
         {
@@ -831,6 +836,10 @@
       "returns": [
         "app.py#webhook_safe:21:1$v12",
         "app.py#webhook_safe:21:1$v13"
+      ],
+      "returnBlocks": [
+        "app.py#webhook_safe:21:1$b1",
+        "app.py#webhook_safe:21:1$b3"
       ],
       "comparisons": [
         {

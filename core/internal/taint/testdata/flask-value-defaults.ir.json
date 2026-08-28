@@ -176,6 +176,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -498,6 +499,9 @@
       "returns": [
         "app.py#search:10:1$v11"
       ],
+      "returnBlocks": [
+        "app.py#search:10:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#search:10:1$b0",
@@ -784,6 +788,9 @@
       "returns": [
         "app.py#walrus:19:1$v11"
       ],
+      "returnBlocks": [
+        "app.py#walrus:19:1$b2"
+      ],
       "comparisons": [
         {
           "left": "app.py#walrus:19:1$v4",
@@ -1054,6 +1061,9 @@
       ],
       "returns": [
         "app.py#fixed:27:1$v8"
+      ],
+      "returnBlocks": [
+        "app.py#fixed:27:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -1359,6 +1369,9 @@
       ],
       "returns": [
         "app.py#parameterized:35:1$v11"
+      ],
+      "returnBlocks": [
+        "app.py#parameterized:35:1$b0"
       ],
       "comparisons": [],
       "writes": [],

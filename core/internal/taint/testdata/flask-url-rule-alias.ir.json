@@ -572,6 +572,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -790,6 +791,9 @@
       "returns": [
         "app.py#local_search:24:1$v8"
       ],
+      "returnBlocks": [
+        "app.py#local_search:24:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#local_search:24:1$b0",
@@ -857,6 +861,9 @@
       "calls": [],
       "returns": [
         "app.py#get:31:5$v1"
+      ],
+      "returnBlocks": [
+        "app.py#get:31:5$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -951,6 +958,7 @@
       ],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -992,6 +1000,7 @@
       "flows": [],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "favicons/proxy.py#<module>:0:0$b0",
@@ -1124,6 +1133,9 @@
       "returns": [
         "favicons/proxy.py#favicon_proxy:4:1$v4"
       ],
+      "returnBlocks": [
+        "favicons/proxy.py#favicon_proxy:4:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "favicons/proxy.py#favicon_proxy:4:1$b0",
@@ -1163,6 +1175,7 @@
       "flows": [],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "handlers.py#<module>:0:0$b0",
@@ -1294,6 +1307,9 @@
       ],
       "returns": [
         "handlers.py#report:4:1$v4"
+      ],
+      "returnBlocks": [
+        "handlers.py#report:4:1$b0"
       ],
       "comparisons": [],
       "writes": [],

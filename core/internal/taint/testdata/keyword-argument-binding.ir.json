@@ -174,6 +174,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -324,6 +325,9 @@
       ],
       "returns": [
         "app.py#post:18:5$v3"
+      ],
+      "returnBlocks": [
+        "app.py#post:18:5$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -580,6 +584,9 @@
       ],
       "returns": [
         "app.py#_render:22:5$v1"
+      ],
+      "returnBlocks": [
+        "app.py#_render:22:5$b0"
       ],
       "comparisons": [],
       "writes": [],

@@ -1278,6 +1278,10 @@ function lowerFunction(
   const writes: Write[] = [];
   const blocks: Block[] = [];
   const returns: string[] = [];
+  // Index-aligned with `returns`: where each returned value left the function. See
+  // ir.Function.ReturnBlocks -- a return had no position in the graph, so no analysis
+  // could ask on what condition a function answers with the value it was handed.
+  const returnBlocks: string[] = [];
   const params: Param[] = [];
   const bySymbol = new Map<ts.Symbol, string>();
   // Object-literal value id -> the value behind each of its keys. Only object literals
@@ -1993,12 +1997,20 @@ function lowerFunction(
       // Keep the one selection whose right side is a DEFAULT distinguishable. A
       // security option set to `env.SECRET || "known-secret"` is not merely a value
       // that might be literal: whenever the deployment omits the environment value,
-      // the literal is the option. `??` and `&&` make different promises and retain the
-      // generic name.
+      // the literal is the option.
+      //
+      // And keep `&&` distinguishable from the other two, because it promises something
+      // they do not. All three lower to one value with an edge from each operand, so the
+      // graph cannot tell them apart -- and an analysis that admits a value because a
+      // check inside the condition said yes has to know which: `a && check(x)` truthy
+      // means check(x) said yes, and `a || check(x)` truthy means nothing of the kind.
+      // `??` keeps the generic name with `||`, since neither promises both.
       const name =
-        expr.operatorToken.kind === ts.SyntaxKind.BarBarToken && literalOf(expr.right) !== undefined
-          ? "literal-fallback"
-          : "either";
+        expr.operatorToken.kind === ts.SyntaxKind.AmpersandAmpersandToken
+          ? "both"
+          : expr.operatorToken.kind === ts.SyntaxKind.BarBarToken && literalOf(expr.right) !== undefined
+            ? "literal-fallback"
+            : "either";
       const id = newValue("local", loc, { name });
       addFlow(lowerExpr(expr.left), id, "assign", loc);
       addFlow(lowerExpr(expr.right), id, "assign", loc);
@@ -2288,6 +2300,58 @@ function lowerFunction(
     }
     if (!ts.isCallExpression(current)) return undefined;
     return { call: current, branch: negated ? "falsy" : "truthy" };
+  };
+
+  // The same condition shape written across two statements.
+  //
+  //   const uri = getClientRedirectUri(client, requested);
+  //   if (!uri) { res.status(400).send("Invalid redirect URI"); return; }
+  //
+  // states exactly what `if (!getClientRedirectUri(...))` states about that call, and the
+  // graph is once again identical to the opposite spelling. A NAME is not an operation:
+  // nothing happens between the call and the test that could change the answer, so the
+  // one bit of polarity survives the extra statement unchanged.
+  //
+  // Two narrowings carry the whole claim. The name must have exactly ONE definition --
+  // a variable assigned twice lowers to a merge whose value is no call's result, so no
+  // call matches and nothing is stated. And the producing call must sit in the SAME
+  // BLOCK as the test, so no other path can arrive at the test holding a different
+  // answer. Anything else keeps the refusal: an unstated polarity is a fact the core
+  // must decline to use, never one it may guess (see ir.Call.ConditionBranch).
+  const boundCallCondition = (
+    expression: ts.Expression,
+    block: string,
+  ): { call: Call; branch: "truthy" | "falsy" } | undefined => {
+    let current = expression;
+    let negated = false;
+    while (ts.isParenthesizedExpression(current)) current = current.expression;
+    while (
+      ts.isPrefixUnaryExpression(current) &&
+      current.operator === ts.SyntaxKind.ExclamationToken
+    ) {
+      negated = !negated;
+      current = current.operand;
+      while (ts.isParenthesizedExpression(current)) current = current.expression;
+    }
+    if (!ts.isIdentifier(current)) return undefined;
+    const sym = checker.getSymbolAtLocation(current);
+    const bound = sym ? (bySymbol.get(sym) ?? fileScope.get(sym)) : undefined;
+    if (!bound) return undefined;
+    let definition: string | undefined;
+    for (const f of flows) {
+      if (f.to !== bound || f.kind !== "assign") continue;
+      if (definition !== undefined) return undefined;
+      definition = f.from;
+    }
+    if (definition === undefined) return undefined;
+    let producer: Call | undefined;
+    for (const c of calls) {
+      if (c.resultValueId !== definition || c.block !== block) continue;
+      if (producer) return undefined;
+      producer = c;
+    }
+    if (!producer) return undefined;
+    return { call: producer, branch: negated ? "falsy" : "truthy" };
   };
 
   const walk = (n: ts.Node): void => {
@@ -2602,6 +2666,9 @@ function lowerFunction(
         if (lowered.loc.line === directLoc.line && lowered.loc.column === directLoc.column) {
           lowered.conditionBranch = direct.branch;
         }
+      } else if (!direct) {
+        const bound = boundCallCondition(n.expression, current);
+        if (bound) bound.call.conditionBranch = bound.branch;
       }
       const branch = current;
       terminate(branch, "branch");
@@ -2632,7 +2699,10 @@ function lowerFunction(
     if (ts.isReturnStatement(n)) {
       if (n.expression) {
         const v = lowerExpr(n.expression);
-        if (v) returns.push(v);
+        if (v) {
+          returns.push(v);
+          returnBlocks.push(current);
+        }
       }
       terminate(current, "return");
       current = newBlock(n);
@@ -2791,6 +2861,7 @@ function lowerFunction(
       flows,
       calls,
       returns,
+      returnBlocks,
       comparisons,
       // Writes too. They were computed here and then dropped on the way out, which is
       // the worst place to drop them: this branch exists BECAUSE a module's top level is
@@ -2808,7 +2879,10 @@ function lowerFunction(
       walk(body);
     } else {
       const v = lowerExpr(body);
-      if (v) returns.push(v);
+      if (v) {
+        returns.push(v);
+        returnBlocks.push(current);
+      }
     }
   }
 
@@ -2822,6 +2896,7 @@ function lowerFunction(
     flows,
     calls,
     returns,
+    returnBlocks,
     comparisons,
     writes: writes.length ? writes : undefined,
     entryBlock,

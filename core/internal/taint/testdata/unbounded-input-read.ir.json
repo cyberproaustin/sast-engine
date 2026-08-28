@@ -15,6 +15,7 @@
         "fastapi",
         "django",
         "drf",
+        "graphene",
         "tornado"
       ]
     }
@@ -178,8 +179,31 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
-      "writes": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 9,
+            "column": 1
+          },
+          "path": "MAX_UPLOAD_BYTES",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "app.py",
+            "line": 26,
+            "column": 1
+          },
+          "path": "router",
+          "from": "app.py#<module>:0:0$v2",
+          "block": "app.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
       "entryBlock": "app.py#<module>:0:0$b0",
       "blocks": [
         {
@@ -485,6 +509,9 @@
       ],
       "returns": [
         "app.py#whole:14:5$v10"
+      ],
+      "returnBlocks": [
+        "app.py#whole:14:5$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -809,6 +836,9 @@
       ],
       "returns": [
         "app.py#bounded:20:5$v10"
+      ],
+      "returnBlocks": [
+        "app.py#bounded:20:5$b0"
       ],
       "comparisons": [],
       "writes": [],

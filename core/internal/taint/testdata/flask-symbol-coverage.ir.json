@@ -257,6 +257,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -735,6 +736,9 @@
       "returns": [
         "app.py#ping:30:1$v18"
       ],
+      "returnBlocks": [
+        "app.py#ping:30:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#ping:30:1$b0",
@@ -970,6 +974,9 @@
       "returns": [
         "app.py#restore:39:1$v8"
       ],
+      "returnBlocks": [
+        "app.py#restore:39:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#restore:39:1$b0",
@@ -1116,6 +1123,9 @@
       "returns": [
         "app.py#fetch:47:1$v4"
       ],
+      "returnBlocks": [
+        "app.py#fetch:47:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#fetch:47:1$b0",
@@ -1250,6 +1260,9 @@
       ],
       "returns": [
         "app.py#download:54:1$v3"
+      ],
+      "returnBlocks": [
+        "app.py#download:54:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -1428,6 +1441,9 @@
       "returns": [
         "app.py#render:60:1$v5"
       ],
+      "returnBlocks": [
+        "app.py#render:60:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#render:60:1$b0",
@@ -1597,6 +1613,10 @@
       "returns": [
         "app.py#digest:67:1$v6",
         "app.py#digest:67:1$v7"
+      ],
+      "returnBlocks": [
+        "app.py#digest:67:1$b1",
+        "app.py#digest:67:1$b3"
       ],
       "comparisons": [
         {
@@ -1844,6 +1864,10 @@
         "app.py#subscribe:79:1$v4",
         "app.py#subscribe:79:1$v7"
       ],
+      "returnBlocks": [
+        "app.py#subscribe:79:1$b1",
+        "app.py#subscribe:79:1$b3"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#subscribe:79:1$b0",
@@ -2037,6 +2061,10 @@
       "returns": [
         "app.py#page:91:1$v2",
         "app.py#page:91:1$v5"
+      ],
+      "returnBlocks": [
+        "app.py#page:91:1$b1",
+        "app.py#page:91:1$b3"
       ],
       "comparisons": [],
       "writes": [],

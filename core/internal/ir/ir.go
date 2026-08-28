@@ -319,17 +319,32 @@ func (l Loc) String() string { return fmt.Sprintf("%s:%d:%d", l.File, l.Line, l.
 
 // Function is the unit of intraprocedural dataflow.
 type Function struct {
-	ID         string   `json:"id"`
-	Name       string   `json:"name"`
-	Module     string   `json:"module"`
-	Loc        Loc      `json:"loc"`
-	Params     []Param  `json:"params"`
-	Values     []*Value `json:"values"`
-	Flows      []Flow   `json:"flows"`
-	Calls      []*Call  `json:"calls"`
-	Returns    []string `json:"returns"`
-	EntryBlock string   `json:"entryBlock,omitempty"`
-	Blocks     []Block  `json:"blocks,omitempty"`
+	ID      string   `json:"id"`
+	Name    string   `json:"name"`
+	Module  string   `json:"module"`
+	Loc     Loc      `json:"loc"`
+	Params  []Param  `json:"params"`
+	Values  []*Value `json:"values"`
+	Flows   []Flow   `json:"flows"`
+	Calls   []*Call  `json:"calls"`
+	Returns []string `json:"returns"`
+	// ReturnBlocks is where each returned value LEFT the function, index-aligned with
+	// Returns.
+	//
+	// A return had no position in the graph, which made "on what condition does this
+	// function answer with the caller's value" unaskable. medplum's `getClientRedirectUri`
+	// is the shape: it returns the registered URI, the requested one, or nothing, and the
+	// requested one only inside the branch that proved it shares an origin with a
+	// registered one. Every other fact needed to see that is already here -- the blocks,
+	// the comparisons, the dominance -- and the one missing piece was which block the
+	// `return` sat in. `Call` and `Flow` both carry this field for the same reason.
+	//
+	// A frontend that does not state it emits nothing, and a length that does not match
+	// Returns is a REFUSAL rather than a partial answer: the alignment is the only thing
+	// joining a value to its position, so a core that cannot trust it must not guess.
+	ReturnBlocks []string `json:"returnBlocks,omitempty"`
+	EntryBlock   string   `json:"entryBlock,omitempty"`
+	Blocks       []Block  `json:"blocks,omitempty"`
 	// Comparisons are relational facts: which values were tested against which.
 	// Dataflow alone cannot see that a handler checked one thing against another,
 	// and "was this related to the caller's identity?" is exactly that question.

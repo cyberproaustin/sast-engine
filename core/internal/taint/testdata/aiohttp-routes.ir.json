@@ -64,6 +64,7 @@
       "flows": [],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#<module>:0:0$b0",
@@ -316,6 +317,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#setup_routes:13:1$b0",
@@ -467,6 +469,9 @@
       "returns": [
         "app.py#build:18:1$v3"
       ],
+      "returnBlocks": [
+        "app.py#build:18:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#build:18:1$b0",
@@ -506,6 +511,7 @@
       "flows": [],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "sqli/__init__.py#<module>:0:0$b0",
@@ -535,6 +541,7 @@
       "flows": [],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "sqli/dao.py#<module>:0:0$b0",
@@ -777,6 +784,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "sqli/dao.py#create:3:5$b0",
@@ -806,6 +814,7 @@
       "flows": [],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "sqli/views.py#<module>:0:0$b0",
@@ -1013,6 +1022,9 @@
       ],
       "returns": [
         "sqli/views.py#students:6:1$v6"
+      ],
+      "returnBlocks": [
+        "sqli/views.py#students:6:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -1305,6 +1317,9 @@
       ],
       "returns": [
         "sqli/views.py#create_student:11:1$v10"
+      ],
+      "returnBlocks": [
+        "sqli/views.py#create_student:11:1$b0"
       ],
       "comparisons": [],
       "writes": [],

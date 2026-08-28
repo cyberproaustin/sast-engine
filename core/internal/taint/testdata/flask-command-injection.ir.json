@@ -99,6 +99,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -284,6 +285,9 @@
       ],
       "returns": [
         "app.py#ping:9:1$v5"
+      ],
+      "returnBlocks": [
+        "app.py#ping:9:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -524,6 +528,10 @@
         "app.py#get_order:17:1$v2",
         "app.py#get_order:17:1$v6"
       ],
+      "returnBlocks": [
+        "app.py#get_order:17:1$b2",
+        "app.py#get_order:17:1$b4"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#get_order:17:1$b0",
@@ -671,6 +679,9 @@
       "returns": [
         "app.py#status:25:1$v1"
       ],
+      "returnBlocks": [
+        "app.py#status:25:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#status:25:1$b0",
@@ -776,6 +787,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#load_order:29:1$b0",
@@ -815,6 +827,7 @@
       "flows": [],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "helpers.py#<module>:0:0$b0",
@@ -974,6 +987,9 @@
       ],
       "returns": [
         "helpers.py#run_ping:4:1$v3"
+      ],
+      "returnBlocks": [
+        "helpers.py#run_ping:4:1$b0"
       ],
       "comparisons": [],
       "writes": [],

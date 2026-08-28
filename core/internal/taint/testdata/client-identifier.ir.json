@@ -231,6 +231,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -458,6 +459,10 @@
       "returns": [
         "app.py#session:53:1$v5",
         "app.py#session:53:1$v6"
+      ],
+      "returnBlocks": [
+        "app.py#session:53:1$b1",
+        "app.py#session:53:1$b3"
       ],
       "comparisons": [
         {
@@ -728,6 +733,9 @@
       "returns": [
         "app.py#charges:64:1$v7"
       ],
+      "returnBlocks": [
+        "app.py#charges:64:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#charges:64:1$b0",
@@ -962,6 +970,9 @@
       "returns": [
         "app.py#thumbnail:75:1$v8"
       ],
+      "returnBlocks": [
+        "app.py#thumbnail:75:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#thumbnail:75:1$b0",
@@ -1138,6 +1149,9 @@
       ],
       "returns": [
         "app.py#enrol:87:1$v5"
+      ],
+      "returnBlocks": [
+        "app.py#enrol:87:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -1355,6 +1369,9 @@
       ],
       "returns": [
         "app.py#register:97:1$v7"
+      ],
+      "returnBlocks": [
+        "app.py#register:97:1$b0"
       ],
       "comparisons": [],
       "writes": [],

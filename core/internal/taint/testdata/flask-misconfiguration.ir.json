@@ -205,6 +205,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [
         {
           "left": "app.py#<module>:0:0$v2",
@@ -406,6 +407,9 @@
       "returns": [
         "app.py#upstream:8:1$v5"
       ],
+      "returnBlocks": [
+        "app.py#upstream:8:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#upstream:8:1$b0",
@@ -568,6 +572,9 @@
       ],
       "returns": [
         "app.py#upstream_strict:15:1$v5"
+      ],
+      "returnBlocks": [
+        "app.py#upstream_strict:15:1$b0"
       ],
       "comparisons": [],
       "writes": [],

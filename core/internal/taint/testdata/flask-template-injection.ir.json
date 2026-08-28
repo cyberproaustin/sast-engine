@@ -95,6 +95,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -337,6 +338,9 @@
       "returns": [
         "app.py#hello:7:1$v8"
       ],
+      "returnBlocks": [
+        "app.py#hello:7:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#hello:7:1$b0",
@@ -489,6 +493,9 @@
       ],
       "returns": [
         "app.py#hello_safe:16:1$v4"
+      ],
+      "returnBlocks": [
+        "app.py#hello_safe:16:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -744,6 +751,9 @@
       "returns": [
         "app.py#not_found:23:1$v1"
       ],
+      "returnBlocks": [
+        "app.py#not_found:23:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#not_found:23:1$b0",
@@ -834,6 +844,9 @@
       ],
       "returns": [
         "app.py#greeting:31:1$v1"
+      ],
+      "returnBlocks": [
+        "app.py#greeting:31:1$b0"
       ],
       "comparisons": [],
       "writes": [],

@@ -52,6 +52,7 @@
       "flows": [],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#<module>:0:0$b0",
@@ -164,6 +165,9 @@
       ],
       "returns": [
         "app.py#fetch_insecure:16:1$v3"
+      ],
+      "returnBlocks": [
+        "app.py#fetch_insecure:16:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -347,6 +351,9 @@
       "returns": [
         "app.py#fetch_insecure_with_neighbours:20:1$v6"
       ],
+      "returnBlocks": [
+        "app.py#fetch_insecure_with_neighbours:20:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#fetch_insecure_with_neighbours:20:1$b0",
@@ -469,6 +476,9 @@
       ],
       "returns": [
         "app.py#fetch:25:1$v3"
+      ],
+      "returnBlocks": [
+        "app.py#fetch:25:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -612,6 +622,9 @@
       ],
       "returns": [
         "app.py#post_insecure:29:1$v4"
+      ],
+      "returnBlocks": [
+        "app.py#post_insecure:29:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -810,6 +823,9 @@
       ],
       "returns": [
         "app.py#fetch_nested:33:1$v6"
+      ],
+      "returnBlocks": [
+        "app.py#fetch_nested:33:1$b0"
       ],
       "comparisons": [],
       "writes": [],

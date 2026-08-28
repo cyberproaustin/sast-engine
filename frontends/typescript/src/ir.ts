@@ -203,6 +203,8 @@ export interface FunctionIR {
   flows: Flow[];
   calls: Call[];
   returns: string[];
+  /** Index-aligned with `returns`: the block each `return` left the function from. */
+  returnBlocks?: string[];
   comparisons?: Comparison[];
   writes?: Write[];
   entryBlock?: string;

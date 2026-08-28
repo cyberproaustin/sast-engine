@@ -614,6 +614,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "mutations.py#<module>:0:0$b0",
@@ -846,6 +847,9 @@
       "returns": [
         "mutations.py#perform_mutation:29:5$v9"
       ],
+      "returnBlocks": [
+        "mutations.py#perform_mutation:29:5$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "mutations.py#perform_mutation:29:5$b0",
@@ -1043,6 +1047,9 @@
       "returns": [
         "mutations.py#perform_mutation:44:5$v7"
       ],
+      "returnBlocks": [
+        "mutations.py#perform_mutation:44:5$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "mutations.py#perform_mutation:44:5$b0",
@@ -1195,6 +1202,9 @@
       "returns": [
         "mutations.py#perform_mutation:66:5$v5"
       ],
+      "returnBlocks": [
+        "mutations.py#perform_mutation:66:5$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "mutations.py#perform_mutation:66:5$b0",
@@ -1308,6 +1318,7 @@
       ],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "permissions.py#<module>:0:0$b0",
@@ -1348,6 +1359,7 @@
       "flows": [],
       "calls": [],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "reports.py#<module>:0:0$b0",
@@ -1503,6 +1515,9 @@
       ],
       "returns": [
         "reports.py#find_report:6:1$v5"
+      ],
+      "returnBlocks": [
+        "reports.py#find_report:6:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -2119,6 +2134,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -2256,6 +2272,9 @@
       ],
       "returns": [
         "schema.py#resolve_report:32:5$v3"
+      ],
+      "returnBlocks": [
+        "schema.py#resolve_report:32:5$b0"
       ],
       "comparisons": [],
       "writes": [],

@@ -95,6 +95,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -325,6 +326,9 @@
       "returns": [
         "app.py#import_extension:10:1$v8"
       ],
+      "returnBlocks": [
+        "app.py#import_extension:10:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#import_extension:10:1$b0",
@@ -509,6 +513,9 @@
       ],
       "returns": [
         "app.py#import_bundled:22:1$v6"
+      ],
+      "returnBlocks": [
+        "app.py#import_bundled:22:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -925,6 +932,9 @@
       "returns": [
         "app.py#import_by_hand:31:1$v15"
       ],
+      "returnBlocks": [
+        "app.py#import_by_hand:31:1$b2"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#import_by_hand:31:1$b0",
@@ -1334,6 +1344,9 @@
       "returns": [
         "app.py#import_by_hand_bundled:45:1$v13"
       ],
+      "returnBlocks": [
+        "app.py#import_by_hand_bundled:45:1$b2"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#import_by_hand_bundled:45:1$b0",
@@ -1599,6 +1612,9 @@
       "returns": [
         "app.py#import_tar:56:1$v8"
       ],
+      "returnBlocks": [
+        "app.py#import_tar:56:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#import_tar:56:1$b0",
@@ -1841,6 +1857,9 @@
       ],
       "returns": [
         "app.py#import_tar_filtered:67:1$v9"
+      ],
+      "returnBlocks": [
+        "app.py#import_tar_filtered:67:1$b0"
       ],
       "comparisons": [],
       "writes": [],

@@ -95,6 +95,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -437,6 +438,9 @@
       "returns": [
         "app.py#export:10:1$v12"
       ],
+      "returnBlocks": [
+        "app.py#export:10:1$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#export:10:1$b0",
@@ -730,6 +734,9 @@
       ],
       "returns": [
         "app.py#export_fixed:20:1$v10"
+      ],
+      "returnBlocks": [
+        "app.py#export_fixed:20:1$b0"
       ],
       "comparisons": [],
       "writes": [],

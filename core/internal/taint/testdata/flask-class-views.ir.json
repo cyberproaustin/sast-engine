@@ -105,6 +105,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [
         {
@@ -158,6 +159,9 @@
       "calls": [],
       "returns": [
         "app.py#report:29:1$v0"
+      ],
+      "returnBlocks": [
+        "app.py#report:29:1$b0"
       ],
       "comparisons": [],
       "writes": [],
@@ -389,6 +393,7 @@
         }
       ],
       "returns": [],
+      "returnBlocks": [],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#register:33:1$b0",
@@ -611,6 +616,9 @@
       "returns": [
         "app.py#get:20:5$v9"
       ],
+      "returnBlocks": [
+        "app.py#get:20:5$b0"
+      ],
       "comparisons": [],
       "writes": [],
       "entryBlock": "app.py#get:20:5$b0",
@@ -678,6 +686,9 @@
       "calls": [],
       "returns": [
         "app.py#post:25:5$v1"
+      ],
+      "returnBlocks": [
+        "app.py#post:25:5$b0"
       ],
       "comparisons": [],
       "writes": [],
