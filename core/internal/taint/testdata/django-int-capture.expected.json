@@ -1,0 +1,22 @@
+{
+  "corpus": "django-int-capture",
+  "description": "A route converter constrains what a capture can HOLD, and that is a different claim from whether the value is safe where it lands. `path(\"thing/<int:pk>/\", ...)` is Django's commonest detail route, and its converter was read as a sanitizer for every context: right for an interpreter, because `[0-9]+` carries no quote, no line break and no path separator; wrong for record selection, because an IDOR is precisely the caller sending a different integer. So the framework's most ordinary route seeded nothing and carried no caller data into any ownership judgement whatever -- the second reason the django-manager-lookup corpus gives for that shape having less reach than its call count suggests. Four routes state both directions. The `<int:>` capture reaches a record operation and IS reported; the same capture reaches a SQL statement and is NOT, which is the original judgement and nothing about the fix relaxes it; the same operation with the caller's identity beside the key is silent, because a selection scoped to the caller's own rows cannot reach anybody else's; and a `<str:>` capture reaches the same SQL statement and IS reported, which is the control that proves the converter is what decides rather than the route parameter being a source at all. Measured on the ten-repository corpus this change seeds 129 previously dropped captures across doccano, linkding and wger, and suppresses exactly one finding those captures reach: a CSV cell in wger fed by `<int:gym_pk>`, where an integer cannot begin with a formula character. The data layer is defined in the corpus so every hop resolves, the same choice express-idor makes about Prisma.",
+  "expected": [
+    {
+      "cwe": "CWE-639",
+      "sinkFile": "views.py",
+      "sinkLine": 11,
+      "sourceLabel": "pk",
+      "confidence": "medium",
+      "note": "the caller chooses the integer and nothing relates it to the caller; the converter constrains the syntax and says nothing about which row"
+    },
+    {
+      "cwe": "CWE-89",
+      "sinkFile": "views.py",
+      "sinkLine": 36,
+      "sourceLabel": "slug",
+      "confidence": "medium",
+      "note": "the control: Django's `str` converter is `[^/]+`, which carries a quote, so the same statement reached by the same kind of capture is reported"
+    }
+  ]
+}

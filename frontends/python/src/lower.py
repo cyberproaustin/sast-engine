@@ -506,6 +506,45 @@ def dotted_module(module: str) -> str:
     return module[:-3].replace("/", ".") if module.endswith(".py") else module
 
 
+def decorator_names(node: ast.AST) -> set[str]:
+    """The names written in a definition's decorator list, bare or dotted."""
+    out: set[str] = set()
+    for dec in getattr(node, "decorator_list", []):
+        base = dec.func if isinstance(dec, ast.Call) else dec
+        name = base.id if isinstance(base, ast.Name) else getattr(base, "attr", "")
+        if name:
+            out.add(name)
+    return out
+
+
+def implicit_receiver(member: ast.AST) -> str | None:
+    """Which receiver Python fills a method's parameter zero from, if any.
+
+    A method declares the receiver as its FIRST parameter and no call site writes it, so
+    every argument a caller writes fills the parameter one to its right. Nothing recorded
+    that, and the consequence was not a lost finding but a false sentence:
+    `cls._set_password_for_user(email, password, token)` against
+    `def _set_password_for_user(cls, email, password, token)` bound `password` onto
+    `email`, and saleor's setPassword route came out cited as selecting a user record by
+    the caller's PASSWORD. The route authenticates by token; the citation was invented by
+    the off-by-one.
+
+    Structural, not by the name `self`: the first positional parameter of an instance
+    method is the receiver whatever it is called. `@staticmethod` removes the slot
+    entirely, and `@classmethod` fills it with the class -- which is bound whether the
+    call was written on the class or on an instance, and is why the two answers differ.
+    """
+    names = decorator_names(member)
+    if "staticmethod" in names:
+        return None
+    args = getattr(member, "args", None)
+    if args is None or not (args.posonlyargs or args.args):
+        # A method with no positional parameter has no slot for a receiver. Nothing
+        # written at the call site can be shifted into one that does not exist.
+        return None
+    return "class" if "classmethod" in names else "instance"
+
+
 def django_call_args(node: ast.Call) -> tuple[ast.AST | None, ast.AST | None]:
     """The route and the view of a `path()` call, written either way.
 
@@ -758,8 +797,15 @@ class ModuleLowerer:
                  class_members: dict[str, dict[str, str]] | None = None,
                  base_members: dict[str, dict[str, str]] | None = None,
                  class_actions: dict[str, list[dict]] | None = None,
-                 graphql_resolvers: set[int] | None = None):
+                 graphql_resolvers: set[int] | None = None,
+                 receiver_kinds: dict[str, str] | None = None,
+                 class_names: set[str] | None = None):
         self.module = module_id(root, path)
+        # Which functions in the program take an implicit receiver, and which names are
+        # classes. A call resolves to a function id here and the binding of its
+        # arguments depends on both -- see FunctionLowerer.receiver_shift.
+        self.receiver_kinds = receiver_kinds or {}
+        self.class_names = class_names or set()
         # Resolver bodies a GraphQL schema dispatches into, decided program-wide because
         # the registration and the resolver are never in the same file. Their parameters
         # are the arguments a caller named.
@@ -2795,7 +2841,16 @@ class FunctionLowerer:
             segments.insert(0, cur.attr)
             cur = cur.value
 
-        base = self.expr(cur) if isinstance(cur, ast.Name) else None
+        # The base is VISITED whatever it is, and that is the whole of the fix here.
+        # Only an `ast.Name` base was visited before, so `helper(request).name` recorded
+        # the call NOWHERE -- not an unresolved symbol, not a missing property, an
+        # absent node. The call graph had a hole at every point a program reads a field
+        # off a call result, which in an ORM-shaped codebase is everywhere.
+        #
+        # A property built on whatever came back is the same thing the language does:
+        # `f(x).y` is `t = f(x); t.y`, and the second form has always lowered to a
+        # property on a call result.
+        base = self.expr(cur)
         if not base:
             return None
 
@@ -2919,12 +2974,82 @@ class FunctionLowerer:
                     return self.mod.global_defs.get(f"import:{'.'.join([root, *parts[1:]])}")
         return None
 
+    def names_a_class(self, node: ast.AST) -> bool:
+        """Whether this expression names a CLASS rather than an instance of one.
+
+        The distinction decides who fills parameter zero. `Model.method(instance, x)`
+        reaches an unbound function and writes the receiver itself; `obj.method(x)` and
+        `self.method(x)` reach a bound one and do not. Both are written the same way, and
+        only the base tells them apart.
+
+        A local binding is never a class here even when it holds one, because a name this
+        function assigned is a variable and `Model = get_model()` is how applications
+        write that. Refusing is the safe direction: it costs the explicit-receiver
+        reading, which is the rarer of the two.
+        """
+        if isinstance(node, ast.Name):
+            if node.id == "cls":
+                # The class object itself, which is what a classmethod's parameter zero
+                # holds. Reached through it, an ordinary method is unbound.
+                return True
+            if node.id == "self" or node.id in self.scope:
+                return False
+            if f"{self.mod.module}:{node.id}" in self.mod.class_names:
+                return True
+            imported = self.mod.imports.get(node.id)
+            return bool(imported) and imported in self.mod.class_names
+        if isinstance(node, ast.Attribute):
+            parts: list[str] = []
+            cur: ast.AST = node
+            while isinstance(cur, ast.Attribute):
+                parts.append(cur.attr)
+                cur = cur.value
+            if not isinstance(cur, ast.Name) or cur.id in self.scope:
+                return False
+            root = self.mod.imports.get(cur.id)
+            if not root:
+                return False
+            parts.reverse()
+            return ".".join([root, *parts]) in self.mod.class_names
+        return False
+
+    def receiver_shift(self, node: ast.Call, callee: dict) -> int:
+        """How far a written argument sits from the parameter it fills.
+
+        One, whenever the callee declares a receiver the call site did not write --
+        which is every `self.m(x)`, every `obj.m(x)`, and every call of a classmethod
+        however it was reached, because a classmethod is bound to the class either way.
+        Zero for a staticmethod, for a plain function, and for the explicit form
+        `Model.method(instance, x)`, where the receiver IS the first written argument.
+        """
+        fid = callee.get("functionId")
+        if not fid:
+            return 0
+        kind = self.mod.receiver_kinds.get(fid)
+        if not kind:
+            return 0
+        if kind == "class":
+            return 1
+        func = node.func
+        if isinstance(func, ast.Attribute) and self.names_a_class(func.value):
+            return 0
+        return 1
+
     def call(self, node: ast.Call) -> str:
+        # Resolved before the arguments so each one can be recorded with the parameter
+        # it actually fills. Nothing is lowered by resolving; it reads names.
+        callee = self.resolve_callee(node)
+        shift = self.receiver_shift(node, callee)
         args = []
         literals: dict[int, str] = {}
         for index, arg in enumerate(node.args):
             vid = self.expr(arg)
             entry: dict[str, Any] = {"index": index}
+            if shift:
+                # The written index stays what it is -- a rule naming "argument 1" means
+                # the argument somebody wrote, and argLiterals is keyed by it. Only the
+                # binding moves.
+                entry["paramIndex"] = index + shift
             if vid:
                 entry["valueId"] = vid
             fid = self.function_ref(arg)
@@ -2997,7 +3122,6 @@ class FunctionLowerer:
             receiver = self.expr(node.func.value)
             receiver_type = self.local_type_of(node.func.value)
 
-        callee = self.resolve_callee(node)
         result = self.new_value(
             "call-result", node, name=callee.get("symbol") or callee["kind"]
         )
@@ -3350,6 +3474,13 @@ def lower_program(root: str, files: list[str]) -> dict:
     # its base, so a registration that stops at the class it names reaches nothing.
     class_bases: dict[str, list[str]] = {}
     members_by_name: dict[str, dict[str, str]] = {}
+    # Which methods declare an implicit receiver, and which names in the program are
+    # CLASSES. Together they decide whether a written argument fills the parameter it
+    # sits above or the one to its right, which is a fact about the callee and the
+    # spelling of the receiver rather than about the call's own text -- so it is
+    # collected here, in the pass that already reads every definition.
+    receiver_kinds: dict[str, str] = {}
+    class_names: set[str] = set()
 
     for path in files:
         with open(path, "r", encoding="utf-8") as handle:
@@ -3371,9 +3502,17 @@ def lower_program(root: str, files: list[str]) -> dict:
             elif isinstance(node, ast.ClassDef):
                 members: dict[str, str] = {}
                 actions: list[dict] = []
+                # Both spellings a call site can reach this class by, so a receiver
+                # written as `Model.method(instance, x)` is recognised as the class it
+                # names whichever way the importer spelled it.
+                class_names.add(f"{mid}:{node.name}")
+                class_names.add(f"{dotted}.{node.name}")
                 for member in node.body:
                     if isinstance(member, FUNCTION_NODES):
                         fid = f"{mid}#{member.name}:{member.lineno}:{member.col_offset + 1}"
+                        receiver = implicit_receiver(member)
+                        if receiver:
+                            receiver_kinds[fid] = receiver
                         defs[f"{mid}:{node.name}.{member.name}"] = fid
                         # And by the name an importer would use, so `Student.create(...)`
                         # in another file resolves to the method rather than stopping at
@@ -3498,7 +3637,8 @@ def lower_program(root: str, files: list[str]) -> dict:
 
     lowerers = [ModuleLowerer(root, path, tree, defs, templates, resource_paths,
                               django_prefixes, class_members, base_members,
-                              class_actions, graphql_resolvers)
+                              class_actions, graphql_resolvers, receiver_kinds,
+                              class_names)
                 for path, tree in trees]
     provenance = module_provenance(root, trees)
 

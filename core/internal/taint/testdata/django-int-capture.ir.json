@@ -1,0 +1,1813 @@
+{
+  "irVersion": "0.19.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi",
+        "django",
+        "drf",
+        "graphene",
+        "tornado"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "store.py",
+      "path": "store.py"
+    },
+    {
+      "id": "urls.py",
+      "path": "urls.py"
+    },
+    {
+      "id": "views.py",
+      "path": "views.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "store.py#<module>:0:0",
+      "name": "<module>",
+      "module": "store.py",
+      "loc": {
+        "file": "store.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "store.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "store.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The data layer, defined here so every hop resolves -- the same choice express-idor\nmakes about Prisma."
+        },
+        {
+          "id": "store.py#<module>:0:0$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "store.py",
+            "line": 13,
+            "column": 9
+          },
+          "name": "NoteStore"
+        },
+        {
+          "id": "store.py#<module>:0:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "store.py",
+            "line": 13,
+            "column": 1
+          },
+          "name": "notes"
+        }
+      ],
+      "flows": [
+        {
+          "from": "store.py#<module>:0:0$v1",
+          "to": "store.py#<module>:0:0$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "store.py",
+            "line": 13,
+            "column": 1
+          },
+          "block": "store.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "store.py#<module>:0:0$c0",
+          "loc": {
+            "file": "store.py",
+            "line": 13,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "NoteStore",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "store.py#<module>:0:0$v1",
+          "block": "store.py#<module>:0:0$b0",
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "store.py",
+            "line": 13,
+            "column": 1
+          },
+          "path": "notes",
+          "from": "store.py#<module>:0:0$v1",
+          "block": "store.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "store.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "store.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "store.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "store.py#delete:6:5",
+      "name": "delete",
+      "module": "store.py",
+      "loc": {
+        "file": "store.py",
+        "line": 6,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "store.py#delete:6:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "note_id",
+          "valueId": "store.py#delete:6:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "store.py#delete:6:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "store.py",
+            "line": 6,
+            "column": 16
+          },
+          "name": "self"
+        },
+        {
+          "id": "store.py#delete:6:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "store.py",
+            "line": 6,
+            "column": 22
+          },
+          "name": "note_id"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [
+        "store.py#delete:6:5$v1"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "store.py#delete:6:5$b0",
+      "blocks": [
+        {
+          "id": "store.py#delete:6:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "store.py",
+            "line": 6,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "store.py#delete:6:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "store.py",
+            "line": 7,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "store.py#delete_for_owner:9:5",
+      "name": "delete_for_owner",
+      "module": "store.py",
+      "loc": {
+        "file": "store.py",
+        "line": 9,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "store.py#delete_for_owner:9:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "note_id",
+          "valueId": "store.py#delete_for_owner:9:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "owner_id",
+          "valueId": "store.py#delete_for_owner:9:5$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "store.py#delete_for_owner:9:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "store.py",
+            "line": 9,
+            "column": 26
+          },
+          "name": "self"
+        },
+        {
+          "id": "store.py#delete_for_owner:9:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "store.py",
+            "line": 9,
+            "column": 32
+          },
+          "name": "note_id"
+        },
+        {
+          "id": "store.py#delete_for_owner:9:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "store.py",
+            "line": 9,
+            "column": 41
+          },
+          "name": "owner_id"
+        },
+        {
+          "id": "store.py#delete_for_owner:9:5$v3",
+          "kind": "local",
+          "loc": {
+            "file": "store.py",
+            "line": 10,
+            "column": 16
+          },
+          "name": "[sequence]"
+        }
+      ],
+      "flows": [
+        {
+          "from": "store.py#delete_for_owner:9:5$v1",
+          "to": "store.py#delete_for_owner:9:5$v3",
+          "kind": "enclose",
+          "loc": {
+            "file": "store.py",
+            "line": 10,
+            "column": 16
+          },
+          "block": "store.py#delete_for_owner:9:5$b0"
+        },
+        {
+          "from": "store.py#delete_for_owner:9:5$v2",
+          "to": "store.py#delete_for_owner:9:5$v3",
+          "kind": "enclose",
+          "loc": {
+            "file": "store.py",
+            "line": 10,
+            "column": 16
+          },
+          "block": "store.py#delete_for_owner:9:5$b0"
+        }
+      ],
+      "calls": [],
+      "returns": [
+        "store.py#delete_for_owner:9:5$v3"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "store.py#delete_for_owner:9:5$b0",
+      "blocks": [
+        {
+          "id": "store.py#delete_for_owner:9:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "store.py",
+            "line": 9,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "store.py#delete_for_owner:9:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "store.py",
+            "line": 10,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "urls.py#<module>:0:0",
+      "name": "<module>",
+      "module": "urls.py",
+      "loc": {
+        "file": "urls.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "urls.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "Django's commonest detail route, and what its converter is allowed to decide.\n\n`path(\"thing/<int:pk>/\", ...)` is how the largest Python web framework writes a route that\noperates on one row. The converter was read as a sanitizer for EVERY context, which is\nright for an interpreter -- an integer carries no quote, no line break and no path\nseparator -- and wrong for record selection, because an IDOR is precisely the caller\nsending a different integer. So Django's most ordinary route carried no caller data into\nany ownership judgement at all, which the django-manager-lookup corpus records as the\nsecond reason that shape has less reach than its call count suggests.\n\nBoth directions are here. The `<int:>` capture reaches a record operation and is reported,\nreaches a SQL statement and is not, and the `<str:>` control reaches the same SQL statement\nand is -- so what the corpus proves is that the converter decides, and that what it decides\ndepends on where the value lands.\n"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "urls.py",
+            "line": 20,
+            "column": 15
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 21,
+            "column": 10
+          },
+          "literal": "notes/<int:pk>/delete/"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v3",
+          "kind": "global",
+          "loc": {
+            "file": "urls.py",
+            "line": 21,
+            "column": 36
+          },
+          "name": "views.note_delete"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 21,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 22,
+            "column": 10
+          },
+          "literal": "notes/<int:pk>/delete-owned/"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v6",
+          "kind": "global",
+          "loc": {
+            "file": "urls.py",
+            "line": 22,
+            "column": 42
+          },
+          "name": "views.note_delete_owned"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 22,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 23,
+            "column": 10
+          },
+          "literal": "notes/<int:pk>/sql/"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v9",
+          "kind": "global",
+          "loc": {
+            "file": "urls.py",
+            "line": 23,
+            "column": 33
+          },
+          "name": "views.note_sql"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 23,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v11",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 24,
+            "column": 10
+          },
+          "literal": "notes/<str:slug>/sql/"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v12",
+          "kind": "global",
+          "loc": {
+            "file": "urls.py",
+            "line": 24,
+            "column": 35
+          },
+          "name": "views.note_sql_slug"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v13",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 24,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v14",
+          "kind": "local",
+          "loc": {
+            "file": "urls.py",
+            "line": 20,
+            "column": 1
+          },
+          "name": "urlpatterns"
+        }
+      ],
+      "flows": [
+        {
+          "from": "urls.py#<module>:0:0$v4",
+          "to": "urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 20,
+            "column": 15
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "urls.py#<module>:0:0$v7",
+          "to": "urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 20,
+            "column": 15
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "urls.py#<module>:0:0$v10",
+          "to": "urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 20,
+            "column": 15
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "urls.py#<module>:0:0$v13",
+          "to": "urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 20,
+            "column": 15
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "urls.py#<module>:0:0$v1",
+          "to": "urls.py#<module>:0:0$v14",
+          "kind": "assign",
+          "loc": {
+            "file": "urls.py",
+            "line": 20,
+            "column": 1
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "urls.py#<module>:0:0$c0",
+          "loc": {
+            "file": "urls.py",
+            "line": 21,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v3",
+              "functionId": "views.py#note_delete:7:1"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v4",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "notes/<int:pk>/delete/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c1",
+          "loc": {
+            "file": "urls.py",
+            "line": 22,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v5"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v6",
+              "functionId": "views.py#note_delete_owned:15:1"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v7",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "notes/<int:pk>/delete-owned/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c2",
+          "loc": {
+            "file": "urls.py",
+            "line": 23,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v8"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v9",
+              "functionId": "views.py#note_sql:23:1"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v10",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "notes/<int:pk>/sql/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c3",
+          "loc": {
+            "file": "urls.py",
+            "line": 24,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v11"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v12",
+              "functionId": "views.py#note_sql_slug:32:1"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v13",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "notes/<str:slug>/sql/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "urls.py",
+            "line": 20,
+            "column": 1
+          },
+          "path": "urlpatterns",
+          "from": "urls.py#<module>:0:0$v1",
+          "block": "urls.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "urls.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "urls.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "urls.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "views.py#<module>:0:0",
+      "name": "<module>",
+      "module": "views.py",
+      "loc": {
+        "file": "views.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "views.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "views.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "views.py#note_delete:7:1",
+      "name": "note_delete",
+      "module": "views.py",
+      "loc": {
+        "file": "views.py",
+        "line": 7,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "views.py#note_delete:7:1$v0"
+        },
+        {
+          "index": 1,
+          "name": "pk",
+          "valueId": "views.py#note_delete:7:1$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "views.py#note_delete:7:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "views.py",
+            "line": 7,
+            "column": 17
+          },
+          "name": "request"
+        },
+        {
+          "id": "views.py#note_delete:7:1$v1",
+          "kind": "param",
+          "loc": {
+            "file": "views.py",
+            "line": 7,
+            "column": 26
+          },
+          "name": "pk"
+        },
+        {
+          "id": "views.py#note_delete:7:1$v2",
+          "kind": "global",
+          "loc": {
+            "file": "views.py",
+            "line": 11,
+            "column": 5
+          },
+          "name": "store.notes"
+        },
+        {
+          "id": "views.py#note_delete:7:1$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 11,
+            "column": 5
+          },
+          "name": "store.notes.delete"
+        },
+        {
+          "id": "views.py#note_delete:7:1$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "views.py",
+            "line": 12,
+            "column": 25
+          },
+          "literal": "ok"
+        },
+        {
+          "id": "views.py#note_delete:7:1$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 12,
+            "column": 12
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "views.py#note_delete:7:1$c0",
+          "loc": {
+            "file": "views.py",
+            "line": 11,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "store.notes.delete",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "views.py#note_delete:7:1$v1"
+            }
+          ],
+          "resultValueId": "views.py#note_delete:7:1$v3",
+          "block": "views.py#note_delete:7:1$b0",
+          "method": "delete",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "views.py#note_delete:7:1$v2"
+        },
+        {
+          "id": "views.py#note_delete:7:1$c1",
+          "loc": {
+            "file": "views.py",
+            "line": 12,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "views.py#note_delete:7:1$v4"
+            }
+          ],
+          "resultValueId": "views.py#note_delete:7:1$v5",
+          "block": "views.py#note_delete:7:1$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "ok"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "views.py#note_delete:7:1$v5"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "views.py#note_delete:7:1$b0",
+      "blocks": [
+        {
+          "id": "views.py#note_delete:7:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 7,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "views.py#note_delete:7:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 12,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "views.py#note_delete_owned:15:1",
+      "name": "note_delete_owned",
+      "module": "views.py",
+      "loc": {
+        "file": "views.py",
+        "line": 15,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "views.py#note_delete_owned:15:1$v0"
+        },
+        {
+          "index": 1,
+          "name": "pk",
+          "valueId": "views.py#note_delete_owned:15:1$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "views.py#note_delete_owned:15:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "views.py",
+            "line": 15,
+            "column": 23
+          },
+          "name": "request"
+        },
+        {
+          "id": "views.py#note_delete_owned:15:1$v1",
+          "kind": "param",
+          "loc": {
+            "file": "views.py",
+            "line": 15,
+            "column": 32
+          },
+          "name": "pk"
+        },
+        {
+          "id": "views.py#note_delete_owned:15:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 19,
+            "column": 32
+          },
+          "base": "views.py#note_delete_owned:15:1$v0",
+          "path": "user.id",
+          "name": "user.id"
+        },
+        {
+          "id": "views.py#note_delete_owned:15:1$v3",
+          "kind": "global",
+          "loc": {
+            "file": "views.py",
+            "line": 19,
+            "column": 5
+          },
+          "name": "store.notes"
+        },
+        {
+          "id": "views.py#note_delete_owned:15:1$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 19,
+            "column": 5
+          },
+          "name": "store.notes.delete_for_owner"
+        },
+        {
+          "id": "views.py#note_delete_owned:15:1$v5",
+          "kind": "literal",
+          "loc": {
+            "file": "views.py",
+            "line": 20,
+            "column": 25
+          },
+          "literal": "ok"
+        },
+        {
+          "id": "views.py#note_delete_owned:15:1$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 20,
+            "column": 12
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "views.py#note_delete_owned:15:1$v0",
+          "to": "views.py#note_delete_owned:15:1$v2",
+          "kind": "property",
+          "loc": {
+            "file": "views.py",
+            "line": 19,
+            "column": 32
+          },
+          "block": "views.py#note_delete_owned:15:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "views.py#note_delete_owned:15:1$c0",
+          "loc": {
+            "file": "views.py",
+            "line": 19,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "store.notes.delete_for_owner",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "views.py#note_delete_owned:15:1$v1"
+            },
+            {
+              "index": 1,
+              "valueId": "views.py#note_delete_owned:15:1$v2"
+            }
+          ],
+          "resultValueId": "views.py#note_delete_owned:15:1$v4",
+          "block": "views.py#note_delete_owned:15:1$b0",
+          "method": "delete_for_owner",
+          "argCount": 2,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "views.py#note_delete_owned:15:1$v3"
+        },
+        {
+          "id": "views.py#note_delete_owned:15:1$c1",
+          "loc": {
+            "file": "views.py",
+            "line": 20,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "views.py#note_delete_owned:15:1$v5"
+            }
+          ],
+          "resultValueId": "views.py#note_delete_owned:15:1$v6",
+          "block": "views.py#note_delete_owned:15:1$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "ok"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "views.py#note_delete_owned:15:1$v6"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "views.py#note_delete_owned:15:1$b0",
+      "blocks": [
+        {
+          "id": "views.py#note_delete_owned:15:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 15,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "views.py#note_delete_owned:15:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 20,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "views.py#note_sql:23:1",
+      "name": "note_sql",
+      "module": "views.py",
+      "loc": {
+        "file": "views.py",
+        "line": 23,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "views.py#note_sql:23:1$v0"
+        },
+        {
+          "index": 1,
+          "name": "pk",
+          "valueId": "views.py#note_sql:23:1$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "views.py#note_sql:23:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "views.py",
+            "line": 23,
+            "column": 14
+          },
+          "name": "request"
+        },
+        {
+          "id": "views.py#note_sql:23:1$v1",
+          "kind": "param",
+          "loc": {
+            "file": "views.py",
+            "line": 23,
+            "column": 23
+          },
+          "name": "pk"
+        },
+        {
+          "id": "views.py#note_sql:23:1$v2",
+          "kind": "global",
+          "loc": {
+            "file": "views.py",
+            "line": 27,
+            "column": 10
+          },
+          "name": "django.db.connection"
+        },
+        {
+          "id": "views.py#note_sql:23:1$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 27,
+            "column": 10
+          },
+          "name": "django.db.connection.cursor"
+        },
+        {
+          "id": "views.py#note_sql:23:1$v4",
+          "kind": "local",
+          "loc": {
+            "file": "views.py",
+            "line": 27,
+            "column": 5
+          },
+          "name": "cursor"
+        },
+        {
+          "id": "views.py#note_sql:23:1$v5",
+          "kind": "local",
+          "loc": {
+            "file": "views.py",
+            "line": 28,
+            "column": 24
+          },
+          "name": "f-string"
+        },
+        {
+          "id": "views.py#note_sql:23:1$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "views.py",
+            "line": 28,
+            "column": 24
+          },
+          "literal": "SELECT title FROM note WHERE id = "
+        },
+        {
+          "id": "views.py#note_sql:23:1$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 28,
+            "column": 9
+          },
+          "name": "cursor.execute"
+        },
+        {
+          "id": "views.py#note_sql:23:1$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 29,
+            "column": 33
+          },
+          "name": "cursor.fetchall"
+        },
+        {
+          "id": "views.py#note_sql:23:1$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 29,
+            "column": 29
+          },
+          "name": "str"
+        },
+        {
+          "id": "views.py#note_sql:23:1$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 29,
+            "column": 16
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "views.py#note_sql:23:1$v3",
+          "to": "views.py#note_sql:23:1$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "views.py",
+            "line": 27,
+            "column": 5
+          },
+          "block": "views.py#note_sql:23:1$b0"
+        },
+        {
+          "from": "views.py#note_sql:23:1$v6",
+          "to": "views.py#note_sql:23:1$v5",
+          "kind": "template",
+          "loc": {
+            "file": "views.py",
+            "line": 28,
+            "column": 24
+          },
+          "block": "views.py#note_sql:23:1$b0"
+        },
+        {
+          "from": "views.py#note_sql:23:1$v1",
+          "to": "views.py#note_sql:23:1$v5",
+          "kind": "template",
+          "loc": {
+            "file": "views.py",
+            "line": 28,
+            "column": 24
+          },
+          "block": "views.py#note_sql:23:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "views.py#note_sql:23:1$c0",
+          "loc": {
+            "file": "views.py",
+            "line": 27,
+            "column": 10
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.db.connection.cursor",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "views.py#note_sql:23:1$v3",
+          "block": "views.py#note_sql:23:1$b0",
+          "method": "cursor",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "views.py#note_sql:23:1$v2"
+        },
+        {
+          "id": "views.py#note_sql:23:1$c1",
+          "loc": {
+            "file": "views.py",
+            "line": 28,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cursor.execute",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "views.py#note_sql:23:1$v5"
+            }
+          ],
+          "resultValueId": "views.py#note_sql:23:1$v7",
+          "block": "views.py#note_sql:23:1$b0",
+          "method": "execute",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "views.py#note_sql:23:1$v4"
+        },
+        {
+          "id": "views.py#note_sql:23:1$c2",
+          "loc": {
+            "file": "views.py",
+            "line": 29,
+            "column": 33
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cursor.fetchall",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "views.py#note_sql:23:1$v8",
+          "block": "views.py#note_sql:23:1$b0",
+          "method": "fetchall",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "views.py#note_sql:23:1$v4"
+        },
+        {
+          "id": "views.py#note_sql:23:1$c3",
+          "loc": {
+            "file": "views.py",
+            "line": 29,
+            "column": 29
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "str",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "views.py#note_sql:23:1$v8"
+            }
+          ],
+          "resultValueId": "views.py#note_sql:23:1$v9",
+          "block": "views.py#note_sql:23:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "views.py#note_sql:23:1$c4",
+          "loc": {
+            "file": "views.py",
+            "line": 29,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "views.py#note_sql:23:1$v9"
+            }
+          ],
+          "resultValueId": "views.py#note_sql:23:1$v10",
+          "block": "views.py#note_sql:23:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "views.py#note_sql:23:1$v10"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "views.py#note_sql:23:1$b0",
+      "blocks": [
+        {
+          "id": "views.py#note_sql:23:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 23,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "views.py#note_sql:23:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 29,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "views.py#note_sql_slug:32:1",
+      "name": "note_sql_slug",
+      "module": "views.py",
+      "loc": {
+        "file": "views.py",
+        "line": 32,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "views.py#note_sql_slug:32:1$v0"
+        },
+        {
+          "index": 1,
+          "name": "slug",
+          "valueId": "views.py#note_sql_slug:32:1$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "views.py#note_sql_slug:32:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "views.py",
+            "line": 32,
+            "column": 19
+          },
+          "name": "request"
+        },
+        {
+          "id": "views.py#note_sql_slug:32:1$v1",
+          "kind": "param",
+          "loc": {
+            "file": "views.py",
+            "line": 32,
+            "column": 28
+          },
+          "name": "slug"
+        },
+        {
+          "id": "views.py#note_sql_slug:32:1$v2",
+          "kind": "global",
+          "loc": {
+            "file": "views.py",
+            "line": 35,
+            "column": 10
+          },
+          "name": "django.db.connection"
+        },
+        {
+          "id": "views.py#note_sql_slug:32:1$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 35,
+            "column": 10
+          },
+          "name": "django.db.connection.cursor"
+        },
+        {
+          "id": "views.py#note_sql_slug:32:1$v4",
+          "kind": "local",
+          "loc": {
+            "file": "views.py",
+            "line": 35,
+            "column": 5
+          },
+          "name": "cursor"
+        },
+        {
+          "id": "views.py#note_sql_slug:32:1$v5",
+          "kind": "local",
+          "loc": {
+            "file": "views.py",
+            "line": 36,
+            "column": 24
+          },
+          "name": "f-string"
+        },
+        {
+          "id": "views.py#note_sql_slug:32:1$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "views.py",
+            "line": 36,
+            "column": 24
+          },
+          "literal": "SELECT title FROM note WHERE slug = '"
+        },
+        {
+          "id": "views.py#note_sql_slug:32:1$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "views.py",
+            "line": 36,
+            "column": 24
+          },
+          "literal": "'"
+        },
+        {
+          "id": "views.py#note_sql_slug:32:1$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 36,
+            "column": 9
+          },
+          "name": "cursor.execute"
+        },
+        {
+          "id": "views.py#note_sql_slug:32:1$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 37,
+            "column": 33
+          },
+          "name": "cursor.fetchall"
+        },
+        {
+          "id": "views.py#note_sql_slug:32:1$v10",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 37,
+            "column": 29
+          },
+          "name": "str"
+        },
+        {
+          "id": "views.py#note_sql_slug:32:1$v11",
+          "kind": "call-result",
+          "loc": {
+            "file": "views.py",
+            "line": 37,
+            "column": 16
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "views.py#note_sql_slug:32:1$v3",
+          "to": "views.py#note_sql_slug:32:1$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "views.py",
+            "line": 35,
+            "column": 5
+          },
+          "block": "views.py#note_sql_slug:32:1$b0"
+        },
+        {
+          "from": "views.py#note_sql_slug:32:1$v6",
+          "to": "views.py#note_sql_slug:32:1$v5",
+          "kind": "template",
+          "loc": {
+            "file": "views.py",
+            "line": 36,
+            "column": 24
+          },
+          "block": "views.py#note_sql_slug:32:1$b0"
+        },
+        {
+          "from": "views.py#note_sql_slug:32:1$v1",
+          "to": "views.py#note_sql_slug:32:1$v5",
+          "kind": "template",
+          "loc": {
+            "file": "views.py",
+            "line": 36,
+            "column": 24
+          },
+          "block": "views.py#note_sql_slug:32:1$b0"
+        },
+        {
+          "from": "views.py#note_sql_slug:32:1$v7",
+          "to": "views.py#note_sql_slug:32:1$v5",
+          "kind": "template",
+          "loc": {
+            "file": "views.py",
+            "line": 36,
+            "column": 24
+          },
+          "block": "views.py#note_sql_slug:32:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "views.py#note_sql_slug:32:1$c0",
+          "loc": {
+            "file": "views.py",
+            "line": 35,
+            "column": 10
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.db.connection.cursor",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "views.py#note_sql_slug:32:1$v3",
+          "block": "views.py#note_sql_slug:32:1$b0",
+          "method": "cursor",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "views.py#note_sql_slug:32:1$v2"
+        },
+        {
+          "id": "views.py#note_sql_slug:32:1$c1",
+          "loc": {
+            "file": "views.py",
+            "line": 36,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cursor.execute",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "views.py#note_sql_slug:32:1$v5"
+            }
+          ],
+          "resultValueId": "views.py#note_sql_slug:32:1$v8",
+          "block": "views.py#note_sql_slug:32:1$b0",
+          "method": "execute",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "views.py#note_sql_slug:32:1$v4"
+        },
+        {
+          "id": "views.py#note_sql_slug:32:1$c2",
+          "loc": {
+            "file": "views.py",
+            "line": 37,
+            "column": 33
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cursor.fetchall",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "views.py#note_sql_slug:32:1$v9",
+          "block": "views.py#note_sql_slug:32:1$b0",
+          "method": "fetchall",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "views.py#note_sql_slug:32:1$v4"
+        },
+        {
+          "id": "views.py#note_sql_slug:32:1$c3",
+          "loc": {
+            "file": "views.py",
+            "line": 37,
+            "column": 29
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "str",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "views.py#note_sql_slug:32:1$v9"
+            }
+          ],
+          "resultValueId": "views.py#note_sql_slug:32:1$v10",
+          "block": "views.py#note_sql_slug:32:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "views.py#note_sql_slug:32:1$c4",
+          "loc": {
+            "file": "views.py",
+            "line": 37,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "views.py#note_sql_slug:32:1$v10"
+            }
+          ],
+          "resultValueId": "views.py#note_sql_slug:32:1$v11",
+          "block": "views.py#note_sql_slug:32:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "views.py#note_sql_slug:32:1$v11"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "views.py#note_sql_slug:32:1$b0",
+      "blocks": [
+        {
+          "id": "views.py#note_sql_slug:32:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 32,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "views.py#note_sql_slug:32:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "views.py",
+            "line": 37,
+            "column": 9
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "views.py#note_delete:7:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/notes/:pk/delete/",
+        "pathParams": "int:pk"
+      }
+    },
+    {
+      "functionId": "views.py#note_delete_owned:15:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/notes/:pk/delete-owned/",
+        "pathParams": "int:pk"
+      }
+    },
+    {
+      "functionId": "views.py#note_sql:23:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/notes/:pk/sql/",
+        "pathParams": "int:pk"
+      }
+    },
+    {
+      "functionId": "views.py#note_sql_slug:32:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/notes/:slug/sql/",
+        "pathParams": "str:slug"
+      }
+    }
+  ],
+  "declaredViews": [],
+  "views": [],
+  "renders": []
+}

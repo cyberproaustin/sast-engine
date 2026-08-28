@@ -1,0 +1,22 @@
+{
+  "corpus": "python-call-under-attribute",
+  "description": "A call written under a property read. `helper(request).name` is one expression with a call inside it, and the Python frontend visited the base of a property read only when the base was a plain name -- everything else returned early, so this shape recorded no property, no symbol, and no CALL. That is worse than an unresolved edge, which at least says something was there: the call graph had an absent node wherever a program reads a field off the result of a call, which in a codebase whose data layer answers in objects is most of it. The first positive is the one that shows what was lost: the shell sits inside `run_and_wrap`, so the handler cannot reach it unless the call under the property read exists at all -- before the fix this corpus produced no findings whatever. The second shows the property itself carrying what the call was given, which is what `f(x).y` means and what `t = f(x); t.y` always did. The negative is the same two shapes with a literal in them, because visiting a base must record a call rather than invent a source. Three wrappers rather than one because taint is context-insensitive: a helper shared between a caller-fed route and a literal one carries the union of the two and the negative would prove nothing.",
+  "expected": [
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "helpers.py",
+      "sinkLine": 25,
+      "sourceLabel": "flask.request.args.host",
+      "confidence": "high",
+      "note": "the call under the property read is the only edge into this function; without it the handler reaches nothing"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "app.py",
+      "sinkLine": 24,
+      "sourceLabel": "flask.request.args.host",
+      "confidence": "medium",
+      "note": "the property read off the call's result carries what the call was handed; medium because nothing in this tree implements `Parsed`, so survival through it is assumed rather than established (ADR-003)"
+    }
+  ]
+}

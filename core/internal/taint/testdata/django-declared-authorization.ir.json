@@ -587,10 +587,12 @@
           "args": [
             {
               "index": 0,
+              "paramIndex": 1,
               "valueId": "permissions.py#has_permission:23:5$v1"
             },
             {
               "index": 1,
+              "paramIndex": 2,
               "valueId": "permissions.py#has_permission:23:5$v2"
             }
           ],
