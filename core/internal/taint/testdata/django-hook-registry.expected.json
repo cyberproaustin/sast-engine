@@ -1,0 +1,22 @@
+{
+  "corpus": "django-hook-registry",
+  "description": "Routes an application contributes to another application's URLconf under a string key. wagtail spells it `@hooks.register(\"register_admin_urls\")` in nine of its packages and `for fn in hooks.get_hooks(\"register_admin_urls\"): urlpatterns += fn()` in `wagtail/admin/urls/__init__.py`; nothing between the two is an expression naming both an address and a handler, because the routes are the RETURN VALUE of a function no caller in the source names. Measured on wagtail, the count this closes is zero -- all thirteen registrations inside those functions are `include(...)` -- and the ADDRESS it closes is 30 entry points: the admin's documents, images, forms, settings, redirects, search-promotions, embeds, styleguide and translation URLconfs were enumerated at `/documents/`, `/images/`, `/settings/` rather than under `/admin/`, and `/documents/<int:pk>/` is a path wagtail really does serve with a different view. That collision is reproduced here: `documents/urls.py` is the public download and `documents/admin_urls.py` is the admin, and only the key tells them apart. The positives are the two findings behind the hook-mounted URLconf, whose verbs are on a base the subclass declares nothing but a model against -- 31 of wagtail's 220 registrations are that shape and were enumerated as nothing at all. The negatives are the two halves of the join taken apart: `register_admin_menu_item` is registered and never read back, `register_report_urls_unused` is read back and never registered, and `reports/` -- registered under a key nothing reads -- must stay at `/reports/locked/` rather than borrowing `/admin/`. If it ever moves there, this corpus has begun inventing prefixes and the `/admin/reports/locked/` it claims is an address only the missing loop could have made.",
+  "expected": [
+    {
+      "cwe": "CWE-89",
+      "sinkFile": "common/generic.py",
+      "sinkLine": 28,
+      "sourceLabel": "request.POST",
+      "confidence": "medium",
+      "note": "the admin edit route, at `/admin/documents/edit/:pk/`; the class the URLconf names declares a model and no request handling, and the URLconf it sits in is mounted by nothing but the string key"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "common/generic.py",
+      "sinkLine": 39,
+      "sourceLabel": "request.GET",
+      "confidence": "high",
+      "note": "the admin listing route at `/admin/documents/`, reached the same way; the same body under the same key"
+    }
+  ]
+}

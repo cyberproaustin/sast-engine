@@ -1,0 +1,4599 @@
+{
+  "irVersion": "0.19.0",
+  "frontend": {
+    "name": "python",
+    "version": "0.1.0",
+    "capabilities": {
+      "typeChecker": false,
+      "interprocedural": true,
+      "crossModule": true,
+      "controlFlow": true,
+      "templates": false,
+      "frameworkModels": [
+        "flask",
+        "flask-appbuilder",
+        "fastapi",
+        "django",
+        "drf",
+        "graphene",
+        "tornado"
+      ]
+    }
+  },
+  "modules": [
+    {
+      "id": "adminsite/__init__.py",
+      "path": "adminsite/__init__.py"
+    },
+    {
+      "id": "adminsite/hooks.py",
+      "path": "adminsite/hooks.py"
+    },
+    {
+      "id": "adminsite/urls.py",
+      "path": "adminsite/urls.py"
+    },
+    {
+      "id": "adminsite/views.py",
+      "path": "adminsite/views.py"
+    },
+    {
+      "id": "common/__init__.py",
+      "path": "common/__init__.py"
+    },
+    {
+      "id": "common/generic.py",
+      "path": "common/generic.py"
+    },
+    {
+      "id": "documents/__init__.py",
+      "path": "documents/__init__.py"
+    },
+    {
+      "id": "documents/admin_urls.py",
+      "path": "documents/admin_urls.py"
+    },
+    {
+      "id": "documents/hooks_registrations.py",
+      "path": "documents/hooks_registrations.py"
+    },
+    {
+      "id": "documents/public.py",
+      "path": "documents/public.py"
+    },
+    {
+      "id": "documents/urls.py",
+      "path": "documents/urls.py"
+    },
+    {
+      "id": "documents/views.py",
+      "path": "documents/views.py"
+    },
+    {
+      "id": "reports/__init__.py",
+      "path": "reports/__init__.py"
+    },
+    {
+      "id": "reports/hooks_registrations.py",
+      "path": "reports/hooks_registrations.py"
+    },
+    {
+      "id": "reports/urls.py",
+      "path": "reports/urls.py"
+    },
+    {
+      "id": "reports/views.py",
+      "path": "reports/views.py"
+    },
+    {
+      "id": "urls.py",
+      "path": "urls.py"
+    }
+  ],
+  "functions": [
+    {
+      "id": "adminsite/__init__.py#<module>:0:0",
+      "name": "<module>",
+      "module": "adminsite/__init__.py",
+      "loc": {
+        "file": "adminsite/__init__.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "adminsite/__init__.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "adminsite/__init__.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/__init__.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "adminsite/hooks.py#<module>:0:0",
+      "name": "<module>",
+      "module": "adminsite/hooks.py",
+      "loc": {
+        "file": "adminsite/hooks.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "adminsite/hooks.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/hooks.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The registry itself: a string key, functions registered against it, and a read-back.\n\nModelled on wagtail's `wagtail/hooks.py`. Nothing here is a route; the two halves of the\njoin are `register` and `get_hooks`, and every route in this application travels between\nthem as the return value of a function.\n"
+        },
+        {
+          "id": "adminsite/hooks.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "adminsite/hooks.py",
+            "line": 8,
+            "column": 10
+          },
+          "name": "{dict}"
+        },
+        {
+          "id": "adminsite/hooks.py#<module>:0:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "adminsite/hooks.py",
+            "line": 8,
+            "column": 1
+          },
+          "name": "_hooks"
+        }
+      ],
+      "flows": [
+        {
+          "from": "adminsite/hooks.py#<module>:0:0$v1",
+          "to": "adminsite/hooks.py#<module>:0:0$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "adminsite/hooks.py",
+            "line": 8,
+            "column": 1
+          },
+          "block": "adminsite/hooks.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "adminsite/hooks.py",
+            "line": 8,
+            "column": 1
+          },
+          "path": "_hooks",
+          "from": "adminsite/hooks.py#<module>:0:0$v1",
+          "block": "adminsite/hooks.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "adminsite/hooks.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "adminsite/hooks.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/hooks.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "adminsite/hooks.py#register:11:1",
+      "name": "register",
+      "module": "adminsite/hooks.py",
+      "loc": {
+        "file": "adminsite/hooks.py",
+        "line": 11,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "hook_name",
+          "valueId": "adminsite/hooks.py#register:11:1$v0"
+        },
+        {
+          "index": 1,
+          "name": "fn",
+          "valueId": "adminsite/hooks.py#register:11:1$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "adminsite/hooks.py#register:11:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "adminsite/hooks.py",
+            "line": 11,
+            "column": 14
+          },
+          "name": "hook_name"
+        },
+        {
+          "id": "adminsite/hooks.py#register:11:1$v1",
+          "kind": "param",
+          "loc": {
+            "file": "adminsite/hooks.py",
+            "line": 11,
+            "column": 25
+          },
+          "name": "fn"
+        },
+        {
+          "id": "adminsite/hooks.py#register:11:1$v2",
+          "kind": "local",
+          "loc": {
+            "file": "adminsite/hooks.py",
+            "line": 12,
+            "column": 8
+          },
+          "name": "comparison"
+        },
+        {
+          "id": "adminsite/hooks.py#register:11:1$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/hooks.py",
+            "line": 12,
+            "column": 14
+          }
+        },
+        {
+          "id": "adminsite/hooks.py#register:11:1$v4",
+          "kind": "local",
+          "loc": {
+            "file": "adminsite/hooks.py",
+            "line": 20,
+            "column": 34
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "adminsite/hooks.py#register:11:1$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/hooks.py",
+            "line": 20,
+            "column": 5
+          },
+          "name": "_hooks.setdefault"
+        },
+        {
+          "id": "adminsite/hooks.py#register:11:1$v6",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/hooks.py",
+            "line": 20,
+            "column": 5
+          },
+          "name": "unresolved"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "adminsite/hooks.py#register:11:1$c0",
+          "loc": {
+            "file": "adminsite/hooks.py",
+            "line": 20,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "_hooks.setdefault",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "adminsite/hooks.py#register:11:1$v0"
+            },
+            {
+              "index": 1,
+              "valueId": "adminsite/hooks.py#register:11:1$v4",
+              "valueType": "list",
+              "valueTypeOrigin": "builtin"
+            }
+          ],
+          "resultValueId": "adminsite/hooks.py#register:11:1$v5",
+          "block": "adminsite/hooks.py#register:11:1$b3",
+          "method": "setdefault",
+          "argCount": 2,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "adminsite/hooks.py#<module>:0:0$v2"
+        },
+        {
+          "id": "adminsite/hooks.py#register:11:1$c1",
+          "loc": {
+            "file": "adminsite/hooks.py",
+            "line": 20,
+            "column": 5
+          },
+          "callee": {
+            "kind": "unresolved",
+            "resolution": "dynamic-unresolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "adminsite/hooks.py#register:11:1$v1"
+            }
+          ],
+          "resultValueId": "adminsite/hooks.py#register:11:1$v6",
+          "block": "adminsite/hooks.py#register:11:1$b3",
+          "method": "append",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "adminsite/hooks.py#register:11:1$v5"
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [
+        {
+          "left": "adminsite/hooks.py#register:11:1$v1",
+          "right": "adminsite/hooks.py#register:11:1$v3",
+          "op": "Is",
+          "block": "adminsite/hooks.py#register:11:1$b0",
+          "loc": {
+            "file": "adminsite/hooks.py",
+            "line": 12,
+            "column": 8
+          }
+        }
+      ],
+      "writes": [],
+      "entryBlock": "adminsite/hooks.py#register:11:1$b0",
+      "blocks": [
+        {
+          "id": "adminsite/hooks.py#register:11:1$b0",
+          "successors": [
+            "adminsite/hooks.py#register:11:1$b1",
+            "adminsite/hooks.py#register:11:1$b3"
+          ],
+          "loc": {
+            "file": "adminsite/hooks.py",
+            "line": 11,
+            "column": 1
+          },
+          "terminator": "branch"
+        },
+        {
+          "id": "adminsite/hooks.py#register:11:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/hooks.py",
+            "line": 12,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "adminsite/hooks.py#register:11:1$b2",
+          "successors": [
+            "adminsite/hooks.py#register:11:1$b3"
+          ],
+          "loc": {
+            "file": "adminsite/hooks.py",
+            "line": 18,
+            "column": 9
+          }
+        },
+        {
+          "id": "adminsite/hooks.py#register:11:1$b3",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/hooks.py",
+            "line": 12,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "adminsite/hooks.py#get_hooks:23:1",
+      "name": "get_hooks",
+      "module": "adminsite/hooks.py",
+      "loc": {
+        "file": "adminsite/hooks.py",
+        "line": 23,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "hook_name",
+          "valueId": "adminsite/hooks.py#get_hooks:23:1$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "adminsite/hooks.py#get_hooks:23:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "adminsite/hooks.py",
+            "line": 23,
+            "column": 15
+          },
+          "name": "hook_name"
+        },
+        {
+          "id": "adminsite/hooks.py#get_hooks:23:1$v1",
+          "kind": "local",
+          "loc": {
+            "file": "adminsite/hooks.py",
+            "line": 24,
+            "column": 34
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "adminsite/hooks.py#get_hooks:23:1$v2",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/hooks.py",
+            "line": 24,
+            "column": 12
+          },
+          "name": "_hooks.get"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "adminsite/hooks.py#get_hooks:23:1$c0",
+          "loc": {
+            "file": "adminsite/hooks.py",
+            "line": 24,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "_hooks.get",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "adminsite/hooks.py#get_hooks:23:1$v0"
+            },
+            {
+              "index": 1,
+              "valueId": "adminsite/hooks.py#get_hooks:23:1$v1",
+              "valueType": "list",
+              "valueTypeOrigin": "builtin"
+            }
+          ],
+          "resultValueId": "adminsite/hooks.py#get_hooks:23:1$v2",
+          "block": "adminsite/hooks.py#get_hooks:23:1$b0",
+          "method": "get",
+          "argCount": 2,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "adminsite/hooks.py#<module>:0:0$v2"
+        }
+      ],
+      "returns": [
+        "adminsite/hooks.py#get_hooks:23:1$v2"
+      ],
+      "returnBlocks": [
+        "adminsite/hooks.py#get_hooks:23:1$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "adminsite/hooks.py#get_hooks:23:1$b0",
+      "blocks": [
+        {
+          "id": "adminsite/hooks.py#get_hooks:23:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/hooks.py",
+            "line": 23,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "adminsite/hooks.py#get_hooks:23:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/hooks.py",
+            "line": 24,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "adminsite/hooks.py#decorator:14:9",
+      "name": "decorator",
+      "module": "adminsite/hooks.py",
+      "loc": {
+        "file": "adminsite/hooks.py",
+        "line": 14,
+        "column": 9
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "inner",
+          "valueId": "adminsite/hooks.py#decorator:14:9$v0"
+        }
+      ],
+      "values": [
+        {
+          "id": "adminsite/hooks.py#decorator:14:9$v0",
+          "kind": "param",
+          "loc": {
+            "file": "adminsite/hooks.py",
+            "line": 14,
+            "column": 23
+          },
+          "name": "inner"
+        },
+        {
+          "id": "adminsite/hooks.py#decorator:14:9$v1",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/hooks.py",
+            "line": 15,
+            "column": 13
+          },
+          "name": "local"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "adminsite/hooks.py#decorator:14:9$c0",
+          "loc": {
+            "file": "adminsite/hooks.py",
+            "line": 15,
+            "column": 13
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "adminsite/hooks.py#register:11:1",
+            "resolution": "resolved",
+            "name": "register"
+          },
+          "args": [
+            {
+              "index": 1,
+              "valueId": "adminsite/hooks.py#decorator:14:9$v0"
+            }
+          ],
+          "resultValueId": "adminsite/hooks.py#decorator:14:9$v1",
+          "block": "adminsite/hooks.py#decorator:14:9$b0",
+          "argCount": 2,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "adminsite/hooks.py#decorator:14:9$v0"
+      ],
+      "returnBlocks": [
+        "adminsite/hooks.py#decorator:14:9$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "adminsite/hooks.py#decorator:14:9$b0",
+      "blocks": [
+        {
+          "id": "adminsite/hooks.py#decorator:14:9$b0",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/hooks.py",
+            "line": 14,
+            "column": 9
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "adminsite/hooks.py#decorator:14:9$b1",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/hooks.py",
+            "line": 16,
+            "column": 13
+          }
+        }
+      ]
+    },
+    {
+      "id": "adminsite/urls.py#<module>:0:0",
+      "name": "<module>",
+      "module": "adminsite/urls.py",
+      "loc": {
+        "file": "adminsite/urls.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The admin URLconf, whose own list is only half of what it serves.\n\nThe other half arrives from applications this file never imports: each one registers a\nfunction under the string `register_admin_urls` and this loop splices what they return.\nThe prefix those routes are served under is written HERE and nowhere else.\n"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 13,
+            "column": 15
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 14,
+            "column": 10
+          },
+          "literal": ""
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v3",
+          "kind": "global",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 14,
+            "column": 14
+          },
+          "name": "adminsite.views"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v4",
+          "kind": "property",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 14,
+            "column": 14
+          },
+          "base": "adminsite/urls.py#<module>:0:0$v3",
+          "path": "HomeView",
+          "name": "HomeView"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 14,
+            "column": 14
+          },
+          "name": "adminsite.views.HomeView.as_view"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 14,
+            "column": 45
+          },
+          "literal": "home"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 14,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v8",
+          "kind": "local",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 13,
+            "column": 1
+          },
+          "name": "urlpatterns"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 17,
+            "column": 27
+          },
+          "literal": "register_admin_urls"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v10",
+          "kind": "global",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 17,
+            "column": 11
+          },
+          "name": "adminsite.hooks"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v11",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 17,
+            "column": 11
+          },
+          "name": "local"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v12",
+          "kind": "local",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 17,
+            "column": 5
+          },
+          "name": "fn"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v13",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 18,
+            "column": 13
+          },
+          "name": "fn"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v14",
+          "kind": "local",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 18,
+            "column": 5
+          },
+          "name": "extra"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v15",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 19,
+            "column": 8
+          },
+          "literal": "true"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v16",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 25,
+            "column": 27
+          },
+          "literal": "register_report_urls_unused"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v17",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 25,
+            "column": 11
+          },
+          "name": "local"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v18",
+          "kind": "local",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 25,
+            "column": 5
+          },
+          "name": "fn"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$v19",
+          "kind": "call-result",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 26,
+            "column": 20
+          },
+          "name": "fn"
+        }
+      ],
+      "flows": [
+        {
+          "from": "adminsite/urls.py#<module>:0:0$v3",
+          "to": "adminsite/urls.py#<module>:0:0$v4",
+          "kind": "property",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 14,
+            "column": 14
+          },
+          "block": "adminsite/urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "adminsite/urls.py#<module>:0:0$v7",
+          "to": "adminsite/urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 13,
+            "column": 15
+          },
+          "block": "adminsite/urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "adminsite/urls.py#<module>:0:0$v1",
+          "to": "adminsite/urls.py#<module>:0:0$v8",
+          "kind": "assign",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 13,
+            "column": 1
+          },
+          "block": "adminsite/urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "adminsite/urls.py#<module>:0:0$v11",
+          "to": "adminsite/urls.py#<module>:0:0$v12",
+          "kind": "property",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 17,
+            "column": 1
+          }
+        },
+        {
+          "from": "adminsite/urls.py#<module>:0:0$v13",
+          "to": "adminsite/urls.py#<module>:0:0$v14",
+          "kind": "assign",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 18,
+            "column": 5
+          }
+        },
+        {
+          "from": "adminsite/urls.py#<module>:0:0$v14",
+          "to": "adminsite/urls.py#<module>:0:0$v8",
+          "kind": "extend",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 20,
+            "column": 9
+          }
+        },
+        {
+          "from": "adminsite/urls.py#<module>:0:0$v17",
+          "to": "adminsite/urls.py#<module>:0:0$v18",
+          "kind": "property",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 25,
+            "column": 1
+          }
+        },
+        {
+          "from": "adminsite/urls.py#<module>:0:0$v19",
+          "to": "adminsite/urls.py#<module>:0:0$v8",
+          "kind": "extend",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 26,
+            "column": 5
+          }
+        }
+      ],
+      "calls": [
+        {
+          "id": "adminsite/urls.py#<module>:0:0$c0",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 14,
+            "column": 14
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "adminsite.views.HomeView.as_view",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "adminsite/urls.py#<module>:0:0$v5",
+          "block": "adminsite/urls.py#<module>:0:0$b0",
+          "method": "as_view",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "adminsite/urls.py#<module>:0:0$v4"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$c1",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 14,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "adminsite/urls.py#<module>:0:0$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "adminsite/urls.py#<module>:0:0$v5"
+            },
+            {
+              "valueId": "adminsite/urls.py#<module>:0:0$v6",
+              "name": "name"
+            }
+          ],
+          "resultValueId": "adminsite/urls.py#<module>:0:0$v7",
+          "block": "adminsite/urls.py#<module>:0:0$b0",
+          "argCount": 3,
+          "argLiterals": {
+            "0": "",
+            "-1": "name=home"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$c2",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 17,
+            "column": 11
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "adminsite/hooks.py#get_hooks:23:1",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "adminsite/urls.py#<module>:0:0$v9"
+            }
+          ],
+          "resultValueId": "adminsite/urls.py#<module>:0:0$v11",
+          "block": "adminsite/urls.py#<module>:0:0$b0",
+          "method": "get_hooks",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "register_admin_urls"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "adminsite/urls.py#<module>:0:0$v10"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$c3",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 18,
+            "column": 13
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "fn",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "adminsite/urls.py#<module>:0:0$v13",
+          "block": "adminsite/urls.py#<module>:0:0$b1",
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$c4",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 25,
+            "column": 11
+          },
+          "callee": {
+            "kind": "local",
+            "functionId": "adminsite/hooks.py#get_hooks:23:1",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "adminsite/urls.py#<module>:0:0$v16"
+            }
+          ],
+          "resultValueId": "adminsite/urls.py#<module>:0:0$v17",
+          "block": "adminsite/urls.py#<module>:0:0$b2",
+          "method": "get_hooks",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "register_report_urls_unused"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "adminsite/urls.py#<module>:0:0$v10"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$c5",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 26,
+            "column": 20
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "fn",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "adminsite/urls.py#<module>:0:0$v19",
+          "block": "adminsite/urls.py#<module>:0:0$b6",
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [
+        {
+          "left": "adminsite/urls.py#<module>:0:0$v14",
+          "right": "adminsite/urls.py#<module>:0:0$v15",
+          "op": "truthy",
+          "block": "adminsite/urls.py#<module>:0:0$b1",
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 19,
+            "column": 8
+          }
+        }
+      ],
+      "writes": [
+        {
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 13,
+            "column": 1
+          },
+          "path": "urlpatterns",
+          "from": "adminsite/urls.py#<module>:0:0$v1",
+          "block": "adminsite/urls.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "adminsite/urls.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "adminsite/urls.py#<module>:0:0$b0",
+          "successors": [
+            "adminsite/urls.py#<module>:0:0$b3"
+          ],
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 0,
+            "column": 1
+          }
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$b1",
+          "successors": [
+            "adminsite/urls.py#<module>:0:0$b4",
+            "adminsite/urls.py#<module>:0:0$b5"
+          ],
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 17,
+            "column": 1
+          },
+          "terminator": "branch"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$b2",
+          "successors": [
+            "adminsite/urls.py#<module>:0:0$b8"
+          ],
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 17,
+            "column": 1
+          }
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$b3",
+          "successors": [
+            "adminsite/urls.py#<module>:0:0$b1",
+            "adminsite/urls.py#<module>:0:0$b2"
+          ],
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 17,
+            "column": 1
+          },
+          "terminator": "branch",
+          "loopHeader": true,
+          "loopBound": "adminsite/urls.py#<module>:0:0$v11"
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$b4",
+          "successors": [
+            "adminsite/urls.py#<module>:0:0$b5"
+          ],
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 19,
+            "column": 5
+          }
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$b5",
+          "successors": [
+            "adminsite/urls.py#<module>:0:0$b3"
+          ],
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 19,
+            "column": 5
+          }
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$b6",
+          "successors": [
+            "adminsite/urls.py#<module>:0:0$b8"
+          ],
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 25,
+            "column": 1
+          }
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$b7",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 25,
+            "column": 1
+          }
+        },
+        {
+          "id": "adminsite/urls.py#<module>:0:0$b8",
+          "successors": [
+            "adminsite/urls.py#<module>:0:0$b6",
+            "adminsite/urls.py#<module>:0:0$b7"
+          ],
+          "loc": {
+            "file": "adminsite/urls.py",
+            "line": 25,
+            "column": 1
+          },
+          "terminator": "branch",
+          "loopHeader": true,
+          "loopBound": "adminsite/urls.py#<module>:0:0$v17"
+        }
+      ]
+    },
+    {
+      "id": "adminsite/views.py#<module>:0:0",
+      "name": "<module>",
+      "module": "adminsite/views.py",
+      "loc": {
+        "file": "adminsite/views.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "adminsite/views.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/views.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The admin's own view. Nothing here is registered by a hook."
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "adminsite/views.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "adminsite/views.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/views.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "adminsite/views.py#get:5:5",
+      "name": "get",
+      "module": "adminsite/views.py",
+      "loc": {
+        "file": "adminsite/views.py",
+        "line": 5,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "adminsite/views.py#get:5:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "request",
+          "valueId": "adminsite/views.py#get:5:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "adminsite/views.py#get:5:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "adminsite/views.py",
+            "line": 5,
+            "column": 13
+          },
+          "name": "self"
+        },
+        {
+          "id": "adminsite/views.py#get:5:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "adminsite/views.py",
+            "line": 5,
+            "column": 19
+          },
+          "name": "request"
+        },
+        {
+          "id": "adminsite/views.py#get:5:5$v2",
+          "kind": "local",
+          "loc": {
+            "file": "adminsite/views.py",
+            "line": 6,
+            "column": 16
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "template",
+              "valueId": "adminsite/views.py#get:5:5$v3"
+            }
+          ]
+        },
+        {
+          "id": "adminsite/views.py#get:5:5$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "adminsite/views.py",
+            "line": 6,
+            "column": 29
+          },
+          "literal": "home.html"
+        }
+      ],
+      "flows": [
+        {
+          "from": "adminsite/views.py#get:5:5$v3",
+          "to": "adminsite/views.py#get:5:5$v2",
+          "kind": "enclose",
+          "loc": {
+            "file": "adminsite/views.py",
+            "line": 6,
+            "column": 16
+          },
+          "block": "adminsite/views.py#get:5:5$b0"
+        }
+      ],
+      "calls": [],
+      "returns": [
+        "adminsite/views.py#get:5:5$v2"
+      ],
+      "returnBlocks": [
+        "adminsite/views.py#get:5:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "adminsite/views.py#get:5:5$b0",
+      "blocks": [
+        {
+          "id": "adminsite/views.py#get:5:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/views.py",
+            "line": 5,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "adminsite/views.py#get:5:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "adminsite/views.py",
+            "line": 6,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "common/__init__.py#<module>:0:0",
+      "name": "<module>",
+      "module": "common/__init__.py",
+      "loc": {
+        "file": "common/__init__.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "common/__init__.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "common/__init__.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "common/__init__.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "common/generic.py#<module>:0:0",
+      "name": "<module>",
+      "module": "common/generic.py",
+      "loc": {
+        "file": "common/generic.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "common/generic.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The generic views the applications inherit their verbs from.\n\n31 of wagtail's 220 registrations name a class that declares a queryset and two columns\nand no request handling at all: `class IndexView(generic.IndexView)` answers every GET\nthrough this layer. A lookup that stops at the class the URLconf names reaches a class\nwith no verb in it, so five of `wagtail/contrib/redirects/urls.py`'s seven routes were\nenumerated as nothing.\n\nThe base has to be resolved to a base this PROGRAM defines. Eleven other classes in\nwagtail are also called `EditView`, so a base matched on its bare name binds a route to\nwhichever one the walk reached first.\n"
+        },
+        {
+          "id": "common/generic.py#<module>:0:0$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 21,
+            "column": 13
+          }
+        },
+        {
+          "id": "common/generic.py#<module>:0:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 21,
+            "column": 5
+          },
+          "name": "model"
+        },
+        {
+          "id": "common/generic.py#<module>:0:0$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 33,
+            "column": 13
+          }
+        },
+        {
+          "id": "common/generic.py#<module>:0:0$v4",
+          "kind": "local",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 33,
+            "column": 5
+          },
+          "name": "model"
+        }
+      ],
+      "flows": [
+        {
+          "from": "common/generic.py#<module>:0:0$v1",
+          "to": "common/generic.py#<module>:0:0$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 21,
+            "column": 5
+          },
+          "block": "common/generic.py#<module>:0:0$b0"
+        },
+        {
+          "from": "common/generic.py#<module>:0:0$v3",
+          "to": "common/generic.py#<module>:0:0$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 33,
+            "column": 5
+          },
+          "block": "common/generic.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "common/generic.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "common/generic.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "common/generic.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "common/generic.py#post:23:5",
+      "name": "post",
+      "module": "common/generic.py",
+      "loc": {
+        "file": "common/generic.py",
+        "line": 23,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "common/generic.py#post:23:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "request",
+          "valueId": "common/generic.py#post:23:5$v1"
+        },
+        {
+          "index": 2,
+          "name": "pk",
+          "valueId": "common/generic.py#post:23:5$v2"
+        }
+      ],
+      "values": [
+        {
+          "id": "common/generic.py#post:23:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 23,
+            "column": 14
+          },
+          "name": "self"
+        },
+        {
+          "id": "common/generic.py#post:23:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 23,
+            "column": 20
+          },
+          "name": "request"
+        },
+        {
+          "id": "common/generic.py#post:23:5$v2",
+          "kind": "param",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 23,
+            "column": 29
+          },
+          "name": "pk"
+        },
+        {
+          "id": "common/generic.py#post:23:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 26,
+            "column": 17
+          },
+          "base": "common/generic.py#post:23:5$v1",
+          "path": "POST",
+          "name": "POST"
+        },
+        {
+          "id": "common/generic.py#post:23:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 26,
+            "column": 17
+          },
+          "name": "label",
+          "base": "common/generic.py#post:23:5$v3",
+          "path": "POST.label"
+        },
+        {
+          "id": "common/generic.py#post:23:5$v5",
+          "kind": "local",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 26,
+            "column": 9
+          },
+          "name": "label"
+        },
+        {
+          "id": "common/generic.py#post:23:5$v6",
+          "kind": "global",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 27,
+            "column": 14
+          },
+          "name": "django.db.connection"
+        },
+        {
+          "id": "common/generic.py#post:23:5$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 27,
+            "column": 14
+          },
+          "name": "django.db.connection.cursor"
+        },
+        {
+          "id": "common/generic.py#post:23:5$v8",
+          "kind": "local",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 27,
+            "column": 9
+          },
+          "name": "cur"
+        },
+        {
+          "id": "common/generic.py#post:23:5$v9",
+          "kind": "local",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 28,
+            "column": 25
+          },
+          "name": "concat"
+        },
+        {
+          "id": "common/generic.py#post:23:5$v10",
+          "kind": "literal",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 28,
+            "column": 25
+          },
+          "literal": "UPDATE docs SET label = '%s' WHERE id = %s"
+        },
+        {
+          "id": "common/generic.py#post:23:5$v11",
+          "kind": "local",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 28,
+            "column": 72
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "common/generic.py#post:23:5$v12",
+          "kind": "call-result",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 28,
+            "column": 13
+          },
+          "name": "cur.execute"
+        },
+        {
+          "id": "common/generic.py#post:23:5$v13",
+          "kind": "literal",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 29,
+            "column": 29
+          },
+          "literal": "ok"
+        },
+        {
+          "id": "common/generic.py#post:23:5$v14",
+          "kind": "call-result",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 29,
+            "column": 16
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "common/generic.py#post:23:5$v1",
+          "to": "common/generic.py#post:23:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 26,
+            "column": 17
+          },
+          "block": "common/generic.py#post:23:5$b0"
+        },
+        {
+          "from": "common/generic.py#post:23:5$v3",
+          "to": "common/generic.py#post:23:5$v4",
+          "kind": "property",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 26,
+            "column": 17
+          },
+          "block": "common/generic.py#post:23:5$b0"
+        },
+        {
+          "from": "common/generic.py#post:23:5$v4",
+          "to": "common/generic.py#post:23:5$v5",
+          "kind": "assign",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 26,
+            "column": 9
+          },
+          "block": "common/generic.py#post:23:5$b0"
+        },
+        {
+          "from": "common/generic.py#post:23:5$v7",
+          "to": "common/generic.py#post:23:5$v8",
+          "kind": "assign",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 27,
+            "column": 9
+          },
+          "block": "common/generic.py#post:23:5$b0"
+        },
+        {
+          "from": "common/generic.py#post:23:5$v10",
+          "to": "common/generic.py#post:23:5$v9",
+          "kind": "binary",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 28,
+            "column": 25
+          },
+          "block": "common/generic.py#post:23:5$b0"
+        },
+        {
+          "from": "common/generic.py#post:23:5$v5",
+          "to": "common/generic.py#post:23:5$v11",
+          "kind": "enclose",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 28,
+            "column": 72
+          },
+          "block": "common/generic.py#post:23:5$b0"
+        },
+        {
+          "from": "common/generic.py#post:23:5$v2",
+          "to": "common/generic.py#post:23:5$v11",
+          "kind": "enclose",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 28,
+            "column": 72
+          },
+          "block": "common/generic.py#post:23:5$b0"
+        },
+        {
+          "from": "common/generic.py#post:23:5$v11",
+          "to": "common/generic.py#post:23:5$v9",
+          "kind": "binary",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 28,
+            "column": 25
+          },
+          "block": "common/generic.py#post:23:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "common/generic.py#post:23:5$c0",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 27,
+            "column": 14
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.db.connection.cursor",
+            "resolution": "resolved"
+          },
+          "args": [],
+          "resultValueId": "common/generic.py#post:23:5$v7",
+          "block": "common/generic.py#post:23:5$b0",
+          "method": "cursor",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "common/generic.py#post:23:5$v6"
+        },
+        {
+          "id": "common/generic.py#post:23:5$c1",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 28,
+            "column": 13
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "cur.execute",
+            "resolution": "probable"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "common/generic.py#post:23:5$v9"
+            }
+          ],
+          "resultValueId": "common/generic.py#post:23:5$v12",
+          "block": "common/generic.py#post:23:5$b0",
+          "method": "execute",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "common/generic.py#post:23:5$v8"
+        },
+        {
+          "id": "common/generic.py#post:23:5$c2",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 29,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "common/generic.py#post:23:5$v13"
+            }
+          ],
+          "resultValueId": "common/generic.py#post:23:5$v14",
+          "block": "common/generic.py#post:23:5$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "ok"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "common/generic.py#post:23:5$v14"
+      ],
+      "returnBlocks": [
+        "common/generic.py#post:23:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "common/generic.py#post:23:5$b0",
+      "blocks": [
+        {
+          "id": "common/generic.py#post:23:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "common/generic.py",
+            "line": 23,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "common/generic.py#post:23:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "common/generic.py",
+            "line": 29,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "common/generic.py#get:35:5",
+      "name": "get",
+      "module": "common/generic.py",
+      "loc": {
+        "file": "common/generic.py",
+        "line": 35,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "common/generic.py#get:35:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "request",
+          "valueId": "common/generic.py#get:35:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "common/generic.py#get:35:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 35,
+            "column": 13
+          },
+          "name": "self"
+        },
+        {
+          "id": "common/generic.py#get:35:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 35,
+            "column": 19
+          },
+          "name": "request"
+        },
+        {
+          "id": "common/generic.py#get:35:5$v2",
+          "kind": "property",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 38,
+            "column": 17
+          },
+          "base": "common/generic.py#get:35:5$v1",
+          "path": "GET",
+          "name": "GET"
+        },
+        {
+          "id": "common/generic.py#get:35:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 38,
+            "column": 17
+          },
+          "name": "sort",
+          "base": "common/generic.py#get:35:5$v2",
+          "path": "GET.sort"
+        },
+        {
+          "id": "common/generic.py#get:35:5$v4",
+          "kind": "local",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 38,
+            "column": 9
+          },
+          "name": "order"
+        },
+        {
+          "id": "common/generic.py#get:35:5$v5",
+          "kind": "local",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 39,
+            "column": 39
+          },
+          "name": "concat"
+        },
+        {
+          "id": "common/generic.py#get:35:5$v6",
+          "kind": "local",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 39,
+            "column": 39
+          },
+          "name": "concat"
+        },
+        {
+          "id": "common/generic.py#get:35:5$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 39,
+            "column": 39
+          },
+          "literal": "ls -"
+        },
+        {
+          "id": "common/generic.py#get:35:5$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 39,
+            "column": 56
+          },
+          "literal": " /srv/docs"
+        },
+        {
+          "id": "common/generic.py#get:35:5$v9",
+          "kind": "literal",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 39,
+            "column": 76
+          },
+          "literal": "true"
+        },
+        {
+          "id": "common/generic.py#get:35:5$v10",
+          "kind": "global",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 39,
+            "column": 15
+          },
+          "name": "subprocess"
+        },
+        {
+          "id": "common/generic.py#get:35:5$v11",
+          "kind": "call-result",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 39,
+            "column": 15
+          },
+          "name": "subprocess.check_output"
+        },
+        {
+          "id": "common/generic.py#get:35:5$v12",
+          "kind": "local",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 39,
+            "column": 9
+          },
+          "name": "out"
+        },
+        {
+          "id": "common/generic.py#get:35:5$v13",
+          "kind": "call-result",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 40,
+            "column": 16
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "common/generic.py#get:35:5$v1",
+          "to": "common/generic.py#get:35:5$v2",
+          "kind": "property",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 38,
+            "column": 17
+          },
+          "block": "common/generic.py#get:35:5$b0"
+        },
+        {
+          "from": "common/generic.py#get:35:5$v2",
+          "to": "common/generic.py#get:35:5$v3",
+          "kind": "property",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 38,
+            "column": 17
+          },
+          "block": "common/generic.py#get:35:5$b0"
+        },
+        {
+          "from": "common/generic.py#get:35:5$v3",
+          "to": "common/generic.py#get:35:5$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 38,
+            "column": 9
+          },
+          "block": "common/generic.py#get:35:5$b0"
+        },
+        {
+          "from": "common/generic.py#get:35:5$v7",
+          "to": "common/generic.py#get:35:5$v6",
+          "kind": "binary",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 39,
+            "column": 39
+          },
+          "block": "common/generic.py#get:35:5$b0"
+        },
+        {
+          "from": "common/generic.py#get:35:5$v4",
+          "to": "common/generic.py#get:35:5$v6",
+          "kind": "binary",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 39,
+            "column": 39
+          },
+          "block": "common/generic.py#get:35:5$b0"
+        },
+        {
+          "from": "common/generic.py#get:35:5$v6",
+          "to": "common/generic.py#get:35:5$v5",
+          "kind": "binary",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 39,
+            "column": 39
+          },
+          "block": "common/generic.py#get:35:5$b0"
+        },
+        {
+          "from": "common/generic.py#get:35:5$v8",
+          "to": "common/generic.py#get:35:5$v5",
+          "kind": "binary",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 39,
+            "column": 39
+          },
+          "block": "common/generic.py#get:35:5$b0"
+        },
+        {
+          "from": "common/generic.py#get:35:5$v11",
+          "to": "common/generic.py#get:35:5$v12",
+          "kind": "assign",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 39,
+            "column": 9
+          },
+          "block": "common/generic.py#get:35:5$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "common/generic.py#get:35:5$c0",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 39,
+            "column": 15
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "subprocess.check_output",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "common/generic.py#get:35:5$v5"
+            },
+            {
+              "valueId": "common/generic.py#get:35:5$v9",
+              "name": "shell"
+            }
+          ],
+          "resultValueId": "common/generic.py#get:35:5$v11",
+          "block": "common/generic.py#get:35:5$b0",
+          "method": "check_output",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "shell=true"
+          },
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "common/generic.py#get:35:5$v10"
+        },
+        {
+          "id": "common/generic.py#get:35:5$c1",
+          "loc": {
+            "file": "common/generic.py",
+            "line": 40,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "common/generic.py#get:35:5$v12"
+            }
+          ],
+          "resultValueId": "common/generic.py#get:35:5$v13",
+          "block": "common/generic.py#get:35:5$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "common/generic.py#get:35:5$v13"
+      ],
+      "returnBlocks": [
+        "common/generic.py#get:35:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "common/generic.py#get:35:5$b0",
+      "blocks": [
+        {
+          "id": "common/generic.py#get:35:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "common/generic.py",
+            "line": 35,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "common/generic.py#get:35:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "common/generic.py",
+            "line": 40,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "documents/__init__.py#<module>:0:0",
+      "name": "<module>",
+      "module": "documents/__init__.py",
+      "loc": {
+        "file": "documents/__init__.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "documents/__init__.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "documents/__init__.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "documents/__init__.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "documents/admin_urls.py#<module>:0:0",
+      "name": "<module>",
+      "module": "documents/admin_urls.py",
+      "loc": {
+        "file": "documents/admin_urls.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "documents/admin_urls.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "documents/admin_urls.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The documents admin URLconf. Nothing in this file says where it is served.\n\nNo `include()` anywhere in the program names this module directly. The one mount it has\nis inside a function that a string key registers, three files away.\n"
+        },
+        {
+          "id": "documents/admin_urls.py#<module>:0:0$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "documents/admin_urls.py",
+            "line": 11,
+            "column": 12
+          },
+          "literal": "docs"
+        },
+        {
+          "id": "documents/admin_urls.py#<module>:0:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "documents/admin_urls.py",
+            "line": 11,
+            "column": 1
+          },
+          "name": "app_name"
+        },
+        {
+          "id": "documents/admin_urls.py#<module>:0:0$v3",
+          "kind": "local",
+          "loc": {
+            "file": "documents/admin_urls.py",
+            "line": 12,
+            "column": 15
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "documents/admin_urls.py#<module>:0:0$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "documents/admin_urls.py",
+            "line": 13,
+            "column": 10
+          },
+          "literal": ""
+        },
+        {
+          "id": "documents/admin_urls.py#<module>:0:0$v5",
+          "kind": "global",
+          "loc": {
+            "file": "documents/admin_urls.py",
+            "line": 13,
+            "column": 14
+          },
+          "name": "documents.views"
+        },
+        {
+          "id": "documents/admin_urls.py#<module>:0:0$v6",
+          "kind": "property",
+          "loc": {
+            "file": "documents/admin_urls.py",
+            "line": 13,
+            "column": 14
+          },
+          "base": "documents/admin_urls.py#<module>:0:0$v5",
+          "path": "IndexView",
+          "name": "IndexView"
+        },
+        {
+          "id": "documents/admin_urls.py#<module>:0:0$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "documents/admin_urls.py",
+            "line": 13,
+            "column": 14
+          },
+          "name": "documents.views.IndexView.as_view"
+        },
+        {
+          "id": "documents/admin_urls.py#<module>:0:0$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "documents/admin_urls.py",
+            "line": 13,
+            "column": 46
+          },
+          "literal": "index"
+        },
+        {
+          "id": "documents/admin_urls.py#<module>:0:0$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "documents/admin_urls.py",
+            "line": 13,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "documents/admin_urls.py#<module>:0:0$v10",
+          "kind": "literal",
+          "loc": {
+            "file": "documents/admin_urls.py",
+            "line": 14,
+            "column": 10
+          },
+          "literal": "edit/<int:pk>/"
+        },
+        {
+          "id": "documents/admin_urls.py#<module>:0:0$v11",
+          "kind": "property",
+          "loc": {
+            "file": "documents/admin_urls.py",
+            "line": 14,
+            "column": 28
+          },
+          "base": "documents/admin_urls.py#<module>:0:0$v5",
+          "path": "EditView",
+          "name": "EditView"
+        },
+        {
+          "id": "documents/admin_urls.py#<module>:0:0$v12",
+          "kind": "call-result",
+          "loc": {
+            "file": "documents/admin_urls.py",
+            "line": 14,
+            "column": 28
+          },
+          "name": "documents.views.EditView.as_view"
+        },
+        {
+          "id": "documents/admin_urls.py#<module>:0:0$v13",
+          "kind": "literal",
+          "loc": {
+            "file": "documents/admin_urls.py",
+            "line": 14,
+            "column": 59
+          },
+          "literal": "edit"
+        },
+        {
+          "id": "documents/admin_urls.py#<module>:0:0$v14",
+          "kind": "call-result",
+          "loc": {
+            "file": "documents/admin_urls.py",
+            "line": 14,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "documents/admin_urls.py#<module>:0:0$v15",
+          "kind": "local",
+          "loc": {
+            "file": "documents/admin_urls.py",
+            "line": 12,
+            "column": 1
+          },
+          "name": "urlpatterns"
+        }
+      ],
+      "flows": [
+        {
+          "from": "documents/admin_urls.py#<module>:0:0$v1",
+          "to": "documents/admin_urls.py#<module>:0:0$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "documents/admin_urls.py",
+            "line": 11,
+            "column": 1
+          },
+          "block": "documents/admin_urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "documents/admin_urls.py#<module>:0:0$v5",
+          "to": "documents/admin_urls.py#<module>:0:0$v6",
+          "kind": "property",
+          "loc": {
+            "file": "documents/admin_urls.py",
+            "line": 13,
+            "column": 14
+          },
+          "block": "documents/admin_urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "documents/admin_urls.py#<module>:0:0$v9",
+          "to": "documents/admin_urls.py#<module>:0:0$v3",
+          "kind": "enclose",
+          "loc": {
+            "file": "documents/admin_urls.py",
+            "line": 12,
+            "column": 15
+          },
+          "block": "documents/admin_urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "documents/admin_urls.py#<module>:0:0$v5",
+          "to": "documents/admin_urls.py#<module>:0:0$v11",
+          "kind": "property",
+          "loc": {
+            "file": "documents/admin_urls.py",
+            "line": 14,
+            "column": 28
+          },
+          "block": "documents/admin_urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "documents/admin_urls.py#<module>:0:0$v14",
+          "to": "documents/admin_urls.py#<module>:0:0$v3",
+          "kind": "enclose",
+          "loc": {
+            "file": "documents/admin_urls.py",
+            "line": 12,
+            "column": 15
+          },
+          "block": "documents/admin_urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "documents/admin_urls.py#<module>:0:0$v3",
+          "to": "documents/admin_urls.py#<module>:0:0$v15",
+          "kind": "assign",
+          "loc": {
+            "file": "documents/admin_urls.py",
+            "line": 12,
+            "column": 1
+          },
+          "block": "documents/admin_urls.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "documents/admin_urls.py#<module>:0:0$c0",
+          "loc": {
+            "file": "documents/admin_urls.py",
+            "line": 13,
+            "column": 14
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "documents.views.IndexView.as_view",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "documents/admin_urls.py#<module>:0:0$v7",
+          "block": "documents/admin_urls.py#<module>:0:0$b0",
+          "method": "as_view",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "documents/admin_urls.py#<module>:0:0$v6"
+        },
+        {
+          "id": "documents/admin_urls.py#<module>:0:0$c1",
+          "loc": {
+            "file": "documents/admin_urls.py",
+            "line": 13,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "documents/admin_urls.py#<module>:0:0$v4"
+            },
+            {
+              "index": 1,
+              "valueId": "documents/admin_urls.py#<module>:0:0$v7"
+            },
+            {
+              "valueId": "documents/admin_urls.py#<module>:0:0$v8",
+              "name": "name"
+            }
+          ],
+          "resultValueId": "documents/admin_urls.py#<module>:0:0$v9",
+          "block": "documents/admin_urls.py#<module>:0:0$b0",
+          "argCount": 3,
+          "argLiterals": {
+            "0": "",
+            "-1": "name=index"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "documents/admin_urls.py#<module>:0:0$c2",
+          "loc": {
+            "file": "documents/admin_urls.py",
+            "line": 14,
+            "column": 28
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "documents.views.EditView.as_view",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "documents/admin_urls.py#<module>:0:0$v12",
+          "block": "documents/admin_urls.py#<module>:0:0$b0",
+          "method": "as_view",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "documents/admin_urls.py#<module>:0:0$v11"
+        },
+        {
+          "id": "documents/admin_urls.py#<module>:0:0$c3",
+          "loc": {
+            "file": "documents/admin_urls.py",
+            "line": 14,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "documents/admin_urls.py#<module>:0:0$v10"
+            },
+            {
+              "index": 1,
+              "valueId": "documents/admin_urls.py#<module>:0:0$v12"
+            },
+            {
+              "valueId": "documents/admin_urls.py#<module>:0:0$v13",
+              "name": "name"
+            }
+          ],
+          "resultValueId": "documents/admin_urls.py#<module>:0:0$v14",
+          "block": "documents/admin_urls.py#<module>:0:0$b0",
+          "argCount": 3,
+          "argLiterals": {
+            "0": "edit/<int:pk>/",
+            "-1": "name=edit"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "documents/admin_urls.py",
+            "line": 11,
+            "column": 1
+          },
+          "path": "app_name",
+          "from": "documents/admin_urls.py#<module>:0:0$v1",
+          "block": "documents/admin_urls.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "documents/admin_urls.py",
+            "line": 12,
+            "column": 1
+          },
+          "path": "urlpatterns",
+          "from": "documents/admin_urls.py#<module>:0:0$v3",
+          "block": "documents/admin_urls.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "documents/admin_urls.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "documents/admin_urls.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "documents/admin_urls.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "documents/hooks_registrations.py#<module>:0:0",
+      "name": "<module>",
+      "module": "documents/hooks_registrations.py",
+      "loc": {
+        "file": "documents/hooks_registrations.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "documents/hooks_registrations.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "documents/hooks_registrations.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "What this application contributes to the admin, and what it does not.\n\nWagtail spells this file `wagtail_hooks.py` and an app registry imports it for its side\neffects. The name of the file is not what makes it a registration: the decorator's string\nkey is, and the only thing that turns the key into an address is the `get_hooks` call in\n`adminsite/urls.py`.\n"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "documents/hooks_registrations.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "documents/hooks_registrations.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "documents/hooks_registrations.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "documents/hooks_registrations.py#register_admin_urls:16:1",
+      "name": "register_admin_urls",
+      "module": "documents/hooks_registrations.py",
+      "loc": {
+        "file": "documents/hooks_registrations.py",
+        "line": 16,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "documents/hooks_registrations.py#register_admin_urls:16:1$v0",
+          "kind": "local",
+          "loc": {
+            "file": "documents/hooks_registrations.py",
+            "line": 17,
+            "column": 12
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "documents/hooks_registrations.py#register_admin_urls:16:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "documents/hooks_registrations.py",
+            "line": 18,
+            "column": 14
+          },
+          "literal": "documents/"
+        },
+        {
+          "id": "documents/hooks_registrations.py#register_admin_urls:16:1$v2",
+          "kind": "global",
+          "loc": {
+            "file": "documents/hooks_registrations.py",
+            "line": 18,
+            "column": 36
+          },
+          "name": "documents.admin_urls"
+        },
+        {
+          "id": "documents/hooks_registrations.py#register_admin_urls:16:1$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "documents/hooks_registrations.py",
+            "line": 18,
+            "column": 58
+          },
+          "literal": "docs"
+        },
+        {
+          "id": "documents/hooks_registrations.py#register_admin_urls:16:1$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "documents/hooks_registrations.py",
+            "line": 18,
+            "column": 28
+          },
+          "name": "django.urls.include"
+        },
+        {
+          "id": "documents/hooks_registrations.py#register_admin_urls:16:1$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "documents/hooks_registrations.py",
+            "line": 18,
+            "column": 9
+          },
+          "name": "django.urls.path"
+        }
+      ],
+      "flows": [
+        {
+          "from": "documents/hooks_registrations.py#register_admin_urls:16:1$v5",
+          "to": "documents/hooks_registrations.py#register_admin_urls:16:1$v0",
+          "kind": "enclose",
+          "loc": {
+            "file": "documents/hooks_registrations.py",
+            "line": 17,
+            "column": 12
+          },
+          "block": "documents/hooks_registrations.py#register_admin_urls:16:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "documents/hooks_registrations.py#register_admin_urls:16:1$c0",
+          "loc": {
+            "file": "documents/hooks_registrations.py",
+            "line": 18,
+            "column": 28
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.include",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "documents/hooks_registrations.py#register_admin_urls:16:1$v2"
+            },
+            {
+              "valueId": "documents/hooks_registrations.py#register_admin_urls:16:1$v3",
+              "name": "namespace"
+            }
+          ],
+          "resultValueId": "documents/hooks_registrations.py#register_admin_urls:16:1$v4",
+          "block": "documents/hooks_registrations.py#register_admin_urls:16:1$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "namespace=docs"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "documents/hooks_registrations.py#register_admin_urls:16:1$c1",
+          "loc": {
+            "file": "documents/hooks_registrations.py",
+            "line": 18,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "documents/hooks_registrations.py#register_admin_urls:16:1$v1"
+            },
+            {
+              "index": 1,
+              "valueId": "documents/hooks_registrations.py#register_admin_urls:16:1$v4"
+            }
+          ],
+          "resultValueId": "documents/hooks_registrations.py#register_admin_urls:16:1$v5",
+          "block": "documents/hooks_registrations.py#register_admin_urls:16:1$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "documents/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "documents/hooks_registrations.py#register_admin_urls:16:1$v0"
+      ],
+      "returnBlocks": [
+        "documents/hooks_registrations.py#register_admin_urls:16:1$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "documents/hooks_registrations.py#register_admin_urls:16:1$b0",
+      "blocks": [
+        {
+          "id": "documents/hooks_registrations.py#register_admin_urls:16:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "documents/hooks_registrations.py",
+            "line": 16,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "documents/hooks_registrations.py#register_admin_urls:16:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "documents/hooks_registrations.py",
+            "line": 17,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "documents/hooks_registrations.py#register_menu_item:23:1",
+      "name": "register_menu_item",
+      "module": "documents/hooks_registrations.py",
+      "loc": {
+        "file": "documents/hooks_registrations.py",
+        "line": 23,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "documents/hooks_registrations.py#register_menu_item:23:1$v0",
+          "kind": "local",
+          "loc": {
+            "file": "documents/hooks_registrations.py",
+            "line": 27,
+            "column": 12
+          },
+          "name": "{dict}",
+          "entries": [
+            {
+              "key": "label",
+              "valueId": "documents/hooks_registrations.py#register_menu_item:23:1$v1"
+            },
+            {
+              "key": "url",
+              "valueId": "documents/hooks_registrations.py#register_menu_item:23:1$v2"
+            }
+          ]
+        },
+        {
+          "id": "documents/hooks_registrations.py#register_menu_item:23:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "documents/hooks_registrations.py",
+            "line": 27,
+            "column": 22
+          },
+          "literal": "Documents"
+        },
+        {
+          "id": "documents/hooks_registrations.py#register_menu_item:23:1$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "documents/hooks_registrations.py",
+            "line": 27,
+            "column": 42
+          },
+          "literal": "/admin/documents/"
+        }
+      ],
+      "flows": [
+        {
+          "from": "documents/hooks_registrations.py#register_menu_item:23:1$v1",
+          "to": "documents/hooks_registrations.py#register_menu_item:23:1$v0",
+          "kind": "enclose",
+          "loc": {
+            "file": "documents/hooks_registrations.py",
+            "line": 27,
+            "column": 12
+          },
+          "block": "documents/hooks_registrations.py#register_menu_item:23:1$b0"
+        },
+        {
+          "from": "documents/hooks_registrations.py#register_menu_item:23:1$v2",
+          "to": "documents/hooks_registrations.py#register_menu_item:23:1$v0",
+          "kind": "enclose",
+          "loc": {
+            "file": "documents/hooks_registrations.py",
+            "line": 27,
+            "column": 12
+          },
+          "block": "documents/hooks_registrations.py#register_menu_item:23:1$b0"
+        }
+      ],
+      "calls": [],
+      "returns": [
+        "documents/hooks_registrations.py#register_menu_item:23:1$v0"
+      ],
+      "returnBlocks": [
+        "documents/hooks_registrations.py#register_menu_item:23:1$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "documents/hooks_registrations.py#register_menu_item:23:1$b0",
+      "blocks": [
+        {
+          "id": "documents/hooks_registrations.py#register_menu_item:23:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "documents/hooks_registrations.py",
+            "line": 23,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "documents/hooks_registrations.py#register_menu_item:23:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "documents/hooks_registrations.py",
+            "line": 27,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "documents/public.py#<module>:0:0",
+      "name": "<module>",
+      "module": "documents/public.py",
+      "loc": {
+        "file": "documents/public.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "documents/public.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "documents/public.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The public download. NEGATIVE: it reads a primary key and no caller-supplied text."
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "documents/public.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "documents/public.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "documents/public.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "documents/public.py#serve:6:1",
+      "name": "serve",
+      "module": "documents/public.py",
+      "loc": {
+        "file": "documents/public.py",
+        "line": 6,
+        "column": 1
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "request",
+          "valueId": "documents/public.py#serve:6:1$v0"
+        },
+        {
+          "index": 1,
+          "name": "pk",
+          "valueId": "documents/public.py#serve:6:1$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "documents/public.py#serve:6:1$v0",
+          "kind": "param",
+          "loc": {
+            "file": "documents/public.py",
+            "line": 6,
+            "column": 11
+          },
+          "name": "request"
+        },
+        {
+          "id": "documents/public.py#serve:6:1$v1",
+          "kind": "param",
+          "loc": {
+            "file": "documents/public.py",
+            "line": 6,
+            "column": 20
+          },
+          "name": "pk"
+        },
+        {
+          "id": "documents/public.py#serve:6:1$v2",
+          "kind": "local",
+          "loc": {
+            "file": "documents/public.py",
+            "line": 7,
+            "column": 25
+          },
+          "name": "concat"
+        },
+        {
+          "id": "documents/public.py#serve:6:1$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "documents/public.py",
+            "line": 7,
+            "column": 25
+          },
+          "literal": "document %d"
+        },
+        {
+          "id": "documents/public.py#serve:6:1$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "documents/public.py",
+            "line": 7,
+            "column": 12
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [
+        {
+          "from": "documents/public.py#serve:6:1$v3",
+          "to": "documents/public.py#serve:6:1$v2",
+          "kind": "binary",
+          "loc": {
+            "file": "documents/public.py",
+            "line": 7,
+            "column": 25
+          },
+          "block": "documents/public.py#serve:6:1$b0"
+        },
+        {
+          "from": "documents/public.py#serve:6:1$v1",
+          "to": "documents/public.py#serve:6:1$v2",
+          "kind": "binary",
+          "loc": {
+            "file": "documents/public.py",
+            "line": 7,
+            "column": 25
+          },
+          "block": "documents/public.py#serve:6:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "documents/public.py#serve:6:1$c0",
+          "loc": {
+            "file": "documents/public.py",
+            "line": 7,
+            "column": 12
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "documents/public.py#serve:6:1$v2"
+            }
+          ],
+          "resultValueId": "documents/public.py#serve:6:1$v4",
+          "block": "documents/public.py#serve:6:1$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "documents/public.py#serve:6:1$v4"
+      ],
+      "returnBlocks": [
+        "documents/public.py#serve:6:1$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "documents/public.py#serve:6:1$b0",
+      "blocks": [
+        {
+          "id": "documents/public.py#serve:6:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "documents/public.py",
+            "line": 6,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "documents/public.py#serve:6:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "documents/public.py",
+            "line": 7,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "documents/urls.py#<module>:0:0",
+      "name": "<module>",
+      "module": "documents/urls.py",
+      "loc": {
+        "file": "documents/urls.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "documents/urls.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "documents/urls.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The PUBLIC document URLconf, mounted by the root URLconf at `documents/`.\n\nIt is here because it is the reason the address matters. Without the hook key, the admin\nURLconf next door was enumerated at `documents/...` too -- so the admin's edit view was\nclaimed one segment away from a path this application really does serve, with a different\nview behind it. A maintainer who opens that address finds a download.\n"
+        },
+        {
+          "id": "documents/urls.py#<module>:0:0$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "documents/urls.py",
+            "line": 13,
+            "column": 12
+          },
+          "literal": "docs_public"
+        },
+        {
+          "id": "documents/urls.py#<module>:0:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "documents/urls.py",
+            "line": 13,
+            "column": 1
+          },
+          "name": "app_name"
+        },
+        {
+          "id": "documents/urls.py#<module>:0:0$v3",
+          "kind": "local",
+          "loc": {
+            "file": "documents/urls.py",
+            "line": 14,
+            "column": 15
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "documents/urls.py#<module>:0:0$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "documents/urls.py",
+            "line": 15,
+            "column": 10
+          },
+          "literal": "<int:pk>/"
+        },
+        {
+          "id": "documents/urls.py#<module>:0:0$v5",
+          "kind": "global",
+          "loc": {
+            "file": "documents/urls.py",
+            "line": 15,
+            "column": 23
+          },
+          "name": "documents.public"
+        },
+        {
+          "id": "documents/urls.py#<module>:0:0$v6",
+          "kind": "property",
+          "loc": {
+            "file": "documents/urls.py",
+            "line": 15,
+            "column": 23
+          },
+          "base": "documents/urls.py#<module>:0:0$v5",
+          "path": "serve",
+          "name": "serve"
+        },
+        {
+          "id": "documents/urls.py#<module>:0:0$v7",
+          "kind": "literal",
+          "loc": {
+            "file": "documents/urls.py",
+            "line": 15,
+            "column": 42
+          },
+          "literal": "serve"
+        },
+        {
+          "id": "documents/urls.py#<module>:0:0$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "documents/urls.py",
+            "line": 15,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "documents/urls.py#<module>:0:0$v9",
+          "kind": "local",
+          "loc": {
+            "file": "documents/urls.py",
+            "line": 14,
+            "column": 1
+          },
+          "name": "urlpatterns"
+        }
+      ],
+      "flows": [
+        {
+          "from": "documents/urls.py#<module>:0:0$v1",
+          "to": "documents/urls.py#<module>:0:0$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "documents/urls.py",
+            "line": 13,
+            "column": 1
+          },
+          "block": "documents/urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "documents/urls.py#<module>:0:0$v5",
+          "to": "documents/urls.py#<module>:0:0$v6",
+          "kind": "property",
+          "loc": {
+            "file": "documents/urls.py",
+            "line": 15,
+            "column": 23
+          },
+          "block": "documents/urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "documents/urls.py#<module>:0:0$v8",
+          "to": "documents/urls.py#<module>:0:0$v3",
+          "kind": "enclose",
+          "loc": {
+            "file": "documents/urls.py",
+            "line": 14,
+            "column": 15
+          },
+          "block": "documents/urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "documents/urls.py#<module>:0:0$v3",
+          "to": "documents/urls.py#<module>:0:0$v9",
+          "kind": "assign",
+          "loc": {
+            "file": "documents/urls.py",
+            "line": 14,
+            "column": 1
+          },
+          "block": "documents/urls.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "documents/urls.py#<module>:0:0$c0",
+          "loc": {
+            "file": "documents/urls.py",
+            "line": 15,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "documents/urls.py#<module>:0:0$v4"
+            },
+            {
+              "index": 1,
+              "valueId": "documents/urls.py#<module>:0:0$v6",
+              "functionId": "documents/public.py#serve:6:1"
+            },
+            {
+              "valueId": "documents/urls.py#<module>:0:0$v7",
+              "name": "name"
+            }
+          ],
+          "resultValueId": "documents/urls.py#<module>:0:0$v8",
+          "block": "documents/urls.py#<module>:0:0$b0",
+          "argCount": 3,
+          "argLiterals": {
+            "0": "<int:pk>/",
+            "-1": "name=serve"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "documents/urls.py",
+            "line": 13,
+            "column": 1
+          },
+          "path": "app_name",
+          "from": "documents/urls.py#<module>:0:0$v1",
+          "block": "documents/urls.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "documents/urls.py",
+            "line": 14,
+            "column": 1
+          },
+          "path": "urlpatterns",
+          "from": "documents/urls.py#<module>:0:0$v3",
+          "block": "documents/urls.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "documents/urls.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "documents/urls.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "documents/urls.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "documents/views.py#<module>:0:0",
+      "name": "<module>",
+      "module": "documents/views.py",
+      "loc": {
+        "file": "documents/views.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "documents/views.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "documents/views.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The documents admin's views: a model each, and not one verb between them."
+        },
+        {
+          "id": "documents/views.py#<module>:0:0$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "documents/views.py",
+            "line": 7,
+            "column": 13
+          },
+          "literal": "Document"
+        },
+        {
+          "id": "documents/views.py#<module>:0:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "documents/views.py",
+            "line": 7,
+            "column": 5
+          },
+          "name": "model"
+        },
+        {
+          "id": "documents/views.py#<module>:0:0$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "documents/views.py",
+            "line": 11,
+            "column": 13
+          },
+          "literal": "Document"
+        },
+        {
+          "id": "documents/views.py#<module>:0:0$v4",
+          "kind": "local",
+          "loc": {
+            "file": "documents/views.py",
+            "line": 11,
+            "column": 5
+          },
+          "name": "model"
+        }
+      ],
+      "flows": [
+        {
+          "from": "documents/views.py#<module>:0:0$v1",
+          "to": "documents/views.py#<module>:0:0$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "documents/views.py",
+            "line": 7,
+            "column": 5
+          },
+          "block": "documents/views.py#<module>:0:0$b0"
+        },
+        {
+          "from": "documents/views.py#<module>:0:0$v3",
+          "to": "documents/views.py#<module>:0:0$v4",
+          "kind": "assign",
+          "loc": {
+            "file": "documents/views.py",
+            "line": 11,
+            "column": 5
+          },
+          "block": "documents/views.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "documents/views.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "documents/views.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "documents/views.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "reports/__init__.py#<module>:0:0",
+      "name": "<module>",
+      "module": "reports/__init__.py",
+      "loc": {
+        "file": "reports/__init__.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "reports/__init__.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "reports/__init__.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "reports/__init__.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "reports/hooks_registrations.py#<module>:0:0",
+      "name": "<module>",
+      "module": "reports/hooks_registrations.py",
+      "loc": {
+        "file": "reports/hooks_registrations.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "reports/hooks_registrations.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "reports/hooks_registrations.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "NEGATIVE. Routes registered under a key nothing reads back.\n\nThe shape is identical to the documents application's: a decorator, a string, a function\nreturning a list of registrations. What is missing is the other half of the join -- no\n`get_hooks(\"register_admin_report_urls\")` exists anywhere in this program -- so these\nroutes are mounted by nothing and must NOT borrow the admin's prefix. `/reports/locked/`\nis what this file states on its own, and `/admin/reports/locked/` would be a claim about\nan address only the missing loop could have created.\n"
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "reports/hooks_registrations.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "reports/hooks_registrations.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "reports/hooks_registrations.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "reports/hooks_registrations.py#register_report_urls:18:1",
+      "name": "register_report_urls",
+      "module": "reports/hooks_registrations.py",
+      "loc": {
+        "file": "reports/hooks_registrations.py",
+        "line": 18,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "reports/hooks_registrations.py#register_report_urls:18:1$v0",
+          "kind": "local",
+          "loc": {
+            "file": "reports/hooks_registrations.py",
+            "line": 19,
+            "column": 12
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "reports/hooks_registrations.py#register_report_urls:18:1$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "reports/hooks_registrations.py",
+            "line": 20,
+            "column": 14
+          },
+          "literal": "reports/"
+        },
+        {
+          "id": "reports/hooks_registrations.py#register_report_urls:18:1$v2",
+          "kind": "global",
+          "loc": {
+            "file": "reports/hooks_registrations.py",
+            "line": 20,
+            "column": 34
+          },
+          "name": "reports.urls"
+        },
+        {
+          "id": "reports/hooks_registrations.py#register_report_urls:18:1$v3",
+          "kind": "literal",
+          "loc": {
+            "file": "reports/hooks_registrations.py",
+            "line": 20,
+            "column": 58
+          },
+          "literal": "reports"
+        },
+        {
+          "id": "reports/hooks_registrations.py#register_report_urls:18:1$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "reports/hooks_registrations.py",
+            "line": 20,
+            "column": 26
+          },
+          "name": "django.urls.include"
+        },
+        {
+          "id": "reports/hooks_registrations.py#register_report_urls:18:1$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "reports/hooks_registrations.py",
+            "line": 20,
+            "column": 9
+          },
+          "name": "django.urls.path"
+        }
+      ],
+      "flows": [
+        {
+          "from": "reports/hooks_registrations.py#register_report_urls:18:1$v5",
+          "to": "reports/hooks_registrations.py#register_report_urls:18:1$v0",
+          "kind": "enclose",
+          "loc": {
+            "file": "reports/hooks_registrations.py",
+            "line": 19,
+            "column": 12
+          },
+          "block": "reports/hooks_registrations.py#register_report_urls:18:1$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "reports/hooks_registrations.py#register_report_urls:18:1$c0",
+          "loc": {
+            "file": "reports/hooks_registrations.py",
+            "line": 20,
+            "column": 26
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.include",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "reports/hooks_registrations.py#register_report_urls:18:1$v2"
+            },
+            {
+              "valueId": "reports/hooks_registrations.py#register_report_urls:18:1$v3",
+              "name": "namespace"
+            }
+          ],
+          "resultValueId": "reports/hooks_registrations.py#register_report_urls:18:1$v4",
+          "block": "reports/hooks_registrations.py#register_report_urls:18:1$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "-1": "namespace=reports"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "reports/hooks_registrations.py#register_report_urls:18:1$c1",
+          "loc": {
+            "file": "reports/hooks_registrations.py",
+            "line": 20,
+            "column": 9
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "reports/hooks_registrations.py#register_report_urls:18:1$v1"
+            },
+            {
+              "index": 1,
+              "valueId": "reports/hooks_registrations.py#register_report_urls:18:1$v4"
+            }
+          ],
+          "resultValueId": "reports/hooks_registrations.py#register_report_urls:18:1$v5",
+          "block": "reports/hooks_registrations.py#register_report_urls:18:1$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "reports/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "reports/hooks_registrations.py#register_report_urls:18:1$v0"
+      ],
+      "returnBlocks": [
+        "reports/hooks_registrations.py#register_report_urls:18:1$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "reports/hooks_registrations.py#register_report_urls:18:1$b0",
+      "blocks": [
+        {
+          "id": "reports/hooks_registrations.py#register_report_urls:18:1$b0",
+          "successors": [],
+          "loc": {
+            "file": "reports/hooks_registrations.py",
+            "line": 18,
+            "column": 1
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "reports/hooks_registrations.py#register_report_urls:18:1$b1",
+          "successors": [],
+          "loc": {
+            "file": "reports/hooks_registrations.py",
+            "line": 19,
+            "column": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "reports/urls.py#<module>:0:0",
+      "name": "<module>",
+      "module": "reports/urls.py",
+      "loc": {
+        "file": "reports/urls.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "reports/urls.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "reports/urls.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The report URLconf, whose only mount is the hook nothing reads back."
+        },
+        {
+          "id": "reports/urls.py#<module>:0:0$v1",
+          "kind": "literal",
+          "loc": {
+            "file": "reports/urls.py",
+            "line": 7,
+            "column": 12
+          },
+          "literal": "reports"
+        },
+        {
+          "id": "reports/urls.py#<module>:0:0$v2",
+          "kind": "local",
+          "loc": {
+            "file": "reports/urls.py",
+            "line": 7,
+            "column": 1
+          },
+          "name": "app_name"
+        },
+        {
+          "id": "reports/urls.py#<module>:0:0$v3",
+          "kind": "local",
+          "loc": {
+            "file": "reports/urls.py",
+            "line": 8,
+            "column": 15
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "reports/urls.py#<module>:0:0$v4",
+          "kind": "literal",
+          "loc": {
+            "file": "reports/urls.py",
+            "line": 9,
+            "column": 10
+          },
+          "literal": "locked/"
+        },
+        {
+          "id": "reports/urls.py#<module>:0:0$v5",
+          "kind": "global",
+          "loc": {
+            "file": "reports/urls.py",
+            "line": 9,
+            "column": 21
+          },
+          "name": "reports.views"
+        },
+        {
+          "id": "reports/urls.py#<module>:0:0$v6",
+          "kind": "property",
+          "loc": {
+            "file": "reports/urls.py",
+            "line": 9,
+            "column": 21
+          },
+          "base": "reports/urls.py#<module>:0:0$v5",
+          "path": "LockedView",
+          "name": "LockedView"
+        },
+        {
+          "id": "reports/urls.py#<module>:0:0$v7",
+          "kind": "call-result",
+          "loc": {
+            "file": "reports/urls.py",
+            "line": 9,
+            "column": 21
+          },
+          "name": "reports.views.LockedView.as_view"
+        },
+        {
+          "id": "reports/urls.py#<module>:0:0$v8",
+          "kind": "literal",
+          "loc": {
+            "file": "reports/urls.py",
+            "line": 9,
+            "column": 54
+          },
+          "literal": "locked"
+        },
+        {
+          "id": "reports/urls.py#<module>:0:0$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "reports/urls.py",
+            "line": 9,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "reports/urls.py#<module>:0:0$v10",
+          "kind": "local",
+          "loc": {
+            "file": "reports/urls.py",
+            "line": 8,
+            "column": 1
+          },
+          "name": "urlpatterns"
+        }
+      ],
+      "flows": [
+        {
+          "from": "reports/urls.py#<module>:0:0$v1",
+          "to": "reports/urls.py#<module>:0:0$v2",
+          "kind": "assign",
+          "loc": {
+            "file": "reports/urls.py",
+            "line": 7,
+            "column": 1
+          },
+          "block": "reports/urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "reports/urls.py#<module>:0:0$v5",
+          "to": "reports/urls.py#<module>:0:0$v6",
+          "kind": "property",
+          "loc": {
+            "file": "reports/urls.py",
+            "line": 9,
+            "column": 21
+          },
+          "block": "reports/urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "reports/urls.py#<module>:0:0$v9",
+          "to": "reports/urls.py#<module>:0:0$v3",
+          "kind": "enclose",
+          "loc": {
+            "file": "reports/urls.py",
+            "line": 8,
+            "column": 15
+          },
+          "block": "reports/urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "reports/urls.py#<module>:0:0$v3",
+          "to": "reports/urls.py#<module>:0:0$v10",
+          "kind": "assign",
+          "loc": {
+            "file": "reports/urls.py",
+            "line": 8,
+            "column": 1
+          },
+          "block": "reports/urls.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "reports/urls.py#<module>:0:0$c0",
+          "loc": {
+            "file": "reports/urls.py",
+            "line": 9,
+            "column": 21
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "reports.views.LockedView.as_view",
+            "resolution": "probable"
+          },
+          "args": [],
+          "resultValueId": "reports/urls.py#<module>:0:0$v7",
+          "block": "reports/urls.py#<module>:0:0$b0",
+          "method": "as_view",
+          "enumeratedOptions": [
+            -1
+          ],
+          "receiverValueId": "reports/urls.py#<module>:0:0$v6"
+        },
+        {
+          "id": "reports/urls.py#<module>:0:0$c1",
+          "loc": {
+            "file": "reports/urls.py",
+            "line": 9,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "reports/urls.py#<module>:0:0$v4"
+            },
+            {
+              "index": 1,
+              "valueId": "reports/urls.py#<module>:0:0$v7"
+            },
+            {
+              "valueId": "reports/urls.py#<module>:0:0$v8",
+              "name": "name"
+            }
+          ],
+          "resultValueId": "reports/urls.py#<module>:0:0$v9",
+          "block": "reports/urls.py#<module>:0:0$b0",
+          "argCount": 3,
+          "argLiterals": {
+            "0": "locked/",
+            "-1": "name=locked"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "reports/urls.py",
+            "line": 7,
+            "column": 1
+          },
+          "path": "app_name",
+          "from": "reports/urls.py#<module>:0:0$v1",
+          "block": "reports/urls.py#<module>:0:0$b0",
+          "scope": "module"
+        },
+        {
+          "loc": {
+            "file": "reports/urls.py",
+            "line": 8,
+            "column": 1
+          },
+          "path": "urlpatterns",
+          "from": "reports/urls.py#<module>:0:0$v3",
+          "block": "reports/urls.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "reports/urls.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "reports/urls.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "reports/urls.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "reports/views.py#<module>:0:0",
+      "name": "<module>",
+      "module": "reports/views.py",
+      "loc": {
+        "file": "reports/views.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "reports/views.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "reports/views.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "NEGATIVE. The report view reads no caller-supplied text and reports nothing."
+        }
+      ],
+      "flows": [],
+      "calls": [],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "reports/views.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "reports/views.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "reports/views.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "reports/views.py#get:7:5",
+      "name": "get",
+      "module": "reports/views.py",
+      "loc": {
+        "file": "reports/views.py",
+        "line": 7,
+        "column": 5
+      },
+      "params": [
+        {
+          "index": 0,
+          "name": "self",
+          "valueId": "reports/views.py#get:7:5$v0"
+        },
+        {
+          "index": 1,
+          "name": "request",
+          "valueId": "reports/views.py#get:7:5$v1"
+        }
+      ],
+      "values": [
+        {
+          "id": "reports/views.py#get:7:5$v0",
+          "kind": "param",
+          "loc": {
+            "file": "reports/views.py",
+            "line": 7,
+            "column": 13
+          },
+          "name": "self"
+        },
+        {
+          "id": "reports/views.py#get:7:5$v1",
+          "kind": "param",
+          "loc": {
+            "file": "reports/views.py",
+            "line": 7,
+            "column": 19
+          },
+          "name": "request"
+        },
+        {
+          "id": "reports/views.py#get:7:5$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "reports/views.py",
+            "line": 8,
+            "column": 29
+          },
+          "literal": "locked pages"
+        },
+        {
+          "id": "reports/views.py#get:7:5$v3",
+          "kind": "call-result",
+          "loc": {
+            "file": "reports/views.py",
+            "line": 8,
+            "column": 16
+          },
+          "name": "django.http.HttpResponse"
+        }
+      ],
+      "flows": [],
+      "calls": [
+        {
+          "id": "reports/views.py#get:7:5$c0",
+          "loc": {
+            "file": "reports/views.py",
+            "line": 8,
+            "column": 16
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.http.HttpResponse",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "reports/views.py#get:7:5$v2"
+            }
+          ],
+          "resultValueId": "reports/views.py#get:7:5$v3",
+          "block": "reports/views.py#get:7:5$b0",
+          "argCount": 1,
+          "argLiterals": {
+            "0": "locked pages"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [
+        "reports/views.py#get:7:5$v3"
+      ],
+      "returnBlocks": [
+        "reports/views.py#get:7:5$b0"
+      ],
+      "comparisons": [],
+      "writes": [],
+      "entryBlock": "reports/views.py#get:7:5$b0",
+      "blocks": [
+        {
+          "id": "reports/views.py#get:7:5$b0",
+          "successors": [],
+          "loc": {
+            "file": "reports/views.py",
+            "line": 7,
+            "column": 5
+          },
+          "terminator": "return"
+        },
+        {
+          "id": "reports/views.py#get:7:5$b1",
+          "successors": [],
+          "loc": {
+            "file": "reports/views.py",
+            "line": 8,
+            "column": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "urls.py#<module>:0:0",
+      "name": "<module>",
+      "module": "urls.py",
+      "loc": {
+        "file": "urls.py",
+        "line": 1,
+        "column": 1
+      },
+      "params": [],
+      "values": [
+        {
+          "id": "urls.py#<module>:0:0$v0",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 1,
+            "column": 1
+          },
+          "literal": "The root URLconf: the only file that says where the admin is served."
+        },
+        {
+          "id": "urls.py#<module>:0:0$v1",
+          "kind": "local",
+          "loc": {
+            "file": "urls.py",
+            "line": 8,
+            "column": 15
+          },
+          "name": "[sequence]"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v2",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 9,
+            "column": 10
+          },
+          "literal": "admin/"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v3",
+          "kind": "global",
+          "loc": {
+            "file": "urls.py",
+            "line": 9,
+            "column": 28
+          },
+          "name": "adminsite.urls"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v4",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 9,
+            "column": 20
+          },
+          "name": "django.urls.include"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v5",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 9,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v6",
+          "kind": "literal",
+          "loc": {
+            "file": "urls.py",
+            "line": 10,
+            "column": 10
+          },
+          "literal": "documents/"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v7",
+          "kind": "global",
+          "loc": {
+            "file": "urls.py",
+            "line": 10,
+            "column": 32
+          },
+          "name": "documents.urls"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v8",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 10,
+            "column": 24
+          },
+          "name": "django.urls.include"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v9",
+          "kind": "call-result",
+          "loc": {
+            "file": "urls.py",
+            "line": 10,
+            "column": 5
+          },
+          "name": "django.urls.path"
+        },
+        {
+          "id": "urls.py#<module>:0:0$v10",
+          "kind": "local",
+          "loc": {
+            "file": "urls.py",
+            "line": 8,
+            "column": 1
+          },
+          "name": "urlpatterns"
+        }
+      ],
+      "flows": [
+        {
+          "from": "urls.py#<module>:0:0$v5",
+          "to": "urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 8,
+            "column": 15
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "urls.py#<module>:0:0$v9",
+          "to": "urls.py#<module>:0:0$v1",
+          "kind": "enclose",
+          "loc": {
+            "file": "urls.py",
+            "line": 8,
+            "column": 15
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        },
+        {
+          "from": "urls.py#<module>:0:0$v1",
+          "to": "urls.py#<module>:0:0$v10",
+          "kind": "assign",
+          "loc": {
+            "file": "urls.py",
+            "line": 8,
+            "column": 1
+          },
+          "block": "urls.py#<module>:0:0$b0"
+        }
+      ],
+      "calls": [
+        {
+          "id": "urls.py#<module>:0:0$c0",
+          "loc": {
+            "file": "urls.py",
+            "line": 9,
+            "column": 20
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.include",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v3"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v4",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c1",
+          "loc": {
+            "file": "urls.py",
+            "line": 9,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v2"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v4"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v5",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "admin/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c2",
+          "loc": {
+            "file": "urls.py",
+            "line": 10,
+            "column": 24
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.include",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v7"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v8",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 1,
+          "enumeratedOptions": [
+            -1
+          ]
+        },
+        {
+          "id": "urls.py#<module>:0:0$c3",
+          "loc": {
+            "file": "urls.py",
+            "line": 10,
+            "column": 5
+          },
+          "callee": {
+            "kind": "external",
+            "symbol": "django.urls.path",
+            "resolution": "resolved"
+          },
+          "args": [
+            {
+              "index": 0,
+              "valueId": "urls.py#<module>:0:0$v6"
+            },
+            {
+              "index": 1,
+              "valueId": "urls.py#<module>:0:0$v8"
+            }
+          ],
+          "resultValueId": "urls.py#<module>:0:0$v9",
+          "block": "urls.py#<module>:0:0$b0",
+          "argCount": 2,
+          "argLiterals": {
+            "0": "documents/"
+          },
+          "enumeratedOptions": [
+            -1
+          ]
+        }
+      ],
+      "returns": [],
+      "returnBlocks": [],
+      "comparisons": [],
+      "writes": [
+        {
+          "loc": {
+            "file": "urls.py",
+            "line": 8,
+            "column": 1
+          },
+          "path": "urlpatterns",
+          "from": "urls.py#<module>:0:0$v1",
+          "block": "urls.py#<module>:0:0$b0",
+          "scope": "module"
+        }
+      ],
+      "entryBlock": "urls.py#<module>:0:0$b0",
+      "blocks": [
+        {
+          "id": "urls.py#<module>:0:0$b0",
+          "successors": [],
+          "loc": {
+            "file": "urls.py",
+            "line": 0,
+            "column": 1
+          }
+        }
+      ]
+    }
+  ],
+  "entryPoints": [
+    {
+      "functionId": "adminsite/views.py#get:5:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "GET",
+        "path": "/admin/"
+      }
+    },
+    {
+      "functionId": "common/generic.py#get:35:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "GET",
+        "path": "/admin/documents/"
+      }
+    },
+    {
+      "functionId": "common/generic.py#post:23:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "POST",
+        "path": "/admin/documents/edit/:pk/",
+        "pathParams": "int:pk"
+      }
+    },
+    {
+      "functionId": "documents/public.py#serve:6:1",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "ANY",
+        "path": "/documents/:pk/",
+        "pathParams": "int:pk"
+      }
+    },
+    {
+      "functionId": "reports/views.py#get:7:5",
+      "kind": "http-route",
+      "framework": "django",
+      "detail": {
+        "method": "GET",
+        "path": "/reports/locked/"
+      }
+    }
+  ],
+  "declaredViews": [],
+  "views": [],
+  "renders": []
+}

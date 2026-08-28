@@ -1,0 +1,30 @@
+{
+  "corpus": "django-view-key-dispatch",
+  "description": "A URLconf that names its handler with a STRING. wagtail's `wagtail/admin/urls/pages.py` writes 34 of its 35 registrations as `page_viewset_registry.as_view(\"edit\", page_id_kwarg=\"page_id\")`: the address is a literal and already resolved, and the class behind it is three hops away in another file -- a dispatch table from the key to `self.<attr>`, a property that wraps whatever that attribute holds, and a class attribute naming the view. All 34 produced nothing, so the admin's edit, delete, publish, move and copy routes were declared at readable addresses and answered by nobody. The positives are the three hops in turn: a key resolved straight to a class; a key whose class inherits the verb from a base this program defines; and a key whose PROPERTY is on the base viewset while the class attribute it reads is overridden on the subclass, which is where the attribute is resolved because that is where Python resolves it. The negatives are the ways a key must not resolve: `history` is declared by two dispatch tables and binds to neither; `export` is declared by none; and `SearchView.as_view(\"compact\")` is an ordinary class-based view whose argument is not a key. Two of those negatives are load-bearing. `snippets/views.py` defines a second `PageEditView` with a live command injection reachable from no route -- a resolver matching the bare name would report it at `/admin/pages/<int:page_id>/edit/`; and `common/generic.py`'s `ObjectListView` carries one too -- a resolver reading `index_view_class` on the class that declared the property rather than on the viewset would report it at `/admin/pages/`. Either would be a finding at an address that runs something else.",
+  "expected": [
+    {
+      "cwe": "CWE-89",
+      "sinkFile": "pages/edit.py",
+      "sinkLine": 13,
+      "sourceLabel": "request.POST",
+      "confidence": "medium",
+      "note": "the key `edit`, resolved through the table to `self.edit_view` to `edit_view_class`; the name it holds is defined twice in this program and the import table of the declaring module is what tells them apart"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "common/generic.py",
+      "sinkLine": 16,
+      "sourceLabel": "request.POST",
+      "confidence": "high",
+      "note": "the key `publish`, whose class declares a model and inherits its verb from a base this program defines -- two indirections composed, and neither file contains the other's half"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "pages/listing.py",
+      "sinkLine": 15,
+      "sourceLabel": "request.GET",
+      "confidence": "high",
+      "note": "the key `index`, whose property is on the base viewset and whose class attribute the subclass overrides; resolving the attribute on the declaring class instead would reach `ObjectListView`, whose own injection no route runs"
+    }
+  ]
+}

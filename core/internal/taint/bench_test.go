@@ -218,6 +218,8 @@ var corpora = []string{
 	"django-app-config-urls",
 	"django-model-view-registry",
 	"django-instance-request",
+	"django-hook-registry",
+	"django-view-key-dispatch",
 }
 
 func scoreCorpus(t *testing.T, name string) bench.Report {
