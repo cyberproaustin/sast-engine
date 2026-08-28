@@ -833,6 +833,60 @@ func (m Model) IdentityClass() string { return "actor-identity" }
 // UntrustedClass names the classification for data a caller supplied.
 func (m Model) UntrustedClass() string { return "untrusted-input" }
 
+// CallerCredentialClass names the classification for a field the caller sent that IS a
+// secret rather than ordinary request data.
+func (m Model) CallerCredentialClass() string { return "caller-credential" }
+
+// NamesSecretField reports whether a request field's own name says the value in it is a
+// SECRET the caller had to possess, rather than an identifier the caller could have
+// guessed.
+//
+// The vocabulary is read out of the caller-credential classification rather than written
+// again here, so there is one list: the same words that make `body.password` a credential
+// make `input.token` one, and a codebase that teaches the model a new spelling teaches
+// every rule that asks this question at once. The CSRF veto comes along with it for the
+// reason it was written -- a page has to echo that token back, so it is a credential
+// nobody hides.
+//
+// The identifier suffix is this question's own addition, and it is the whole difference
+// between the two weaknesses that share this shape. Selecting a record by a value the
+// caller sent is authentication when the value is a secret and an IDOR when it is a row
+// id, and `tokenId`, `apiKeyId` and `secretId` are row ids wearing a credential word:
+// they name the row a secret is stored IN, which is exactly as enumerable as any other
+// primary key. Excluding them costs the shapes that end in an id and are secrets anyway
+// -- a session id in a cookie is one -- and the direction of that loss is the safe one,
+// because a name this declines to call a secret is a route the engine keeps reporting.
+func (m Model) NamesSecretField(leaf string) bool {
+	leaf = NormalizeFieldName(leaf)
+	if leaf == "" {
+		return false
+	}
+	if strings.HasSuffix(leaf, "id") || strings.HasSuffix(leaf, "ids") {
+		return false
+	}
+	var names, except []string
+	for _, c := range m.Classifications {
+		if c.Class != m.CallerCredentialClass() {
+			continue
+		}
+		for _, r := range c.Rules {
+			names = append(names, r.LeafContains...)
+			except = append(except, r.LeafExcept...)
+		}
+	}
+	for _, e := range except {
+		if strings.Contains(leaf, NormalizeFieldName(e)) {
+			return false
+		}
+	}
+	for _, n := range names {
+		if strings.Contains(leaf, NormalizeFieldName(n)) {
+			return true
+		}
+	}
+	return false
+}
+
 // ArgvProgramHasNoOptions reports the exceptional programs whose argument grammar has
 // no option surface. The shipped list is empty until a command earns that claim by
 // documented semantics; callers can extend the declarative model without weakening the
