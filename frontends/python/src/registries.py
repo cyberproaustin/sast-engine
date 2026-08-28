@@ -170,11 +170,11 @@ class ModelViewRegistry:
             return None
         # `name` defaults to '' and `path` defaults to `name` -- the decorator's own
         # defaults, which is what decides the address when a registration writes neither.
-        name = _string(_arg(dec, 1, "name"))
-        if name is None and _arg(dec, 1, "name") is not None:
-            # A name computed rather than written. The address it produces is not readable.
+        # A name COMPUTED rather than written produces an address that is not readable.
+        name_node = _arg(dec, 1, "name")
+        name = "" if name_node is None else _string(name_node)
+        if name is None:
             return None
-        name = name or ""
         path_node = _arg(dec, 2, "path")
         url_path = name if path_node is None else _string(path_node)
         if url_path is None:
