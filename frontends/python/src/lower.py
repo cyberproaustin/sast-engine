@@ -1681,7 +1681,10 @@ class ModuleLowerer:
             # are decorators elsewhere and this call is the only place they are addressed.
             included = django_included(view)
             if included is not None:
-                for prefix in self._django_prefixes_of(owners.get(id(node)), mounts):
+                # One argument, not two. The registry branch passed a `mounts` table it
+                # built itself; the include branch's _django_prefixes_of resolves mounts
+                # program-wide already, so the second argument was the thing it replaced.
+                for prefix in self._django_prefixes_of(owners.get(id(node))):
                     out.extend(self._registry_handlers_of(included, prefix + route))
                 continue
             for prefix in self._django_prefixes_of(owners.get(id(node))):
