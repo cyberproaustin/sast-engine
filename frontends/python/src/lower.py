@@ -3872,11 +3872,13 @@ def _config_registration_entries(configs: ConfigRegistry, cls: ConfigClass,
     route = django_route_text(route_node)
     if route is None:
         return None
-    included = django_included(view)
-    if included is not None or configs.mounted_label(cls, view) is not None:
+    if django_included(view) is not None or configs.mounted_label(cls, view) is not None:
         # A mount. Its routes are registered where they are DECLARED and pick this prefix
-        # up there, which is what `_config_mounts` recorded it for.
-        return []
+        # up there, which is what `_config_mounts` recorded it for. Left UNCLAIMED rather
+        # than claimed-and-empty, so that the per-module walk still gets its own look: it
+        # resolves an app-config mount to nothing, and an `include` of a registry read is
+        # the one shape it can expand and this pass cannot.
+        return None
     members = _config_view_members(
         configs, cls, view, class_members, base_members, by_class_name)
     if members is None:
