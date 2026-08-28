@@ -371,15 +371,16 @@ def _config_label(node: ast.ClassDef) -> str | None:
 
 
 class ConfigRegistry:
-    """Every route-declaring config class, and what each label stands for.
+    """Every route-declaring config class, and every mount written outside one.
 
-    A label maps to a LIST of classes on purpose. django-oscar splits one app across
-    `CatalogueOnlyConfig` and `CatalogueReviewsOnlyConfig`, both labelled `catalogue`, and
-    ships `CatalogueConfig(CatalogueOnlyConfig, CatalogueReviewsOnlyConfig)` as the app
-    that is actually installed -- so `super().get_urls()` inside the first reaches the
-    second through the MRO, and the routes the installed app serves are the union of both.
-    Reading only one of them drops half the application; reading the union is what the
-    shipped configuration actually serves.
+    Classes are kept individually and never merged by label, and that is what makes the
+    composition come out right. django-oscar splits one app across `CatalogueOnlyConfig`
+    and `CatalogueReviewsOnlyConfig`, both labelled `catalogue`, and ships
+    `CatalogueConfig(CatalogueOnlyConfig, CatalogueReviewsOnlyConfig)` as the app that is
+    actually installed -- so `super().get_urls()` inside the first reaches the second
+    through the MRO, and the routes the running application serves are the union of both.
+    Reading each declaring class in turn and resolving its mount by label produces that
+    union without anything having to model the MRO.
     """
 
     def __init__(self, modules: list[tuple[str, ast.Module]]):
