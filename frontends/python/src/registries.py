@@ -416,12 +416,15 @@ class ConfigRegistry:
             if not (isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
                     and node.func.id in REGISTRARS):
                 continue
-            if id(node) in in_class or len(node.args) < 2:
+            if id(node) in in_class:
                 continue
-            route = _string(node.args[0])
-            if route is None:
+            # Read by keyword as well as by position, for the reason `django_call_args`
+            # is: `path(route=..., view=...)` is how a great many projects write the same
+            # registration, and reading one spelling drops the other project's mount.
+            route = _string(_arg(node, 0, "route"))
+            target = _arg(node, 1, "view")
+            if route is None or target is None:
                 continue
-            target = node.args[1]
             if (isinstance(target, ast.Call) and class_name_of(target.func) == "include"
                     and target.args):
                 target = target.args[0]
