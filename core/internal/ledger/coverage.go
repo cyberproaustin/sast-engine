@@ -78,8 +78,10 @@ import "strings"
 // `include(get_model_urls('dcim', 'region'))`. Two sites name one key and nothing between
 // them names both an address and a handler. Matching them is a lookup, except for the app
 // label, which the decorator leaves implicit and Django derives from the package the
-// model's `models` module sits in. All 1,141 of netbox's registrations index and 241 of
-// its 259 `get_model_urls` calls resolve; netbox went 128 -> 1,845 entry points.
+// model's OUTERMOST `models` component -- the first, not the last, because a models
+// package is free to hold a module of the same name and netbox writes
+// `extras/models/models.py`. All 1,141 of netbox's registrations index and all 259 of its
+// `get_model_urls` calls resolve; netbox went 128 -> 1,967 entry points.
 //
 // 1,113 of those 1,141 decorate a class with NO request handling in it, so the base has to
 // be resolved -- and resolved through the IMPORTING module's own names, not by bare name.
@@ -100,7 +102,7 @@ import "strings"
 // Measured on findings rather than on counts, because a large new surface is exactly how a
 // wave of population-inferred CWE-306/862 would look like recall: oscar 6 findings before
 // and 6 after, defectdojo 43 and 43, netbox 6 and 8. Not one new expectation finding in
-// any of them -- netbox's 1,845 entry points resolve to 145 distinct handlers, so its
+// any of them -- netbox's 1,967 entry points resolve to 146 distinct handlers, so its
 // populations are uniform and a population that agrees with itself infers nothing. Of the
 // two new netbox findings, the CWE-117 is real (a caller-named object interpolated into
 // `logger.info` with no newline handling) and the CWE-639 is not: `form.errors.update(...)`

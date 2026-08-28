@@ -229,9 +229,16 @@ def _model_app_labels(modules: list[tuple[str, ast.Module]]) -> dict[str, set[st
 
 
 def _app_label_of_module(module: str) -> str | None:
-    """`dcim/models/sites.py` and `dcim/models.py` -> `dcim`; anything else -> None."""
+    """`dcim/models/sites.py` and `dcim/models.py` -> `dcim`; anything else -> None.
+
+    The FIRST `models` component and not the last, because a models package is free to
+    hold a module of the same name: netbox writes `extras/models/models.py`, and scanning
+    from the end read its app label as `models` and filed 73 registrations under a key no
+    URLconf asks with. The package is what Django looks at, and the package is the outer
+    one.
+    """
     parts = module[:-3].split("/") if module.endswith(".py") else module.split("/")
-    for index in range(len(parts) - 1, 0, -1):
+    for index in range(1, len(parts)):
         if parts[index] == MODELS_MODULE:
             return parts[index - 1]
     return None
