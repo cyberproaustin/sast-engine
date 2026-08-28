@@ -1,0 +1,30 @@
+{
+  "corpus": "django-app-config-urls",
+  "description": "django-oscar has no module-level `urlpatterns` in any of its 828 Python files. Every application is a CLASS; each contributes its routes by overriding `get_urls()`, points each registration at an attribute it resolved from a class NAME in `ready()`, and is served under a prefix a DIFFERENT config composed by mounting it by label. Three facts in three files and not one of them a literal where it is read: 219 declared routes enumerated 30, and 279 functions reading caller input were reachable from nothing. Every positive here is reachable only through that chain and each one is a different link of it -- a view resolved by name from a loader call, a view three mounts deep whose address no single file carries, and a view wrapped in an access decorator at the registration, which is how 33 of oscar's 196 are written. The negatives are the ways the chain does not reach the ground: a `get_urls()` on a Django ModelAdmin, which is the same method name and the same shape mounted by machinery that writes no label anywhere, so its address is not readable; and a view name two modules of this program both define, where binding the route to either would be a claim that a request to that address runs that function and one of the two claims is false. Both negatives carry a live command injection, so a pass that claims either shows up as a finding at an address the application does not serve. One case here asserts no finding at all and is kept for its shape: a config-registered FormView, which answers POST through `form_valid` rather than through a method it names -- 28 of oscar's registrations -- and which used to be a single entry point at ANY on whichever hook came first, so the body that acts on the request was off the surface. It is two entry points now, at GET and POST, and neither carries a finding, because a Django class-based view reaches the request through `self.request` and the taint model sources a handler's request PARAMETER and route captures and not a property of the view. That is the honest boundary of this work: the addresses and the verbs are right, and the bodies behind the hook-shaped half of Django stay unreadable until `self.request` is a source.",
+  "expected": [
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "catalogue/views.py",
+      "sinkLine": 28,
+      "sourceLabel": "request.GET",
+      "confidence": "high",
+      "note": "reached only through `CatalogueOnlyConfig.get_urls()`, whose view argument is `self.detail_view` -- an attribute assigned in `ready()` from a string naming a class in another package"
+    },
+    {
+      "cwe": "CWE-89",
+      "sinkFile": "catalogue/views.py",
+      "sinkLine": 39,
+      "sourceLabel": "request.POST",
+      "confidence": "medium",
+      "note": "three configs compose this address: the reviews app is mounted by the catalogue app, which is mounted by the shop, which the root URLconf mounts at the empty prefix"
+    },
+    {
+      "cwe": "CWE-78",
+      "sinkFile": "dashboard/views.py",
+      "sinkLine": 14,
+      "sourceLabel": "request.POST",
+      "confidence": "high",
+      "note": "the registration wraps the view in `login_required(...)`, so what is registered sits one call deep inside the argument of another call"
+    }
+  ]
+}

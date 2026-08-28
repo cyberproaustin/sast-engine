@@ -20,6 +20,8 @@ from typing import Any
 
 from declarative import declared_views
 from graphene_schema import caller_supplied_params, graphene_entry_points
+from registries import (ATTR_VIEW, ConfigClass, ConfigRegistry, ModelViewRegistry,
+                        class_name_of)
 from templates import index_templates, resolve_template
 from urlgraph import ModuleIndex, SymbolIndex, UrlGraph
 
@@ -594,6 +596,38 @@ def dotted_module(module: str) -> str:
     return module[:-3].replace("/", ".") if module.endswith(".py") else module
 
 
+def collect_imports(module: str, tree: ast.Module) -> dict[str, str]:
+    """Local name -> the dotted origin it was imported from, for one module.
+
+    A module-level function rather than a method, because the program-wide passes need the
+    same table before any module is lowered: which base a class actually inherits is a
+    question about the IMPORTING file's names, and a pass that runs across files has to
+    ask it for a file it is not inside.
+    """
+    imports: dict[str, str] = {}
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            for alias in node.names:
+                imports[alias.asname or alias.name] = alias.name
+        elif isinstance(node, ast.ImportFrom):
+            # A RELATIVE import resolves against this module's own package, and that
+            # package is knowable: it is the module's own path with the last segment
+            # dropped once per leading dot. Skipping these left `from . import views`
+            # binding nothing at all -- which is how Django's own tutorial writes a
+            # URLconf, so every route in such a file pointed at a name that resolved
+            # to nothing, and every call through one stopped at the import.
+            origin = node.module or ""
+            if node.level:
+                package = dotted_module(module).split(".")[:-node.level]
+                origin = ".".join([*package, origin] if origin else package)
+            if not origin:
+                continue
+            for alias in node.names:
+                local = alias.asname or alias.name
+                imports[local] = f"{origin}.{alias.name}"
+    return imports
+
+
 def decorator_names(node: ast.AST) -> set[str]:
     """The names written in a definition's decorator list, bare or dotted."""
     out: set[str] = set()
@@ -798,6 +832,34 @@ def django_entry_point(function_id: str, method: str, path: str, route: str = ""
     }
 
 
+def handlers_from_members(members: dict[str, str], path: str, route: str) -> list[dict]:
+    """The verbs a class-based view answers, out of the methods it carries.
+
+    One implementation for both registrations that reach a class: the URLconf's
+    `X.as_view()` and a config class's `self.<attr>.as_view()`. They name the class two
+    different ways and what a class ANSWERS is the same question either way, so writing it
+    twice is how the two spellings drift into disagreeing about the same view.
+    """
+    found = [django_entry_point(members[verb], verb.upper(), path, route)
+             for verb in DJANGO_VERB_METHODS if verb in members]
+    # FormView implements POST in Django itself and calls the subclass's
+    # `form_valid`. The application therefore writes the state-changing handler
+    # without writing `post`, and a surface that looks only for verb-named
+    # members attributes that route to whichever unrelated hook appears first.
+    # archivebox's AddView was consequently represented only by
+    # get_context_data while its crawl-creating POST body sat outside the route.
+    if "post" not in members and "form_valid" in members:
+        found.append(django_entry_point(members["form_valid"], "POST", path, route))
+    # Preserve the GET half of a FormView when the subclass customizes its
+    # context. Adding the POST must not make an existing entry point disappear.
+    if "get" not in members and "get_context_data" in members and "form_valid" in members:
+        found.append(django_entry_point(members["get_context_data"], "GET", path, route))
+    if found:
+        return found
+    hook = next((members[name] for name in DJANGO_HOOKS if name in members), None)
+    return [django_entry_point(hook, "ANY", path, route)] if hook else []
+
+
 def tornado_route_path(pattern: str) -> str:
     """A Tornado URL regex written as the path the rest of the engine reads.
 
@@ -886,8 +948,25 @@ class ModuleLowerer:
                  class_actions: dict[str, list[dict]] | None = None,
                  graphql_resolvers: set[int] | None = None,
                  receiver_kinds: dict[str, str] | None = None,
-                 class_names: set[str] | None = None):
+                 class_names: set[str] | None = None,
+                 model_views: ModelViewRegistry | None = None,
+                 claimed_registrations: set[int] | None = None,
+                 strict_bases: dict[str, dict[str, str]] | None = None):
         self.module = module_id(root, path)
+        # What a class inherits from a base this program DEFINES, the base resolved
+        # through the importing module's names. See `resolved_base_members`: a route may
+        # not inherit a method from a class that merely shares a name with its base.
+        self.strict_bases = strict_bases or {}
+        # The views a decorator bound to a model, so `include(get_model_urls('dcim',
+        # 'region'))` can be read as the list of registrations it returns. Program-wide,
+        # because the decorator and the URLconf that reads the registry back are never in
+        # the same file.
+        self.model_views = model_views
+        # Registrations a program-wide pass already turned into routes. A registration
+        # inside a config class carries a mount prefix only that pass can compose, and
+        # emitting it here as well would put the same handler on the surface twice, once
+        # at an address the application does not serve.
+        self.claimed_registrations = claimed_registrations or set()
         # Which functions in the program take an implicit receiver, and which names are
         # classes. A call resolves to a function id here and the binding of its
         # arguments depends on both -- see FunctionLowerer.receiver_shift.
@@ -987,26 +1066,7 @@ class ModuleLowerer:
         self._collect_route_binders()
 
     def _collect_imports(self) -> None:
-        for node in ast.walk(self.tree):
-            if isinstance(node, ast.Import):
-                for alias in node.names:
-                    self.imports[alias.asname or alias.name] = alias.name
-            elif isinstance(node, ast.ImportFrom):
-                # A RELATIVE import resolves against this module's own package, and that
-                # package is knowable: it is the module's own path with the last segment
-                # dropped once per leading dot. Skipping these left `from . import views`
-                # binding nothing at all -- which is how Django's own tutorial writes a
-                # URLconf, so every route in such a file pointed at a name that resolved
-                # to nothing, and every call through one stopped at the import.
-                module = node.module or ""
-                if node.level:
-                    package = dotted_module(self.module).split(".")[:-node.level]
-                    module = ".".join([*package, module] if module else package)
-                if not module:
-                    continue
-                for alias in node.names:
-                    local = alias.asname or alias.name
-                    self.imports[local] = f"{module}.{alias.name}"
+        self.imports.update(collect_imports(self.module, self.tree))
 
     def _collect_callable_collections(self) -> dict[str, list[str]]:
         """Module dictionaries whose complete value set resolves to local functions."""
@@ -1607,6 +1667,8 @@ class ModuleLowerer:
                 continue
             if node.func.id not in DJANGO_REGISTRARS:
                 continue
+            if id(node) in self.claimed_registrations:
+                continue
             route_node, view = django_call_args(node)
             if route_node is None or view is None:
                 continue
@@ -1614,13 +1676,42 @@ class ModuleLowerer:
             if route is None:
                 continue
             # An `include(...)` has no handler of its own: the routes it mounts are
-            # registered where they are DEFINED, and they pick this prefix up there.
-            if django_included(view) is not None:
+            # registered where they are DEFINED, and they pick this prefix up there --
+            # unless what it mounts is a REGISTRY read, in which case the registrations
+            # are decorators elsewhere and this call is the only place they are addressed.
+            included = django_included(view)
+            if included is not None:
+                for prefix in self._django_prefixes_of(owners.get(id(node)), mounts):
+                    out.extend(self._registry_handlers_of(included, prefix + route))
                 continue
             for prefix in self._django_prefixes_of(owners.get(id(node))):
                 out.extend(self._django_handlers_of(
                     view, django_route_path(prefix + route), prefix + route))
         return out + self._drf_router_entry_points()
+
+    def _registry_handlers_of(self, included: ast.AST, mount: str) -> list[dict]:
+        """`include(get_model_urls('dcim', 'region'))` -- the routes a registry returns.
+
+        netbox binds a view to a model with a decorator and builds the URLconf by asking
+        the registry for that model's views. The two sites name one key and nothing between
+        them is a literal, so a reader that matches `path(<literal>, <view>)` sees an
+        `include` of a call and stops: 532 declared routes enumerated 128.
+
+        The mount is where THIS call sits and the suffix is what each registration
+        declared, which is exactly what the registry's own builder concatenates.
+        """
+        if self.model_views is None or not isinstance(included, ast.Call):
+            return []
+        registrations = self.model_views.read(included)
+        if not registrations:
+            return []
+        out: list[dict] = []
+        for reg in registrations:
+            route = mount + reg.url_path
+            members = self._inherited_class_members(f"{reg.module}:{reg.class_name}")
+            out.extend(self._handlers_from_members(
+                members, django_route_path(route), route))
+        return out
 
     def _django_handlers_of(self, view: ast.AST, path: str, route: str = "") -> list[dict]:
         """The functions one registration reaches, and the verb each of them answers.
@@ -1631,25 +1722,8 @@ class ModuleLowerer:
         """
         if (isinstance(view, ast.Call) and isinstance(view.func, ast.Attribute)
                 and view.func.attr == "as_view"):
-            members = self._django_class_members(view.func.value)
-            found = [django_entry_point(members[verb], verb.upper(), path, route)
-                     for verb in DJANGO_VERB_METHODS if verb in members]
-            # FormView implements POST in Django itself and calls the subclass's
-            # `form_valid`. The application therefore writes the state-changing handler
-            # without writing `post`, and a surface that looks only for verb-named
-            # members attributes that route to whichever unrelated hook appears first.
-            # archivebox's AddView was consequently represented only by
-            # get_context_data while its crawl-creating POST body sat outside the route.
-            if "post" not in members and "form_valid" in members:
-                found.append(django_entry_point(members["form_valid"], "POST", path, route))
-            # Preserve the GET half of a FormView when the subclass customizes its
-            # context. Adding the POST must not make an existing entry point disappear.
-            if "get" not in members and "get_context_data" in members and "form_valid" in members:
-                found.append(django_entry_point(members["get_context_data"], "GET", path, route))
-            if found:
-                return found
-            hook = self._django_hook(members)
-            return [django_entry_point(hook, "ANY", path, route)] if hook else []
+            return self._handlers_from_members(
+                self._django_class_members(view.func.value), path, route)
 
         target = self._function_reference(view) or self._reexported_function(view)
         # ANY, because a URLconf says nothing about the verb: Django calls the function for
@@ -1676,6 +1750,28 @@ class ModuleLowerer:
             return None
         hit = self.symbols.resolve(dotted)
         return self.global_defs.get(f"{hit[0]}:{hit[1]}") if hit else None
+    def _handlers_from_members(self, members: dict[str, str],
+                               path: str, route: str) -> list[dict]:
+        """The verbs a class-based view answers, out of the methods it carries."""
+        return handlers_from_members(members, path, route)
+
+    def _inherited_class_members(self, key: str) -> dict[str, str]:
+        """A class's own methods, and what it inherits where it declares none.
+
+        A netbox view registered by decorator is routinely a class with NO body but a
+        queryset: `class RegionListView(generic.ObjectListView)` declares the model and
+        the table and inherits `get` from the generic. 1,113 of netbox's 1,141 decorator
+        registrations are that shape, so a lookup that stops at the class's own members
+        reaches an empty class for all but 28 of them.
+
+        Own members win, which is the order Python resolves them in. The inherited half is
+        one level up and RESOLVED -- see `resolved_base_members`: a base that resolves
+        outside this program contributes nothing, because a route may not inherit a method
+        from a class that merely shares a name with a framework's.
+        """
+        members = self.class_members.get(key, {})
+        inherited = self.strict_bases.get(key, {})
+        return {**inherited, **members} if inherited else members
 
     def _class_key(self, node: ast.AST) -> str | None:
         """The name a class is known by program-wide, out of how a registration wrote it.
@@ -3798,6 +3894,312 @@ def _resolve_url_graph(lowerers: list[ModuleLowerer]) -> None:
     for lowerer in lowerers:
         lowerer.url_graph = graph
         lowerer.symbols = symbols
+# --- What a view class inherits, with the base RESOLVED ----------------------
+#
+# The program-wide base table beside this merges by BARE NAME, which is enough for the
+# question it was built for and is not enough for a route. Measured on django-oscar:
+# `class UserAddressUpdateView(CheckoutSessionMixin, generic.UpdateView)` inherits its
+# verbs from DJANGO's UpdateView, and matching the bare name found the application's own
+# unrelated `UpdateView` in `communication/notifications/views.py` -- whose `delete` is a
+# bulk action taking a list of notifications. Eighteen routes were bound to it, each one a
+# claim that a DELETE at that address runs that function. It does not.
+#
+# So the base is resolved through the importing module's own names first. What that buys
+# is the ability to tell a framework base from an application one, which is the whole
+# judgement: a base that resolves OUTSIDE the program contributes nothing, because the
+# program does not contain the method and inventing one is the phantom above.
+
+
+def module_suffixes(modules: list[str]) -> set[str]:
+    """Every dotted name that addresses a module of this program.
+
+    A repository is not a package root. django-oscar's `oscar` package sits under `src/`
+    and netbox's `netbox` package sits under `netbox/`, so the dotted name an import
+    writes is a SUFFIX of the module id and never equal to it. `__init__` is dropped
+    because an importer names the package, not the file inside it.
+    """
+    out: set[str] = set()
+    for module in modules:
+        dotted = dotted_module(module)
+        if dotted.endswith(".__init__"):
+            dotted = dotted[: -len(".__init__")]
+        elif dotted == "__init__":
+            continue
+        parts = dotted.split(".")
+        for start in range(len(parts)):
+            out.add(".".join(parts[start:]))
+    return out
+
+
+def _base_key(imports: dict[str, str], module: str, base: ast.AST) -> tuple[str, str] | None:
+    """One base as (lookup key, origin module), out of how the subclass wrote it."""
+    if isinstance(base, ast.Name):
+        origin = imports.get(base.id)
+        if origin:
+            return f"import:{origin}", origin.rsplit(".", 1)[0]
+        # Defined in this module, or arrived through a star import. Either way the name is
+        # this program's own and the module it names is this one.
+        return f"{module}:{base.id}", dotted_module(module)
+    if isinstance(base, ast.Attribute):
+        parts: list[str] = []
+        cur: ast.AST = base
+        while isinstance(cur, ast.Attribute):
+            parts.append(cur.attr)
+            cur = cur.value
+        if not isinstance(cur, ast.Name):
+            return None
+        root = imports.get(cur.id, cur.id)
+        dotted = ".".join([root, *reversed(parts)])
+        return f"import:{dotted}", dotted.rsplit(".", 1)[0]
+    return None
+
+
+def resolved_base_members(trees: list[tuple[str, ast.Module]],
+                          class_members: dict[str, dict[str, str]],
+                          members_by_name: dict[str, dict[str, str]],
+                          suffixes: set[str]) -> dict[str, dict[str, str]]:
+    """Class key -> the methods it inherits from bases this PROGRAM defines.
+
+    Three answers per base and they are ranked. The exact key wins, because a resolved
+    import names one class and no other. A base whose module is this program's but whose
+    exact key is not found falls back to the bare name -- that is the package re-export
+    case, `from netbox.views import generic` reaching a class defined three files inside
+    the package, and 1,113 of netbox's registrations inherit every verb they answer
+    through one. A base whose module is NOT this program's answers nothing at all.
+
+    Merged leftmost-wins, which is the order Python resolves a method in.
+    """
+    out: dict[str, dict[str, str]] = {}
+    for module, tree in trees:
+        imports = collect_imports(module, tree)
+        dotted = dotted_module(module)
+        for node in ast.walk(tree):
+            if not isinstance(node, ast.ClassDef):
+                continue
+            inherited: dict[str, str] = {}
+            for base in reversed(node.bases):
+                found = _base_key(imports, module, base)
+                if found is None:
+                    continue
+                key, origin = found
+                members = class_members.get(key)
+                if members is None and origin in suffixes:
+                    members = members_by_name.get(class_name_of(base))
+                if members:
+                    inherited.update(members)
+            if inherited:
+                out[f"{module}:{node.name}"] = inherited
+                out[f"import:{dotted}.{node.name}"] = inherited
+    return out
+
+
+# --- Routes a method returns ------------------------------------------------
+#
+# django-oscar has no module-level `urlpatterns` anywhere. Every application is a class
+# and each contributes its routes by overriding `get_urls()`, so the registration, the
+# view it points at, and the prefix it is served under are three facts in three files:
+# 219 declared routes enumerated 30, and 828 Python files reached 30 entry points while
+# 279 functions reading caller input were reachable from nothing.
+#
+# Resolved program-wide rather than per module, because none of the three facts is in the
+# file that needs it. A registration inside `CatalogueDashboardConfig.get_urls()` points
+# at `self.product_list_view`, which `ready()` loaded by name from another package, and is
+# served under `dashboard/catalogue/` because a THIRD config mounted this one by label.
+
+# How many mount paths one config class may be resolved to. The bound the module-level
+# URLconf walk uses, for the same reason: an application that cross-mounts its configs
+# would otherwise turn one registration into thousands of paths.
+MAX_CONFIG_MOUNTS = 16
+
+
+def django_view_expr(node: ast.AST) -> ast.AST:
+    """A view with its access decorators peeled off.
+
+    `login_required(self.summary_view.as_view())` is a view and a gate written as one
+    expression, and 33 of oscar's 196 registrations are written that way. What is being
+    registered is the view: the wrapper delegates to it, so the handler the route reaches
+    is inside. Peeled by looking for the argument that is itself a view expression rather
+    than by naming the decorators, because an application writes its own.
+    """
+    for _ in range(4):
+        if not isinstance(node, ast.Call) or isinstance(node.func, ast.Attribute):
+            return node
+        inner = [a for a in node.args
+                 if isinstance(a, ast.Call) and isinstance(a.func, ast.Attribute)
+                 and a.func.attr == "as_view"]
+        if len(inner) != 1:
+            return node
+        node = inner[0]
+    return node
+
+
+def config_route_entry_points(
+        configs: ConfigRegistry,
+        class_members: dict[str, dict[str, str]],
+        base_members: dict[str, dict[str, str]]) -> tuple[dict[str, list[dict]], set[int]]:
+    """The routes config classes declare, and the registration nodes this claimed.
+
+    The claimed set is returned so the per-module URLconf walk can leave these
+    registrations alone: it would find the same calls, resolve `self.<attr>` to nothing,
+    and give the few it does resolve the prefix of a file rather than of a mount.
+    """
+    mounts = _config_mounts(configs)
+    # Bare class name -> the program keys that name it. Built once: a config resolves its
+    # view by name and there are tens of thousands of keys in a large program, so asking
+    # the question per registration is a scan of the whole table per route.
+    by_class_name: dict[str, list[str]] = {}
+    for table in (class_members, base_members):
+        for key in table:
+            if key.startswith("import:"):
+                continue
+            name = key.rsplit(":", 1)[-1]
+            if key not in by_class_name.setdefault(name, []):
+                by_class_name[name].append(key)
+    out: dict[str, list[dict]] = {}
+    claimed: set[int] = set()
+
+    for cls in configs.declaring():
+        label = configs.label_of(cls)
+        if label is None:
+            # Not an app config. A `get_urls()` on a Django ModelAdmin or on a custom DRF
+            # router is the same method name and the same shape, and the routes it returns
+            # are mounted by machinery that writes no label -- so their address is not
+            # readable and a route at an unknown address is a claim about one that is not
+            # served (ADR-009).
+            continue
+        prefixes = _config_prefixes(configs, cls, mounts)
+        for call in cls.registrations:
+            entries = _config_registration_entries(
+                configs, cls, call, prefixes, class_members, base_members, by_class_name)
+            if entries is None:
+                continue
+            claimed.add(id(call))
+            out.setdefault(cls.module, []).extend(entries)
+    return out, claimed
+
+
+def _config_mounts(configs: ConfigRegistry) -> dict[str, list[tuple[str, object]]]:
+    """App label -> every route it is mounted at, and the config that mounted it.
+
+    `path("dashboard/", self.dashboard_app.urls)` inside one config and
+    `path('', include(apps.get_app_config('oscar').urls[0]))` at the top of a root URLconf
+    are the same mount at two levels, and the chain between them is what says a dashboard
+    route is served at `dashboard/catalogue/products/` rather than at `products/`.
+
+    A mount written outside any config class carries no further prefix: the module-level
+    walk that would compose one runs per file and this pass is program-wide. Stated rather
+    than guessed -- the root URLconf is where applications write the empty prefix anyway.
+    """
+    mounts: dict[str, list[tuple[str, object]]] = {}
+    for cls in configs.classes:
+        for call in cls.registrations:
+            route_node, view = django_call_args(call)
+            if route_node is None or view is None:
+                continue
+            route = django_route_text(route_node)
+            if route is None:
+                continue
+            target = django_included(view)
+            label = configs.mounted_label(cls, target if target is not None else view)
+            if label is not None:
+                mounts.setdefault(label, []).append((route, cls))
+    for route, label in configs.module_level_mounts:
+        mounts.setdefault(label, []).append((route, None))
+    return mounts
+
+
+def _config_prefixes(configs: ConfigRegistry, cls: ConfigClass,
+                     mounts: dict[str, list[tuple[str, object]]]) -> list[str]:
+    """Every path this config's routes are served under, mounts composed.
+
+    Bounded and cycle-safe for the reason the module-level version is: this is a walk over
+    data an application wrote, and an application is free to write a cycle into it.
+    """
+    label = configs.label_of(cls)
+    found: list[str] = []
+    pending: list[tuple[str | None, str, frozenset]] = [(label, "", frozenset())]
+    while pending and len(found) < MAX_CONFIG_MOUNTS:
+        current, suffix, seen = pending.pop()
+        if current is None or current not in mounts or current in seen:
+            # A config nothing mounts still declares its routes, and an unresolved mount
+            # contributes the empty prefix rather than dropping them (ADR-009).
+            if suffix not in found:
+                found.append(suffix)
+            continue
+        for route, parent in mounts[current]:
+            parent_label = configs.label_of(parent) if parent is not None else None
+            pending.append((parent_label, route + suffix, seen | {current}))
+    return found
+
+
+def _config_registration_entries(configs: ConfigRegistry, cls: ConfigClass,
+                                 call: ast.Call,
+                                 prefixes: list[str],
+                                 class_members: dict[str, dict[str, str]],
+                                 base_members: dict[str, dict[str, str]],
+                                 by_class_name: dict[str, list[str]]) -> list[dict] | None:
+    """One registration, at every path the config that declares it is served under.
+
+    None where the registration is not this pass's to make: a mount has no handler of its
+    own, and a view spelling this cannot read is left to the per-module walk that may.
+    """
+    route_node, view = django_call_args(call)
+    if route_node is None or view is None:
+        return None
+    route = django_route_text(route_node)
+    if route is None:
+        return None
+    if django_included(view) is not None or configs.mounted_label(cls, view) is not None:
+        # A mount. Its routes are registered where they are DECLARED and pick this prefix
+        # up there, which is what `_config_mounts` recorded it for. Left UNCLAIMED rather
+        # than claimed-and-empty, so that the per-module walk still gets its own look: it
+        # resolves an app-config mount to nothing, and an `include` of a registry read is
+        # the one shape it can expand and this pass cannot.
+        return None
+    members = _config_view_members(
+        configs, cls, view, class_members, base_members, by_class_name)
+    if members is None:
+        return None
+    out: list[dict] = []
+    for prefix in prefixes:
+        full = prefix + route
+        out.extend(handlers_from_members(members, django_route_path(full), full))
+    return out or None
+
+
+def _config_view_members(configs: ConfigRegistry, cls: ConfigClass, view: ast.AST,
+                         class_members: dict[str, dict[str, str]],
+                         base_members: dict[str, dict[str, str]],
+                         by_class_name: dict[str, list[str]]) -> dict[str, str] | None:
+    """The methods behind `self.<attr>.as_view()`, or None where the view is not one.
+
+    The attribute is resolved on the class and its bases -- oscar's configs assign in
+    `ready()`, which is Django's own place for it -- and the class name it holds is
+    resolved program-wide, which is the resolution every registration lookup in this
+    frontend already uses. A name two modules both define resolves to NOTHING: binding a
+    route to whichever the walk reached first is a claim about an address the application
+    does not serve.
+    """
+    view = django_view_expr(view)
+    if not (isinstance(view, ast.Call) and isinstance(view.func, ast.Attribute)
+            and view.func.attr == "as_view"):
+        return None
+    holder = view.func.value
+    if not (isinstance(holder, ast.Attribute) and isinstance(holder.value, ast.Name)
+            and holder.value.id == "self"):
+        # `SomeView.as_view()` written out. The per-module walk resolves that spelling
+        # against this file's own imports, which is a better answer than a name match.
+        return None
+    held = configs.attribute(cls, holder.attr)
+    if held is None or held[0] != ATTR_VIEW:
+        return None
+    keys = by_class_name.get(held[1], ())
+    if len(keys) != 1:
+        return None
+    key = keys[0]
+    members = class_members.get(key, {})
+    inherited = base_members.get(key, {})
+    return {**inherited, **members} if inherited else members
 
 
 def lower_program(root: str, files: list[str]) -> dict:
@@ -3826,6 +4228,10 @@ def lower_program(root: str, files: list[str]) -> dict:
     # its base, so a registration that stops at the class it names reaches nothing.
     class_bases: dict[str, list[str]] = {}
     members_by_name: dict[str, dict[str, str]] = {}
+    # How many classes in the program carry each name. A base matched by NAME is only
+    # matched where the name means one thing: binding a route through a name two classes
+    # share is how eighteen of oscar's routes were bound to an unrelated bulk action.
+    name_counts: dict[str, int] = {}
     # Which methods declare an implicit receiver, and which names in the program are
     # CLASSES. Together they decide whether a written argument fills the parameter it
     # sits above or the one to its right, which is a fact about the callee and the
@@ -3867,6 +4273,7 @@ def lower_program(root: str, files: list[str]) -> dict:
             elif isinstance(node, ast.ClassDef):
                 members: dict[str, str] = {}
                 actions: list[dict] = []
+                name_counts[node.name] = name_counts.get(node.name, 0) + 1
                 # Both spellings a call site can reach this class by, so a receiver
                 # written as `Model.method(instance, x)` is recognised as the class it
                 # names whichever way the importer spelled it.
@@ -3981,10 +4388,28 @@ def lower_program(root: str, files: list[str]) -> dict:
         production,
         lambda module, node: f"{module}#{node.name}:{node.lineno}:{node.col_offset + 1}")
 
+    # The two route registries, resolved before any module is lowered and for the reason
+    # the URLconfs are: a decorator in `views.py` and the `get_model_urls` call in
+    # `urls.py` name one key, and a config class declares routes a DIFFERENT config
+    # class mounts. Test modules are left out because a test registers whatever surface
+    # it wants to exercise and none of that is served.
+    model_views = ModelViewRegistry(production)
+    # What a registered view class inherits, with each base resolved through the importing
+    # module's own names. Separate from the bare-name table above and not a replacement for
+    # it: this one answers "is that base in this program at all", which is what a route may
+    # not get wrong, and answering it costs the looseness the other table is built on.
+    strict_bases = resolved_base_members(
+        [(module_id(root, path), tree) for path, tree in trees], class_members,
+        {name: members for name, members in members_by_name.items()
+         if name_counts.get(name, 0) == 1},
+        module_suffixes([module_id(root, path) for path, _ in trees]))
+    config_routes, claimed = config_route_entry_points(
+        ConfigRegistry(production), class_members, strict_bases)
+
     lowerers = [ModuleLowerer(root, path, tree, defs, templates, resource_paths,
                               class_members, base_members,
                               class_actions, graphql_resolvers, receiver_kinds,
-                              class_names)
+                              class_names, model_views, claimed, strict_bases)
                 for path, tree in trees]
     provenance = module_provenance(root, trees)
     _resolve_url_graph(lowerers)
@@ -3996,6 +4421,8 @@ def lower_program(root: str, files: list[str]) -> dict:
     # class name standing in for the path the registration plainly carries.
     django = {lw.module: [] if is_test_module(lw.module) else lw.django_entry_points()
               for lw in lowerers}
+    for module, entries in config_routes.items():
+        django.setdefault(module, []).extend(entries)
     registered = {entry["functionId"] for entries in django.values() for entry in entries}
 
     modules, functions, entry_points, renders = [], [], [], []

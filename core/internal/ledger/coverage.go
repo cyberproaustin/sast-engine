@@ -54,6 +54,79 @@ import "strings"
 // the findings they make possible are asserted by fixture and have not yet been observed
 // in the wild.
 //
+// --- two ways a route reaches `urlpatterns` without being written there -----------------
+//
+// A URLconf reader that matches `path(<literal>, <view>)` reads every Django application
+// that writes its routes down, and two idioms do not. Measured on applications the engine
+// had never seen, declared routes counted as `path|re_path|url` calls plus DRF router
+// registrations: django-oscar 219 declared and 30 enumerated, netbox 532 and 128, against
+// DefectDojo -- Django with DRF -- at 650 and 700. So neither gap is "Django"; each is one
+// specific way of getting a LIST of registrations into `urlpatterns`.
+//
+// A METHOD THAT COMPOSES WITH ITS PARENT. An oscar application is a class. Each app
+// contributes routes by overriding `get_urls()`, points each registration at `self.<attr>`,
+// and is served under a prefix a DIFFERENT config composed by mounting it BY LABEL --
+// three facts in three files, none of them a literal where it is read, and no module-level
+// `urlpatterns` anywhere in 828 files. Resolved by reading the class: the attribute (its
+// own, or its bases', or the one `ready()` assigned, which is Django's own place for it),
+// the label (explicit, or derived from `name` as Django derives it), and the mount chain
+// composed program-wide. oscar went 30 -> 189 entry points and 279 -> 226 functions
+// reading caller input that nothing reaches.
+//
+// Half of that surface is enumerated and still unreadable, and the reason is worth the
+// sentence because it is not this pass's. 97 of oscar's 177 routes anchor to a HOOK --
+// `get_context_data`, `form_valid`, `get_queryset` -- which is how Django's generic views
+// are written and which takes no `request` parameter: the request is `self.request`, a
+// property of the view instance, and the taint model sources a handler's request PARAMETER
+// and its route captures and not that. So those 97 have the right address and the right
+// verb and no caller data in them, while the 80 that do take a request went from 17. The
+// same count on netbox is 1,928 of 1,947 taking a parameter, because a registry-registered
+// view inherits `get(self, request)` from a generic that spells it out. Making
+// `self.request` a source is a taint-model question and is what those 97 are waiting on.
+//
+// A DECORATOR REGISTRY READ BACK AT URL-BUILD TIME. A netbox view binds itself to a model
+// with `@register_model_view(Region, 'edit')`; `dcim/urls.py` asks for the same key with
+// `include(get_model_urls('dcim', 'region'))`. Two sites name one key and nothing between
+// them names both an address and a handler. Matching them is a lookup, except for the app
+// label, which the decorator leaves implicit and Django derives from the package the
+// model's OUTERMOST `models` component -- the first, not the last, because a models
+// package is free to hold a module of the same name and netbox writes
+// `extras/models/models.py`. All 1,141 of netbox's registrations index and all 259 of its
+// `get_model_urls` calls resolve; netbox went 128 -> 1,967 entry points.
+//
+// 1,113 of those 1,141 decorate a class with NO request handling in it, so the base has to
+// be resolved -- and resolved through the IMPORTING module's own names, not by bare name.
+// Bare name is what the older program-wide base table does, and on oscar it bound
+// `UserAddressUpdateView(CheckoutSessionMixin, generic.UpdateView)` to the application's
+// own unrelated `UpdateView`, whose `delete` is a bulk action over a list of notifications:
+// eighteen routes claiming that a DELETE at that address runs that function. A base whose
+// import resolves OUTSIDE the program now contributes nothing; one inside it falls back to
+// the bare name, which is the package re-export case (`from netbox.views import generic`)
+// and only where the program defines that name once.
+//
+// Ambiguity resolves to nothing, everywhere in both shapes: a view name two modules define,
+// a model name two apps define, a registry key that is a variable, and a `get_urls()` on a
+// class that declares no label -- a Django ModelAdmin or a custom DRF router, mounted by
+// machinery that writes the address nowhere. Both fixtures carry a live command injection
+// behind every negative, so a pass that ever claims one reports it.
+//
+// Measured on findings rather than on counts, because a large new surface is exactly how a
+// wave of population-inferred CWE-306/862 would look like recall: oscar 6 findings before
+// and 6 after, defectdojo 43 and 43, netbox 6 and 8. Not one new expectation finding in
+// any of them -- netbox's 1,967 entry points resolve to 146 distinct handlers, so its
+// populations are uniform and a population that agrees with itself infers nothing. Of the
+// two new netbox findings, the CWE-117 is real (a caller-named object interpolated into
+// `logger.info` with no newline handling) and the CWE-639 is not: `form.errors.update(...)`
+// is a mapping merge read as a store write, which is the ambiguity
+// `BuiltinArgumentMakesLocalMutation` already documents and which needs type evidence the
+// Python frontend does not have.
+//
+// One limit is stated and not fixed here. netbox mounts each app with
+// `include('dcim.urls')`, a dotted string that is not this repository's module id, so its
+// routes are enumerated at `/regions/<pk>/edit/` rather than at `/dcim/regions/<pk>/edit/`.
+// The route and its handler are right and the prefix is short by one segment; resolving a
+// dotted include against a source root is a separate question about module identity.
+//
 // --- three questions about how a value MOVES ------------------------------------------
 //
 // One propagation direction, one source family, and one label. All three were measured
