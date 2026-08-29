@@ -420,6 +420,22 @@ var claims = map[string]Claim{
 		By: []string{"hardcoded-secret"}},
 	"CWE-321": {State: Partial, Reason: "two shapes. A cryptographic key written as a literal into a call that must hold one -- the same rule as CWE-798, asserted in its own right because the argument positions it describes ARE key arguments; only those three APIs, and a key handed to anything else is a stated miss. And a PEM private key block anywhere in the source at all, which needs no call and no destination because the value's own shape is the whole of the defect. Measured at one across twenty-eight production repositories, and that one is a real EC key in an Apple Sign-In example",
 		By: []string{"hardcoded-secret", "private-key-block"}},
+	// WITHDRAWN 2026-08-28 after thirty repositories (ADR-015). `expectations` infers that a
+	// control most comparable peers apply is missing here. Measured: 160 findings, ONE true,
+	// 93 false. It was dormant while surfaces were small -- two findings across batches 1 and
+	// 2 -- and route enumeration woke it: 158 findings in one batch, 117 of them in a single
+	// application whose 1542 NestJS routes are uniform enough that every route is an anomaly
+	// beside its neighbours. CWE-284 is this rule admitting it cannot name the control it
+	// believes absent, and it fired 120 times and was right none of them.
+	//
+	// The premise does not hold, and no narrowing reaches it: "most of your peers do X" is a
+	// claim about a population, and a population only licenses it where the members are
+	// comparable. Every fix we shipped -- the mount boundary after medplum's public router,
+	// the caller-credential fact after documenso's token routes -- removed one class of
+	// false positive and left that assumption standing.
+	//
+	// Still ENUMERATED, never REPORTED. An entry point whose peers all carry a control a
+	// reader may want to look at; the engine simply may not call it a finding.
 	"CWE-284": {State: Partial, Reason: "an entry point missing a control the engine could not classify, which most of its comparable peers apply. Reported at this level deliberately: naming it authentication or authorization would be claiming to know which, and the honest identity is the class above both",
 		By: []string{"expectations"}},
 

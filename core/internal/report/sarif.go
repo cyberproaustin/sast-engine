@@ -193,11 +193,29 @@ func SARIF(w io.Writer, scanRes scan.Result, toolVersion string) error {
 		})
 	}
 
+	// WITHDRAWN as a reported finding, measured over thirty repositories (ADR-015).
+	//
+	// An inferred expectation says a control most comparable peers apply is absent here. It
+	// was dormant while surfaces were small -- two findings across batches 1 and 2, neither
+	// true -- because a population of nine entry points infers nothing. Then route
+	// enumeration landed and it woke up: 158 findings in batch 3, ONE of them true, 93
+	// false. 160 findings and 1 true across every repository this engine has been measured
+	// on.
+	//
+	// The failure is in the premise rather than the tuning. "Most of your peers do X" is a
+	// statement about a population, and it holds only where the members are comparable. At
+	// 1542 uniform NestJS routes every route looks anomalous beside its neighbours, and
+	// ever-gauzy alone produced 117 findings under CWE-284, the origin's own admission that
+	// it cannot name the control it believes is missing. Every narrowing we shipped -- the
+	// mount boundary, the token-authentication fact -- removed a class of false positive and
+	// left the premise untouched.
+	//
+	// They remain ENUMERATED, because the surface is the primary output (ADR-009) and an
+	// entry point whose peers are guarded is worth a reader's attention. They are no longer
+	// REPORTED, because a judgement that is right once in 160 is not a judgement.
 	for _, f := range scanRes.Expectation.Findings {
-		level := "warning" // inferred expectations never gate (ADR-010)
-		if f.Gates {
-			level = "error"
-		}
+		level := "note" // withdrawn: informing only, never gating
+		_ = f.Gates
 		run.Results = append(run.Results, sarifResult{
 			RuleID:              f.CWE,
 			Level:               level,
@@ -210,7 +228,8 @@ func SARIF(w io.Writer, scanRes scan.Result, toolVersion string) error {
 				// enumerated, so there is no module context to discount it by. Stated
 				// rather than left absent, so a consumer filtering on the flag is not
 				// reading two different meanings of a missing key.
-				"reportable":         true,
+				"reportable":         false,
+				"notReportedBecause": "inferred expectation, withdrawn: 1 true of 160 across thirty repositories",
 				"expectationOrigin":  f.Origin,
 				"entryPoint":         f.EntryPoint,
 				"group":              f.Group,
