@@ -9,6 +9,37 @@ a confirmed entry is one somebody else agreed with and acted on.
 
 ---
 
+### ArchiveBox — the URL branch of a snapshot lookup skipped the permission filter its sibling applied, and the add view was CSRF exempt
+
+**Reported** 28 August 2026 · **Fixed** [`fce1827f`](https://github.com/ArchiveBox/ArchiveBox/commit/fce1827feda5) · [issue #1844](https://github.com/ArchiveBox/ArchiveBox/issues/1844)
+
+`archivebox/core/views.py` built a permission-filtered queryset at line 716 and then used it on
+only one of two branches. The `snapshot_id` branch checked `can_view_snapshot()` and redirected
+when it failed; the `requested_url` branch built its own queryset from scratch and selected from
+that. Both converged on the same canonical redirect, so a snapshot that was not public was
+reachable through the URL branch by somebody who could not reach it through the id branch.
+
+Separately, `AddView` carried `@method_decorator(csrf_exempt, name="dispatch")` while its
+`form_valid` created and fetched a crawl, and `PUBLIC_ADD_VIEW` defaults to `False`, so on a
+default install a page a logged-in user visited elsewhere could post to it.
+
+The maintainer fixed both, and explained the second: the exemption dated to 2021, added so a
+browser extension could reuse the admin session before ArchiveBox had a real API. It is now
+`csrf_protect` for authenticated users and exempt only for anonymous ones where
+`PUBLIC_ADD_VIEW` is on.
+
+**How the engine got there.** `control-omitted-on-sibling-path`, which relates two paths that
+reach the same operation and asks whether both are guarded — the rule exists because no analysis
+that looks at one path at a time can see an asymmetry. The CSRF finding came from
+`csrf-state-change`, an entry point with no token check that writes persistent state.
+
+**This is the first entry the engine found on its own.** healthchecks below came from the
+independent review track and the engine did not report it; here the engine named both defects,
+at the file and line the maintainer changed, and a human verified them at source before the
+report went out.
+
+---
+
 ### healthchecks — email verification token did not cover the address it verified
 
 **Reported** 27 August 2026 · **Fixed** [`6b634df`](https://github.com/healthchecks/healthchecks/commit/6b634df13367bea9502a451514f57a1038f7db6b)
